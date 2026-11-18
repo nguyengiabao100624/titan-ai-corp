@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0D9488" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="description" content="Titan AI Corp v4.0 — Trung tâm chỉ huy tập đoàn 46 nhân sự AI tự học liên tục, duyệt cổng Kanban, bàn tính CFO và đồng bộ đa thiết bị 24/7." />
+  <title>Titan Command Center v4.0 — Trung Tâm Chỉ Huy Tập Đoàn AI</title>
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- LEFT SIDEBAR (Desktop / Laptop / Tablet Icon Rail) -->
+    <aside class="sidebar" aria-label="Điều hướng Tập đoàn">
+      <div class="brand-header">
+        <div class="brand-mark" aria-hidden="true">T</div>
+        <div class="brand-text-wrap">
+          <div class="brand-title">Titan AI Corp</div>
+          <div class="brand-subtitle">Command Center v4.0</div>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Điều hành cốt lõi</div>
+      <nav class="nav-list" id="desktop-nav">
+        <button type="button" class="nav-btn active" data-tab="overview" title="1. Trung tâm Chỉ huy">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">◉</span>
+            <span class="nav-label">1. Trung tâm Chỉ huy</span>
+          </span>
+          <span class="nav-badge" id="badge-overview">Live</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-tab="org" title="2. Sơ đồ 46 Nhân sự AI">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">❖</span>
+            <span class="nav-label">2. Sơ đồ 46 Nhân sự</span>
+          </span>
+          <span class="nav-badge" id="badge-depts">46</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-tab="kanban" title="3. Bảng Kanban & Cổng Duyệt">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">▤</span>
+            <span class="nav-label">3. Việc & Cổng Duyệt</span>
+          </span>
+          <span class="nav-badge alert" id="badge-approvals">0</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-tab="learning" title="4. Radar Đọc báo & Tri thức">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">✦</span>
+            <span class="nav-label">4. Đọc báo Tự học</span>
+          </span>
+          <span class="nav-badge" id="badge-knowledge">0</span>
+        </button>
+
+        <div class="nav-section-label">Chiến lược & Tài chính</div>
+
+        <button type="button" class="nav-btn" data-tab="workflow" title="5. Quy trình 12 Giai đoạn">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">⇄</span>
+            <span class="nav-label">5. Quy trình 12 Bước</span>
+          </span>
+          <span class="nav-badge">RACI</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-tab="projects" title="6. Dự án & Hồ sơ Bàn giao">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">▣</span>
+            <span class="nav-label">6. Dự án & Tài liệu</span>
+          </span>
+          <span class="nav-badge" id="badge-projects">0</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-tab="finance" title="7. Bàn tính CFO & Ngân sách">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">◈</span>
+            <span class="nav-label">7. Tài chính & CFO</span>
+          </span>
+          <span class="nav-badge">≥65%</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-tab="hr" title="8. Tuyển Nhân sự AI & Cloud 24/7">
+          <span class="nav-btn-left">
+            <span class="nav-icon" aria-hidden="true">⚙</span>
+            <span class="nav-label">8. Tuyển AI & Cloud</span>
+          </span>
+          <span class="nav-badge" id="badge-audit">OK</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="hotkey-hint"><span>Tìm nhanh toàn cục</span> <kbd>Ctrl+K</kbd></div>
+        <div class="hotkey-hint"><span>Giao việc / Đọc báo</span> <span><kbd>N</kbd> <kbd>L</kbd></span></div>
+        <div class="hotkey-hint"><span>Đổi Sáng / Tối</span> <kbd>D</kbd></div>
+      </div>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="main-workspace">
+      <!-- TOP EXECUTIVE TELEMETRY BAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="page-title" id="topbar-title">1. Trung Tâm Chỉ Huy Tập Đoàn</h1>
+          <div class="telemetry-strip">
+            <span class="pill-chip" id="conn-pill" title="Trạng thái luồng thời gian thực">
+              <span class="dot-indicator" id="conn-dot"></span>
+              <span id="conn-text">Trực tuyến SSE</span>
+            </span>
+            <span class="pill-chip mono-num hide-mobile" id="ping-pill" title="Độ trễ phản hồi API">
+              Ping: <strong id="ping-ms">-- ms</strong>
+            </span>
+            <span class="pill-chip hide-mobile" id="sync-pill" title="Đồng bộ đa thiết bị & hàng đợi ngoại tuyến">
+              Đồng bộ: <strong id="sync-status-text">Tức thì</strong>
+            </span>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button type="button" class="btn btn-sm" id="btn-open-cmd" title="Tìm nhanh nhân viên, đầu việc, bài báo (Ctrl+K)">
+            <span>⌕ Tìm nhanh</span> <kbd class="hide-mobile">Ctrl+K</kbd>
+          </button>
+          <button type="button" class="btn btn-sm" id="btn-trigger-learn" title="Kích hoạt các phòng ban quét báo mới (Phím L)">
+            ✦ Quét báo mới
+          </button>
+          <button type="button" class="btn btn-sm btn-primary" id="btn-new-task" title="Giao đầu việc mới cho phòng ban (Phím N)">
+            + Giao việc
+          </button>
+          <button type="button" class="btn btn-sm" id="btn-open-cloud" title="Cấu hình đồng bộ GitHub 24/7 đa thiết bị">
+            ☁ Cloud 24/7
+          </button>
+          <button type="button" class="btn btn-sm" id="btn-toggle-theme" aria-label="Đổi chế độ Sáng hoặc Tối" title="Đổi giao diện Sáng / Tối (Phím D)">
+            ◐ Sáng/Tối
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN 8-TAB VIEWPORT -->
+      <main class="content-viewport">
+        <!-- ================================================================
+             TAB 1: OVERVIEW & LIVE ACTIVITY STREAM
+             ================================================================ -->
+        <section class="tab-panel active" id="panel-overview" aria-labelledby="topbar-title">
+          <div class="kpi-grid">
+            <div class="card kpi-card">
+              <div class="kpi-label"><span>Tổng quân số AI sẵn sàng</span> <span>8 Khối</span></div>
+              <div class="kpi-value" id="kpi-total-depts">46</div>
+              <div class="kpi-sub" id="kpi-active-depts">Đang thực thi: 0 vị trí</div>
+            </div>
+            <div class="card kpi-card">
+              <div class="kpi-label"><span>Đầu việc & Cổng chờ duyệt</span> <span>Kanban</span></div>
+              <div class="kpi-value" id="kpi-waiting-gates">0</div>
+              <div class="kpi-sub" id="kpi-task-breakdown">Tổng 0 việc (0 đang làm · 0 hoàn tất)</div>
+            </div>
+            <div class="card kpi-card">
+              <div class="kpi-label"><span>Kho tri thức báo chí & arXiv</span> <span>FTS5</span></div>
+              <div class="kpi-value" id="kpi-total-atoms">0</div>
+              <div class="kpi-sub" id="kpi-atoms-24h">+0 bài thu thập trong 24 giờ qua</div>
+            </div>
+            <div class="card kpi-card">
+              <div class="kpi-label"><span>Kiểm soát hạn mức Token tháng</span> <span>CFO Cap</span></div>
+              <div class="kpi-value" id="kpi-token-pct">0.0%</div>
+              <div class="kpi-sub mono-num" id="kpi-token-detail">0 / 0 tokens</div>
+            </div>
+          </div>
+
+          <div class="overview-grid">
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Nhật ký hoạt động trực tiếp của 46 phòng ban</h2>
+                  <div class="kpi-sub">Tự động gom khung hình 60FPS qua SSE — bấm vào phòng ban để soi não</div>
+                </div>
+                <div style="display:flex;gap:6px;">
+                  <button type="button" class="btn btn-sm" id="btn-refresh-overview">Làm mới</button>
+                  <button type="button" class="btn btn-sm btn-primary" id="btn-new-project-quick">+ Dự án mới</button>
+                </div>
+              </div>
+              <div class="activity-feed" id="live-activity-feed" role="log" aria-live="polite">
+                <div class="kpi-sub">Đang tải dòng sự kiện thời gian thực...</div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="card">
+                <div class="section-header">
+                  <h2 class="section-title">8 Khối Chuyên Môn & Ban Điều Hành</h2>
+                  <span class="kpi-sub">Chạm để lọc theo khối</span>
+                </div>
+                <div class="division-summary-list" id="overview-divisions-list"></div>
+              </div>
+
+              <div class="card">
+                <div class="section-header">
+                  <h2 class="section-title">Chu kỳ tự học gần nhất</h2>
+                  <span class="status-badge status-DONE" id="last-learn-badge">Sẵn sàng</span>
+                </div>
+                <div id="last-learn-summary" class="kpi-sub">
+                  Nhấn nút <strong>✦ Quét báo mới</strong> để toàn bộ các khối cập nhật tin tức VnExpress, CafeF, VnEconomy, arXiv, GitHub và HackerNews.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 2: 8 DIVISIONS & 46 SPECIALISTS ORG CHART
+             ================================================================ -->
+        <section class="tab-panel" id="panel-org">
+          <div class="filter-bar">
+            <input type="search" class="input-control" id="org-search-input" placeholder="Tìm theo mã số (00..45), chức danh, kỹ năng..." />
+            <select class="select-control" id="org-division-filter" aria-label="Lọc theo Khối">
+              <option value="">Tất cả 9 Khối & Ban Tổng Giám Đốc</option>
+            </select>
+            <select class="select-control" id="org-status-filter" aria-label="Lọc theo Trạng thái">
+              <option value="">Mọi trạng thái hoạt động</option>
+              <option value="IDLE">Sẵn sàng chờ lệnh (IDLE)</option>
+              <option value="EXECUTING">Đang thi công việc (EXECUTING)</option>
+              <option value="STUDYING">Đang đọc báo nghiên cứu (STUDYING)</option>
+              <option value="WAITING_CHAIRMAN">Chờ Chủ tịch duyệt (WAITING_CHAIRMAN)</option>
+            </select>
+          </div>
+          <div id="org-chart-container"></div>
+        </section>
+
+        <!-- ================================================================
+             TAB 3: 5-COLUMN KANBAN & CHAIRMAN GATE APPROVALS
+             ================================================================ -->
+        <section class="tab-panel" id="panel-kanban">
+          <div class="filter-bar" style="justify-content:space-between;">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;flex:1;">
+              <select class="select-control" id="kanban-project-filter" aria-label="Lọc theo Dự án">
+                <option value="">Tất cả dự án toàn Tập đoàn</option>
+              </select>
+              <select class="select-control" id="kanban-division-filter" aria-label="Lọc theo Khối">
+                <option value="">Tất cả các Khối</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-kanban-new-task">+ Tạo & Giao Đầu Việc Mới</button>
+          </div>
+
+          <!-- Mobile Quick Column Snap Selector -->
+          <div class="mobile-kanban-Jump" id="mobile-kanban-pills">
+            <button type="button" class="btn btn-sm" data-kcol="0">1. Hàng đợi</button>
+            <button type="button" class="btn btn-sm" data-kcol="1">2. Đang làm</button>
+            <button type="button" class="btn btn-sm" data-kcol="2">3. QA & Bảo mật</button>
+            <button type="button" class="btn btn-sm" data-kcol="3">4. Chờ Duyệt</button>
+            <button type="button" class="btn btn-sm" data-kcol="4">5. Hoàn tất</button>
+          </div>
+
+          <div class="kanban-board" id="kanban-board">
+            <div class="kanban-col" data-col="BACKLOG">
+              <div class="kanban-col-header">
+                <span>1. Hàng đợi (Backlog)</span>
+                <span class="nav-badge" id="kcount-BACKLOG">0</span>
+              </div>
+              <div class="kanban-task-list" id="klist-BACKLOG"></div>
+            </div>
+
+            <div class="kanban-col" data-col="IN_PROGRESS">
+              <div class="kanban-col-header">
+                <span>2. Đang thi công (Locked)</span>
+                <span class="nav-badge" id="kcount-IN_PROGRESS">0</span>
+              </div>
+              <div class="kanban-task-list" id="klist-IN_PROGRESS"></div>
+            </div>
+
+            <div class="kanban-col" data-col="QA_SECURITY_REVIEW">
+              <div class="kanban-col-header">
+                <span>3. Tòa án QA & Bảo mật</span>
+                <span class="nav-badge" id="kcount-QA_SECURITY_REVIEW">0</span>
+              </div>
+              <div class="kanban-task-list" id="klist-QA_SECURITY_REVIEW"></div>
+            </div>
+
+            <div class="kanban-col" data-col="WAITING_APPROVAL">
+              <div class="kanban-col-header">
+                <span>4. Chờ Chủ tịch ký duyệt</span>
+                <span class="nav-badge alert" id="kcount-WAITING_APPROVAL">0</span>
+              </div>
+              <div class="kanban-task-list" id="klist-WAITING_APPROVAL"></div>
+            </div>
+
+            <div class="kanban-col" data-col="DONE">
+              <div class="kanban-col-header">
+                <span>5. Đã nghiệm thu (Done)</span>
+                <span class="nav-badge" id="kcount-DONE">0</span>
+              </div>
+              <div class="kanban-task-list" id="klist-DONE"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 4: DAILY LEARNING RADAR & DEEP URL READER + FTS5 SEARCH
+             ================================================================ -->
+        <section class="tab-panel" id="panel-learning">
+          <div class="card" style="margin-bottom:16px;">
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Đọc sâu bài báo / tài liệu bất kỳ cho Nhân sự AI (Deep URL Extractor)</h2>
+                <div class="kpi-sub">Dán link bài báo, tài liệu kỹ thuật, đối thủ hoặc nghị định thuế để nhân viên bóc tách và ghi nhớ vĩnh viễn</div>
+              </div>
+              <button type="button" class="btn btn-primary" id="btn-run-all-feeds">✦ Quét đồng loạt 8 nguồn báo sống</button>
+            </div>
+            <form class="ingest-box" id="form-ingest-url">
+              <input type="url" class="input-control" id="ingest-url-input" placeholder="https://vnexpress.net/... hoặc https://arxiv.org/abs/..." required />
+              <select class="select-control" id="ingest-dept-select" aria-label="Chọn phòng ban tiếp thu"></select>
+              <button type="submit" class="btn btn-primary">Đọc & Ghi nhớ ngay</button>
+            </form>
+          </div>
+
+          <div class="filter-bar">
+            <input type="search" class="input-control" id="knowledge-search-input" placeholder="Tìm toàn văn FTS5 BM25 (VD: thuế TMĐT, agent, rèm cửa, LLM)..." />
+            <select class="select-control" id="knowledge-division-filter" aria-label="Lọc bài học theo Khối">
+              <option value="">Tất cả các Khối chuyên môn</option>
+            </select>
+            <span class="pill-chip mono-num" id="fts-speed-badge">FTS5: 0.0 ms (0 bài)</span>
+          </div>
+
+          <div class="knowledge-grid" id="knowledge-articles-grid"></div>
+        </section>
+
+        <!-- ================================================================
+             TAB 5: 12-STAGE MASTER CORPORATE WORKFLOW & ARBITRATION LAWS
+             ================================================================ -->
+        <section class="tab-panel" id="panel-workflow">
+          <div class="card" style="margin-bottom:18px;">
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Dây Chuyền Vận Hành Chuẩn 12 Giai Đoạn & 5 Cổng Kiểm Soát Cứng</h2>
+                <div class="kpi-sub">Mọi dự án từ lúc bắt tín hiệu thị trường đến khi thu tiền về két đều tuân thủ nghiêm ngặt dây chuyền RACI này</div>
+              </div>
+            </div>
+            <div class="stage-grid" id="workflow-stages-grid"></div>
+          </div>
+
+          <div class="card">
+            <div class="section-header">
+              <h2 class="section-title">5 Luật Trọng Tài Phân Xử Xung Đột Nội Bộ Tập Đoàn</h2>
+            </div>
+            <div class="division-summary-list" id="arbitration-laws-list"></div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 6: PROJECTS WORKSPACE & BUILT-IN SAFE DOCUMENT READER
+             ================================================================ -->
+        <section class="tab-panel" id="panel-projects">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">Danh mục Dự án Kinh doanh & Kho Tài liệu Bàn giao</h2>
+              <div class="kpi-sub">Đọc trực tiếp báo cáo nghiên cứu, PRD, kiến trúc và tài chính ngay trên trình duyệt</div>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-open-new-project">+ Khởi tạo Dự án Mới</button>
+          </div>
+
+          <div class="project-split">
+            <div class="card">
+              <h3 class="section-title" style="margin-bottom:10px;">Danh sách Dự án</h3>
+              <div class="division-summary-list" id="projects-list-box"></div>
+              <h3 class="section-title" style="margin:18px 0 10px;">Tệp bàn giao trong Dự án</h3>
+              <div class="division-summary-list" id="project-files-list">
+                <div class="kpi-sub">Chọn một dự án để duyệt tệp.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-header">
+                <h3 class="section-title" id="doc-reader-title">Trình đọc hồ sơ nội bộ an toàn</h3>
+                <span class="pill-chip mono-num" id="doc-reader-meta">Chưa chọn tệp</span>
+              </div>
+              <pre class="doc-viewer" id="doc-reader-content">Chọn một dự án bên trái và bấm vào tệp Markdown / JSON để đọc toàn văn nội dung bàn giao tại đây.</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 7: INTERACTIVE CFO UNIT ECONOMICS & BREAK-EVEN SIMULATOR
+             ================================================================ -->
+        <section class="tab-panel" id="panel-finance">
+          <div class="cfo-grid">
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Bàn Tính Kinh Tế Đơn Vị & Kiểm Tra Lỗ Ngầm (Cổng 1 CFO)</h2>
+                  <div class="kpi-sub">Tính toán chính xác bằng Python/JS tất định — Cấm tuyệt đối ước lượng nhẩm</div>
+                </div>
+              </div>
+
+              <form id="form-cfo-sim">
+                <div class="form-row">
+                  <label class="form-label" for="cfo-price"><span>Giá bán gói thu khách mỗi tháng (VNĐ)</span></label>
+                  <input type="number" class="input-control mono-num" id="cfo-price" value="399000" min="0" step="1000" />
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="cfo-quota"><span>Hạn mức sử dụng tối đa / tháng (lượt ảnh/video/tác vụ)</span></label>
+                  <input type="number" class="input-control mono-num" id="cfo-quota" value="100" min="1" step="5" />
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="cfo-apicost"><span>Chi phí gốc API AI + Cloud trên 1 lượt (VNĐ)</span></label>
+                  <input type="number" class="input-control mono-num" id="cfo-apicost" value="950" min="0" step="50" />
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="cfo-usage"><span>Tỷ lệ sử dụng trung bình thực tế (0.1 – 1.0)</span></label>
+                  <input type="number" class="input-control mono-num" id="cfo-usage" value="0.60" min="0.05" max="1.0" step="0.05" />
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                  <div class="form-row">
+                    <label class="form-label" for="cfo-payfee"><span>Phí cổng thanh toán (%)</span></label>
+                    <input type="number" class="input-control mono-num" id="cfo-payfee" value="1.5" min="0" max="20" step="0.1" />
+                  </div>
+                  <div class="form-row">
+                    <label class="form-label" for="cfo-tax"><span>Dự phòng Thuế (%)</span></label>
+                    <input type="number" class="input-control mono-num" id="cfo-tax" value="7.0" min="0" max="35" step="0.5" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="cfo-fixed"><span>Chi phí cố định vận hành mỗi tháng (VNĐ)</span></label>
+                  <input type="number" class="input-control mono-num" id="cfo-fixed" value="1500000" min="0" step="100000" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Tính thẩm định Cổng 1 ngay</button>
+              </form>
+            </div>
+
+            <div class="card">
+              <div class="section-header">
+                <h2 class="section-title">Kết Quả Thẩm Định Cổng 1 & Bảng Dòng Tiền Ròng</h2>
+                <span class="status-badge status-DONE" id="cfo-gate-badge">Đang tính...</span>
+              </div>
+              <div id="cfo-verdict-banner" class="article-insight" style="margin-bottom:14px;"></div>
+
+              <div class="kpi-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:16px;">
+                <div class="card" style="padding:12px;">
+                  <div class="kpi-label">Biên lãi gộp Kịch bản xấu (100% Quota)</div>
+                  <div class="kpi-value" id="cfo-worst-margin">--%</div>
+                  <div class="kpi-sub mono-num" id="cfo-worst-profit">Lãi ròng sau thuế: -- đ/khách</div>
+                </div>
+                <div class="card" style="padding:12px;">
+                  <div class="kpi-label">Điểm hòa vốn (Số khách tối thiểu)</div>
+                  <div class="kpi-value" id="cfo-breakeven">-- khách</div>
+                  <div class="kpi-sub mono-num" id="cfo-exp-margin">Biên kỳ vọng: --%</div>
+                </div>
+              </div>
+
+              <h3 class="section-title" style="margin-bottom:8px;">Dự phóng Lãi ròng Bỏ túi (Đã trừ API, Cổng TT, Thuế & Định phí)</h3>
+              <div style="overflow-x:auto;">
+                <table class="data-table mono-num">
+                  <thead>
+                    <tr>
+                      <th>Quy mô khách</th>
+                      <th>Doanh thu gộp</th>
+                      <th>Quỹ thuế khoanh riêng</th>
+                      <th>Lãi ròng bỏ túi/tháng</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cfo-projection-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 8: AI HR DEPARTMENT SPAWNER (#46+) & SYSTEM DIAGNOSTICS
+             ================================================================ -->
+        <section class="tab-panel" id="panel-hr">
+          <div class="cfo-grid">
+            <div class="card">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title">Phòng Nhân Sự AI (#45) — Tuyển Mới Phòng Ban Chuyên Gia (#46+)</h2>
+                  <div class="kpi-sub">Tự động biên dịch Bộ Não Thiên Tài 6 Tầng và đăng ký ngay vào Sơ đồ Tập đoàn</div>
+                </div>
+              </div>
+              <form id="form-hire-dept">
+                <div class="form-row">
+                  <label class="form-label" for="hire-division"><span>Thuộc Khối Chuyên Môn</span></label>
+                  <select class="select-control" id="hire-division" required></select>
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="hire-code"><span>Mã định danh tiếng Anh (kebab-case)</span></label>
+                  <input type="text" class="input-control mono-num" id="hire-code" placeholder="vd: tiktok-shop-livestream" required />
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="hire-title"><span>Chức danh Chuyên gia (Tiếng Việt)</span></label>
+                  <input type="text" class="input-control" id="hire-title" placeholder="vd: Giám Đốc Vận Hành Phiên Live AI TikTok Shop" required />
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="hire-mission"><span>Sứ mệnh & Đầu ra cốt lõi</span></label>
+                  <textarea class="textarea-control" id="hire-mission" placeholder="Mô tả nhiệm vụ chuyên sâu, tiêu chuẩn đầu ra và KPI chính..." required></textarea>
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="hire-books"><span>Giáo trình kinh điển (phân cách bằng dấu phẩy)</span></label>
+                  <input type="text" class="input-control" id="hire-books" placeholder="DotCom Secrets, Influence (Robert Cialdini)" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">+ Tuyển dụng & Biên dịch Bộ não 6 Tầng</button>
+              </form>
+            </div>
+
+            <div class="card">
+              <div class="section-header">
+                <h2 class="section-title">Kiểm định Sức khỏe Hệ thống, Cài đặt PWA & Cloud 24/7</h2>
+                <button type="button" class="btn btn-sm" id="btn-run-audit">Chạy Kiểm toán 46 Não</button>
+              </div>
+              <div id="hr-audit-box" class="article-insight" style="margin-bottom:14px;">
+                Đang kiểm tra trạng thái toàn vẹn bộ não và cơ sở dữ liệu...
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+                <button type="button" class="btn btn-primary" id="btn-install-pwa" style="display:none;">📲 Cài App Titan Ra Màn Hình Chính</button>
+                <button type="button" class="btn" id="btn-export-snapshot">⬇ Xuất Snapshot Đám Mây (.json)</button>
+                <button type="button" class="btn" id="btn-open-cloud-2">☁ Kết nối Đồng bộ GitHub 2 chiều</button>
+              </div>
+              <div class="kpi-sub" style="line-height:1.65;">
+                <strong>Hướng dẫn chạy Online 24/7 & Đa thiết bị:</strong><br/>
+                • Dự án đã tích hợp sẵn <code>.github/workflows/deploy_command_center.yml</code> (GitHub Pages CDN không bao giờ ngủ đông) và <code>autonomous_learning_cron.yml</code> (tự thức dậy đọc báo mỗi 6 giờ kể cả khi tắt PC).<br/>
+                • Trên iPhone (Safari -> Chia sẻ -> Thêm vào MH chính) hoặc Android/Chrome (Cài đặt ứng dụng), giao diện tự mở toàn màn hình như ứng dụng gốc.
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MOBILE BOTTOM NAVIGATION BAR (5 Thumb Targets >= 48x48px) -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Điều hướng di động">
+    <button type="button" class="mob-nav-btn active" data-tab="overview">
+      <span class="mob-nav-icon">◉</span>
+      <span>Chỉ huy</span>
+    </button>
+    <button type="button" class="mob-nav-btn" data-tab="org">
+      <span class="mob-nav-icon">❖</span>
+      <span>Nhân sự 46</span>
+    </button>
+    <button type="button" class="mob-nav-btn" data-tab="kanban">
+      <span class="mob-nav-icon">▤</span>
+      <span>Việc & Duyệt</span>
+    </button>
+    <button type="button" class="mob-nav-btn" data-tab="learning">
+      <span class="mob-nav-icon">✦</span>
+      <span>Đọc báo</span>
+    </button>
+    <button type="button" class="mob-nav-btn" id="btn-mobile-more">
+      <span class="mob-nav-icon">☰</span>
+      <span>Thêm (5–8)</span>
+    </button>
+  </nav>
+
+  <!-- SLIDE-OVER / BOTTOM-SHEET BRAIN INSPECTOR DRAWER -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="brain-drawer" id="brain-drawer" aria-label="Hồ sơ bộ não chuyên gia">
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="drawer-header">
+      <div style="min-width:0;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;">
+          <span class="dept-id-tag" id="drawer-dept-id">#00</span>
+          <span class="status-badge status-IDLE" id="drawer-dept-status">IDLE</span>
+          <span class="kpi-sub" id="drawer-dept-div">Khối điều hành</span>
+        </div>
+        <h2 class="section-title" id="drawer-dept-title" style="font-size:17px;">Tổng Giám Đốc Điều Hành</h2>
+      </div>
+      <button type="button" class="btn btn-sm" id="btn-close-drawer" aria-label="Đóng cửa sổ">✕ Đóng</button>
+    </div>
+
+    <div class="drawer-tabs" id="drawer-subtabs">
+      <button type="button" class="subtab-btn active" data-subtab="handbook">1. Bộ não 6 Tầng</button>
+      <button type="button" class="subtab-btn" data-subtab="learned">2. Báo mới đọc</button>
+      <button type="button" class="subtab-btn" data-subtab="tasks">3. Đầu việc</button>
+      <button type="button" class="subtab-btn" data-subtab="reflexion">4. Sổ Reflexion</button>
+      <button type="button" class="subtab-btn" data-subtab="dispatch">5. Giao việc ngay</button>
+    </div>
+
+    <div class="drawer-body" id="drawer-body-content"></div>
+  </aside>
+
+  <!-- SHARED MODAL BACKDROP & DIALOGS -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+
+  <!-- MODAL 1: CREATE TASK -->
+  <div class="modal-dialog" id="modal-task" role="dialog" aria-modal="true" aria-labelledby="modal-task-heading">
+    <div class="section-header">
+      <h2 class="section-title" id="modal-task-heading">Giao Đầu Việc Mới Cho Phòng Ban</h2>
+      <button type="button" class="btn btn-sm" data-close-modal>✕</button>
+    </div>
+    <form id="form-create-task">
+      <div class="form-row">
+        <label class="form-label" for="task-title-input">Tiêu đề đầu việc</label>
+        <input type="text" class="input-control" id="task-title-input" placeholder="VD: Phân tích 20 đối thủ app ướm rèm cửa & bảng giá" required />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-row">
+          <label class="form-label" for="task-dept-select">Phòng ban chủ trì (R)</label>
+          <select class="select-control" id="task-dept-select"></select>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="task-project-select">Thuộc Dự án</label>
+          <select class="select-control" id="task-project-select">
+            <option value="">-- Việc chung Tập đoàn --</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div class="form-row">
+          <label class="form-label" for="task-stage-input">Giai đoạn (1-12)</label>
+          <input type="number" class="input-control mono-num" id="task-stage-input" value="1" min="1" max="12" />
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="task-gate-input">Cổng (1-5)</label>
+          <input type="number" class="input-control mono-num" id="task-gate-input" value="1" min="1" max="5" />
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="task-priority-select">Độ ưu tiên</label>
+          <select class="select-control" id="task-priority-select">
+            <option value="CRITICAL">CRITICAL</option>
+            <option value="HIGH" selected>HIGH</option>
+            <option value="MEDIUM">MEDIUM</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="task-desc-input">Yêu cầu đầu ra & Tiêu chí nghiệm thu</label>
+        <textarea class="textarea-control" id="task-desc-input" placeholder="Nêu rõ số liệu cần thu thập, nguồn trích dẫn bắt buộc và định dạng bàn giao..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Phát lệnh Giao việc (Optimistic UI)</button>
+    </form>
+  </div>
+
+  <!-- MODAL 2: CREATE PROJECT -->
+  <div class="modal-dialog" id="modal-project" role="dialog" aria-modal="true" aria-labelledby="modal-proj-heading">
+    <div class="section-header">
+      <h2 class="section-title" id="modal-proj-heading">Khởi Tạo Dự Án Kinh Doanh Mới (8 Khối)</h2>
+      <button type="button" class="btn btn-sm" data-close-modal>✕</button>
+    </div>
+    <form id="form-create-project">
+      <div class="form-row">
+        <label class="form-label" for="proj-title-input">Tên dự án thương mại</label>
+        <input type="text" class="input-control" id="proj-title-input" placeholder="VD: App Ướm Mẫu Rèm & Sàn Gỗ AI Báo Giá 10 Giây" required />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="proj-slug-input">Mã thư mục dự án (slug)</label>
+        <input type="text" class="input-control mono-num" id="proj-slug-input" placeholder="vd: rem-cua-ai" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="proj-obj-input">Mục tiêu doanh thu & Nỗi đau khách hàng cần giải quyết</label>
+        <textarea class="textarea-control" id="proj-obj-input" placeholder="Giúp chủ cửa hàng rèm/nội thất chốt khách tại nhà trong 3 chạm trên Zalo/iPad..."></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-row">
+          <label class="form-label" for="proj-price-input">Giá bán dự kiến (VNĐ/tháng)</label>
+          <input type="number" class="input-control mono-num" id="proj-price-input" value="399000" min="0" />
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="proj-cost-input">Giá vốn dự kiến / khách (VNĐ)</label>
+          <input type="number" class="input-control mono-num" id="proj-cost-input" value="95000" min="0" />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Tạo Không gian Dự án & Sinh 4 Việc Cổng 1</button>
+    </form>
+  </div>
+
+  <!-- MODAL 3: CHAIRMAN GATE DECISION (APPROVE / REJECT -> REFLEXION) -->
+  <div class="modal-dialog" id="modal-decision" role="dialog" aria-modal="true" aria-labelledby="modal-dec-heading">
+    <div class="section-header">
+      <h2 class="section-title" id="modal-dec-heading">Cổng Chủ Tịch HĐQT Nghiệm Thu Đầu Việc</h2>
+      <button type="button" class="btn btn-sm" data-close-modal>✕</button>
+    </div>
+    <div id="decision-task-summary" class="article-insight" style="margin-bottom:12px;"></div>
+    <input type="hidden" id="decision-task-id" />
+    <div class="form-row">
+      <label class="form-label" for="decision-note-input">Ý kiến chỉ đạo của Chủ tịch (hoặc Lý do yêu cầu làm lại)</label>
+      <textarea class="textarea-control" id="decision-note-input" placeholder="Ghi chú phê duyệt hoặc chỉ rõ điểm chưa đạt để hệ thống tự ghi vào Sổ Kiểm Điểm Reflexion của phòng ban..."></textarea>
+    </div>
+    <div class="form-row">
+      <label class="form-label" for="decision-rule-input">Quy tắc phòng ngừa tái phạm (nếu Bác bỏ -> lưu vĩnh viễn vào não nhân viên)</label>
+      <input type="text" class="input-control" id="decision-rule-input" placeholder="VD: Phải đính kèm tối thiểu 5 báo giá thực tế tại Việt Nam trước khi trình Cổng 1" />
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+      <button type="button" class="btn btn-danger" id="btn-confirm-reject">✕ Bác bỏ & Ghi Sổ Reflexion</button>
+      <button type="button" class="btn btn-success" id="btn-confirm-approve">✓ Ký Phê Duyệt Nghiệm Thu</button>
+    </div>
+  </div>
+
+  <!-- MODAL 4: CTRL+K COMMAND PALETTE -->
+  <div class="modal-dialog" id="modal-cmd" role="dialog" aria-modal="true" aria-labelledby="modal-cmd-heading">
+    <div class="section-header" style="margin-bottom:10px;">
+      <h2 class="section-title" id="modal-cmd-heading">Tìm Nhanh & Điều Lệnh Toàn Tập Đoàn</h2>
+      <button type="button" class="btn btn-sm" data-close-modal>Esc</button>
+    </div>
+    <input type="search" class="input-control" id="cmd-search-input" placeholder="Gõ tên phòng ban (vd: thuế, video, qa), đầu việc, hoặc lệnh..." />
+    <div id="cmd-results-list" class="division-summary-list" style="margin-top:12px;max-height:320px;overflow-y:auto;"></div>
+  </div>
+
+  <!-- MODAL 5: CLOUD 24/7 MULTI-DEVICE SYNC & WEBCRYPTO AES-256-GCM VAULT -->
+  <div class="modal-dialog" id="modal-cloud" role="dialog" aria-modal="true" aria-labelledby="modal-cloud-heading">
+    <div class="section-header">
+      <h2 class="section-title" id="modal-cloud-heading">Đồng Bộ Đám Mây GitHub 24/7 & Két Khóa AES-256-GCM</h2>
+      <button type="button" class="btn btn-sm" data-close-modal>✕</button>
+    </div>
+    <div class="kpi-sub" style="margin-bottom:12px;">
+      Đồng bộ hai chiều không xung đột (CRDT) giữa <strong>Máy tính – Điện thoại – Máy tính bảng</strong> qua GitHub Repository hoặc Cloud Server. Khóa API được mã hóa cục bộ bằng <code>PBKDF2-SHA256 (250.000 vòng) + AES-256-GCM</code>, tuyệt đối không lưu lộ trong mã nguồn.
+    </div>
+    <form id="form-cloud-config">
+      <div class="form-row">
+        <label class="form-label" for="cloud-repo-input">Kho GitHub (owner/repo)</label>
+        <input type="text" class="input-control mono-num" id="cloud-repo-input" placeholder="vd: ten-ban/titan-ai-corp" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="cloud-token-input">GitHub Fine-Grained Token (chỉ quyền Contents R/W)</label>
+        <input type="password" class="input-control mono-num" id="cloud-token-input" placeholder="github_pat_..." autocomplete="off" />
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="cloud-pin-input">Mã PIN bảo vệ Két trên thiết bị này (mã hóa AES-256-GCM)</label>
+        <input type="password" class="input-control mono-num" id="cloud-pin-input" placeholder="Nhập mã PIN tối thiểu 4 ký tự" autocomplete="off" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <button type="submit" class="btn btn-primary">Mã hóa & Lưu Két Thiết Bị</button>
+        <button type="button" class="btn" id="btn-sync-github-now">⇄ Đồng bộ 2 chiều ngay</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 6: MOBILE MORE TABS (5-8) -->
+  <div class="modal-dialog" id="modal-mobile-more" role="dialog" aria-modal="true" aria-labelledby="modal-mob-heading">
+    <div class="section-header">
+      <h2 class="section-title" id="modal-mob-heading">Các Phân Hệ Quản Trị Mở Rộng (Tab 5 – 8)</h2>
+      <button type="button" class="btn btn-sm" data-close-modal>✕</button>
+    </div>
+    <div class="division-summary-list">
+      <button type="button" class="btn" style="justify-content:flex-start;" data-mob-jump="workflow">⇄ 5. Quy trình 12 Giai đoạn & Luật Trọng tài</button>
+      <button type="button" class="btn" style="justify-content:flex-start;" data-mob-jump="projects">▣ 6. Danh mục Dự án & Trình đọc Hồ sơ</button>
+      <button type="button" class="btn" style="justify-content:flex-start;" data-mob-jump="finance">◈ 7. Bàn tính Kinh tế Đơn vị CFO & Hòa vốn</button>
+      <button type="button" class="btn" style="justify-content:flex-start;" data-mob-jump="hr">⚙ 8. Tuyển Nhân sự AI (#46+) & Cloud 24/7</button>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>

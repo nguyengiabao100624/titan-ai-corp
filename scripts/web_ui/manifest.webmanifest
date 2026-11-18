@@ -1,0 +1,42 @@
+{
+  "name": "Titan AI Corp — Trung Tâm Chỉ Huy Tập Đoàn",
+  "short_name": "Titan Corp",
+  "description": "Bảng điều hành tập đoàn 46 nhân sự AI tự học liên tục, duyệt cổng Kanban, bàn tính CFO và đồng bộ đám mây 24/7.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F4F6F9",
+  "theme_color": "#0D9488",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tổng quan & Dòng sự kiện",
+      "short_name": "Chỉ huy",
+      "url": "./index.html#overview"
+    },
+    {
+      "name": "Sơ đồ 46 Nhân sự AI",
+      "short_name": "Nhân sự 46",
+      "url": "./index.html#org"
+    },
+    {
+      "name": "Bảng việc & Cổng duyệt",
+      "short_name": "Duyệt cổng",
+      "url": "./index.html#kanban"
+    },
+    {
+      "name": "Radar Đọc báo Tự học",
+      "short_name": "Đọc báo",
+      "url": "./index.html#learning"
+    }
+  ]
+}

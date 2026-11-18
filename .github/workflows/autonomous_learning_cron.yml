@@ -1,0 +1,49 @@
+name: Autonomous 6-Hour Cloud Continual Learning (46 AI Brains)
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "Phạm vi học tập (all hoặc mã khối div1..div8)"
+        required: false
+        default: "all"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "titan-cloud-learning"
+  cancel-in-progress: false
+
+jobs:
+  autonomous-study:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Hydrate Database from Cloud Snapshot & Poll Global Feeds
+        run: |
+          python scripts/titan_cli.py sync-roster
+          python -c "from pathlib import Path; import json; from scripts.titan_db import TitanDatabase; from scripts.cloud_sync import DEFAULT_SNAPSHOT_PATH, merge_snapshot_into_db; db = TitanDatabase(); DEFAULT_SNAPSHOT_PATH.is_file() and merge_snapshot_into_db(db, json.loads(DEFAULT_SNAPSHOT_PATH.read_text(encoding='utf-8')))"
+          python scripts/titan_cli.py learn --scope "${{ github.event.inputs.scope || 'all' }}"
+          python scripts/titan_cli.py sync-snapshot
+
+      - name: Commit Fresh Intelligence to Cloud State & Trigger CDN Update
+        run: |
+          git config user.name "titan-ai-librarian[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add corporate_hq/cloud_state/snapshot.json corporate_hq/knowledge_vault/
+          if git diff --staged --quiet; then
+            echo "Không có bài báo mới phát sinh trong chu kỳ này."
+          else
+            git commit -m "chore(intel): autonomous 6h continual learning digest update"
+            git push
+          fi

@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+corporate_hq/titan_state.db
+corporate_hq/titan_state.db-shm
+corporate_hq/titan_state.db-wal
+_site/
+.DS_Store
+Thumbs.db

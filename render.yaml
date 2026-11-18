@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: titan-ai-corp-command-center
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: "8765"
+      - key: TITAN_ADMIN_TOKEN
+        generateValue: true
+    disk:
+      name: titan-wal-data
+      mountPath: /app/corporate_hq
+      sizeGB: 1

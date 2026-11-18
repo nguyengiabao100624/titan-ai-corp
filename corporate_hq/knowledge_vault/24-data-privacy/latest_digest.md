@@ -1,0 +1,25 @@
+# SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 24: BẢO VỆ DỮ LIỆU CÁ NHÂN & CÔ LẬP ĐA KHÁCH HÀNG
+- **Cập nhật lần cuối:** `2026-11-18T19:28:39Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `4`
+
+---
+
+### 1. [Hai người mang lệnh truy nã quốc tế bị bắt ở TP HCM](https://vnexpress.net/hai-nguoi-mang-lenh-truy-na-quoc-te-bi-bat-o-tp-hcm-5146311.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
+- **Tóm tắt cốt lõi:** Cảnh sát phát hiện hai nghi phạm Trung Quốc có lệnh truy nã quốc tế khi kiểm tra hành chính, rà soát người nước ngoài cư trú trên địa bàn.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế [phap-luat an-ninh tuan-thu]: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+
+### 2. [Người mua nhà lo ông Lê Thanh Thản không có đủ 2.000 tỷ đồng bồi thường](https://vnexpress.net/nguoi-mua-nha-lo-ong-le-thanh-than-khong-co-du-2-000-ty-dong-boi-thuong-5146263.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
+- **Tóm tắt cốt lõi:** Ông Lê Thanh Thản chấp nhận bồi thường theo giá thị trường cho người mua 519 căn hộ xây trái phép, song cư dân lo ông không đủ tiền chi trả hơn 2.000 tỷ đồng cho khoản này.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế [phap-luat an-ninh tuan-thu]: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+
+### 3. [Giang hồ 'anh Cơ quận 8' và 4 người bị phạt án tử hình](https://vnexpress.net/giang-ho-anh-co-quan-8-va-4-nguoi-bi-phat-an-tu-hinh-5146257.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
+- **Tóm tắt cốt lõi:** Tòa xác định Lê Thanh Tú, còn gọi Tú Cơ, giang hồ quận 8 cũ, phạm tội với vai trò cầm đầu, ngoan cố và thách thức cơ quan pháp luật nên tuyên mức án cao nhất.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 4. [Vụ 'nam sinh bị bạn thả xuống sông' có dấu hiệu của hai tội danh](https://vnexpress.net/vu-nam-sinh-bi-ban-tha-xuong-song-co-dau-hieu-cua-hai-toi-danh-5146265.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
+- **Tóm tắt cốt lõi:** Nhà chức trách nhận định việc nam sinh Hồ Xuân Quân bị bạn thả xuống sông có dấu hiệu vi phạm quy định giao thông đường bộ và xâm phạm thi thể.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế [phap-luat an-ninh tuan-thu]: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
