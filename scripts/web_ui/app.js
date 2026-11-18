@@ -91,6 +91,23 @@
     return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
   }
 
+  function calmTitle(raw) {
+    if (!raw) return "";
+    const s = String(raw).trim();
+    if (s !== s.toUpperCase()) return s;
+    const lower = s.toLowerCase();
+    const keepUpper = /\b(ai|ux|ui|qa|cfo|ceo|bi|hr|pm|pr|it|seo|geo|sdr|fp&a|iot|b2b|pr-mortem)\b/gi;
+    const cap = lower.charAt(0).toUpperCase() + lower.slice(1);
+    return cap.replace(keepUpper, (m) => m.toUpperCase()).replace(/pre-mortem/gi, "Pre-Mortem");
+  }
+
+  function formatInlineMd(text) {
+    return esc(text)
+      .replace(/`([^`]+)`/g, "<code class='mono' style='background:var(--bg-subtle);padding:1px 5px;border-radius:4px;'>$1</code>")
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>");
+  }
+
   function renderCleanMarkdown(mdText) {
     if (!mdText) return "<p>Chưa có nội dung.</p>";
     const lines = String(mdText).split(/\r?\n/);
@@ -105,22 +122,16 @@
       if (line.startsWith("---")) continue;
       if (line.startsWith("# ")) {
         if (inList) { html += "</ul>"; inList = false; }
-        html += `<h2>${esc(line.slice(2))}</h2>`;
+        html += `<h2>${formatInlineMd(calmTitle(line.slice(2)))}</h2>`;
       } else if (line.startsWith("## ") || line.startsWith("### ")) {
         if (inList) { html += "</ul>"; inList = false; }
-        html += `<h3>${esc(line.replace(/^#+\s*/, ""))}</h3>`;
+        html += `<h3>${formatInlineMd(line.replace(/^#+\s*/, ""))}</h3>`;
       } else if (line.startsWith("- ") || line.startsWith("* ") || /^\d+\.\s/.test(line)) {
         if (!inList) { html += "<ul>"; inList = true; }
-        const cleanItem = esc(line.replace(/^([-*]|\d+\.)\s*/, ""))
-          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-          .replace(/`([^`]+)`/g, "<code class='mono'>$1</code>");
-        html += `<li>${cleanItem}</li>`;
+        html += `<li>${formatInlineMd(line.replace(/^([-*]|\d+\.)\s*/, ""))}</li>`;
       } else {
         if (inList) { html += "</ul>"; inList = false; }
-        const cleanP = esc(line)
-          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-          .replace(/`([^`]+)`/g, "<code class='mono'>$1</code>");
-        html += `<p style="margin:6px 0;">${cleanP}</p>`;
+        html += `<p style="margin:6px 0;">${formatInlineMd(line)}</p>`;
       }
     }
     if (inList) html += "</ul>";
@@ -565,7 +576,7 @@
           : `<span>Chưa làm (Chờ tới lượt):</span>`;
 
         const deptChips = (s.lead_depts || []).map((d) =>
-          `<span class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(d.title_vi)}</span>`
+          `<span class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(calmTitle(d.title_vi))}</span>`
         ).join("");
 
         return `
@@ -754,7 +765,7 @@
         <article class="staff-card" data-open-staff="${esc(d.dept_id)}">
           <span class="sq-avatar">#${esc(d.dept_id)}</span>
           <div style="min-width:0;flex:1;">
-            <div style="font-weight:700;color:var(--text-primary);font-size:13.5px;">${esc(d.title_vi)}</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:13.5px;">${esc(calmTitle(d.title_vi))}</div>
             <div style="font-size:12px;color:var(--text-muted);margin:2px 0 6px;">${esc(DIV_SHORT_NAMES[d.division_code] || d.division_name_vi || "")}</div>
             <div style="display:flex;align-items:center;justify-content:space-between;">
               ${busy ? `<span class="badge badge-run">● Đang làm việc</span>` : `<span class="badge badge-idle">○ Sẵn sàng</span>`}
@@ -1320,7 +1331,7 @@
 
   function populateDropdowns() {
     const deptOpts = state.departments
-      .map((d) => `<option value="${esc(d.dept_id)}">#${esc(d.dept_id)} · ${esc(d.title_vi)}</option>`)
+      .map((d) => `<option value="${esc(d.dept_id)}">#${esc(d.dept_id)} · ${esc(calmTitle(d.title_vi))}</option>`)
       .join("");
     document.getElementById("inp-task-dept").innerHTML = deptOpts;
     document.getElementById("url-dept-select").innerHTML = deptOpts;

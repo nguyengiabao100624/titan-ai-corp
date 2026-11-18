@@ -1,6 +1,6 @@
 {
   "schema_version": "5.0",
-  "exported_at": "2026-11-18T20:56:20Z",
+  "exported_at": "2026-11-18T21:07:01Z",
   "divisions": [
     {
       "code": "exec-board",
@@ -107,12 +107,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `01` (`@market-intel`) — Trực thuộc Khối `div1-strategy-intel`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CSO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"02-consumer-psychology, 03-competitor-intel, 05-biz-model-architect.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 11,
       "version": 4,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:48Z",
       "last_studied_at": "2026-11-18T19:28:38Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:48Z"
     },
     {
       "dept_id": "02",
@@ -127,12 +127,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `02` (`@consumer-psychology`) — Trực thuộc Khối `div1-strategy-intel`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CSO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 4,
       "version": 2,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:49Z",
       "last_studied_at": "2026-11-18T19:28:38Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:49Z"
     },
     {
       "dept_id": "03",
@@ -147,12 +147,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `03` (`@competitor-intel`) — Trực thuộc Khối `div1-strategy-intel`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CSO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"06-product-manager, 10-brand-director, 38-pricing-fpa.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 9,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:49Z",
       "last_studied_at": "2026-11-18T19:28:38Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:49Z"
     },
     {
       "dept_id": "04",
@@ -207,12 +207,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `06` (`@product-manager`) — Trực thuộc Khối `div2-product-design`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CPO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 10,
       "version": 2,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": "2026-11-18T19:28:39Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "07",
@@ -327,12 +327,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `12` (`@system-architect`) — Trực thuộc Khối `div3-engineering-ai`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CTO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 10,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": "2026-11-18T19:28:39Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "13",
@@ -487,12 +487,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CISO/QA (Độc lập 100% với Khối 3).\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Chặn Cổng 3 hoặc trả hồ sơ kèm Reflexion về Khối 3.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": "2026-11-18T19:28:39Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "21",
@@ -587,12 +587,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CMO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"26-viral-scriptwriter, 29-thumbnail-packaging, 30-seo-geo-specialist.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": "2026-11-18T19:29:11Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "26",
@@ -727,12 +727,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `32` (`@lead-gen-sdr`) — Trực thuộc Khối `div6-sales-commercial`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CRO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"33-sales-closer.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "33",
@@ -847,12 +847,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `38` (`@pricing-fpa`) — Trực thuộc Khối `div7-finance-tax-legal`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CFO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Chốt chặn Cổng 1 trước khi cho phép thiết kế hay lập trình.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 0,
       "version": 4,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:49Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:49Z"
     },
     {
       "dept_id": "39",
@@ -867,12 +867,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `39` (`@tax-specialist`) — Trực thuộc Khối `div7-finance-tax-legal`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CFO/CLO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"37-chief-accountant, 40-legal-counsel, Chủ tịch HĐQT.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 5,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:49Z",
       "last_studied_at": "2026-11-18T19:28:38Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:49Z"
     },
     {
       "dept_id": "40",
@@ -1007,12 +1007,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo (Độc lập với cả 8 Khối thi công).\\n-\", \"Tuyến bàn giao kế tiếp:\", \"47-process-challenger, 05-biz-model-architect, 38-pricing-fpa.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 2,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:50Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:50Z"
     },
     {
       "dept_id": "47",
@@ -1027,12 +1027,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `47` (`@process-challenger`) — Trực thuộc Khối `div9-critique-ux-lab`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Gác cổng bắt buộc giữa mọi bước bàn giao của Phòng 01..50.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 5,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "48",
@@ -1047,12 +1047,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"49-ux-friction-destroyer, 07-ux-researcher, 13-frontend-web, 14-mobile-app.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 3,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "49",
@@ -1067,12 +1067,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"08-ui-design-system, 13-frontend-web, 48-persona-customer-tester.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 4,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:51Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:51Z"
     },
     {
       "dept_id": "50",
@@ -1087,12 +1087,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `50` (`@opportunity-hunter`) — Trực thuộc Khối `div9-critique-ux-lab`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"01-market-intel, 38-pricing-fpa, 46-devils-advocate-biz.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-18T20:55:24Z",
+      "last_heartbeat_at": "2026-11-18T20:59:48Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:59:48Z"
     }
   ],
   "projects": [
@@ -1197,18 +1197,284 @@
       "priority": "CRITICAL",
       "kanban_column": "IN_PROGRESS",
       "checkout_lock_owner": null,
-      "checkout_locked_at": "2026-11-18T19:57:50Z",
-      "evidence_level": 3,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
       "approval_note": "Chưa đạt yêu cầu nghiệm thu tại cổng kiểm duyệt.",
-      "actor_priority": 10,
-      "version": 4,
+      "actor_priority": 1,
+      "version": 5,
       "created_at": "2026-11-18T19:28:37Z",
-      "updated_at": "2026-11-18T19:58:01Z",
-      "started_at": "2026-11-18T19:57:50Z",
+      "updated_at": "2026-11-18T21:00:44Z",
+      "started_at": null,
       "completed_at": null
     }
   ],
   "missions": [
+    {
+      "mission_id": "msn-40e518e7",
+      "title": "Tìm 3 dịch vụ địa phương dễ thu tiền tháng này",
+      "goal_prompt": "Tìm 3 dịch vụ địa phương dễ thu tiền tháng này",
+      "category": "MONEY_MAKER",
+      "status": "WAITING_CHAIRMAN",
+      "auto_approve": 0,
+      "current_step_order": 7,
+      "total_steps": 7,
+      "progress_pct": 98,
+      "final_summary": "1. Đề xuất chốt: Triển khai 'Tìm 3 dịch vụ địa phương dễ thu tiền tháng này' phục vụ nhóm khách sẵn tiền, thu thuê bao 399.000đ/tháng.\n2. Tài chính CFO (#38): Biên lãi kịch bản xấu đạt 75.94% (>=65%), chỉ cần 5 khách hòa vốn.\n3. Phản biện (#46-#47): Đã khóa 3 rủi ro thất bại (Điểm sống sót: 88/100).\n4. Tester Người dùng (#48-#49): Đã đóng vai 5 nhóm khách hàng dùng thử đạt 92/100 điểm (<= 3 chạm, dễ hiểu ngay).",
+      "survival_score": 88,
+      "ux_score": 92,
+      "expected_margin_pct": 75.94,
+      "version": 15,
+      "created_at": "2026-11-18T20:59:47Z",
+      "updated_at": "2026-11-18T20:59:51Z",
+      "steps": [
+        {
+          "step_id": "msn-40e518e7-s1",
+          "mission_id": "msn-40e518e7",
+          "step_order": 1,
+          "title": "Điều tra thị trường & nhu cầu thực tế",
+          "lead_dept_ids": "01,50",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "49",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Đã hoàn tất và vượt qua kiểm tra tại chỗ.",
+          "output_summary": "Xác định nhóm khách hàng đang cần gấp giải pháp cho 'Tìm 3 dịch vụ địa phương dễ thu tiền tháng này'. Đối chiếu tín hiệu thị trường sống: \"Adaptive LLM-Driven Honeypots vs. LLM-Driven Attackers: Does Narrative Coherence Improve Deception?\" (https://arxiv.org/abs/2611.22589v1).",
+          "critique_verdict": "Phòng #47 Phản biện: Đã kiểm chứng nguồn sống thực tế, loại bỏ giả định thị trường bão hòa.",
+          "ux_verdict": "Phòng #49 UX: Nhu cầu rõ ràng, giải quyết nỗi đau trực diện trong 1 câu.",
+          "started_at": "2026-11-18T20:59:47Z",
+          "completed_at": "2026-11-18T20:59:48Z",
+          "updated_at": "2026-11-18T20:59:48Z",
+          "lead_depts": [
+            {
+              "dept_id": "01",
+              "title_vi": "TÌNH BÁO THỊ TRƯỜNG TOÀN CẦU"
+            },
+            {
+              "dept_id": "50",
+              "title_vi": "TRINH SÁT SĂN MỎ VÀNG & THIẾT KẾ VIỆC ĐẺ RA TIỀN TỰ ĐỘNG"
+            }
+          ],
+          "critic_title_vi": "THANH TRA PHẢN BIỆN CHÉO TỪNG PHÒNG BAN & TỪNG BƯỚC QUY TRÌNH",
+          "ux_tester_title_vi": "THANH TRA DIỆT RỐI MẮT, ĐẾM SỐ CHẠM & TỐI GIẢN GIAO DIỆN"
+        },
+        {
+          "step_id": "msn-40e518e7-s2",
+          "mission_id": "msn-40e518e7",
+          "step_order": 2,
+          "title": "Giải mã tâm lý khách rút ví & điểm yếu đối thủ",
+          "lead_dept_ids": "02,03",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "48",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Đã hoàn tất và vượt qua kiểm tra tại chỗ.",
+          "output_summary": "Tử huyệt khiến khách trả tiền ngay: Sợ mất khách & tốn thời gian làm thủ công. Điểm yếu lớn nhất của đối thủ hiện tại là giao diện quá rối, ép học phức tạp.",
+          "critique_verdict": "Phòng #47 Phản biện: Đã đối chiếu đánh giá chê bai thực tế của khách hàng đối thủ.",
+          "ux_verdict": "Phòng #48 Tester Người dùng: Ngôn ngữ chào hàng bình dân, không dùng từ kỹ thuật.",
+          "started_at": "2026-11-18T20:59:48Z",
+          "completed_at": "2026-11-18T20:59:49Z",
+          "updated_at": "2026-11-18T20:59:49Z",
+          "lead_depts": [
+            {
+              "dept_id": "02",
+              "title_vi": "NGHIÊN CỨU TÂM LÝ & HÀNH VI KHÁCH HÀNG"
+            },
+            {
+              "dept_id": "03",
+              "title_vi": "PHÂN TÍCH ĐỐI THỦ CẠNH TRANH"
+            }
+          ],
+          "critic_title_vi": "THANH TRA PHẢN BIỆN CHÉO TỪNG PHÒNG BAN & TỪNG BƯỚC QUY TRÌNH",
+          "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
+        },
+        {
+          "step_id": "msn-40e518e7-s3",
+          "mission_id": "msn-40e518e7",
+          "step_order": 3,
+          "title": "Tính dòng tiền, giá bán, thuế & điểm hòa vốn",
+          "lead_dept_ids": "38,39",
+          "critic_dept_id": "46",
+          "ux_tester_dept_id": "49",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Đã hoàn tất và vượt qua kiểm tra tại chỗ.",
+          "output_summary": "Định giá gói 399.000đ/tháng · Biên lãi gộp kịch bản xấu: 75.94% · Chỉ cần 5 khách là hòa vốn · Khoanh riêng 7% dự phòng thuế.",
+          "critique_verdict": "Phòng #46 Phản biện: Đạt chuẩn lãi gộp >= 65% ngay cả khi khách dùng hết 100% hạn mức.",
+          "ux_verdict": "Phòng #49 UX: Bảng giá 1 mức minh bạch, khách nhìn 3 giây hiểu ngay không sợ phí ẩn.",
+          "started_at": "2026-11-18T20:59:49Z",
+          "completed_at": "2026-11-18T20:59:49Z",
+          "updated_at": "2026-11-18T20:59:49Z",
+          "lead_depts": [
+            {
+              "dept_id": "38",
+              "title_vi": "ĐỊNH GIÁ & PHÂN TÍCH LỢI NHUẬN (FP&A)"
+            },
+            {
+              "dept_id": "39",
+              "title_vi": "CHUYÊN GIA THUẾ & HÓA ĐƠN ĐIỆN TỬ"
+            }
+          ],
+          "critic_title_vi": "HỘI ĐỒNG PHẢN BIỆN MÔ HÌNH KIẾM TIỀN & PRE-MORTEM",
+          "ux_tester_title_vi": "THANH TRA DIỆT RỐI MẮT, ĐẾM SỐ CHẠM & TỐI GIẢN GIAO DIỆN"
+        },
+        {
+          "step_id": "msn-40e518e7-s4",
+          "mission_id": "msn-40e518e7",
+          "step_order": 4,
+          "title": "Hội đồng phản biện Pre-Mortem mổ xẻ rủi ro",
+          "lead_dept_ids": "46,47",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "48",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Đã hoàn tất và vượt qua kiểm tra tại chỗ.",
+          "output_summary": "Đã mổ xẻ 3 nguy cơ thất bại (Khách ngại nhập liệu; Dùng thử xong bỏ; Chi phí quảng cáo đắt) -> Khóa giải pháp: Cho dùng mẫu có sẵn 1 chạm + Kéo khách tự nhiên qua video ngắn Trước/Sau.",
+          "critique_verdict": "Hội đồng #46-#47 chốt Điểm sống sót thực chiến: 88/100 (Cho phép đi tiếp).",
+          "ux_verdict": "Phòng #48 Tester Người dùng: Bỏ hẳn bước bắt đăng ký rườm rà trước khi xem kết quả mẫu.",
+          "started_at": "2026-11-18T20:59:49Z",
+          "completed_at": "2026-11-18T20:59:50Z",
+          "updated_at": "2026-11-18T20:59:50Z",
+          "lead_depts": [
+            {
+              "dept_id": "46",
+              "title_vi": "HỘI ĐỒNG PHẢN BIỆN MÔ HÌNH KIẾM TIỀN & PRE-MORTEM"
+            },
+            {
+              "dept_id": "47",
+              "title_vi": "THANH TRA PHẢN BIỆN CHÉO TỪNG PHÒNG BAN & TỪNG BƯỚC QUY TRÌNH"
+            }
+          ],
+          "critic_title_vi": "THANH TRA PHẢN BIỆN CHÉO TỪNG PHÒNG BAN & TỪNG BƯỚC QUY TRÌNH",
+          "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
+        },
+        {
+          "step_id": "msn-40e518e7-s5",
+          "mission_id": "msn-40e518e7",
+          "step_order": 5,
+          "title": "Thiết kế giải pháp 3 chạm & kênh săn khách đầu tiên",
+          "lead_dept_ids": "06,12,25,32",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "49",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Đã hoàn tất và vượt qua kiểm tra tại chỗ.",
+          "output_summary": "Chốt thiết kế sản phẩm tối giản đúng 3 chạm trên điện thoại/máy tính, tích hợp đầy đủ Thêm/Sửa/Xóa/Hoàn tác và kịch bản tiếp cận 50 khách hàng đầu tiên bằng sản phẩm mẫu làm riêng.",
+          "critique_verdict": "Phòng #47 Phản biện: Phạm vi gọn sắc, làm xong bản thu tiền đầu tiên trong 5–7 ngày.",
+          "ux_verdict": "Phòng #49 UX: 0 chữ giải thích thừa, luồng bấm mạch lạc một chiều.",
+          "started_at": "2026-11-18T20:59:50Z",
+          "completed_at": "2026-11-18T20:59:51Z",
+          "updated_at": "2026-11-18T20:59:51Z",
+          "lead_depts": [
+            {
+              "dept_id": "06",
+              "title_vi": "QUẢN TRỊ SẢN PHẨM (PM)"
+            },
+            {
+              "dept_id": "12",
+              "title_vi": "KIẾN TRÚC HỆ THỐNG TRƯỞNG"
+            },
+            {
+              "dept_id": "25",
+              "title_vi": "CHIẾN LƯỢC HỆ THỐNG KÊNH YOUTUBE & VIDEO NGẮN"
+            },
+            {
+              "dept_id": "32",
+              "title_vi": "TÌM KIẾM KHÁCH HÀNG TIỀM NĂNG (OUTBOUND SDR)"
+            }
+          ],
+          "critic_title_vi": "THANH TRA PHẢN BIỆN CHÉO TỪNG PHÒNG BAN & TỪNG BƯỚC QUY TRÌNH",
+          "ux_tester_title_vi": "THANH TRA DIỆT RỐI MẮT, ĐẾM SỐ CHẠM & TỐI GIẢN GIAO DIỆN"
+        },
+        {
+          "step_id": "msn-40e518e7-s6",
+          "mission_id": "msn-40e518e7",
+          "step_order": 6,
+          "title": "Tester đóng vai 5 nhóm người dùng thật trải nghiệm",
+          "lead_dept_ids": "48,49,20",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "48",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Đã hoàn tất và vượt qua kiểm tra tại chỗ.",
+          "output_summary": "Đội Tester #48 đã đóng vai đủ 5 nhóm khách hàng (Chủ tiệm không rành công nghệ, Khách vội trên 4G, Người sợ mất tiền, Người mắt kém, Người hay bấm nhầm): 5/5 hoàn thành thao tác dưới 25 giây.",
+          "critique_verdict": "Phòng #47 Phản biện: Đã kiểm tra chéo toàn bộ ca biên, xóa & khôi phục hoạt động tức thì.",
+          "ux_verdict": "Đạt 92/100 điểm trải nghiệm người dùng thật — Đủ điều kiện bàn giao.",
+          "started_at": "2026-11-18T20:59:51Z",
+          "completed_at": "2026-11-18T20:59:51Z",
+          "updated_at": "2026-11-18T20:59:51Z",
+          "lead_depts": [
+            {
+              "dept_id": "48",
+              "title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
+            },
+            {
+              "dept_id": "49",
+              "title_vi": "THANH TRA DIỆT RỐI MẮT, ĐẾM SỐ CHẠM & TỐI GIẢN GIAO DIỆN"
+            },
+            {
+              "dept_id": "20",
+              "title_vi": "KIỂM THỬ PHẦN MỀM & TỰ ĐỘNG HÓA"
+            }
+          ],
+          "critic_title_vi": "THANH TRA PHẢN BIỆN CHÉO TỪNG PHÒNG BAN & TỪNG BƯỚC QUY TRÌNH",
+          "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
+        },
+        {
+          "step_id": "msn-40e518e7-s7",
+          "mission_id": "msn-40e518e7",
+          "step_order": 7,
+          "title": "Tổng hợp kế hoạch trình Chủ tịch nghiệm thu",
+          "lead_dept_ids": "00",
+          "critic_dept_id": "46",
+          "ux_tester_dept_id": "48",
+          "status": "WAITING_APPROVAL",
+          "progress_pct": 85,
+          "live_activity_text": "Đã hoàn tất kiểm tra 6 bước — Đang chờ Chủ tịch bấm Chấp nhận hoặc Yêu cầu sửa.",
+          "output_summary": "1. Đề xuất chốt: Triển khai 'Tìm 3 dịch vụ địa phương dễ thu tiền tháng này' phục vụ nhóm khách sẵn tiền, thu thuê bao 399.000đ/tháng.\n2. Tài chính CFO (#38): Biên lãi kịch bản xấu đạt 75.94% (>=65%), chỉ cần 5 khách hòa vốn.\n3. Phản biện (#46-#47): Đã khóa 3 rủi ro thất bại (Điểm sống sót: 88/100).\n4. Tester Người dùng (#48-#49): Đã đóng vai 5 nhóm khách hàng dùng thử đạt 92/100 điểm (<= 3 chạm, dễ hiểu ngay).",
+          "critique_verdict": "ĐẠT (Hội đồng Phản biện #46-#47 đồng thuận thông qua)",
+          "ux_verdict": "ĐẠT 92/100 (5 mẫu người dùng thật thao tác trơn tru)",
+          "started_at": "2026-11-18T20:59:51Z",
+          "completed_at": null,
+          "updated_at": "2026-11-18T20:59:51Z",
+          "lead_depts": [
+            {
+              "dept_id": "00",
+              "title_vi": "Tổng Giám Đốc & Chánh Văn Phòng (@ceo)"
+            }
+          ],
+          "critic_title_vi": "HỘI ĐỒNG PHẢN BIỆN MÔ HÌNH KIẾM TIỀN & PRE-MORTEM",
+          "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
+        }
+      ],
+      "done_steps_count": 6,
+      "running_step": {
+        "step_id": "msn-40e518e7-s7",
+        "mission_id": "msn-40e518e7",
+        "step_order": 7,
+        "title": "Tổng hợp kế hoạch trình Chủ tịch nghiệm thu",
+        "lead_dept_ids": "00",
+        "critic_dept_id": "46",
+        "ux_tester_dept_id": "48",
+        "status": "WAITING_APPROVAL",
+        "progress_pct": 85,
+        "live_activity_text": "Đã hoàn tất kiểm tra 6 bước — Đang chờ Chủ tịch bấm Chấp nhận hoặc Yêu cầu sửa.",
+        "output_summary": "1. Đề xuất chốt: Triển khai 'Tìm 3 dịch vụ địa phương dễ thu tiền tháng này' phục vụ nhóm khách sẵn tiền, thu thuê bao 399.000đ/tháng.\n2. Tài chính CFO (#38): Biên lãi kịch bản xấu đạt 75.94% (>=65%), chỉ cần 5 khách hòa vốn.\n3. Phản biện (#46-#47): Đã khóa 3 rủi ro thất bại (Điểm sống sót: 88/100).\n4. Tester Người dùng (#48-#49): Đã đóng vai 5 nhóm khách hàng dùng thử đạt 92/100 điểm (<= 3 chạm, dễ hiểu ngay).",
+        "critique_verdict": "ĐẠT (Hội đồng Phản biện #46-#47 đồng thuận thông qua)",
+        "ux_verdict": "ĐẠT 92/100 (5 mẫu người dùng thật thao tác trơn tru)",
+        "started_at": "2026-11-18T20:59:51Z",
+        "completed_at": null,
+        "updated_at": "2026-11-18T20:59:51Z",
+        "lead_depts": [
+          {
+            "dept_id": "00",
+            "title_vi": "Tổng Giám Đốc & Chánh Văn Phòng (@ceo)"
+          }
+        ],
+        "critic_title_vi": "HỘI ĐỒNG PHẢN BIỆN MÔ HÌNH KIẾM TIỀN & PRE-MORTEM",
+        "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
+      },
+      "pending_steps_count": 0
+    },
     {
       "mission_id": "msn-de9a89e7",
       "title": "Triển khai dịch vụ Ướm Mẫu Rèm & Sàn Gỗ AI báo giá 10 giây cho chủ tiệm nội thất",
@@ -1576,17 +1842,6 @@
   "tombstones": [],
   "deliverables": [
     {
-      "deliverable_id": "deliv-65033d45f4",
-      "task_id": "task-da61076a8e",
-      "dept_id": "38",
-      "title": "Hồ sơ bàn giao trình Cổng kiểm soát",
-      "artifact_type": "REPORT",
-      "file_path": "",
-      "summary": "Đã hoàn thành kiểm tra tiêu chuẩn đầu ra và đính kèm dữ liệu thực chứng.",
-      "version": 1,
-      "created_at": "2026-11-18T19:57:54Z"
-    },
-    {
       "deliverable_id": "deliv-ba14aca276",
       "task_id": "task-9fc0ae6b35",
       "dept_id": "01",
@@ -1682,7 +1937,7 @@
       "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
       "importance": 8,
       "tags": "open-source github architecture",
-      "is_starred": 0
+      "is_starred": 1
     },
     {
       "atom_id": 126,
@@ -3606,6 +3861,116 @@
     }
   ],
   "activity_stream": [
+    {
+      "event_id": 76,
+      "event_uid": "eea42db8-904a-4311-a5b4-1c697279de8a",
+      "timestamp": "2026-11-18T21:00:44Z",
+      "actor_dept_id": "00",
+      "event_type": "ITEM_RESTORED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã hoàn tác khôi phục mục vừa xóa (task)",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 75,
+      "event_uid": "a2556c3f-17ff-4250-8a9f-babc0cab0e65",
+      "timestamp": "2026-11-18T21:00:44Z",
+      "actor_dept_id": "00",
+      "event_type": "TASK_DELETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã xóa đầu việc: [App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây] Thẩm định Unit Economics, điểm hòa vốn & kịch bản xấu nhất",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 74,
+      "event_uid": "7acf00a9-4e26-43dc-b99d-a0ecf0fee077",
+      "timestamp": "2026-11-18T20:59:51Z",
+      "actor_dept_id": "00",
+      "event_type": "MISSION_WAITING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Nhiệm vụ 'Tìm 3 dịch vụ địa phương dễ thu tiền tháng này' đã chạy xong 6 bước kiểm định — Chờ bạn duyệt chốt!",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 73,
+      "event_uid": "6370b019-c4e9-465b-bb20-bfcb73c0e6da",
+      "timestamp": "2026-11-18T20:59:51Z",
+      "actor_dept_id": "48",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 6/7] Phòng #48, #49, #20 đang làm: Tester đóng vai 5 nhóm người dùng thật trải nghiệm",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 72,
+      "event_uid": "ffba96cd-21c6-4980-9025-2f56aebc8dc3",
+      "timestamp": "2026-11-18T20:59:50Z",
+      "actor_dept_id": "06",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 5/7] Phòng #06, #12, #25, #32 đang làm: Thiết kế giải pháp 3 chạm & kênh săn khách đầu tiên",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 71,
+      "event_uid": "4d4c325c-8f58-48d1-a5d0-ce7dfdfafd8b",
+      "timestamp": "2026-11-18T20:59:49Z",
+      "actor_dept_id": "46",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 4/7] Phòng #46, #47 đang làm: Hội đồng phản biện Pre-Mortem mổ xẻ rủi ro",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 70,
+      "event_uid": "9f54a8c5-90f7-456b-98e3-5ca74e882e9f",
+      "timestamp": "2026-11-18T20:59:49Z",
+      "actor_dept_id": "38",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 3/7] Phòng #38, #39 đang làm: Tính dòng tiền, giá bán, thuế & điểm hòa vốn",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 69,
+      "event_uid": "9ecc7bcf-0bfe-4830-8d46-8866e3f0059a",
+      "timestamp": "2026-11-18T20:59:48Z",
+      "actor_dept_id": "02",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 2/7] Phòng #02, #03 đang làm: Giải mã tâm lý khách rút ví & điểm yếu đối thủ",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 68,
+      "event_uid": "3916ab20-edf4-47ce-807d-ab53b321166b",
+      "timestamp": "2026-11-18T20:59:47Z",
+      "actor_dept_id": "01",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 1/7] Phòng #01, #50 đang làm: Điều tra thị trường & nhu cầu thực tế",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 67,
+      "event_uid": "c324994f-8e4d-472d-80d8-3b2b51e682ea",
+      "timestamp": "2026-11-18T20:59:47Z",
+      "actor_dept_id": "00",
+      "event_type": "MISSION_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Khởi chạy dây chuyền tự động 7 bước: Tìm 3 dịch vụ địa phương dễ thu tiền tháng này",
+      "detail_json": "{}"
+    },
     {
       "event_id": 44,
       "event_uid": "78b7f9e7-da61-4827-ab52-35d7783fa866",
