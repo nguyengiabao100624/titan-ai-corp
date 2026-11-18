@@ -320,6 +320,7 @@ def main() -> int:
     p_rec.add_argument("--query", default="")
 
     sub.add_parser("sync-snapshot", help="Export portable snapshot to corporate_hq/cloud_state/snapshot.json")
+    sub.add_parser("hydrate-snapshot", help="Hydrate SQLite DB from corporate_hq/cloud_state/snapshot.json without losing state")
 
     args = parser.parse_args()
 
@@ -424,6 +425,18 @@ def main() -> int:
     if args.command == "sync-snapshot":
         p = save_snapshot_file(db)
         print(f"Saved multi-device snapshot: {p}")
+        return 0
+
+    if args.command == "hydrate-snapshot":
+        from cloud_sync import DEFAULT_SNAPSHOT_PATH, merge_snapshot_into_db
+        db.sync_divisions_and_roster()
+        if DEFAULT_SNAPSHOT_PATH.is_file():
+            snap = json.loads(DEFAULT_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+            stats = merge_snapshot_into_db(db, snap)
+            print(f"Hydrated SQLite DB from cloud snapshot: {stats}")
+        else:
+            save_snapshot_file(db)
+            print("Initialized fresh cloud snapshot.")
         return 0
 
     return 1

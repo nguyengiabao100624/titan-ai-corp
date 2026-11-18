@@ -33,9 +33,9 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Ensure Fresh Cloud Snapshot Exists
+      - name: Hydrate & Ensure Complete Cloud Snapshot Exists
         run: |
-          python scripts/titan_cli.py sync-roster
+          python scripts/titan_cli.py hydrate-snapshot
           python scripts/titan_cli.py sync-snapshot
 
       - name: Assemble Zero-Sleep Static PWA Bundle

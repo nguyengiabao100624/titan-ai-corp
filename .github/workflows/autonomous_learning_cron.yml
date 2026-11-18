@@ -31,8 +31,7 @@ jobs:
 
       - name: Hydrate Database from Cloud Snapshot & Poll Global Feeds
         run: |
-          python scripts/titan_cli.py sync-roster
-          python -c "from pathlib import Path; import json; from scripts.titan_db import TitanDatabase; from scripts.cloud_sync import DEFAULT_SNAPSHOT_PATH, merge_snapshot_into_db; db = TitanDatabase(); DEFAULT_SNAPSHOT_PATH.is_file() and merge_snapshot_into_db(db, json.loads(DEFAULT_SNAPSHOT_PATH.read_text(encoding='utf-8')))"
+          python scripts/titan_cli.py hydrate-snapshot
           python scripts/titan_cli.py learn --scope "${{ github.event.inputs.scope || 'all' }}"
           python scripts/titan_cli.py sync-snapshot
 
@@ -45,5 +44,6 @@ jobs:
             echo "Không có bài báo mới phát sinh trong chu kỳ này."
           else
             git commit -m "chore(intel): autonomous 6h continual learning digest update"
+            git pull --rebase origin main
             git push
           fi
