@@ -1,5 +1,5 @@
 # SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 39: CHUYÊN GIA THUẾ & HÓA ĐƠN ĐIỆN TỬ
-- **Cập nhật lần cuối:** `2026-11-18T19:28:39Z`
+- **Cập nhật lần cuối:** `2026-11-18T21:58:37Z`
 - **Tổng số tài liệu/bài báo đã nạp:** `5`
 
 ---
@@ -12,7 +12,7 @@
 ### 2. [Đắk Lắk: Thu ngân sách từ hộ kinh doanh, cá nhân kinh vượt dự toán sau 10 tháng - Tạp chí Tài chính Doanh nghiệp](https://news.google.com/rss/articles/CBMiwgFBVV95cUxOZGpmWWp1aXQwMXVBNU02bkIyQXB1VHVOTUY1blBEWGFxVXRGN0Fra1pBN0M0a3NhVElQemhVc0hiTTlkU0FudFBhM0R0ZlZSS0I0Mnk0bUdSa3lDeFNLRG01YVA4SDFHdlRKd0xPSng5M1h1N1htZGluYzNYN2d3b1JzVUd4OXNyUGJFeFY3SFpiMFUwNXNRbTFTMUYtdEhYNDhLUWlPQ1czSzcySS1XVHlmNUNoRkZZUWVfOHo3TXBXdw?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-18T19:28:38Z`
 - **Tóm tắt cốt lõi:** Đắk Lắk: Thu ngân sách từ hộ kinh doanh, cá nhân kinh vượt dự toán sau 10 tháng Tạp chí Tài chính Doanh nghiệp
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế [thue hoa-don-dien-tu ho-kinh-doanh]: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
 
 ### 3. [Đề xuất không phạt tiền nếu lập hóa đơn sai thời điểm nhưng đã khai thuế - Tin nhanh chứng khoán](https://news.google.com/rss/articles/CBMivwFBVV95cUxOaUtKSlRkMDhHMzZUWnNLTEFGSTQzNzFrRGQ2NktBWWRyQTU0b0lJMzJRakw2M2xaYkgyc0FFOVRKdDJMMU1UR2xNMF9yNW5uQkQ2SlIzUnVDWnI3bFpqU2tqVWVOU1g0LV8xVTRjaEN1ZWpCdnNEckduVEN6RWJ0U01NMGtGbmt4XzZtTmtNRnlCcWZHVzh6VlRVWTU2b3NmZXZtc0I1bnNPeXJGaXNMVU9yNDRMTENEaXVKZGJCb9IBuwFBVV95cUxNOEdOZVBWcWowbFlfcVRJdnlRVGJvVDFEb3FiREo2a2tDbU9zZXlWVFFjNHBMMkpzNUdfcnpmQkw1VXpzYjhDd1prTnpzRGFkbnoxRy00YXBRdjB4MVgxSmw2MDFBQWVJdjBJd3VjdTF3cVBEd3pJUjlLd3h2UF9DMzBfM1BDX0pSUE04NUVSWnRxMENpSW9VcElhb2xqSE4zaEItaHZWVllRS1BhYWd5TkI2ZjJUUUp6dGpR?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-18T19:28:38Z`

@@ -140,12 +140,17 @@ class TestContinualLearningEngine(unittest.TestCase):
         self.assertIn("Show HN", hn[0]["title"])
 
         web = extract_webpage_wisdom(
-            "<html><head><title>Báo Cáo Thị Trường 2026</title></head>"
-            "<body><p>Doanh thu phần mềm ngách cho cửa hàng vật liệu xây dựng tăng trưởng vượt bậc năm 2026.</p></body></html>",
+            "<html><head><title>Báo Cáo Thị Trường 2026</title>"
+            "<script>var x = '<p>;if(typeof articleData[\"off_thumb\"]) { doEvil(); }</p>';</script>"
+            "<style>.hidden { display: none; }</style></head>"
+            "<body><script>;if(typeof window.ads !== 'undefined'){ console.log('ad'); }</script>"
+            "<p>Doanh thu phần mềm ngách cho cửa hàng vật liệu xây dựng tăng trưởng vượt bậc năm 2026.</p></body></html>",
             "https://example.vn/bao-cao",
         )
         self.assertEqual(web["title"], "Báo Cáo Thị Trường 2026")
         self.assertIn("vật liệu xây dựng", web["summary"])
+        self.assertNotIn("articleData", web["summary"])
+        self.assertNotIn("typeof", web["summary"])
 
     def test_resilient_learning_cycle_and_deduplication(self) -> None:
         def fake_get(url: str, accept: str = "*/*") -> str:

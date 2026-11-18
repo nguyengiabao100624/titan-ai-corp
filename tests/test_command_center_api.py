@@ -291,10 +291,90 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
         self._req("/api/trash/restore", method="POST", body={"entity_type": "task", "entity_id": tid})
         self.assertEqual(self._req(f"/api/tasks?task_id={tid}")[0], 200)
 
-        # Bulk Delete both tasks
+        # Bulk Delete both tasks + Batch Restore via items[]
         st_bulk, _, raw_bulk = self._req("/api/tasks/bulk", method="POST", body={"action": "delete", "task_ids": [tid, dup_id]})
         self.assertEqual(st_bulk, 200)
-        self.assertEqual(json.loads(raw_bulk.decode("utf-8"))["affected"], 2)
+        bulk_res = json.loads(raw_bulk.decode("utf-8"))
+        self.assertEqual(bulk_res["affected"], 2)
+        self.assertEqual(len(bulk_res["deleted_ids"]), 2)
+
+        st_brest, _, raw_brest = self._req(
+            "/api/trash/restore",
+            method="POST",
+            body={"items": [{"entity_type": "task", "entity_id": x} for x in bulk_res["deleted_ids"]]},
+        )
+        self.assertEqual(st_brest, 200)
+        self.assertEqual(json.loads(raw_brest.decode("utf-8"))["count"], 2)
+
+    def test_05_v51_custom_kanban_col_project_status_doc_undo_and_dept_title(self) -> None:
+        # 1. Create Project with custom PLANNING status
+        st_p, _, raw_p = self._req(
+            "/api/projects",
+            method="POST",
+            body={
+                "slug": "test-saas-api-suite",
+                "title": "Dự Án Thử Nghiệm V5.1",
+                "status": "PLANNING",
+                "expected_price_vnd": 299000,
+            },
+        )
+        self.assertEqual(st_p, 201)
+        proj = json.loads(raw_p.decode("utf-8"))
+        self.assertEqual(proj["status"], "PLANNING")
+        self.assertEqual(proj["expected_price_vnd"], 299000)
+
+        # 2. Create Task directly into IN_PROGRESS column
+        st_t, _, raw_t = self._req(
+            "/api/tasks",
+            method="POST",
+            body={
+                "title": "Việc tạo thẳng ở cột Đang làm",
+                "assigned_dept_id": "16",
+                "kanban_column": "IN_PROGRESS",
+            },
+        )
+        self.assertEqual(st_t, 201)
+        self.assertEqual(json.loads(raw_t.decode("utf-8"))["kanban_column"], "IN_PROGRESS")
+
+        # 3. Create Markdown file -> Delete with Tombstone -> Undo Restore!
+        st_f, _, _ = self._req(
+            "/api/projects/proj-test-saas-api-suite/files",
+            method="POST",
+            body={"file": "ke-hoach-v51.md", "content": "# Kế hoạch V5.1\nNội dung chuẩn."},
+        )
+        self.assertEqual(st_f, 200)
+
+        st_df, _, raw_df = self._req(
+            "/api/projects/proj-test-saas-api-suite/files?file=ke-hoach-v51.md",
+            method="DELETE",
+        )
+        self.assertEqual(st_df, 200)
+        tomb_id = json.loads(raw_df.decode("utf-8"))["entity_id"]
+        self.assertEqual(tomb_id, "proj-test-saas-api-suite:ke-hoach-v51.md")
+
+        st_rf, _, _ = self._req(
+            "/api/trash/restore",
+            method="POST",
+            body={"entity_type": "doc", "entity_id": tomb_id},
+        )
+        self.assertEqual(st_rf, 200)
+        st_gf, _, raw_gf = self._req("/api/projects/proj-test-saas-api-suite/files?file=ke-hoach-v51.md")
+        self.assertEqual(st_gf, 200)
+        self.assertIn("Nội dung chuẩn.", json.loads(raw_gf.decode("utf-8"))["content"])
+
+        # 4. Department title_vi edit in isolated temp handbook
+        tmp_hb = self.tmp_path / "dept_03_temp.md"
+        tmp_hb.write_text("# Phòng #03: Tên Cũ\n\nNội dung sổ tay.\n", encoding="utf-8")
+        with self.db.immediate_tx() as conn:
+            conn.execute("UPDATE departments SET handbook_path = ? WHERE dept_id = '03'", (str(tmp_hb),))
+        st_dept, _, raw_dept = self._req(
+            "/api/departments/03",
+            method="PATCH",
+            body={"title_vi": "Tình Báo Đối Thủ Cấp Cao"},
+        )
+        self.assertEqual(st_dept, 200)
+        self.assertEqual(json.loads(raw_dept.decode("utf-8"))["title_vi"], "Tình Báo Đối Thủ Cấp Cao")
+        self.assertIn("Tình Báo Đối Thủ Cấp Cao", tmp_hb.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

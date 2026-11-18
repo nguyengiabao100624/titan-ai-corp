@@ -1,13 +1,13 @@
 {
-  "name": "Titan AI Corp — Trung Tâm Chỉ Huy Tập Đoàn",
+  "name": "Titan AI Corp — Điều Hành Tự Động 51 AI",
   "short_name": "Titan Corp",
-  "description": "Bảng điều hành tập đoàn 46 nhân sự AI tự học liên tục, duyệt cổng Kanban, bàn tính CFO và đồng bộ đám mây 24/7.",
+  "description": "Giao việc tự động, săn cơ hội kiếm tiền, theo dõi tiến độ 7 bước, phản biện chéo và quản trị 51 nhân sự AI 24/7.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#F4F6F9",
-  "theme_color": "#0D9488",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0F766E",
   "lang": "vi",
   "icons": [
     {
@@ -19,24 +19,24 @@
   ],
   "shortcuts": [
     {
-      "name": "Tổng quan & Dòng sự kiện",
-      "short_name": "Chỉ huy",
-      "url": "./index.html#overview"
+      "name": "Giao việc & Kiếm tiền",
+      "short_name": "Giao việc",
+      "url": "./index.html#command"
     },
     {
-      "name": "Sơ đồ 46 Nhân sự AI",
-      "short_name": "Nhân sự 46",
-      "url": "./index.html#org"
+      "name": "Tiến độ Nhiệm vụ",
+      "short_name": "Tiến độ",
+      "url": "./index.html#missions"
     },
     {
-      "name": "Bảng việc & Cổng duyệt",
-      "short_name": "Duyệt cổng",
-      "url": "./index.html#kanban"
+      "name": "Bảng việc chi tiết",
+      "short_name": "Bảng việc",
+      "url": "./index.html#tasks"
     },
     {
-      "name": "Radar Đọc báo Tự học",
-      "short_name": "Đọc báo",
-      "url": "./index.html#learning"
+      "name": "Báo mới thị trường",
+      "short_name": "Báo mới",
+      "url": "./index.html#news"
     }
   ]
 }

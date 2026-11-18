@@ -28,7 +28,8 @@ USER_AGENT = (
 def strip_html_tags(raw: str) -> str:
     if not raw:
         return ""
-    no_script = re.sub(r"<(script|style|noscript)[^>]*>.*?</\1>", " ", raw, flags=re.DOTALL | re.IGNORECASE)
+    no_comments = re.sub(r"<!--.*?-->", " ", raw, flags=re.DOTALL)
+    no_script = re.sub(r"<(script|style|noscript|svg|iframe)[^>]*>.*?</\1>", " ", no_comments, flags=re.DOTALL | re.IGNORECASE)
     no_tags = re.sub(r"<[^>]+>", " ", no_script)
     unescaped = html.unescape(no_tags)
     return re.sub(r"\s+", " ", unescaped).strip()
@@ -47,7 +48,7 @@ def synthesize_actionable_insight(connector: str, title: str, summary: str, tags
         return "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code."
     if connector == "arxiv":
         return "Thử nghiệm kỹ thuật mới trong Phòng AI R&D (04) và Kỹ sư AI (16) nhằm tăng độ chính xác và giảm chi phí token."
-    return f"Tín hiệu thị trường thực tế [{tags or connector}]: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng."
+    return "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng."
 
 
 def parse_rss_or_atom_xml(xml_text: str, max_items: int = 5) -> list[dict[str, str]]:
@@ -161,24 +162,33 @@ def parse_hackernews_json(json_text: str, max_items: int = 5) -> list[dict[str, 
 
 
 def extract_webpage_wisdom(html_text: str, url: str) -> dict[str, str]:
-    """Deep URL Reader: extract clean title & core article summary from arbitrary HTML."""
-    title_match = re.search(r"<title[^>]*>(.*?)</title>", html_text, flags=re.DOTALL | re.IGNORECASE)
+    """Deep URL Reader: extract clean title & core article summary from arbitrary HTML (zero script leakage)."""
+    sanitized_html = re.sub(
+        r"<(script|style|noscript|svg|iframe)[^>]*>.*?</\1>",
+        " ",
+        html_text or "",
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    title_match = re.search(r"<title[^>]*>(.*?)</title>", sanitized_html, flags=re.DOTALL | re.IGNORECASE)
     raw_title = strip_html_tags(title_match.group(1)) if title_match else url
 
     meta_desc = ""
     meta_match = re.search(
         r'<meta[^>]+name=["\']description["\'][^>]+content=["\'](.*?)["\']',
-        html_text,
+        sanitized_html,
         flags=re.IGNORECASE | re.DOTALL,
     )
     if meta_match:
         meta_desc = strip_html_tags(meta_match.group(1))
 
-    paragraphs = re.findall(r"<p[^>]*>(.*?)</p>", html_text, flags=re.DOTALL | re.IGNORECASE)
-    clean_paras = [strip_html_tags(p) for p in paragraphs]
-    clean_paras = [p for p in clean_paras if len(p) >= 50][:5]
-    body_excerpt = " ".join(clean_paras)[:600]
-    summary = (f"{meta_desc} — {body_excerpt}".strip(" —")) if (meta_desc or body_excerpt) else strip_html_tags(html_text)[:500]
+    paragraphs = re.findall(r"<p[^>]*>(.*?)</p>", sanitized_html, flags=re.DOTALL | re.IGNORECASE)
+    clean_paras = []
+    for p in paragraphs:
+        txt = strip_html_tags(p)
+        if len(txt) >= 50 and not any(tok in txt for tok in ("function(", "typeof ", "window.", "document.getElement")):
+            clean_paras.append(txt)
+    body_excerpt = " ".join(clean_paras[:5])[:600]
+    summary = (f"{meta_desc} — {body_excerpt}".strip(" —")) if (meta_desc or body_excerpt) else strip_html_tags(sanitized_html)[:500]
 
     return {
         "title": (raw_title or url)[:220],

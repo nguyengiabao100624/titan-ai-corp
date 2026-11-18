@@ -423,6 +423,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     unit_cost_vnd=float(body.get("unit_cost_vnd", 95000)),
                     fixed_cost_monthly_vnd=float(body.get("fixed_cost_monthly_vnd", 1500000)),
                     seed_gate1_tasks=bool(body.get("seed_gate1_tasks", True)),
+                    status=str(body.get("status", "ACTIVE")),
                 )
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(proj, status=201)
@@ -444,6 +445,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     gate_number=int(body.get("gate_number", 1)),
                     stage_number=int(body.get("stage_number", 1)),
                     priority=str(body.get("priority", "HIGH")),
+                    kanban_column=str(body.get("kanban_column", "BACKLOG")),
                 )
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(task, status=201)
@@ -710,9 +712,13 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"saved": True, "file": rel_file, "size_bytes": candidate.stat().st_size}, status=200)
                 return
 
-            # 29: Universal Trash Restore (5-Second Undo)
+            # 29: Universal Trash Restore (Single OR Batch 5-Second Undo)
             if path == "/api/trash/restore":
-                res = db.restore_from_trash(str(body.get("entity_type", "")), str(body.get("entity_id", "")))
+                batch_items = body.get("items")
+                if isinstance(batch_items, list) and batch_items:
+                    res = db.restore_batch_from_trash(batch_items)
+                else:
+                    res = db.restore_from_trash(str(body.get("entity_type", "")), str(body.get("entity_id", "")))
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(res, status=200)
                 return
@@ -743,6 +749,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     handbook_markdown=body.get("handbook_markdown"),
                     token_budget_monthly=body.get("token_budget_monthly"),
                     status=body.get("status"),
+                    title_vi=body.get("title_vi"),
                 )
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(updated, status=200)
@@ -838,9 +845,14 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 if not candidate.is_relative_to(proj_root):
                     self._send_json({"error": "Chặn xóa tệp ngoài dự án!"}, status=403)
                     return
+                doc_eid = f"{pid}:{req_file}"
                 if candidate.is_file():
+                    old_content = candidate.read_text(encoding="utf-8", errors="replace")
+                    rel_root = str(candidate.relative_to(ROOT_DIR.resolve())).replace("\\", "/")
+                    with db.immediate_tx() as wconn:
+                        db._record_tombstone(wconn, "doc", doc_eid, {"full_rel_path": rel_root, "content": old_content})
                     candidate.unlink()
-                self._send_json({"deleted": True, "file": req_file}, status=200)
+                self._send_json({"deleted": True, "entity_type": "doc", "entity_id": doc_eid, "file": req_file}, status=200)
                 return
 
             m_dproj = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)$", path)
@@ -1001,7 +1013,8 @@ def run_server(host: str = "127.0.0.1", port: int = 8765, db_path: Path = DEFAUL
     save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
     admin_tok = os.environ.get("TITAN_ADMIN_TOKEN", "")
     srv = ThreadingCommandServer((host, port), CommandCenterHandler, db=db, admin_token=admin_tok)
-    print(f"[TITAN COMMAND CENTER v4.0] Live at http://{host}:{port} (SQLite WAL + SSE + PWA Ready)", flush=True)
+    srv.autopilot.resume_orphaned_missions(pool=srv.bg_pool)
+    print(f"[TITAN COMMAND CENTER v5.0] Live at http://{host}:{port} (51 AI Brains + Auto-Pilot + PWA Ready)", flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

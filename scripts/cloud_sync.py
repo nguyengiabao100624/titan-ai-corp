@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import base64
 import json
+import os
+import threading
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -13,6 +15,7 @@ from typing import Any
 from titan_db import ROOT_DIR, TitanDatabase, utc_now_iso
 
 DEFAULT_SNAPSHOT_PATH = ROOT_DIR / "corporate_hq" / "cloud_state" / "snapshot.json"
+_SNAPSHOT_FILE_LOCK = threading.Lock()
 
 
 def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
@@ -337,11 +340,13 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
             u_hash = ka.get("url_hash") or TitanDatabase.compute_url_hash(url, dept_id)
             cur = conn.execute(
                 """
-                INSERT OR IGNORE INTO knowledge_atoms(
+                INSERT INTO knowledge_atoms(
                     url_hash, source_connector, dept_id, division_code,
                     title, url, published_at, fetched_at,
-                    summary_vi, actionable_insight, importance, tags
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    summary_vi, actionable_insight, importance, tags, is_starred
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(url_hash) DO UPDATE SET
+                    is_starred = MAX(knowledge_atoms.is_starred, excluded.is_starred)
                 """,
                 (
                     u_hash,
@@ -356,6 +361,7 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     ka.get("actionable_insight", ""),
                     int(ka.get("importance", 6)),
                     ka.get("tags", ""),
+                    int(ka.get("is_starred", 0)),
                 ),
             )
             stats["atoms_added"] += cur.rowcount
@@ -393,11 +399,22 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                 continue
             conn.execute(
                 """
-                INSERT OR IGNORE INTO opportunities(
+                INSERT INTO opportunities(
                     opp_id, title, target_customer, pain_point, proposed_solution,
                     price_vnd, est_margin_pct, breakeven_users, survival_score,
                     critique_note, ux_note, source_url, status, mission_id, version, created_at, updated_at
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(opp_id) DO UPDATE SET
+                    title = CASE WHEN excluded.version >= opportunities.version THEN excluded.title ELSE opportunities.title END,
+                    target_customer = CASE WHEN excluded.version >= opportunities.version THEN excluded.target_customer ELSE opportunities.target_customer END,
+                    pain_point = CASE WHEN excluded.version >= opportunities.version THEN excluded.pain_point ELSE opportunities.pain_point END,
+                    proposed_solution = CASE WHEN excluded.version >= opportunities.version THEN excluded.proposed_solution ELSE opportunities.proposed_solution END,
+                    price_vnd = CASE WHEN excluded.version >= opportunities.version THEN excluded.price_vnd ELSE opportunities.price_vnd END,
+                    est_margin_pct = CASE WHEN excluded.version >= opportunities.version THEN excluded.est_margin_pct ELSE opportunities.est_margin_pct END,
+                    status = CASE WHEN excluded.version >= opportunities.version THEN excluded.status ELSE opportunities.status END,
+                    mission_id = COALESCE(excluded.mission_id, opportunities.mission_id),
+                    version = MAX(opportunities.version, excluded.version),
+                    updated_at = MAX(opportunities.updated_at, excluded.updated_at)
                 """,
                 (
                     oid, opp.get("title", ""), opp.get("target_customer", ""), opp.get("pain_point", ""),
@@ -467,10 +484,13 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
 
 
 def save_snapshot_file(db: TitanDatabase, path: Path = DEFAULT_SNAPSHOT_PATH) -> Path:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    snap = export_snapshot(db)
-    path.write_text(json.dumps(snap, ensure_ascii=False, indent=2), encoding="utf-8")
-    return path
+    with _SNAPSHOT_FILE_LOCK:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        snap = export_snapshot(db)
+        tmp_path = path.with_suffix(f".{threading.get_ident()}.tmp")
+        tmp_path.write_text(json.dumps(snap, ensure_ascii=False, indent=2), encoding="utf-8")
+        os.replace(str(tmp_path), str(path))
+        return path
 
 
 class GitHubCloudSyncClient:

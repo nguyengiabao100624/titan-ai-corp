@@ -42,15 +42,32 @@ class AutonomousMissionEngine:
                 self._active_missions.discard(mission_id)
             self.db.close_thread_conn()
 
+    def resume_orphaned_missions(self, pool: Any | None = None) -> int:
+        """Clean orphaned EXECUTING states on boot and resume any interrupted RUNNING missions."""
+        with self.db.immediate_tx() as conn:
+            conn.execute("UPDATE departments SET status = 'IDLE' WHERE status = 'EXECUTING' AND current_task_id IS NULL")
+        running = self.db.list_missions(status="RUNNING")
+        for m in running:
+            self.launch_background(m["mission_id"], pool=pool)
+        return len(running)
+
     def _set_depts_state(self, dept_ids: list[str], status: str, increment_done: bool = False) -> None:
         now = utc_now_iso()
         with self.db.immediate_tx() as conn:
             for did in dept_ids:
-                if increment_done:
-                    conn.execute(
-                        "UPDATE departments SET status = ?, tasks_completed = tasks_completed + 1, last_heartbeat_at = ?, updated_at = ? WHERE dept_id = ?",
-                        (status, now, now, did),
-                    )
+                if status == "IDLE":
+                    # Do not reset to IDLE if another step or locked task is still actively running on this department
+                    busy_step = conn.execute(
+                        "SELECT 1 FROM mission_steps WHERE status = 'RUNNING' AND (',' || lead_dept_ids || ',') LIKE ?",
+                        (f"%,{did},%",),
+                    ).fetchone()
+                    if increment_done:
+                        conn.execute("UPDATE departments SET tasks_completed = tasks_completed + 1, updated_at = ? WHERE dept_id = ?", (now, did))
+                    if not busy_step:
+                        conn.execute(
+                            "UPDATE departments SET status = CASE WHEN current_task_id IS NULL THEN 'IDLE' ELSE status END, last_heartbeat_at = ?, updated_at = ? WHERE dept_id = ?",
+                            (now, now, did),
+                        )
                 else:
                     conn.execute(
                         "UPDATE departments SET status = ?, last_heartbeat_at = ?, updated_at = ? WHERE dept_id = ?",
@@ -94,6 +111,9 @@ class AutonomousMissionEngine:
 
             # Step 7: Chairman Gate (unless auto_approve == 1)
             if order == 7 and not bool(fresh.get("auto_approve")):
+                latest = self.db.get_mission(mission_id)
+                if not latest or latest["status"] == "PAUSED":
+                    return latest
                 final_brief = (
                     f"1. Đề xuất chốt: Triển khai '{title}' phục vụ nhóm khách sẵn tiền, thu thuê bao 399.000đ/tháng.\n"
                     f"2. Tài chính CFO (#38): Biên lãi kịch bản xấu đạt {cfo['worst_gross_margin_pct']}% (>=65%), chỉ cần {cfo['breakeven_customers']} khách hòa vốn.\n"

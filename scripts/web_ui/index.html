@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0F766E" id="meta-theme-color" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="description" content="Titan AI Corp v5.0 — Giao việc tự động, săn cơ hội kiếm tiền, theo dõi tiến độ từng bước và quản trị 51 nhân sự AI." />
+  <meta name="description" content="Titan AI Corp v5.1 — Giao việc tự động, săn cơ hội kiếm tiền, theo dõi tiến độ từng bước và quản trị nhân sự AI." />
   <title>Titan AI Corp — Điều Hành Tự Động</title>
   <link rel="icon" type="image/svg+xml" href="./icon.svg" />
   <link rel="apple-touch-icon" href="./icon.svg" />
@@ -17,7 +17,7 @@
 </head>
 <body>
   <div class="app-shell">
-    <!-- MINIMAL LEFT SIDEBAR (Zero Truncation, Crisp SVG Icons) -->
+    <!-- MINIMAL LEFT SIDEBAR -->
     <aside class="sidebar" aria-label="Điều hướng chính">
       <div class="brand-row">
         <span class="brand-logo" aria-hidden="true">T</span>
@@ -30,7 +30,7 @@
             <svg class="ico" viewBox="0 0 24 24"><path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9Z"/></svg>
             <span>Giao việc</span>
           </span>
-          <span class="nav-count" id="nav-cnt-opps">3</span>
+          <span class="nav-count" id="nav-cnt-opps">0</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="missions">
@@ -38,7 +38,7 @@
             <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
             <span>Tiến độ</span>
           </span>
-          <span class="nav-count warn" id="nav-cnt-missions">0</span>
+          <span class="nav-count" id="nav-cnt-missions">0</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="tasks">
@@ -75,20 +75,19 @@
 
       <div class="sidebar-bottom">
         <div class="shortcut-row"><span>Tìm nhanh</span> <kbd>Ctrl K</kbd></div>
-        <div class="shortcut-row"><span>Giao việc mới</span> <kbd>N</kbd></div>
+        <div class="shortcut-row"><span>Thêm việc mới</span> <kbd>N</kbd></div>
         <div class="shortcut-row"><span>Sáng / Tối</span> <kbd>D</kbd></div>
       </div>
     </aside>
 
     <!-- MAIN WORKSPACE -->
     <div class="workspace">
-      <!-- SINGLE-LINE 52PX CLEAN HEADER -->
       <header class="topbar">
         <div class="topbar-left">
           <h1 class="topbar-title" id="view-heading">Giao việc &amp; Kiếm tiền</h1>
           <span class="live-chip" id="live-indicator">
             <span class="pulse-dot" id="live-dot"></span>
-            <span id="live-label">Tự động hóa Bật</span>
+            <span id="live-label">Tự động hóa Sẵn sàng</span>
           </span>
         </div>
 
@@ -96,7 +95,7 @@
           <button type="button" class="btn hide-sm" id="btn-cmd-palette" title="Tìm nhanh mọi thứ (Ctrl+K)">
             <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <span>Tìm nhanh</span>
-            <kbd>⌘K</kbd>
+            <kbd>Ctrl K</kbd>
           </button>
 
           <button type="button" class="btn btn-primary" id="btn-quick-task">
@@ -104,12 +103,12 @@
             <span>Thêm việc</span>
           </button>
 
-          <button type="button" class="btn btn-icon" id="btn-scan-news" aria-label="Quét báo mới" title="Cho nhân viên đọc báo mới">
+          <button type="button" class="btn btn-icon" id="btn-scan-news" aria-label="Cập nhật báo mới" title="Cho nhân viên đọc báo mới">
             <svg class="ico" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
           </button>
 
           <button type="button" class="btn btn-icon" id="btn-theme" aria-label="Đổi giao diện Sáng hoặc Tối" title="Đổi Sáng / Tối (Phím D)">
-            <svg class="ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="ico" id="theme-icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
         </div>
       </header>
@@ -119,13 +118,12 @@
              TAB 1: GIAO VIỆC TỰ ĐỘNG & CƠ HỘI KIẾM TIỀN
              ================================================================ -->
         <section class="view-panel active" id="view-command">
-          <!-- 1-Box Autonomous Command Composer -->
           <form class="composer-box" id="form-mission-composer">
             <textarea
               class="composer-input"
               id="mission-prompt-input"
               rows="2"
-              placeholder="Giao đề bài cho đội ngũ 51 AI tự động làm từ A–Z (VD: Tìm 3 dịch vụ ít cạnh tranh dễ kiếm tiền tháng này, tính sẵn vốn & lãi rồi kiểm tra đóng vai khách hàng)..."
+              placeholder="Giao đề bài cho đội ngũ AI tự động làm từ A–Z (VD: Tìm 3 dịch vụ ít cạnh tranh dễ kiếm tiền tháng này, tính sẵn vốn & lãi rồi kiểm tra đóng vai khách hàng)..."
             ></textarea>
             <div class="composer-footer">
               <div class="quick-chips">
@@ -134,17 +132,16 @@
                 <button type="button" class="chip-btn" data-preset="Phản biện thẳng thắn ý tưởng kinh doanh hiện tại, tìm 5 nguy cơ lỗ vốn và cách khắc phục">Phản biện ý tưởng</button>
                 <button type="button" class="chip-btn" data-preset="Đóng vai 5 mẫu khách hàng khó tính kiểm tra toàn bộ trải nghiệm sản phẩm trước khi ra mắt">Tester đóng vai khách</button>
               </div>
-              <div style="display:flex;align-items:center;gap:12px;">
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
                 <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-muted);cursor:pointer;">
                   <input type="checkbox" id="chk-auto-approve" />
                   <span>Tự chốt hết 7 bước</span>
                 </label>
-                <button type="submit" class="btn btn-primary">Giao việc tự động →</button>
+                <button type="submit" class="btn btn-primary" id="btn-submit-mission">Giao việc tự động →</button>
               </div>
             </div>
           </form>
 
-          <!-- Clean 4-Metric Strip -->
           <div class="kpi-strip">
             <div class="kpi-cell">
               <div class="kpi-num" id="stat-running-missions">0</div>
@@ -156,26 +153,26 @@
             </div>
             <div class="kpi-cell">
               <div class="kpi-num" id="stat-staff-ready">51</div>
-              <div class="kpi-lbl">Nhân sự AI (9 Khối)</div>
+              <div class="kpi-lbl" id="lbl-staff-total">Nhân sự AI chuyên trách</div>
             </div>
             <div class="kpi-cell">
               <div class="kpi-num" id="stat-news-count">0</div>
-              <div class="kpi-lbl">Bài báo thị trường đã học</div>
+              <div class="kpi-lbl">Tin tức thị trường đã học</div>
             </div>
           </div>
 
-          <!-- Needs Chairman Decision Strip (Hidden when 0 items) -->
-          <div id="pending-approvals-section" style="display:none;margin-bottom:28px;">
+          <!-- Needs Chairman Decision Strip -->
+          <div id="pending-approvals-section" style="display:none;margin-bottom:26px;">
             <div class="sec-head">
               <h2 class="sec-title">Cần bạn quyết định (Đã qua Phản biện &amp; Tester người dùng)</h2>
             </div>
             <div class="hairline-table" id="pending-approvals-list"></div>
           </div>
 
-          <!-- Money-Maker Opportunities Radar -->
+          <!-- Money-Maker Opportunities -->
           <div class="sec-head">
-            <h2 class="sec-title">Cơ hội đẻ ra tiền khả thi (Do Phòng #50 săn &amp; Phòng #46 phản biện)</h2>
-            <div style="display:flex;gap:8px;">
+            <h2 class="sec-title">Cơ hội đẻ ra tiền khả thi (Phòng #50 săn &amp; Phòng #46 phản biện)</h2>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <button type="button" class="btn btn-xs" id="btn-add-opp">+ Tự thêm ý tưởng</button>
               <button type="button" class="btn btn-xs btn-primary" id="btn-scan-opps">Tìm thêm cơ hội mới</button>
             </div>
@@ -184,7 +181,7 @@
         </section>
 
         <!-- ================================================================
-             TAB 2: TIẾN ĐỘ NHIỆM VỤ TỪNG BƯỚC (AI XONG / AI ĐANG LÀM / AI CHỜ)
+             TAB 2: TIẾN ĐỘ NHIỆM VỤ TỪNG BƯỚC
              ================================================================ -->
         <section class="view-panel" id="view-missions">
           <div class="toolbar-row">
@@ -192,11 +189,12 @@
               <button type="button" class="seg-btn active" data-mfilter="">Tất cả</button>
               <button type="button" class="seg-btn" data-mfilter="RUNNING">Đang làm</button>
               <button type="button" class="seg-btn" data-mfilter="WAITING_CHAIRMAN">Chờ duyệt</button>
+              <button type="button" class="seg-btn" data-mfilter="PAUSED">Tạm dừng</button>
               <button type="button" class="seg-btn" data-mfilter="COMPLETED">Đã xong</button>
             </div>
 
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button type="button" class="btn btn-xs" id="btn-clear-completed-missions">Xóa nhiệm vụ đã xong</button>
+              <button type="button" class="btn btn-xs" id="btn-clear-completed-missions">Dọn nhiệm vụ đã xong</button>
               <button type="button" class="btn btn-xs btn-primary" id="btn-new-mission-tab2">+ Giao nhiệm vụ mới</button>
             </div>
           </div>
@@ -205,25 +203,34 @@
         </section>
 
         <!-- ================================================================
-             TAB 3: BẢNG VIỆC CHI TIẾT (LIST VIEW ⇄ DRAG-DROP KANBAN + FULL CRUD)
+             TAB 3: BẢNG VIỆC CHI TIẾT (LIST ⇄ KANBAN + SELECT ALL + SEARCH)
              ================================================================ -->
         <section class="view-panel" id="view-tasks">
           <div class="toolbar-row">
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;">
               <div class="segmented" id="task-view-mode">
                 <button type="button" class="seg-btn active" data-tview="list">Danh sách</button>
                 <button type="button" class="seg-btn" data-tview="board">Bảng 5 cột</button>
               </div>
-              <select class="select" id="filter-task-project" style="width:auto;min-width:170px;">
+              <input type="search" class="input" id="filter-task-q" placeholder="Tìm tên việc..." style="width:150px;" />
+              <select class="select" id="filter-task-project" style="width:auto;min-width:132px;" aria-label="Lọc theo dự án">
                 <option value="">Tất cả dự án</option>
               </select>
-              <select class="select" id="filter-task-col" style="width:auto;min-width:145px;">
+              <select class="select" id="filter-task-col" style="width:auto;min-width:124px;" aria-label="Lọc theo trạng thái">
                 <option value="">Mọi trạng thái</option>
                 <option value="BACKLOG">Hàng đợi</option>
                 <option value="IN_PROGRESS">Đang làm</option>
                 <option value="QA_SECURITY_REVIEW">Kiểm định QA</option>
-                <option value="WAITING_APPROVAL">Chờ duyệt</option>
+                <option value="WAITING_APPROVAL">Chờ bạn duyệt</option>
+                <option value="REJECTED">Cần sửa lại</option>
                 <option value="DONE">Hoàn tất</option>
+              </select>
+              <select class="select" id="filter-task-prio" style="width:auto;min-width:118px;" aria-label="Lọc độ ưu tiên">
+                <option value="">Mọi độ ưu tiên</option>
+                <option value="CRITICAL">Khẩn cấp</option>
+                <option value="HIGH">Cao</option>
+                <option value="MEDIUM">Trung bình</option>
+                <option value="LOW">Thấp</option>
               </select>
             </div>
 
@@ -238,7 +245,7 @@
         </section>
 
         <!-- ================================================================
-             TAB 4: ĐỘI NGŨ 51 NHÂN SỰ AI (9 KHỐI — NỔI BẬT PHẢN BIỆN & TESTER)
+             TAB 4: ĐỘI NGŨ NHÂN SỰ AI
              ================================================================ -->
         <section class="view-panel" id="view-staff">
           <div class="toolbar-row">
@@ -250,22 +257,22 @@
         </section>
 
         <!-- ================================================================
-             TAB 5: BÁO MỚI & TRI THỨC THỊ TRƯỜNG (GHIM SAO & XÓA TIN RÁC)
+             TAB 5: BÁO MỚI & TRI THỨC THỊ TRƯỜNG
              ================================================================ -->
         <section class="view-panel" id="view-news">
           <form class="toolbar-row" id="form-read-url" style="margin-bottom:14px;">
-            <input type="url" class="input" id="url-to-read" placeholder="Dán link bài báo bất kỳ để nhân viên đọc và tóm tắt cơ hội..." style="flex:1;" required />
-            <select class="select" id="url-dept-select" style="width:auto;max-width:220px;"></select>
+            <input type="url" class="input" id="url-to-read" placeholder="Dán link bài báo bất kỳ để nhân viên đọc và tóm tắt cơ hội..." style="flex:1 1 220px;" required />
+            <select class="select" id="url-dept-select" style="width:auto;max-width:240px;" aria-label="Chọn phòng đọc bài"></select>
             <button type="submit" class="btn btn-primary">Đọc link này</button>
           </form>
 
           <div class="toolbar-row">
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;">
               <div class="segmented" id="news-star-filter">
                 <button type="button" class="seg-btn active" data-nfilter="all">Tất cả bài báo</button>
                 <button type="button" class="seg-btn" data-nfilter="starred">Đã ghim ★</button>
               </div>
-              <input type="search" class="input" id="news-search-input" placeholder="Tìm chủ đề (thuế, nội thất, AI, bán hàng)..." style="width:260px;" />
+              <input type="search" class="input" id="news-search-input" placeholder="Tìm từ khóa bài báo..." style="width:min(240px,100%);" />
             </div>
             <button type="button" class="btn btn-xs" id="btn-poll-feeds-tab5">Cập nhật báo mới ngay</button>
           </div>
@@ -274,11 +281,10 @@
         </section>
 
         <!-- ================================================================
-             TAB 6: TÀI CHÍNH CFO (SLIDERS), DỰ ÁN/TÀI LIỆU & ĐÁM MÂY 24/7
+             TAB 6: TÀI CHÍNH CFO, DỰ ÁN/TÀI LIỆU & ĐÁM MÂY 24/7
              ================================================================ -->
         <section class="view-panel" id="view-finance">
           <div class="split-2" style="margin-bottom:24px;">
-            <!-- Interactive CFO Range Sliders -->
             <div class="panel-box">
               <div class="sec-head">
                 <h2 class="sec-title">Bàn tính Lợi nhuận &amp; Hòa vốn</h2>
@@ -317,7 +323,6 @@
               </div>
             </div>
 
-            <!-- Clean Projection Summary -->
             <div class="panel-box">
               <div class="sec-head">
                 <h2 class="sec-title">Dự phóng tiền mặt bỏ túi thực tế</h2>
@@ -340,7 +345,7 @@
           <div class="panel-box">
             <div class="sec-head">
               <h2 class="sec-title">Quản lý Dự án &amp; Tài liệu nội bộ</h2>
-              <div style="display:flex;gap:8px;">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
                 <button type="button" class="btn btn-xs" id="btn-new-doc">+ Tạo tài liệu (.md)</button>
                 <button type="button" class="btn btn-xs btn-primary" id="btn-new-proj">+ Tạo dự án mới</button>
               </div>
@@ -359,7 +364,7 @@
                     <button type="button" class="btn btn-xs btn-danger-ghost" id="btn-delete-doc">Xóa tệp</button>
                   </div>
                 </div>
-                <div id="doc-pretty-view" class="rendered-md" style="padding:12px;border:1px solid var(--border-subtle);border-radius:8px;min-height:200px;max-height:380px;overflow:auto;">
+                <div id="doc-pretty-view" class="rendered-md" style="padding:12px;border:1px solid var(--border);border-radius:8px;min-height:200px;max-height:380px;overflow:auto;">
                   Chọn một dự án bên trái để xem hoặc chỉnh sửa hồ sơ.
                 </div>
                 <textarea id="doc-raw-editor" class="textarea mono" style="display:none;min-height:260px;font-size:12.5px;"></textarea>
@@ -399,24 +404,24 @@
     </button>
   </nav>
 
-  <!-- UNIVERSAL RIGHT INSPECTOR DRAWER (Specialist Profile OR Task/Mission Editor) -->
+  <!-- UNIVERSAL RIGHT INSPECTOR DRAWER -->
   <div class="backdrop" id="drawer-backdrop"></div>
-  <aside class="drawer" id="inspector-drawer" aria-label="Chi tiết & Chỉnh sửa">
+  <aside class="drawer" id="inspector-drawer" aria-label="Chi tiết nhân sự">
     <div class="drawer-top">
       <h2 class="sec-title" id="drawer-heading">Chi tiết</h2>
-      <button type="button" class="btn btn-xs" id="btn-close-drawer">Đóng (Esc)</button>
+      <button type="button" class="btn btn-xs" id="btn-close-drawer" aria-label="Đóng ngăn chi tiết">Đóng (Esc)</button>
     </div>
     <div class="drawer-content" id="drawer-body"></div>
   </aside>
 
-  <!-- MODALS -->
+  <!-- SHARED MODAL BACKDROP -->
   <div class="backdrop" id="modal-backdrop"></div>
 
-  <!-- MODAL: ADD / EDIT TASK -->
-  <div class="modal" id="modal-task" role="dialog" aria-modal="true">
+  <!-- MODAL 1: ADD / EDIT TASK -->
+  <div class="modal" id="modal-task" role="dialog" aria-modal="true" aria-labelledby="task-modal-title">
     <div class="sec-head">
       <h2 class="sec-title" id="task-modal-title">Thêm công việc mới</h2>
-      <button type="button" class="btn btn-xs" data-close-modal>✕</button>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
     </div>
     <form id="form-task">
       <input type="hidden" id="edit-task-id" />
@@ -424,7 +429,7 @@
         <label for="inp-task-title">Tên công việc</label>
         <input type="text" class="input" id="inp-task-title" placeholder="VD: Khảo sát giá 10 đối thủ rèm cửa" required />
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-grid-2">
         <div class="form-field">
           <label for="inp-task-dept">Nhân sự phụ trách</label>
           <select class="select" id="inp-task-dept"></select>
@@ -436,11 +441,12 @@
             <option value="IN_PROGRESS">Đang làm</option>
             <option value="QA_SECURITY_REVIEW">Kiểm định QA</option>
             <option value="WAITING_APPROVAL">Chờ bạn duyệt</option>
+            <option value="REJECTED">Cần sửa lại</option>
             <option value="DONE">Hoàn tất</option>
           </select>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-grid-2">
         <div class="form-field">
           <label for="inp-task-proj">Thuộc dự án</label>
           <select class="select" id="inp-task-proj"></select>
@@ -459,15 +465,87 @@
         <label for="inp-task-desc">Ghi chú yêu cầu</label>
         <textarea class="textarea" id="inp-task-desc" placeholder="Mô tả ngắn gọn đầu ra mong muốn..."></textarea>
       </div>
-      <button type="submit" class="btn btn-primary" style="width:100%;">Lưu công việc</button>
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary">Lưu công việc</button>
+      </div>
     </form>
   </div>
 
-  <!-- MODAL: ADD / EDIT OPPORTUNITY -->
-  <div class="modal" id="modal-opp" role="dialog" aria-modal="true">
+  <!-- MODAL 2: EDIT MISSION (Replaces window.prompt!) -->
+  <div class="modal" id="modal-mission" role="dialog" aria-modal="true" aria-labelledby="msn-modal-title">
+    <div class="sec-head">
+      <h2 class="sec-title" id="msn-modal-title">Chỉnh sửa nhiệm vụ</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
+    </div>
+    <form id="form-edit-mission">
+      <input type="hidden" id="edit-msn-id" />
+      <div class="form-field">
+        <label for="inp-msn-title">Tên nhiệm vụ</label>
+        <input type="text" class="input" id="inp-msn-title" required />
+      </div>
+      <div class="form-field">
+        <label for="inp-msn-goal">Đề bài &amp; Mục tiêu chi tiết</label>
+        <textarea class="textarea" id="inp-msn-goal"></textarea>
+      </div>
+      <label style="display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;cursor:pointer;">
+        <input type="checkbox" id="inp-msn-auto" />
+        <span>Tự động duyệt chốt khi chạy xong Bước 7</span>
+      </label>
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 3: REJECT / REQUEST REWORK (Replaces window.prompt!) -->
+  <div class="modal" id="modal-reject" role="dialog" aria-modal="true" aria-labelledby="reject-modal-title">
+    <div class="sec-head">
+      <h2 class="sec-title" id="reject-modal-title">Yêu cầu nhân viên làm lại</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
+    </div>
+    <form id="form-reject">
+      <input type="hidden" id="reject-target-kind" />
+      <input type="hidden" id="reject-target-id" />
+      <div class="form-field">
+        <label for="inp-reject-note">Điểm chưa đạt cần sửa lại kỹ hơn</label>
+        <textarea class="textarea" id="inp-reject-note" placeholder="VD: Bổ sung bảng giá 3 đối thủ và kế hoạch kiếm 10 khách đầu tiên..." required></textarea>
+      </div>
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary">Gửi yêu cầu làm lại</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 4: CREATE DOCUMENT (.MD) (Replaces window.prompt!) -->
+  <div class="modal" id="modal-doc" role="dialog" aria-modal="true" aria-labelledby="doc-modal-title">
+    <div class="sec-head">
+      <h2 class="sec-title" id="doc-modal-title">Tạo tài liệu mới (.md)</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
+    </div>
+    <form id="form-doc">
+      <div class="form-field">
+        <label for="inp-doc-title">Tiêu đề tài liệu</label>
+        <input type="text" class="input" id="inp-doc-title" placeholder="VD: Kế hoạch bán hàng tháng 11" required />
+      </div>
+      <div class="form-field">
+        <label for="inp-doc-filename">Tên tệp lưu trữ (.md)</label>
+        <input type="text" class="input mono" id="inp-doc-filename" placeholder="ke-hoach-ban-hang.md" required />
+      </div>
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary">Tạo tài liệu</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 5: ADD / EDIT OPPORTUNITY -->
+  <div class="modal" id="modal-opp" role="dialog" aria-modal="true" aria-labelledby="opp-modal-title">
     <div class="sec-head">
       <h2 class="sec-title" id="opp-modal-title">Đề xuất Cơ hội Kiếm tiền</h2>
-      <button type="button" class="btn btn-xs" data-close-modal>✕</button>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
     </div>
     <form id="form-opp">
       <input type="hidden" id="edit-opp-id" />
@@ -479,10 +557,10 @@
         <label for="inp-opp-cust">Khách hàng trả tiền &amp; Mức giá</label>
         <input type="text" class="input" id="inp-opp-cust" placeholder="VD: Chủ tiệm spa nhỏ (399.000đ/tháng)" required />
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-grid-2">
         <div class="form-field">
           <label for="inp-opp-price">Giá thu tháng (VNĐ)</label>
-          <input type="number" class="input mono" id="inp-opp-price" value="399000" min="0" />
+          <input type="text" inputmode="numeric" class="input mono" id="inp-opp-price" value="399.000" />
         </div>
         <div class="form-field">
           <label for="inp-opp-margin">Biên lãi dự kiến (%)</label>
@@ -490,18 +568,18 @@
         </div>
       </div>
       <div class="form-field">
-        <label for="inp-opp-pain">Nỗi đau khách gặp phải &amp; Giải pháp gọn</label>
+        <label for="inp-opp-pain">Nỗi đau khách gặp phải &amp; Đánh giá phản biện</label>
         <textarea class="textarea" id="inp-opp-pain"></textarea>
       </div>
       <button type="submit" class="btn btn-primary" style="width:100%;">Lưu cơ hội</button>
     </form>
   </div>
 
-  <!-- MODAL: ADD / EDIT PROJECT -->
-  <div class="modal" id="modal-proj" role="dialog" aria-modal="true">
+  <!-- MODAL 6: ADD / EDIT PROJECT -->
+  <div class="modal" id="modal-proj" role="dialog" aria-modal="true" aria-labelledby="proj-modal-title">
     <div class="sec-head">
       <h2 class="sec-title" id="proj-modal-title">Dự án kinh doanh</h2>
-      <button type="button" class="btn btn-xs" data-close-modal>✕</button>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
     </div>
     <form id="form-proj">
       <input type="hidden" id="edit-proj-id" />
@@ -513,10 +591,10 @@
         <label for="inp-proj-slug">Mã thư mục ngắn (không dấu)</label>
         <input type="text" class="input mono" id="inp-proj-slug" placeholder="vd: phan-mem-spa" />
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-grid-2">
         <div class="form-field">
           <label for="inp-proj-price">Giá bán dự kiến (VNĐ)</label>
-          <input type="number" class="input mono" id="inp-proj-price" value="399000" min="0" />
+          <input type="text" inputmode="numeric" class="input mono" id="inp-proj-price" value="399.000" />
         </div>
         <div class="form-field">
           <label for="inp-proj-status">Trạng thái</label>
@@ -524,6 +602,7 @@
             <option value="ACTIVE">Đang chạy</option>
             <option value="PLANNING">Đang lập kế hoạch</option>
             <option value="PAUSED">Tạm dừng</option>
+            <option value="SHIPPED">Đã ra mắt</option>
             <option value="ARCHIVED">Lưu trữ</option>
           </select>
         </div>
@@ -536,11 +615,11 @@
     </form>
   </div>
 
-  <!-- MODAL: HIRE NEW SPECIALIST (#51+) -->
-  <div class="modal" id="modal-hire" role="dialog" aria-modal="true">
+  <!-- MODAL 7: HIRE NEW SPECIALIST (#51+) -->
+  <div class="modal" id="modal-hire" role="dialog" aria-modal="true" aria-labelledby="hire-modal-title">
     <div class="sec-head">
-      <h2 class="sec-title">Tuyển thêm Phòng Chuyên Gia AI (#51+)</h2>
-      <button type="button" class="btn btn-xs" data-close-modal>✕</button>
+      <h2 class="sec-title" id="hire-modal-title">Tuyển thêm Phòng Chuyên Gia AI</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
     </div>
     <form id="form-hire">
       <div class="form-field">
@@ -563,38 +642,38 @@
     </form>
   </div>
 
-  <!-- MODAL: COMMAND PALETTE (CTRL+K) -->
-  <div class="modal" id="modal-cmd" role="dialog" aria-modal="true">
+  <!-- MODAL 8: COMMAND PALETTE (CTRL+K) -->
+  <div class="modal" id="modal-cmd" role="dialog" aria-modal="true" aria-labelledby="cmd-modal-title">
     <div class="sec-head" style="margin-bottom:10px;">
-      <h2 class="sec-title">Tìm nhanh toàn công ty</h2>
-      <button type="button" class="btn btn-xs" data-close-modal>Esc</button>
+      <h2 class="sec-title" id="cmd-modal-title">Tìm nhanh toàn công ty</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">Esc</button>
     </div>
-    <input type="search" class="input" id="cmd-input" placeholder="Gõ tên nhiệm vụ, công việc, nhân viên (vd: phản biện, tester, thuế)..." />
-    <div id="cmd-results" class="hairline-table" style="margin-top:12px;max-height:300px;overflow-y:auto;"></div>
+    <input type="text" class="input" id="cmd-input" placeholder="Gõ tên nhiệm vụ, công việc, cơ hội, dự án, nhân viên, bài báo..." autocomplete="off" />
+    <div id="cmd-results" class="hairline-table" style="margin-top:12px;max-height:310px;overflow-y:auto;"></div>
   </div>
 
-  <!-- MODAL: CLOUD GITHUB 2-WAY VAULT -->
-  <div class="modal" id="modal-cloud" role="dialog" aria-modal="true">
+  <!-- MODAL 9: CLOUD GITHUB 2-WAY ENCRYPTED VAULT -->
+  <div class="modal" id="modal-cloud" role="dialog" aria-modal="true" aria-labelledby="cloud-modal-title">
     <div class="sec-head">
-      <h2 class="sec-title">Đồng bộ GitHub 2 chiều đa thiết bị</h2>
-      <button type="button" class="btn btn-xs" data-close-modal>✕</button>
+      <h2 class="sec-title" id="cloud-modal-title">Đồng bộ GitHub 2 chiều (Két mã hóa AES-256)</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">✕</button>
     </div>
     <form id="form-cloud">
       <div class="form-field">
         <label for="inp-cloud-repo">Kho GitHub (owner/repo)</label>
-        <input type="text" class="input mono" id="inp-cloud-repo" value="nguyengiabao100624/titan-ai-corp" />
+        <input type="text" class="input mono" id="inp-cloud-repo" value="nguyengiabao100624/titan-ai-corp" required />
       </div>
       <div class="form-field">
-        <label for="inp-cloud-token">GitHub Token (chỉ mã hóa trên máy bạn)</label>
+        <label for="inp-cloud-token">GitHub Token (mã hóa AES-256-GCM trên thiết bị này)</label>
         <input type="password" class="input mono" id="inp-cloud-token" placeholder="github_pat_..." autocomplete="off" />
       </div>
       <div class="form-field">
-        <label for="inp-cloud-pin">Mã PIN mở két trên thiết bị này</label>
-        <input type="password" class="input mono" id="inp-cloud-pin" placeholder="Tối thiểu 4 ký tự" autocomplete="off" />
+        <label for="inp-cloud-pin">Mã PIN bảo vệ két (tối thiểu 4 ký tự)</label>
+        <input type="password" class="input mono" id="inp-cloud-pin" placeholder="Nhập mã PIN để lưu hoặc mở khóa đồng bộ" autocomplete="off" required />
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button type="submit" class="btn btn-primary">Lưu két mã hóa</button>
-        <button type="button" class="btn" id="btn-cloud-sync-now">Đồng bộ ngay</button>
+      <div class="form-grid-2">
+        <button type="submit" class="btn btn-primary">Mã hóa &amp; Lưu két</button>
+        <button type="button" class="btn" id="btn-cloud-sync-now">Đồng bộ 2 chiều ngay</button>
       </div>
     </form>
   </div>
@@ -603,7 +682,7 @@
   <div class="bulk-bar" id="bulk-bar">
     <span id="bulk-count-lbl" style="font-size:12.5px;font-weight:600;">Đã chọn 0 việc</span>
     <button type="button" class="btn btn-xs" id="btn-bulk-done">Đánh dấu Xong</button>
-    <button type="button" class="btn btn-xs" id="btn-bulk-delete" style="background:#E11D48;color:#fff;">Xóa các mục đã chọn</button>
+    <button type="button" class="btn btn-xs" id="btn-bulk-delete" style="background:#E11D48;border-color:#E11D48;color:#fff;">Xóa mục đã chọn</button>
     <button type="button" class="btn btn-xs" id="btn-bulk-clear">Bỏ chọn</button>
   </div>
 

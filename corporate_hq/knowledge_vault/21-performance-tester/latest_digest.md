@@ -1,5 +1,5 @@
 # SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 21: KIỂM THỬ CHỊU TẢI, TỐC ĐỘ & CHỐNG GIẬT LAG
-- **Cập nhật lần cuối:** `2026-11-18T19:28:39Z`
+- **Cập nhật lần cuối:** `2026-11-18T21:58:37Z`
 - **Tổng số tài liệu/bài báo đã nạp:** `3`
 
 ---

@@ -573,11 +573,13 @@ class TitanDatabase:
         fixed_cost_monthly_vnd: float = 1500000.0,
         workspace_path: str = "",
         seed_gate1_tasks: bool = True,
+        status: str = "ACTIVE",
     ) -> dict[str, Any]:
         clean_slug = re.sub(r"[^a-z0-9-]+", "-", slug.lower()).strip("-")
         if not clean_slug:
             raise ValueError("Slug dự án không hợp lệ.")
         now = utc_now_iso()
+        proj_status = status.upper() if status.upper() in ("PLANNING", "ACTIVE", "PAUSED", "SHIPPED", "ARCHIVED") else "ACTIVE"
         project_id = f"proj-{clean_slug}"
         ws_path = workspace_path or f"corporate_hq/projects/{clean_slug}"
 
@@ -611,11 +613,12 @@ class TitanDatabase:
                     current_gate, current_stage, status,
                     expected_price_vnd, unit_cost_vnd, fixed_cost_monthly_vnd,
                     workspace_path, version, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, 1, 1, 'ACTIVE', ?, ?, ?, ?, 1, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, 1, 1, ?, ?, ?, ?, ?, 1, ?, ?)
                 ON CONFLICT(project_id) DO UPDATE SET
                     title=excluded.title,
                     objective=excluded.objective,
                     target_market=excluded.target_market,
+                    status=excluded.status,
                     expected_price_vnd=excluded.expected_price_vnd,
                     unit_cost_vnd=excluded.unit_cost_vnd,
                     fixed_cost_monthly_vnd=excluded.fixed_cost_monthly_vnd,
@@ -628,6 +631,7 @@ class TitanDatabase:
                     title,
                     objective,
                     target_market,
+                    proj_status,
                     expected_price_vnd,
                     unit_cost_vnd,
                     fixed_cost_monthly_vnd,
@@ -699,20 +703,23 @@ class TitanDatabase:
         stage_number: int = 1,
         priority: str = "HIGH",
         task_id: str | None = None,
+        kanban_column: str = "BACKLOG",
     ) -> dict[str, Any]:
         now = utc_now_iso()
         tid = task_id or f"task-{uuid.uuid4().hex[:10]}"
         prio = priority.upper() if priority.upper() in ("CRITICAL", "HIGH", "MEDIUM", "LOW") else "HIGH"
+        col = kanban_column.upper() if kanban_column.upper() in ("BACKLOG", "IN_PROGRESS", "QA_SECURITY_REVIEW", "WAITING_APPROVAL", "DONE", "REJECTED") else "BACKLOG"
+        comp_at = now if col == "DONE" else None
         with self.immediate_tx() as conn:
             conn.execute(
                 """
                 INSERT INTO tasks(
                     task_id, project_id, title, description, assigned_dept_id,
                     reviewer_dept_id, gate_number, stage_number, priority,
-                    kanban_column, version, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'BACKLOG', 1, ?, ?)
+                    kanban_column, completed_at, version, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
                 """,
-                (tid, project_id, title, description, assigned_dept_id, reviewer_dept_id, gate_number, stage_number, prio, now, now),
+                (tid, project_id, title, description, assigned_dept_id, reviewer_dept_id, gate_number, stage_number, prio, col, comp_at, now, now),
             )
             self.log_event(
                 actor_dept_id=assigned_dept_id,
@@ -1376,6 +1383,7 @@ class TitanDatabase:
         handbook_markdown: str | None = None,
         token_budget_monthly: int | None = None,
         status: str | None = None,
+        title_vi: str | None = None,
     ) -> dict[str, Any]:
         now = utc_now_iso()
         detail = self.get_department_detail(dept_id)
@@ -1383,12 +1391,27 @@ class TitanDatabase:
             raise KeyError(f"Không tìm thấy phòng ban '{dept_id}'.")
         actual_id = detail["dept_id"]
 
+        hb_path = ROOT_DIR / detail["handbook_path"]
         if handbook_markdown is not None and handbook_markdown.strip():
-            hb_path = ROOT_DIR / detail["handbook_path"]
             hb_path.parent.mkdir(parents=True, exist_ok=True)
             hb_path.write_text(handbook_markdown, encoding="utf-8")
+        elif title_vi is not None and title_vi.strip() and hb_path.is_file():
+            existing_md = hb_path.read_text(encoding="utf-8")
+            updated_md = re.sub(
+                r"^#\s+(PHÒNG|VỊ TRÍ)\s+#?\d+:\s*([^\n(]+)",
+                lambda m: f"# {m.group(1)} {actual_id}: {title_vi.strip()} ",
+                existing_md,
+                count=1,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+            hb_path.write_text(updated_md, encoding="utf-8")
 
         with self.immediate_tx() as conn:
+            if title_vi is not None and title_vi.strip():
+                conn.execute(
+                    "UPDATE departments SET title_vi = ?, version = version + 1, updated_at = ? WHERE dept_id = ?",
+                    (title_vi.strip(), now, actual_id),
+                )
             if token_budget_monthly is not None:
                 conn.execute(
                     "UPDATE departments SET token_budget_monthly = ?, version = version + 1, updated_at = ? WHERE dept_id = ?",
@@ -1464,9 +1487,23 @@ class TitanDatabase:
             events.append(item)
 
         last_run = conn.execute("SELECT * FROM learning_runs ORDER BY started_at DESC LIMIT 1").fetchone()
+        latest_stamp_row = conn.execute(
+            """
+            SELECT MAX(ts) AS max_ts FROM (
+                SELECT MAX(updated_at) AS ts FROM departments
+                UNION ALL SELECT MAX(updated_at) AS ts FROM tasks
+                UNION ALL SELECT MAX(updated_at) AS ts FROM projects
+                UNION ALL SELECT MAX(updated_at) AS ts FROM missions
+                UNION ALL SELECT MAX(updated_at) AS ts FROM opportunities
+                UNION ALL SELECT MAX(timestamp) AS ts FROM activity_stream
+                UNION ALL SELECT MAX(fetched_at) AS ts FROM knowledge_atoms
+            )
+            """
+        ).fetchone()
+        state_stamp = (latest_stamp_row["max_ts"] if latest_stamp_row and latest_stamp_row["max_ts"] else "2026-01-01T00:00:00Z")
 
         return {
-            "generated_at": utc_now_iso(),
+            "generated_at": state_stamp,
             "kpis": {
                 "total_departments": dept_counts["total_depts"] or 0,
                 "active_departments": dept_counts["active_depts"] or 0,
@@ -1975,17 +2012,19 @@ class TitanDatabase:
         else:
             ids = list(mission_ids or [])
         affected = 0
+        deleted_ids: list[str] = []
         for mid in ids:
             try:
                 if act in ("delete", "clear_completed"):
                     self.delete_mission(mid)
+                    deleted_ids.append(mid)
                     affected += 1
                 elif act == "approve":
                     self.decide_mission(mid, "APPROVE")
                     affected += 1
             except KeyError:
                 pass
-        return {"action": act, "affected": affected}
+        return {"action": act, "affected": affected, "deleted_ids": deleted_ids}
 
     # -------------------------------------------------------------------------
     # FULL CRUD, DUPLICATE, BULK & UNDO FOR TASKS, PROJECTS, KNOWLEDGE & EVENTS
@@ -2012,12 +2051,21 @@ class TitanDatabase:
             row = conn.execute("SELECT * FROM tasks WHERE task_id = ?", (task_id,)).fetchone()
             if not row:
                 raise KeyError(f"Đầu việc '{task_id}' không tồn tại.")
+            was_done = row["kanban_column"] == "DONE"
             if updates:
+                if updates.get("kanban_column") == "DONE":
+                    updates["checkout_lock_owner"] = None
                 cols = ", ".join(f"{k} = ?" for k in updates)
                 conn.execute(
                     f"UPDATE tasks SET {cols}, actor_priority = 5, version = version + 1, updated_at = ? WHERE task_id = ?",
                     [*updates.values(), now, task_id],
                 )
+                if updates.get("kanban_column") == "DONE" and not was_done:
+                    target_dept = updates.get("assigned_dept_id") or row["assigned_dept_id"]
+                    conn.execute(
+                        "UPDATE departments SET tasks_completed = tasks_completed + 1, status = CASE WHEN current_task_id = ? THEN 'IDLE' ELSE status END, current_task_id = CASE WHEN current_task_id = ? THEN NULL ELSE current_task_id END WHERE dept_id = ?",
+                        (task_id, task_id, target_dept),
+                    )
         return self.get_task(task_id)  # type: ignore[return-value]
 
     def delete_task(self, task_id: str) -> dict[str, Any]:
@@ -2062,10 +2110,12 @@ class TitanDatabase:
         else:
             ids = list(task_ids or [])
         affected = 0
+        deleted_ids: list[str] = []
         for tid in ids:
             try:
                 if act in ("delete", "clear_done"):
                     self.delete_task(tid)
+                    deleted_ids.append(tid)
                     affected += 1
                 elif act == "move_column" and column:
                     self.update_task(tid, kanban_column=column)
@@ -2078,7 +2128,7 @@ class TitanDatabase:
                     affected += 1
             except KeyError:
                 pass
-        return {"action": act, "affected": affected}
+        return {"action": act, "affected": affected, "deleted_ids": deleted_ids}
 
     def update_project(self, project_id: str, **fields: Any) -> dict[str, Any]:
         allowed = {"title", "objective", "target_market", "status", "expected_price_vnd", "unit_cost_vnd", "fixed_cost_monthly_vnd"}
@@ -2134,6 +2184,10 @@ class TitanDatabase:
             payload = dict(row)
             self._record_tombstone(conn, "article", str(payload["url_hash"]), payload)
             conn.execute("DELETE FROM knowledge_atoms WHERE atom_id = ?", (int(atom_id),))
+            conn.execute(
+                "UPDATE departments SET articles_learned = (SELECT COUNT(*) FROM knowledge_atoms ka WHERE ka.dept_id = ?) WHERE dept_id = ?",
+                (payload["dept_id"], payload["dept_id"]),
+            )
         return {"deleted": True, "entity_type": "article", "entity_id": str(payload["url_hash"]), "title": payload["title"]}
 
     def delete_department_custom(self, dept_id: str) -> dict[str, Any]:
@@ -2296,6 +2350,25 @@ class TitanDatabase:
                         data.get("tags", ""), int(data.get("is_starred", 0)),
                     ),
                 )
+                wconn.execute(
+                    "UPDATE departments SET articles_learned = (SELECT COUNT(*) FROM knowledge_atoms ka WHERE ka.dept_id = ?) WHERE dept_id = ?",
+                    (data["dept_id"], data["dept_id"]),
+                )
+            elif entity_type == "doc":
+                doc_path = (ROOT_DIR / data["full_rel_path"]).resolve()
+                if doc_path.is_relative_to(ROOT_DIR.resolve()):
+                    doc_path.parent.mkdir(parents=True, exist_ok=True)
+                    doc_path.write_text(data.get("content", ""), encoding="utf-8")
             self._clear_tombstone(wconn, entity_type, entity_id)
             self.log_event("00", "ITEM_RESTORED", f"Đã hoàn tác khôi phục mục vừa xóa ({entity_type})", conn=wconn)
         return {"restored": True, "entity_type": entity_type, "entity_id": entity_id}
+
+    def restore_batch_from_trash(self, items: list[dict[str, str]]) -> dict[str, Any]:
+        restored = 0
+        for item in items:
+            try:
+                self.restore_from_trash(str(item.get("entity_type", "")), str(item.get("entity_id", "")))
+                restored += 1
+            except KeyError:
+                pass
+        return {"restored": True, "count": restored}
