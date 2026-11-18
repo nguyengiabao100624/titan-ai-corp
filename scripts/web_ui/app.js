@@ -96,7 +96,7 @@
     const s = String(raw).trim();
     if (s !== s.toUpperCase()) return s;
     const lower = s.toLowerCase();
-    const keepUpper = /\b(ai|ux|ui|qa|cfo|ceo|bi|hr|pm|pr|it|seo|geo|sdr|fp&a|iot|b2b|pr-mortem)\b/gi;
+    const keepUpper = /(?<![a-zA-ZÀ-ỹ])(ai|ux|ui|qa|cfo|ceo|bi|hr|pm|pr|it|seo|geo|sdr|fp&a|iot|b2b)(?![a-zA-ZÀ-ỹ])/gi;
     const cap = lower.charAt(0).toUpperCase() + lower.slice(1);
     return cap.replace(keepUpper, (m) => m.toUpperCase()).replace(/pre-mortem/gi, "Pre-Mortem");
   }
