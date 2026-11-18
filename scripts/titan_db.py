@@ -29,6 +29,7 @@ DIVISIONS_SEED: list[tuple[str, str, str, str, int]] = [
     ("div6-sales-commercial", "Khối 6: Kinh doanh, Bán hàng & Thành công Khách hàng", "CRO", ".agents/skills/div6-sales-commercial/SKILL.md", 6),
     ("div7-finance-tax-legal", "Khối 7: Tài chính, Kế toán, Thuế & Pháp chế", "CFO & CLO", ".agents/skills/div7-finance-tax-legal/SKILL.md", 7),
     ("div8-data-ops-hr", "Khối 8: Phân tích Số liệu, Quản trị Nội bộ & Nhân sự AI", "COO & CHRO", ".agents/skills/div8-data-ops-hr/SKILL.md", 8),
+    ("div9-critique-ux-lab", "Khối 9: Phản biện Độc lập, Tester Người dùng & Săn Mỏ Vàng", "CIA & CXO", ".agents/skills/div9-critique-ux-lab/SKILL.md", 9),
 ]
 
 
@@ -236,6 +237,78 @@ CREATE INDEX IF NOT EXISTS idx_citations_task ON task_citations(task_id);
 CREATE INDEX IF NOT EXISTS idx_deliverables_task ON deliverables(task_id);
 CREATE INDEX IF NOT EXISTS idx_reflexions_dept ON reflexions(dept_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_events_time ON activity_stream(event_id DESC);
+
+CREATE TABLE IF NOT EXISTS missions (
+    mission_id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    goal_prompt TEXT NOT NULL DEFAULT '',
+    category TEXT NOT NULL DEFAULT 'MONEY_MAKER',
+    status TEXT NOT NULL DEFAULT 'RUNNING'
+        CHECK(status IN ('RUNNING','PAUSED','WAITING_CHAIRMAN','COMPLETED','REJECTED')),
+    auto_approve INTEGER NOT NULL DEFAULT 0,
+    current_step_order INTEGER NOT NULL DEFAULT 1,
+    total_steps INTEGER NOT NULL DEFAULT 7,
+    progress_pct INTEGER NOT NULL DEFAULT 0,
+    final_summary TEXT NOT NULL DEFAULT '',
+    survival_score INTEGER NOT NULL DEFAULT 85,
+    ux_score INTEGER NOT NULL DEFAULT 90,
+    expected_margin_pct REAL NOT NULL DEFAULT 74.0,
+    version INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS mission_steps (
+    step_id TEXT PRIMARY KEY,
+    mission_id TEXT NOT NULL REFERENCES missions(mission_id) ON DELETE CASCADE,
+    step_order INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    lead_dept_ids TEXT NOT NULL,
+    critic_dept_id TEXT NOT NULL DEFAULT '47',
+    ux_tester_dept_id TEXT NOT NULL DEFAULT '48',
+    status TEXT NOT NULL DEFAULT 'PENDING'
+        CHECK(status IN ('PENDING','RUNNING','DONE','WAITING_APPROVAL','FAILED')),
+    progress_pct INTEGER NOT NULL DEFAULT 0,
+    live_activity_text TEXT NOT NULL DEFAULT '',
+    output_summary TEXT NOT NULL DEFAULT '',
+    critique_verdict TEXT NOT NULL DEFAULT '',
+    ux_verdict TEXT NOT NULL DEFAULT '',
+    started_at TEXT,
+    completed_at TEXT,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS opportunities (
+    opp_id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    target_customer TEXT NOT NULL,
+    pain_point TEXT NOT NULL DEFAULT '',
+    proposed_solution TEXT NOT NULL DEFAULT '',
+    price_vnd REAL NOT NULL DEFAULT 399000,
+    est_margin_pct REAL NOT NULL DEFAULT 75.0,
+    breakeven_users INTEGER NOT NULL DEFAULT 5,
+    survival_score INTEGER NOT NULL DEFAULT 86,
+    critique_note TEXT NOT NULL DEFAULT '',
+    ux_note TEXT NOT NULL DEFAULT '',
+    source_url TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'NEW'
+        CHECK(status IN ('NEW','ACCEPTED','DISMISSED')),
+    mission_id TEXT,
+    version INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS deleted_tombstones (
+    tombstone_key TEXT PRIMARY KEY,
+    entity_type TEXT NOT NULL,
+    entity_id TEXT NOT NULL,
+    trash_payload_json TEXT NOT NULL DEFAULT '{}',
+    deleted_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_mission_steps_order ON mission_steps(mission_id, step_order ASC);
+CREATE INDEX IF NOT EXISTS idx_opps_status ON opportunities(status, updated_at DESC);
 """
 
 
@@ -307,7 +380,12 @@ class TitanDatabase:
         with self._write_lock:
             conn = self._get_conn()
             conn.executescript(SCHEMA_SQL)
+            try:
+                conn.execute("ALTER TABLE knowledge_atoms ADD COLUMN is_starred INTEGER NOT NULL DEFAULT 0;")
+            except sqlite3.OperationalError:
+                pass
         self.sync_divisions_and_roster()
+        self.seed_default_opportunities_if_empty()
 
     def sync_divisions_and_roster(self) -> int:
         now = utc_now_iso()
@@ -1406,6 +1484,8 @@ class TitanDatabase:
             },
             "divisions": divisions,
             "projects": self.list_projects(),
+            "missions": self.list_missions(),
+            "opportunities": self.list_opportunities(),
             "recent_events": events,
             "last_learning_run": dict(last_run) if last_run else None,
         }
@@ -1508,3 +1588,714 @@ class TitanDatabase:
             ),
             "projections": projections,
         }
+
+    # =========================================================================
+    # V5.0: AUTONOMOUS MISSIONS, STEP-BY-STEP TRACKER, OPPORTUNITIES & FULL CRUD
+    # =========================================================================
+    DEFAULT_7_STEPS_TEMPLATE: list[tuple[int, str, str, str, str]] = [
+        (1, "Điều tra thị trường & nhu cầu thực tế", "01,50", "47", "49"),
+        (2, "Giải mã tâm lý khách rút ví & điểm yếu đối thủ", "02,03", "47", "48"),
+        (3, "Tính dòng tiền, giá bán, thuế & điểm hòa vốn", "38,39", "46", "49"),
+        (4, "Hội đồng phản biện Pre-Mortem mổ xẻ rủi ro", "46,47", "47", "48"),
+        (5, "Thiết kế giải pháp 3 chạm & kênh săn khách đầu tiên", "06,12,25,32", "47", "49"),
+        (6, "Tester đóng vai 5 nhóm người dùng thật trải nghiệm", "48,49,20", "47", "48"),
+        (7, "Tổng hợp kế hoạch trình Chủ tịch nghiệm thu", "00", "46", "48"),
+    ]
+
+    def _record_tombstone(self, conn: sqlite3.Connection, entity_type: str, entity_id: str, payload: dict[str, Any]) -> None:
+        tkey = f"{entity_type}:{entity_id}"
+        conn.execute(
+            """
+            INSERT INTO deleted_tombstones(tombstone_key, entity_type, entity_id, trash_payload_json, deleted_at)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(tombstone_key) DO UPDATE SET
+                trash_payload_json=excluded.trash_payload_json,
+                deleted_at=excluded.deleted_at
+            """,
+            (tkey, entity_type, entity_id, json.dumps(payload, ensure_ascii=False), utc_now_iso()),
+        )
+
+    def _clear_tombstone(self, conn: sqlite3.Connection, entity_type: str, entity_id: str) -> None:
+        conn.execute("DELETE FROM deleted_tombstones WHERE tombstone_key = ?", (f"{entity_type}:{entity_id}",))
+
+    def list_tombstones(self) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        rows = conn.execute("SELECT tombstone_key, entity_type, entity_id, deleted_at FROM deleted_tombstones").fetchall()
+        return [dict(r) for r in rows]
+
+    def seed_default_opportunities_if_empty(self) -> None:
+        conn = self._get_conn()
+        cnt = conn.execute("SELECT COUNT(*) FROM opportunities").fetchone()[0]
+        tomb_cnt = conn.execute("SELECT COUNT(*) FROM deleted_tombstones WHERE entity_type = 'opportunity'").fetchone()[0]
+        if cnt > 0 or tomb_cnt > 0:
+            return
+        now = utc_now_iso()
+        seeds = [
+            (
+                "opp-rem-cua-3cham",
+                "Công cụ ướm mẫu rèm & sàn gỗ thật vào phòng khách — Báo giá PDF 10 giây",
+                "Chủ cửa hàng rèm cửa, sàn gỗ, giấy dán tường (399.000đ/tháng)",
+                "Mang quyển mẫu vải nặng tới nhà khách vẫn khó hình dung, khách lưỡng lự về hỏi ý kiến gia đình rồi im luôn.",
+                "Chụp ảnh cửa sổ trên Zalo/Web -> chạm chọn mã vải thật trong kho -> xuất ảnh phòng đã lắp rèm kèm báo giá chuẩn kích thước.",
+                399000, 74.7, 5, 88,
+                "Phòng #46 Phản biện: Không bán cho khách lẻ mua 1 lần; bán thuê bao tháng cho chủ tiệm để chốt 10–30 đơn/tháng.",
+                "Phòng #48 Tester Người dùng: Chủ tiệm 48 tuổi thao tác đúng 3 chạm trên điện thoại, không cần gõ chữ phức tạp.",
+                "https://vnexpress.net/kinh-doanh",
+            ),
+            (
+                "opp-tro-ly-thue-hkd",
+                "Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
+                "Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng)",
+                "Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.",
+                "Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.",
+                249000, 82.5, 8, 91,
+                "Phòng #46 Phản biện: Tuyệt đối không tư vấn lách luật; định vị là công cụ tính đúng & khoanh quỹ an toàn ngủ ngon.",
+                "Phòng #48 Tester Người dùng: Giao diện chỉ hiện 3 con số bằng tiếng Việt bình dân (Tiền về - Tiền cất đóng thuế - Tiền xài được).",
+                "https://cafef.vn",
+            ),
+            (
+                "opp-anh-menu-quan-an",
+                "Biến ảnh chụp món ăn bằng điện thoại thành Bộ Menu & Video ngắn kéo khách địa phương",
+                "Chủ quán ăn, tiệm bánh, quán cà phê mở mới (299.000đ/gói hoặc thuê bao)",
+                "Thuê thợ chụp ảnh món ăn tốn 3–5 triệu/lần, tự chụp bằng điện thoại thì tối và kém hấp dẫn trên GrabFood/ShopeeFood.",
+                "Tải ảnh món thật -> làm sáng chuẩn studio giữ nguyên 100% kết cấu món thật (không bịa sai món) + ghép khung giá in ấn ngay.",
+                299000, 78.2, 6, 84,
+                "Phòng #46 Phản biện: Bắt buộc giữ nguyên hình dáng món ăn thật của quán để khách nhận đồ không khiếu nại treo đầu dê.",
+                "Phòng #48 Tester Người dùng: Có nút so sánh Trước/Sau và tải file nét cao gửi nhà in chỉ bằng 1 chạm.",
+                "https://vneconomy.vn",
+            ),
+        ]
+        with self.immediate_tx() as wconn:
+            for item in seeds:
+                wconn.execute(
+                    """
+                    INSERT OR IGNORE INTO opportunities(
+                        opp_id, title, target_customer, pain_point, proposed_solution,
+                        price_vnd, est_margin_pct, breakeven_users, survival_score,
+                        critique_note, ux_note, source_url, status, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NEW', ?, ?)
+                    """,
+                    (*item, now, now),
+                )
+
+    def list_opportunities(self, status: str | None = None) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        if status:
+            rows = conn.execute(
+                "SELECT * FROM opportunities WHERE status = ? ORDER BY survival_score DESC, updated_at DESC",
+                (status.upper(),),
+            ).fetchall()
+        else:
+            rows = conn.execute("SELECT * FROM opportunities ORDER BY CASE status WHEN 'NEW' THEN 0 WHEN 'ACCEPTED' THEN 1 ELSE 2 END, survival_score DESC, updated_at DESC").fetchall()
+        return [dict(r) for r in rows]
+
+    def create_opportunity(
+        self,
+        title: str,
+        target_customer: str,
+        pain_point: str = "",
+        proposed_solution: str = "",
+        price_vnd: float = 399000,
+        est_margin_pct: float = 75.0,
+        breakeven_users: int = 5,
+        survival_score: int = 85,
+        critique_note: str = "",
+        ux_note: str = "",
+        source_url: str = "",
+        opp_id: str | None = None,
+    ) -> dict[str, Any]:
+        now = utc_now_iso()
+        oid = opp_id or f"opp-{uuid.uuid4().hex[:8]}"
+        with self.immediate_tx() as conn:
+            self._clear_tombstone(conn, "opportunity", oid)
+            conn.execute(
+                """
+                INSERT INTO opportunities(
+                    opp_id, title, target_customer, pain_point, proposed_solution,
+                    price_vnd, est_margin_pct, breakeven_users, survival_score,
+                    critique_note, ux_note, source_url, status, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NEW', ?, ?)
+                """,
+                (
+                    oid, title, target_customer, pain_point, proposed_solution,
+                    float(price_vnd), float(est_margin_pct), int(breakeven_users), int(survival_score),
+                    critique_note or "Phòng #46 đã rà soát sơ bộ tính khả thi thương mại.",
+                    ux_note or "Phòng #48 yêu cầu thiết kế tối đa 3 chạm trên điện thoại.",
+                    source_url, now, now,
+                ),
+            )
+            self.log_event("50", "OPPORTUNITY_CREATED", f"Phòng #50 đề xuất cơ hội kiếm tiền mới: {title}", conn=conn)
+        row = self._get_conn().execute("SELECT * FROM opportunities WHERE opp_id = ?", (oid,)).fetchone()
+        return dict(row)
+
+    def update_opportunity(self, opp_id: str, **fields: Any) -> dict[str, Any]:
+        allowed = {
+            "title", "target_customer", "pain_point", "proposed_solution",
+            "price_vnd", "est_margin_pct", "breakeven_users", "survival_score",
+            "critique_note", "ux_note", "source_url", "status",
+        }
+        updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            cur = conn.execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone()
+            if not cur:
+                raise KeyError(f"Cơ hội '{opp_id}' không tồn tại.")
+            if updates:
+                cols = ", ".join(f"{k} = ?" for k in updates)
+                conn.execute(
+                    f"UPDATE opportunities SET {cols}, version = version + 1, updated_at = ? WHERE opp_id = ?",
+                    [*updates.values(), now, opp_id],
+                )
+        return dict(self._get_conn().execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone())
+
+    def delete_opportunity(self, opp_id: str) -> dict[str, Any]:
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone()
+            if not row:
+                raise KeyError(f"Cơ hội '{opp_id}' không tồn tại.")
+            payload = dict(row)
+            self._record_tombstone(conn, "opportunity", opp_id, payload)
+            conn.execute("DELETE FROM opportunities WHERE opp_id = ?", (opp_id,))
+            self.log_event("00", "OPPORTUNITY_DELETED", f"Đã xóa đề xuất cơ hội: {payload['title']}", conn=conn)
+        return {"deleted": True, "entity_type": "opportunity", "entity_id": opp_id, "title": payload["title"]}
+
+    # -------------------------------------------------------------------------
+    # MISSIONS & 7-STEP VISUAL PIPELINE TRACKER
+    # -------------------------------------------------------------------------
+    def _dept_short_map(self) -> dict[str, str]:
+        conn = self._get_conn()
+        return {r["dept_id"]: r["title_vi"] for r in conn.execute("SELECT dept_id, title_vi FROM departments").fetchall()}
+
+    def _enrich_mission_steps(self, steps: list[dict[str, Any]], dept_map: dict[str, str]) -> list[dict[str, Any]]:
+        out = []
+        for s in steps:
+            ids = [x.strip() for x in str(s.get("lead_dept_ids", "")).split(",") if x.strip()]
+            s["lead_depts"] = [{"dept_id": i, "title_vi": dept_map.get(i, f"Phòng {i}")} for i in ids]
+            s["critic_title_vi"] = dept_map.get(s.get("critic_dept_id", "47"), "Thanh tra Phản biện")
+            s["ux_tester_title_vi"] = dept_map.get(s.get("ux_tester_dept_id", "48"), "Tester Người dùng")
+            out.append(s)
+        return out
+
+    def list_missions(self, status: str | None = None) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        dept_map = self._dept_short_map()
+        if status:
+            m_rows = conn.execute("SELECT * FROM missions WHERE status = ? ORDER BY created_at DESC", (status.upper(),)).fetchall()
+        else:
+            m_rows = conn.execute("SELECT * FROM missions ORDER BY created_at DESC").fetchall()
+        missions = []
+        for mr in m_rows:
+            m = dict(mr)
+            s_rows = conn.execute(
+                "SELECT * FROM mission_steps WHERE mission_id = ? ORDER BY step_order ASC",
+                (m["mission_id"],),
+            ).fetchall()
+            steps = self._enrich_mission_steps([dict(sr) for sr in s_rows], dept_map)
+            m["steps"] = steps
+            m["done_steps_count"] = sum(1 for s in steps if s["status"] == "DONE")
+            m["running_step"] = next((s for s in steps if s["status"] in ("RUNNING", "WAITING_APPROVAL")), None)
+            m["pending_steps_count"] = sum(1 for s in steps if s["status"] == "PENDING")
+            missions.append(m)
+        return missions
+
+    def get_mission(self, mission_id: str) -> dict[str, Any] | None:
+        conn = self._get_conn()
+        mr = conn.execute("SELECT * FROM missions WHERE mission_id = ?", (mission_id,)).fetchone()
+        if not mr:
+            return None
+        dept_map = self._dept_short_map()
+        m = dict(mr)
+        s_rows = conn.execute("SELECT * FROM mission_steps WHERE mission_id = ? ORDER BY step_order ASC", (mission_id,)).fetchall()
+        steps = self._enrich_mission_steps([dict(sr) for sr in s_rows], dept_map)
+        m["steps"] = steps
+        m["done_steps_count"] = sum(1 for s in steps if s["status"] == "DONE")
+        m["running_step"] = next((s for s in steps if s["status"] in ("RUNNING", "WAITING_APPROVAL")), None)
+        m["pending_steps_count"] = sum(1 for s in steps if s["status"] == "PENDING")
+        return m
+
+    def create_mission(
+        self,
+        title: str,
+        goal_prompt: str = "",
+        category: str = "MONEY_MAKER",
+        auto_approve: bool = False,
+        mission_id: str | None = None,
+    ) -> dict[str, Any]:
+        now = utc_now_iso()
+        mid = mission_id or f"msn-{uuid.uuid4().hex[:8]}"
+        with self.immediate_tx() as conn:
+            self._clear_tombstone(conn, "mission", mid)
+            conn.execute(
+                """
+                INSERT INTO missions(
+                    mission_id, title, goal_prompt, category, status, auto_approve,
+                    current_step_order, total_steps, progress_pct, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, ?, ?)
+                """,
+                (mid, title, goal_prompt or title, category, 1 if auto_approve else 0, len(self.DEFAULT_7_STEPS_TEMPLATE), now, now),
+            )
+            for order, stitle, leads, critic, ux_tester in self.DEFAULT_7_STEPS_TEMPLATE:
+                sid = f"{mid}-s{order}"
+                conn.execute(
+                    """
+                    INSERT INTO mission_steps(
+                        step_id, mission_id, step_order, title, lead_dept_ids,
+                        critic_dept_id, ux_tester_dept_id, status, progress_pct, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', 0, ?)
+                    """,
+                    (sid, mid, order, stitle, leads, critic, ux_tester, now),
+                )
+            self.log_event("00", "MISSION_STARTED", f"Khởi chạy dây chuyền tự động 7 bước: {title}", conn=conn)
+        return self.get_mission(mid)  # type: ignore[return-value]
+
+    def accept_opportunity_into_mission(self, opp_id: str, auto_approve: bool = False) -> dict[str, Any]:
+        conn = self._get_conn()
+        opp = conn.execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone()
+        if not opp:
+            raise KeyError(f"Cơ hội '{opp_id}' không tồn tại.")
+        opp_d = dict(opp)
+        msn = self.create_mission(
+            title=opp_d["title"],
+            goal_prompt=f"Khách hàng: {opp_d['target_customer']}. Nỗi đau: {opp_d['pain_point']}. Giải pháp: {opp_d['proposed_solution']}",
+            category="MONEY_MAKER",
+            auto_approve=auto_approve,
+        )
+        with self.immediate_tx() as wconn:
+            wconn.execute(
+                "UPDATE opportunities SET status = 'ACCEPTED', mission_id = ?, version = version + 1, updated_at = ? WHERE opp_id = ?",
+                (msn["mission_id"], utc_now_iso(), opp_id),
+            )
+        return msn
+
+    def update_mission(self, mission_id: str, **fields: Any) -> dict[str, Any]:
+        allowed = {"title", "goal_prompt", "status", "auto_approve", "final_summary", "survival_score", "ux_score", "expected_margin_pct"}
+        updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+        if "auto_approve" in updates:
+            updates["auto_approve"] = 1 if bool(updates["auto_approve"]) else 0
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM missions WHERE mission_id = ?", (mission_id,)).fetchone()
+            if not row:
+                raise KeyError(f"Nhiệm vụ '{mission_id}' không tồn tại.")
+            if updates:
+                cols = ", ".join(f"{k} = ?" for k in updates)
+                conn.execute(
+                    f"UPDATE missions SET {cols}, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    [*updates.values(), now, mission_id],
+                )
+        return self.get_mission(mission_id)  # type: ignore[return-value]
+
+    def update_mission_step(self, step_id: str, **fields: Any) -> None:
+        allowed = {
+            "status", "progress_pct", "live_activity_text", "output_summary",
+            "critique_verdict", "ux_verdict", "started_at", "completed_at",
+        }
+        updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            srow = conn.execute("SELECT * FROM mission_steps WHERE step_id = ?", (step_id,)).fetchone()
+            if not srow:
+                return
+            mid = srow["mission_id"]
+            if updates:
+                cols = ", ".join(f"{k} = ?" for k in updates)
+                conn.execute(
+                    f"UPDATE mission_steps SET {cols}, updated_at = ? WHERE step_id = ?",
+                    [*updates.values(), now, step_id],
+                )
+            all_steps = conn.execute("SELECT * FROM mission_steps WHERE mission_id = ? ORDER BY step_order ASC", (mid,)).fetchall()
+            total = max(1, len(all_steps))
+            total_prog = sum(
+                100 if r["status"] == "DONE" else int(r["progress_pct"] or 0)
+                for r in all_steps
+            )
+            overall_pct = min(100, int(round(total_prog / total)))
+            active = next((r["step_order"] for r in all_steps if r["status"] != "DONE"), total)
+            conn.execute(
+                "UPDATE missions SET progress_pct = ?, current_step_order = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                (overall_pct, active, now, mid),
+            )
+
+    def decide_mission(self, mission_id: str, decision: str, note: str = "") -> dict[str, Any]:
+        dec = decision.upper().strip()
+        if dec not in ("APPROVE", "REJECT"):
+            raise ValueError("Quyết định phải là APPROVE hoặc REJECT.")
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            mrow = conn.execute("SELECT * FROM missions WHERE mission_id = ?", (mission_id,)).fetchone()
+            if not mrow:
+                raise KeyError(f"Nhiệm vụ '{mission_id}' không tồn tại.")
+            if dec == "APPROVE":
+                conn.execute(
+                    "UPDATE mission_steps SET status = 'DONE', progress_pct = 100, completed_at = COALESCE(completed_at, ?), updated_at = ? WHERE mission_id = ?",
+                    (now, now, mission_id),
+                )
+                summary = mrow["final_summary"]
+                if note:
+                    summary = f"{summary}\n• Ghi chú phê duyệt của Chủ tịch: {note}".strip()
+                conn.execute(
+                    "UPDATE missions SET status = 'COMPLETED', progress_pct = 100, final_summary = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    (summary, now, mission_id),
+                )
+                self.log_event("00", "MISSION_APPROVED", f"Chủ tịch CHẤP NHẬN nghiệm thu nhiệm vụ: {mrow['title']}", conn=conn)
+            else:
+                reason = note or "Chủ tịch yêu cầu rà soát và hoàn thiện kỹ hơn."
+                ref_id = f"refl-{uuid.uuid4().hex[:8]}"
+                conn.execute(
+                    "INSERT INTO reflexions(reflexion_id, dept_id, failure_symptom, root_cause, preventive_rule, created_at) VALUES (?, '00', ?, 'Chưa thỏa mãn kỳ vọng Chủ tịch ở cổng cuối', ?, ?)",
+                    (ref_id, reason, f"Bắt buộc khắc phục yêu cầu '{reason}' trước khi trình lại.", now),
+                )
+                conn.execute(
+                    "UPDATE mission_steps SET status = 'PENDING', progress_pct = 0, live_activity_text = ? WHERE mission_id = ? AND step_order >= 5",
+                    (f"Làm lại theo chỉ đạo: {reason}", mission_id),
+                )
+                conn.execute(
+                    "UPDATE missions SET status = 'RUNNING', current_step_order = 5, progress_pct = 57, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    (now, mission_id),
+                )
+                self.log_event("47", "MISSION_REJECTED", f"Yêu cầu chạy sửa lại từ Bước 5 cho nhiệm vụ: {mrow['title']}", conn=conn)
+        return self.get_mission(mission_id)  # type: ignore[return-value]
+
+    def delete_mission(self, mission_id: str) -> dict[str, Any]:
+        full = self.get_mission(mission_id)
+        if not full:
+            raise KeyError(f"Nhiệm vụ '{mission_id}' không tồn tại.")
+        with self.immediate_tx() as conn:
+            self._record_tombstone(conn, "mission", mission_id, full)
+            conn.execute("DELETE FROM mission_steps WHERE mission_id = ?", (mission_id,))
+            conn.execute("DELETE FROM missions WHERE mission_id = ?", (mission_id,))
+            self.log_event("00", "MISSION_DELETED", f"Đã xóa nhiệm vụ: {full['title']}", conn=conn)
+        return {"deleted": True, "entity_type": "mission", "entity_id": mission_id, "title": full["title"]}
+
+    def bulk_missions_action(self, action: str, mission_ids: list[str] | None = None) -> dict[str, Any]:
+        act = action.lower().strip()
+        conn = self._get_conn()
+        if act == "clear_completed":
+            ids = [r["mission_id"] for r in conn.execute("SELECT mission_id FROM missions WHERE status = 'COMPLETED'").fetchall()]
+        else:
+            ids = list(mission_ids or [])
+        affected = 0
+        for mid in ids:
+            try:
+                if act in ("delete", "clear_completed"):
+                    self.delete_mission(mid)
+                    affected += 1
+                elif act == "approve":
+                    self.decide_mission(mid, "APPROVE")
+                    affected += 1
+            except KeyError:
+                pass
+        return {"action": act, "affected": affected}
+
+    # -------------------------------------------------------------------------
+    # FULL CRUD, DUPLICATE, BULK & UNDO FOR TASKS, PROJECTS, KNOWLEDGE & EVENTS
+    # -------------------------------------------------------------------------
+    def update_task(self, task_id: str, **fields: Any) -> dict[str, Any]:
+        allowed = {
+            "title", "description", "assigned_dept_id", "project_id",
+            "reviewer_dept_id", "gate_number", "stage_number", "priority",
+            "kanban_column", "approval_note",
+        }
+        updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+        if "priority" in updates:
+            p = str(updates["priority"]).upper()
+            updates["priority"] = p if p in ("CRITICAL", "HIGH", "MEDIUM", "LOW") else "HIGH"
+        if "kanban_column" in updates:
+            c = str(updates["kanban_column"]).upper()
+            if c not in ("BACKLOG", "IN_PROGRESS", "QA_SECURITY_REVIEW", "WAITING_APPROVAL", "DONE", "REJECTED"):
+                raise ValueError(f"Cột không hợp lệ: {c}")
+            updates["kanban_column"] = c
+            if c == "DONE":
+                updates["completed_at"] = utc_now_iso()
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM tasks WHERE task_id = ?", (task_id,)).fetchone()
+            if not row:
+                raise KeyError(f"Đầu việc '{task_id}' không tồn tại.")
+            if updates:
+                cols = ", ".join(f"{k} = ?" for k in updates)
+                conn.execute(
+                    f"UPDATE tasks SET {cols}, actor_priority = 5, version = version + 1, updated_at = ? WHERE task_id = ?",
+                    [*updates.values(), now, task_id],
+                )
+        return self.get_task(task_id)  # type: ignore[return-value]
+
+    def delete_task(self, task_id: str) -> dict[str, Any]:
+        full = self.get_task(task_id)
+        if not full:
+            raise KeyError(f"Đầu việc '{task_id}' không tồn tại.")
+        with self.immediate_tx() as conn:
+            self._record_tombstone(conn, "task", task_id, full)
+            conn.execute("UPDATE departments SET status = 'IDLE', current_task_id = NULL WHERE current_task_id = ?", (task_id,))
+            conn.execute("DELETE FROM task_citations WHERE task_id = ?", (task_id,))
+            conn.execute("DELETE FROM deliverables WHERE task_id = ?", (task_id,))
+            conn.execute("DELETE FROM tasks WHERE task_id = ?", (task_id,))
+            self.log_event("00", "TASK_DELETED", f"Đã xóa đầu việc: {full['title']}", conn=conn)
+        return {"deleted": True, "entity_type": "task", "entity_id": task_id, "title": full["title"]}
+
+    def duplicate_task(self, task_id: str) -> dict[str, Any]:
+        orig = self.get_task(task_id)
+        if not orig:
+            raise KeyError(f"Đầu việc '{task_id}' không tồn tại.")
+        return self.create_task(
+            title=f"{orig['title']} (Bản sao)",
+            assigned_dept_id=orig["assigned_dept_id"],
+            description=orig.get("description", ""),
+            project_id=orig.get("project_id"),
+            reviewer_dept_id=orig.get("reviewer_dept_id") or "20",
+            gate_number=int(orig.get("gate_number") or 1),
+            stage_number=int(orig.get("stage_number") or 1),
+            priority=orig.get("priority") or "HIGH",
+        )
+
+    def bulk_tasks_action(
+        self,
+        action: str,
+        task_ids: list[str] | None = None,
+        column: str | None = None,
+        assigned_dept_id: str | None = None,
+    ) -> dict[str, Any]:
+        act = action.lower().strip()
+        conn = self._get_conn()
+        if act == "clear_done":
+            ids = [r["task_id"] for r in conn.execute("SELECT task_id FROM tasks WHERE kanban_column = 'DONE'").fetchall()]
+        else:
+            ids = list(task_ids or [])
+        affected = 0
+        for tid in ids:
+            try:
+                if act in ("delete", "clear_done"):
+                    self.delete_task(tid)
+                    affected += 1
+                elif act == "move_column" and column:
+                    self.update_task(tid, kanban_column=column)
+                    affected += 1
+                elif act == "assign_dept" and assigned_dept_id:
+                    self.update_task(tid, assigned_dept_id=assigned_dept_id)
+                    affected += 1
+                elif act == "approve":
+                    self.chairman_decide_task(tid, "APPROVE")
+                    affected += 1
+            except KeyError:
+                pass
+        return {"action": act, "affected": affected}
+
+    def update_project(self, project_id: str, **fields: Any) -> dict[str, Any]:
+        allowed = {"title", "objective", "target_market", "status", "expected_price_vnd", "unit_cost_vnd", "fixed_cost_monthly_vnd"}
+        updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM projects WHERE project_id = ?", (project_id,)).fetchone()
+            if not row:
+                raise KeyError(f"Dự án '{project_id}' không tồn tại.")
+            if updates:
+                cols = ", ".join(f"{k} = ?" for k in updates)
+                conn.execute(
+                    f"UPDATE projects SET {cols}, version = version + 1, updated_at = ? WHERE project_id = ?",
+                    [*updates.values(), now, project_id],
+                )
+        return self.get_project(project_id)  # type: ignore[return-value]
+
+    def delete_project(self, project_id: str, delete_tasks: bool = True) -> dict[str, Any]:
+        proj = self.get_project(project_id)
+        if not proj:
+            raise KeyError(f"Dự án '{project_id}' không tồn tại.")
+        tasks_in_proj = self.list_tasks(project_id=project_id)
+        backup = {"project": proj, "tasks": tasks_in_proj}
+        with self.immediate_tx() as conn:
+            self._record_tombstone(conn, "project", project_id, backup)
+            if delete_tasks:
+                for t in tasks_in_proj:
+                    tid = t["task_id"]
+                    conn.execute("DELETE FROM task_citations WHERE task_id = ?", (tid,))
+                    conn.execute("DELETE FROM deliverables WHERE task_id = ?", (tid,))
+                conn.execute("DELETE FROM tasks WHERE project_id = ?", (project_id,))
+            else:
+                conn.execute("UPDATE tasks SET project_id = NULL WHERE project_id = ?", (project_id,))
+            conn.execute("DELETE FROM projects WHERE project_id = ?", (project_id,))
+            self.log_event("00", "PROJECT_DELETED", f"Đã xóa dự án: {proj['title']}", conn=conn)
+        return {"deleted": True, "entity_type": "project", "entity_id": project_id, "title": proj["title"]}
+
+    def toggle_star_knowledge(self, atom_id: int, is_starred: bool | None = None) -> dict[str, Any]:
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM knowledge_atoms WHERE atom_id = ?", (int(atom_id),)).fetchone()
+            if not row:
+                raise KeyError(f"Bài báo #{atom_id} không tồn tại.")
+            next_val = (0 if row["is_starred"] else 1) if is_starred is None else (1 if is_starred else 0)
+            conn.execute("UPDATE knowledge_atoms SET is_starred = ? WHERE atom_id = ?", (next_val, int(atom_id)))
+            updated = conn.execute("SELECT * FROM knowledge_atoms WHERE atom_id = ?", (int(atom_id),)).fetchone()
+        return dict(updated)
+
+    def delete_knowledge_atom(self, atom_id: int) -> dict[str, Any]:
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM knowledge_atoms WHERE atom_id = ?", (int(atom_id),)).fetchone()
+            if not row:
+                raise KeyError(f"Bài báo #{atom_id} không tồn tại.")
+            payload = dict(row)
+            self._record_tombstone(conn, "article", str(payload["url_hash"]), payload)
+            conn.execute("DELETE FROM knowledge_atoms WHERE atom_id = ?", (int(atom_id),))
+        return {"deleted": True, "entity_type": "article", "entity_id": str(payload["url_hash"]), "title": payload["title"]}
+
+    def delete_department_custom(self, dept_id: str) -> dict[str, Any]:
+        num = int(dept_id) if dept_id.isdigit() else 0
+        if 0 <= num <= 50:
+            raise ValueError("51 vị trí cốt lõi (00..50) được bảo vệ không thể xóa; chỉ có thể giải thể phòng tuyển thêm (#51+).")
+        detail = self.get_department_detail(dept_id)
+        if not detail:
+            raise KeyError(f"Phòng '{dept_id}' không tồn tại.")
+        hb_path = ROOT_DIR / detail["handbook_path"]
+        if hb_path.is_file() and hb_path.resolve().is_relative_to(ROOT_DIR.resolve()):
+            hb_path.unlink(missing_ok=True)
+        with self.immediate_tx() as conn:
+            conn.execute("UPDATE tasks SET assigned_dept_id = '00' WHERE assigned_dept_id = ?", (dept_id,))
+            conn.execute("DELETE FROM departments WHERE dept_id = ?", (dept_id,))
+            self.log_event("45", "DEPT_REMOVED", f"Đã giải thể phòng chuyên gia tùy chỉnh #{dept_id} ({detail['title_vi']})", conn=conn)
+        return {"deleted": True, "dept_id": dept_id}
+
+    def delete_reflexion(self, reflexion_id: str) -> dict[str, Any]:
+        with self.immediate_tx() as conn:
+            conn.execute("DELETE FROM reflexions WHERE reflexion_id = ?", (reflexion_id,))
+        return {"deleted": True, "reflexion_id": reflexion_id}
+
+    def clear_activity_events(self) -> dict[str, Any]:
+        with self.immediate_tx() as conn:
+            cur = conn.execute("DELETE FROM activity_stream")
+        return {"cleared": cur.rowcount}
+
+    def restore_from_trash(self, entity_type: str, entity_id: str) -> dict[str, Any]:
+        tkey = f"{entity_type}:{entity_id}"
+        conn = self._get_conn()
+        trow = conn.execute("SELECT * FROM deleted_tombstones WHERE tombstone_key = ?", (tkey,)).fetchone()
+        if not trow:
+            raise KeyError("Không tìm thấy dữ liệu hoàn tác cho mục này.")
+        data = json.loads(trow["trash_payload_json"])
+        now = utc_now_iso()
+
+        with self.immediate_tx() as wconn:
+            if entity_type == "task":
+                wconn.execute(
+                    """
+                    INSERT OR REPLACE INTO tasks(
+                        task_id, project_id, title, description, assigned_dept_id,
+                        reviewer_dept_id, gate_number, stage_number, priority,
+                        kanban_column, approval_note, version, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        data["task_id"], data.get("project_id"), data["title"], data.get("description", ""),
+                        data.get("assigned_dept_id", "00"), data.get("reviewer_dept_id", "20"),
+                        int(data.get("gate_number", 1)), int(data.get("stage_number", 1)),
+                        data.get("priority", "HIGH"), data.get("kanban_column", "BACKLOG"),
+                        data.get("approval_note", ""), int(data.get("version", 1)) + 1,
+                        data.get("created_at", now), now,
+                    ),
+                )
+            elif entity_type == "mission":
+                wconn.execute(
+                    """
+                    INSERT OR REPLACE INTO missions(
+                        mission_id, title, goal_prompt, category, status, auto_approve,
+                        current_step_order, total_steps, progress_pct, final_summary,
+                        survival_score, ux_score, expected_margin_pct, version, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        data["mission_id"], data["title"], data.get("goal_prompt", ""),
+                        data.get("category", "MONEY_MAKER"), data.get("status", "RUNNING"),
+                        int(data.get("auto_approve", 0)), int(data.get("current_step_order", 1)),
+                        int(data.get("total_steps", 7)), int(data.get("progress_pct", 0)),
+                        data.get("final_summary", ""), int(data.get("survival_score", 85)),
+                        int(data.get("ux_score", 90)), float(data.get("expected_margin_pct", 74.0)),
+                        int(data.get("version", 1)) + 1, data.get("created_at", now), now,
+                    ),
+                )
+                for s in data.get("steps", []):
+                    wconn.execute(
+                        """
+                        INSERT OR REPLACE INTO mission_steps(
+                            step_id, mission_id, step_order, title, lead_dept_ids,
+                            critic_dept_id, ux_tester_dept_id, status, progress_pct,
+                            live_activity_text, output_summary, critique_verdict, ux_verdict,
+                            started_at, completed_at, updated_at
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            s["step_id"], data["mission_id"], int(s["step_order"]), s["title"],
+                            s["lead_dept_ids"], s.get("critic_dept_id", "47"), s.get("ux_tester_dept_id", "48"),
+                            s["status"], int(s.get("progress_pct", 0)), s.get("live_activity_text", ""),
+                            s.get("output_summary", ""), s.get("critique_verdict", ""), s.get("ux_verdict", ""),
+                            s.get("started_at"), s.get("completed_at"), now,
+                        ),
+                    )
+            elif entity_type == "opportunity":
+                wconn.execute(
+                    """
+                    INSERT OR REPLACE INTO opportunities(
+                        opp_id, title, target_customer, pain_point, proposed_solution,
+                        price_vnd, est_margin_pct, breakeven_users, survival_score,
+                        critique_note, ux_note, source_url, status, mission_id, version, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        data["opp_id"], data["title"], data["target_customer"], data.get("pain_point", ""),
+                        data.get("proposed_solution", ""), float(data.get("price_vnd", 399000)),
+                        float(data.get("est_margin_pct", 75.0)), int(data.get("breakeven_users", 5)),
+                        int(data.get("survival_score", 85)), data.get("critique_note", ""),
+                        data.get("ux_note", ""), data.get("source_url", ""), data.get("status", "NEW"),
+                        data.get("mission_id"), int(data.get("version", 1)) + 1, data.get("created_at", now), now,
+                    ),
+                )
+            elif entity_type == "project":
+                p = data["project"]
+                wconn.execute(
+                    """
+                    INSERT OR REPLACE INTO projects(
+                        project_id, slug, title, objective, target_market, current_gate, current_stage,
+                        status, expected_price_vnd, unit_cost_vnd, fixed_cost_monthly_vnd,
+                        workspace_path, version, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        p["project_id"], p["slug"], p["title"], p.get("objective", ""),
+                        p.get("target_market", "Vietnam"), int(p.get("current_gate", 1)),
+                        int(p.get("current_stage", 1)), p.get("status", "ACTIVE"),
+                        float(p.get("expected_price_vnd", 399000)), float(p.get("unit_cost_vnd", 95000)),
+                        float(p.get("fixed_cost_monthly_vnd", 1500000)), p.get("workspace_path", ""),
+                        int(p.get("version", 1)) + 1, p.get("created_at", now), now,
+                    ),
+                )
+                for t in data.get("tasks", []):
+                    wconn.execute(
+                        """
+                        INSERT OR IGNORE INTO tasks(
+                            task_id, project_id, title, description, assigned_dept_id,
+                            reviewer_dept_id, gate_number, stage_number, priority,
+                            kanban_column, version, created_at, updated_at
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            t["task_id"], p["project_id"], t["title"], t.get("description", ""),
+                            t.get("assigned_dept_id", "00"), t.get("reviewer_dept_id", "20"),
+                            int(t.get("gate_number", 1)), int(t.get("stage_number", 1)),
+                            t.get("priority", "HIGH"), t.get("kanban_column", "BACKLOG"), 1,
+                            t.get("created_at", now), now,
+                        ),
+                    )
+            elif entity_type == "article":
+                wconn.execute(
+                    """
+                    INSERT OR IGNORE INTO knowledge_atoms(
+                        url_hash, source_connector, dept_id, division_code, title, url,
+                        published_at, fetched_at, summary_vi, actionable_insight, importance, tags, is_starred
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        data["url_hash"], data["source_connector"], data["dept_id"], data["division_code"],
+                        data["title"], data["url"], data["published_at"], data["fetched_at"],
+                        data["summary_vi"], data["actionable_insight"], int(data.get("importance", 6)),
+                        data.get("tags", ""), int(data.get("is_starred", 0)),
+                    ),
+                )
+            self._clear_tombstone(wconn, entity_type, entity_id)
+            self.log_event("00", "ITEM_RESTORED", f"Đã hoàn tác khôi phục mục vừa xóa ({entity_type})", conn=wconn)
+        return {"restored": True, "entity_type": entity_type, "entity_id": entity_id}

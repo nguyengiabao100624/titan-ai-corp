@@ -27,11 +27,12 @@ class TestDatabaseAndMemoryEngine(unittest.TestCase):
         mode = conn.execute("PRAGMA journal_mode;").fetchone()[0]
         self.assertEqual(mode.lower(), "wal")
         depts = self.db.list_departments()
-        self.assertGreaterEqual(len(depts), 46)
+        self.assertGreaterEqual(len(depts), 51)
         ids = {d["dept_id"] for d in depts}
         self.assertIn("00", ids)
-        self.assertIn("01", ids)
-        self.assertIn("45", ids)
+        self.assertIn("46", ids)
+        self.assertIn("48", ids)
+        self.assertIn("50", ids)
 
     def test_atomic_task_checkout_20_thread_race(self) -> None:
         task = self.db.create_task(

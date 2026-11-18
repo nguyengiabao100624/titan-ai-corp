@@ -1,5 +1,5 @@
-/* Titan AI Corp v4.0 — Stale-While-Revalidate + Offline Snapshot PWA Service Worker */
-const CACHE_NAME = "titan-command-center-v4.0";
+/* Titan AI Corp v5.0 — Stale-While-Revalidate + Offline Snapshot PWA Service Worker */
+const CACHE_NAME = "titan-command-center-v5.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -26,13 +26,9 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
-
   const url = new URL(req.url);
-  if (url.pathname.endsWith("/api/events/stream")) {
-    return;
-  }
+  if (url.pathname.endsWith("/api/events/stream")) return;
 
-  // Network-first with cache fallback for API & Cloud Snapshot
   if (url.pathname.includes("/api/") || url.pathname.endsWith("/snapshot.json")) {
     event.respondWith(
       fetch(req)
@@ -48,7 +44,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Stale-while-revalidate for static UI shell (< 50ms instant paint)
   event.respondWith(
     caches.match(req).then((cached) => {
       const fetchPromise = fetch(req)

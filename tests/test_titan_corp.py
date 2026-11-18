@@ -18,6 +18,7 @@ EXPECTED_DIVISIONS = [
     "div6-sales-commercial",
     "div7-finance-tax-legal",
     "div8-data-ops-hr",
+    "div9-critique-ux-lab",
 ]
 
 
@@ -56,13 +57,13 @@ class TestTitanAICorpArchitecture(unittest.TestCase):
             self.assertIn(f"name: {skill_dir_name}", frontmatter)
             self.assertIn("description:", frontmatter)
 
-    def test_all_46_six_layer_genius_brains_pass_sla01(self) -> None:
+    def test_all_51_six_layer_genius_brains_pass_sla01(self) -> None:
         skills_root = ROOT_DIR / ".agents" / "skills"
         specialist_files = sorted(skills_root.glob("div*/specialists/*.md"))
         self.assertEqual(
             len(specialist_files),
-            45,
-            f"Expected exactly 45 specialist handbooks, found {len(specialist_files)}",
+            50,
+            f"Expected exactly 50 specialist handbooks, found {len(specialist_files)}",
         )
 
         ceo_text = (skills_root / "titan-ceo-orchestrator" / "SKILL.md").read_text(encoding="utf-8")
@@ -81,7 +82,7 @@ class TestTitanAICorpArchitecture(unittest.TestCase):
             for layer_idx in range(1, 7):
                 self.assertIn(f"tầng {layer_idx}", text.lower(), f"Missing Tầng {layer_idx} in {spec_file.name}")
 
-        self.assertEqual(seen_numbers, set(range(1, 46)))
+        self.assertEqual(seen_numbers, set(range(1, 51)))
 
     def test_cli_audit_and_project_scaffolding(self) -> None:
         audit_proc = subprocess.run(
@@ -94,8 +95,8 @@ class TestTitanAICorpArchitecture(unittest.TestCase):
         )
         report = json.loads(audit_proc.stdout)
         self.assertTrue(report["passed"])
-        self.assertEqual(report["skill_packages_count"], 9)
-        self.assertEqual(report["specialists_count"], 45)
+        self.assertEqual(report["skill_packages_count"], 10)
+        self.assertEqual(report["specialists_count"], 50)
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             temp_db = Path(tmp_dir) / "sandbox.db"

@@ -1,87 +1,76 @@
 /* ==========================================================================
-   TITAN AI CORP v4.0 — COMMAND CENTER SPA ENGINE (60FPS, SSE, PWA & CLOUD)
-   Zero External Bloat | IndexedDB Cache & Outbox | WebCrypto AES-256-GCM
+   TITAN COMMAND CENTER v5.0 — AUTONOMOUS MISSION, FULL CRUD & MINIMALIST UI
    ========================================================================== */
 (() => {
   "use strict";
 
-  // -------------------------------------------------------------------------
-  // 1. STATE & CONSTANTS
-  // -------------------------------------------------------------------------
-  const TAB_TITLES = {
-    overview: "1. Trung Tâm Chỉ Huy Tập Đoàn",
-    org: "2. Sơ Đồ 8 Khối & 46 Nhân Sự AI",
-    kanban: "3. Bảng Việc Kanban & Cổng Chủ Tịch Duyệt",
-    learning: "4. Radar Tự Học Báo Chí & Kho Tri Thức FTS5",
-    workflow: "5. Quy Trình Vận Hành 12 Giai Đoạn & Luật RACI",
-    projects: "6. Danh Mục Dự Án & Hồ Sơ Bàn Giao",
-    finance: "7. Bàn Tính Kinh Tế Đơn Vị CFO & Hòa Vốn",
-    hr: "8. Tuyển Nhân Sự AI (#46+) & Cloud 24/7"
+  const VIEW_TITLES = {
+    command: "Giao việc & Kiếm tiền",
+    missions: "Tiến độ Nhiệm vụ từng bước",
+    tasks: "Bảng việc chi tiết",
+    staff: "Đội ngũ 51 Nhân sự AI",
+    news: "Báo mới & Tri thức thị trường",
+    finance: "Tài chính, Dự án & Cài đặt"
   };
 
-  const STATUS_LABELS = {
-    IDLE: "○ Chờ lệnh",
-    EXECUTING: "▶ Đang làm việc",
-    STUDYING: "✦ Đang đọc báo",
-    WAITING_CHAIRMAN: "⚑ Chờ Chủ tịch",
-    IN_QA_REVIEW: "✓ Đang kiểm định",
-    BACKLOG: "○ Hàng đợi",
-    IN_PROGRESS: "▶ Đang thi công",
-    QA_SECURITY_REVIEW: "⛨ Tòa án QA",
-    WAITING_APPROVAL: "⚑ Chờ ký duyệt",
-    DONE: "✓ Đã nghiệm thu",
-    REJECTED: "✕ Yêu cầu sửa"
+  const COL_LABELS = {
+    BACKLOG: "Hàng đợi",
+    IN_PROGRESS: "Đang làm",
+    QA_SECURITY_REVIEW: "Kiểm định QA",
+    WAITING_APPROVAL: "Chờ bạn duyệt",
+    DONE: "Hoàn tất",
+    REJECTED: "Cần sửa lại"
   };
 
-  const WORKFLOW_12_STAGES = [
-    { step: "GĐ 01", title: "Bắt Tín Hiệu & Khởi Xướng Dự Án", raci: "R: @ceo, 01 | A: @ceo", desc: "Tiếp nhận chỉ đạo Chủ tịch hoặc phát hiện nhu cầu thị trường từ đợt đọc báo sáng, lập cây dự án 8 khối.", gate: false },
-    { step: "GĐ 02", title: "Tam Giác Điều Tra: Thị Trường – Tâm Lý – Đối Thủ", raci: "R: 01, 02, 03 | A: @ceo", desc: "Đo quy mô khách có tiền thật, tìm tử huyệt tâm lý và mổ xẻ đánh giá 1-2 sao của đối thủ kèm >=5 link sống.", gate: false },
-    { step: "GĐ 03", title: "CỔNG 1: Thẩm Định Kinh Tế Đơn Vị (>=65%) & Thuế", raci: "R: 38, 39, 04, 05 | A: @ceo", desc: "Tính chi phí API kịch bản xấu nhất (100% hạn mức). Biên lợi nhuận gộp <65% bị chặn ngay trước khi code.", gate: true },
-    { step: "GĐ 04", title: "CỔNG 2: Đặc Tả PRD, UX 3 Chạm & Giao Diện Dịu Mắt", raci: "R: 06..10 | A: Chủ tịch HĐQT", desc: "Chốt phạm vi MVP tinh gọn, thiết kế luồng di động 3 chạm và trình Chủ tịch phê duyệt trên Web/Điện thoại.", gate: true },
-    { step: "GĐ 05", title: "Kiến Trúc C4, Hợp Đồng API & Phân Mảnh Không Xung Đột", raci: "R: 12, 17, 11 | A: @ceo", desc: "Thiết kế cô lập dữ liệu khách hàng (tenant_id), khóa JSON Schema và phân quyền Atomic Checkout.", gate: false },
-    { step: "GĐ 06", title: "Chế Tạo Kỹ Thuật Chuẩn TDD (Web/App/Payment/AI)", raci: "R: 13..18 | A: @ceo", desc: "Viết test tự động trước cho luồng thanh toán & hạn mức, tối ưu tốc độ 60FPS và pipeline AI chính xác.", gate: false },
-    { step: "GĐ 07", title: "Song Hành Studio Video AI Triệu View & Bộ Bán Hàng", raci: "R: 25..35, 40 | A: @ceo", desc: "Thiết kế trước 3 Thumbnail CTR cao, kịch bản Hook 3s, video khóa khung Đầu-Cuối, bài GEO/SEO & 50 khách mẫu.", gate: false },
-    { step: "GĐ 08", title: "CỔNG 3: Tòa Án Kiểm Định Độc Lập 4 Lớp", raci: "R: 20..24, 41 | A: @ceo", desc: "QA phá ca biên, đo chống lag <50ms, bẫy Prompt Injection, quét bảo mật & chính sách bật kiếm tiền.", gate: true },
-    { step: "GĐ 09", title: "CỔNG 4: Đưa Lên Cloud 24/7 & Chủ Tịch Nghiệm Thu", raci: "R: 19 | A: Chủ tịch HĐQT", desc: "Triển khai GitHub Cloud / Docker Server 24/7, kiểm tra /api/health xanh mượt trên cả PC và Điện thoại.", gate: true },
-    { step: "GĐ 10", title: "Ra Quân: Săn 50 Khách Đầu Bằng Mẫu Riêng & Phễu Video", raci: "R: 32, 33, 34 | A: @ceo", desc: "Gửi sản phẩm mẫu cá nhân hóa cho 50 chủ tiệm mục tiêu để thu tiền tươi đầu tiên và bật kênh USD quốc tế.", gate: false },
-    { step: "GĐ 11", title: "Bàn Giao 180 Giây, Giữ Chân Khách & Khoanh Quỹ Thuế", raci: "R: 35..39 | A: @ceo", desc: "Đưa khách mới chạm kết quả dưới 3 phút, đối soát sổ kép từng giao dịch và tách riêng quỹ dự phòng thuế.", gate: false },
-    { step: "GĐ 12", title: "CỔNG 5: Chẩn Đoán BI, Kho Vũ Khí Voyager & Nhân Bản", raci: "R: 42..45 | A: Chủ tịch HĐQT", desc: "Tìm khâu rơi khách lớn nhất để tối ưu, đóng gói module tái sử dụng và nâng cấp cẩm nang cho cả 46 vị trí.", gate: true }
-  ];
+  const PRIO_LABELS = {
+    CRITICAL: "Khẩn cấp",
+    HIGH: "Cao",
+    MEDIUM: "Trung bình",
+    LOW: "Thấp"
+  };
 
-  const ARBITRATION_LAWS = [
-    { code: "LUẬT 01", title: "An toàn Pháp lý, Thuế & Bảo mật Thắng Tốc độ (Phòng 23, 24, 39, 41 > 06, 13, 25)", desc: "Nếu Bảo mật, Thuế hoặc Chính sách Nền tảng phất cờ đỏ, lệnh xuất bản bị chặn cứng cho tới khi xử lý triệt để." },
-    { code: "LUẬT 02", title: "Toán Học Kinh Tế Đơn Vị Thắng Tính Năng Màu Mè (Phòng 38 > 06, 16)", desc: "Tính năng AI làm biên lợi nhuận gộp kịch bản xấu tụt xuống dưới 65% bắt buộc phải tối ưu lại hoặc chuyển lên gói cao cấp." },
-    { code: "LUẬT 03", title: "Người Kiểm Định Độc Lập Tuyệt Đối Với Người Thi Công (Khối 4 != Khối 3 & 5)", desc: "Không phòng ban nào được tự chấm bài của chính mình đạt chuẩn. Mọi bàn giao phải đi qua Khối 4 kiểm tra chéo." },
-    { code: "LUẬT 04", title: "Dữ Liệu Đo Đạc Thực Tế Thắng Ý Kiến Cảm Tính (Phòng 01, 42 > Mọi tranh luận)", desc: "Bất đồng về tiêu đề, giá bán hay luồng màn hình được phân xử bằng số liệu thực tế bên ngoài thị trường." },
-    { code: "LUẬT 05", title: "Quyết Định Của Chủ Tịch HĐQT Là Tối Thượng (Chairman Override)", desc: "Mọi quyết định Phê duyệt hoặc Bác bỏ từ Chủ tịch trên Web/Điện thoại có trọng số cao nhất và ghi thẳng vào Sổ Reflexion." }
-  ];
+  const DIV_SHORT_NAMES = {
+    "exec-board": "Điều hành",
+    "div9-critique-ux-lab": "Khối 9: Phản biện & Tester",
+    "div1-strategy-intel": "Khối 1: Chiến lược",
+    "div2-product-design": "Khối 2: Sản phẩm & UX",
+    "div3-engineering-ai": "Khối 3: Kỹ thuật & AI",
+    "div4-qa-cybersecurity": "Khối 4: An ninh & QA",
+    "div5-media-youtube-studio": "Khối 5: Video & Kênh",
+    "div6-sales-commercial": "Khối 6: Bán hàng",
+    "div7-finance-tax-legal": "Khối 7: Tài chính & Thuế",
+    "div8-data-ops-hr": "Khối 8: Vận hành & HR"
+  };
 
   const state = {
-    activeTab: "overview",
-    staticCloudMode: false,
+    tab: "command",
+    staticMode: false,
     overview: null,
     departments: [],
     divisions: [],
+    missions: [],
+    opportunities: [],
     tasks: [],
     projects: [],
     articles: [],
+    missionFilter: "",
+    taskViewMode: "list",
+    staffDivFilter: "",
+    newsStarFilter: "all",
+    selectedTaskIds: new Set(),
+    expandedNewsIds: new Set(),
+    expandedStepIds: new Set(),
     selectedProjectId: "",
-    selectedDeptDetail: null,
-    activeDrawerSubtab: "handbook",
-    sseSource: null,
-    lastEventId: 0,
-    sseQueueBuffer: [],
-    rafScheduled: false,
-    searchAbortCtrl: null,
-    searchTimer: null,
-    deferredInstallPrompt: null,
-    outboxCount: 0
+    currentDocFile: "",
+    docEditMode: false,
+    sse: null,
+    pollTimer: null
   };
 
   // -------------------------------------------------------------------------
-  // 2. SAFE HTML ESCAPING & FORMATTING HELPERS
+  // 1. HELPERS & SIMPLE MARKDOWN RENDERER (No Raw Markdown Clutter!)
   // -------------------------------------------------------------------------
-  function escapeHtml(val) {
+  function esc(val) {
     if (val === null || val === undefined) return "";
     return String(val)
       .replace(/&/g, "&amp;")
@@ -91,1622 +80,1693 @@
       .replace(/'/g, "&#39;");
   }
 
-  function formatVnd(num) {
-    const n = Number(num) || 0;
-    return n.toLocaleString("vi-VN") + " đ";
+  function vnd(n) {
+    return (Number(n) || 0).toLocaleString("vi-VN") + " đ";
   }
 
-  function formatShortTime(isoStr) {
-    if (!isoStr) return "--:--";
-    const d = new Date(isoStr);
-    if (Number.isNaN(d.getTime())) return String(isoStr).slice(0, 16);
-    return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) +
-      " · " + d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" });
+  function shortTime(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
   }
 
-  function statusBadgeHtml(st) {
-    const key = String(st || "IDLE").toUpperCase();
-    const label = STATUS_LABELS[key] || key;
-    return `<span class="status-badge status-${escapeHtml(key)}">${escapeHtml(label)}</span>`;
+  function renderCleanMarkdown(mdText) {
+    if (!mdText) return "<p>Chưa có nội dung.</p>";
+    const lines = String(mdText).split(/\r?\n/);
+    let html = "";
+    let inList = false;
+    for (const raw of lines) {
+      const line = raw.trim();
+      if (!line) {
+        if (inList) { html += "</ul>"; inList = false; }
+        continue;
+      }
+      if (line.startsWith("---")) continue;
+      if (line.startsWith("# ")) {
+        if (inList) { html += "</ul>"; inList = false; }
+        html += `<h2>${esc(line.slice(2))}</h2>`;
+      } else if (line.startsWith("## ") || line.startsWith("### ")) {
+        if (inList) { html += "</ul>"; inList = false; }
+        html += `<h3>${esc(line.replace(/^#+\s*/, ""))}</h3>`;
+      } else if (line.startsWith("- ") || line.startsWith("* ") || /^\d+\.\s/.test(line)) {
+        if (!inList) { html += "<ul>"; inList = true; }
+        const cleanItem = esc(line.replace(/^([-*]|\d+\.)\s*/, ""))
+          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+          .replace(/`([^`]+)`/g, "<code class='mono'>$1</code>");
+        html += `<li>${cleanItem}</li>`;
+      } else {
+        if (inList) { html += "</ul>"; inList = false; }
+        const cleanP = esc(line)
+          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+          .replace(/`([^`]+)`/g, "<code class='mono'>$1</code>");
+        html += `<p style="margin:6px 0;">${cleanP}</p>`;
+      }
+    }
+    if (inList) html += "</ul>";
+    return html;
   }
 
-  function showToast(msg) {
-    const wrap = document.getElementById("toast-container");
-    if (!wrap) return;
+  function toast(message, undoInfo = null) {
+    const stack = document.getElementById("toast-stack");
+    if (!stack) return;
     const el = document.createElement("div");
-    el.className = "toast";
-    el.textContent = msg;
-    wrap.appendChild(el);
+    el.className = "toast-item";
+    el.innerHTML = `<span>${esc(message)}</span>`;
+    if (undoInfo) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "undo-btn";
+      btn.textContent = "Hoàn tác";
+      btn.addEventListener("click", async () => {
+        el.remove();
+        await restoreDeletedItem(undoInfo.entity_type, undoInfo.entity_id, undoInfo.backup);
+      });
+      el.appendChild(btn);
+    }
+    stack.appendChild(el);
     setTimeout(() => {
       el.style.opacity = "0";
-      setTimeout(() => el.remove(), 220);
-    }, 3600);
+      setTimeout(() => el.remove(), 200);
+    }, undoInfo ? 5500 : 3200);
   }
 
   // -------------------------------------------------------------------------
-  // 3. INDEXEDDB CACHE & OFFLINE OUTBOX + WEBCRYPTO AES-256-GCM VAULT
+  // 2. API LAYER + FULL SERVERLESS GITHUB PAGES FALLBACK ENGINE
   // -------------------------------------------------------------------------
-  const idb = {
-    dbPromise: null,
-    open() {
-      if (this.dbPromise) return this.dbPromise;
-      this.dbPromise = new Promise((resolve) => {
-        if (!window.indexedDB) {
-          resolve(null);
-          return;
-        }
-        const req = window.indexedDB.open("TitanCommandCenterDB", 1);
-        req.onupgradeneeded = (e) => {
-          const db = e.target.result;
-          if (!db.objectStoreNames.contains("kv_cache")) {
-            db.createObjectStore("kv_cache");
-          }
-          if (!db.objectStoreNames.contains("pending_mutations")) {
-            db.createObjectStore("pending_mutations", { keyPath: "id", autoIncrement: true });
-          }
-        };
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => resolve(null);
-      });
-      return this.dbPromise;
-    },
-    async get(key) {
-      const db = await this.open();
-      if (!db) return null;
-      return new Promise((resolve) => {
-        const tx = db.transaction("kv_cache", "readonly");
-        const r = tx.objectStore("kv_cache").get(key);
-        r.onsuccess = () => resolve(r.result ?? null);
-        r.onerror = () => resolve(null);
-      });
-    },
-    async set(key, value) {
-      const db = await this.open();
-      if (!db) return;
-      return new Promise((resolve) => {
-        const tx = db.transaction("kv_cache", "readwrite");
-        tx.objectStore("kv_cache").put(value, key);
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => resolve();
-      });
-    },
-    async enqueueMutation(item) {
-      const db = await this.open();
-      if (!db) return;
-      return new Promise((resolve) => {
-        const tx = db.transaction("pending_mutations", "readwrite");
-        tx.objectStore("pending_mutations").add({ ...item, queued_at: new Date().toISOString() });
-        tx.oncomplete = () => {
-          this.refreshOutboxCount();
-          resolve();
-        };
-        tx.onerror = () => resolve();
-      });
-    },
-    async flushMutations() {
-      const db = await this.open();
-      if (!db || state.staticCloudMode) return;
-      const items = await new Promise((resolve) => {
-        const tx = db.transaction("pending_mutations", "readonly");
-        const r = tx.objectStore("pending_mutations").getAll();
-        r.onsuccess = () => resolve(r.result || []);
-        r.onerror = () => resolve([]);
-      });
-      for (const item of items) {
-        try {
-          const res = await fetch(item.url, {
-            method: item.method,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(item.body)
-          });
-          if (res.ok) {
-            await new Promise((resolve) => {
-              const tx = db.transaction("pending_mutations", "readwrite");
-              tx.objectStore("pending_mutations").delete(item.id);
-              tx.oncomplete = () => resolve();
-            });
-          }
-        } catch (_err) {
-          break;
-        }
-      }
-      await this.refreshOutboxCount();
-    },
-    async refreshOutboxCount() {
-      const db = await this.open();
-      if (!db) return;
-      const cnt = await new Promise((resolve) => {
-        const tx = db.transaction("pending_mutations", "readonly");
-        const r = tx.objectStore("pending_mutations").count();
-        r.onsuccess = () => resolve(r.result || 0);
-        r.onerror = () => resolve(0);
-      });
-      state.outboxCount = cnt;
-      const el = document.getElementById("sync-status-text");
-      if (el) {
-        el.textContent = cnt > 0 ? `Chờ mạng (${cnt})` : (state.staticCloudMode ? "GitHub CDN" : "Tức thì");
-      }
+  function getLocalFallbackStore() {
+    try {
+      const raw = localStorage.getItem("titan_v5_cloud_local_store");
+      return raw ? JSON.parse(raw) : null;
+    } catch (_e) {
+      return null;
     }
-  };
+  }
 
-  // WebCrypto PBKDF2-SHA256 (250k) + AES-256-GCM Vault for GitHub Token
-  const cryptoVault = {
-    async deriveKey(pin, saltBytes) {
-      const enc = new TextEncoder();
-      const baseKey = await window.crypto.subtle.importKey("raw", enc.encode(pin), "PBKDF2", false, ["deriveKey"]);
-      return window.crypto.subtle.deriveKey(
-        { name: "PBKDF2", salt: saltBytes, iterations: 250000, hash: "SHA-256" },
-        baseKey,
-        { name: "AES-GCM", length: 256 },
-        false,
-        ["encrypt", "decrypt"]
-      );
-    },
-    toBase64(bytes) {
-      return btoa(String.fromCharCode(...new Uint8Array(bytes)));
-    },
-    fromBase64(b64) {
-      return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-    },
-    async saveCredentials(repo, token, pin) {
-      const salt = window.crypto.getRandomValues(new Uint8Array(16));
-      const iv = window.crypto.getRandomValues(new Uint8Array(12));
-      const key = await this.deriveKey(pin, salt);
-      const payload = JSON.stringify({ repo, token });
-      const cipher = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(payload));
-      await idb.set("cloud_vault_v4", {
-        repo,
-        salt: this.toBase64(salt),
-        iv: this.toBase64(iv),
-        cipher: this.toBase64(cipher)
-      });
-    },
-    async unlockCredentials(pin) {
-      const record = await idb.get("cloud_vault_v4");
-      if (!record) throw new Error("Chưa lưu cấu hình Két Đám Mây trên thiết bị này.");
-      const key = await this.deriveKey(pin, this.fromBase64(record.salt));
-      const plainBuf = await window.crypto.subtle.decrypt(
-        { name: "AES-GCM", iv: this.fromBase64(record.iv) },
-        key,
-        this.fromBase64(record.cipher)
-      );
-      return JSON.parse(new TextDecoder().decode(plainBuf));
-    }
-  };
+  function saveLocalFallbackStore() {
+    if (!state.staticMode) return;
+    try {
+      localStorage.setItem("titan_v5_cloud_local_store", JSON.stringify({
+        missions: state.missions,
+        opportunities: state.opportunities,
+        tasks: state.tasks,
+        projects: state.projects,
+        articles: state.articles
+      }));
+    } catch (_e) {}
+  }
 
-  // -------------------------------------------------------------------------
-  // 4. API CLIENT WITH LATENCY TELEMETRY & GITHUB PAGES STATIC FALLBACK
-  // -------------------------------------------------------------------------
-  async function apiFetch(path, options = {}) {
-    const t0 = performance.now();
+  async function api(path, method = "GET", body = null) {
     try {
       const res = await fetch(path, {
-        ...options,
-        headers: {
-          ...(options.body ? { "Content-Type": "application/json" } : {}),
-          ...(options.headers || {})
-        }
+        method,
+        headers: body ? { "Content-Type": "application/json" } : {},
+        body: body ? JSON.stringify(body) : null
       });
-      const elapsed = Math.round(performance.now() - t0);
-      const pingEl = document.getElementById("ping-ms");
-      if (pingEl && path.startsWith("/api/")) {
-        pingEl.textContent = `${elapsed} ms`;
-      }
       if (!res.ok) {
-        let errMsg = `HTTP ${res.status}`;
+        let msg = `Lỗi HTTP ${res.status}`;
         try {
-          const errJson = await res.json();
-          errMsg = errJson.error || errMsg;
+          const j = await res.json();
+          msg = j.error || msg;
         } catch (_e) {}
-        throw new Error(errMsg);
+        throw new Error(msg);
       }
-      state.staticCloudMode = false;
+      state.staticMode = false;
       return await res.json();
     } catch (err) {
-      // If hosted on static GitHub Pages CDN without local Python server, fall back to ./cloud_state/snapshot.json
-      if ((!options.method || options.method === "GET") && path.startsWith("/api/")) {
-        const snap = await loadStaticCloudSnapshot();
-        if (snap) {
-          state.staticCloudMode = true;
-          updateConnectionIndicator("warning", "Chế độ Đám mây GitHub CDN");
-          return adaptSnapshotToEndpoint(snap, path);
-        }
-      }
-      if (options.method && options.method !== "GET" && !navigator.onLine) {
-        await idb.enqueueMutation({ url: path, method: options.method, body: JSON.parse(options.body || "{}") });
-        showToast("Đang ngoại tuyến — Lệnh của Chủ tịch đã lưu vào Hàng đợi, sẽ tự đồng bộ khi có mạng!");
-        return { offline_queued: true };
+      // Seamless GitHub Pages Static CDN Fallback
+      if (path.startsWith("/api/")) {
+        return handleStaticFallback(path, method, body, err);
       }
       throw err;
     }
   }
 
-  async function loadStaticCloudSnapshot() {
-    const candidates = ["./cloud_state/snapshot.json", "../corporate_hq/cloud_state/snapshot.json"];
-    for (const url of candidates) {
-      try {
-        const r = await fetch(url, { cache: "no-cache" });
-        if (r.ok) return await r.json();
-      } catch (_e) {}
+  async function handleStaticFallback(path, method, body, origErr) {
+    if (!state.staticMode) {
+      for (const snapUrl of ["./cloud_state/snapshot.json", "../corporate_hq/cloud_state/snapshot.json"]) {
+        try {
+          const sr = await fetch(snapUrl, { cache: "no-cache" });
+          if (sr.ok) {
+            const snap = await sr.json();
+            state.staticMode = true;
+            document.getElementById("live-label").textContent = "Online 24/7 (Cloud)";
+            const localSaved = getLocalFallbackStore();
+            state.divisions = snap.divisions || [];
+            state.departments = snap.departments || [];
+            state.missions = (localSaved && localSaved.missions) || snap.missions || [];
+            state.opportunities = (localSaved && localSaved.opportunities) || snap.opportunities || [];
+            state.tasks = (localSaved && localSaved.tasks) || snap.tasks || [];
+            state.projects = (localSaved && localSaved.projects) || snap.projects || [];
+            state.articles = (localSaved && localSaved.articles) || snap.knowledge_atoms || [];
+            break;
+          }
+        } catch (_e) {}
+      }
     }
-    return await idb.get("latest_snapshot_backup");
-  }
+    if (!state.staticMode) throw origErr;
 
-  function adaptSnapshotToEndpoint(snap, path) {
-    const depts = snap.departments || [];
-    const tasks = snap.tasks || [];
-    const atoms = snap.knowledge_atoms || [];
-    const events = snap.activity_stream || snap.recent_events || [];
-    const projects = snap.projects || [];
-    const divisions = snap.divisions || [];
+    if (method === "GET") {
+      if (path.startsWith("/api/overview")) {
+        return {
+          kpis: { total_departments: state.departments.length, total_knowledge_atoms: state.articles.length },
+          divisions: state.divisions,
+          projects: state.projects,
+          missions: state.missions,
+          opportunities: state.opportunities
+        };
+      }
+      if (path === "/api/departments") return { departments: state.departments };
+      const md = path.match(/^\/api\/departments\/(.+)$/);
+      if (md) {
+        const d = state.departments.find((x) => x.dept_id === md[1]);
+        return { ...d, handbook_markdown: `# ${d.title_vi}\n- Trực thuộc: ${d.division_code}`, learned_articles: state.articles.filter((a) => a.dept_id === d.dept_id), reflexions: [] };
+      }
+      if (path.startsWith("/api/tasks")) return { tasks: state.tasks };
+      if (path.startsWith("/api/missions")) return { missions: state.missions };
+      if (path.startsWith("/api/opportunities")) return { opportunities: state.opportunities };
+      if (path.startsWith("/api/knowledge")) return { articles: state.articles };
+      if (path.startsWith("/api/projects")) return { projects: state.projects, files: [] };
+    }
 
-    if (path.startsWith("/api/overview")) {
-      return {
-        kpis: {
-          total_departments: depts.length,
-          active_departments: depts.filter((d) => d.status !== "IDLE").length,
-          total_tokens_used: depts.reduce((s, d) => s + (d.tokens_used || 0), 0),
-          total_token_budget: depts.reduce((s, d) => s + (d.token_budget_monthly || 0), 0) || 1,
-          total_tasks: tasks.length,
-          in_progress_tasks: tasks.filter((t) => t.kanban_column === "IN_PROGRESS").length,
-          waiting_approval_tasks: tasks.filter((t) => t.kanban_column === "WAITING_APPROVAL").length,
-          done_tasks: tasks.filter((t) => t.kanban_column === "DONE").length,
-          total_knowledge_atoms: atoms.length,
-          atoms_last_24h: atoms.length
-        },
-        divisions,
-        projects,
-        recent_events: events
-      };
+    // Client-side mutations on GitHub Pages CDN!
+    if (method === "POST" && path === "/api/missions") {
+      const msn = buildClientMission(body.title || body.goal_prompt, body.auto_approve);
+      state.missions.unshift(msn);
+      saveLocalFallbackStore();
+      simulateClientMissionRun(msn.mission_id);
+      return msn;
     }
-    if (path === "/api/departments") return { departments: depts };
-    const mDept = path.match(/^\/api\/departments\/([a-zA-Z0-9_-]+)$/);
-    if (mDept) {
-      const id = mDept[1];
-      const found = depts.find((d) => d.dept_id === id || d.code === id);
-      if (!found) return null;
-      return {
-        ...found,
-        handbook_markdown: found.handbook_markdown || `# ${found.title_vi}\n\n${found.mission}`,
-        learned_articles: atoms.filter((a) => a.dept_id === found.dept_id),
-        tasks: tasks.filter((t) => t.assigned_dept_id === found.dept_id),
-        reflexions: (snap.reflexions || []).filter((r) => r.dept_id === found.dept_id)
-      };
+    if (method === "POST" && path.endsWith("/accept")) {
+      const oid = path.split("/")[3];
+      const opp = state.opportunities.find((o) => o.opp_id === oid);
+      if (opp) {
+        opp.status = "ACCEPTED";
+        const msn = buildClientMission(opp.title, false);
+        state.missions.unshift(msn);
+        saveLocalFallbackStore();
+        simulateClientMissionRun(msn.mission_id);
+        return msn;
+      }
     }
-    if (path.startsWith("/api/tasks")) return { tasks };
-    if (path.startsWith("/api/projects")) return { projects, files: [] };
-    if (path.startsWith("/api/knowledge")) return { query: "", elapsed_ms: 1.2, count: atoms.length, articles: atoms };
-    if (path.startsWith("/api/audit")) return { passed: true, registered_departments: depts.length };
+    if (method === "POST" && path === "/api/tasks") {
+      const nt = { task_id: `task-${Date.now()}`, kanban_column: body.kanban_column || "BACKLOG", ...body };
+      state.tasks.unshift(nt);
+      saveLocalFallbackStore();
+      return nt;
+    }
+    if (method === "PATCH" && path.startsWith("/api/tasks/")) {
+      const tid = path.split("/")[3];
+      const t = state.tasks.find((x) => x.task_id === tid);
+      if (t) Object.assign(t, body);
+      saveLocalFallbackStore();
+      return t || {};
+    }
+    if (method === "DELETE" && path.startsWith("/api/tasks/")) {
+      const tid = path.split("/")[3];
+      state.tasks = state.tasks.filter((x) => x.task_id !== tid);
+      saveLocalFallbackStore();
+      return { deleted: true, entity_type: "task", entity_id: tid };
+    }
+    if (method === "DELETE" && path.startsWith("/api/missions/")) {
+      const mid = path.split("/")[3];
+      state.missions = state.missions.filter((x) => x.mission_id !== mid);
+      saveLocalFallbackStore();
+      return { deleted: true, entity_type: "mission", entity_id: mid };
+    }
+    if (method === "DELETE" && path.startsWith("/api/opportunities/")) {
+      const oid = path.split("/")[3];
+      state.opportunities = state.opportunities.filter((x) => x.opp_id !== oid);
+      saveLocalFallbackStore();
+      return { deleted: true, entity_type: "opportunity", entity_id: oid };
+    }
+    if (method === "POST" && path.endsWith("/decision")) {
+      const parts = path.split("/");
+      if (parts[2] === "missions") {
+        const m = state.missions.find((x) => x.mission_id === parts[3]);
+        if (m) {
+          m.status = body.decision === "APPROVE" ? "COMPLETED" : "RUNNING";
+          m.progress_pct = body.decision === "APPROVE" ? 100 : 57;
+          m.steps.forEach((s) => { if (body.decision === "APPROVE") s.status = "DONE"; });
+        }
+        saveLocalFallbackStore();
+        return m || {};
+      }
+    }
     return {};
   }
 
-  function updateConnectionIndicator(dotClass, label) {
-    const dot = document.getElementById("conn-dot");
-    const txt = document.getElementById("conn-text");
-    if (dot) dot.className = `dot-indicator ${dotClass || ""}`.trim();
-    if (txt) txt.textContent = label;
-  }
-
-  // -------------------------------------------------------------------------
-  // 5. DETERMINISTIC CFO SIMULATOR (Client + Server Parity)
-  // -------------------------------------------------------------------------
-  function computeLocalCfo(params) {
-    const price = Math.max(0, Number(params.price_per_month) || 0);
-    const quota = Math.max(0, Math.floor(Number(params.max_quota_units) || 0));
-    const unitApi = Math.max(0, Number(params.api_cost_per_unit) || 0);
-    const usage = Math.min(1.0, Math.max(0.05, Number(params.avg_usage_ratio) || 0.6));
-    const payPct = Math.max(0, Number(params.payment_fee_pct) || 0) / 100.0;
-    const taxPct = Math.max(0, Number(params.tax_reserve_pct) || 0) / 100.0;
-    const fixedCost = Math.max(0, Number(params.fixed_monthly_cost) || 0);
-
-    const paymentFee = price * payPct;
-    const taxReserve = price * taxPct;
-    const worstApi = quota * unitApi;
-    const expApi = quota * usage * unitApi;
-    const worstCogs = worstApi + paymentFee;
-    const expCogs = expApi + paymentFee;
-
-    const worstMargin = price > 0 ? ((price - worstCogs) / price) * 100 : 0;
-    const expMargin = price > 0 ? ((price - expCogs) / price) * 100 : 0;
-    const netExp = price - expCogs - taxReserve;
-    const netWorst = price - worstCogs - taxReserve;
-    const breakeven = netExp > 0 ? Math.ceil(fixedCost / netExp) : -1;
-
-    const projections = {};
-    [10, 50, 200, 500].forEach((n) => {
-      projections[String(n)] = {
-        customers: n,
-        gross_revenue: price * n,
-        tax_reserve: taxReserve * n,
-        net_profit: (price - expCogs - taxReserve) * n - fixedCost
-      };
-    });
-    const passed = worstMargin >= 65.0 && netWorst > 0;
+  function buildClientMission(title, autoApprove) {
+    const mid = `msn-${Date.now().toString(36)}`;
+    const tpl = [
+      [1, "Điều tra thị trường & nhu cầu thực tế", "01,50"],
+      [2, "Giải mã tâm lý khách rút ví & điểm yếu đối thủ", "02,03"],
+      [3, "Tính dòng tiền, giá bán, thuế & điểm hòa vốn", "38,39"],
+      [4, "Hội đồng phản biện Pre-Mortem mổ xẻ rủi ro", "46,47"],
+      [5, "Thiết kế giải pháp 3 chạm & kênh săn khách đầu tiên", "06,12,25,32"],
+      [6, "Tester đóng vai 5 nhóm người dùng thật trải nghiệm", "48,49,20"],
+      [7, "Tổng hợp kế hoạch trình Chủ tịch nghiệm thu", "00"]
+    ];
     return {
-      worst_gross_margin_pct: worstMargin.toFixed(2),
-      expected_gross_margin_pct: expMargin.toFixed(2),
-      net_profit_per_user_worst: Math.round(netWorst),
-      breakeven_customers: breakeven,
-      gate1_passed: passed,
-      verdict_vi: passed
-        ? "ĐẠT CHUẨN CỔNG 1 (An toàn chống lỗ ngầm kể cả khi khách dùng hết 100% hạn mức)"
-        : "CẢNH BÁO ĐỎ: Biên lợi nhuận kịch bản xấu < 65% — Cần giảm hạn mức hoặc tăng giá bán!",
-      projections
+      mission_id: mid,
+      title,
+      goal_prompt: title,
+      status: "RUNNING",
+      auto_approve: autoApprove ? 1 : 0,
+      progress_pct: 5,
+      steps: tpl.map(([ord, stitle, leads]) => ({
+        step_id: `${mid}-s${ord}`,
+        step_order: ord,
+        title: stitle,
+        lead_dept_ids: leads,
+        lead_depts: leads.split(",").map((i) => ({ dept_id: i, title_vi: `Phòng #${i}` })),
+        status: "PENDING",
+        output_summary: "",
+        critique_verdict: "",
+        ux_verdict: ""
+      }))
     };
   }
 
-  // -------------------------------------------------------------------------
-  // 6. RENDERERS FOR ALL 8 TABS & BRAIN INSPECTOR
-  // -------------------------------------------------------------------------
-  function renderOverview() {
-    if (!state.overview) return;
-    const k = state.overview.kpis || {};
-    document.getElementById("kpi-total-depts").textContent = k.total_departments ?? 46;
-    document.getElementById("kpi-active-depts").textContent =
-      `Đang bận: ${k.active_departments ?? 0} vị trí · Đang đọc báo: ${k.studying_departments ?? 0}`;
-    document.getElementById("kpi-waiting-gates").textContent = k.waiting_approval_tasks ?? 0;
-    document.getElementById("kpi-task-breakdown").textContent =
-      `Tổng ${k.total_tasks ?? 0} việc (${k.in_progress_tasks ?? 0} đang làm · ${k.done_tasks ?? 0} xong)`;
-    document.getElementById("kpi-total-atoms").textContent = k.total_knowledge_atoms ?? 0;
-    document.getElementById("kpi-atoms-24h").textContent = `+${k.atoms_last_24h ?? 0} bài mới thu thập trong 24h qua`;
-
-    const pct = ((Number(k.total_tokens_used || 0) / Math.max(1, Number(k.total_token_budget || 1))) * 100).toFixed(1);
-    document.getElementById("kpi-token-pct").textContent = `${pct}%`;
-    document.getElementById("kpi-token-detail").textContent =
-      `${Number(k.total_tokens_used || 0).toLocaleString("vi-VN")} / ${Number(k.total_token_budget || 0).toLocaleString("vi-VN")}`;
-
-    // Update Sidebar Badges
-    document.getElementById("badge-depts").textContent = k.total_departments ?? 46;
-    document.getElementById("badge-approvals").textContent = k.waiting_approval_tasks ?? 0;
-    document.getElementById("badge-knowledge").textContent = k.total_knowledge_atoms ?? 0;
-    document.getElementById("badge-projects").textContent = (state.overview.projects || []).length;
-
-    // Render Divisions Summary
-    const divBox = document.getElementById("overview-divisions-list");
-    divBox.innerHTML = (state.overview.divisions || []).map((dv) => {
-      const cnt = state.departments.filter((d) => d.division_code === dv.code).length;
-      return `
-        <div class="division-row" data-jump-div="${escapeHtml(dv.code)}">
-          <div>
-            <div style="font-weight:700;color:var(--text-primary);font-size:13.5px;">${escapeHtml(dv.name_vi)}</div>
-            <div class="kpi-sub">${escapeHtml(dv.c_level_title)} · ${escapeHtml(dv.slash_command || "")}</div>
-          </div>
-          <span class="nav-badge">${cnt || ""} vị trí</span>
-        </div>
-      `;
-    }).join("");
-
-    divBox.querySelectorAll("[data-jump-div]").forEach((row) => {
-      row.addEventListener("click", () => {
-        document.getElementById("org-division-filter").value = row.getAttribute("data-jump-div");
-        switchTab("org");
-        renderOrgChart();
-      });
-    });
-
-    // Last Learning Run Summary
-    const lr = state.overview.last_learning_run;
-    const lrBadge = document.getElementById("last-learn-badge");
-    const lrSum = document.getElementById("last-learn-summary");
-    if (lr) {
-      lrBadge.textContent = lr.status || "COMPLETED";
-      lrSum.innerHTML = `Lần quét gần nhất lúc <strong>${escapeHtml(formatShortTime(lr.started_at))}</strong>: Quét <strong>${lr.sources_polled || 0}</strong> kênh báo chí & khoa học, nạp mới <strong>+${lr.atoms_inserted || 0}</strong> tri thức vào SQLite FTS5.`;
-    }
-
-    // Activity Feed (bounded to 200 items in DOM for zero memory leak)
-    const feedEl = document.getElementById("live-activity-feed");
-    const evs = (state.overview.recent_events || []).slice(0, 120);
-    if (evs.length > 0 && evs[0].event_id) {
-      state.lastEventId = Math.max(state.lastEventId, Number(evs[0].event_id));
-    }
-    if (!evs.length) {
-      feedEl.innerHTML = `<div class="kpi-sub">Chưa có sự kiện nào. Hãy bấm "+ Giao việc" hoặc "✦ Quét báo mới".</div>`;
-    } else {
-      feedEl.innerHTML = evs.map(renderFeedItemHtml).join("");
-      bindFeedItemClicks(feedEl);
-    }
-  }
-
-  function renderFeedItemHtml(ev) {
-    const actorLabel = ev.actor_dept_id
-      ? `#${ev.actor_dept_id} ${ev.actor_title_vi || ev.actor_code || ""}`
-      : "Hệ thống Titan";
-    return `
-      <div class="feed-item" data-open-dept="${escapeHtml(ev.actor_dept_id || "00")}">
-        <div class="feed-item-top">
-          <span class="feed-actor" style="cursor:pointer;">${escapeHtml(actorLabel)}</span>
-          <span class="feed-time">${escapeHtml(formatShortTime(ev.timestamp || ev.created_at))}</span>
-        </div>
-        <div class="feed-headline">${escapeHtml(ev.headline_vi)}</div>
-      </div>
-    `;
-  }
-
-  function bindFeedItemClicks(container) {
-    container.querySelectorAll("[data-open-dept]").forEach((el) => {
-      el.addEventListener("click", () => {
-        const id = el.getAttribute("data-open-dept");
-        if (id) openBrainInspector(id);
-      });
-    });
-  }
-
-  function renderOrgChart() {
-    const container = document.getElementById("org-chart-container");
-    const q = (document.getElementById("org-search-input").value || "").trim().toLowerCase();
-    const divF = document.getElementById("org-division-filter").value;
-    const stF = document.getElementById("org-status-filter").value;
-
-    const filtered = state.departments.filter((d) => {
-      if (divF && d.division_code !== divF) return false;
-      if (stF && d.status !== stF) return false;
-      if (q) {
-        const hay = `${d.dept_id} ${d.code} ${d.title_vi} ${d.title_en} ${d.mission}`.toLowerCase();
-        if (!hay.includes(q)) return false;
+  function simulateClientMissionRun(mid) {
+    let idx = 0;
+    const tick = () => {
+      const m = state.missions.find((x) => x.mission_id === mid);
+      if (!m || m.status === "PAUSED") return;
+      if (idx >= m.steps.length) return;
+      const step = m.steps[idx];
+      if (step.step_order === 7 && !m.auto_approve) {
+        step.status = "WAITING_APPROVAL";
+        step.output_summary = "Đã vượt qua đủ 6 bước Phản biện (#46-#47) & Tester người dùng (#48-#49). Đang chờ bạn bấm Chấp nhận.";
+        m.status = "WAITING_CHAIRMAN";
+        m.progress_pct = 90;
+        saveLocalFallbackStore();
+        renderAllViews();
+        return;
       }
-      return true;
-    });
+      step.status = "RUNNING";
+      renderAllViews();
+      setTimeout(() => {
+        step.status = "DONE";
+        step.output_summary = "Đã hoàn thành thực thi và vượt qua phản biện chéo tại chỗ.";
+        step.critique_verdict = "Phòng #47 Phản biện: Đạt";
+        step.ux_verdict = "Phòng #48 Tester Người dùng: Đạt";
+        m.progress_pct = Math.round(((idx + 1) / m.steps.length) * 100);
+        if (idx === m.steps.length - 1) m.status = "COMPLETED";
+        saveLocalFallbackStore();
+        renderAllViews();
+        idx += 1;
+        tick();
+      }, 650);
+    };
+    tick();
+  }
 
-    if (!filtered.length) {
-      container.innerHTML = `<div class="card"><div class="kpi-sub">Không tìm thấy phòng ban nào khớp bộ lọc hiện tại.</div></div>`;
+  async function restoreDeletedItem(entityType, entityId, clientBackup = null) {
+    if (state.staticMode && clientBackup) {
+      if (entityType === "task") state.tasks.unshift(clientBackup);
+      if (entityType === "mission") state.missions.unshift(clientBackup);
+      if (entityType === "opportunity") state.opportunities.unshift(clientBackup);
+      saveLocalFallbackStore();
+      renderAllViews();
+      toast("Đã khôi phục lại mục vừa xóa.");
+      return;
+    }
+    try {
+      await api("/api/trash/restore", "POST", { entity_type: entityType, entity_id: entityId });
+      await loadEverything();
+      toast("Đã khôi phục nguyên trạng mục vừa xóa.");
+    } catch (e) {
+      toast(`Không thể hoàn tác: ${e.message}`);
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // 3. VIEW RENDERERS (CLEAN, UNCLUTTERED, 1-GLANCE CLARITY)
+  // -------------------------------------------------------------------------
+  function renderCountsAndHeader() {
+    const runningM = state.missions.filter((m) => m.status === "RUNNING").length;
+    const waitM = state.missions.filter((m) => m.status === "WAITING_CHAIRMAN").length;
+    const waitT = state.tasks.filter((t) => t.kanban_column === "WAITING_APPROVAL").length;
+    const totalWait = waitM + waitT;
+    const activeOpps = state.opportunities.filter((o) => o.status === "NEW").length;
+
+    document.getElementById("stat-running-missions").textContent = runningM;
+    document.getElementById("stat-waiting-approvals").textContent = totalWait;
+    document.getElementById("stat-staff-ready").textContent = state.departments.length || 51;
+    document.getElementById("stat-news-count").textContent =
+      (state.overview && state.overview.kpis && state.overview.kpis.total_knowledge_atoms) || state.articles.length || 0;
+
+    document.getElementById("nav-cnt-opps").textContent = activeOpps;
+    document.getElementById("nav-cnt-missions").textContent = runningM + waitM || state.missions.length;
+    document.getElementById("nav-cnt-tasks").textContent = state.tasks.filter((t) => t.kanban_column !== "DONE").length;
+    document.getElementById("nav-cnt-staff").textContent = state.departments.length || 51;
+    document.getElementById("nav-cnt-news").textContent =
+      (state.overview && state.overview.kpis && state.overview.kpis.total_knowledge_atoms) || state.articles.length || 0;
+
+    const dot = document.getElementById("live-dot");
+    const lbl = document.getElementById("live-label");
+    if (runningM > 0) {
+      dot.className = "pulse-dot pulse-active";
+      lbl.textContent = `Đang tự chạy ${runningM} nhiệm vụ...`;
+    } else {
+      dot.className = "pulse-dot";
+      if (!state.staticMode) lbl.textContent = "Tự động hóa Sẵn sàng";
+    }
+  }
+
+  function renderCommandTab() {
+    // 1. Pending Chairman Approvals Strip
+    const waitMissions = state.missions.filter((m) => m.status === "WAITING_CHAIRMAN");
+    const waitTasks = state.tasks.filter((t) => t.kanban_column === "WAITING_APPROVAL");
+    const wrap = document.getElementById("pending-approvals-section");
+    const list = document.getElementById("pending-approvals-list");
+
+    if (!waitMissions.length && !waitTasks.length) {
+      wrap.style.display = "none";
+    } else {
+      wrap.style.display = "block";
+      let html = "";
+      waitMissions.forEach((m) => {
+        html += `
+          <div class="list-row" style="grid-template-columns:minmax(0,1fr) auto;">
+            <div>
+              <div style="font-weight:700;color:var(--text-primary);">${esc(m.title)}</div>
+              <div style="font-size:12px;color:var(--text-muted);">Nhiệm vụ 7 bước · Đã qua #46 Phản biện &amp; #48 Tester người dùng</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">✓ Chấp nhận</button>
+              <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Làm lại</button>
+              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-msn="${esc(m.mission_id)}">Xóa</button>
+            </div>
+          </div>
+        `;
+      });
+      waitTasks.forEach((t) => {
+        html += `
+          <div class="list-row" style="grid-template-columns:minmax(0,1fr) auto;">
+            <div>
+              <div style="font-weight:600;color:var(--text-primary);">${esc(t.title)}</div>
+              <div style="font-size:12px;color:var(--text-muted);">Việc lẻ · Phòng #${esc(t.assigned_dept_id)} trình duyệt</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button type="button" class="btn btn-xs btn-ok" data-approve-task="${esc(t.task_id)}">✓ Chấp nhận</button>
+              <button type="button" class="btn btn-xs" data-reject-task="${esc(t.task_id)}">↺ Làm lại</button>
+              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-task="${esc(t.task_id)}">Xóa</button>
+            </div>
+          </div>
+        `;
+      });
+      list.innerHTML = html;
+      bindQuickActions(list);
+    }
+
+    // 2. Money-Maker Opportunities Grid
+    const oppGrid = document.getElementById("opportunities-grid");
+    const visibleOpps = state.opportunities.filter((o) => o.status !== "DISMISSED");
+    if (!visibleOpps.length) {
+      oppGrid.innerHTML = `<div class="panel-box"><p style="color:var(--text-muted);">Chưa có đề xuất nào. Nhấn <strong>Tìm thêm cơ hội mới</strong> để Phòng #50 săn kèo kiếm tiền cho bạn.</p></div>`;
       return;
     }
 
-    const groups = new Map();
-    filtered.forEach((d) => {
-      const k = d.division_code;
-      if (!groups.has(k)) {
-        groups.set(k, { name: d.division_name_vi || k, clevel: d.c_level_title || "", items: [] });
-      }
-      groups.get(k).items.push(d);
-    });
+    oppGrid.innerHTML = visibleOpps.map((o) => {
+      const isAccepted = o.status === "ACCEPTED";
+      return `
+        <article class="opp-card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+            <h3 class="opp-title">${esc(o.title)}</h3>
+            ${isAccepted ? `<span class="badge badge-done">Đã triển khai</span>` : `<span class="badge badge-run">Sẵn sàng</span>`}
+          </div>
+          <div class="opp-customer">Khách trả tiền: <strong>${esc(o.target_customer)}</strong></div>
 
-    let html = "";
-    groups.forEach((grp) => {
-      html += `
-        <div class="org-division-block">
-          <div class="org-division-heading">
-            <div>
-              <h2 class="section-title">${escapeHtml(grp.name)}</h2>
-              <div class="kpi-sub">Lãnh đạo khối: ${escapeHtml(grp.clevel)}</div>
+          <div class="opp-metrics mono">
+            <span>Lãi gộp: <strong style="color:var(--ok-text);">${Number(o.est_margin_pct || 75).toFixed(0)}%</strong></span>
+            <span>Hòa vốn: <strong>${o.breakeven_users || 5} khách</strong></span>
+            <span>Phản biện: <strong>${o.survival_score || 86}/100</strong></span>
+          </div>
+
+          <div class="opp-critique">${esc(o.critique_note || o.pain_point || "")}</div>
+
+          <div class="opp-actions">
+            <div style="display:flex;gap:6px;">
+              ${isAccepted
+                ? `<button type="button" class="btn btn-xs" data-goto-missions>Xem tiến độ →</button>`
+                : `<button type="button" class="btn btn-xs btn-primary" data-accept-opp="${esc(o.opp_id)}">✓ Duyệt làm tự động</button>`
+              }
+              <button type="button" class="btn btn-xs" data-edit-opp="${esc(o.opp_id)}">Sửa</button>
             </div>
-            <span class="nav-badge">${grp.items.length} chuyên gia</span>
+            <button type="button" class="btn btn-xs btn-danger-ghost" data-del-opp="${esc(o.opp_id)}" title="Xóa bỏ đề xuất này">Xóa</button>
           </div>
-          <div class="dept-grid">
-            ${grp.items.map((d) => `
-              <article class="dept-card" tabindex="0" role="button" data-dept-id="${escapeHtml(d.dept_id)}">
-                <div class="dept-card-top">
-                  <span class="dept-id-tag">#${escapeHtml(d.dept_id)} · ${escapeHtml(d.code)}</span>
-                  ${statusBadgeHtml(d.status)}
-                </div>
-                <h3 class="dept-name">${escapeHtml(d.title_vi)}</h3>
-                <div class="dept-mission">${escapeHtml(d.mission)}</div>
-                <div class="dept-meta-footer mono-num">
-                  <span>✓ ${d.tasks_completed || 0} việc</span>
-                  <span>Soi bộ não →</span>
-                </div>
-              </article>
-            `).join("")}
-          </div>
-        </div>
+        </article>
       `;
-    });
-    container.innerHTML = html;
+    }).join("");
 
-    container.querySelectorAll("[data-dept-id]").forEach((card) => {
-      card.addEventListener("click", () => openBrainInspector(card.getAttribute("data-dept-id")));
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openBrainInspector(card.getAttribute("data-dept-id"));
-        }
-      });
-    });
+    bindQuickActions(oppGrid);
   }
 
-  function renderKanban() {
-    const cols = ["BACKLOG", "IN_PROGRESS", "QA_SECURITY_REVIEW", "WAITING_APPROVAL", "DONE"];
-    const projF = document.getElementById("kanban-project-filter").value;
-    const divF = document.getElementById("kanban-division-filter").value;
+  // TAB 2: VISUAL STEP-BY-STEP MISSION TRACKER
+  function renderMissionsTab() {
+    const box = document.getElementById("missions-container");
+    const list = state.missions.filter((m) => !state.missionFilter || m.status === state.missionFilter);
 
-    const filtered = state.tasks.filter((t) => {
-      if (projF && t.project_id !== projF) return false;
-      if (divF && t.division_code !== divF) return false;
-      return true;
-    });
+    if (!list.length) {
+      box.innerHTML = `
+        <div class="panel-box" style="text-align:center;padding:36px 20px;">
+          <h3 style="margin-bottom:6px;">Chưa có nhiệm vụ nào ở mục này</h3>
+          <p style="color:var(--text-muted);margin-bottom:14px;">Giao một đề bài mới để xem toàn bộ 7 bước nhân viên tự động thực hiện, phản biện và kiểm thử trực tiếp tại đây.</p>
+          <button type="button" class="btn btn-primary" id="btn-empty-start-msn">+ Giao nhiệm vụ tự động ngay</button>
+        </div>
+      `;
+      const b = document.getElementById("btn-empty-start-msn");
+      if (b) b.onclick = () => { switchTab("command"); document.getElementById("mission-prompt-input").focus(); };
+      return;
+    }
 
-    cols.forEach((col) => {
-      const listEl = document.getElementById(`klist-${col}`);
-      const cntEl = document.getElementById(`kcount-${col}`);
-      const items = filtered.filter((t) => t.kanban_column === col);
-      if (cntEl) cntEl.textContent = items.length;
-      if (!listEl) return;
+    box.innerHTML = list.map((m) => {
+      const stBadge =
+        m.status === "COMPLETED" ? `<span class="badge badge-done">✓ Đã xong 100%</span>` :
+        m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">⚑ Chờ bạn duyệt</span>` :
+        m.status === "PAUSED" ? `<span class="badge badge-idle">⏸ Đang tạm dừng</span>` :
+        `<span class="badge badge-run">● Đang chạy Bước ${m.current_step_order || 1}/${m.total_steps || 7}</span>`;
 
-      if (!items.length) {
-        listEl.innerHTML = `<div class="kpi-sub" style="padding:8px 4px;">Trống (0 đầu việc)</div>`;
-        return;
-      }
+      const stepsHtml = (m.steps || []).map((s) => {
+        const isDone = s.status === "DONE";
+        const isRun = s.status === "RUNNING";
+        const isWait = s.status === "WAITING_APPROVAL";
+        const nodeCls = isDone ? "done" : isRun ? "running" : isWait ? "waiting" : "pending";
+        const nodeSym = isDone ? "✓" : isRun ? "●" : isWait ? "⚑" : s.step_order;
 
-      listEl.innerHTML = items.map((t) => {
-        const isWaiting = col === "WAITING_APPROVAL";
+        const whoStateLabel = isDone
+          ? `<strong style="color:var(--ok-text);">Đã làm xong:</strong>`
+          : isRun
+          ? `<strong style="color:var(--run-text);">Đang làm ngay lúc này:</strong>`
+          : isWait
+          ? `<strong style="color:var(--warn-text);">Chờ quyết định:</strong>`
+          : `<span>Chưa làm (Chờ tới lượt):</span>`;
+
+        const deptChips = (s.lead_depts || []).map((d) =>
+          `<span class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(d.title_vi)}</span>`
+        ).join("");
+
         return `
-          <div class="task-card ${isWaiting ? "gate-waiting" : ""}">
-            <div class="task-meta">
-              <span class="dept-id-tag">#${escapeHtml(t.assigned_dept_id)}</span>
-              <span class="mono-num">GĐ ${t.stage_number || 1} · Cổng ${t.gate_number || 1}</span>
+          <div class="step-row ${isRun ? "is-running" : ""} ${isWait ? "is-waiting" : ""}">
+            <span class="step-node ${nodeCls}">${nodeSym}</span>
+            <div class="step-main">
+              <div class="step-title-line">
+                <span class="step-name">Bước ${s.step_order}. ${esc(s.title)}</span>
+              </div>
+              <div class="who-chips">
+                ${whoStateLabel}
+                ${deptChips}
+              </div>
+              ${(isRun && s.live_activity_text) ? `<div class="step-summary" style="color:var(--run-text);">${esc(s.live_activity_text)}</div>` : ""}
+              ${(s.output_summary && (isDone || isWait)) ? `<div class="step-summary">${esc(s.output_summary)}</div>` : ""}
+              ${isDone ? `
+                <div class="step-checks">
+                  ${s.critique_verdict ? `<span>✓ ${esc(s.critique_verdict)}</span>` : ""}
+                  ${s.ux_verdict ? `<span>✓ ${esc(s.ux_verdict)}</span>` : ""}
+                </div>
+              ` : ""}
             </div>
-            <div class="task-title">${escapeHtml(t.title)}</div>
-            <div class="kpi-sub">${escapeHtml(t.dept_title_vi || "")}</div>
-            ${t.approval_note ? `<div class="kpi-sub" style="color:var(--brand-primary);">Ghi chú: ${escapeHtml(t.approval_note)}</div>` : ""}
-            <div class="task-actions">
-              ${col === "BACKLOG" ? `<button type="button" class="btn btn-sm" data-act-checkout="${escapeHtml(t.task_id)}" data-dept="${escapeHtml(t.assigned_dept_id)}">▶ Nhận khóa làm</button>` : ""}
-              ${col === "IN_PROGRESS" ? `<button type="button" class="btn btn-sm btn-primary" data-act-submit="${escapeHtml(t.task_id)}" data-dept="${escapeHtml(t.assigned_dept_id)}">⚑ Trình Cổng Duyệt</button>` : ""}
-              ${col === "QA_SECURITY_REVIEW" ? `<button type="button" class="btn btn-sm btn-primary" data-act-to-gate="${escapeHtml(t.task_id)}">Chuyển Chủ tịch duyệt</button>` : ""}
-              ${isWaiting ? `<button type="button" class="btn btn-sm btn-success" data-act-decide="${escapeHtml(t.task_id)}">✓ Duyệt / Bác bỏ</button>` : ""}
-              <button type="button" class="btn btn-sm" data-open-dept="${escapeHtml(t.assigned_dept_id)}">Hồ sơ NV</button>
+            <div class="step-time-col mono" style="font-size:11.5px;color:var(--text-muted);">
+              ${esc(shortTime(s.completed_at || s.started_at))}
             </div>
           </div>
         `;
       }).join("");
 
-      bindKanbanActions(listEl);
-    });
-  }
-
-  function bindKanbanActions(container) {
-    container.querySelectorAll("[data-open-dept]").forEach((b) => {
-      b.addEventListener("click", () => openBrainInspector(b.getAttribute("data-open-dept")));
-    });
-
-    container.querySelectorAll("[data-act-checkout]").forEach((b) => {
-      b.addEventListener("click", async () => {
-        const tid = b.getAttribute("data-act-checkout");
-        const dept = b.getAttribute("data-dept");
-        try {
-          await apiFetch(`/api/tasks/${encodeURIComponent(tid)}/checkout`, {
-            method: "POST",
-            body: JSON.stringify({ dept_id: dept })
-          });
-          showToast(`Phòng #${dept} đã khóa nguyên tử (Atomic Checkout) và bắt đầu thi công!`);
-          await refreshTasksAndOverview();
-        } catch (err) {
-          showToast(`Lỗi nhận việc: ${err.message}`);
-        }
-      });
-    });
-
-    container.querySelectorAll("[data-act-submit]").forEach((b) => {
-      b.addEventListener("click", async () => {
-        const tid = b.getAttribute("data-act-submit");
-        const dept = b.getAttribute("data-dept");
-        try {
-          await apiFetch(`/api/tasks/${encodeURIComponent(tid)}/submit`, {
-            method: "POST",
-            body: JSON.stringify({
-              dept_id: dept,
-              title: "Hồ sơ bàn giao trình Cổng kiểm soát",
-              summary: "Đã hoàn thành kiểm tra tiêu chuẩn đầu ra và đính kèm dữ liệu thực chứng.",
-              evidence_level: 3,
-              require_chairman_gate: true
-            })
-          });
-          showToast("Đã nộp bàn giao lên Cột 4 — Chờ Chủ tịch ký duyệt!");
-          await refreshTasksAndOverview();
-        } catch (err) {
-          showToast(`Lỗi nộp bàn giao: ${err.message}`);
-        }
-      });
-    });
-
-    container.querySelectorAll("[data-act-to-gate]").forEach((b) => {
-      b.addEventListener("click", async () => {
-        const tid = b.getAttribute("data-act-to-gate");
-        try {
-          await apiFetch(`/api/tasks/${encodeURIComponent(tid)}/transition`, {
-            method: "POST",
-            body: JSON.stringify({ column: "WAITING_APPROVAL" })
-          });
-          await refreshTasksAndOverview();
-        } catch (err) {
-          showToast(err.message);
-        }
-      });
-    });
-
-    container.querySelectorAll("[data-act-decide]").forEach((b) => {
-      b.addEventListener("click", () => {
-        const tid = b.getAttribute("data-act-decide");
-        const task = state.tasks.find((x) => x.task_id === tid);
-        if (!task) return;
-        document.getElementById("decision-task-id").value = tid;
-        document.getElementById("decision-task-summary").innerHTML =
-          `<strong>[${escapeHtml(tid)}] ${escapeHtml(task.title)}</strong><br/>Phòng thực thi: #${escapeHtml(task.assigned_dept_id)} (${escapeHtml(task.dept_title_vi || "")}) · Cổng kiểm soát số ${task.gate_number || 1}`;
-        document.getElementById("decision-note-input").value = "";
-        document.getElementById("decision-rule-input").value = "";
-        openModal("modal-decision");
-      });
-    });
-  }
-
-  function renderKnowledgeArticles(articles, elapsedMs) {
-    state.articles = articles || [];
-    const badge = document.getElementById("fts-speed-badge");
-    if (badge) {
-      badge.textContent = `FTS5: ${elapsedMs ?? 0} ms (${state.articles.length} bài)`;
-    }
-    const grid = document.getElementById("knowledge-articles-grid");
-    if (!state.articles.length) {
-      grid.innerHTML = `<div class="card"><div class="kpi-sub">Chưa có bài báo nào khớp truy vấn. Bấm "✦ Quét đồng loạt 8 nguồn báo sống" để nạp tin tức mới nhất!</div></div>`;
-      return;
-    }
-    grid.innerHTML = state.articles.map((a) => {
-      const linkUrl = a.url || a.source_url || "#";
-      const srcName = a.source_connector || a.source_name || "Web Intel";
       return `
-      <article class="article-card">
-        <div class="task-meta">
-          <span class="dept-id-tag" style="cursor:pointer;" data-open-dept="${escapeHtml(a.dept_id)}">Phòng #${escapeHtml(a.dept_id)}</span>
-          <span>${escapeHtml(srcName)} · Quan trọng: <strong>${a.importance || 7}/10</strong></span>
-        </div>
-        <h3 class="article-title">
-          <a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(a.title)} ↗</a>
-        </h3>
-        <div class="kpi-sub">${escapeHtml((a.summary_vi || "").slice(0, 260))}</div>
-        ${a.actionable_insight ? `<div class="article-insight"><strong>Ứng dụng thực chiến:</strong> ${escapeHtml(a.actionable_insight)}</div>` : ""}
-        <div class="task-meta mono-num">
-          <span>Thu thập: ${escapeHtml(formatShortTime(a.fetched_at))}</span>
-          <a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Đọc bản gốc →</a>
-        </div>
-      </article>
-    `;
+        <article class="mission-card">
+          <div class="mission-header">
+            <div class="mission-title-group">
+              <h3 class="mission-title">${esc(m.title)}</h3>
+              ${stBadge}
+            </div>
+
+            <div class="progress-wrap">
+              <span class="mono" style="font-size:12.5px;font-weight:700;color:var(--text-primary);">${m.progress_pct || 0}%</span>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${m.progress_pct || 0}%;"></div>
+              </div>
+
+              ${m.status === "WAITING_CHAIRMAN" ? `
+                <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">✓ Chấp nhận</button>
+                <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Làm lại</button>
+              ` : ""}
+              ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">⏸ Tạm dừng</button>` : ""}
+              ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">▶ Chạy tiếp</button>` : ""}
+              <button type="button" class="btn btn-xs" data-rename-msn="${esc(m.mission_id)}">Sửa</button>
+              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-msn="${esc(m.mission_id)}">Xóa</button>
+            </div>
+          </div>
+          <div class="stepper-list">${stepsHtml}</div>
+        </article>
+      `;
     }).join("");
 
-    bindFeedItemClicks(grid);
+    bindQuickActions(box);
   }
 
-  function renderWorkflowTab() {
-    const sGrid = document.getElementById("workflow-stages-grid");
-    sGrid.innerHTML = WORKFLOW_12_STAGES.map((s) => `
-      <div class="stage-card ${s.gate ? "is-gate" : ""}">
-        <div class="task-meta">
-          <span class="dept-id-tag">${escapeHtml(s.step)}</span>
-          ${s.gate ? `<span class="status-badge status-WAITING_CHAIRMAN">Cổng Kiểm Soát Cứng</span>` : `<span class="kpi-sub">Thực thi chuẩn</span>`}
-        </div>
-        <h3 class="dept-name">${escapeHtml(s.title)}</h3>
-        <div class="kpi-sub">${escapeHtml(s.desc)}</div>
-        <div class="dept-meta-footer mono-num"><span>${escapeHtml(s.raci)}</span></div>
-      </div>
-    `).join("");
+  // TAB 3: TASKS (LIST VIEW + DRAG & DROP 5-COLUMN KANBAN)
+  function renderTasksTab() {
+    const projF = document.getElementById("filter-task-project").value;
+    const colF = document.getElementById("filter-task-col").value;
+    const filtered = state.tasks.filter((t) => {
+      if (projF && t.project_id !== projF) return false;
+      if (colF && t.kanban_column !== colF) return false;
+      return true;
+    });
 
-    const lawBox = document.getElementById("arbitration-laws-list");
-    lawBox.innerHTML = ARBITRATION_LAWS.map((lw) => `
-      <div class="division-row" style="cursor:default;">
-        <div>
-          <div style="font-weight:700;color:var(--text-primary);">${escapeHtml(lw.code)} — ${escapeHtml(lw.title)}</div>
-          <div class="kpi-sub">${escapeHtml(lw.desc)}</div>
-        </div>
-      </div>
-    `).join("");
+    const listWrap = document.getElementById("tasks-list-wrapper");
+    const boardWrap = document.getElementById("tasks-board-wrapper");
+
+    if (state.taskViewMode === "list") {
+      listWrap.style.display = "block";
+      boardWrap.style.display = "none";
+      if (!filtered.length) {
+        listWrap.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text-muted);">Không có công việc nào. Nhấn <strong>+ Thêm việc lẻ</strong> để tạo mới.</div>`;
+        return;
+      }
+      listWrap.innerHTML = filtered.map((t) => {
+        const checked = state.selectedTaskIds.has(t.task_id) ? "checked" : "";
+        const colCls = t.kanban_column === "DONE" ? "badge-done" : t.kanban_column === "WAITING_APPROVAL" ? "badge-wait" : t.kanban_column === "IN_PROGRESS" ? "badge-run" : "badge-idle";
+        return `
+          <div class="list-row">
+            <input type="checkbox" data-sel-task="${esc(t.task_id)}" ${checked} aria-label="Chọn việc" />
+            <div style="min-width:0;cursor:pointer;" data-edit-task="${esc(t.task_id)}">
+              <div style="font-weight:600;color:var(--text-primary);${t.kanban_column === "DONE" ? "text-decoration:line-through;opacity:0.65;" : ""}">${esc(t.title)}</div>
+              <div style="font-size:12px;color:var(--text-muted);">
+                Phòng #${esc(t.assigned_dept_id)} ${esc(t.dept_title_vi || "")} · Ưu tiên: ${esc(PRIO_LABELS[t.priority] || "Cao")}
+              </div>
+            </div>
+            <span class="badge ${colCls}">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
+            <div class="row-actions">
+              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs btn-ok" data-approve-task="${esc(t.task_id)}" title="Đánh dấu hoàn tất">✓</button>` : ""}
+              <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
+              <button type="button" class="btn btn-xs hide-sm" data-dup-task="${esc(t.task_id)}" title="Nhân bản">Sao chép</button>
+              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-task="${esc(t.task_id)}" title="Xóa việc này">Xóa</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+      bindQuickActions(listWrap);
+    } else {
+      listWrap.style.display = "none";
+      boardWrap.style.display = "grid";
+      const cols = ["BACKLOG", "IN_PROGRESS", "QA_SECURITY_REVIEW", "WAITING_APPROVAL", "DONE"];
+      boardWrap.innerHTML = cols.map((c) => {
+        const colTasks = filtered.filter((t) => t.kanban_column === c);
+        return `
+          <div class="k-col" data-drop-col="${c}">
+            <div class="k-head">
+              <span>${esc(COL_LABELS[c])} (${colTasks.length})</span>
+              <button type="button" class="btn btn-xs" data-quick-col-add="${c}" title="Thêm vào cột này">+</button>
+            </div>
+            ${colTasks.map((t) => `
+              <div class="k-card" draggable="true" data-drag-task="${esc(t.task_id)}">
+                <div style="font-weight:600;color:var(--text-primary);cursor:pointer;" data-edit-task="${esc(t.task_id)}">${esc(t.title)}</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--text-muted);">
+                  <span>#${esc(t.assigned_dept_id)}</span>
+                  <div style="display:flex;gap:4px;">
+                    <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
+                    <button type="button" class="btn btn-xs btn-danger-ghost" data-del-task="${esc(t.task_id)}">Xóa</button>
+                  </div>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }).join("");
+      bindQuickActions(boardWrap);
+      bindKanbanDragDrop(boardWrap);
+    }
+    updateBulkBar();
   }
 
-  async function renderProjectsTab() {
-    const listBox = document.getElementById("projects-list-box");
-    if (!state.projects.length) {
-      listBox.innerHTML = `<div class="kpi-sub">Chưa có dự án nào. Nhấn "+ Khởi tạo Dự án Mới" để mở cây 8 khối!</div>`;
+  function bindKanbanDragDrop(boardWrap) {
+    let draggedId = null;
+    boardWrap.querySelectorAll("[data-drag-task]").forEach((card) => {
+      card.addEventListener("dragstart", () => { draggedId = card.getAttribute("data-drag-task"); });
+    });
+    boardWrap.querySelectorAll("[data-drop-col]").forEach((colEl) => {
+      colEl.addEventListener("dragover", (e) => { e.preventDefault(); colEl.classList.add("drag-over"); });
+      colEl.addEventListener("dragleave", () => colEl.classList.remove("drag-over"));
+      colEl.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        colEl.classList.remove("drag-over");
+        const targetCol = colEl.getAttribute("data-drop-col");
+        if (!draggedId || !targetCol) return;
+        await api(`/api/tasks/${encodeURIComponent(draggedId)}`, "PATCH", { kanban_column: targetCol });
+        await loadEverything();
+      });
+    });
+  }
+
+  // TAB 4: 51 AI SPECIALISTS (CLEAN SENTENCE CASE, SQUIRCLE AVATARS)
+  function renderStaffTab() {
+    const pillBar = document.getElementById("staff-div-pills");
+    const divOrder = [
+      "", "div9-critique-ux-lab", "exec-board", "div1-strategy-intel", "div2-product-design",
+      "div3-engineering-ai", "div4-qa-cybersecurity", "div5-media-youtube-studio",
+      "div6-sales-commercial", "div7-finance-tax-legal", "div8-data-ops-hr"
+    ];
+    pillBar.innerHTML = divOrder.map((code) => {
+      const active = state.staffDivFilter === code ? "active" : "";
+      const label = code === "" ? `Tất cả (${state.departments.length})` : (DIV_SHORT_NAMES[code] || code);
+      return `<button type="button" class="chip-btn ${active}" style="${active ? "border-color:var(--accent);color:var(--accent);background:var(--accent-soft);" : ""}" data-sdiv="${code}">${esc(label)}</button>`;
+    }).join("");
+
+    pillBar.querySelectorAll("[data-sdiv]").forEach((b) => {
+      b.onclick = () => { state.staffDivFilter = b.getAttribute("data-sdiv"); renderStaffTab(); };
+    });
+
+    const q = (document.getElementById("staff-search").value || "").trim().toLowerCase();
+    const filtered = state.departments.filter((d) => {
+      if (state.staffDivFilter && d.division_code !== state.staffDivFilter) return false;
+      if (q && !`${d.dept_id} ${d.code} ${d.title_vi}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    const grid = document.getElementById("staff-grid");
+    grid.innerHTML = filtered.map((d) => {
+      const busy = d.status !== "IDLE";
+      return `
+        <article class="staff-card" data-open-staff="${esc(d.dept_id)}">
+          <span class="sq-avatar">#${esc(d.dept_id)}</span>
+          <div style="min-width:0;flex:1;">
+            <div style="font-weight:700;color:var(--text-primary);font-size:13.5px;">${esc(d.title_vi)}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin:2px 0 6px;">${esc(DIV_SHORT_NAMES[d.division_code] || d.division_name_vi || "")}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              ${busy ? `<span class="badge badge-run">● Đang làm việc</span>` : `<span class="badge badge-idle">○ Sẵn sàng</span>`}
+              <span class="mono" style="font-size:11.5px;color:var(--text-muted);">✓ ${d.tasks_completed || 0} việc</span>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    bindQuickActions(grid);
+  }
+
+  // TAB 5: CLEAN EDITORIAL NEWS FEED (INLINE EXPAND, STAR, DELETE + UNDO)
+  function renderNewsTab() {
+    const box = document.getElementById("news-list-box");
+    const list = state.articles.filter((a) => state.newsStarFilter !== "starred" || Boolean(a.is_starred));
+
+    if (!list.length) {
+      box.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text-muted);">Không có bài báo nào trong mục này.</div>`;
       return;
     }
-    if (!state.selectedProjectId) {
+
+    box.innerHTML = list.map((a) => {
+      const aid = a.atom_id || a.url_hash;
+      const expanded = state.expandedNewsIds.has(String(aid));
+      const link = a.url || a.source_url || "#";
+      return `
+        <div class="news-row">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+            <div style="min-width:0;flex:1;cursor:pointer;" data-toggle-news="${esc(aid)}">
+              <div style="font-weight:600;color:var(--text-primary);font-size:14px;">${esc(a.title)}</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">
+                Phòng #${esc(a.dept_id)} · ${esc(a.source_connector || "Báo thị trường")} · ${esc(shortTime(a.fetched_at))}
+              </div>
+            </div>
+            <div style="display:flex;gap:4px;flex-shrink:0;">
+              ${a.atom_id ? `<button type="button" class="btn btn-xs" data-star-news="${a.atom_id}" style="${a.is_starred ? "color:#D97706;" : ""}">${a.is_starred ? "★ Đã ghim" : "☆ Ghim"}</button>` : ""}
+              <a class="btn btn-xs" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Mở gốc ↗</a>
+              ${a.atom_id ? `<button type="button" class="btn btn-xs btn-danger-ghost" data-del-news="${a.atom_id}">Xóa</button>` : ""}
+            </div>
+          </div>
+          ${expanded ? `
+            <div style="margin-top:8px;padding:10px 12px;background:var(--bg-subtle);border-radius:8px;font-size:13px;">
+              <div>${esc(a.summary_vi || "")}</div>
+              ${a.actionable_insight ? `<div style="margin-top:6px;color:var(--accent);font-weight:600;">Ứng dụng kiếm tiền: ${esc(a.actionable_insight)}</div>` : ""}
+            </div>
+          ` : ""}
+        </div>
+      `;
+    }).join("");
+
+    box.querySelectorAll("[data-toggle-news]").forEach((el) => {
+      el.onclick = () => {
+        const id = el.getAttribute("data-toggle-news");
+        if (state.expandedNewsIds.has(id)) state.expandedNewsIds.delete(id);
+        else state.expandedNewsIds.add(id);
+        renderNewsTab();
+      };
+    });
+    bindQuickActions(box);
+  }
+
+  // TAB 6: INTERACTIVE CFO SLIDERS & PROJECT / DOC FULL CRUD
+  function updateCfoSliders() {
+    const price = Number(document.getElementById("rng-price").value);
+    const quota = Number(document.getElementById("rng-quota").value);
+    const unit = Number(document.getElementById("rng-unit").value);
+    const fixed = Number(document.getElementById("rng-fixed").value);
+
+    document.getElementById("lbl-cfo-price").textContent = vnd(price);
+    document.getElementById("lbl-cfo-quota").textContent = `${quota} lượt`;
+    document.getElementById("lbl-cfo-unit").textContent = vnd(unit);
+    document.getElementById("lbl-cfo-fixed").textContent = vnd(fixed);
+
+    const payFee = price * 0.015;
+    const tax = price * 0.07;
+    const worstCogs = quota * unit + payFee;
+    const expCogs = quota * 0.6 * unit + payFee;
+    const worstMargin = price > 0 ? ((price - worstCogs) / price) * 100 : 0;
+    const netPerUser = price - expCogs - tax;
+    const breakeven = netPerUser > 0 ? Math.ceil(fixed / netPerUser) : -1;
+
+    const cogsPct = Math.min(100, Math.max(2, (worstCogs / Math.max(1, price)) * 100));
+    const taxPct = 7;
+    const profPct = Math.max(0, 100 - cogsPct - taxPct);
+    document.getElementById("bar-cogs").style.width = `${cogsPct}%`;
+    document.getElementById("bar-tax").style.width = `${taxPct}%`;
+    document.getElementById("bar-profit").style.width = `${profPct}%`;
+
+    const pill = document.getElementById("cfo-status-pill");
+    if (worstMargin >= 65) {
+      pill.className = "badge badge-done";
+      pill.textContent = `An toàn · Biên lãi xấu nhất ${worstMargin.toFixed(0)}%`;
+    } else {
+      pill.className = "badge badge-fail";
+      pill.textContent = `Cảnh báo · Biên lãi chỉ còn ${worstMargin.toFixed(0)}% (<65%)`;
+    }
+    document.getElementById("lbl-breakeven").textContent = breakeven > 0 ? `Hòa vốn: ${breakeven} khách` : "Đang lỗ trên mỗi khách";
+
+    const tiersBox = document.getElementById("cfo-tiers-box");
+    tiersBox.innerHTML = [10, 50, 200, 500].map((n) => {
+      const net = Math.round(netPerUser * n - fixed);
+      return `
+        <div class="list-row" style="grid-template-columns:1fr auto;">
+          <span>Khi có <strong>${n} khách trả phí</strong></span>
+          <span class="mono" style="font-weight:700;color:${net >= 0 ? "var(--ok-text)" : "var(--danger-text)"};">${vnd(net)} / tháng</span>
+        </div>
+      `;
+    }).join("");
+  }
+
+  async function renderProjectsSection() {
+    const pList = document.getElementById("projects-crud-list");
+    if (!state.projects.length) {
+      pList.innerHTML = `<div style="padding:14px;color:var(--text-muted);">Chưa có dự án. Nhấn "+ Tạo dự án mới".</div>`;
+      document.getElementById("project-docs-list").innerHTML = "";
+      return;
+    }
+    if (!state.selectedProjectId || !state.projects.some((p) => p.project_id === state.selectedProjectId)) {
       state.selectedProjectId = state.projects[0].project_id;
     }
-    listBox.innerHTML = state.projects.map((p) => `
-      <div class="division-row" data-sel-proj="${escapeHtml(p.project_id)}" style="${p.project_id === state.selectedProjectId ? "border-color:var(--brand-primary);background:var(--brand-soft-bg);" : ""}">
-        <div>
-          <div style="font-weight:700;color:var(--text-primary);">${escapeHtml(p.title)}</div>
-          <div class="kpi-sub mono-num">GĐ ${p.current_stage || 1}/12 · Cổng ${p.current_gate || 1}/5 · Giá: ${formatVnd(p.expected_price_vnd)}</div>
+    pList.innerHTML = state.projects.map((p) => `
+      <div class="list-row" style="grid-template-columns:minmax(0,1fr) auto;${p.project_id === state.selectedProjectId ? "background:var(--accent-soft);" : ""}">
+        <div style="cursor:pointer;" data-sel-proj="${esc(p.project_id)}">
+          <div style="font-weight:700;color:var(--text-primary);">${esc(p.title)}</div>
+          <div class="mono" style="font-size:11.5px;color:var(--text-muted);">${vnd(p.expected_price_vnd)} · ${esc(p.status)}</div>
         </div>
-        <span class="nav-badge">${escapeHtml(p.status)}</span>
+        <div style="display:flex;gap:4px;">
+          <button type="button" class="btn btn-xs" data-edit-proj="${esc(p.project_id)}">Sửa</button>
+          <button type="button" class="btn btn-xs btn-danger-ghost" data-del-proj="${esc(p.project_id)}">Xóa</button>
+        </div>
       </div>
     `).join("");
 
-    listBox.querySelectorAll("[data-sel-proj]").forEach((el) => {
-      el.addEventListener("click", () => {
-        state.selectedProjectId = el.getAttribute("data-sel-proj");
-        renderProjectsTab();
-      });
+    pList.querySelectorAll("[data-sel-proj]").forEach((el) => {
+      el.onclick = () => { state.selectedProjectId = el.getAttribute("data-sel-proj"); renderProjectsSection(); };
     });
-
-    await loadProjectFiles(state.selectedProjectId);
+    bindQuickActions(pList);
+    await loadProjectDocs(state.selectedProjectId);
   }
 
-  async function loadProjectFiles(projectId) {
-    const filesBox = document.getElementById("project-files-list");
-    if (!projectId) return;
+  async function loadProjectDocs(pid) {
+    const dBox = document.getElementById("project-docs-list");
+    if (!pid || state.staticMode) {
+      dBox.innerHTML = `<div style="padding:12px;color:var(--text-muted);font-size:12.5px;">Tài liệu dự án sẵn sàng trên máy chủ cục bộ.</div>`;
+      return;
+    }
     try {
-      const data = await apiFetch(`/api/projects/${encodeURIComponent(projectId)}/files`);
-      const files = data.files || [];
+      const res = await api(`/api/projects/${encodeURIComponent(pid)}/files`);
+      const files = res.files || [];
       if (!files.length) {
-        filesBox.innerHTML = `<div class="kpi-sub">Thư mục dự án đã sẵn sàng (chưa có tệp báo cáo).</div>`;
+        dBox.innerHTML = `<div style="padding:12px;color:var(--text-muted);">Chưa có tệp nào. Nhấn "+ Tạo tài liệu (.md)".</div>`;
         return;
       }
-      filesBox.innerHTML = files.map((f) => `
-        <div class="division-row" data-read-file="${escapeHtml(f.path)}">
-          <span class="mono-num" style="font-size:12px;overflow-wrap:anywhere;">📄 ${escapeHtml(f.path)}</span>
-          <span class="kpi-sub mono-num">${Math.max(1, Math.round((f.size_bytes || 0) / 1024))} KB</span>
+      dBox.innerHTML = files.map((f) => `
+        <div class="list-row" style="grid-template-columns:1fr auto;cursor:pointer;" data-open-doc="${esc(f.path)}">
+          <span class="mono" style="font-size:12.5px;">${esc(f.path)}</span>
+          <span class="mono" style="font-size:11px;color:var(--text-muted);">${Math.max(1, Math.round((f.size_bytes || 0) / 1024))} KB</span>
         </div>
       `).join("");
-
-      filesBox.querySelectorAll("[data-read-file]").forEach((row) => {
-        row.addEventListener("click", () => readProjectDocument(projectId, row.getAttribute("data-read-file")));
+      dBox.querySelectorAll("[data-open-doc]").forEach((r) => {
+        r.onclick = () => openDocFile(pid, r.getAttribute("data-open-doc"));
       });
-      await readProjectDocument(projectId, files[0].path);
-    } catch (err) {
-      filesBox.innerHTML = `<div class="kpi-sub">Không thể tải danh sách tệp: ${escapeHtml(err.message)}</div>`;
-    }
+      await openDocFile(pid, files[0].path);
+    } catch (_e) {}
   }
 
-  async function readProjectDocument(projectId, filePath) {
+  async function openDocFile(pid, filePath) {
     try {
-      const doc = await apiFetch(`/api/projects/${encodeURIComponent(projectId)}/files?file=${encodeURIComponent(filePath)}`);
-      document.getElementById("doc-reader-title").textContent = `${projectId} / ${filePath}`;
-      document.getElementById("doc-reader-meta").textContent = `${doc.size_bytes || 0} bytes`;
-      document.getElementById("doc-reader-content").textContent = doc.content || "";
-    } catch (err) {
-      document.getElementById("doc-reader-content").textContent = `Lỗi đọc tệp: ${err.message}`;
-    }
+      const doc = await api(`/api/projects/${encodeURIComponent(pid)}/files?file=${encodeURIComponent(filePath)}`);
+      state.currentDocFile = filePath;
+      state.docEditMode = false;
+      document.getElementById("doc-current-name").textContent = filePath;
+      document.getElementById("doc-editor-actions").hidden = false;
+      document.getElementById("doc-raw-editor").value = doc.content || "";
+      document.getElementById("doc-pretty-view").innerHTML = renderCleanMarkdown(doc.content || "");
+      document.getElementById("doc-pretty-view").style.display = "block";
+      document.getElementById("doc-raw-editor").style.display = "none";
+      document.getElementById("btn-save-doc").style.display = "none";
+      document.getElementById("btn-toggle-doc-edit").textContent = "Sửa nội dung";
+    } catch (_e) {}
   }
 
   // -------------------------------------------------------------------------
-  // 7. SLIDE-OVER / BOTTOM-SHEET BRAIN INSPECTOR (5 SUBTABS)
+  // 4. STAFF PROFILE DRAWER (PRETTY RENDERED, EDIT, DISPATCH, DELETE CUSTOM)
   // -------------------------------------------------------------------------
-  async function openBrainInspector(deptId) {
-    const drawer = document.getElementById("brain-drawer");
-    const backdrop = document.getElementById("drawer-backdrop");
-    drawer.classList.add("open");
-    backdrop.classList.add("open");
-    document.getElementById("drawer-body-content").innerHTML = `<div class="kpi-sub">Đang nạp Bộ Não Thiên Tài 6 Tầng của Phòng #${escapeHtml(deptId)}...</div>`;
+  async function openStaffDrawer(deptId) {
+    document.getElementById("drawer-backdrop").classList.add("open");
+    document.getElementById("inspector-drawer").classList.add("open");
+    const body = document.getElementById("drawer-body");
+    body.innerHTML = `<p style="color:var(--text-muted);">Đang tải hồ sơ...</p>`;
 
     try {
-      const detail = await apiFetch(`/api/departments/${encodeURIComponent(deptId)}`);
-      state.selectedDeptDetail = detail;
-      document.getElementById("drawer-dept-id").textContent = `#${detail.dept_id} · ${detail.code}`;
-      document.getElementById("drawer-dept-title").textContent = detail.title_vi;
-      document.getElementById("drawer-dept-div").textContent = detail.division_name_vi || detail.division_code;
-      const stEl = document.getElementById("drawer-dept-status");
-      stEl.className = `status-badge status-${detail.status}`;
-      stEl.textContent = STATUS_LABELS[detail.status] || detail.status;
-      renderDrawerSubtab();
-    } catch (err) {
-      document.getElementById("drawer-body-content").innerHTML = `<div class="kpi-sub">Lỗi tải hồ sơ: ${escapeHtml(err.message)}</div>`;
-    }
-  }
+      const d = await api(`/api/departments/${encodeURIComponent(deptId)}`);
+      document.getElementById("drawer-heading").textContent = `#${d.dept_id} · ${d.title_vi}`;
+      const isCustom = Number(d.dept_id) > 50;
 
-  function closeBrainInspector() {
-    document.getElementById("brain-drawer").classList.remove("open");
-    document.getElementById("drawer-backdrop").classList.remove("open");
-  }
-
-  function renderDrawerSubtab() {
-    const d = state.selectedDeptDetail;
-    const body = document.getElementById("drawer-body-content");
-    if (!d || !body) return;
-
-    document.querySelectorAll("#drawer-subtabs .subtab-btn").forEach((b) => {
-      b.classList.toggle("active", b.getAttribute("data-subtab") === state.activeDrawerSubtab);
-    });
-
-    if (state.activeDrawerSubtab === "handbook") {
-      const books = (d.canonical_books || []).join(" · ");
       body.innerHTML = `
-        <div class="article-insight" style="margin-bottom:12px;">
-          <strong>Sứ mệnh cốt lõi:</strong> ${escapeHtml(d.mission)}<br/>
-          ${books ? `<strong>Giáo trình kinh điển:</strong> ${escapeHtml(books)}<br/>` : ""}
-          ${d.core_formula ? `<strong>Công thức / Tiêu chuẩn cứng:</strong> <code>${escapeHtml(d.core_formula)}</code>` : ""}
-        </div>
-        <div class="section-header">
-          <span class="kpi-sub mono-num">Tệp gốc: ${escapeHtml(d.handbook_path)}</span>
-          <button type="button" class="btn btn-sm btn-primary" id="btn-save-handbook">Lưu cập nhật Cẩm nang</button>
-        </div>
-        <textarea class="textarea-control mono-num" id="drawer-handbook-editor" style="min-height:360px;font-size:12.5px;">${escapeHtml(d.handbook_markdown || "")}</textarea>
-      `;
-      document.getElementById("btn-save-handbook").addEventListener("click", async () => {
-        const md = document.getElementById("drawer-handbook-editor").value;
-        try {
-          const updated = await apiFetch(`/api/departments/${encodeURIComponent(d.dept_id)}/handbook`, {
-            method: "PATCH",
-            body: JSON.stringify({ handbook_markdown: md })
-          });
-          state.selectedDeptDetail = updated;
-          showToast(`Đã lưu Cẩm nang 6 Tầng mới cho Phòng #${d.dept_id}!`);
-        } catch (err) {
-          showToast(`Lỗi lưu cẩm nang: ${err.message}`);
-        }
-      });
-      return;
-    }
-
-    if (state.activeDrawerSubtab === "learned") {
-      const arts = d.learned_articles || [];
-      if (!arts.length) {
-        body.innerHTML = `<div class="kpi-sub">Phòng #${escapeHtml(d.dept_id)} chưa có bài báo riêng. Bấm "✦ Quét báo mới" hoặc dán URL ở Tab 4 để nạp tri thức!</div>`;
-        return;
-      }
-      body.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px;">` + arts.map((a) => {
-        const linkUrl = a.url || a.source_url || "#";
-        const srcName = a.source_connector || a.source_name || "Web Intel";
-        return `
-        <div class="article-card">
-          <div class="task-meta"><span>${escapeHtml(srcName)}</span> <span>${escapeHtml(formatShortTime(a.fetched_at))}</span></div>
-          <div class="article-title"><a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(a.title)} ↗</a></div>
-          <div class="kpi-sub">${escapeHtml(a.actionable_insight || a.summary_vi || "")}</div>
-        </div>
-      `;
-      }).join("") + `</div>`;
-      return;
-    }
-
-    if (state.activeDrawerSubtab === "tasks") {
-      const tks = d.tasks || [];
-      if (!tks.length) {
-        body.innerHTML = `<div class="kpi-sub">Chưa có đầu việc nào giao cho Phòng #${escapeHtml(d.dept_id)}. Chuyển sang mục "5. Giao việc ngay" để phát lệnh!</div>`;
-        return;
-      }
-      body.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px;">` + tks.map((t) => `
-        <div class="task-card">
-          <div class="task-meta"><span>${escapeHtml(t.task_id)}</span> ${statusBadgeHtml(t.kanban_column)}</div>
-          <div class="task-title">${escapeHtml(t.title)}</div>
-          <div class="kpi-sub">${escapeHtml(t.description || "")}</div>
-        </div>
-      `).join("") + `</div>`;
-      return;
-    }
-
-    if (state.activeDrawerSubtab === "reflexion") {
-      const refs = d.reflexions || [];
-      if (!refs.length) {
-        body.innerHTML = `<div class="article-insight">Phòng #${escapeHtml(d.dept_id)} hiện có <strong>0</strong> biên bản lỗi tồn đọng. Khi Chủ tịch bấm "Bác bỏ" ở Cổng duyệt, bài học tự kiểm điểm sẽ được khắc vĩnh viễn tại đây!</div>`;
-        return;
-      }
-      body.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px;">` + refs.map((r) => `
-        <div class="article-card" style="border-left:3px solid var(--state-danger);">
-          <div class="task-meta"><span>Biên bản Reflexion</span> <span>${escapeHtml(formatShortTime(r.created_at))}</span></div>
-          <div class="task-title">Triệu chứng bị trả về: ${escapeHtml(r.failure_symptom)}</div>
-          <div class="kpi-sub"><strong>Nguyên nhân gốc:</strong> ${escapeHtml(r.root_cause)}</div>
-          <div class="article-insight"><strong>Luật cấm tái phạm:</strong> ${escapeHtml(r.preventive_rule)}</div>
-        </div>
-      `).join("") + `</div>`;
-      return;
-    }
-
-    if (state.activeDrawerSubtab === "dispatch") {
-      body.innerHTML = `
-        <form id="form-drawer-dispatch">
-          <div class="form-row">
-            <label class="form-label">Giao đầu việc trực tiếp cho #${escapeHtml(d.dept_id)} (${escapeHtml(d.title_vi)})</label>
-            <input type="text" class="input-control" id="dd-title" placeholder="Nhập tên nhiệm vụ cần thực thi ngay..." required />
+        <form id="form-staff-quick-task" style="padding:14px;background:var(--bg-subtle);border-radius:10px;margin-bottom:18px;">
+          <div style="font-weight:700;color:var(--text-primary);margin-bottom:8px;">Giao việc riêng cho #${esc(d.dept_id)}</div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" class="input" id="inp-direct-task" placeholder="Nhập việc cần nhân viên này làm..." required />
+            <button type="submit" class="btn btn-primary">Giao ngay</button>
           </div>
-          <div class="form-row">
-            <label class="form-label">Yêu cầu chi tiết & Nguồn dữ liệu cần kiểm chứng</label>
-            <textarea class="textarea-control" id="dd-desc" placeholder="Mô tả rõ tiêu chí bàn giao..."></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%;">Giao việc ngay cho Phòng #${escapeHtml(d.dept_id)}</button>
         </form>
+
+        ${(d.reflexions && d.reflexions.length) ? `
+          <div style="margin-bottom:18px;">
+            <div class="sec-head"><h3 class="sec-title">Sổ rút kinh nghiệm (${d.reflexions.length})</h3></div>
+            <div class="hairline-table">
+              ${d.reflexions.map((r) => `
+                <div class="list-row" style="grid-template-columns:1fr auto;">
+                  <div>
+                    <div style="font-weight:600;color:var(--danger-text);">${esc(r.failure_symptom)}</div>
+                    <div style="font-size:12px;">Quy tắc tránh lặp lại: ${esc(r.preventive_rule)}</div>
+                  </div>
+                  <button type="button" class="btn btn-xs btn-danger-ghost" data-del-refl="${esc(r.reflexion_id)}">Xóa</button>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        ` : ""}
+
+        <div class="sec-head">
+          <h3 class="sec-title">Cẩm nang chuyên môn</h3>
+          <div style="display:flex;gap:6px;">
+            <button type="button" class="btn btn-xs" id="btn-edit-hb">Chỉnh sửa cẩm nang</button>
+            ${isCustom ? `<button type="button" class="btn btn-xs btn-danger-ghost" id="btn-retire-dept">Giải thể phòng này</button>` : ""}
+          </div>
+        </div>
+        <div id="hb-pretty" class="rendered-md">${renderCleanMarkdown(d.handbook_markdown)}</div>
+        <div id="hb-edit-wrap" style="display:none;">
+          <textarea class="textarea mono" id="hb-textarea" style="min-height:280px;font-size:12.5px;margin-bottom:8px;">${esc(d.handbook_markdown || "")}</textarea>
+          <button type="button" class="btn btn-primary" id="btn-save-hb">Lưu cẩm nang</button>
+        </div>
       `;
-      document.getElementById("form-drawer-dispatch").addEventListener("submit", async (e) => {
+
+      document.getElementById("form-staff-quick-task").onsubmit = async (e) => {
         e.preventDefault();
-        const title = document.getElementById("dd-title").value.trim();
-        const desc = document.getElementById("dd-desc").value.trim();
-        if (!title) return;
-        await createNewTask({ title, description: desc, assigned_dept_id: d.dept_id, priority: "HIGH" });
-        const refreshed = await apiFetch(`/api/departments/${encodeURIComponent(d.dept_id)}`);
-        state.selectedDeptDetail = refreshed;
-        state.activeDrawerSubtab = "tasks";
-        renderDrawerSubtab();
+        const tval = document.getElementById("inp-direct-task").value.trim();
+        if (!tval) return;
+        await api("/api/tasks", "POST", { title: tval, assigned_dept_id: d.dept_id, priority: "HIGH" });
+        closeDrawer();
+        await loadEverything();
+        switchTab("tasks");
+        toast(`Đã giao việc cho Phòng #${d.dept_id}.`);
+      };
+
+      document.getElementById("btn-edit-hb").onclick = () => {
+        const w = document.getElementById("hb-edit-wrap");
+        const p = document.getElementById("hb-pretty");
+        const open = w.style.display === "none";
+        w.style.display = open ? "block" : "none";
+        p.style.display = open ? "none" : "block";
+      };
+
+      document.getElementById("btn-save-hb").onclick = async () => {
+        const md = document.getElementById("hb-textarea").value;
+        await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "PATCH", { handbook_markdown: md });
+        toast("Đã lưu cẩm nang chuyên môn.");
+        openStaffDrawer(d.dept_id);
+      };
+
+      const retireBtn = document.getElementById("btn-retire-dept");
+      if (retireBtn) {
+        retireBtn.onclick = async () => {
+          await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "DELETE");
+          closeDrawer();
+          await loadEverything();
+          toast(`Đã giải thể phòng #${d.dept_id}.`);
+        };
+      }
+
+      body.querySelectorAll("[data-del-refl]").forEach((rb) => {
+        rb.onclick = async () => {
+          await api(`/api/reflexions/${encodeURIComponent(rb.getAttribute("data-del-refl"))}`, "DELETE");
+          openStaffDrawer(d.dept_id);
+        };
       });
+    } catch (e) {
+      body.innerHTML = `<p>${esc(e.message)}</p>`;
     }
   }
 
-  // -------------------------------------------------------------------------
-  // 8. REAL-TIME SSE STREAM WITH rAF BATCHING & EXPONENTIAL RECONNECT
-  // -------------------------------------------------------------------------
-  function connectSseStream() {
-    if (state.staticCloudMode || !window.EventSource) return;
-    if (state.sseSource) {
-      state.sseSource.close();
-    }
-    const url = `/api/events/stream?since=${state.lastEventId}`;
-    const es = new EventSource(url);
-    state.sseSource = es;
+  function closeDrawer() {
+    document.getElementById("drawer-backdrop").classList.remove("open");
+    document.getElementById("inspector-drawer").classList.remove("open");
+  }
 
-    es.onopen = () => {
-      updateConnectionIndicator("", "Trực tuyến SSE");
-    };
+  // -------------------------------------------------------------------------
+  // 5. UNIFIED QUICK ACTIONS (APPROVE, REJECT, EDIT, DUPLICATE, DELETE + UNDO)
+  // -------------------------------------------------------------------------
+  function bindQuickActions(root) {
+    root.querySelectorAll("[data-open-staff]").forEach((el) => {
+      el.onclick = (e) => { e.stopPropagation(); openStaffDrawer(el.getAttribute("data-open-staff")); };
+    });
 
-    es.addEventListener("activity", (e) => {
-      try {
-        const ev = JSON.parse(e.data);
-        if (ev.event_id) state.lastEventId = Math.max(state.lastEventId, Number(ev.event_id));
-        state.sseQueueBuffer.push(ev);
-        if (!state.rafScheduled) {
-          state.rafScheduled = true;
-          window.requestAnimationFrame(flushSseFrameBatch);
+    root.querySelectorAll("[data-goto-missions]").forEach((el) => {
+      el.onclick = () => switchTab("missions");
+    });
+
+    // Opportunities Actions
+    root.querySelectorAll("[data-accept-opp]").forEach((b) => {
+      b.onclick = async () => {
+        const oid = b.getAttribute("data-accept-opp");
+        await api(`/api/opportunities/${encodeURIComponent(oid)}/accept`, "POST", {});
+        await loadEverything();
+        switchTab("missions");
+        toast("Đã kích hoạt dây chuyền tự động 7 bước cho cơ hội này.");
+      };
+    });
+
+    root.querySelectorAll("[data-edit-opp]").forEach((b) => {
+      b.onclick = () => {
+        const o = state.opportunities.find((x) => x.opp_id === b.getAttribute("data-edit-opp"));
+        if (!o) return;
+        document.getElementById("opp-modal-title").textContent = "Chỉnh sửa cơ hội kiếm tiền";
+        document.getElementById("edit-opp-id").value = o.opp_id;
+        document.getElementById("inp-opp-title").value = o.title;
+        document.getElementById("inp-opp-cust").value = o.target_customer;
+        document.getElementById("inp-opp-price").value = o.price_vnd;
+        document.getElementById("inp-opp-margin").value = o.est_margin_pct;
+        document.getElementById("inp-opp-pain").value = o.pain_point || "";
+        openModal("modal-opp");
+      };
+    });
+
+    root.querySelectorAll("[data-del-opp]").forEach((b) => {
+      b.onclick = async () => {
+        const oid = b.getAttribute("data-del-opp");
+        const backup = state.opportunities.find((x) => x.opp_id === oid);
+        state.opportunities = state.opportunities.filter((x) => x.opp_id !== oid);
+        renderAllViews();
+        await api(`/api/opportunities/${encodeURIComponent(oid)}`, "DELETE");
+        toast("Đã xóa đề xuất cơ hội.", { entity_type: "opportunity", entity_id: oid, backup });
+      };
+    });
+
+    // Missions Actions
+    root.querySelectorAll("[data-approve-msn]").forEach((b) => {
+      b.onclick = async () => {
+        await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-approve-msn"))}/decision`, "POST", { decision: "APPROVE" });
+        await loadEverything();
+        toast("Đã chấp nhận nghiệm thu nhiệm vụ.");
+      };
+    });
+
+    root.querySelectorAll("[data-reject-msn]").forEach((b) => {
+      b.onclick = async () => {
+        const note = window.prompt("Nhập điểm bạn muốn nhân viên làm lại kỹ hơn:", "Bổ sung chi tiết cách tìm 10 khách đầu tiên") || "";
+        await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-reject-msn"))}/decision`, "POST", { decision: "REJECT", note });
+        await loadEverything();
+        toast("Đã trả về cho nhân viên tự động chạy sửa lại.");
+      };
+    });
+
+    root.querySelectorAll("[data-pause-msn]").forEach((b) => {
+      b.onclick = async () => {
+        await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-pause-msn"))}`, "PATCH", { status: "PAUSED" });
+        await loadEverything();
+      };
+    });
+
+    root.querySelectorAll("[data-resume-msn]").forEach((b) => {
+      b.onclick = async () => {
+        await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-resume-msn"))}`, "PATCH", { status: "RUNNING" });
+        await loadEverything();
+      };
+    });
+
+    root.querySelectorAll("[data-rename-msn]").forEach((b) => {
+      b.onclick = async () => {
+        const mid = b.getAttribute("data-rename-msn");
+        const m = state.missions.find((x) => x.mission_id === mid);
+        if (!m) return;
+        const nextTitle = window.prompt("Đổi tên nhiệm vụ:", m.title);
+        if (nextTitle && nextTitle.trim()) {
+          await api(`/api/missions/${encodeURIComponent(mid)}`, "PATCH", { title: nextTitle.trim() });
+          await loadEverything();
         }
-      } catch (_err) {}
+      };
     });
 
-    es.onerror = () => {
-      es.close();
-      if (!state.staticCloudMode) {
-        updateConnectionIndicator("warning", "Đang nối lại...");
-        setTimeout(connectSseStream, 2500);
-      }
-    };
+    root.querySelectorAll("[data-del-msn]").forEach((b) => {
+      b.onclick = async () => {
+        const mid = b.getAttribute("data-del-msn");
+        const backup = state.missions.find((x) => x.mission_id === mid);
+        state.missions = state.missions.filter((x) => x.mission_id !== mid);
+        renderAllViews();
+        await api(`/api/missions/${encodeURIComponent(mid)}`, "DELETE");
+        toast("Đã xóa nhiệm vụ.", { entity_type: "mission", entity_id: mid, backup });
+      };
+    });
+
+    // Tasks Actions (Select, Approve, Reject, Edit, Duplicate, Delete + Undo)
+    root.querySelectorAll("[data-sel-task]").forEach((chk) => {
+      chk.onchange = () => {
+        const tid = chk.getAttribute("data-sel-task");
+        if (chk.checked) state.selectedTaskIds.add(tid);
+        else state.selectedTaskIds.delete(tid);
+        updateBulkBar();
+      };
+    });
+
+    root.querySelectorAll("[data-approve-task]").forEach((b) => {
+      b.onclick = async (e) => {
+        e.stopPropagation();
+        await api(`/api/tasks/${encodeURIComponent(b.getAttribute("data-approve-task"))}/decision`, "POST", { decision: "APPROVE" });
+        await loadEverything();
+        toast("Đã hoàn tất công việc.");
+      };
+    });
+
+    root.querySelectorAll("[data-reject-task]").forEach((b) => {
+      b.onclick = async (e) => {
+        e.stopPropagation();
+        await api(`/api/tasks/${encodeURIComponent(b.getAttribute("data-reject-task"))}/decision`, "POST", { decision: "REJECT", note: "Cần bổ sung chi tiết thực tế" });
+        await loadEverything();
+        toast("Đã yêu cầu nhân viên sửa lại công việc.");
+      };
+    });
+
+    root.querySelectorAll("[data-edit-task]").forEach((b) => {
+      b.onclick = (e) => {
+        e.stopPropagation();
+        const t = state.tasks.find((x) => x.task_id === b.getAttribute("data-edit-task"));
+        if (!t) return;
+        document.getElementById("task-modal-title").textContent = "Chỉnh sửa công việc";
+        document.getElementById("edit-task-id").value = t.task_id;
+        document.getElementById("inp-task-title").value = t.title;
+        document.getElementById("inp-task-dept").value = t.assigned_dept_id || "00";
+        document.getElementById("inp-task-col").value = t.kanban_column || "BACKLOG";
+        document.getElementById("inp-task-proj").value = t.project_id || "";
+        document.getElementById("inp-task-prio").value = t.priority || "HIGH";
+        document.getElementById("inp-task-desc").value = t.description || "";
+        openModal("modal-task");
+      };
+    });
+
+    root.querySelectorAll("[data-dup-task]").forEach((b) => {
+      b.onclick = async (e) => {
+        e.stopPropagation();
+        await api(`/api/tasks/${encodeURIComponent(b.getAttribute("data-dup-task"))}/duplicate`, "POST", {});
+        await loadEverything();
+        toast("Đã tạo bản sao công việc.");
+      };
+    });
+
+    root.querySelectorAll("[data-del-task]").forEach((b) => {
+      b.onclick = async (e) => {
+        e.stopPropagation();
+        const tid = b.getAttribute("data-del-task");
+        const backup = state.tasks.find((x) => x.task_id === tid);
+        state.tasks = state.tasks.filter((x) => x.task_id !== tid);
+        state.selectedTaskIds.delete(tid);
+        renderAllViews();
+        await api(`/api/tasks/${encodeURIComponent(tid)}`, "DELETE");
+        toast("Đã xóa công việc.", { entity_type: "task", entity_id: tid, backup });
+      };
+    });
+
+    root.querySelectorAll("[data-quick-col-add]").forEach((b) => {
+      b.onclick = () => {
+        openNewTaskModal(b.getAttribute("data-quick-col-add"));
+      };
+    });
+
+    // News Star & Delete
+    root.querySelectorAll("[data-star-news]").forEach((b) => {
+      b.onclick = async () => {
+        await api(`/api/knowledge/${b.getAttribute("data-star-news")}`, "PATCH", {});
+        await loadNews();
+      };
+    });
+
+    root.querySelectorAll("[data-del-news]").forEach((b) => {
+      b.onclick = async () => {
+        const aid = Number(b.getAttribute("data-del-news"));
+        const res = await api(`/api/knowledge/${aid}`, "DELETE");
+        await loadNews();
+        toast("Đã xóa bài báo.", { entity_type: "article", entity_id: res.entity_id });
+      };
+    });
+
+    // Projects Edit & Delete
+    root.querySelectorAll("[data-edit-proj]").forEach((b) => {
+      b.onclick = () => {
+        const p = state.projects.find((x) => x.project_id === b.getAttribute("data-edit-proj"));
+        if (!p) return;
+        document.getElementById("proj-modal-title").textContent = "Chỉnh sửa dự án";
+        document.getElementById("edit-proj-id").value = p.project_id;
+        document.getElementById("wrap-proj-slug").style.display = "none";
+        document.getElementById("inp-proj-title").value = p.title;
+        document.getElementById("inp-proj-price").value = p.expected_price_vnd || 399000;
+        document.getElementById("inp-proj-status").value = p.status || "ACTIVE";
+        document.getElementById("inp-proj-obj").value = p.objective || "";
+        openModal("modal-proj");
+      };
+    });
+
+    root.querySelectorAll("[data-del-proj]").forEach((b) => {
+      b.onclick = async () => {
+        const pid = b.getAttribute("data-del-proj");
+        await api(`/api/projects/${encodeURIComponent(pid)}`, "DELETE");
+        await loadEverything();
+        toast("Đã xóa dự án.", { entity_type: "project", entity_id: pid });
+      };
+    });
   }
 
-  function flushSseFrameBatch() {
-    state.rafScheduled = false;
-    if (!state.sseQueueBuffer.length) return;
-    const batch = state.sseQueueBuffer.splice(0, state.sseQueueBuffer.length);
-
-    const feedEl = document.getElementById("live-activity-feed");
-    if (feedEl) {
-      const frag = document.createElement("div");
-      frag.innerHTML = batch.slice().reverse().map(renderFeedItemHtml).join("");
-      bindFeedItemClicks(frag);
-      while (frag.firstChild) {
-        feedEl.insertBefore(frag.firstChild, feedEl.firstChild);
-      }
-      // Strict DOM hygiene: cap at 200 live rows
-      while (feedEl.children.length > 200) {
-        feedEl.removeChild(feedEl.lastChild);
-      }
-    }
-
-    // Refresh lightweight KPIs if learning finished or gate changed
-    if (batch.some((ev) => ["LEARNING_COMPLETED", "CHAIRMAN_APPROVED", "CHAIRMAN_REJECTED", "GATE_WAITING_CHAIRMAN", "DEPT_HIRED"].includes(ev.event_type))) {
-      refreshAllCoreData();
+  function updateBulkBar() {
+    const bar = document.getElementById("bulk-bar");
+    const cnt = state.selectedTaskIds.size;
+    if (cnt > 0 && state.tab === "tasks") {
+      bar.classList.add("visible");
+      document.getElementById("bulk-count-lbl").textContent = `Đã chọn ${cnt} việc`;
+    } else {
+      bar.classList.remove("visible");
     }
   }
 
   // -------------------------------------------------------------------------
-  // 9. NAVIGATION, MODALS, SELECT POPULATORS & HOTKEYS
+  // 6. NAVIGATION, MODALS, SSE LIVE SYNC & INITIALIZATION
   // -------------------------------------------------------------------------
-  function switchTab(tabId) {
-    if (!TAB_TITLES[tabId]) return;
-    state.activeTab = tabId;
-    document.getElementById("topbar-title").textContent = TAB_TITLES[tabId];
+  function switchTab(tab) {
+    if (!VIEW_TITLES[tab]) return;
+    state.tab = tab;
+    document.getElementById("view-heading").textContent = VIEW_TITLES[tab];
 
-    document.querySelectorAll(".tab-panel").forEach((p) => {
-      p.classList.toggle("active", p.id === `panel-${tabId}`);
+    document.querySelectorAll(".view-panel").forEach((p) => p.classList.toggle("active", p.id === `view-${tab}`));
+    document.querySelectorAll("#side-nav .nav-item, #mobile-nav .mob-btn").forEach((b) => {
+      b.classList.toggle("active", b.getAttribute("data-tab") === tab);
     });
-    document.querySelectorAll("#desktop-nav .nav-btn").forEach((b) => {
-      b.classList.toggle("active", b.getAttribute("data-tab") === tabId);
-    });
-    document.querySelectorAll("#mobile-bottom-nav .mob-nav-btn[data-tab]").forEach((b) => {
-      b.classList.toggle("active", b.getAttribute("data-tab") === tabId);
-    });
-
-    if (window.location.hash !== `#${tabId}`) {
-      history.replaceState(null, "", `#${tabId}`);
-    }
-
-    if (tabId === "org") renderOrgChart();
-    if (tabId === "kanban") renderKanban();
-    if (tabId === "learning" && !state.articles.length) runKnowledgeSearch("");
-    if (tabId === "workflow") renderWorkflowTab();
-    if (tabId === "projects") renderProjectsTab();
-    if (tabId === "finance") runCfoSimulation();
-    if (tabId === "hr") loadAuditDiagnostics();
+    history.replaceState(null, "", `#${tab}`);
+    updateBulkBar();
+    renderAllViews();
   }
 
   function openModal(id) {
-    closeAllModals();
+    closeModals();
     document.getElementById("modal-backdrop").classList.add("open");
     const m = document.getElementById(id);
     if (m) {
       m.classList.add("open");
-      const firstInput = m.querySelector("input, textarea, select");
-      if (firstInput) setTimeout(() => firstInput.focus(), 40);
+      const inp = m.querySelector("input:not([type='hidden']), textarea");
+      if (inp) setTimeout(() => inp.focus(), 40);
     }
   }
 
-  function closeAllModals() {
+  function closeModals() {
     document.getElementById("modal-backdrop").classList.remove("open");
-    document.querySelectorAll(".modal-dialog.open").forEach((m) => m.classList.remove("open"));
+    document.querySelectorAll(".modal.open").forEach((m) => m.classList.remove("open"));
   }
 
-  function populateSelectMenus() {
-    const divOpts = `<option value="">Tất cả các Khối</option>` +
-      state.divisions.map((dv) => `<option value="${escapeHtml(dv.code)}">${escapeHtml(dv.name_vi)}</option>`).join("");
-    document.getElementById("org-division-filter").innerHTML = divOpts;
-    document.getElementById("kanban-division-filter").innerHTML = divOpts;
-    document.getElementById("knowledge-division-filter").innerHTML = divOpts;
+  function openNewTaskModal(defaultCol = "BACKLOG") {
+    document.getElementById("task-modal-title").textContent = "Thêm công việc mới";
+    document.getElementById("edit-task-id").value = "";
+    document.getElementById("form-task").reset();
+    document.getElementById("inp-task-col").value = defaultCol;
+    openModal("modal-task");
+  }
 
-    const hireDiv = document.getElementById("hire-division");
-    hireDiv.innerHTML = state.divisions
-      .filter((dv) => dv.code !== "EXEC")
-      .map((dv) => `<option value="${escapeHtml(dv.code)}">${escapeHtml(dv.name_vi)}</option>`).join("");
-
+  function populateDropdowns() {
     const deptOpts = state.departments
-      .map((d) => `<option value="${escapeHtml(d.dept_id)}">#${escapeHtml(d.dept_id)} — ${escapeHtml(d.title_vi)}</option>`)
+      .map((d) => `<option value="${esc(d.dept_id)}">#${esc(d.dept_id)} · ${esc(d.title_vi)}</option>`)
       .join("");
-    document.getElementById("task-dept-select").innerHTML = deptOpts;
-    document.getElementById("ingest-dept-select").innerHTML = deptOpts;
+    document.getElementById("inp-task-dept").innerHTML = deptOpts;
+    document.getElementById("url-dept-select").innerHTML = deptOpts;
 
-    const projOpts = state.projects
-      .map((p) => `<option value="${escapeHtml(p.project_id)}">${escapeHtml(p.title)}</option>`)
-      .join("");
-    document.getElementById("kanban-project-filter").innerHTML = `<option value="">Tất cả dự án toàn Tập đoàn</option>` + projOpts;
-    document.getElementById("task-project-select").innerHTML = `<option value="">-- Việc chung Tập đoàn --</option>` + projOpts;
+    const projOpts = `<option value="">-- Không gắn dự án --</option>` +
+      state.projects.map((p) => `<option value="${esc(p.project_id)}">${esc(p.title)}</option>`).join("");
+    document.getElementById("inp-task-proj").innerHTML = projOpts;
+    document.getElementById("filter-task-project").innerHTML = `<option value="">Tất cả dự án</option>` +
+      state.projects.map((p) => `<option value="${esc(p.project_id)}">${esc(p.title)}</option>`).join("");
+
+    document.getElementById("inp-hire-div").innerHTML = state.divisions
+      .filter((dv) => dv.code !== "exec-board")
+      .map((dv) => `<option value="${esc(dv.code)}">${esc(dv.name_vi)}</option>`).join("");
   }
 
-  // -------------------------------------------------------------------------
-  // 10. DATA LOADERS & MUTATION HANDLERS
-  // -------------------------------------------------------------------------
-  async function refreshAllCoreData() {
-    try {
-      const [ov, deptRes, taskRes] = await Promise.all([
-        apiFetch("/api/overview?limit=80"),
-        apiFetch("/api/departments"),
-        apiFetch("/api/tasks")
-      ]);
-      state.overview = ov;
-      state.divisions = ov.divisions || [];
-      state.projects = ov.projects || [];
-      state.departments = deptRes.departments || [];
-      state.tasks = taskRes.tasks || [];
-
-      populateSelectMenus();
-      renderOverview();
-      if (state.activeTab === "org") renderOrgChart();
-      if (state.activeTab === "kanban") renderKanban();
-      if (state.activeTab === "projects") renderProjectsTab();
-
-      await idb.set("cached_boot_state_v4", {
-        overview: state.overview,
-        departments: state.departments,
-        tasks: state.tasks
-      });
-    } catch (err) {
-      updateConnectionIndicator("danger", "Ngoại tuyến (Đệm cục bộ)");
+  function renderAllViews() {
+    renderCountsAndHeader();
+    if (state.tab === "command") renderCommandTab();
+    if (state.tab === "missions") renderMissionsTab();
+    if (state.tab === "tasks") renderTasksTab();
+    if (state.tab === "staff") renderStaffTab();
+    if (state.tab === "news") renderNewsTab();
+    if (state.tab === "finance") {
+      updateCfoSliders();
+      renderProjectsSection();
     }
   }
 
-  async function refreshTasksAndOverview() {
-    const [ov, taskRes, deptRes] = await Promise.all([
-      apiFetch("/api/overview?limit=60"),
-      apiFetch("/api/tasks"),
-      apiFetch("/api/departments")
+  async function loadNews(q = "") {
+    try {
+      const res = await api(`/api/knowledge?q=${encodeURIComponent(q)}&limit=90`);
+      state.articles = res.articles || [];
+      renderNewsTab();
+    } catch (_e) {}
+  }
+
+  async function loadEverything() {
+    const [ov, depts, tasks] = await Promise.all([
+      api("/api/overview?limit=40"),
+      api("/api/departments"),
+      api("/api/tasks")
     ]);
     state.overview = ov;
-    state.tasks = taskRes.tasks || [];
-    state.departments = deptRes.departments || [];
-    renderOverview();
-    renderKanban();
-    if (state.activeTab === "org") renderOrgChart();
+    state.divisions = ov.divisions || [];
+    state.projects = ov.projects || [];
+    state.missions = ov.missions || [];
+    state.opportunities = ov.opportunities || [];
+    state.departments = depts.departments || [];
+    state.tasks = tasks.tasks || [];
+    populateDropdowns();
+    renderAllViews();
   }
 
-  async function createNewTask(payload) {
-    // Optimistic UI update (< 16ms)
-    const tempTask = {
-      task_id: `temp-${Date.now()}`,
-      title: payload.title,
-      description: payload.description || "",
-      assigned_dept_id: payload.assigned_dept_id || "00",
-      kanban_column: "BACKLOG",
-      stage_number: payload.stage_number || 1,
-      gate_number: payload.gate_number || 1
+  function startLiveStream() {
+    if (state.staticMode || !window.EventSource) return;
+    if (state.sse) state.sse.close();
+    const es = new EventSource("/api/events/stream");
+    state.sse = es;
+    let debounceTimer = null;
+    es.addEventListener("activity", () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => loadEverything(), 240);
+    });
+    es.onerror = () => {
+      es.close();
+      if (!state.staticMode) setTimeout(startLiveStream, 3000);
     };
-    state.tasks.unshift(tempTask);
-    if (state.activeTab === "kanban") renderKanban();
-
-    try {
-      await apiFetch("/api/tasks", { method: "POST", body: JSON.stringify(payload) });
-      showToast(`Đã phát lệnh giao việc "${payload.title}" cho Phòng #${payload.assigned_dept_id}!`);
-      await refreshTasksAndOverview();
-    } catch (err) {
-      showToast(`Không thể giao việc: ${err.message}`);
-      await refreshTasksAndOverview();
-    }
   }
 
-  function runKnowledgeSearch(queryText) {
-    if (state.searchAbortCtrl) {
-      state.searchAbortCtrl.abort();
-    }
-    const ctrl = new AbortController();
-    state.searchAbortCtrl = ctrl;
-    const div = document.getElementById("knowledge-division-filter").value;
-    const url = `/api/knowledge?q=${encodeURIComponent(queryText || "")}&division=${encodeURIComponent(div || "")}&limit=80`;
-
-    apiFetch(url, { signal: ctrl.signal })
-      .then((res) => renderKnowledgeArticles(res.articles || [], res.elapsed_ms))
-      .catch((err) => {
-        if (err.name !== "AbortError") {
-          renderKnowledgeArticles([], 0);
-        }
-      });
+  function applyTheme(t) {
+    const mode = t === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", mode);
+    localStorage.setItem("titan_theme", mode);
+    document.getElementById("meta-theme-color").setAttribute("content", mode === "dark" ? "#111520" : "#0F766E");
   }
 
-  async function runCfoSimulation() {
-    const payload = {
-      price_per_month: Number(document.getElementById("cfo-price").value || 399000),
-      max_quota_units: Number(document.getElementById("cfo-quota").value || 100),
-      api_cost_per_unit: Number(document.getElementById("cfo-apicost").value || 950),
-      avg_usage_ratio: Number(document.getElementById("cfo-usage").value || 0.6),
-      payment_fee_pct: Number(document.getElementById("cfo-payfee").value || 1.5),
-      tax_reserve_pct: Number(document.getElementById("cfo-tax").value || 7.0),
-      fixed_monthly_cost: Number(document.getElementById("cfo-fixed").value || 1500000)
+  function bindGlobalEvents() {
+    document.querySelectorAll("#side-nav .nav-item, #mobile-nav .mob-btn").forEach((b) => {
+      b.onclick = () => switchTab(b.getAttribute("data-tab"));
+    });
+
+    document.getElementById("btn-theme").onclick = () => {
+      applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
     };
-    let sim;
-    try {
-      sim = state.staticCloudMode
-        ? computeLocalCfo(payload)
-        : await apiFetch("/api/finance/simulate", { method: "POST", body: JSON.stringify(payload) });
-    } catch (_e) {
-      sim = computeLocalCfo(payload);
-    }
 
-    const badge = document.getElementById("cfo-gate-badge");
-    badge.className = `status-badge ${sim.gate1_passed ? "status-DONE" : "status-REJECTED"}`;
-    badge.textContent = sim.gate1_passed ? "✓ ĐẠT CỔNG 1 (>=65%)" : "✕ CẢNH BÁO LỖ NGẦM";
-    document.getElementById("cfo-verdict-banner").textContent = sim.verdict_vi;
-    document.getElementById("cfo-worst-margin").textContent = `${sim.worst_gross_margin_pct}%`;
-    document.getElementById("cfo-worst-profit").textContent = `Lãi ròng kịch bản xấu: ${formatVnd(sim.net_profit_per_user_worst)}/khách`;
-    document.getElementById("cfo-breakeven").textContent = sim.breakeven_customers > 0 ? `${sim.breakeven_customers} khách` : "Không hòa vốn";
-    document.getElementById("cfo-exp-margin").textContent = `Biên kỳ vọng: ${sim.expected_gross_margin_pct}%`;
-
-    const tbody = document.getElementById("cfo-projection-tbody");
-    const tiers = ["10", "50", "200", "500"];
-    tbody.innerHTML = tiers.map((k) => {
-      const row = (sim.projections || {})[k] || { customers: k, gross_revenue: 0, tax_reserve: 0, net_profit: 0 };
-      const profitColor = row.net_profit >= 0 ? "var(--state-success)" : "var(--state-danger)";
-      return `
-        <tr>
-          <td><strong>${row.customers} khách trả phí</strong></td>
-          <td>${formatVnd(row.gross_revenue)}</td>
-          <td>${formatVnd(row.tax_reserve)}</td>
-          <td style="font-weight:700;color:${profitColor};">${formatVnd(row.net_profit)}</td>
-        </tr>
-      `;
-    }).join("");
-  }
-
-  async function loadAuditDiagnostics() {
-    const box = document.getElementById("hr-audit-box");
-    try {
-      const res = await apiFetch("/api/audit");
-      const ok = Boolean(res.passed);
-      document.getElementById("badge-audit").textContent = ok ? "OK" : "ERR";
-      box.innerHTML = `
-        <strong>Kết quả Kiểm toán Toàn Tập đoàn:</strong> ${ok ? "✓ XANH 100% ĐẠT CHUẨN" : "✕ CÓ CẢNH BÁO"}<br/>
-        • Số Bộ Não Thiên Tài 6 Tầng đã đăng ký: <strong>${res.registered_departments ?? state.departments.length}</strong> vị trí<br/>
-        • Chế độ kết nối hiện tại: <strong>${state.staticCloudMode ? "GitHub Pages Cloud CDN (24/7)" : "Local Multi-Threaded SQLite WAL + Live SSE"}</strong>
-      `;
-    } catch (err) {
-      box.textContent = `Không thể chạy kiểm toán: ${err.message}`;
-    }
-  }
-
-  // Bidirectional GitHub REST API Cloud Sync directly from Browser / Phone PWA
-  async function syncWithGitHubCloud() {
-    const pin = document.getElementById("cloud-pin-input").value;
-    if (!pin) {
-      showToast("Vui lòng nhập Mã PIN Két sắt trên thiết bị để mở khóa đồng bộ GitHub!");
-      return;
-    }
-    try {
-      const creds = await cryptoVault.unlockCredentials(pin);
-      const apiUrl = `https://api.github.com/repos/${creds.repo}/contents/corporate_hq/cloud_state/snapshot.json`;
-      const headers = {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${creds.token}`
+    // Tab 1: Command Composer & Quick Preset Chips
+    document.querySelectorAll("[data-preset]").forEach((chip) => {
+      chip.onclick = () => {
+        const inp = document.getElementById("mission-prompt-input");
+        inp.value = chip.getAttribute("data-preset");
+        inp.focus();
       };
-      const remoteRes = await fetch(apiUrl, { headers });
-      if (!remoteRes.ok) throw new Error(`GitHub API trả mã ${remoteRes.status}`);
-      const remoteMeta = await remoteRes.json();
-      const decodedJson = JSON.parse(decodeURIComponent(escape(atob((remoteMeta.content || "").replace(/\s/g, "")))));
-
-      if (!state.staticCloudMode) {
-        const merged = await apiFetch("/api/sync/snapshot", {
-          method: "POST",
-          body: JSON.stringify({ snapshot: decodedJson })
-        });
-        const newContentB64 = btoa(unescape(encodeURIComponent(JSON.stringify(merged.snapshot, null, 2))));
-        await fetch(apiUrl, {
-          method: "PUT",
-          headers: { ...headers, "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message: `chore(sync): multi-device Command Center sync ${new Date().toISOString()}`,
-            content: newContentB64,
-            sha: remoteMeta.sha
-          })
-        });
-        await refreshAllCoreData();
-      } else {
-        await idb.set("latest_snapshot_backup", decodedJson);
-        await refreshAllCoreData();
-      }
-      closeAllModals();
-      showToast("Đồng bộ 2 chiều với Đám mây GitHub thành công 100%!");
-    } catch (err) {
-      showToast(`Lỗi đồng bộ GitHub: ${err.message}`);
-    }
-  }
-
-  // -------------------------------------------------------------------------
-  // 11. THEME, PWA SERVICE WORKER & EVENT BINDINGS
-  // -------------------------------------------------------------------------
-  function applyTheme(theme) {
-    const t = theme === "dark" ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", t);
-    localStorage.setItem("titan_theme", t);
-    const meta = document.getElementById("meta-theme-color");
-    if (meta) meta.setAttribute("content", t === "dark" ? "#0B1120" : "#0D9488");
-  }
-
-  function renderCommandPaletteResults(q) {
-    const list = document.getElementById("cmd-results-list");
-    const term = (q || "").trim().toLowerCase();
-    const matches = [];
-
-    state.departments.forEach((d) => {
-      if (!term || `${d.dept_id} ${d.code} ${d.title_vi} ${d.mission}`.toLowerCase().includes(term)) {
-        matches.push({ type: "dept", id: d.dept_id, label: `Nhân sự #${d.dept_id}: ${d.title_vi}`, sub: d.division_name_vi });
-      }
-    });
-    state.tasks.forEach((t) => {
-      if (term && `${t.title} ${t.task_id}`.toLowerCase().includes(term)) {
-        matches.push({ type: "task", id: t.task_id, label: `Đầu việc: ${t.title}`, sub: t.kanban_column });
-      }
     });
 
-    list.innerHTML = matches.slice(0, 14).map((m) => `
-      <div class="division-row" data-cmd-type="${m.type}" data-cmd-id="${escapeHtml(m.id)}">
-        <div>
-          <div style="font-weight:600;color:var(--text-primary);">${escapeHtml(m.label)}</div>
-          <div class="kpi-sub">${escapeHtml(m.sub || "")}</div>
-        </div>
-        <span class="kpi-sub">Mở ↵</span>
-      </div>
-    `).join("") || `<div class="kpi-sub">Không tìm thấy mục nào khớp "${escapeHtml(q)}".</div>`;
-
-    list.querySelectorAll("[data-cmd-type]").forEach((row) => {
-      row.addEventListener("click", () => {
-        const tp = row.getAttribute("data-cmd-type");
-        const id = row.getAttribute("data-cmd-id");
-        closeAllModals();
-        if (tp === "dept") openBrainInspector(id);
-        if (tp === "task") switchTab("kanban");
-      });
-    });
-  }
-
-  function bindUiEvents() {
-    // Desktop & Mobile Tab Buttons
-    document.querySelectorAll("#desktop-nav .nav-btn[data-tab], #mobile-bottom-nav .mob-nav-btn[data-tab]").forEach((btn) => {
-      btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
-    });
-
-    document.getElementById("btn-mobile-more").addEventListener("click", () => openModal("modal-mobile-more"));
-    document.querySelectorAll("[data-mob-jump]").forEach((b) => {
-      b.addEventListener("click", () => {
-        closeAllModals();
-        switchTab(b.getAttribute("data-mob-jump"));
-      });
-    });
-
-    // Mobile Kanban Horizontal Scroll Snap Pills
-    document.querySelectorAll("#mobile-kanban-pills [data-kcol]").forEach((pill) => {
-      pill.addEventListener("click", () => {
-        const idx = Number(pill.getAttribute("data-kcol") || 0);
-        const board = document.getElementById("kanban-board");
-        const targetCol = board.children[idx];
-        if (targetCol) {
-          targetCol.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
-        }
-      });
-    });
-
-    // Theme Toggle
-    document.getElementById("btn-toggle-theme").addEventListener("click", () => {
-      const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      applyTheme(next);
-    });
-
-    // Topbar Quick Buttons
-    document.getElementById("btn-open-cmd").addEventListener("click", () => {
-      openModal("modal-cmd");
-      renderCommandPaletteResults("");
-    });
-    document.getElementById("cmd-search-input").addEventListener("input", (e) => renderCommandPaletteResults(e.target.value));
-
-    const triggerLearn = async () => {
-      try {
-        const res = await apiFetch("/api/learning/run", { method: "POST", body: JSON.stringify({ scope: "all" }) });
-        showToast(res.message || "Đã kích hoạt quét báo chí & nghiên cứu chạy nền!");
-      } catch (err) {
-        showToast(`Không thể quét trực tiếp: ${err.message}`);
-      }
-    };
-    document.getElementById("btn-trigger-learn").addEventListener("click", triggerLearn);
-    document.getElementById("btn-run-all-feeds").addEventListener("click", triggerLearn);
-
-    document.getElementById("btn-new-task").addEventListener("click", () => openModal("modal-task"));
-    document.getElementById("btn-kanban-new-task").addEventListener("click", () => openModal("modal-task"));
-    document.getElementById("btn-new-project-quick").addEventListener("click", () => openModal("modal-project"));
-    document.getElementById("btn-open-new-project").addEventListener("click", () => openModal("modal-project"));
-    document.getElementById("btn-open-cloud").addEventListener("click", () => openModal("modal-cloud"));
-    document.getElementById("btn-open-cloud-2").addEventListener("click", () => openModal("modal-cloud"));
-    document.getElementById("btn-refresh-overview").addEventListener("click", refreshAllCoreData);
-
-    // Close Drawer & Modals
-    document.getElementById("btn-close-drawer").addEventListener("click", closeBrainInspector);
-    document.getElementById("drawer-backdrop").addEventListener("click", closeBrainInspector);
-    document.getElementById("modal-backdrop").addEventListener("click", closeAllModals);
-    document.querySelectorAll("[data-close-modal]").forEach((b) => b.addEventListener("click", closeAllModals));
-
-    // Drawer Subtabs
-    document.querySelectorAll("#drawer-subtabs .subtab-btn").forEach((b) => {
-      b.addEventListener("click", () => {
-        state.activeDrawerSubtab = b.getAttribute("data-subtab");
-        renderDrawerSubtab();
-      });
-    });
-
-    // Org & Kanban Filters
-    document.getElementById("org-search-input").addEventListener("input", renderOrgChart);
-    document.getElementById("org-division-filter").addEventListener("change", renderOrgChart);
-    document.getElementById("org-status-filter").addEventListener("change", renderOrgChart);
-    document.getElementById("kanban-project-filter").addEventListener("change", renderKanban);
-    document.getElementById("kanban-division-filter").addEventListener("change", renderKanban);
-
-    // 120ms Debounced FTS5 Search with AbortController
-    document.getElementById("knowledge-search-input").addEventListener("input", (e) => {
-      clearTimeout(state.searchTimer);
-      const val = e.target.value;
-      state.searchTimer = setTimeout(() => runKnowledgeSearch(val), 120);
-    });
-    document.getElementById("knowledge-division-filter").addEventListener("change", () => {
-      runKnowledgeSearch(document.getElementById("knowledge-search-input").value);
-    });
-
-    // Deep URL Ingestion Form
-    document.getElementById("form-ingest-url").addEventListener("submit", async (e) => {
+    document.getElementById("form-mission-composer").onsubmit = async (e) => {
       e.preventDefault();
-      const url = document.getElementById("ingest-url-input").value.trim();
-      const deptId = document.getElementById("ingest-dept-select").value;
-      try {
-        showToast("Đang tải và bóc tách bài viết thực tế...");
-        const res = await apiFetch("/api/learning/ingest-url", {
-          method: "POST",
-          body: JSON.stringify({ url, dept_id: deptId, importance: 9 })
-        });
-        document.getElementById("ingest-url-input").value = "";
-        showToast(`Đã ghi nhớ bài "${res.title || url}" vào bộ não Phòng #${deptId}!`);
-        runKnowledgeSearch("");
-        refreshAllCoreData();
-      } catch (err) {
-        showToast(`Lỗi đọc URL: ${err.message}`);
-      }
-    });
-
-    // Create Task Form
-    document.getElementById("form-create-task").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const payload = {
-        title: document.getElementById("task-title-input").value.trim(),
-        assigned_dept_id: document.getElementById("task-dept-select").value,
-        project_id: document.getElementById("task-project-select").value || null,
-        stage_number: Number(document.getElementById("task-stage-input").value || 1),
-        gate_number: Number(document.getElementById("task-gate-input").value || 1),
-        priority: document.getElementById("task-priority-select").value,
-        description: document.getElementById("task-desc-input").value.trim()
-      };
-      closeAllModals();
-      document.getElementById("form-create-task").reset();
-      await createNewTask(payload);
-    });
-
-    // Create Project Form
-    document.getElementById("form-create-project").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const payload = {
-        title: document.getElementById("proj-title-input").value.trim(),
-        slug: document.getElementById("proj-slug-input").value.trim(),
-        objective: document.getElementById("proj-obj-input").value.trim(),
-        expected_price_vnd: Number(document.getElementById("proj-price-input").value || 399000),
-        unit_cost_vnd: Number(document.getElementById("proj-cost-input").value || 95000),
-        seed_gate1_tasks: true
-      };
-      try {
-        const proj = await apiFetch("/api/projects", { method: "POST", body: JSON.stringify(payload) });
-        closeAllModals();
-        document.getElementById("form-create-project").reset();
-        state.selectedProjectId = proj.project_id;
-        showToast(`Đã khởi tạo Dự án "${proj.title}" kèm 4 đầu việc Cổng 1!`);
-        await refreshAllCoreData();
-        switchTab("kanban");
-      } catch (err) {
-        showToast(`Lỗi tạo dự án: ${err.message}`);
-      }
-    });
-
-    // Chairman Gate Approve / Reject
-    const submitDecision = async (decision) => {
-      const tid = document.getElementById("decision-task-id").value;
-      const note = document.getElementById("decision-note-input").value.trim();
-      const rule = document.getElementById("decision-rule-input").value.trim();
-      try {
-        await apiFetch(`/api/tasks/${encodeURIComponent(tid)}/decision`, {
-          method: "POST",
-          body: JSON.stringify({ decision, note, preventive_rule: rule })
-        });
-        closeAllModals();
-        showToast(
-          decision === "APPROVE"
-            ? "Chủ tịch đã PHÊ DUYỆT đầu việc!"
-            : "Đã BÁC BỎ & tự động ghi bài học vào Sổ Kiểm Điểm Reflexion của phòng ban!"
-        );
-        await refreshTasksAndOverview();
-      } catch (err) {
-        showToast(`Lỗi xử lý cổng duyệt: ${err.message}`);
-      }
-    };
-    document.getElementById("btn-confirm-approve").addEventListener("click", () => submitDecision("APPROVE"));
-    document.getElementById("btn-confirm-reject").addEventListener("click", () => submitDecision("REJECT"));
-
-    // CFO Simulator Form & Live Input
-    document.getElementById("form-cfo-sim").addEventListener("submit", (e) => {
-      e.preventDefault();
-      runCfoSimulation();
-    });
-    document.querySelectorAll("#form-cfo-sim input").forEach((inp) => {
-      inp.addEventListener("input", runCfoSimulation);
-    });
-
-    // Hire New Specialist (#46+)
-    document.getElementById("form-hire-dept").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const payload = {
-        division: document.getElementById("hire-division").value,
-        code: document.getElementById("hire-code").value.trim(),
-        title: document.getElementById("hire-title").value.trim(),
-        mission: document.getElementById("hire-mission").value.trim(),
-        books: document.getElementById("hire-books").value.trim()
-      };
-      try {
-        const res = await apiFetch("/api/departments", { method: "POST", body: JSON.stringify(payload) });
-        document.getElementById("form-hire-dept").reset();
-        showToast(`Đã tuyển dụng và biên dịch Bộ Não 6 Tầng cho Phòng #${res.dept_id}!`);
-        await refreshAllCoreData();
-        openBrainInspector(res.dept_id);
-      } catch (err) {
-        showToast(`Lỗi tuyển nhân sự: ${err.message}`);
-      }
-    });
-
-    document.getElementById("btn-run-audit").addEventListener("click", loadAuditDiagnostics);
-
-    // Export Snapshot JSON
-    document.getElementById("btn-export-snapshot").addEventListener("click", async () => {
-      try {
-        const snap = await apiFetch("/api/sync/snapshot");
-        const blob = new Blob([JSON.stringify(snap, null, 2)], { type: "application/json" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = `titan-corp-snapshot-${new Date().toISOString().slice(0, 10)}.json`;
-        a.click();
-      } catch (err) {
-        showToast(`Lỗi xuất snapshot: ${err.message}`);
-      }
-    });
-
-    // Save Cloud Vault & Trigger Sync
-    document.getElementById("form-cloud-config").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const repo = document.getElementById("cloud-repo-input").value.trim();
-      const token = document.getElementById("cloud-token-input").value.trim();
-      const pin = document.getElementById("cloud-pin-input").value;
-      if (!repo || !token || pin.length < 4) {
-        showToast("Vui lòng nhập kho owner/repo, Token và mã PIN tối thiểu 4 ký tự.");
+      const promptEl = document.getElementById("mission-prompt-input");
+      const text = promptEl.value.trim();
+      if (!text) {
+        promptEl.focus();
         return;
       }
-      await cryptoVault.saveCredentials(repo, token, pin);
-      document.getElementById("cloud-token-input").value = "";
-      showToast("Đã mã hóa AES-256-GCM và cất khóa an toàn trên thiết bị này!");
+      const autoApp = document.getElementById("chk-auto-approve").checked;
+      promptEl.value = "";
+      await api("/api/missions", "POST", { title: text, goal_prompt: text, auto_approve: autoApp });
+      await loadEverything();
+      switchTab("missions");
+      toast("Đã giao nhiệm vụ — Đội ngũ 51 AI đang tự động thực thi từng bước!");
+    };
+
+    document.getElementById("btn-scan-opps").onclick = async () => {
+      await api("/api/opportunities/scan", "POST", {});
+      await loadEverything();
+      toast("Phòng #50 vừa đề xuất thêm cơ hội kiếm tiền mới.");
+    };
+
+    document.getElementById("btn-add-opp").onclick = () => {
+      document.getElementById("opp-modal-title").textContent = "Tự thêm ý tưởng kiếm tiền";
+      document.getElementById("edit-opp-id").value = "";
+      document.getElementById("form-opp").reset();
+      openModal("modal-opp");
+    };
+
+    document.getElementById("form-opp").onsubmit = async (e) => {
+      e.preventDefault();
+      const oid = document.getElementById("edit-opp-id").value;
+      const payload = {
+        title: document.getElementById("inp-opp-title").value.trim(),
+        target_customer: document.getElementById("inp-opp-cust").value.trim(),
+        price_vnd: Number(document.getElementById("inp-opp-price").value || 399000),
+        est_margin_pct: Number(document.getElementById("inp-opp-margin").value || 75),
+        pain_point: document.getElementById("inp-opp-pain").value.trim()
+      };
+      if (oid) await api(`/api/opportunities/${encodeURIComponent(oid)}`, "PATCH", payload);
+      else await api("/api/opportunities", "POST", payload);
+      closeModals();
+      await loadEverything();
+      toast("Đã lưu đề xuất cơ hội.");
+    };
+
+    // Tab 2: Missions Filter & Clear Completed
+    document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((b) => {
+      b.onclick = () => {
+        document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((x) => x.classList.remove("active"));
+        b.classList.add("active");
+        state.missionFilter = b.getAttribute("data-mfilter");
+        renderMissionsTab();
+      };
     });
-    document.getElementById("btn-sync-github-now").addEventListener("click", syncWithGitHubCloud);
 
-    // Executive Keyboard Shortcuts
+    document.getElementById("btn-clear-completed-missions").onclick = async () => {
+      const res = await api("/api/missions/bulk", "POST", { action: "clear_completed" });
+      await loadEverything();
+      toast(`Đã dọn sạch ${res.affected || 0} nhiệm vụ hoàn tất.`);
+    };
+
+    document.getElementById("btn-new-mission-tab2").onclick = () => {
+      switchTab("command");
+      document.getElementById("mission-prompt-input").focus();
+    };
+
+    // Tab 3: Tasks View Toggle, Add/Edit, Clear Done & Bulk Actions
+    document.querySelectorAll("#task-view-mode .seg-btn").forEach((b) => {
+      b.onclick = () => {
+        document.querySelectorAll("#task-view-mode .seg-btn").forEach((x) => x.classList.remove("active"));
+        b.classList.add("active");
+        state.taskViewMode = b.getAttribute("data-tview");
+        renderTasksTab();
+      };
+    });
+
+    document.getElementById("filter-task-project").onchange = renderTasksTab;
+    document.getElementById("filter-task-col").onchange = renderTasksTab;
+    document.getElementById("btn-quick-task").onclick = () => openNewTaskModal("BACKLOG");
+    document.getElementById("btn-add-task-tab3").onclick = () => openNewTaskModal("BACKLOG");
+
+    document.getElementById("form-task").onsubmit = async (e) => {
+      e.preventDefault();
+      const tid = document.getElementById("edit-task-id").value;
+      const payload = {
+        title: document.getElementById("inp-task-title").value.trim(),
+        assigned_dept_id: document.getElementById("inp-task-dept").value,
+        kanban_column: document.getElementById("inp-task-col").value,
+        project_id: document.getElementById("inp-task-proj").value || null,
+        priority: document.getElementById("inp-task-prio").value,
+        description: document.getElementById("inp-task-desc").value.trim()
+      };
+      if (tid) await api(`/api/tasks/${encodeURIComponent(tid)}`, "PATCH", payload);
+      else await api("/api/tasks", "POST", payload);
+      closeModals();
+      await loadEverything();
+      toast(tid ? "Đã cập nhật công việc." : "Đã thêm công việc mới.");
+    };
+
+    document.getElementById("btn-clear-done-tasks").onclick = async () => {
+      const res = await api("/api/tasks/bulk", "POST", { action: "clear_done" });
+      await loadEverything();
+      toast(`Đã dọn sạch ${res.affected || 0} việc hoàn tất.`);
+    };
+
+    document.getElementById("btn-bulk-done").onclick = async () => {
+      const ids = Array.from(state.selectedTaskIds);
+      await api("/api/tasks/bulk", "POST", { action: "move_column", column: "DONE", task_ids: ids });
+      state.selectedTaskIds.clear();
+      await loadEverything();
+      toast(`Đã đánh dấu xong ${ids.length} việc.`);
+    };
+
+    document.getElementById("btn-bulk-delete").onclick = async () => {
+      const ids = Array.from(state.selectedTaskIds);
+      await api("/api/tasks/bulk", "POST", { action: "delete", task_ids: ids });
+      state.selectedTaskIds.clear();
+      await loadEverything();
+      toast(`Đã xóa ${ids.length} công việc đã chọn.`);
+    };
+
+    document.getElementById("btn-bulk-clear").onclick = () => {
+      state.selectedTaskIds.clear();
+      renderTasksTab();
+    };
+
+    // Tab 4: Staff Search & Hire
+    document.getElementById("staff-search").oninput = renderStaffTab;
+    document.getElementById("btn-open-hire").onclick = () => openModal("modal-hire");
+    document.getElementById("form-hire").onsubmit = async (e) => {
+      e.preventDefault();
+      const res = await api("/api/departments", "POST", {
+        division: document.getElementById("inp-hire-div").value,
+        title: document.getElementById("inp-hire-title").value.trim(),
+        code: document.getElementById("inp-hire-code").value.trim(),
+        mission: document.getElementById("inp-hire-mission").value.trim()
+      });
+      closeModals();
+      document.getElementById("form-hire").reset();
+      await loadEverything();
+      toast(`Đã tuyển dụng Phòng #${res.dept_id}.`);
+      openStaffDrawer(res.dept_id);
+    };
+
+    // Tab 5: News Poll, Read URL & Search
+    const pollNews = async () => {
+      const r = await api("/api/learning/run", "POST", { scope: "all" });
+      toast(r.message || "Đang cập nhật tin tức thị trường mới...");
+    };
+    document.getElementById("btn-scan-news").onclick = pollNews;
+    document.getElementById("btn-poll-feeds-tab5").onclick = pollNews;
+
+    document.getElementById("form-read-url").onsubmit = async (e) => {
+      e.preventDefault();
+      const url = document.getElementById("url-to-read").value.trim();
+      const dept = document.getElementById("url-dept-select").value;
+      await api("/api/learning/ingest-url", "POST", { url, dept_id: dept });
+      document.getElementById("url-to-read").value = "";
+      await loadNews();
+      await loadEverything();
+      toast("Nhân viên đã đọc và lưu tóm tắt bài báo.");
+    };
+
+    document.querySelectorAll("#news-star-filter .seg-btn").forEach((b) => {
+      b.onclick = () => {
+        document.querySelectorAll("#news-star-filter .seg-btn").forEach((x) => x.classList.remove("active"));
+        b.classList.add("active");
+        state.newsStarFilter = b.getAttribute("data-nfilter");
+        renderNewsTab();
+      };
+    });
+
+    let searchT = null;
+    document.getElementById("news-search-input").oninput = (e) => {
+      clearTimeout(searchT);
+      searchT = setTimeout(() => loadNews(e.target.value), 140);
+    };
+
+    // Tab 6: CFO Sliders, Projects, Docs & Cloud
+    ["rng-price", "rng-quota", "rng-unit", "rng-fixed"].forEach((id) => {
+      document.getElementById(id).oninput = updateCfoSliders;
+    });
+
+    document.getElementById("btn-new-proj").onclick = () => {
+      document.getElementById("proj-modal-title").textContent = "Tạo dự án mới";
+      document.getElementById("edit-proj-id").value = "";
+      document.getElementById("wrap-proj-slug").style.display = "flex";
+      document.getElementById("form-proj").reset();
+      openModal("modal-proj");
+    };
+
+    document.getElementById("form-proj").onsubmit = async (e) => {
+      e.preventDefault();
+      const pid = document.getElementById("edit-proj-id").value;
+      const payload = {
+        title: document.getElementById("inp-proj-title").value.trim(),
+        slug: document.getElementById("inp-proj-slug").value.trim(),
+        expected_price_vnd: Number(document.getElementById("inp-proj-price").value || 399000),
+        status: document.getElementById("inp-proj-status").value,
+        objective: document.getElementById("inp-proj-obj").value.trim()
+      };
+      if (pid) await api(`/api/projects/${encodeURIComponent(pid)}`, "PATCH", payload);
+      else await api("/api/projects", "POST", payload);
+      closeModals();
+      await loadEverything();
+      toast("Đã lưu thông tin dự án.");
+    };
+
+    document.getElementById("btn-new-doc").onclick = async () => {
+      if (!state.selectedProjectId) return;
+      const fname = window.prompt("Nhập tên tệp tài liệu mới (.md):", "KE_HOACH_BAN_HANG.md");
+      if (!fname) return;
+      await api(`/api/projects/${encodeURIComponent(state.selectedProjectId)}/files`, "POST", {
+        file: fname.endsWith(".md") ? fname : `${fname}.md`,
+        content: `# ${fname}\n\n- Mục tiêu:\n- Các bước triển khai:\n`
+      });
+      await loadProjectDocs(state.selectedProjectId);
+      toast("Đã tạo tài liệu mới.");
+    };
+
+    document.getElementById("btn-toggle-doc-edit").onclick = () => {
+      state.docEditMode = !state.docEditMode;
+      document.getElementById("doc-pretty-view").style.display = state.docEditMode ? "none" : "block";
+      document.getElementById("doc-raw-editor").style.display = state.docEditMode ? "block" : "none";
+      document.getElementById("btn-save-doc").style.display = state.docEditMode ? "inline-flex" : "none";
+      document.getElementById("btn-toggle-doc-edit").textContent = state.docEditMode ? "Xem bản đẹp" : "Sửa nội dung";
+    };
+
+    document.getElementById("btn-save-doc").onclick = async () => {
+      if (!state.selectedProjectId || !state.currentDocFile) return;
+      const content = document.getElementById("doc-raw-editor").value;
+      await api(`/api/projects/${encodeURIComponent(state.selectedProjectId)}/files`, "POST", {
+        file: state.currentDocFile,
+        content
+      });
+      await openDocFile(state.selectedProjectId, state.currentDocFile);
+      toast("Đã lưu tài liệu.");
+    };
+
+    document.getElementById("btn-delete-doc").onclick = async () => {
+      if (!state.selectedProjectId || !state.currentDocFile) return;
+      await api(`/api/projects/${encodeURIComponent(state.selectedProjectId)}/files?file=${encodeURIComponent(state.currentDocFile)}`, "DELETE");
+      await loadProjectDocs(state.selectedProjectId);
+      toast("Đã xóa tệp tài liệu.");
+    };
+
+    document.getElementById("btn-clear-events").onclick = async () => {
+      await api("/api/events", "DELETE");
+      toast("Đã dọn sạch nhật ký hoạt động cũ.");
+    };
+
+    document.getElementById("btn-export-json").onclick = async () => {
+      const snap = await api("/api/sync/snapshot");
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(snap, null, 2)], { type: "application/json" }));
+      a.download = `titan-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+    };
+
+    document.getElementById("btn-cloud-vault").onclick = () => openModal("modal-cloud");
+    document.getElementById("form-cloud").onsubmit = (e) => {
+      e.preventDefault();
+      localStorage.setItem("titan_gh_repo", document.getElementById("inp-cloud-repo").value.trim());
+      closeModals();
+      toast("Đã lưu cấu hình kho đám mây trên thiết bị.");
+    };
+    document.getElementById("btn-cloud-sync-now").onclick = async () => {
+      await loadEverything();
+      closeModals();
+      toast("Đã làm mới dữ liệu đồng bộ.");
+    };
+
+    // Command Palette (Ctrl+K)
+    const renderCmd = (q) => {
+      const term = (q || "").trim().toLowerCase();
+      const rows = [];
+      state.missions.forEach((m) => {
+        if (!term || m.title.toLowerCase().includes(term)) rows.push({ kind: "msn", label: `Nhiệm vụ: ${m.title}` });
+      });
+      state.departments.forEach((d) => {
+        if (!term || `${d.dept_id} ${d.title_vi}`.toLowerCase().includes(term)) rows.push({ kind: "dept", id: d.dept_id, label: `#${d.dept_id} · ${d.title_vi}` });
+      });
+      const box = document.getElementById("cmd-results");
+      box.innerHTML = rows.slice(0, 12).map((r) => `
+        <div class="list-row" style="grid-template-columns:1fr auto;cursor:pointer;" data-cmd-kind="${r.kind}" data-cmd-id="${esc(r.id || "")}">
+          <span style="font-weight:600;color:var(--text-primary);">${esc(r.label)}</span>
+          <span style="font-size:12px;color:var(--text-muted);">Mở ↵</span>
+        </div>
+      `).join("") || `<div style="padding:14px;color:var(--text-muted);">Không tìm thấy kết quả.</div>`;
+      box.querySelectorAll("[data-cmd-kind]").forEach((el) => {
+        el.onclick = () => {
+          closeModals();
+          if (el.getAttribute("data-cmd-kind") === "msn") switchTab("missions");
+          else openStaffDrawer(el.getAttribute("data-cmd-id"));
+        };
+      });
+    };
+
+    document.getElementById("btn-cmd-palette").onclick = () => { openModal("modal-cmd"); renderCmd(""); };
+    document.getElementById("cmd-input").oninput = (e) => renderCmd(e.target.value);
+
+    // Close Backdrop & Shortcuts
+    document.getElementById("drawer-backdrop").onclick = closeDrawer;
+    document.getElementById("btn-close-drawer").onclick = closeDrawer;
+    document.getElementById("modal-backdrop").onclick = closeModals;
+    document.querySelectorAll("[data-close-modal]").forEach((b) => { b.onclick = closeModals; });
+
     window.addEventListener("keydown", (e) => {
-      const tag = (e.target && e.target.tagName) || "";
-      const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(tag);
-
+      const typing = ["INPUT", "TEXTAREA", "SELECT"].includes((e.target && e.target.tagName) || "");
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         openModal("modal-cmd");
-        renderCommandPaletteResults("");
+        renderCmd("");
+        return;
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b" && state.tab === "tasks") {
+        e.preventDefault();
+        state.taskViewMode = state.taskViewMode === "list" ? "board" : "list";
+        renderTasksTab();
         return;
       }
       if (e.key === "Escape") {
-        closeAllModals();
-        closeBrainInspector();
+        closeModals();
+        closeDrawer();
         return;
       }
-      if (isTyping) return;
-
-      const tabOrder = ["overview", "org", "kanban", "learning", "workflow", "projects", "finance", "hr"];
-      if (e.key >= "1" && e.key <= "8") {
-        switchTab(tabOrder[Number(e.key) - 1]);
-      } else if (e.key.toLowerCase() === "n") {
+      if (typing) return;
+      const order = ["command", "missions", "tasks", "staff", "news", "finance"];
+      if (e.key >= "1" && e.key <= "6") switchTab(order[Number(e.key) - 1]);
+      if (e.key.toLowerCase() === "n") { e.preventDefault(); openNewTaskModal("BACKLOG"); }
+      if (e.key.toLowerCase() === "d") {
         e.preventDefault();
-        openModal("modal-task");
-      } else if (e.key.toLowerCase() === "l") {
-        e.preventDefault();
-        triggerLearn();
-      } else if (e.key.toLowerCase() === "d") {
-        e.preventDefault();
-        const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        applyTheme(next);
-      }
-    });
-
-    // Online Recovery & PWA Install Prompt
-    window.addEventListener("online", () => {
-      showToast("Đã có mạng trở lại — Đang đồng bộ hàng đợi ngoại tuyến...");
-      idb.flushMutations().then(refreshAllCoreData);
-    });
-
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      state.deferredInstallPrompt = e;
-      const btn = document.getElementById("btn-install-pwa");
-      if (btn) {
-        btn.style.display = "inline-flex";
-        btn.onclick = async () => {
-          state.deferredInstallPrompt.prompt();
-          state.deferredInstallPrompt = null;
-          btn.style.display = "none";
-        };
+        applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
       }
     });
   }
 
-  // -------------------------------------------------------------------------
-  // 12. BOOTSTRAP (< 50ms Instant IndexedDB Hydrate + Live Revalidate + SW)
-  // -------------------------------------------------------------------------
-  async function bootstrap() {
-    const savedTheme = localStorage.getItem("titan_theme") || "light";
-    applyTheme(savedTheme);
-    bindUiEvents();
-    renderWorkflowTab();
-    runCfoSimulation();
-
-    // Instant cached paint from IndexedDB if available
-    const cached = await idb.get("cached_boot_state_v4");
-    if (cached && cached.overview) {
-      state.overview = cached.overview;
-      state.divisions = cached.overview.divisions || [];
-      state.projects = cached.overview.projects || [];
-      state.departments = cached.departments || [];
-      state.tasks = cached.tasks || [];
-      populateSelectMenus();
-      renderOverview();
-    }
-
-    const hashTab = (window.location.hash || "").replace("#", "");
-    if (TAB_TITLES[hashTab]) {
-      switchTab(hashTab);
-    }
-
-    await idb.refreshOutboxCount();
-    await refreshAllCoreData();
-    connectSseStream();
+  async function init() {
+    applyTheme(localStorage.getItem("titan_theme") || "light");
+    bindGlobalEvents();
+    const hash = (window.location.hash || "").replace("#", "");
+    if (VIEW_TITLES[hash]) state.tab = hash;
+    await loadEverything();
+    await loadNews("");
+    switchTab(state.tab);
+    startLiveStream();
 
     if ("serviceWorker" in navigator && window.location.protocol.startsWith("http")) {
       navigator.serviceWorker.register("./sw.js").catch(() => {});
     }
   }
 
-  document.addEventListener("DOMContentLoaded", bootstrap);
+  document.addEventListener("DOMContentLoaded", init);
 })();

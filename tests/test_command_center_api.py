@@ -88,7 +88,7 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
         etag = hdr1.get("ETag")
         self.assertTrue(etag and etag.startswith('"'))
         ov = json.loads(gzip.decompress(body1).decode("utf-8"))
-        self.assertEqual(ov["kpis"]["total_departments"], 46)
+        self.assertEqual(ov["kpis"]["total_departments"], 51)
 
         st2, _hdr2, body2 = self._req("/api/overview", headers={"If-None-Match": etag})
         self.assertEqual(st2, 304)
@@ -235,6 +235,66 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
             self.assertEqual(st_h, 201)
             hired = json.loads(raw_h.decode("utf-8"))
             self.assertTrue(hired["created"])
+
+    def test_04_v5_autonomous_missions_opportunities_full_crud_and_undo(self) -> None:
+        # Speed up step delay in unit test
+        self.server.autopilot.step_delay_sec = 0.02
+
+        # 1. Scan Money-Maker Opportunities & Accept one into an Autonomous 7-Step Mission
+        st_scan, _, raw_scan = self._req("/api/opportunities/scan", method="POST", body={})
+        self.assertEqual(st_scan, 200)
+        opps = json.loads(raw_scan.decode("utf-8"))["opportunities"]
+        self.assertGreaterEqual(len(opps), 4)
+        oid = opps[0]["opp_id"]
+
+        st_acc, _, raw_acc = self._req(f"/api/opportunities/{oid}/accept", method="POST", body={"wait": True})
+        self.assertEqual(st_acc, 201)
+        msn = json.loads(raw_acc.decode("utf-8"))
+        mid = msn["mission_id"]
+        self.assertEqual(msn["status"], "WAITING_CHAIRMAN")
+        self.assertEqual(msn["done_steps_count"], 6)
+        # Verify Step 4 & Step 6 contain Adversarial Critique (#46-#47) & Persona UX Tester (#48-#49) verdicts
+        self.assertTrue(all(s["critique_verdict"] and s["ux_verdict"] for s in msn["steps"][:6]))
+
+        # Approve Mission -> 100% COMPLETED
+        st_mdec, _, raw_mdec = self._req(f"/api/missions/{mid}/decision", method="POST", body={"decision": "APPROVE"})
+        self.assertEqual(st_mdec, 200)
+        self.assertEqual(json.loads(raw_mdec.decode("utf-8"))["status"], "COMPLETED")
+
+        # Delete Mission & Restore via 5-Second Undo!
+        st_mdel, _, _ = self._req(f"/api/missions/{mid}", method="DELETE")
+        self.assertEqual(st_mdel, 200)
+        st_404, _, _ = self._req(f"/api/missions/{mid}")
+        self.assertEqual(st_404, 404)
+
+        st_rest, _, _ = self._req("/api/trash/restore", method="POST", body={"entity_type": "mission", "entity_id": mid})
+        self.assertEqual(st_rest, 200)
+        st_back, _, raw_back = self._req(f"/api/missions/{mid}")
+        self.assertEqual(st_back, 200)
+        self.assertEqual(len(json.loads(raw_back.decode("utf-8"))["steps"]), 7)
+
+        # 2. Task Full CRUD: Create -> Edit (PATCH) -> Duplicate -> Delete -> Undo -> Bulk Delete
+        _, _, raw_t = self._req("/api/tasks", method="POST", body={"title": "Việc gốc cần sửa xóa", "assigned_dept_id": "48"})
+        tid = json.loads(raw_t.decode("utf-8"))["task_id"]
+
+        st_patch, _, raw_patch = self._req(f"/api/tasks/{tid}", method="PATCH", body={"title": "Việc đã sửa gọn", "kanban_column": "IN_PROGRESS"})
+        self.assertEqual(st_patch, 200)
+        self.assertEqual(json.loads(raw_patch.decode("utf-8"))["title"], "Việc đã sửa gọn")
+
+        st_dup, _, raw_dup = self._req(f"/api/tasks/{tid}/duplicate", method="POST", body={})
+        self.assertEqual(st_dup, 201)
+        dup_id = json.loads(raw_dup.decode("utf-8"))["task_id"]
+
+        # Delete Task & Undo Restore
+        self._req(f"/api/tasks/{tid}", method="DELETE")
+        self.assertEqual(self._req(f"/api/tasks?task_id={tid}")[0], 404)
+        self._req("/api/trash/restore", method="POST", body={"entity_type": "task", "entity_id": tid})
+        self.assertEqual(self._req(f"/api/tasks?task_id={tid}")[0], 200)
+
+        # Bulk Delete both tasks
+        st_bulk, _, raw_bulk = self._req("/api/tasks/bulk", method="POST", body={"action": "delete", "task_ids": [tid, dup_id]})
+        self.assertEqual(st_bulk, 200)
+        self.assertEqual(json.loads(raw_bulk.decode("utf-8"))["affected"], 2)
 
 
 if __name__ == "__main__":

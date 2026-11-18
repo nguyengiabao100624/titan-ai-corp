@@ -157,7 +157,7 @@
       "name": "Hacker News SaaS, Pricing & Show HN Signals",
       "query": "Show HN SaaS",
       "division_code": "div2-product-design",
-      "target_depts": ["05", "06", "07", "08", "10", "34", "42"],
+      "target_depts": ["05", "06", "07", "08", "10", "34", "42", "46", "48", "49", "50"],
       "importance": 7,
       "max_results": 5,
       "tags": "saas indiehackers product ux"

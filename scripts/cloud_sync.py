@@ -35,14 +35,20 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
     ]
     departments = [dict(r) for r in conn.execute("SELECT * FROM departments ORDER BY dept_id").fetchall()]
     divisions = [dict(r) for r in conn.execute("SELECT * FROM divisions ORDER BY sort_order").fetchall()]
+    missions = db.list_missions()
+    opportunities = db.list_opportunities()
+    tombstones = db.list_tombstones()
 
     return {
-        "schema_version": "4.0",
+        "schema_version": "5.0",
         "exported_at": utc_now_iso(),
         "divisions": divisions,
         "departments": departments,
         "projects": projects,
         "tasks": tasks,
+        "missions": missions,
+        "opportunities": opportunities,
+        "tombstones": tombstones,
         "deliverables": deliverables,
         "citations": citations,
         "reflexions": reflexions,
@@ -90,9 +96,38 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
     }
 
     with db.immediate_tx() as conn:
+        tomb_keys = {
+            r["tombstone_key"]
+            for r in conn.execute("SELECT tombstone_key FROM deleted_tombstones").fetchall()
+        }
+        for tb in remote_snapshot.get("tombstones", []):
+            tkey = tb.get("tombstone_key")
+            etype = tb.get("entity_type")
+            eid = tb.get("entity_id")
+            if not (tkey and etype and eid):
+                continue
+            tomb_keys.add(tkey)
+            conn.execute(
+                "INSERT OR IGNORE INTO deleted_tombstones(tombstone_key, entity_type, entity_id, trash_payload_json, deleted_at) VALUES (?, ?, ?, '{}', ?)",
+                (tkey, etype, eid, tb.get("deleted_at") or utc_now_iso()),
+            )
+            if etype == "task":
+                conn.execute("DELETE FROM tasks WHERE task_id = ?", (eid,))
+            elif etype == "mission":
+                conn.execute("DELETE FROM mission_steps WHERE mission_id = ?", (eid,))
+                conn.execute("DELETE FROM missions WHERE mission_id = ?", (eid,))
+            elif etype == "opportunity":
+                conn.execute("DELETE FROM opportunities WHERE opp_id = ?", (eid,))
+            elif etype == "project":
+                conn.execute("DELETE FROM projects WHERE project_id = ?", (eid,))
+            elif etype == "article":
+                conn.execute("DELETE FROM knowledge_atoms WHERE url_hash = ?", (eid,))
+
         # 1. Projects
         for proj in remote_snapshot.get("projects", []):
             pid = proj.get("project_id")
+            if not pid or f"project:{pid}" in tomb_keys:
+                continue
             if not pid:
                 continue
             existing = conn.execute("SELECT * FROM projects WHERE project_id = ?", (pid,)).fetchone()
@@ -154,7 +189,7 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
         # 2. Tasks
         for t in remote_snapshot.get("tasks", []):
             tid = t.get("task_id")
-            if not tid:
+            if not tid or f"task:{tid}" in tomb_keys:
                 continue
             existing_t = conn.execute("SELECT * FROM tasks WHERE task_id = ?", (tid,)).fetchone()
             if existing_t is None:
@@ -351,6 +386,70 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                 ),
             )
             stats["events_added"] += cur.rowcount
+
+        for opp in remote_snapshot.get("opportunities", []):
+            oid = opp.get("opp_id")
+            if not oid or f"opportunity:{oid}" in tomb_keys:
+                continue
+            conn.execute(
+                """
+                INSERT OR IGNORE INTO opportunities(
+                    opp_id, title, target_customer, pain_point, proposed_solution,
+                    price_vnd, est_margin_pct, breakeven_users, survival_score,
+                    critique_note, ux_note, source_url, status, mission_id, version, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    oid, opp.get("title", ""), opp.get("target_customer", ""), opp.get("pain_point", ""),
+                    opp.get("proposed_solution", ""), float(opp.get("price_vnd", 399000)),
+                    float(opp.get("est_margin_pct", 75.0)), int(opp.get("breakeven_users", 5)),
+                    int(opp.get("survival_score", 85)), opp.get("critique_note", ""),
+                    opp.get("ux_note", ""), opp.get("source_url", ""), opp.get("status", "NEW"),
+                    opp.get("mission_id"), int(opp.get("version", 1)),
+                    opp.get("created_at") or utc_now_iso(), opp.get("updated_at") or utc_now_iso(),
+                ),
+            )
+
+        for msn in remote_snapshot.get("missions", []):
+            mid = msn.get("mission_id")
+            if not mid or f"mission:{mid}" in tomb_keys:
+                continue
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO missions(
+                    mission_id, title, goal_prompt, category, status, auto_approve,
+                    current_step_order, total_steps, progress_pct, final_summary,
+                    survival_score, ux_score, expected_margin_pct, version, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    mid, msn.get("title", ""), msn.get("goal_prompt", ""), msn.get("category", "MONEY_MAKER"),
+                    msn.get("status", "RUNNING"), int(msn.get("auto_approve", 0)),
+                    int(msn.get("current_step_order", 1)), int(msn.get("total_steps", 7)),
+                    int(msn.get("progress_pct", 0)), msn.get("final_summary", ""),
+                    int(msn.get("survival_score", 85)), int(msn.get("ux_score", 90)),
+                    float(msn.get("expected_margin_pct", 74.0)), int(msn.get("version", 1)),
+                    msn.get("created_at") or utc_now_iso(), msn.get("updated_at") or utc_now_iso(),
+                ),
+            )
+            for s in msn.get("steps", []):
+                conn.execute(
+                    """
+                    INSERT OR REPLACE INTO mission_steps(
+                        step_id, mission_id, step_order, title, lead_dept_ids,
+                        critic_dept_id, ux_tester_dept_id, status, progress_pct,
+                        live_activity_text, output_summary, critique_verdict, ux_verdict,
+                        started_at, completed_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        s["step_id"], mid, int(s["step_order"]), s["title"], s["lead_dept_ids"],
+                        s.get("critic_dept_id", "47"), s.get("ux_tester_dept_id", "48"),
+                        s["status"], int(s.get("progress_pct", 0)), s.get("live_activity_text", ""),
+                        s.get("output_summary", ""), s.get("critique_verdict", ""), s.get("ux_verdict", ""),
+                        s.get("started_at"), s.get("completed_at"), s.get("updated_at") or utc_now_iso(),
+                    ),
+                )
 
         conn.execute(
             """

@@ -24,6 +24,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
+from autopilot_engine import AutonomousMissionEngine
 from cloud_sync import DEFAULT_SNAPSHOT_PATH, export_snapshot, merge_snapshot_into_db, save_snapshot_file
 from learning_engine import ContinualLearningEngine
 from titan_cli import add_department, run_audit
@@ -46,7 +47,8 @@ class ThreadingCommandServer(socketserver.ThreadingMixIn, http.server.HTTPServer
         super().__init__(server_address, handler_cls)
         self.db = db
         self.learning_engine = ContinualLearningEngine(db=db)
-        self.bg_pool = concurrent.futures.ThreadPoolExecutor(max_workers=4, thread_name_prefix="titan-bg")
+        self.bg_pool = concurrent.futures.ThreadPoolExecutor(max_workers=6, thread_name_prefix="titan-bg")
+        self.autopilot = AutonomousMissionEngine(db=db)
         self.admin_token = admin_token.strip()
         self.sse_queues_lock = threading.Lock()
         self.sse_queues: set[queue.Queue[dict[str, Any]]] = set()
@@ -92,7 +94,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, PATCH, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization, If-None-Match")
 
     def _check_auth_for_mutation(self) -> bool:
@@ -342,6 +344,27 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(export_snapshot(db), enable_etag=True)
                 return
 
+            # 25: Autonomous Step-by-Step Missions List
+            if path == "/api/missions":
+                st = qs.get("status", [None])[0]
+                self._send_json({"missions": db.list_missions(status=st)}, enable_etag=True)
+                return
+
+            m_msn = re.match(r"^/api/missions/([a-zA-Z0-9_-]+)$", path)
+            if m_msn:
+                single_m = db.get_mission(m_msn.group(1))
+                if not single_m:
+                    self._send_json({"error": "Nhiệm vụ không tồn tại."}, status=404)
+                    return
+                self._send_json(single_m)
+                return
+
+            # 26: Money-Maker Opportunities List
+            if path == "/api/opportunities":
+                st = qs.get("status", [None])[0]
+                self._send_json({"opportunities": db.list_opportunities(status=st)}, enable_etag=True)
+                return
+
             self._send_json({"error": f"Endpoint không tồn tại: {path}"}, status=404)
         except Exception as exc:
             self._send_json({"error": str(exc)}, status=500)
@@ -568,6 +591,132 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"merged": True, "stats": stats, "snapshot": export_snapshot(db)}, status=200)
                 return
 
+            # 25: Create & Auto-Run 7-Step Mission
+            if path == "/api/missions":
+                title = str(body.get("title") or body.get("goal_prompt") or "").strip()
+                if not title:
+                    self._send_json({"error": "Vui lòng nhập nội dung nhiệm vụ cần giao."}, status=400)
+                    return
+                msn = db.create_mission(
+                    title=title,
+                    goal_prompt=str(body.get("goal_prompt") or title),
+                    category=str(body.get("category") or "MONEY_MAKER"),
+                    auto_approve=bool(body.get("auto_approve", False)),
+                )
+                if bool(body.get("wait", False)):
+                    msn = self.app_server.autopilot.execute_mission_sync(msn["mission_id"]) or msn
+                else:
+                    self.app_server.autopilot.launch_background(msn["mission_id"], pool=self.app_server.bg_pool)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(msn, status=201)
+                return
+
+            # Mission Chairman Decision (APPROVE / REJECT)
+            m_mdec = re.match(r"^/api/missions/([a-zA-Z0-9_-]+)/decision$", path)
+            if m_mdec:
+                mid = m_mdec.group(1)
+                dec = str(body.get("decision", "")).upper().strip()
+                res = db.decide_mission(mid, dec, note=str(body.get("note", "")))
+                if dec == "REJECT":
+                    self.app_server.autopilot.launch_background(mid, pool=self.app_server.bg_pool)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            # Bulk Missions Action
+            if path == "/api/missions/bulk":
+                res = db.bulk_missions_action(str(body.get("action", "")), body.get("mission_ids"))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            # 26: Money-Maker Opportunities Create / Scan / Accept
+            if path == "/api/opportunities":
+                title = str(body.get("title", "")).strip()
+                if not title:
+                    self._send_json({"error": "Tên cơ hội không được để trống."}, status=400)
+                    return
+                opp = db.create_opportunity(
+                    title=title,
+                    target_customer=str(body.get("target_customer", "Khách hàng SME / Hộ kinh doanh")),
+                    pain_point=str(body.get("pain_point", "")),
+                    proposed_solution=str(body.get("proposed_solution", "")),
+                    price_vnd=float(body.get("price_vnd", 399000)),
+                    est_margin_pct=float(body.get("est_margin_pct", 75.0)),
+                    breakeven_users=int(body.get("breakeven_users", 5)),
+                    survival_score=int(body.get("survival_score", 86)),
+                    critique_note=str(body.get("critique_note", "")),
+                    ux_note=str(body.get("ux_note", "")),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(opp, status=201)
+                return
+
+            if path == "/api/opportunities/scan":
+                created = self.app_server.autopilot.scan_and_propose_new_opportunities()
+                self._send_json({"scanned": True, "added_count": len(created), "opportunities": db.list_opportunities()}, status=200)
+                return
+
+            m_oacc = re.match(r"^/api/opportunities/([a-zA-Z0-9_-]+)/accept$", path)
+            if m_oacc:
+                msn = db.accept_opportunity_into_mission(m_oacc.group(1), auto_approve=bool(body.get("auto_approve", False)))
+                if bool(body.get("wait", False)):
+                    msn = self.app_server.autopilot.execute_mission_sync(msn["mission_id"]) or msn
+                else:
+                    self.app_server.autopilot.launch_background(msn["mission_id"], pool=self.app_server.bg_pool)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(msn, status=201)
+                return
+
+            # 27: Task Duplicate & Bulk Actions
+            m_tdup = re.match(r"^/api/tasks/([a-zA-Z0-9_-]+)/duplicate$", path)
+            if m_tdup:
+                dup = db.duplicate_task(m_tdup.group(1))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(dup, status=201)
+                return
+
+            if path == "/api/tasks/bulk":
+                res = db.bulk_tasks_action(
+                    action=str(body.get("action", "")),
+                    task_ids=body.get("task_ids"),
+                    column=body.get("column"),
+                    assigned_dept_id=body.get("assigned_dept_id"),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            # 28: Create / Update Project Markdown Document Safely
+            m_pfwrite = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)/files$", path)
+            if m_pfwrite:
+                pid = m_pfwrite.group(1)
+                proj = db.get_project(pid)
+                if not proj:
+                    self._send_json({"error": "Dự án không tồn tại."}, status=404)
+                    return
+                rel_file = str(body.get("file", "")).strip().lstrip("/\\")
+                if not rel_file:
+                    self._send_json({"error": "Tên tệp không được để trống."}, status=400)
+                    return
+                proj_root = (ROOT_DIR / proj["workspace_path"]).resolve()
+                proj_root.mkdir(parents=True, exist_ok=True)
+                candidate = (proj_root / rel_file).resolve()
+                if not candidate.is_relative_to(proj_root):
+                    self._send_json({"error": "Chặn ghi tệp ngoài thư mục dự án!"}, status=403)
+                    return
+                candidate.parent.mkdir(parents=True, exist_ok=True)
+                candidate.write_text(str(body.get("content", "")), encoding="utf-8")
+                self._send_json({"saved": True, "file": rel_file, "size_bytes": candidate.stat().st_size}, status=200)
+                return
+
+            # 29: Universal Trash Restore (5-Second Undo)
+            if path == "/api/trash/restore":
+                res = db.restore_from_trash(str(body.get("entity_type", "")), str(body.get("entity_id", "")))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
             self._send_json({"error": f"Endpoint POST không tồn tại: {path}"}, status=404)
         except KeyError as ke:
             self._send_json({"error": str(ke)}, status=404)
@@ -598,7 +747,138 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(updated, status=200)
                 return
+
+            m_ptask = re.match(r"^/api/tasks/([a-zA-Z0-9_-]+)$", path)
+            if m_ptask:
+                updated_t = db.update_task(m_ptask.group(1), **body)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_t, status=200)
+                return
+
+            m_pmsn = re.match(r"^/api/missions/([a-zA-Z0-9_-]+)$", path)
+            if m_pmsn:
+                mid = m_pmsn.group(1)
+                updated_m = db.update_mission(mid, **body)
+                if updated_m.get("status") == "RUNNING":
+                    self.app_server.autopilot.launch_background(mid, pool=self.app_server.bg_pool)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_m, status=200)
+                return
+
+            m_popp = re.match(r"^/api/opportunities/([a-zA-Z0-9_-]+)$", path)
+            if m_popp:
+                updated_o = db.update_opportunity(m_popp.group(1), **body)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_o, status=200)
+                return
+
+            m_pproj = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)$", path)
+            if m_pproj:
+                updated_p = db.update_project(m_pproj.group(1), **body)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_p, status=200)
+                return
+
+            m_pknow = re.match(r"^/api/knowledge/(\d+)$", path)
+            if m_pknow:
+                updated_k = db.toggle_star_knowledge(int(m_pknow.group(1)), body.get("is_starred"))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_k, status=200)
+                return
+
             self._send_json({"error": f"Endpoint PATCH không tồn tại: {path}"}, status=404)
+        except KeyError as ke:
+            self._send_json({"error": str(ke)}, status=404)
+        except ValueError as ve:
+            self._send_json({"error": str(ve)}, status=400)
+        except Exception as exc:
+            self._send_json({"error": str(exc)}, status=500)
+        finally:
+            db.close_thread_conn()
+
+    def do_DELETE(self) -> None:
+        if not self._check_auth_for_mutation():
+            return
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+        qs = urllib.parse.parse_qs(parsed.query)
+        db = self.app_server.db
+        try:
+            m_dtask = re.match(r"^/api/tasks/([a-zA-Z0-9_-]+)$", path)
+            if m_dtask:
+                res = db.delete_task(m_dtask.group(1))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            m_dmsn = re.match(r"^/api/missions/([a-zA-Z0-9_-]+)$", path)
+            if m_dmsn:
+                res = db.delete_mission(m_dmsn.group(1))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            m_dopp = re.match(r"^/api/opportunities/([a-zA-Z0-9_-]+)$", path)
+            if m_dopp:
+                res = db.delete_opportunity(m_dopp.group(1))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            m_dpfile = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)/files$", path)
+            if m_dpfile:
+                pid = m_dpfile.group(1)
+                proj = db.get_project(pid)
+                req_file = qs.get("file", [None])[0]
+                if not proj or not req_file:
+                    self._send_json({"error": "Thiếu thông tin dự án hoặc tệp cần xóa."}, status=400)
+                    return
+                proj_root = (ROOT_DIR / proj["workspace_path"]).resolve()
+                candidate = (proj_root / req_file).resolve()
+                if not candidate.is_relative_to(proj_root):
+                    self._send_json({"error": "Chặn xóa tệp ngoài dự án!"}, status=403)
+                    return
+                if candidate.is_file():
+                    candidate.unlink()
+                self._send_json({"deleted": True, "file": req_file}, status=200)
+                return
+
+            m_dproj = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)$", path)
+            if m_dproj:
+                del_tasks = qs.get("delete_tasks", ["1"])[0] != "0"
+                res = db.delete_project(m_dproj.group(1), delete_tasks=del_tasks)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            m_ddept = re.match(r"^/api/departments/([a-zA-Z0-9_-]+)$", path)
+            if m_ddept:
+                res = db.delete_department_custom(m_ddept.group(1))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            m_dknow = re.match(r"^/api/knowledge/(\d+)$", path)
+            if m_dknow:
+                res = db.delete_knowledge_atom(int(m_dknow.group(1)))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            m_dref = re.match(r"^/api/reflexions/([a-zA-Z0-9_-]+)$", path)
+            if m_dref:
+                res = db.delete_reflexion(m_dref.group(1))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            if path == "/api/events":
+                res = db.clear_activity_events()
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            self._send_json({"error": f"Endpoint DELETE không tồn tại: {path}"}, status=404)
         except KeyError as ke:
             self._send_json({"error": str(ke)}, status=404)
         except ValueError as ve:

@@ -36,6 +36,7 @@ EXPECTED_DIVISIONS = [
     "div6-sales-commercial",
     "div7-finance-tax-legal",
     "div8-data-ops-hr",
+    "div9-critique-ux-lab",
 ]
 
 REQUIRED_6_LAYER_SECTIONS = [
@@ -123,8 +124,8 @@ def run_audit(skills_dir: Path = SKILLS_DIR) -> dict[str, Any]:
             if section not in body:
                 errors.append(f"{spec.name}: Missing required 6-layer section '{section}'")
 
-    if len(specialist_files) < 45:
-        errors.append(f"Expected at least 45 specialist departments, found {len(specialist_files)}")
+    if len(specialist_files) < 50:
+        errors.append(f"Expected at least 50 specialist departments, found {len(specialist_files)}")
 
     for hq_doc in (
         HQ_DIR / "CHARTER_AND_ROSTER.md",
@@ -330,8 +331,8 @@ def main() -> int:
             print(json.dumps(report, ensure_ascii=False, indent=2))
         else:
             status_str = "PASS" if report["passed"] else "FAIL"
-            print(f"[TITAN AI CORP v4.0 AUDIT] Status: {status_str}")
-            print(f" - Executive Skill Packages : {report['skill_packages_count']}/9")
+            print(f"[TITAN AI CORP v5.0 AUDIT] Status: {status_str}")
+            print(f" - Executive Skill Packages : {report['skill_packages_count']}/10")
             print(f" - Specialist Departments   : {report['specialists_count']}")
             print(f" - Total 6-Layer Brains     : {report['total_positions_including_ceo']}")
             if report["errors"]:
