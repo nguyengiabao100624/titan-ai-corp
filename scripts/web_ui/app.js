@@ -1,26 +1,26 @@
 /* ==========================================================================
-   TRUNG TAM DIEU HANH TITAN v7.0 (XIAS v3.1.1 ATLAS CONSOLE)
-   100% Tieng Viet, 0 emoji, 0 <select> mac dinh, 1 luong truc tuyen duy nhat
+   TRUNG TAM DIEU HANH TITAN v8.0 (XIAS v3.1.1 ATLAS CONSOLE)
+   100% Tieng Viet, 0 emoji, 0 <select> goc, 1 luong truc tuyen duy nhat
    ========================================================================== */
 (() => {
   "use strict";
 
   const VIEW_TITLES = {
     command: "Giao việc",
-    missions: "Tiến độ",
+    missions: "Tiến độ Toàn tập đoàn",
     tasks: "Bảng việc",
     staff: "Nhân sự",
-    news: "Báo mới",
-    finance: "Tài chính và Giá bán"
+    news: "Báo mới và Kỹ năng",
+    finance: "Tài chính và Dự án"
   };
 
   const COL_LABELS = {
-    BACKLOG: "Hàng đợi",
+    BACKLOG: "Chờ triển khai",
     IN_PROGRESS: "Đang làm",
     QA_SECURITY_REVIEW: "Kiểm định chất lượng",
     WAITING_APPROVAL: "Chờ bạn duyệt",
     REJECTED: "Cần sửa lại",
-    DONE: "Hoàn tất"
+    DONE: "Hoàn thành"
   };
 
   const PRIO_LABELS = {
@@ -31,11 +31,26 @@
   };
 
   const PROJECT_STATUS_LABELS = {
-    ACTIVE: "Đang chạy",
-    PLANNING: "Đang lập kế hoạch",
+    PLANNING: "Lập kế hoạch",
+    ACTIVE: "Đang triển khai",
     PAUSED: "Tạm dừng",
     SHIPPED: "Đã ra mắt",
     ARCHIVED: "Lưu trữ"
+  };
+
+  const LEDGER_TYPE_LABELS = {
+    REVENUE: { label: "Thu", badge: "badge-done", sign: "+" },
+    EXPENSE: { label: "Chi", badge: "badge-fail", sign: "-" },
+    TAX_RESERVE: { label: "Thuế", badge: "badge-wait", sign: "-" }
+  };
+
+  const ORDER_STATUS_VI = {
+    PENDING: { label: "Đang chờ xử lý", cls: "badge-wait", icon: "clock" },
+    RUNNING: { label: "Đang thực thi", cls: "badge-run", icon: "activity" },
+    IN_PROGRESS: { label: "Đang thực thi", cls: "badge-run", icon: "activity" },
+    DONE: { label: "Đã hoàn tất", cls: "badge-done", icon: "check" },
+    COMPLETED: { label: "Đã hoàn tất", cls: "badge-done", icon: "check" },
+    FAILED: { label: "Cần kiểm tra lại", cls: "badge-fail", icon: "alert-circle" }
   };
 
   const CONNECTOR_LABELS = {
@@ -44,12 +59,25 @@
     creator_seo_pulse: "Xu hướng tăng trưởng",
     security_advisory: "Cảnh báo an ninh",
     arxiv: "Nghiên cứu công nghệ",
-    github_repo: "Mã nguồn mở",
+    github_repo: "Mã nguồn mở GitHub",
     hackernews: "Diễn đàn công nghệ",
     deep_url: "Bài đọc từ liên kết",
     cloud_sync: "Đồng bộ đám mây",
     bench_rss: "Bản tin tổng hợp"
   };
+
+  const DIV_ORDER = [
+    "exec-board",
+    "div9-critique-ux-lab",
+    "div1-strategy-intel",
+    "div2-product-design",
+    "div3-engineering-ai",
+    "div4-qa-cybersecurity",
+    "div5-media-youtube-studio",
+    "div6-sales-commercial",
+    "div7-finance-tax-legal",
+    "div8-data-ops-hr"
+  ];
 
   const DIV_SHORT_NAMES = {
     "exec-board": "Ban Điều hành",
@@ -130,6 +158,7 @@
     "@tester-khach-hang": "Kiểm thử viên Khách hàng thật",
     "@kien-truc-giao-dien": "Kiến trúc sư Giao diện",
     "@ket-noi-truc-tuyen": "Kỹ sư Kết nối Trực tuyến",
+    "@kho-ky-nang": "Chuyên gia Kho Kỹ năng",
     "@coordinator": "Tổng Điều phối",
     "@dieu-phoi": "Tổng Điều phối"
   };
@@ -162,20 +191,33 @@
     tasks: [],
     projects: [],
     articles: [],
+    learningRuns: [],
+    learningProgress: { running: false },
+    installedSkills: [],
+    projectLedger: [],
+    financeSummary: null,
+    activeProjectFinance: null,
+    progressCat: "all",
     missionFilter: "",
-    taskViewMode: "list",
-    staffDivFilter: "",
+    taskViewMode: "grouped",
+    taskBulkMode: false,
+    taskGroupOpen: { WAITING_APPROVAL: true, ACTIVE: true, PENDING: true, DONE: false },
+    staffStatusFilter: "",
+    staffDivOpen: null,
+    newsSubView: "articles",
     newsStarFilter: "all",
+    financeViewProjectId: "",
+    projectSubTab: "finance",
     selectedTaskIds: new Set(),
     expandedNewsIds: new Set(),
-    selectedProjectId: "",
     currentDocFile: "",
     docEditMode: false,
     cmdIndex: 0,
     cmdItems: [],
     sse: null,
     bridgeTimer: null,
-    reconnectTimer: null
+    reconnectTimer: null,
+    learningPollTimer: null
   };
 
   let API_BASE = "";
@@ -199,7 +241,17 @@
   }
 
   function vnd(n) {
-    return (Number(n) || 0).toLocaleString("vi-VN") + " đ";
+    return (Math.round(Number(n) || 0)).toLocaleString("vi-VN") + " đ";
+  }
+
+  function shortVnd(n) {
+    const val = Number(n) || 0;
+    const abs = Math.abs(val);
+    const sign = val < 0 ? "-" : "";
+    if (abs >= 1e9) return `${sign}${(abs / 1e9).toFixed(1).replace(".", ",")} tỷ`;
+    if (abs >= 1e6) return `${sign}${(abs / 1e6).toFixed(1).replace(".", ",")} tr`;
+    if (abs >= 1e3) return `${sign}${Math.round(abs / 1e3)} nghìn`;
+    return `${sign}${Math.round(abs)} đ`;
   }
 
   function formatDotNumber(n) {
@@ -230,16 +282,34 @@
     return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
   }
 
+  function shortDate(iso) {
+    if (!iso) return "";
+    const s = String(iso);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+      const [y, m, d] = s.split("-");
+      return `${d}/${m}/${y}`;
+    }
+    const dt = new Date(s);
+    if (Number.isNaN(dt.getTime())) return s;
+    return dt.toLocaleDateString("vi-VN");
+  }
+
+  function todayIso() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
   function sanitizeUiVietnamese(raw) {
     if (!raw) return "";
     let s = String(raw);
-    s = s.replace(/[\u2014\u2013]/g, ": ");
+    s = s.replace(/\s*[\u2014\u2013]\s*/g, ": ");
+    s = s.replace(/[\u2605\u25B2\uD83D\uDCAC\u2713\u2691\u23F8\u25B6\u21BA\u25CF\u25CB\u26A1]/g, "");
     s = s.replace(/\s*\(@[a-z0-9_-]+\)/gi, "");
     s = s.replace(/\s*\((?:PM|UX|UI|PMO|CRO|FP&A|BI|CTR|SEO\s*\/\s*GEO\s*\/\s*AEO|OUTBOUND SDR|HIGH-TICKET[^)]*|RETENTION[^)]*)\)/gi, "");
     const replacements = [
       [/Antigravity Swarm/gi, "Đội ngũ Chuyên gia Titan"],
       [/Antigravity/gi, "Hệ thống Titan"],
       [/Pre-Mortem/gi, "Phản biện rủi ro"],
+      [/Local-First/gi, "lưu cục bộ trên máy"],
       [/BUILD_PRODUCT/g, "Sản xuất sản phẩm cuối"],
       [/Code\s*\/\s*Web\s*\/\s*App/gi, "Ứng dụng Web và Di động"],
       [/Landing Page/gi, "Trang giới thiệu bán hàng"],
@@ -249,7 +319,6 @@
       [/\bQA\b/g, "Kiểm định chất lượng"],
       [/\bPAT\b/g, "khóa truy cập"],
       [/\bKPI\b/g, "chỉ số"],
-      [/\bCSV\b/g, "bảng dữ liệu"],
       [/@researcher\b/gi, "Trinh sát Thị trường"],
       [/@cfo\b/gi, "Chuyên gia Tài chính"],
       [/@critic\b/gi, "Hội đồng Phản biện rủi ro"],
@@ -281,12 +350,45 @@
     return CANONICAL_DEPT_TITLES_VI[String(deptId || "").padStart(2, "0")] || `Phòng #${deptId}`;
   }
 
+  function projectTitle(pid) {
+    if (!pid) return "Việc chung toàn công ty";
+    const found = state.projects.find((p) => p.project_id === pid);
+    return found ? sanitizeUiVietnamese(found.title) : "Dự án nội bộ";
+  }
+
   function viWorkerLabel(slug) {
     if (!slug) return "";
     const k = String(slug).trim().toLowerCase();
     const key = k.startsWith("@") ? k : `@${k}`;
     if (WORKER_VI_MAP[key]) return WORKER_VI_MAP[key];
     return sanitizeUiVietnamese(String(slug).replace(/^@/, "").replace(/-/g, " "));
+  }
+
+  function parseDeptIdsJson(raw) {
+    if (Array.isArray(raw)) return raw.map((x) => String(x).padStart(2, "0"));
+    if (!raw) return [];
+    try {
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr.map((x) => String(x).padStart(2, "0")) : [];
+    } catch (_e) {
+      return String(raw).split(",").map((x) => x.trim()).filter(Boolean);
+    }
+  }
+
+  function normalizeDeptStatus(raw) {
+    const st = String(raw || "IDLE").toUpperCase();
+    if (st === "STUDYING" || st === "LEARNING") return "STUDYING";
+    if (st === "BLOCKED" || st === "ERROR") return "BLOCKED";
+    if (st === "WORKING" || st === "BUSY" || st === "RUNNING" || st === "ACTIVE") return "WORKING";
+    return "IDLE";
+  }
+
+  function deptStatusMeta(raw) {
+    const norm = normalizeDeptStatus(raw);
+    if (norm === "WORKING") return { norm, label: "Đang làm việc", cls: "badge-run", icon: "activity" };
+    if (norm === "STUDYING") return { norm, label: "Đang học", cls: "badge-study", icon: "book-open" };
+    if (norm === "BLOCKED") return { norm, label: "Đang bị chặn", cls: "badge-fail", icon: "alert-circle" };
+    return { norm: "IDLE", label: "Sẵn sàng", cls: "badge-idle", icon: "check" };
   }
 
   function formatInlineMd(rawText) {
@@ -369,7 +471,6 @@
     }, undoPayload ? 5500 : 3400);
   }
 
-  // Non-dimming Loading State with accessible spinner
   async function withLock(btnEl, asyncFn) {
     if (btnEl && btnEl.disabled) return;
     let spinner = null;
@@ -546,34 +647,35 @@
       if (ctrl) listboxRegistry.set(id, ctrl);
     });
 
-    const colOptionsAll = [
-      { value: "", label: "Mọi trạng thái" },
-      { value: "BACKLOG", label: COL_LABELS.BACKLOG },
-      { value: "IN_PROGRESS", label: COL_LABELS.IN_PROGRESS },
-      { value: "QA_SECURITY_REVIEW", label: COL_LABELS.QA_SECURITY_REVIEW },
-      { value: "WAITING_APPROVAL", label: COL_LABELS.WAITING_APPROVAL },
-      { value: "REJECTED", label: COL_LABELS.REJECTED },
-      { value: "DONE", label: COL_LABELS.DONE }
-    ];
-    const colOptionsTask = colOptionsAll.slice(1);
-
+    const colOptionsTask = Object.entries(COL_LABELS).map(([value, label]) => ({ value, label }));
     const prioOptionsAll = [
       { value: "", label: "Mọi độ ưu tiên" },
-      { value: "CRITICAL", label: PRIO_LABELS.CRITICAL },
-      { value: "HIGH", label: PRIO_LABELS.HIGH },
-      { value: "MEDIUM", label: PRIO_LABELS.MEDIUM },
-      { value: "LOW", label: PRIO_LABELS.LOW }
+      ...Object.entries(PRIO_LABELS).map(([value, label]) => ({ value, label }))
     ];
     const prioOptionsTask = prioOptionsAll.slice(1);
-
     const projStatusOptions = Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ value, label }));
+    const divFilterOptions = [
+      { value: "", label: "Tất cả 10 khối chuyên môn" },
+      ...DIV_ORDER.map((code) => ({ value: code, label: DIV_SHORT_NAMES[code] }))
+    ];
 
-    setListboxOptions("filter-task-col", colOptionsAll, false);
     setListboxOptions("inp-task-col", colOptionsTask, false);
     setListboxOptions("filter-task-prio", prioOptionsAll, false);
     setListboxOptions("inp-task-prio", prioOptionsTask, false);
     setListboxValue("inp-task-prio", "HIGH", true);
     setListboxOptions("inp-proj-status", projStatusOptions, false);
+    setListboxOptions("filter-staff-div", divFilterOptions, false);
+    setListboxOptions("filter-news-div", divFilterOptions, false);
+    setListboxOptions("filter-skill-div", divFilterOptions, false);
+    setListboxOptions("inp-ledger-type", [
+      { value: "REVENUE", label: "Doanh thu (Thu)" },
+      { value: "EXPENSE", label: "Chi phí (Chi)" },
+      { value: "TAX_RESERVE", label: "Dự phòng thuế (Thuế)" }
+    ], false);
+    setListboxOptions("inp-ledger-est", [
+      { value: "0", label: "Thực tế phát sinh" },
+      { value: "1", label: "Kế hoạch dự toán" }
+    ], false);
 
     document.addEventListener("click", () => closeAllListboxes());
   }
@@ -603,7 +705,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 3. WEBCRYPTO AES-256-GCM ENCRYPTED CLOUD SYNC VAULT
+  // 3. WEBCRYPTO AES-256-GCM ENCRYPTED CLOUD VAULT
   // -------------------------------------------------------------------------
   const cryptoVault = {
     toB64(bytes) {
@@ -670,17 +772,18 @@
   };
 
   // -------------------------------------------------------------------------
-  // 4. SINGLE ONLINE FLOW (online_endpoint.json -> DIRECT -> SNAPSHOT FALLBACK)
+  // 4. SINGLE ONLINE FLOW + SAFE BACKWARD-COMPATIBLE FALLBACKS
   // -------------------------------------------------------------------------
   function saveOfflineViewCache() {
     if (!state.staticMode) return;
     try {
-      localStorage.setItem("titan_v7_offline_cache", JSON.stringify({
+      localStorage.setItem("titan_v8_offline_cache", JSON.stringify({
         missions: state.missions,
         opportunities: state.opportunities,
         tasks: state.tasks,
         projects: state.projects,
-        articles: state.articles
+        articles: state.articles,
+        projectLedger: state.projectLedger
       }));
     } catch (_e) {}
   }
@@ -707,7 +810,15 @@
   }
 
   async function detectOnlineEndpoint() {
-    // 1. Auto-discover public HTTPS bridge from cloud_state/online_endpoint.json
+    const host = String(window.location.hostname || "").toLowerCase();
+    const isDirectHost = window.location.protocol.startsWith("http") && !host.endsWith("github.io");
+    if (isDirectHost && (await probeHealthEndpoint("", 2000))) {
+      API_BASE = "";
+      state.staticMode = false;
+      state.onlineSource = "DIRECT";
+      return true;
+    }
+
     const epCandidates = [
       `./cloud_state/online_endpoint.json?t=${Date.now()}`,
       `../corporate_hq/cloud_state/online_endpoint.json?t=${Date.now()}`
@@ -732,15 +843,13 @@
       } catch (_e) {}
     }
 
-    // 2. Check same-origin online API (when opened directly via live backend address)
-    if (await probeHealthEndpoint("", 2000)) {
+    if (!isDirectHost && (await probeHealthEndpoint("", 2000))) {
       API_BASE = "";
       state.staticMode = false;
       state.onlineSource = "DIRECT";
       return true;
     }
 
-    // 3. Fallback to latest published snapshot (read/queue mode until online bridge resumes)
     state.onlineSource = "OFFLINE";
     return false;
   }
@@ -800,6 +909,11 @@
             state.tasks = snap.tasks || [];
             state.projects = snap.projects || [];
             state.articles = snap.knowledge_atoms || [];
+            state.learningRuns = snap.learning_runs || [];
+            state.learningProgress = snap.learning_progress || { running: false };
+            state.installedSkills = snap.installed_skills || [];
+            state.projectLedger = snap.project_ledger || [];
+            state.financeSummary = snap.finance_summary || null;
             state.lastSyncAt = snap.exported_at || new Date().toISOString();
             break;
           }
@@ -808,6 +922,103 @@
     }
     if (!state.staticMode) throw origErr;
     return handleOfflineFallback(path, method, body);
+  }
+
+  function computeProjectFinanceFallback(pid) {
+    const p = state.projects.find((x) => x.project_id === pid);
+    if (!p) return null;
+    const ledger = state.projectLedger.filter((e) => e.project_id === pid);
+    let actRev = 0; let actExp = 0; let actTax = 0;
+    let planRev = 0; let planExp = 0; let planTax = 0;
+    const byMonth = new Map();
+    const byCat = new Map();
+
+    ledger.forEach((e) => {
+      const amt = Number(e.amount_vnd || 0);
+      const isEst = Boolean(e.is_estimate);
+      if (e.entry_type === "REVENUE") { if (isEst) planRev += amt; else actRev += amt; }
+      if (e.entry_type === "EXPENSE") { if (isEst) planExp += amt; else actExp += amt; }
+      if (e.entry_type === "TAX_RESERVE") { if (isEst) planTax += amt; else actTax += amt; }
+
+      const mKey = String(e.entry_date || todayIso()).slice(0, 7);
+      if (!byMonth.has(mKey)) byMonth.set(mKey, { month: mKey, revenue: 0, expense: 0, tax: 0, profit: 0 });
+      const mr = byMonth.get(mKey);
+      if (e.entry_type === "REVENUE") mr.revenue += amt;
+      if (e.entry_type === "EXPENSE") mr.expense += amt;
+      if (e.entry_type === "TAX_RESERVE") mr.tax += amt;
+      mr.profit = mr.revenue - mr.expense - mr.tax;
+
+      const cKey = `${e.entry_type}:${e.category || "Vận hành"}`;
+      if (!byCat.has(cKey)) byCat.set(cKey, { category: e.category || "Vận hành", entry_type: e.entry_type, amount_vnd: 0 });
+      byCat.get(cKey).amount_vnd += amt;
+    });
+
+    const price = Number(p.expected_price_vnd || 249000);
+    const unitCost = Number(p.unit_cost_vnd || Math.round(price * 0.2));
+    const fixedCost = Number(p.fixed_cost_monthly_vnd || 1500000);
+    const margin = price > 0 ? Math.max(0, ((price - unitCost) / price) * 100) : 0;
+    const netUnit = price - unitCost - price * 0.07;
+    const breakeven = netUnit > 0 ? Math.ceil(fixedCost / netUnit) : 0;
+
+    const pTasks = state.tasks.filter((t) => t.project_id === pid);
+    const pDone = pTasks.filter((t) => t.kanban_column === "DONE").length;
+    const pMissions = state.missions.filter((m) => m.project_id === pid);
+
+    return {
+      project: p,
+      summary: {
+        project_id: p.project_id,
+        slug: p.slug || "",
+        title: p.title,
+        status: p.status || "ACTIVE",
+        target_market: p.target_market || p.objective || "",
+        expected_price_vnd: price,
+        unit_cost_vnd: unitCost,
+        fixed_cost_monthly_vnd: fixedCost,
+        actual_revenue_vnd: actRev,
+        actual_expense_vnd: actExp,
+        actual_tax_vnd: actTax,
+        actual_net_profit_vnd: actRev - actExp - actTax,
+        plan_revenue_vnd: planRev,
+        plan_expense_vnd: planExp,
+        plan_tax_vnd: planTax,
+        plan_net_profit_vnd: planRev - planExp - planTax,
+        gross_margin_pct: Number(margin.toFixed(1)),
+        breakeven_customers: breakeven,
+        target_100_mrr_vnd: price * 100,
+        monthly_series: Array.from(byMonth.values()).sort((a, b) => a.month.localeCompare(b.month)),
+        by_category: Array.from(byCat.values()).sort((a, b) => b.amount_vnd - a.amount_vnd),
+        tasks_total: pTasks.length,
+        tasks_done: pDone,
+        progress_pct: pTasks.length ? Math.round((pDone / pTasks.length) * 100) : 0,
+        missions_count: pMissions.length,
+        preview_urls: []
+      },
+      ledger,
+      tasks: pTasks,
+      missions: pMissions
+    };
+  }
+
+  function computeCorporateFinanceFallback() {
+    if (state.financeSummary && Array.isArray(state.financeSummary.projects)) {
+      return state.financeSummary;
+    }
+    const items = state.projects.map((p) => {
+      const f = computeProjectFinanceFallback(p.project_id);
+      return f ? f.summary : null;
+    }).filter(Boolean);
+    return {
+      actual_revenue_vnd: items.reduce((s, x) => s + Number(x.actual_revenue_vnd || 0), 0),
+      actual_expense_vnd: items.reduce((s, x) => s + Number(x.actual_expense_vnd || 0), 0),
+      actual_tax_vnd: items.reduce((s, x) => s + Number(x.actual_tax_vnd || 0), 0),
+      actual_net_profit_vnd: items.reduce((s, x) => s + Number(x.actual_net_profit_vnd || 0), 0),
+      plan_revenue_vnd: items.reduce((s, x) => s + Number(x.plan_revenue_vnd || 0), 0),
+      plan_expense_vnd: items.reduce((s, x) => s + Number(x.plan_expense_vnd || 0), 0),
+      plan_tax_vnd: items.reduce((s, x) => s + Number(x.plan_tax_vnd || 0), 0),
+      plan_net_profit_vnd: items.reduce((s, x) => s + Number(x.plan_net_profit_vnd || 0), 0),
+      projects: items
+    };
   }
 
   function handleOfflineFallback(path, method, body) {
@@ -821,8 +1032,26 @@
           missions: state.missions,
           opportunities: state.opportunities,
           orders: state.orders,
-          swarm_messages: state.swarmMessages
+          swarm_messages: state.swarmMessages,
+          learning_runs: state.learningRuns,
+          learning_progress: state.learningProgress,
+          installed_skills: state.installedSkills,
+          project_ledger: state.projectLedger,
+          finance_summary: computeCorporateFinanceFallback()
         };
+      }
+      if (path === "/api/learning/status") {
+        return { learning_in_progress: false, learning_progress: state.learningProgress, recent_runs: state.learningRuns };
+      }
+      if (path.startsWith("/api/skills")) {
+        return { skills: state.installedSkills };
+      }
+      if (path.startsWith("/api/finance/summary")) {
+        return computeCorporateFinanceFallback();
+      }
+      const pmFin = path.match(/^\/api\/projects\/([^/]+)\/finance$/);
+      if (pmFin) {
+        return computeProjectFinanceFallback(decodeURIComponent(pmFin[1])) || {};
       }
       if (path === "/api/bridge/status") return state.bridge;
       if (path.startsWith("/api/orders")) return { orders: state.orders, bridge: state.bridge };
@@ -836,6 +1065,7 @@
           ...d,
           handbook_markdown: d.handbook_markdown || `# ${cleanDeptTitleVi(d.dept_id, d.title_vi)}\n- Đơn vị: **${divLabel}**`,
           learned_articles: state.articles.filter((a) => a.dept_id === d.dept_id),
+          installed_skills: state.installedSkills.filter((sk) => parseDeptIdsJson(sk.dept_ids_json || sk.dept_ids).includes(d.dept_id)),
           reflexions: []
         };
       }
@@ -846,7 +1076,7 @@
       if (path.startsWith("/api/projects")) return { projects: state.projects, files: [] };
       if (path.startsWith("/api/sync/snapshot")) {
         return {
-          schema_version: "7.0",
+          schema_version: "8.0",
           bridge: state.bridge,
           divisions: state.divisions,
           departments: state.departments,
@@ -855,11 +1085,56 @@
           missions: state.missions,
           opportunities: state.opportunities,
           orders: state.orders,
-          knowledge_atoms: state.articles
+          knowledge_atoms: state.articles,
+          learning_runs: state.learningRuns,
+          installed_skills: state.installedSkills,
+          project_ledger: state.projectLedger
         };
       }
     }
 
+    // Offline mutations with safe local state update
+    const ledgerPost = path.match(/^\/api\/projects\/([^/]+)\/finance\/ledger$/);
+    if (method === "POST" && ledgerPost) {
+      const pid = decodeURIComponent(ledgerPost[1]);
+      const entry = {
+        entry_id: `ldg-${Date.now().toString(36)}`,
+        project_id: pid,
+        entry_type: body.entry_type || "EXPENSE",
+        category: body.category || "Vận hành",
+        title: body.title || "Bút toán mới",
+        amount_vnd: Number(body.amount_vnd || 0),
+        is_estimate: body.is_estimate ? 1 : 0,
+        entry_date: body.entry_date || todayIso(),
+        note: body.note || "",
+        created_at: new Date().toISOString()
+      };
+      state.projectLedger.unshift(entry);
+      state.financeSummary = null;
+      saveOfflineViewCache();
+      return entry;
+    }
+    if (method === "PATCH" && path.startsWith("/api/finance/ledger/")) {
+      const eid = decodeURIComponent(path.split("/")[4] || "");
+      const rec = state.projectLedger.find((x) => x.entry_id === eid);
+      if (rec) Object.assign(rec, body);
+      state.financeSummary = null;
+      saveOfflineViewCache();
+      return rec || {};
+    }
+    if (method === "DELETE" && path.startsWith("/api/finance/ledger/")) {
+      const eid = decodeURIComponent(path.split("/")[4] || "");
+      state.projectLedger = state.projectLedger.filter((x) => x.entry_id !== eid);
+      state.financeSummary = null;
+      saveOfflineViewCache();
+      return { deleted: true, entity_id: eid };
+    }
+    if (method === "POST" && path === "/api/skills/acquire") {
+      return { ok: true, acquired_count: 0, summary_vi: "Đang ngoại tuyến: vui lòng kết nối trực tuyến để tải kỹ năng mới từ GitHub.", skills: state.installedSkills };
+    }
+    if (method === "POST" && path === "/api/learning/run") {
+      return { started: false, message: "Đang ngoại tuyến: hệ thống sẽ quét báo mới ngay khi kết nối trực tuyến hoạt động." };
+    }
     if (method === "POST" && path === "/api/missions") {
       const msn = buildClientMission(body.title || body.goal_prompt, body.auto_approve);
       state.missions.unshift(msn);
@@ -881,10 +1156,7 @@
     if (method === "PATCH" && path.startsWith("/api/missions/")) {
       const mid = path.split("/")[3];
       const m = state.missions.find((x) => x.mission_id === mid);
-      if (m) {
-        Object.assign(m, body);
-        if (body.status === "RUNNING") m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
-      }
+      if (m) Object.assign(m, body);
       saveOfflineViewCache();
       return m || {};
     }
@@ -1001,10 +1273,7 @@
         affected = b - state.tasks.length;
       } else if (body.action === "move_column") {
         state.tasks.forEach((t) => {
-          if (ids.has(t.task_id)) {
-            t.kanban_column = body.column;
-            affected += 1;
-          }
+          if (ids.has(t.task_id)) { t.kanban_column = body.column; affected += 1; }
         });
       }
       saveOfflineViewCache();
@@ -1013,6 +1282,7 @@
     if (method === "POST" && path === "/api/projects") {
       const np = { project_id: `proj-${slugifyVi(body.slug || body.title)}`, status: body.status || "ACTIVE", ...body };
       state.projects.unshift(np);
+      state.financeSummary = null;
       saveOfflineViewCache();
       return np;
     }
@@ -1020,6 +1290,7 @@
       const pid = path.split("/")[3];
       const p = state.projects.find((x) => x.project_id === pid);
       if (p) Object.assign(p, body);
+      state.financeSummary = null;
       saveOfflineViewCache();
       return p || {};
     }
@@ -1035,7 +1306,7 @@
       if (parts[2] === "tasks") state.tasks = state.tasks.filter((x) => x.task_id !== parts[3]);
       if (parts[2] === "missions") state.missions = state.missions.filter((x) => x.mission_id !== parts[3]);
       if (parts[2] === "opportunities") state.opportunities = state.opportunities.filter((x) => x.opp_id !== parts[3]);
-      if (parts[2] === "projects") state.projects = state.projects.filter((x) => x.project_id !== parts[3]);
+      if (parts[2] === "projects") { state.projects = state.projects.filter((x) => x.project_id !== parts[3]); state.financeSummary = null; }
       if (parts[2] === "knowledge") state.articles = state.articles.filter((x) => Number(x.atom_id) !== Number(parts[3]));
       saveOfflineViewCache();
       return { deleted: true };
@@ -1047,62 +1318,12 @@
         if (m) {
           const isProposalGate = m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8;
           if (body.decision === "APPROVE" && isProposalGate) {
-            m.phase = "PRODUCTION";
-            m.status = "RUNNING";
-            m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
-            m.current_step_order = 5;
-            m.progress_pct = 50;
-            m.steps.forEach((s) => {
-              if (s.step_order <= 4) s.status = "DONE";
-              if (s.step_order === 5) s.live_activity_text = "Đã duyệt kèo. Đang chờ đội ngũ chuyên gia bắt đầu sản xuất sản phẩm.";
-            });
-            pushRemoteOrderToCloud({
-              order_id: `ord-${Date.now().toString(36)}`,
-              order_type: "BUILD_PRODUCT",
-              mission_id: m.mission_id,
-              title: `[Sản xuất sản phẩm cuối] ${m.title}`,
-              instructions: body.note || m.goal_prompt || m.title,
-              source_device: "web-online",
-              status: "PENDING",
-              created_at: new Date().toISOString()
-            }).catch(() => {});
+            m.phase = "PRODUCTION"; m.status = "RUNNING"; m.current_step_order = 5; m.progress_pct = 50;
           } else if (body.decision === "APPROVE") {
-            m.phase = "DELIVERED";
-            m.status = "COMPLETED";
-            m.dispatch_state = "COMPLETED";
-            m.progress_pct = 100;
-            m.steps.forEach((s) => { s.status = "DONE"; });
-            pushRemoteOrderToCloud({
-              order_id: `ord-${Date.now().toString(36)}`,
-              order_type: "MISSION_APPROVED",
-              mission_id: m.mission_id,
-              title: m.title,
-              instructions: body.note || "Đã nghiệm thu sản phẩm cuối.",
-              source_device: "web-online",
-              status: "PENDING",
-              created_at: new Date().toISOString()
-            }).catch(() => {});
+            m.phase = "DELIVERED"; m.status = "COMPLETED"; m.progress_pct = 100;
+            (m.steps || []).forEach((s) => { s.status = "DONE"; });
           } else {
-            const resetFrom = isProposalGate ? 2 : 5;
-            m.status = "RUNNING";
-            m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
-            m.progress_pct = isProposalGate ? 15 : 50;
-            m.steps.forEach((s) => {
-              if (s.step_order >= resetFrom) {
-                s.status = "PENDING";
-                s.live_activity_text = `Đã gửi yêu cầu chỉnh sửa lại: ${body.note || ""}`;
-              }
-            });
-            pushRemoteOrderToCloud({
-              order_id: `ord-${Date.now().toString(36)}`,
-              order_type: "MISSION_REWORK",
-              mission_id: m.mission_id,
-              title: `[Làm lại] ${m.title}`,
-              instructions: body.note || "Yêu cầu bổ sung và hoàn thiện kỹ hơn",
-              source_device: "web-online",
-              status: "PENDING",
-              created_at: new Date().toISOString()
-            }).catch(() => {});
+            m.status = "RUNNING"; m.progress_pct = isProposalGate ? 15 : 50;
           }
         }
         saveOfflineViewCache();
@@ -1131,32 +1352,15 @@
       [8, "Giai đoạn 2: Bàn giao Sản phẩm Cuối hoàn chỉnh và kịch bản thu tiền", "00,19,35"]
     ];
     return {
-      mission_id: mid,
-      title,
-      goal_prompt: title,
-      status: "RUNNING",
-      phase: "PROPOSAL",
-      project_id: "",
-      dispatch_state: "QUEUED_FOR_ANTIGRAVITY",
-      swarm_title: "",
-      swarm_workers_json: "[]",
-      auto_approve: autoApprove ? 1 : 0,
-      current_step_order: 1,
-      total_steps: 8,
-      progress_pct: 0,
+      mission_id: mid, title, goal_prompt: title, status: "RUNNING", phase: "PROPOSAL", project_id: "",
+      dispatch_state: "QUEUED_FOR_ANTIGRAVITY", swarm_workers_json: "[]", auto_approve: autoApprove ? 1 : 0,
+      current_step_order: 1, total_steps: 8, progress_pct: 0,
       steps: tpl.map(([ord, stitle, leads]) => ({
-        step_id: `${mid}-s${ord}`,
-        step_order: ord,
-        title: stitle,
-        lead_dept_ids: leads,
+        step_id: `${mid}-s${ord}`, step_order: ord, title: stitle, lead_dept_ids: leads,
         lead_depts: leads.split(",").map((i) => ({ dept_id: i, title_vi: deptTitle(i) })),
-        status: "PENDING",
-        worker_name: "",
-        artifact_path: "",
+        status: "PENDING", worker_name: "", artifact_path: "",
         live_activity_text: ord === 1 ? "Đã xếp hàng chờ đội ngũ trực tuyến tiếp nhận và triển khai." : "",
-        output_summary: "",
-        critique_verdict: "",
-        ux_verdict: ""
+        output_summary: "", critique_verdict: "", ux_verdict: ""
       }))
     };
   }
@@ -1210,6 +1414,7 @@
         if (it.entity_type === "opportunity") state.opportunities.unshift(it.backup);
         if (it.entity_type === "project") state.projects.unshift(it.backup);
         if (it.entity_type === "article") state.articles.unshift(it.backup);
+        if (it.entity_type === "ledger") { state.projectLedger.unshift(it.backup); state.financeSummary = null; }
       });
       saveOfflineViewCache();
       renderAllViews();
@@ -1222,8 +1427,11 @@
         : { entity_type: undoPayload.entity_type, entity_id: undoPayload.entity_id };
       await api("/api/trash/restore", "POST", body);
       await Promise.all([loadEverything(), loadNews(document.getElementById("news-search-input").value || "")]);
-      if (undoPayload.entity_type === "doc" && state.selectedProjectId) {
-        await loadProjectDocs(state.selectedProjectId);
+      if (undoPayload.entity_type === "doc" && state.financeViewProjectId) {
+        await loadProjectDocs(state.financeViewProjectId);
+      }
+      if (undoPayload.entity_type === "ledger" && state.financeViewProjectId) {
+        await loadActiveProjectFinance(state.financeViewProjectId);
       }
       toast("Đã khôi phục nguyên trạng mục vừa xóa.");
     } catch (e) {
@@ -1232,7 +1440,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 5. DEDUPLICATED NEWS HELPER & HEADER COUNTS
+  // 5. DEDUPLICATED NEWS, LIVE LEARNING POLLING & HEADER COUNTS
   // -------------------------------------------------------------------------
   function getDeduplicatedArticles() {
     const map = new Map();
@@ -1249,6 +1457,71 @@
     return Array.from(map.values());
   }
 
+  function startLearningStatusPolling() {
+    if (state.staticMode) return;
+    if (state.learningPollTimer) clearInterval(state.learningPollTimer);
+    let ticks = 0;
+    const poll = async () => {
+      ticks += 1;
+      try {
+        const st = await api("/api/learning/status");
+        if (st && st.learning_progress) state.learningProgress = st.learning_progress;
+        if (st && Array.isArray(st.recent_runs)) state.learningRuns = st.recent_runs;
+        renderCountsAndHeader();
+        if (state.tab === "news") renderLearningBanner();
+        if (state.tab === "missions") renderProgressTab();
+
+        const stillRunning = Boolean(st && (st.learning_in_progress || (st.learning_progress && st.learning_progress.running)));
+        if (!stillRunning || ticks > 90) {
+          clearInterval(state.learningPollTimer);
+          state.learningPollTimer = null;
+          await Promise.all([loadEverything(), loadNews(document.getElementById("news-search-input").value || "")]);
+          const lastSummary = (state.learningProgress && state.learningProgress.summary_vi)
+            || (state.learningRuns[0] && state.learningRuns[0].summary_vi)
+            || "Đã hoàn tất đợt quét báo mới.";
+          toast(lastSummary);
+        }
+      } catch (_e) {
+        if (ticks > 3) {
+          clearInterval(state.learningPollTimer);
+          state.learningPollTimer = null;
+        }
+      }
+    };
+    state.learningPollTimer = setInterval(poll, 1200);
+    poll();
+  }
+
+  async function triggerLearningScan(scope = "all", btnEl = null) {
+    await withLock(btnEl, async () => {
+      state.learningProgress = {
+        running: true,
+        scope,
+        sources_done: 0,
+        sources_total: 24,
+        current_source_vi: "Đang khởi động các nguồn tin thật...",
+        new_atoms_added: 0,
+        duplicates_skipped: 0,
+        errors_count: 0,
+        touched_depts: []
+      };
+      renderCountsAndHeader();
+      if (state.tab === "news") renderLearningBanner();
+      if (state.tab === "missions") renderProgressTab();
+
+      const r = await api("/api/learning/run", "POST", { scope });
+      if (state.staticMode) {
+        state.learningProgress = { running: false };
+        toast(sanitizeUiVietnamese((r && r.message) || "Đang ngoại tuyến."));
+        renderCountsAndHeader();
+        if (state.tab === "news") renderLearningBanner();
+        return;
+      }
+      toast(sanitizeUiVietnamese((r && r.message) || "Đang quét 24 nguồn báo mới trực tiếp..."));
+      startLearningStatusPolling();
+    });
+  }
+
   function renderCountsAndHeader() {
     const runningM = state.missions.filter((m) => m.status === "RUNNING").length;
     const waitM = state.missions.filter((m) => m.status === "WAITING_CHAIRMAN").length;
@@ -1257,6 +1530,11 @@
     const activeOpps = state.opportunities.filter((o) => o.status === "NEW").length;
     const staffTotal = state.departments.length || 51;
     const uniqueNewsCount = getDeduplicatedArticles().length;
+    const skillsCount = state.installedSkills.length;
+
+    const activeOrders = state.orders.filter((o) => ["PENDING", "RUNNING", "IN_PROGRESS"].includes(String(o.status || "").toUpperCase()));
+    const learningRunning = Boolean(state.learningProgress && state.learningProgress.running);
+    const totalActiveAll = runningM + activeOrders.length + (learningRunning ? 1 : 0);
 
     const avgPct = state.missions.length
       ? Math.round(state.missions.reduce((acc, m) => acc + Number(m.progress_pct || 0), 0) / state.missions.length)
@@ -1266,6 +1544,19 @@
     document.getElementById("stat-waiting-approvals").textContent = totalWait;
     document.getElementById("stat-staff-ready").textContent = staffTotal;
     document.getElementById("stat-news-count").textContent = uniqueNewsCount;
+
+    const skillsLbl = document.getElementById("lbl-skills-total");
+    if (skillsLbl) {
+      skillsLbl.textContent = skillsCount > 0
+        ? `Bài phân tích mới và ${skillsCount} kỹ năng GitHub`
+        : "Bài phân tích mới đã tổng hợp";
+    }
+    const subSkills = document.getElementById("lbl-subtab-skills");
+    if (subSkills) {
+      subSkills.textContent = skillsCount > 0
+        ? `Kho Kỹ năng GitHub cho Nhân sự (${skillsCount})`
+        : "Kho Kỹ năng GitHub cho Nhân sự";
+    }
 
     const heroNote = document.getElementById("hero-status-note");
     if (heroNote) {
@@ -1285,13 +1576,38 @@
         : "Hiện chưa có mục nào chờ duyệt cổng.";
     }
 
-    const busyStaff = state.departments.filter((d) => d.status !== "IDLE").length;
+    // Tab 1 slim live activity banner
+    const actBanner = document.getElementById("live-activity-banner");
+    const actText = document.getElementById("live-activity-text");
+    const actBtn = document.getElementById("btn-live-activity-jump");
+    if (actBanner && actText && actBtn) {
+      const scanOrd = activeOrders.find((o) => o.order_type === "SCAN_OPPORTUNITIES");
+      const taskOrd = activeOrders.find((o) => o.order_type === "EXECUTE_TASK");
+      if (learningRunning) {
+        const lp = state.learningProgress;
+        actBanner.classList.remove("is-hidden");
+        actText.textContent = `Đang quét báo mới (${lp.sources_done || 0}/${lp.sources_total || 24}): ${sanitizeUiVietnamese(lp.current_source_vi || "Đang xử lý nguồn tin...")}`;
+        actBtn.setAttribute("data-jump-pcat", "learning");
+      } else if (scanOrd) {
+        actBanner.classList.remove("is-hidden");
+        actText.textContent = `Đang chạy đợt săn cơ hội kiếm tiền: ${sanitizeUiVietnamese(scanOrd.title || "Săn cơ hội mới")}`;
+        actBtn.setAttribute("data-jump-pcat", "opps");
+      } else if (taskOrd) {
+        actBanner.classList.remove("is-hidden");
+        actText.textContent = `Đang chạy đầu việc giao chuyên gia: ${sanitizeUiVietnamese(taskOrd.title || "")}`;
+        actBtn.setAttribute("data-jump-pcat", "tasks");
+      } else {
+        actBanner.classList.add("is-hidden");
+      }
+    }
+
+    const busyStaff = state.departments.filter((d) => normalizeDeptStatus(d.status) !== "IDLE").length;
     const readyPct = Math.round(((staffTotal - busyStaff) / Math.max(1, staffTotal)) * 100);
     const sideSummary = document.getElementById("sidebar-staff-summary");
     const sideFill = document.getElementById("sidebar-readiness-fill");
     if (sideSummary) {
       sideSummary.textContent = busyStaff > 0
-        ? `${busyStaff} phòng đang xử lý, ${staffTotal - busyStaff} phòng sẵn sàng`
+        ? `${busyStaff} phòng đang hoạt động, ${staffTotal - busyStaff} phòng sẵn sàng`
         : `${staffTotal} phòng chuyên gia sẵn sàng nhận đề bài`;
     }
     if (sideFill) sideFill.style.inlineSize = `${Math.max(10, readyPct)}%`;
@@ -1301,9 +1617,9 @@
     navOpps.classList.toggle("warn", totalWait > 0);
 
     const navMsn = document.getElementById("nav-cnt-missions");
-    const activeMsnCount = runningM + waitM;
-    navMsn.textContent = activeMsnCount > 0 ? activeMsnCount : state.missions.length;
-    navMsn.classList.toggle("warn", activeMsnCount > 0);
+    const badgeProg = totalActiveAll + waitM;
+    navMsn.textContent = badgeProg > 0 ? badgeProg : state.missions.length;
+    navMsn.classList.toggle("warn", badgeProg > 0);
 
     document.getElementById("nav-cnt-tasks").textContent = state.tasks.filter((t) => t.kanban_column !== "DONE").length;
     document.getElementById("nav-cnt-staff").textContent = staffTotal;
@@ -1352,7 +1668,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 6. TAB 1: GIAO VIEC (DECISION QUEUE + ASYMMETRIC OPPORTUNITIES)
+  // 6. TAB 1: GIAO VIEC
   // -------------------------------------------------------------------------
   function renderCommandTab() {
     const waitMissions = state.missions.filter((m) => m.status === "WAITING_CHAIRMAN");
@@ -1464,7 +1780,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 7. TAB 2: TIEN DO & PHONG HOP TRUC TIEP (4 CHE DO 100% TIENG VIET)
+  // 7. TAB 2: TIEN DO TOAN TAP DOAN (HOP NHAT MOI HOAT DONG)
   // -------------------------------------------------------------------------
   function artifactHref(relPath) {
     const clean = String(relPath || "").replace(/^\/+/, "");
@@ -1636,204 +1952,385 @@
     `;
   }
 
-  async function openArtifactDrawer(relPath) {
-    document.getElementById("drawer-heading").textContent = relPath.split("/").pop() || "Báo cáo chuyên môn";
-    document.getElementById("drawer-body").innerHTML = `<p class="row-meta">Đang tải nội dung báo cáo...</p>`;
-    document.getElementById("drawer-backdrop").classList.add("open");
-    document.getElementById("inspector-drawer").classList.add("open");
-    try {
-      let content = "";
-      if (state.staticMode) {
-        const liveUrl = artifactHref(relPath);
-        const r = await fetch(liveUrl, { cache: "no-cache" });
-        if (!r.ok) throw new Error("Báo cáo đang đồng bộ lên đám mây, vui lòng mở lại sau vài giây.");
-        content = await r.text();
-      } else {
-        const res = await api(`/api/workspace/file?path=${encodeURIComponent(relPath)}`);
-        content = res.content || "";
-      }
-      document.getElementById("drawer-body").innerHTML = `
-        <div class="mono row-meta">Đường dẫn tệp: ${esc(relPath)}</div>
-        <div class="rendered-md">${renderCleanMarkdown(content)}</div>
-      `;
-    } catch (err) {
-      document.getElementById("drawer-body").innerHTML = `<p class="text-err">${esc(err.message)}</p>`;
-    }
-  }
+  function buildMissionCardHtml(m) {
+    let swarmWorkers = [];
+    try { swarmWorkers = JSON.parse(m.swarm_workers_json || "[]"); } catch (_e) {}
+    const isQueued = m.status === "RUNNING" && m.dispatch_state === "QUEUED_FOR_ANTIGRAVITY";
+    const isSwarm = m.status === "RUNNING" && m.dispatch_state === "SWARM_ACTIVE";
 
-  function renderMissionsTab() {
-    const box = document.getElementById("missions-container");
-    const list = state.missions.filter((m) => !state.missionFilter || m.status === state.missionFilter);
+    const isProposalGate = m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8;
+    const isProductionPhase = m.phase === "PRODUCTION";
+    const phaseBadge = isProductionPhase
+      ? `<span class="badge badge-run">${ico("layers")}<span>Giai đoạn 2: Sản xuất Sản phẩm Cuối</span></span>`
+      : m.phase === "DELIVERED"
+      ? `<span class="badge badge-done">${ico("check")}<span>Đã bàn giao Sản phẩm Cuối</span></span>`
+      : `<span class="badge badge-idle">${ico("compass")}<span>Giai đoạn 1: Nghiên cứu và Chốt kèo</span></span>`;
 
-    if (!list.length) {
-      box.innerHTML = `
-        <div class="empty-state">
-          <h3>Chưa có nhiệm vụ nào ở mục này</h3>
-          <p>Giao một đề bài mới để theo dõi toàn bộ 8 bước thực thi, phản biện rủi ro và kiểm thử khách hàng trực tiếp tại đây.</p>
-          <button type="button" class="btn btn-primary" id="btn-empty-start-msn">${ico("plus")}<span>Giao nhiệm vụ mới ngay</span></button>
-        </div>
-      `;
-      const b = document.getElementById("btn-empty-start-msn");
-      if (b) b.onclick = () => { switchTab("command"); document.getElementById("mission-prompt-input").focus(); };
-      return;
-    }
+    const stBadge =
+      m.status === "COMPLETED" ? `<span class="badge badge-done">${ico("check")}<span>Đã nghiệm thu hoàn tất</span></span>` :
+      (m.status === "WAITING_CHAIRMAN" && isProposalGate) ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ duyệt kèo -> Sản xuất sản phẩm</span></span>` :
+      m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ nghiệm thu Sản phẩm Cuối</span></span>` :
+      m.status === "PAUSED" ? `<span class="badge badge-idle">${ico("pause")}<span>Đang tạm dừng</span></span>` :
+      isSwarm ? `<span class="badge badge-run">${ico("activity")}<span>Đang thực thi: Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>` :
+      isQueued ? `<span class="badge badge-wait">${ico("clock")}<span>Đã đưa vào hàng đợi trực tuyến</span></span>` :
+      `<span class="badge badge-run">${ico("activity")}<span>Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>`;
 
-    box.innerHTML = list.map((m) => {
-      let swarmWorkers = [];
-      try { swarmWorkers = JSON.parse(m.swarm_workers_json || "[]"); } catch (_e) {}
-      const isQueued = m.status === "RUNNING" && m.dispatch_state === "QUEUED_FOR_ANTIGRAVITY";
-      const isSwarm = m.status === "RUNNING" && m.dispatch_state === "SWARM_ACTIVE";
+    const workerChipsHtml = swarmWorkers.length
+      ? `<div class="chip-row">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(viWorkerLabel(w))}</span>`).join("")}</div>`
+      : "";
 
-      const isProposalGate = m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8;
-      const isProductionPhase = m.phase === "PRODUCTION";
-      const phaseBadge = isProductionPhase
-        ? `<span class="badge badge-run">${ico("layers")}<span>Giai đoạn 2: Sản xuất Sản phẩm Cuối</span></span>`
-        : m.phase === "DELIVERED"
-        ? `<span class="badge badge-done">${ico("check")}<span>Đã bàn giao Sản phẩm Cuối</span></span>`
-        : `<span class="badge badge-idle">${ico("compass")}<span>Giai đoạn 1: Nghiên cứu và Chốt kèo</span></span>`;
+    const msnMsgs = state.swarmMessages.filter((x) => x.mission_id === m.mission_id);
+    const activeSubTab = state.missionViewTabs[m.mission_id] || "steps";
 
-      const stBadge =
-        m.status === "COMPLETED" ? `<span class="badge badge-done">${ico("check")}<span>Đã nghiệm thu hoàn tất</span></span>` :
-        (m.status === "WAITING_CHAIRMAN" && isProposalGate) ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ duyệt kèo -> Sản xuất sản phẩm</span></span>` :
-        m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ nghiệm thu Sản phẩm Cuối</span></span>` :
-        m.status === "PAUSED" ? `<span class="badge badge-idle">${ico("pause")}<span>Đang tạm dừng</span></span>` :
-        isSwarm ? `<span class="badge badge-run">${ico("activity")}<span>Đang thực thi: Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>` :
-        isQueued ? `<span class="badge badge-wait">${ico("clock")}<span>Đã đưa vào hàng đợi trực tuyến</span></span>` :
-        `<span class="badge badge-run">${ico("activity")}<span>Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>`;
+    const stepsHtml = (m.steps || []).map((s) => {
+      const isDone = s.status === "DONE";
+      const isRun = s.status === "RUNNING";
+      const isWait = s.status === "WAITING_APPROVAL";
+      const nodeCls = isDone ? "done" : isRun ? "running" : isWait ? "waiting" : "pending";
+      const nodeInner = isDone ? ico("check") : isRun ? ico("activity") : isWait ? ico("flag") : String(s.step_order);
 
-      const workerChipsHtml = swarmWorkers.length
-        ? `<div class="chip-row">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(viWorkerLabel(w))}</span>`).join("")}</div>`
-        : "";
+      const whoStateLabel = isDone
+        ? `<strong class="text-ok">Đã hoàn tất:</strong>`
+        : isRun ? `<strong>Đang triển khai:</strong>`
+        : isWait ? `<strong>Chờ bạn duyệt:</strong>`
+        : `<span>Chờ tới lượt:</span>`;
 
-      const msnMsgs = state.swarmMessages.filter((x) => x.mission_id === m.mission_id);
-      const activeSubTab = state.missionViewTabs[m.mission_id] || "steps";
-
-      const stepsHtml = (m.steps || []).map((s) => {
-        const isDone = s.status === "DONE";
-        const isRun = s.status === "RUNNING";
-        const isWait = s.status === "WAITING_APPROVAL";
-        const nodeCls = isDone ? "done" : isRun ? "running" : isWait ? "waiting" : "pending";
-        const nodeInner = isDone ? ico("check") : isRun ? ico("activity") : isWait ? ico("flag") : String(s.step_order);
-
-        const whoStateLabel = isDone
-          ? `<strong class="text-ok">Đã hoàn tất:</strong>`
-          : isRun
-          ? `<strong>Đang triển khai:</strong>`
-          : isWait
-          ? `<strong>Chờ bạn duyệt:</strong>`
-          : `<span>Chờ tới lượt:</span>`;
-
-        const deptChips = (s.lead_depts || []).map((d) =>
-          `<button type="button" class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(cleanDeptTitleVi(d.dept_id, d.title_vi))}</button>`
-        ).join("");
-        const workerPill = s.worker_name ? `<span class="worker-tag">${esc(viWorkerLabel(s.worker_name))}</span>` : "";
-
-        return `
-          <div class="step-row ${isRun ? "is-running" : ""} ${isWait ? "is-waiting" : ""}">
-            <span class="step-node ${nodeCls}">${nodeInner}</span>
-            <div class="step-main">
-              <div class="step-head-line">
-                <div class="action-group">
-                  <span class="step-name">Bước ${s.step_order}. ${esc(sanitizeUiVietnamese(s.title))}</span>
-                  ${workerPill}
-                </div>
-                <span class="mono step-time">${esc(shortTime(s.completed_at || s.started_at))}</span>
-              </div>
-              <div class="who-chips">
-                ${whoStateLabel}
-                ${deptChips}
-              </div>
-              ${(s.live_activity_text && !isDone) ? `<p class="step-summary ${isRun ? "is-active" : ""}">${esc(sanitizeUiVietnamese(s.live_activity_text))}</p>` : ""}
-              ${(s.output_summary && (isDone || isWait)) ? `<p class="step-summary">${esc(sanitizeUiVietnamese(s.output_summary))}</p>` : ""}
-              ${s.artifact_path ? renderArtifactChip(s.artifact_path) : ""}
-              ${isDone && (s.critique_verdict || s.ux_verdict) ? `
-                <div class="step-checks">
-                  ${s.critique_verdict ? `<span>${ico("shield-check")} ${esc(sanitizeUiVietnamese(s.critique_verdict))}</span>` : ""}
-                  ${s.ux_verdict ? `<span>${ico("check")} ${esc(sanitizeUiVietnamese(s.ux_verdict))}</span>` : ""}
-                </div>
-              ` : ""}
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      const bodyHtml =
-        activeSubTab === "board" ? renderSwarmBoardPanel(m, msnMsgs) :
-        activeSubTab === "members" ? renderSwarmMembersPanel(m, msnMsgs) :
-        activeSubTab === "graph" ? renderSwarmGraphSvg(m) :
-        `<div class="stepper-list">${stepsHtml}</div>`;
+      const deptChips = (s.lead_depts || []).map((d) =>
+        `<button type="button" class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(cleanDeptTitleVi(d.dept_id, d.title_vi))}</button>`
+      ).join("");
+      const workerPill = s.worker_name ? `<span class="worker-tag">${esc(viWorkerLabel(s.worker_name))}</span>` : "";
 
       return `
-        <article class="mission-card">
-          <div class="mission-header">
-            <div class="mission-title-group">
-              <h3 class="mission-title">${esc(sanitizeUiVietnamese(m.title))}</h3>
-              <div class="mission-badges">
-                ${phaseBadge}
-                ${stBadge}
-              </div>
-              ${workerChipsHtml}
-            </div>
-
-            <div class="progress-row">
-              <span class="mono doc-name-label">${m.progress_pct || 0}%</span>
-              <div class="progress-track">
-                <div class="progress-fill" style="inline-size:${m.progress_pct || 0}%;"></div>
-              </div>
-
+        <div class="step-row ${isRun ? "is-running" : ""} ${isWait ? "is-waiting" : ""}">
+          <span class="step-node ${nodeCls}">${nodeInner}</span>
+          <div class="step-main">
+            <div class="step-head-line">
               <div class="action-group">
-                ${m.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}"><span>Mở sản phẩm và tài liệu</span>${ico("arrow-right")}</button>` : ""}
-                ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-handoff="${esc(m.mission_id)}">${ico("copy")}<span>Sao chép lệnh</span></button>` : ""}
-                ${m.status === "WAITING_CHAIRMAN" ? `
-                  <button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${ico("check")}<span>${isProposalGate ? "Duyệt kèo -> Sản xuất sản phẩm" : "Nghiệm thu Sản phẩm Cuối"}</span></button>
-                  <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">${ico("rotate-ccw")}<span>Gửi lại sửa</span></button>
-                ` : ""}
-                ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">${ico("pause")}<span>Tạm dừng</span></button>` : ""}
-                ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">${ico("play")}<span>Chạy tiếp</span></button>` : ""}
-                <button type="button" class="btn btn-xs" data-edit-msn="${esc(m.mission_id)}">${ico("pencil")}<span>Sửa</span></button>
-                <button type="button" class="btn btn-xs btn-destructive" data-del-msn="${esc(m.mission_id)}">${ico("trash")}<span>Xóa</span></button>
+                <span class="step-name">Bước ${s.step_order}. ${esc(sanitizeUiVietnamese(s.title))}</span>
+                ${workerPill}
               </div>
+              <span class="mono step-time">${esc(shortTime(s.completed_at || s.started_at))}</span>
             </div>
+            <div class="who-chips">${whoStateLabel}${deptChips}</div>
+            ${(s.live_activity_text && !isDone) ? `<p class="step-summary ${isRun ? "is-active" : ""}">${esc(sanitizeUiVietnamese(s.live_activity_text))}</p>` : ""}
+            ${(s.output_summary && (isDone || isWait)) ? `<p class="step-summary">${esc(sanitizeUiVietnamese(s.output_summary))}</p>` : ""}
+            ${s.artifact_path ? renderArtifactChip(s.artifact_path) : ""}
+            ${isDone && (s.critique_verdict || s.ux_verdict) ? `
+              <div class="step-checks">
+                ${s.critique_verdict ? `<span>${ico("shield-check")} ${esc(sanitizeUiVietnamese(s.critique_verdict))}</span>` : ""}
+                ${s.ux_verdict ? `<span>${ico("check")} ${esc(sanitizeUiVietnamese(s.ux_verdict))}</span>` : ""}
+              </div>
+            ` : ""}
           </div>
-
-          <div class="room-subnav">
-            <div class="segmented" role="tablist" aria-label="Chế độ phòng họp trực tiếp">
-              <button type="button" class="seg-btn ${activeSubTab === "steps" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "steps" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:steps">
-                ${ico("layers")}<span>Tiến độ ${m.total_steps || 8} bước</span>
-              </button>
-              <button type="button" class="seg-btn ${activeSubTab === "board" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "board" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:board">
-                ${ico("message-square")}<span>Bảng trao đổi (${msnMsgs.length})</span>
-              </button>
-              <button type="button" class="seg-btn ${activeSubTab === "members" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "members" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:members">
-                ${ico("users")}<span>Thành viên</span>
-              </button>
-              <button type="button" class="seg-btn ${activeSubTab === "graph" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "graph" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:graph">
-                ${ico("git-branch")}<span>Sơ đồ chuyền việc</span>
-              </button>
-            </div>
-            <span class="room-caption">Phòng họp trực tiếp: 100% Tiếng Việt</span>
-          </div>
-
-          ${bodyHtml}
-        </article>
+        </div>
       `;
     }).join("");
+
+    const bodyHtml =
+      activeSubTab === "board" ? renderSwarmBoardPanel(m, msnMsgs) :
+      activeSubTab === "members" ? renderSwarmMembersPanel(m, msnMsgs) :
+      activeSubTab === "graph" ? renderSwarmGraphSvg(m) :
+      `<div class="stepper-list">${stepsHtml}</div>`;
+
+    return `
+      <article class="mission-card">
+        <div class="mission-header">
+          <div class="mission-title-group">
+            <h3 class="mission-title">${esc(sanitizeUiVietnamese(m.title))}</h3>
+            <div class="mission-badges">${phaseBadge}${stBadge}</div>
+            ${workerChipsHtml}
+          </div>
+
+          <div class="progress-row">
+            <span class="mono doc-name-label">${m.progress_pct || 0}%</span>
+            <div class="progress-track">
+              <div class="progress-fill" style="inline-size:${m.progress_pct || 0}%;"></div>
+            </div>
+
+            <div class="action-group">
+              ${m.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}"><span>Mở dự án</span>${ico("arrow-right")}</button>` : ""}
+              ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-handoff="${esc(m.mission_id)}">${ico("copy")}<span>Sao chép lệnh</span></button>` : ""}
+              ${m.status === "WAITING_CHAIRMAN" ? `
+                <button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${ico("check")}<span>${isProposalGate ? "Duyệt kèo -> Sản xuất sản phẩm" : "Nghiệm thu Sản phẩm Cuối"}</span></button>
+                <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">${ico("rotate-ccw")}<span>Gửi lại sửa</span></button>
+              ` : ""}
+              ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">${ico("pause")}<span>Tạm dừng</span></button>` : ""}
+              ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">${ico("play")}<span>Chạy tiếp</span></button>` : ""}
+              <button type="button" class="btn btn-xs" data-edit-msn="${esc(m.mission_id)}">${ico("pencil")}<span>Sửa</span></button>
+              <button type="button" class="btn btn-xs btn-destructive" data-del-msn="${esc(m.mission_id)}">${ico("trash")}<span>Xóa</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="room-subnav">
+          <div class="segmented" role="tablist" aria-label="Chế độ phòng họp trực tiếp">
+            <button type="button" class="seg-btn ${activeSubTab === "steps" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "steps" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:steps">
+              ${ico("layers")}<span>Tiến độ ${m.total_steps || 8} bước</span>
+            </button>
+            <button type="button" class="seg-btn ${activeSubTab === "board" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "board" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:board">
+              ${ico("message-square")}<span>Bảng trao đổi (${msnMsgs.length})</span>
+            </button>
+            <button type="button" class="seg-btn ${activeSubTab === "members" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "members" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:members">
+              ${ico("users")}<span>Thành viên</span>
+            </button>
+            <button type="button" class="seg-btn ${activeSubTab === "graph" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "graph" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:graph">
+              ${ico("git-branch")}<span>Sơ đồ chuyền việc</span>
+            </button>
+          </div>
+          <span class="room-caption">Phòng họp trực tiếp: 100% Tiếng Việt</span>
+        </div>
+
+        ${bodyHtml}
+      </article>
+    `;
+  }
+
+  function renderLearningProgressCardHtml() {
+    const lp = state.learningProgress || {};
+    if (!lp.running) return "";
+    const done = Number(lp.sources_done || 0);
+    const total = Math.max(1, Number(lp.sources_total || 24));
+    const pct = Math.min(100, Math.round((done / total) * 100));
+    return `
+      <div class="live-banner is-active">
+        <div class="live-banner-row">
+          <div class="live-banner-title">
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span>Đang quét nguồn tin trực tiếp (${done}/${total}): ${esc(sanitizeUiVietnamese(lp.current_source_vi || "Đang kết nối..."))}</span>
+          </div>
+          <span class="mono doc-name-label">${pct}%</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">
+          <div class="progress-fill" style="inline-size:${Math.max(4, pct)}%;"></div>
+        </div>
+        <div class="row-meta">Nạp mới: <strong>${lp.new_atoms_added || 0}</strong> bài, bỏ qua trùng: <strong>${lp.duplicates_skipped || 0}</strong> bài.</div>
+      </div>
+    `;
+  }
+
+  function renderLearningRunsSectionHtml(limit = 20) {
+    const runs = (state.learningRuns || []).slice(0, limit);
+    const liveHtml = renderLearningProgressCardHtml();
+    if (!runs.length && !liveHtml) {
+      return `
+        <div class="empty-state">
+          <h3>Chưa có đợt học tri thức hoặc nạp kỹ năng nào</h3>
+          <p>Nhấn Quét báo mới ngay để 51 phòng chuyên gia tự đọc 24 nguồn tin thị trường và ghi nhận kết quả tại đây.</p>
+          <button type="button" class="btn btn-primary" data-trigger-learn-all>${ico("refresh-cw")}<span>Quét báo mới ngay</span></button>
+        </div>
+      `;
+    }
+    return `
+      <div class="section-block">
+        ${liveHtml}
+        <div class="sec-head">
+          <h2 class="sec-title">Lịch sử Học tri thức và Kỹ năng (${runs.length})</h2>
+          <button type="button" class="btn btn-xs btn-primary" data-trigger-learn-all>${ico("refresh-cw")}<span>Quét báo mới ngay</span></button>
+        </div>
+        ${runs.length ? `
+          <div class="hairline-list">
+            ${runs.map((r) => {
+              const isSkill = String(r.scope || "").startsWith("skills:");
+              const scopeLabel = isSkill ? "Nạp kỹ năng GitHub" : (r.scope === "all" ? "Toàn tập đoàn (24 nguồn)" : `Phạm vi: ${sanitizeUiVietnamese(r.scope || "tổng hợp")}`);
+              const added = Number(r.new_atoms_added ?? r.articles_added ?? 0);
+              const skipped = Number(r.duplicates_skipped ?? 0);
+              const scanned = Number(r.sources_queried ?? r.sources_scanned ?? r.sources_total ?? 0);
+              const errCnt = Number(r.errors_count ?? (r.error_log ? String(r.error_log).split(/\n|;/).filter((x) => x.trim()).length : 0));
+              const summary = r.summary_vi
+                ? sanitizeUiVietnamese(r.summary_vi)
+                : `Đã quét ${scanned} nguồn: nạp mới ${added} bài, bỏ qua ${skipped} bài đã có trong kho.`;
+              return `
+                <div class="list-row">
+                  <div class="row-main">
+                    <div class="action-group">
+                      <span class="badge ${isSkill ? "badge-study" : "badge-done"}">${ico(isSkill ? "layers" : "book-open")}<span>${esc(scopeLabel)}</span></span>
+                      <span class="mono row-meta">${esc(shortDate(r.finished_at || r.started_at))} ${esc(shortTime(r.finished_at || r.started_at))}</span>
+                    </div>
+                    <div class="row-title">${esc(summary)}</div>
+                    <div class="row-meta">Nạp mới: ${added}, Bỏ qua trùng: ${skipped}, Lỗi nguồn: ${errCnt}</div>
+                  </div>
+                  <div class="row-actions">
+                    <button type="button" class="btn btn-xs" data-goto-news="${isSkill ? "skills" : "articles"}">Xem kho</button>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        ` : ""}
+      </div>
+    `;
+  }
+
+  function renderOrdersSectionHtml(orderType, title, emptyMsg, actionHtml) {
+    const items = (state.orders || []).filter((o) => o.order_type === orderType);
+    if (!items.length) {
+      return `
+        <div class="empty-state">
+          <h3>${esc(title)}</h3>
+          <p>${esc(emptyMsg)}</p>
+          ${actionHtml}
+        </div>
+      `;
+    }
+    return `
+      <div class="section-block">
+        <div class="sec-head">
+          <h2 class="sec-title">${esc(title)} (${items.length})</h2>
+          ${actionHtml}
+        </div>
+        <div class="hairline-list">
+          ${items.map((o) => {
+            const st = ORDER_STATUS_VI[String(o.status || "PENDING").toUpperCase()] || ORDER_STATUS_VI.PENDING;
+            const detail = sanitizeUiVietnamese(o.result_summary || o.instructions || "");
+            return `
+              <div class="list-row">
+                <div class="row-main">
+                  <div class="action-group">
+                    <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+                    <span class="mono row-meta">${esc(shortDate(o.created_at))} ${esc(shortTime(o.created_at))}</span>
+                  </div>
+                  <div class="row-title">${esc(sanitizeUiVietnamese(o.title || o.order_id))}</div>
+                  ${detail ? `<div class="row-meta">${esc(detail)}</div>` : ""}
+                </div>
+                <div class="row-actions">
+                  ${orderType === "SCAN_OPPORTUNITIES"
+                    ? `<button type="button" class="btn btn-xs" data-goto-tab="command">Xem cơ hội</button>`
+                    : `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Mở bảng việc</button>`
+                  }
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderProgressTab() {
+    const oppOrders = (state.orders || []).filter((o) => o.order_type === "SCAN_OPPORTUNITIES");
+    const taskOrders = (state.orders || []).filter((o) => o.order_type === "EXECUTE_TASK");
+    const runningM = state.missions.filter((m) => m.status === "RUNNING").length;
+    const activeOrdersCnt = (state.orders || []).filter((o) => ["PENDING", "RUNNING", "IN_PROGRESS"].includes(String(o.status || "").toUpperCase())).length;
+    const learningRunning = Boolean(state.learningProgress && state.learningProgress.running);
+    const totalActive = runningM + activeOrdersCnt + (learningRunning ? 1 : 0);
+
+    document.getElementById("prog-hero-active").textContent = totalActive;
+    document.getElementById("prog-cnt-missions").textContent = state.missions.length;
+    document.getElementById("prog-cnt-opps").textContent = oppOrders.length;
+    document.getElementById("prog-cnt-learning").textContent = state.learningRuns.length;
+
+    const noteEl = document.getElementById("prog-hero-note");
+    if (noteEl) {
+      noteEl.textContent = totalActive > 0
+        ? `Đang có ${totalActive} hoạt động chạy trực tuyến (${runningM} dự án 8 bước, ${activeOrdersCnt} lệnh xử lý${learningRunning ? ", 1 đợt quét báo mới" : ""}).`
+        : "Tất cả luồng xử lý hiện đã ổn định. Xem chi tiết từng nhóm bên dưới.";
+    }
+
+    document.querySelectorAll("#progress-cat-tabs .seg-btn").forEach((b) => {
+      const on = b.getAttribute("data-pcat") === state.progressCat;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+
+    const subFilterRow = document.getElementById("mission-filter-tabs");
+    const subFilterAct = document.getElementById("mission-subfilter-actions");
+    const showMissionFilters = state.progressCat === "missions";
+    subFilterRow.classList.toggle("is-hidden", !showMissionFilters);
+    subFilterAct.classList.toggle("is-hidden", !(state.progressCat === "missions" || state.progressCat === "all"));
+
+    const box = document.getElementById("progress-content-container");
+    const filteredMissions = state.missions.filter((m) => !state.missionFilter || m.status === state.missionFilter);
+
+    if (state.progressCat === "missions") {
+      if (!filteredMissions.length) {
+        box.innerHTML = `
+          <div class="empty-state">
+            <h3>Chưa có dự án 8 bước nào ở trạng thái này</h3>
+            <p>Giao một đề bài mới để xem toàn bộ 8 bước thực thi, phản biện rủi ro và kiểm thử khách hàng trực tiếp tại đây.</p>
+            <button type="button" class="btn btn-primary" data-goto-tab="command">${ico("plus")}<span>Giao nhiệm vụ mới</span></button>
+          </div>
+        `;
+      } else {
+        box.innerHTML = filteredMissions.map(buildMissionCardHtml).join("");
+      }
+    } else if (state.progressCat === "opps") {
+      box.innerHTML = renderOrdersSectionHtml(
+        "SCAN_OPPORTUNITIES",
+        "Đợt săn cơ hội kiếm tiền",
+        "Chưa có đợt săn cơ hội nào gần đây. Bấm nút bên dưới để Phòng #50 và #46 quét cơ hội mới.",
+        `<button type="button" class="btn btn-xs btn-primary" data-trigger-scan-opps>${ico("compass")}<span>Săn cơ hội mới</span></button>`
+      );
+    } else if (state.progressCat === "learning") {
+      box.innerHTML = renderLearningRunsSectionHtml(25);
+    } else if (state.progressCat === "tasks") {
+      box.innerHTML = renderOrdersSectionHtml(
+        "EXECUTE_TASK",
+        "Đầu việc lẻ giao chuyên gia",
+        "Chưa có đầu việc lẻ nào được giao chạy tự động. Mở Bảng việc và bấm Giao AI làm trên một công việc bất kỳ.",
+        `<button type="button" class="btn btn-xs btn-primary" data-goto-tab="tasks">${ico("check-square")}<span>Mở bảng việc</span></button>`
+      );
+    } else {
+      // Unified real-time feed: Live learning + Recent orders + Learning runs + 8-step missions
+      const parts = [];
+      const liveCard = renderLearningProgressCardHtml();
+      if (liveCard) parts.push(liveCard);
+
+      if (oppOrders.length) {
+        parts.push(renderOrdersSectionHtml(
+          "SCAN_OPPORTUNITIES",
+          "Đợt săn cơ hội gần đây",
+          "",
+          `<button type="button" class="btn btn-xs" data-trigger-scan-opps>${ico("compass")}<span>Săn cơ hội mới</span></button>`
+        ));
+      }
+      if (state.missions.length) {
+        parts.push(`
+          <div class="section-block">
+            <div class="sec-head">
+              <h2 class="sec-title">Dự án 8 bước (${state.missions.length})</h2>
+            </div>
+            <div class="mission-list">${state.missions.map(buildMissionCardHtml).join("")}</div>
+          </div>
+        `);
+      }
+      if (taskOrders.length) {
+        parts.push(renderOrdersSectionHtml(
+          "EXECUTE_TASK",
+          "Đầu việc giao AI gần đây",
+          "",
+          `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Xem bảng việc</button>`
+        ));
+      }
+      if (state.learningRuns.length) {
+        parts.push(renderLearningRunsSectionHtml(5));
+      }
+      if (!parts.length) {
+        parts.push(`
+          <div class="empty-state">
+            <h3>Chưa có hoạt động nào đang chạy</h3>
+            <p>Giao một nhiệm vụ mới, săn cơ hội hoặc quét báo mới để theo dõi tiến độ toàn tập đoàn tại đây.</p>
+            <button type="button" class="btn btn-primary" data-goto-tab="command">${ico("plus")}<span>Bắt đầu giao việc</span></button>
+          </div>
+        `);
+      }
+      box.innerHTML = parts.join("");
+    }
 
     bindQuickActions(box);
   }
 
   // -------------------------------------------------------------------------
-  // 8. TAB 3: BANG VIEC (DANH SACH + BANG 5 COT + CUSTOM LISTBOX)
+  // 8. TAB 3: BANG VIEC TINH GON (NHOM ACCORDION + 3 PHAN TU + 4 COT)
   // -------------------------------------------------------------------------
   function getFilteredTasks() {
     const q = (document.getElementById("filter-task-q").value || "").trim().toLowerCase();
     const projF = getListboxValue("filter-task-project");
-    const colF = getListboxValue("filter-task-col");
     const prioF = getListboxValue("filter-task-prio");
+    const deptF = getListboxValue("filter-task-dept");
     return state.tasks.filter((t) => {
       if (projF && t.project_id !== projF) return false;
-      if (colF && t.kanban_column !== colF) return false;
       if (prioF && t.priority !== prioF) return false;
+      if (deptF && t.assigned_dept_id !== deptF) return false;
       if (q && !`${t.title} ${t.description || ""}`.toLowerCase().includes(q)) return false;
       return true;
     });
@@ -1846,128 +2343,183 @@
       b.setAttribute("aria-selected", on ? "true" : "false");
     });
 
+    const bulkBtn = document.getElementById("btn-toggle-bulk-mode");
+    if (bulkBtn) bulkBtn.setAttribute("aria-pressed", state.taskBulkMode ? "true" : "false");
+
     const filtered = getFilteredTasks();
-    const listWrap = document.getElementById("tasks-list-wrapper");
+    const groupWrap = document.getElementById("tasks-grouped-wrapper");
     const boardWrap = document.getElementById("tasks-board-wrapper");
 
-    if (state.taskViewMode === "list") {
-      listWrap.classList.remove("is-hidden");
+    if (state.taskViewMode === "grouped") {
+      groupWrap.classList.remove("is-hidden");
       boardWrap.classList.add("is-hidden");
+
       if (!filtered.length) {
-        listWrap.innerHTML = `<div class="empty-state"><p>Không có công việc nào khớp bộ lọc. Nhấn <strong>Thêm việc lẻ</strong> để tạo mới.</p></div>`;
+        groupWrap.innerHTML = `
+          <div class="empty-state">
+            <h3>Không có công việc nào khớp bộ lọc</h3>
+            <p>Thử đổi bộ lọc dự án hoặc nhấn Thêm việc mới để giao đầu việc lẻ cho phòng chuyên gia.</p>
+          </div>
+        `;
         updateBulkBar();
         return;
       }
 
-      const allSelected = filtered.every((t) => state.selectedTaskIds.has(t.task_id));
-      const headRow = `
-        <div class="list-row list-row-task list-row-head">
-          <input type="checkbox" id="chk-select-all-tasks" ${allSelected ? "checked" : ""} aria-label="Chọn tất cả công việc" />
-          <span>Chọn tất cả (${filtered.length} việc)</span>
-          <span class="hide-sm">Trạng thái</span>
-          <span class="hide-sm">Thao tác</span>
-        </div>
-      `;
+      const groups = [
+        {
+          key: "WAITING_APPROVAL",
+          title: "Cần bạn duyệt",
+          badgeCls: "badge-wait",
+          items: filtered.filter((t) => t.kanban_column === "WAITING_APPROVAL")
+        },
+        {
+          key: "ACTIVE",
+          title: "Đang thực hiện",
+          badgeCls: "badge-run",
+          items: filtered.filter((t) => t.kanban_column === "IN_PROGRESS" || t.kanban_column === "QA_SECURITY_REVIEW")
+        },
+        {
+          key: "PENDING",
+          title: "Chờ triển khai",
+          badgeCls: "badge-idle",
+          items: filtered.filter((t) => t.kanban_column === "BACKLOG" || t.kanban_column === "REJECTED")
+        },
+        {
+          key: "DONE",
+          title: "Đã hoàn thành",
+          badgeCls: "badge-done",
+          items: filtered.filter((t) => t.kanban_column === "DONE")
+        }
+      ];
 
-      listWrap.innerHTML = headRow + filtered.map((t) => {
-        const checked = state.selectedTaskIds.has(t.task_id) ? "checked" : "";
-        const colCls =
-          t.kanban_column === "DONE" ? "badge-done" :
-          t.kanban_column === "WAITING_APPROVAL" ? "badge-wait" :
-          t.kanban_column === "REJECTED" ? "badge-fail" :
-          t.kanban_column === "IN_PROGRESS" ? "badge-run" : "badge-idle";
-        const dName = cleanDeptTitleVi(t.assigned_dept_id, t.assigned_dept_title || deptTitle(t.assigned_dept_id));
-        return `
-          <div class="list-row list-row-task ${checked ? "is-selected" : ""}">
-            <input type="checkbox" data-sel-task="${esc(t.task_id)}" ${checked} aria-label="Chọn ${esc(t.title)}" />
-            <div class="row-main clickable" data-edit-task="${esc(t.task_id)}">
-              <div class="row-title ${t.kanban_column === "DONE" ? "is-done" : ""}">${esc(sanitizeUiVietnamese(t.title))}</div>
-              <div class="row-meta">Phòng #${esc(t.assigned_dept_id)} (${esc(dName)}), Ưu tiên: ${esc(PRIO_LABELS[t.priority] || "Cao")}</div>
-            </div>
-            <span class="badge ${colCls}">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
-            <div class="row-actions">
-              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs" data-dispatch-task="${esc(t.task_id)}" title="Giao đội ngũ chuyên gia xử lý">${ico("cpu")}<span>Giao AI</span></button>` : ""}
-              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs btn-primary" data-approve-task="${esc(t.task_id)}" title="Đánh dấu hoàn tất">${ico("check")}<span>Xong</span></button>` : ""}
-              <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
-              <button type="button" class="btn btn-xs hide-sm" data-dup-task="${esc(t.task_id)}">Sao chép</button>
-              <button type="button" class="btn btn-xs btn-destructive" data-del-task="${esc(t.task_id)}">${ico("trash")}<span>Xóa</span></button>
-            </div>
-          </div>
-        `;
-      }).join("");
+      groupWrap.innerHTML = groups.map((g) => {
+        const isOpen = g.key === "WAITING_APPROVAL"
+          ? (g.items.length > 0 && state.taskGroupOpen[g.key] !== false)
+          : Boolean(state.taskGroupOpen[g.key]);
 
-      const selAll = document.getElementById("chk-select-all-tasks");
-      if (selAll) {
-        selAll.onchange = () => {
-          filtered.forEach((t) => {
-            if (selAll.checked) state.selectedTaskIds.add(t.task_id);
-            else state.selectedTaskIds.delete(t.task_id);
-          });
-          renderTasksTab();
-        };
-      }
-      bindQuickActions(listWrap);
-    } else {
-      listWrap.classList.add("is-hidden");
-      boardWrap.classList.remove("is-hidden");
-      const cols = ["BACKLOG", "IN_PROGRESS", "QA_SECURITY_REVIEW", "WAITING_APPROVAL", "DONE"];
-      const colOpts = cols.map((opt) => ({ value: opt, label: COL_LABELS[opt] }));
-
-      boardWrap.innerHTML = cols.map((c) => {
-        const colTasks = filtered.filter((t) =>
-          c === "IN_PROGRESS"
-            ? (t.kanban_column === "IN_PROGRESS" || t.kanban_column === "REJECTED")
-            : t.kanban_column === c
-        );
-        return `
-          <div class="k-col" data-drop-col="${c}">
-            <div class="k-head">
-              <span>${esc(COL_LABELS[c])} (${colTasks.length})</span>
-              <button type="button" class="btn btn-xs" data-quick-col-add="${c}" aria-label="Thêm việc vào cột ${esc(COL_LABELS[c])}">${ico("plus")}</button>
-            </div>
-            ${colTasks.map((t) => {
-              const curCol = t.kanban_column === "REJECTED" ? "IN_PROGRESS" : t.kanban_column;
-              const dynId = `kcol-${t.task_id}`;
+        const rowsHtml = g.items.length
+          ? g.items.map((t) => {
+              const checked = state.selectedTaskIds.has(t.task_id) ? "checked" : "";
+              const colCls =
+                t.kanban_column === "DONE" ? "badge-done" :
+                t.kanban_column === "WAITING_APPROVAL" ? "badge-wait" :
+                t.kanban_column === "REJECTED" ? "badge-fail" :
+                t.kanban_column === "IN_PROGRESS" ? "badge-run" : "badge-idle";
+              const metaLine = `${projectTitle(t.project_id)}, Phòng #${t.assigned_dept_id}, Ưu tiên ${PRIO_LABELS[t.priority] || "Cao"}`;
+              // Strictly ONE contextual primary action button per row!
+              let primaryAction = `<button type="button" class="btn btn-xs" data-open-task-drawer="${esc(t.task_id)}">Chi tiết</button>`;
+              if (t.kanban_column === "BACKLOG" || t.kanban_column === "REJECTED") {
+                primaryAction = `<button type="button" class="btn btn-xs btn-primary" data-dispatch-task="${esc(t.task_id)}">${ico("cpu")}<span>Giao AI làm</span></button>`;
+              } else if (t.kanban_column === "WAITING_APPROVAL") {
+                primaryAction = `<button type="button" class="btn btn-xs btn-primary" data-approve-task="${esc(t.task_id)}">${ico("check")}<span>Duyệt ngay</span></button>`;
+              }
               return `
-                <div class="k-card" draggable="true" data-drag-task="${esc(t.task_id)}">
-                  <div class="row-title clickable" data-edit-task="${esc(t.task_id)}">
-                    ${t.kanban_column === "REJECTED" ? `<span class="badge badge-fail">Cần sửa</span> ` : ""}${esc(sanitizeUiVietnamese(t.title))}
+                <div class="task-row-clean ${state.taskBulkMode ? "has-check" : ""} ${checked ? "is-selected" : ""}" data-row-task="${esc(t.task_id)}">
+                  ${state.taskBulkMode ? `<input type="checkbox" data-sel-task="${esc(t.task_id)}" ${checked} aria-label="Chọn ${esc(t.title)}" />` : ""}
+                  <div class="row-main">
+                    <div class="row-title ${t.kanban_column === "DONE" ? "is-done" : ""}">${esc(sanitizeUiVietnamese(t.title))}</div>
+                    <div class="row-meta">${esc(metaLine)}</div>
                   </div>
-                  <div class="listbox-field listbox-compact" data-dynamic-listbox="${esc(dynId)}" data-move-task="${esc(t.task_id)}" data-current-col="${esc(curCol)}">
-                    <input type="hidden" value="${esc(curCol)}" />
-                    <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-${esc(dynId)}" aria-label="Chuyển cột trạng thái">
-                      <span class="listbox-value">${esc(COL_LABELS[curCol] || curCol)}</span>
-                      ${ico("chevron-down", "ico-xs listbox-chevron")}
-                    </button>
-                    <ul class="listbox-menu" id="lb-${esc(dynId)}" role="listbox" tabindex="-1" hidden></ul>
-                  </div>
-                  <div class="k-card-foot">
-                    <span class="mono">Phòng #${esc(t.assigned_dept_id)}</span>
-                    <div class="action-group">
-                      <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
-                      <button type="button" class="btn btn-xs btn-destructive" data-del-task="${esc(t.task_id)}">Xóa</button>
-                    </div>
-                  </div>
+                  <span class="badge ${colCls}">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
+                  <div class="task-row-end">${primaryAction}</div>
                 </div>
               `;
-            }).join("")}
+            }).join("")
+          : `<div class="list-row"><span class="row-meta">Không có công việc nào trong nhóm này.</span></div>`;
+
+        const doneFooter = g.key === "DONE" && g.items.length > 0
+          ? `<div class="list-row list-row-pair"><span class="row-meta">${g.items.length} việc đã hoàn thành</span><button type="button" class="btn btn-xs btn-destructive" id="btn-clear-done-tasks-inline">${ico("trash")}<span>Dọn việc đã xong</span></button></div>`
+          : "";
+
+        return `
+          <div class="acc-card">
+            <button type="button" class="acc-trigger" aria-expanded="${isOpen ? "true" : "false"}" data-toggle-task-group="${g.key}">
+              <span class="acc-trigger-left">
+                <span>${esc(g.title)}</span>
+                <span class="badge ${g.badgeCls}">${g.items.length}</span>
+              </span>
+              <span class="acc-trigger-right">
+                ${ico("chevron-down", "ico-sm acc-chevron")}
+              </span>
+            </button>
+            <div class="acc-panel ${isOpen ? "open" : ""}" data-task-panel="${g.key}">
+              <div class="acc-inner">
+                <div class="acc-body">
+                  ${rowsHtml}
+                  ${doneFooter}
+                </div>
+              </div>
+            </div>
           </div>
         `;
       }).join("");
 
-      boardWrap.querySelectorAll("[data-dynamic-listbox]").forEach((wrap) => {
-        const dynId = wrap.getAttribute("data-dynamic-listbox");
-        const tid = wrap.getAttribute("data-move-task");
-        const curCol = wrap.getAttribute("data-current-col");
-        const ctrl = setupListboxElement(wrap, dynId, async (newCol) => {
-          await api(`/api/tasks/${encodeURIComponent(tid)}`, "PATCH", { kanban_column: newCol });
-          await loadEverything();
-        });
-        if (ctrl) {
-          ctrl.setOptions(colOpts, false);
-          ctrl.setValue(curCol, true);
-        }
+      groupWrap.querySelectorAll("[data-toggle-task-group]").forEach((btn) => {
+        btn.onclick = () => {
+          const k = btn.getAttribute("data-toggle-task-group");
+          state.taskGroupOpen[k] = !(btn.getAttribute("aria-expanded") === "true");
+          const open = state.taskGroupOpen[k];
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+          const panel = groupWrap.querySelector(`[data-task-panel="${k}"]`);
+          if (panel) panel.classList.toggle("open", open);
+        };
       });
+
+      groupWrap.querySelectorAll("[data-row-task]").forEach((row) => {
+        row.onclick = (e) => {
+          if (e.target.closest("button, input")) return;
+          openTaskDrawer(row.getAttribute("data-row-task"));
+        };
+      });
+
+      const clrDone = document.getElementById("btn-clear-done-tasks-inline");
+      if (clrDone) {
+        clrDone.onclick = (e) => {
+          e.stopPropagation();
+          withLock(clrDone, async () => {
+            const backups = state.tasks.filter((t) => t.kanban_column === "DONE");
+            const res = await api("/api/tasks/bulk", "POST", { action: "clear_done" });
+            await loadEverything();
+            toast(`Đã dọn ${res.affected || backups.length} công việc đã xong.`, {
+              items: backups.map((t) => ({ entity_type: "task", entity_id: t.task_id, backup: t }))
+            });
+          });
+        };
+      }
+
+      bindQuickActions(groupWrap);
+    } else {
+      // Spacious 4-column drag-and-drop Kanban board
+      groupWrap.classList.add("is-hidden");
+      boardWrap.classList.remove("is-hidden");
+      const boardCols = [
+        { key: "BACKLOG", title: "Chờ triển khai", match: (t) => t.kanban_column === "BACKLOG" || t.kanban_column === "REJECTED" },
+        { key: "IN_PROGRESS", title: "Đang làm và Kiểm định", match: (t) => t.kanban_column === "IN_PROGRESS" || t.kanban_column === "QA_SECURITY_REVIEW" },
+        { key: "WAITING_APPROVAL", title: "Chờ duyệt", match: (t) => t.kanban_column === "WAITING_APPROVAL" },
+        { key: "DONE", title: "Hoàn thành", match: (t) => t.kanban_column === "DONE" }
+      ];
+
+      boardWrap.innerHTML = boardCols.map((c) => {
+        const colTasks = filtered.filter(c.match);
+        return `
+          <div class="k-col" data-drop-col="${c.key}">
+            <div class="k-head">
+              <span>${esc(c.title)} (${colTasks.length})</span>
+              <button type="button" class="btn btn-xs" data-quick-col-add="${c.key}" aria-label="Thêm việc vào cột ${esc(c.title)}">${ico("plus")}</button>
+            </div>
+            ${colTasks.map((t) => `
+              <div class="k-card" draggable="true" data-drag-task="${esc(t.task_id)}" data-open-task-drawer="${esc(t.task_id)}">
+                <div class="row-title ${t.kanban_column === "DONE" ? "is-done" : ""}">${esc(sanitizeUiVietnamese(t.title))}</div>
+                <div class="row-meta">${esc(projectTitle(t.project_id))}</div>
+                <div class="k-card-foot">
+                  <span class="mono">Phòng #${esc(t.assigned_dept_id)}</span>
+                  <span class="badge ${t.kanban_column === "REJECTED" ? "badge-fail" : "badge-idle"}">${esc(t.kanban_column === "REJECTED" ? "Cần sửa lại" : (PRIO_LABELS[t.priority] || "Cao"))}</span>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }).join("");
 
       bindQuickActions(boardWrap);
       bindKanbanDragDrop(boardWrap);
@@ -1994,73 +2546,227 @@
     });
   }
 
-  // -------------------------------------------------------------------------
-  // 9. TAB 4: NHAN SU (51 PHONG BAN + INSPECTOR DRAWER)
-  // -------------------------------------------------------------------------
-  function renderStaffTab() {
-    const pillBar = document.getElementById("staff-div-pills");
-    const divOrder = [
-      "", "div9-critique-ux-lab", "exec-board", "div1-strategy-intel", "div2-product-design",
-      "div3-engineering-ai", "div4-qa-cybersecurity", "div5-media-youtube-studio",
-      "div6-sales-commercial", "div7-finance-tax-legal", "div8-data-ops-hr"
-    ];
-    pillBar.innerHTML = divOrder.map((code) => {
-      const on = state.staffDivFilter === code;
-      const label = code === "" ? `Tất cả (${state.departments.length})` : (DIV_SHORT_NAMES[code] || code);
-      return `<button type="button" class="chip-btn ${on ? "active" : ""}" aria-pressed="${on ? "true" : "false"}" data-sdiv="${code}">${esc(label)}</button>`;
-    }).join("");
+  function openTaskDrawer(taskId) {
+    const t = state.tasks.find((x) => x.task_id === taskId);
+    if (!t) return;
+    document.getElementById("drawer-heading").textContent = "Chi tiết công việc";
+    const body = document.getElementById("drawer-body");
+    const colOpts = Object.entries(COL_LABELS).map(([value, label]) => ({ value, label }));
+    const dynId = `drawer-col-${t.task_id}`;
 
-    pillBar.querySelectorAll("[data-sdiv]").forEach((b) => {
-      b.onclick = () => { state.staffDivFilter = b.getAttribute("data-sdiv"); renderStaffTab(); };
+    body.innerHTML = `
+      <div class="stack-sm">
+        <h3 class="mission-title">${esc(sanitizeUiVietnamese(t.title))}</h3>
+        <div class="action-group">
+          <span class="badge badge-idle">Phòng #${esc(t.assigned_dept_id)}: ${esc(deptTitle(t.assigned_dept_id))}</span>
+          <span class="badge badge-idle">Ưu tiên: ${esc(PRIO_LABELS[t.priority] || "Cao")}</span>
+        </div>
+        <p class="row-meta">Dự án: <strong>${esc(projectTitle(t.project_id))}</strong></p>
+      </div>
+
+      <div class="form-field">
+        <label>Chuyển cột trạng thái</label>
+        <div class="listbox-field" data-dynamic-listbox="${esc(dynId)}">
+          <input type="hidden" value="${esc(t.kanban_column || "BACKLOG")}" />
+          <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-${esc(dynId)}" aria-label="Đổi trạng thái công việc">
+            <span class="listbox-value">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
+            ${ico("chevron-down", "ico-xs listbox-chevron")}
+          </button>
+          <ul class="listbox-menu" id="lb-${esc(dynId)}" role="listbox" tabindex="-1" hidden></ul>
+        </div>
+      </div>
+
+      <div class="card stack-sm">
+        <p class="eyebrow">Mô tả và Ghi chú yêu cầu</p>
+        <p class="step-summary">${esc(sanitizeUiVietnamese(t.description || "Chưa có ghi chú mô tả chi tiết cho đầu việc này."))}</p>
+      </div>
+
+      <div class="action-group">
+        ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-primary" data-dispatch-task="${esc(t.task_id)}">${ico("cpu")}<span>Giao AI làm</span></button>` : ""}
+        ${t.kanban_column !== "DONE" ? `<button type="button" class="btn" data-approve-task="${esc(t.task_id)}">${ico("check")}<span>Đánh dấu xong</span></button>` : ""}
+        ${t.kanban_column === "WAITING_APPROVAL" ? `<button type="button" class="btn" data-reject-task="${esc(t.task_id)}">${ico("rotate-ccw")}<span>Yêu cầu làm lại</span></button>` : ""}
+        <button type="button" class="btn" data-edit-task="${esc(t.task_id)}">${ico("pencil")}<span>Sửa</span></button>
+        <button type="button" class="btn" data-dup-task="${esc(t.task_id)}">${ico("copy")}<span>Nhân bản</span></button>
+      </div>
+
+      <div class="rule"></div>
+
+      <div>
+        <button type="button" class="btn btn-destructive btn-block" data-del-task="${esc(t.task_id)}">${ico("trash")}<span>Xóa công việc</span></button>
+      </div>
+    `;
+
+    const lbWrap = body.querySelector(`[data-dynamic-listbox="${dynId}"]`);
+    const ctrl = setupListboxElement(lbWrap, dynId, async (newCol) => {
+      await api(`/api/tasks/${encodeURIComponent(t.task_id)}`, "PATCH", { kanban_column: newCol });
+      await loadEverything();
+      toast(`Đã chuyển sang trạng thái ${COL_LABELS[newCol] || newCol}.`);
+    });
+    if (ctrl) {
+      ctrl.setOptions(colOpts, false);
+      ctrl.setValue(t.kanban_column || "BACKLOG", true);
+    }
+
+    bindQuickActions(body);
+    document.getElementById("drawer-backdrop").classList.add("open");
+    document.getElementById("inspector-drawer").classList.add("open");
+  }
+
+  // -------------------------------------------------------------------------
+  // 9. TAB 4: NHAN SU (10 KHOI ACCORDION + LOC TRANG THAI + KHO KY NANG)
+  // -------------------------------------------------------------------------
+  function skillsCountForDept(deptId) {
+    return state.installedSkills.filter((sk) => parseDeptIdsJson(sk.dept_ids_json || sk.dept_ids).includes(deptId)).length;
+  }
+
+  function ensureStaffDivDefaults() {
+    if (state.staffDivOpen !== null) return;
+    state.staffDivOpen = {};
+    let anyActive = false;
+    DIV_ORDER.forEach((code) => {
+      const hasBusy = state.departments.some((d) => d.division_code === code && normalizeDeptStatus(d.status) !== "IDLE");
+      if (hasBusy) {
+        state.staffDivOpen[code] = true;
+        anyActive = true;
+      } else {
+        state.staffDivOpen[code] = false;
+      }
+    });
+    if (!anyActive) {
+      state.staffDivOpen["exec-board"] = true;
+      state.staffDivOpen["div9-critique-ux-lab"] = true;
+    }
+  }
+
+  function renderStaffTab() {
+    ensureStaffDivDefaults();
+
+    // Update live counts inside segmented status filter
+    const counts = { "": state.departments.length, WORKING: 0, STUDYING: 0, IDLE: 0, BLOCKED: 0 };
+    state.departments.forEach((d) => {
+      const st = normalizeDeptStatus(d.status);
+      counts[st] = (counts[st] || 0) + 1;
+    });
+    const labels = {
+      "": `Tất cả (${counts[""]})`,
+      WORKING: `Đang làm việc (${counts.WORKING})`,
+      STUDYING: `Đang học (${counts.STUDYING})`,
+      IDLE: `Sẵn sàng (${counts.IDLE})`,
+      BLOCKED: `Đang bị chặn (${counts.BLOCKED})`
+    };
+    document.querySelectorAll("#staff-status-filter .seg-btn").forEach((b) => {
+      const k = b.getAttribute("data-sstatus");
+      const on = state.staffStatusFilter === k;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+      if (labels[k]) b.textContent = labels[k];
     });
 
     const q = (document.getElementById("staff-search").value || "").trim().toLowerCase();
+    const divFilter = getListboxValue("filter-staff-div");
+
     const filtered = state.departments.filter((d) => {
-      if (state.staffDivFilter && d.division_code !== state.staffDivFilter) return false;
-      const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
-      if (q && !`${d.dept_id} ${d.code} ${d.title_vi} ${cleanName}`.toLowerCase().includes(q)) return false;
+      if (divFilter && d.division_code !== divFilter) return false;
+      if (state.staffStatusFilter && normalizeDeptStatus(d.status) !== state.staffStatusFilter) return false;
+      if (q) {
+        const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
+        const deptSkills = state.installedSkills
+          .filter((sk) => parseDeptIdsJson(sk.dept_ids_json || sk.dept_ids).includes(d.dept_id))
+          .map((sk) => `${sk.title_vi} ${sk.skill_slug} ${sk.category_vi}`).join(" ");
+        if (!`${d.dept_id} ${d.code} ${d.title_vi} ${cleanName} ${deptSkills}`.toLowerCase().includes(q)) return false;
+      }
       return true;
     });
 
-    const grid = document.getElementById("staff-grid");
+    const box = document.getElementById("staff-divisions-container");
     if (!filtered.length) {
-      grid.innerHTML = `
-        <div class="empty-state opp-card-lead">
-          <p>Không tìm thấy phòng chuyên gia nào phù hợp từ khóa tìm kiếm.</p>
+      box.innerHTML = `
+        <div class="empty-state">
+          <h3>Không tìm thấy phòng chuyên gia phù hợp</h3>
+          <p>Thử đổi từ khóa tìm kiếm hoặc bỏ lọc trạng thái để xem đầy đủ 51 phòng ban.</p>
           <button type="button" class="btn btn-xs" id="btn-reset-staff-filter">Xóa bộ lọc</button>
         </div>
       `;
       document.getElementById("btn-reset-staff-filter").onclick = () => {
         document.getElementById("staff-search").value = "";
-        state.staffDivFilter = "";
+        setListboxValue("filter-staff-div", "", true);
+        state.staffStatusFilter = "";
         renderStaffTab();
       };
       return;
     }
 
-    grid.innerHTML = filtered.map((d) => {
-      const busy = d.status !== "IDLE";
-      const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
-      const divName = DIV_SHORT_NAMES[d.division_code] || sanitizeUiVietnamese(d.division_name_vi || "");
+    const activeDivCodes = DIV_ORDER.filter((code) => filtered.some((d) => d.division_code === code));
+    // Include any custom division code not in DIV_ORDER
+    filtered.forEach((d) => {
+      if (d.division_code && !activeDivCodes.includes(d.division_code)) activeDivCodes.push(d.division_code);
+    });
+
+    const anyFiltering = Boolean(q || divFilter || state.staffStatusFilter);
+    const allOpen = activeDivCodes.every((code) => anyFiltering || Boolean(state.staffDivOpen[code]));
+    const toggleAllBtn = document.getElementById("btn-toggle-all-divs");
+    if (toggleAllBtn) toggleAllBtn.textContent = allOpen ? "Thu gọn hết" : "Mở tất cả";
+
+    box.innerHTML = activeDivCodes.map((code) => {
+      const members = filtered.filter((d) => d.division_code === code);
+      const isOpen = anyFiltering ? true : Boolean(state.staffDivOpen[code]);
+      const workingCnt = members.filter((d) => normalizeDeptStatus(d.status) === "WORKING").length;
+      const studyingCnt = members.filter((d) => normalizeDeptStatus(d.status) === "STUDYING").length;
+      const divName = DIV_SHORT_NAMES[code] || sanitizeUiVietnamese(code);
+
       return `
-        <button type="button" class="staff-card" data-open-staff="${esc(d.dept_id)}">
-          <span class="sq-avatar">#${esc(d.dept_id)}</span>
-          <span class="staff-info">
-            <span class="row-title">${esc(cleanName)}</span>
-            <span class="row-meta">${esc(divName)}</span>
-            <span class="staff-foot">
-              ${busy
-                ? `<span class="badge badge-run">${ico("activity")}<span>Đang xử lý</span></span>`
-                : `<span class="badge badge-idle">${ico("check")}<span>Sẵn sàng</span></span>`
-              }
-              <span class="mono row-meta">${d.tasks_completed || 0} việc xong</span>
+        <div class="acc-card">
+          <button type="button" class="acc-trigger" aria-expanded="${isOpen ? "true" : "false"}" data-toggle-div="${esc(code)}">
+            <span class="acc-trigger-left">
+              <span>${esc(divName)}</span>
+              <span class="badge badge-idle">${members.length} phòng</span>
+              ${workingCnt > 0 ? `<span class="badge badge-run">${ico("activity")}<span>${workingCnt} đang làm</span></span>` : ""}
+              ${studyingCnt > 0 ? `<span class="badge badge-study">${ico("book-open")}<span>${studyingCnt} đang học</span></span>` : ""}
             </span>
-          </span>
-        </button>
+            <span class="acc-trigger-right">${ico("chevron-down", "ico-sm acc-chevron")}</span>
+          </button>
+          <div class="acc-panel ${isOpen ? "open" : ""}" data-div-panel="${esc(code)}">
+            <div class="acc-inner">
+              <div class="acc-body">
+                <div class="division-staff-grid">
+                  ${members.map((d) => {
+                    const st = deptStatusMeta(d.status);
+                    const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
+                    const skCnt = skillsCountForDept(d.dept_id);
+                    const artCnt = Number(d.articles_learned || 0);
+                    return `
+                      <button type="button" class="staff-card" data-open-staff="${esc(d.dept_id)}">
+                        <span class="sq-avatar">#${esc(d.dept_id)}</span>
+                        <span class="staff-info">
+                          <span class="row-title">${esc(cleanName)}</span>
+                          <span class="staff-foot">
+                            <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+                          </span>
+                          <span class="mono row-meta">${artCnt} bài đã học, ${skCnt} kỹ năng GitHub</span>
+                        </span>
+                      </button>
+                    `;
+                  }).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       `;
     }).join("");
 
-    bindQuickActions(grid);
+    box.querySelectorAll("[data-toggle-div]").forEach((btn) => {
+      btn.onclick = () => {
+        const code = btn.getAttribute("data-toggle-div");
+        const nextOpen = !(btn.getAttribute("aria-expanded") === "true");
+        state.staffDivOpen[code] = nextOpen;
+        btn.setAttribute("aria-expanded", nextOpen ? "true" : "false");
+        const panel = box.querySelector(`[data-div-panel="${code}"]`);
+        if (panel) panel.classList.toggle("open", nextOpen);
+      };
+    });
+
+    bindQuickActions(box);
   }
 
   async function openStaffDrawer(deptId) {
@@ -2074,12 +2780,41 @@
       const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
       document.getElementById("drawer-heading").textContent = `Phòng #${d.dept_id}: ${cleanName}`;
       const isCustom = Number(d.dept_id) > 50;
+      const st = deptStatusMeta(d.status);
+      const deptSkills = Array.isArray(d.installed_skills) && d.installed_skills.length
+        ? d.installed_skills
+        : state.installedSkills.filter((sk) => parseDeptIdsJson(sk.dept_ids_json || sk.dept_ids).includes(d.dept_id));
 
       body.innerHTML = `
-        <div class="drawer-stats mono">
-          <span>Đã hoàn tất: <strong>${d.tasks_completed || 0} việc</strong></span>
-          <span>Bài báo đã học: <strong>${(d.learned_articles || []).length}</strong></span>
-          <span>Hạn mức xử lý tháng: <strong>${formatDotNumber(d.token_budget_monthly || 500000)}</strong></span>
+        <div class="action-group">
+          <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+          <span class="mono row-meta">Hoàn tất: <strong>${d.tasks_completed || 0} việc</strong></span>
+          <span class="mono row-meta">Bài học: <strong>${(d.learned_articles || []).length}</strong></span>
+          <span class="mono row-meta">Kỹ năng: <strong>${deptSkills.length}</strong></span>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="btn-dept-learn-more">
+          ${ico("download")}<span>Nạp thêm kiến thức và kỹ năng mới cho phòng này</span>
+        </button>
+
+        <div class="section-block">
+          <div class="sec-head">
+            <h3 class="sec-title">Kỹ năng chuyên môn từ GitHub (${deptSkills.length})</h3>
+          </div>
+          ${deptSkills.length ? `
+            <div class="hairline-list">
+              ${deptSkills.map((sk) => `
+                <div class="list-row">
+                  <div class="row-main">
+                    <div class="row-title">${esc(sanitizeUiVietnamese(sk.title_vi || sk.skill_slug))}</div>
+                    <div class="row-meta">${esc(sk.repo_name || "Kho kỹ năng")} (${esc(sk.category_vi || "Chuyên môn")})</div>
+                    ${sk.summary_vi ? `<p class="skill-summary">${esc(sanitizeUiVietnamese(sk.summary_vi))}</p>` : ""}
+                  </div>
+                  ${sk.source_url ? `<a class="btn btn-xs" href="${esc(sk.source_url)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Nguồn</span></a>` : ""}
+                </div>
+              `).join("")}
+            </div>
+          ` : `<p class="row-meta">Chưa có kỹ năng riêng trong kho. Nhấn nút nạp thêm kiến thức ở trên để đồng bộ ngay.</p>`}
         </div>
 
         <form id="form-staff-quick-task" class="drawer-quick-form">
@@ -2092,7 +2827,7 @@
 
         <details class="details-box">
           <summary>Cập nhật chức danh và hạn mức xử lý hàng tháng</summary>
-          <form id="form-staff-meta" class="form-stack">
+          <form id="form-staff-meta" class="details-body">
             <div class="form-field">
               <label for="inp-staff-title">Chức danh hiển thị</label>
               <input type="text" class="input" id="inp-staff-title" value="${esc(cleanName)}" required />
@@ -2137,6 +2872,15 @@
           </div>
         </div>
       `;
+
+      document.getElementById("btn-dept-learn-more").onclick = (e) => withLock(e.currentTarget, async () => {
+        const resSkill = await api("/api/skills/acquire", "POST", { dept_id: d.dept_id, division_code: d.division_code }).catch((err) => ({ ok: false, summary_vi: err.message }));
+        await api("/api/learning/run", "POST", { scope: `dept:${d.dept_id}` }).catch(() => {});
+        await loadEverything();
+        if (!state.staticMode) startLearningStatusPolling();
+        toast((resSkill && resSkill.summary_vi) || `Đã kích hoạt nạp kiến thức và kỹ năng mới cho Phòng #${d.dept_id}.`);
+        openStaffDrawer(d.dept_id);
+      });
 
       document.getElementById("form-staff-quick-task").onsubmit = async (e) => {
         e.preventDefault();
@@ -2209,14 +2953,87 @@
   }
 
   // -------------------------------------------------------------------------
-  // 10. TAB 5: BAO MOI THI TRUONG
+  // 10. TAB 5: BAO MOI VA KHO KY NANG GITHUB
   // -------------------------------------------------------------------------
+  function renderLearningBanner() {
+    const banner = document.getElementById("learning-live-banner");
+    const titleEl = document.getElementById("learning-banner-title");
+    const detailEl = document.getElementById("learning-banner-detail");
+    const trackEl = document.getElementById("learning-banner-track");
+    const fillEl = document.getElementById("learning-banner-fill");
+    const lp = state.learningProgress || {};
+
+    if (lp.running) {
+      const done = Number(lp.sources_done || 0);
+      const total = Math.max(1, Number(lp.sources_total || 24));
+      const pct = Math.min(100, Math.round((done / total) * 100));
+      banner.classList.add("is-active");
+      titleEl.textContent = `Đang quét kênh ${done}/${total}: ${sanitizeUiVietnamese(lp.current_source_vi || "Đang đọc nguồn tin...")}`;
+      detailEl.textContent = `Đã nạp mới ${lp.new_atoms_added || 0} bài, bỏ qua ${lp.duplicates_skipped || 0} bài trùng lặp.`;
+      trackEl.classList.remove("is-hidden");
+      trackEl.setAttribute("aria-valuenow", String(pct));
+      fillEl.style.inlineSize = `${Math.max(5, pct)}%`;
+    } else {
+      banner.classList.remove("is-active");
+      trackEl.classList.add("is-hidden");
+      const last = state.learningRuns[0];
+      if (lp.summary_vi) {
+        const at = shortTime(lp.finished_at || new Date().toISOString());
+        titleEl.textContent = at ? `Hoàn tất quét báo lúc ${at}` : "Hoàn tất đợt quét báo mới";
+        detailEl.textContent = sanitizeUiVietnamese(lp.summary_vi);
+      } else if (last) {
+        const at = shortTime(last.finished_at || last.started_at);
+        const added = Number(last.new_atoms_added ?? last.articles_added ?? 0);
+        const skipped = Number(last.duplicates_skipped ?? 0);
+        const scanned = Number(last.sources_queried ?? last.sources_scanned ?? last.sources_total ?? 24);
+        const deptsCnt = Array.isArray(last.touched_depts) ? last.touched_depts.length : (Number(last.touched_depts_count) || 51);
+        titleEl.textContent = at ? `Hoàn tất đợt quét gần nhất lúc ${at}` : "Đợt quét gần nhất đã hoàn tất";
+        detailEl.textContent = last.summary_vi
+          ? sanitizeUiVietnamese(last.summary_vi)
+          : `Đã quét ${scanned} nguồn, nạp mới ${added} bài cho ${deptsCnt} phòng ban, bỏ qua ${skipped} bài đã có trong kho.`;
+      } else {
+        titleEl.textContent = "Kho tri thức thị trường sẵn sàng quét 24 nguồn tin thật";
+        detailEl.textContent = "Bấm Quét 24 nguồn báo mới ngay để hệ thống tự tổng hợp tin mới và báo cáo rõ số bài nạp mới hoặc bỏ qua trùng lặp.";
+      }
+    }
+  }
+
   function renderNewsTab() {
+    renderLearningBanner();
+
+    document.querySelectorAll("#news-subview-tabs .seg-btn").forEach((b) => {
+      const on = b.getAttribute("data-nsub") === state.newsSubView;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+
+    const artPanel = document.getElementById("news-panel-articles");
+    const skillPanel = document.getElementById("news-panel-skills");
+    artPanel.classList.toggle("is-hidden", state.newsSubView !== "articles");
+    skillPanel.classList.toggle("is-hidden", state.newsSubView !== "skills");
+
+    if (state.newsSubView === "skills") {
+      renderSkillsPanel();
+      return;
+    }
+
+    const divFilter = getListboxValue("filter-news-div");
+    const deptIdsInDiv = divFilter
+      ? new Set(state.departments.filter((d) => d.division_code === divFilter).map((d) => d.dept_id))
+      : null;
+
     const box = document.getElementById("news-list-box");
-    const uniqueList = getDeduplicatedArticles().filter((a) => state.newsStarFilter !== "starred" || Boolean(a.is_starred));
+    const uniqueList = getDeduplicatedArticles().filter((a) => {
+      if (state.newsStarFilter === "starred" && !a.is_starred) return false;
+      if (deptIdsInDiv) {
+        const list = a.dept_list || [a.dept_id];
+        if (!list.some((id) => deptIdsInDiv.has(id))) return false;
+      }
+      return true;
+    });
 
     if (!uniqueList.length) {
-      box.innerHTML = `<div class="empty-state"><p>Không có bài báo nào trong mục này.</p></div>`;
+      box.innerHTML = `<div class="empty-state"><p>Không có bài báo nào khớp bộ lọc hiện tại.</p></div>`;
       return;
     }
 
@@ -2261,116 +3078,815 @@
     bindQuickActions(box);
   }
 
-  // -------------------------------------------------------------------------
-  // 11. TAB 6: TAI CHINH VA GIA BAN + DU AN & TRINH SOAN TAI LIEU
-  // -------------------------------------------------------------------------
-  function updateFinanceSliders() {
-    const price = Number(document.getElementById("rng-price").value);
-    const quota = Number(document.getElementById("rng-quota").value);
-    const unit = Number(document.getElementById("rng-unit").value);
-    const fixed = Number(document.getElementById("rng-fixed").value);
+  function renderSkillsPanel() {
+    const allSkills = state.installedSkills || [];
+    document.getElementById("skills-hero-count").textContent = allSkills.length;
 
-    try {
-      localStorage.setItem("titan_cfo_sliders", JSON.stringify({ price, quota, unit, fixed }));
-    } catch (_e) {}
-
-    document.getElementById("lbl-cfo-price").textContent = vnd(price);
-    document.getElementById("lbl-cfo-quota").textContent = `${quota} lượt`;
-    document.getElementById("lbl-cfo-unit").textContent = vnd(unit);
-    document.getElementById("lbl-cfo-fixed").textContent = vnd(fixed);
-
-    const payFee = price * 0.015;
-    const tax = price * 0.07;
-    const worstCogs = quota * unit + payFee;
-    const expCogs = quota * 0.6 * unit + payFee;
-    const worstMargin = price > 0 ? ((price - worstCogs) / price) * 100 : 0;
-    const netPerUser = price - expCogs - tax;
-    const breakeven = netPerUser > 0 ? Math.ceil(fixed / netPerUser) : -1;
-
-    const cogsPct = Math.min(93, Math.max(2, (worstCogs / Math.max(1, price)) * 100));
-    const taxPct = 7;
-    const profPct = Math.max(0, 100 - cogsPct - taxPct);
-    document.getElementById("bar-cogs").style.inlineSize = `${cogsPct}%`;
-    document.getElementById("bar-tax").style.inlineSize = `${taxPct}%`;
-    document.getElementById("bar-profit").style.inlineSize = `${profPct}%`;
-
-    const pill = document.getElementById("cfo-status-pill");
-    if (worstMargin >= 65) {
-      pill.className = "badge badge-done";
-      pill.textContent = `An toàn: Biên lãi xấu nhất ${worstMargin.toFixed(0)}%`;
-    } else if (worstMargin < 0) {
-      pill.className = "badge badge-fail";
-      pill.textContent = "Cảnh báo lỗ: Chi phí vượt giá bán";
-    } else {
-      pill.className = "badge badge-fail";
-      pill.textContent = `Cảnh báo: Biên lãi mỏng ${worstMargin.toFixed(0)}% (dưới 65%)`;
+    const repoSet = Array.from(new Set(allSkills.map((s) => s.repo_name).filter(Boolean)));
+    const repoChips = document.getElementById("skills-repo-chips");
+    if (repoChips) {
+      const displayRepos = repoSet.length ? repoSet : ["ux-ui-agent-skills", "marketingskills", "superpowers", "anthropics/skills", "mattpocock/skills"];
+      repoChips.innerHTML = displayRepos.map((r) => `<span class="badge badge-study">${ico("layers")}<span>${esc(r)}</span></span>`).join("");
     }
-    document.getElementById("lbl-breakeven").textContent = breakeven > 0 ? `Hòa vốn: ${breakeven} khách` : "Đang lỗ trên mỗi khách";
 
-    const tiersBox = document.getElementById("cfo-tiers-box");
-    tiersBox.innerHTML = [10, 50, 200, 500].map((n) => {
-      const net = Math.round(netPerUser * n - fixed);
-      return `
-        <div class="list-row list-row-pair">
-          <span>Khi có <strong>${n} khách trả phí</strong></span>
-          <span class="mono ${net >= 0 ? "text-ok" : "text-err"}"><strong>${vnd(net)} / tháng</strong></span>
+    const q = (document.getElementById("skill-search-input").value || "").trim().toLowerCase();
+    const divF = getListboxValue("filter-skill-div");
+    const deptF = getListboxValue("filter-skill-dept");
+
+    const filtered = allSkills.filter((sk) => {
+      const dIds = parseDeptIdsJson(sk.dept_ids_json || sk.dept_ids);
+      if (divF && sk.division_code !== divF) return false;
+      if (deptF && !dIds.includes(deptF)) return false;
+      if (q && !`${sk.title_vi} ${sk.skill_slug} ${sk.repo_name} ${sk.category_vi} ${sk.summary_vi}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    const grid = document.getElementById("skills-grid-box");
+    if (!filtered.length) {
+      grid.innerHTML = `
+        <div class="empty-state opp-card-lead">
+          <h3>Chưa có kỹ năng nào khớp bộ lọc</h3>
+          <p>Nhập từ khóa hoặc dán liên kết kho GitHub vào biểu mẫu phía trên để tải kỹ năng mới dạy trực tiếp cho đội ngũ.</p>
         </div>
       `;
-    }).join("");
-  }
-
-  async function renderProjectsSection(preserveDocEditor = true) {
-    const pList = document.getElementById("projects-crud-list");
-    if (!state.projects.length) {
-      pList.innerHTML = `<div class="list-row"><span class="row-meta">Chưa có dự án. Nhấn Tạo dự án mới để khởi tạo.</span></div>`;
-      document.getElementById("project-docs-list").innerHTML = "";
-      resetDocViewer();
       return;
     }
-    if (!state.selectedProjectId || !state.projects.some((p) => p.project_id === state.selectedProjectId)) {
-      state.selectedProjectId = state.projects[0].project_id;
-      preserveDocEditor = false;
-    }
-    pList.innerHTML = state.projects.map((p) => `
-      <div class="list-row list-row-pair ${p.project_id === state.selectedProjectId ? "is-selected" : ""}">
-        <div class="row-main clickable" data-sel-proj="${esc(p.project_id)}">
-          <div class="row-title">${esc(sanitizeUiVietnamese(p.title))}</div>
-          <div class="mono row-meta">${vnd(p.expected_price_vnd)}, ${esc(PROJECT_STATUS_LABELS[p.status] || "Đang chạy")}</div>
-        </div>
-        <div class="row-actions">
-          <button type="button" class="btn btn-xs" data-edit-proj="${esc(p.project_id)}">Sửa</button>
-          <button type="button" class="btn btn-xs btn-destructive" data-del-proj="${esc(p.project_id)}">Xóa</button>
-        </div>
-      </div>
-    `).join("");
 
-    pList.querySelectorAll("[data-sel-proj]").forEach((el) => {
-      el.onclick = () => {
-        state.selectedProjectId = el.getAttribute("data-sel-proj");
+    grid.innerHTML = filtered.map((sk) => {
+      const dIds = parseDeptIdsJson(sk.dept_ids_json || sk.dept_ids);
+      return `
+        <article class="skill-card">
+          <div class="opp-head">
+            <h3 class="row-title">${esc(sanitizeUiVietnamese(sk.title_vi || sk.skill_slug))}</h3>
+            <span class="badge badge-study">${esc(sk.category_vi || "Chuyên môn")}</span>
+          </div>
+          <div class="row-meta mono">${esc(sk.repo_name || "Kho kỹ năng GitHub")}</div>
+          <p class="skill-summary">${esc(sanitizeUiVietnamese(sk.summary_vi || ""))}</p>
+          <div class="chip-row">
+            ${dIds.slice(0, 5).map((id) => `<button type="button" class="agent-pill" data-open-staff="${esc(id)}">#${esc(id)}</button>`).join("")}
+            ${dIds.length > 5 ? `<span class="row-meta">+${dIds.length - 5} phòng</span>` : ""}
+          </div>
+          ${sk.source_url ? `
+            <div>
+              <a class="btn btn-xs" href="${esc(sk.source_url)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở nguồn GitHub</span></a>
+            </div>
+          ` : ""}
+        </article>
+      `;
+    }).join("");
+
+    bindQuickActions(grid);
+  }
+
+  // -------------------------------------------------------------------------
+  // 11. TAB 6: TAI CHINH VA DU AN (ZERO SLIDERS, BAO CAO THUC TE & SO THU CHI)
+  // -------------------------------------------------------------------------
+  function buildCorpComparisonSvg(projects) {
+    if (!projects.length) {
+      return `<p class="row-meta">Chưa có dự án nào để vẽ biểu đồ so sánh.</p>`;
+    }
+    const maxVal = Math.max(1000000, ...projects.flatMap((p) => [
+      Number(p.actual_revenue_vnd || 0),
+      Number(p.actual_expense_vnd || 0),
+      Number(p.plan_revenue_vnd || 0)
+    ]));
+    const rowH = 56;
+    const h = projects.length * rowH + 20;
+    const labelW = 190;
+    const barMaxW = 360;
+
+    const rowsSvg = projects.map((p, i) => {
+      const y = i * rowH + 10;
+      const revW = Math.max(3, Math.round((Number(p.actual_revenue_vnd || 0) / maxVal) * barMaxW));
+      const expW = Math.max(3, Math.round((Number(p.actual_expense_vnd || 0) / maxVal) * barMaxW));
+      const planW = Math.max(3, Math.round((Number(p.plan_revenue_vnd || 0) / maxVal) * barMaxW));
+      const name = sanitizeUiVietnamese(p.title || p.project_id).slice(0, 26);
+      return `
+        <g>
+          <text class="chart-axis-text" x="0" y="${y + 18}">${esc(name)}</text>
+          <rect class="chart-bar-rev" x="${labelW}" y="${y + 2}" width="${revW}" height="10" rx="3" />
+          <text class="chart-val-text" x="${labelW + revW + 8}" y="${y + 11}">Thu: ${esc(shortVnd(p.actual_revenue_vnd))}</text>
+          <rect class="chart-bar-exp" x="${labelW}" y="${y + 16}" width="${expW}" height="10" rx="3" />
+          <text class="chart-val-text" x="${labelW + expW + 8}" y="${y + 25}">Chi: ${esc(shortVnd(p.actual_expense_vnd))}</text>
+          <rect class="chart-bar-plan" x="${labelW}" y="${y + 30}" width="${planW}" height="10" rx="3" />
+          <text class="chart-val-text" x="${labelW + planW + 8}" y="${y + 39}">Dự toán: ${esc(shortVnd(p.plan_revenue_vnd))}</text>
+        </g>
+      `;
+    }).join("");
+
+    return `
+      <svg class="chart-svg" viewBox="0 0 700 ${h}" role="img" aria-label="Biểu đồ so sánh thu thực tế, chi thực tế và dự toán giữa các dự án">
+        <title>So sánh tài chính giữa các dự án</title>
+        <desc>Hiển thị doanh thu thực tế, chi phí thực tế và dự toán doanh thu kế hoạch cho từng dự án trong tập đoàn.</desc>
+        ${rowsSvg}
+      </svg>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-swatch sw-rev"></span>Thu thực tế</span>
+        <span class="legend-item"><span class="legend-swatch sw-exp"></span>Chi thực tế</span>
+        <span class="legend-item"><span class="legend-swatch sw-plan"></span>Dự toán kế hoạch</span>
+      </div>
+    `;
+  }
+
+  function buildMonthlyGroupedBarSvg(series) {
+    const data = Array.isArray(series) && series.length
+      ? series.slice(-6)
+      : [{ month: todayIso().slice(0, 7), revenue: 0, expense: 0, tax: 0 }];
+    const maxVal = Math.max(1000000, ...data.flatMap((d) => [Number(d.revenue || 0), Number(d.expense || 0), Number(d.tax || 0)]));
+    const chartH = 150;
+    const baseY = 170;
+    const colW = Math.floor(580 / Math.max(1, data.length));
+
+    const bars = data.map((d, i) => {
+      const gx = 40 + i * colW;
+      const bw = Math.min(22, Math.floor((colW - 24) / 3));
+      const hRev = Math.max(4, Math.round((Number(d.revenue || 0) / maxVal) * chartH));
+      const hExp = Math.max(4, Math.round((Number(d.expense || 0) / maxVal) * chartH));
+      const hTax = Math.max(4, Math.round((Number(d.tax || 0) / maxVal) * chartH));
+      return `
+        <g>
+          <rect class="chart-bar-rev" x="${gx}" y="${baseY - hRev}" width="${bw}" height="${hRev}" rx="4" />
+          <rect class="chart-bar-exp" x="${gx + bw + 4}" y="${baseY - hExp}" width="${bw}" height="${hExp}" rx="4" />
+          <rect class="chart-bar-tax" x="${gx + (bw + 4) * 2}" y="${baseY - hTax}" width="${bw}" height="${hTax}" rx="4" />
+          <text class="chart-axis-text" x="${gx}" y="${baseY + 18}">${esc(d.month)}</text>
+        </g>
+      `;
+    }).join("");
+
+    return `
+      <svg class="chart-svg" viewBox="0 0 640 200" role="img" aria-label="Biểu đồ cột nhóm Thu, Chi và Dự phòng thuế theo tháng">
+        <title>Thu, Chi và Dự phòng thuế theo tháng</title>
+        <desc>Gồm ${data.length} kỳ tháng gần nhất hiển thị tổng thu, tổng chi và khoản dự phòng thuế.</desc>
+        <line class="chart-grid-line" x1="32" y1="20" x2="620" y2="20" />
+        <line class="chart-grid-line" x1="32" y1="95" x2="620" y2="95" />
+        <line class="chart-grid-line" x1="32" y1="${baseY}" x2="620" y2="${baseY}" />
+        ${bars}
+      </svg>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-swatch sw-rev"></span>Thu</span>
+        <span class="legend-item"><span class="legend-swatch sw-exp"></span>Chi</span>
+        <span class="legend-item"><span class="legend-swatch sw-tax"></span>Dự phòng thuế</span>
+      </div>
+    `;
+  }
+
+  function buildCategoryBreakdownHtml(byCategory, grossMarginPct) {
+    const items = Array.isArray(byCategory) ? byCategory.slice(0, 6) : [];
+    const total = items.reduce((s, x) => s + Number(x.amount_vnd || 0), 0);
+    if (!items.length) {
+      return `
+        <p class="row-meta">Chưa có bút toán phân loại hạng mục cho dự án này. Ghi nhận khoản thu hoặc chi để xem tỷ trọng tự động.</p>
+        <div class="rule"></div>
+        <div class="rank-head"><span>Biên lãi gộp mục tiêu</span><strong class="mono text-ok">${Number(grossMarginPct || 0).toFixed(1)}%</strong></div>
+      `;
+    }
+    return `
+      <ol class="rank-list">
+        ${items.map((it) => {
+          const pct = total > 0 ? Math.round((Number(it.amount_vnd || 0) / total) * 100) : 0;
+          const swCls = it.entry_type === "REVENUE" ? "sw-rev" : it.entry_type === "TAX_RESERVE" ? "sw-tax" : "sw-exp";
+          const lbl = LEDGER_TYPE_LABELS[it.entry_type]?.label || "Khoản mục";
+          return `
+            <li class="rank-item">
+              <div class="rank-head">
+                <span>${esc(sanitizeUiVietnamese(it.category))} (${lbl})</span>
+                <span class="mono"><strong>${vnd(it.amount_vnd)}</strong> (${pct}%)</span>
+              </div>
+              <div class="rank-track"><i class="rank-fill ${swCls}" style="inline-size:${Math.max(4, pct)}%;"></i></div>
+            </li>
+          `;
+        }).join("")}
+      </ol>
+      <div class="rule"></div>
+      <div class="rank-head"><span>Biên lãi gộp theo định giá hiện tại</span><strong class="mono text-ok">${Number(grossMarginPct || 0).toFixed(1)}%</strong></div>
+    `;
+  }
+
+  function exportLedgerCsv(projectTitleStr, ledger) {
+    const safeCell = (v) => {
+      let s = String(v === null || v === undefined ? "" : v);
+      if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
+      return `"${s.replace(/"/g, '""')}"`;
+    };
+    const header = ["Ngay", "Loai", "Hang muc", "Noi dung", "So tien (VND)", "Tinh chat", "Ghi chu"];
+    const rows = (ledger || []).map((e) => [
+      e.entry_date || "",
+      LEDGER_TYPE_LABELS[e.entry_type]?.label || e.entry_type,
+      e.category || "",
+      e.title || "",
+      Number(e.amount_vnd || 0),
+      e.is_estimate ? "Ke hoach du toan" : "Thuc te",
+      e.note || ""
+    ]);
+    const csv = "\uFEFF" + [header, ...rows].map((r) => r.map(safeCell).join(",")).join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    a.download = `so-thu-chi-${slugifyVi(projectTitleStr)}-${todayIso()}.csv`;
+    a.click();
+    toast("Đã xuất tệp bảng tính CSV sổ thu chi dự án.");
+  }
+
+  async function loadActiveProjectFinance(pid) {
+    if (!pid) {
+      state.activeProjectFinance = null;
+      return;
+    }
+    try {
+      const res = await api(`/api/projects/${encodeURIComponent(pid)}/finance`);
+      if (res && res.summary) {
+        state.activeProjectFinance = res;
+      } else {
+        state.activeProjectFinance = computeProjectFinanceFallback(pid);
+      }
+    } catch (_e) {
+      state.activeProjectFinance = computeProjectFinanceFallback(pid);
+    }
+    if (state.tab === "finance") renderFinanceTabBody();
+  }
+
+  function renderFinanceTab() {
+    const bar = document.getElementById("finance-project-bar");
+    const isCorp = !state.financeViewProjectId;
+    bar.innerHTML = [
+      `<button type="button" class="chip-btn ${isCorp ? "active" : ""}" role="tab" aria-selected="${isCorp ? "true" : "false"}" data-fin-proj="">${ico("bar-chart")}<span>Tổng hợp toàn tập đoàn</span></button>`,
+      ...state.projects.map((p) => {
+        const on = state.financeViewProjectId === p.project_id;
+        return `<button type="button" class="chip-btn ${on ? "active" : ""}" role="tab" aria-selected="${on ? "true" : "false"}" data-fin-proj="${esc(p.project_id)}">${ico("folder")}<span>${esc(sanitizeUiVietnamese(p.title))}</span></button>`;
+      })
+    ].join("");
+
+    bar.querySelectorAll("[data-fin-proj]").forEach((btn) => {
+      btn.onclick = async () => {
+        const pid = btn.getAttribute("data-fin-proj");
+        state.financeViewProjectId = pid;
         state.currentDocFile = "";
         state.docEditMode = false;
-        renderProjectsSection(false);
+        renderFinanceTab();
+        if (pid) await loadActiveProjectFinance(pid);
       };
     });
-    bindQuickActions(pList);
 
-    if (!(preserveDocEditor && state.docEditMode)) {
-      await loadProjectDocs(state.selectedProjectId, preserveDocEditor);
+    if (state.financeViewProjectId && (!state.activeProjectFinance || state.activeProjectFinance.project?.project_id !== state.financeViewProjectId)) {
+      state.activeProjectFinance = computeProjectFinanceFallback(state.financeViewProjectId);
+      loadActiveProjectFinance(state.financeViewProjectId);
+    }
+    renderFinanceTabBody();
+  }
+
+  function renderFinanceTabBody() {
+    const body = document.getElementById("finance-workspace-body");
+    if (!state.financeViewProjectId) {
+      const corp = computeCorporateFinanceFallback();
+      const projRows = corp.projects || [];
+      const netCls = Number(corp.actual_net_profit_vnd || 0) >= 0 ? "text-ok" : "text-err";
+
+      body.innerHTML = `
+        <div class="hero-band">
+          <div class="card card-lift hero-lead">
+            <div class="hero-figure-wrap">
+              <p class="eyebrow">Lãi ròng thực tế toàn tập đoàn</p>
+              <p class="hero-figure ${netCls}">${esc(vnd(corp.actual_net_profit_vnd || 0))}</p>
+              <p class="hero-caption">Chỉ tính từ các bút toán thực tế đã ghi nhận trong sổ thu chi (không cộng gộp khoản dự toán kế hoạch).</p>
+            </div>
+            <div class="rule"></div>
+            <div>
+              <p class="eyebrow">So sánh tài chính giữa các dự án</p>
+              ${buildCorpComparisonSvg(projRows)}
+            </div>
+          </div>
+
+          <div class="hero-aside-stack">
+            <div class="card">
+              <div>
+                <p class="eyebrow">Tổng thu thực tế</p>
+                <p class="stat-value-md text-ok">${esc(vnd(corp.actual_revenue_vnd || 0))}</p>
+              </div>
+              <div class="rule"></div>
+              <div>
+                <p class="eyebrow">Tổng chi thực tế</p>
+                <p class="stat-value-md">${esc(vnd(corp.actual_expense_vnd || 0))}</p>
+              </div>
+            </div>
+
+            <div class="estimate-card hero-aside-card-grow">
+              <div>
+                <span class="badge badge-idle">Kế hoạch dự toán</span>
+                <p class="eyebrow" style="margin-block-start:var(--space-2);">Dự toán doanh thu kế hoạch</p>
+                <p class="stat-value-md">${esc(vnd(corp.plan_revenue_vnd || 0))}</p>
+                <p class="row-meta">Lãi ròng dự toán: <strong>${esc(vnd(corp.plan_net_profit_vnd || 0))}</strong></p>
+              </div>
+              <p class="row-meta">Số liệu dự toán luôn tách biệt rõ khỏi tiền mặt thực thu.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption>Bảng tổng hợp Danh mục Dự án toàn tập đoàn</caption>
+            <thead>
+              <tr>
+                <th scope="col">Tên dự án</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col" class="num">Tiến độ việc</th>
+                <th scope="col" class="num">Thu thực tế</th>
+                <th scope="col" class="num">Chi thực tế</th>
+                <th scope="col" class="num">Lãi ròng thực tế</th>
+                <th scope="col" class="num">Hòa vốn</th>
+                <th scope="col">Quản trị</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${projRows.length ? projRows.map((p) => `
+                <tr>
+                  <td><strong>${esc(sanitizeUiVietnamese(p.title))}</strong></td>
+                  <td><span class="badge badge-idle">${esc(PROJECT_STATUS_LABELS[p.status] || "Đang triển khai")}</span></td>
+                  <td class="num">${p.progress_pct || 0}% (${p.tasks_done || 0}/${p.tasks_total || 0})</td>
+                  <td class="num text-ok">${esc(vnd(p.actual_revenue_vnd || 0))}</td>
+                  <td class="num">${esc(vnd(p.actual_expense_vnd || 0))}</td>
+                  <td class="num ${Number(p.actual_net_profit_vnd || 0) >= 0 ? "text-ok" : "text-err"}"><strong>${esc(vnd(p.actual_net_profit_vnd || 0))}</strong></td>
+                  <td class="num">${p.breakeven_customers || 0} khách</td>
+                  <td><button type="button" class="btn btn-xs btn-primary" data-manage-proj="${esc(p.project_id)}">Quản lý dự án</button></td>
+                </tr>
+              `).join("") : `<tr><td colspan="8" class="row-meta">Chưa có dự án nào. Bấm Tạo dự án mới ở góc trên bên phải.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      body.querySelectorAll("[data-manage-proj]").forEach((btn) => {
+        btn.onclick = async () => {
+          const pid = btn.getAttribute("data-manage-proj");
+          state.financeViewProjectId = pid;
+          state.projectSubTab = "finance";
+          renderFinanceTab();
+          await loadActiveProjectFinance(pid);
+        };
+      });
+      return;
+    }
+
+    // Specific Project Workspace (4 Sub-Tabs)
+    const data = state.activeProjectFinance || computeProjectFinanceFallback(state.financeViewProjectId);
+    if (!data || !data.project) {
+      state.financeViewProjectId = "";
+      renderFinanceTab();
+      return;
+    }
+
+    const p = data.project;
+    const s = data.summary || {};
+    const ledger = data.ledger || [];
+    const pTasks = data.tasks || state.tasks.filter((t) => t.project_id === p.project_id);
+    const pMissions = data.missions || state.missions.filter((m) => m.project_id === p.project_id);
+    const previews = Array.isArray(s.preview_urls) ? s.preview_urls : [];
+    const statusLbId = `proj-status-live-${p.project_id}`;
+
+    let subBodyHtml = "";
+    if (state.projectSubTab === "finance") {
+      const actNet = Number(s.actual_net_profit_vnd || 0);
+      subBodyHtml = `
+        <div class="hero-band">
+          <div class="card card-lift hero-lead">
+            <div class="hero-figure-wrap">
+              <p class="eyebrow">Lãi ròng thực tế dự án</p>
+              <p class="hero-figure ${actNet >= 0 ? "text-ok" : "text-err"}">${esc(vnd(actNet))}</p>
+              <p class="hero-caption">Tính từ toàn bộ bút toán Thực tế trong Sổ Thu Chi của dự án này.</p>
+            </div>
+            <div class="sub-metrics-row">
+              <div>
+                <p class="eyebrow">Tổng thu thực tế</p>
+                <p class="stat-value-md text-ok">${esc(vnd(s.actual_revenue_vnd || 0))}</p>
+              </div>
+              <div>
+                <p class="eyebrow">Tổng chi thực tế</p>
+                <p class="stat-value-md">${esc(vnd(s.actual_expense_vnd || 0))}</p>
+              </div>
+              <div>
+                <p class="eyebrow">Dự phòng thuế thực tế</p>
+                <p class="stat-value-md">${esc(vnd(s.actual_tax_vnd || 0))}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="estimate-card hero-aside-card-grow">
+            <div class="stack-sm">
+              <span class="badge badge-idle">Kế hoạch dự toán (tách biệt thực tế)</span>
+              <div class="list-row-pair"><span>Doanh thu dự toán</span><strong class="mono">${esc(vnd(s.plan_revenue_vnd || 0))}</strong></div>
+              <div class="list-row-pair"><span>Chi phí dự toán</span><strong class="mono">${esc(vnd(s.plan_expense_vnd || 0))}</strong></div>
+              <div class="list-row-pair"><span>Dự phòng thuế dự toán</span><strong class="mono">${esc(vnd(s.plan_tax_vnd || 0))}</strong></div>
+              <div class="list-row-pair"><span>Lãi ròng dự toán</span><strong class="mono text-ok">${esc(vnd(s.plan_net_profit_vnd || 0))}</strong></div>
+            </div>
+            <div class="rule"></div>
+            <div class="row-meta">Điểm hòa vốn: <strong>${s.breakeven_customers || 0} khách</strong>, Biên lãi gộp: <strong>${Number(s.gross_margin_pct || 0).toFixed(1)}%</strong></div>
+          </div>
+        </div>
+
+        <div class="split-2">
+          <div class="card">
+            <div class="sec-head"><h3 class="sec-title">Thu, Chi và Dự phòng thuế theo tháng</h3></div>
+            ${buildMonthlyGroupedBarSvg(s.monthly_series)}
+          </div>
+          <div class="card">
+            <div class="sec-head"><h3 class="sec-title">Cơ cấu hạng mục chi phí và biên lãi</h3></div>
+            ${buildCategoryBreakdownHtml(s.by_category, s.gross_margin_pct)}
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="sec-head">
+            <div>
+              <h3 class="sec-title">Sổ Thu Chi Dự án (${ledger.length} bút toán)</h3>
+              <p class="row-meta">Ghi nhận minh bạch từng khoản Thu, Chi, Thuế thực tế hoặc dự toán.</p>
+            </div>
+            <div class="action-group">
+              <button type="button" class="btn btn-xs btn-primary" id="btn-add-ledger">${ico("plus")}<span>Ghi nhận Thu hoặc Chi</span></button>
+              <button type="button" class="btn btn-xs" id="btn-export-ledger-csv">${ico("download")}<span>Xuất CSV</span></button>
+              <button type="button" class="btn btn-xs" id="btn-print-report">${ico("printer")}<span>In báo cáo</span></button>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table class="data-table">
+              <caption class="sr-only">Chi tiết sổ thu chi của dự án</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Ngày</th>
+                  <th scope="col">Loại</th>
+                  <th scope="col">Hạng mục</th>
+                  <th scope="col">Nội dung</th>
+                  <th scope="col" class="num">Số tiền</th>
+                  <th scope="col">Tính chất</th>
+                  <th scope="col">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${ledger.length ? ledger.map((e) => {
+                  const meta = LEDGER_TYPE_LABELS[e.entry_type] || LEDGER_TYPE_LABELS.EXPENSE;
+                  return `
+                    <tr>
+                      <td class="mono">${esc(shortDate(e.entry_date))}</td>
+                      <td><span class="badge ${meta.badge}">${meta.label}</span></td>
+                      <td>${esc(sanitizeUiVietnamese(e.category))}</td>
+                      <td>
+                        <div><strong>${esc(sanitizeUiVietnamese(e.title))}</strong></div>
+                        ${e.note ? `<div class="row-meta">${esc(sanitizeUiVietnamese(e.note))}</div>` : ""}
+                      </td>
+                      <td class="num ${e.entry_type === "REVENUE" ? "text-ok" : ""}"><strong>${meta.sign}${esc(vnd(e.amount_vnd))}</strong></td>
+                      <td><span class="badge ${e.is_estimate ? "badge-idle" : "badge-run"}">${e.is_estimate ? "Dự toán" : "Thực tế"}</span></td>
+                      <td>
+                        <div class="action-group">
+                          <button type="button" class="btn btn-xs" data-edit-ledger="${esc(e.entry_id)}">Sửa</button>
+                          <button type="button" class="btn btn-xs btn-destructive" data-del-ledger="${esc(e.entry_id)}">Xóa</button>
+                        </div>
+                      </td>
+                    </tr>
+                  `;
+                }).join("") : `<tr><td colspan="7" class="row-meta">Chưa có bút toán nào trong sổ thu chi dự án này. Nhấn Ghi nhận Thu hoặc Chi để thêm.</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <details class="details-box">
+          <summary>Mô phỏng định giá và điểm hòa vốn cho dự án này</summary>
+          <div class="details-body">
+            <div class="form-grid-4">
+              <div class="form-field">
+                <label for="sim-price">Giá bán dự kiến (VNĐ/tháng)</label>
+                <input type="number" class="input mono" id="sim-price" min="0" step="10000" value="${Number(s.expected_price_vnd || 249000)}" />
+              </div>
+              <div class="form-field">
+                <label for="sim-unit">Chi phí biến đổi mỗi khách (VNĐ)</label>
+                <input type="number" class="input mono" id="sim-unit" min="0" step="5000" value="${Number(s.unit_cost_vnd || 55000)}" />
+              </div>
+              <div class="form-field">
+                <label for="sim-fixed">Chi phí cố định hàng tháng (VNĐ)</label>
+                <input type="number" class="input mono" id="sim-fixed" min="0" step="100000" value="${Number(s.fixed_cost_monthly_vnd || 1500000)}" />
+              </div>
+              <div class="form-field">
+                <label for="sim-tax">Tỷ lệ dự phòng thuế (%)</label>
+                <input type="number" class="input mono" id="sim-tax" min="0" max="50" step="0.5" value="7" />
+              </div>
+            </div>
+            <div class="sim-summary-strip mono" id="sim-live-output"></div>
+            <div class="action-group">
+              <button type="button" class="btn btn-primary" id="btn-save-proj-pricing">${ico("check")}<span>Lưu định giá vào dự án</span></button>
+            </div>
+          </div>
+        </details>
+      `;
+    } else if (state.projectSubTab === "overview") {
+      subBodyHtml = `
+        <div class="split-2">
+          <div class="card stack-sm">
+            <h3 class="sec-title">Mục tiêu và Thị trường mục tiêu</h3>
+            <p class="step-summary">${esc(sanitizeUiVietnamese(p.objective || "Chưa cập nhật mục tiêu chi tiết cho dự án này."))}</p>
+            ${s.target_market ? `<p class="row-meta">Thị trường mục tiêu: <strong>${esc(sanitizeUiVietnamese(s.target_market))}</strong></p>` : ""}
+            <p class="row-meta">Giá bán mục tiêu: <strong class="mono">${esc(vnd(s.expected_price_vnd || p.expected_price_vnd || 0))} / tháng</strong></p>
+          </div>
+          <div class="card stack-sm">
+            <h3 class="sec-title">Nhiệm vụ 8 bước liên kết (${pMissions.length})</h3>
+            ${pMissions.length ? `
+              <div class="hairline-list">
+                ${pMissions.map((m) => `
+                  <div class="list-row">
+                    <div class="row-main">
+                      <div class="row-title">${esc(sanitizeUiVietnamese(m.title))}</div>
+                      <div class="row-meta">Tiến độ: ${m.progress_pct || 0}%, Giai đoạn: ${m.phase === "DELIVERED" ? "Đã bàn giao" : m.phase === "PRODUCTION" ? "Sản xuất sản phẩm" : "Nghiên cứu chốt kèo"}</div>
+                    </div>
+                    <button type="button" class="btn btn-xs" data-goto-missions>Mở phòng họp</button>
+                  </div>
+                `).join("")}
+              </div>
+            ` : `<p class="row-meta">Chưa có nhiệm vụ 8 bước gắn với dự án này.</p>`}
+          </div>
+        </div>
+      `;
+    } else if (state.projectSubTab === "tasks") {
+      subBodyHtml = `
+        <div class="section-block">
+          <div class="sec-head">
+            <h3 class="sec-title">Công việc thuộc dự án (${pTasks.length})</h3>
+            <button type="button" class="btn btn-xs btn-primary" id="btn-add-task-for-proj">${ico("plus")}<span>Giao việc cho dự án này</span></button>
+          </div>
+          ${pTasks.length ? `
+            <div class="hairline-list">
+              ${pTasks.map((t) => `
+                <div class="task-row-clean" data-open-task-drawer="${esc(t.task_id)}">
+                  <div class="row-main">
+                    <div class="row-title ${t.kanban_column === "DONE" ? "is-done" : ""}">${esc(sanitizeUiVietnamese(t.title))}</div>
+                    <div class="row-meta">Phòng #${esc(t.assigned_dept_id)} (${esc(deptTitle(t.assigned_dept_id))}), Ưu tiên ${esc(PRIO_LABELS[t.priority] || "Cao")}</div>
+                  </div>
+                  <span class="badge badge-idle">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
+                  <button type="button" class="btn btn-xs" data-open-task-drawer="${esc(t.task_id)}">Chi tiết</button>
+                </div>
+              `).join("")}
+            </div>
+          ` : `<div class="empty-state"><p>Dự án này chưa có công việc nào. Nhấn Giao việc cho dự án này để bắt đầu.</p></div>`}
+        </div>
+      `;
+    } else {
+      // Sub-tab 4: Tài liệu và Sản phẩm
+      subBodyHtml = `
+        <div class="stack-md">
+          ${previews.length ? `
+            <div class="preview-cards-grid">
+              ${previews.map((pv) => {
+                const href = typeof pv === "string" ? pv : (pv.url || pv.href || "");
+                const label = typeof pv === "string"
+                  ? (pv.includes("landing") ? "Mở Trang giới thiệu bán hàng" : "Mở Ứng dụng dùng thử trực tiếp")
+                  : sanitizeUiVietnamese(pv.label || "Mở sản phẩm trực tiếp");
+                const safeHref = href.startsWith("./") || href.startsWith("/") ? (state.staticMode ? href : `${API_BASE}${href.replace(/^\./, "")}`) : href;
+                return `
+                  <div class="preview-card">
+                    <div class="row-main">
+                      <div class="row-title">${esc(label)}</div>
+                      <div class="mono row-meta">${esc(href)}</div>
+                    </div>
+                    <a class="btn btn-xs btn-primary" href="${esc(safeHref)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở dùng thử</span></a>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          ` : ""}
+
+          <div class="card stack-md">
+            <div class="sec-head">
+              <h3 class="sec-title">Cây tệp tài liệu dự án</h3>
+              <button type="button" class="btn btn-xs btn-primary" id="btn-new-doc">${ico("file-text")}<span>Tạo tài liệu mới</span></button>
+            </div>
+            <div class="split-2">
+              <div class="hairline-list" id="project-docs-list"></div>
+              <div class="stack-sm">
+                <div class="sec-head">
+                  <span class="doc-name-label" id="doc-current-name">Chưa chọn tài liệu</span>
+                  <div class="action-group" id="doc-editor-actions" hidden>
+                    <button type="button" class="btn btn-xs" id="btn-toggle-doc-edit">Sửa nội dung</button>
+                    <button type="button" class="btn btn-xs btn-primary is-hidden" id="btn-save-doc">Lưu tài liệu</button>
+                    <button type="button" class="btn btn-xs btn-destructive" id="btn-delete-doc">${ico("trash")}<span>Xóa tệp</span></button>
+                  </div>
+                </div>
+                <div id="doc-pretty-view" class="doc-viewer rendered-md">Chọn một tệp tài liệu bên trái để đọc hoặc chỉnh sửa.</div>
+                <textarea id="doc-raw-editor" class="textarea mono doc-editor is-hidden" aria-label="Trình soạn thảo tài liệu"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    body.innerHTML = `
+      <div class="card stack-md">
+        <div class="toolbar-row">
+          <div class="row-main">
+            <h2 class="mission-title">${esc(sanitizeUiVietnamese(p.title))}</h2>
+            <p class="row-meta">Tiến độ công việc: <strong>${s.tasks_done || 0}/${s.tasks_total || 0} việc (${s.progress_pct || 0}%)</strong></p>
+          </div>
+          <div class="action-group">
+            <div class="listbox-field listbox-inline listbox-compact" data-dynamic-listbox="${esc(statusLbId)}">
+              <input type="hidden" value="${esc(p.status || "ACTIVE")}" />
+              <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-${esc(statusLbId)}" aria-label="Đổi trạng thái dự án">
+                <span class="listbox-value">${esc(PROJECT_STATUS_LABELS[p.status] || "Đang triển khai")}</span>
+                ${ico("chevron-down", "ico-xs listbox-chevron")}
+              </button>
+              <ul class="listbox-menu" id="lb-${esc(statusLbId)}" role="listbox" tabindex="-1" hidden></ul>
+            </div>
+            ${previews.slice(0, 1).map((pv) => {
+              const href = typeof pv === "string" ? pv : (pv.url || pv.href || "");
+              const safeHref = href.startsWith("./") || href.startsWith("/") ? (state.staticMode ? href : `${API_BASE}${href.replace(/^\./, "")}`) : href;
+              return `<a class="btn btn-xs btn-primary" href="${esc(safeHref)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở sản phẩm</span></a>`;
+            }).join("")}
+            <button type="button" class="btn btn-xs" data-edit-proj="${esc(p.project_id)}">${ico("pencil")}<span>Sửa dự án</span></button>
+            <button type="button" class="btn btn-xs btn-destructive" data-del-proj="${esc(p.project_id)}">${ico("trash")}<span>Xóa dự án</span></button>
+          </div>
+        </div>
+
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${s.progress_pct || 0}">
+          <div class="progress-fill" style="inline-size:${Math.max(2, s.progress_pct || 0)}%;"></div>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="Phân mục quản trị dự án">
+          <button type="button" class="seg-btn ${state.projectSubTab === "finance" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "finance" ? "true" : "false"}" data-proj-subtab="finance">Báo cáo Tài chính</button>
+          <button type="button" class="seg-btn ${state.projectSubTab === "overview" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "overview" ? "true" : "false"}" data-proj-subtab="overview">Tổng quan và Cột mốc</button>
+          <button type="button" class="seg-btn ${state.projectSubTab === "tasks" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "tasks" ? "true" : "false"}" data-proj-subtab="tasks">Công việc dự án (${pTasks.length})</button>
+          <button type="button" class="seg-btn ${state.projectSubTab === "docs" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "docs" ? "true" : "false"}" data-proj-subtab="docs">Tài liệu và Sản phẩm</button>
+        </div>
+      </div>
+
+      ${subBodyHtml}
+    `;
+
+    // Bind project status listbox
+    const stWrap = body.querySelector(`[data-dynamic-listbox="${statusLbId}"]`);
+    if (stWrap) {
+      const ctrl = setupListboxElement(stWrap, statusLbId, async (newStatus) => {
+        await api(`/api/projects/${encodeURIComponent(p.project_id)}`, "PATCH", { status: newStatus });
+        await loadEverything();
+        await loadActiveProjectFinance(p.project_id);
+        toast(`Đã chuyển trạng thái dự án sang ${PROJECT_STATUS_LABELS[newStatus] || newStatus}.`);
+      });
+      if (ctrl) {
+        ctrl.setOptions(Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ value, label })), false);
+        ctrl.setValue(p.status || "ACTIVE", true);
+      }
+    }
+
+    body.querySelectorAll("[data-proj-subtab]").forEach((btn) => {
+      btn.onclick = () => {
+        state.projectSubTab = btn.getAttribute("data-proj-subtab");
+        renderFinanceTabBody();
+      };
+    });
+
+    if (state.projectSubTab === "finance") {
+      const addLdgBtn = document.getElementById("btn-add-ledger");
+      if (addLdgBtn) addLdgBtn.onclick = () => openLedgerModal(p.project_id, null);
+
+      const csvBtn = document.getElementById("btn-export-ledger-csv");
+      if (csvBtn) csvBtn.onclick = () => exportLedgerCsv(p.title, ledger);
+
+      const printBtn = document.getElementById("btn-print-report");
+      if (printBtn) printBtn.onclick = () => window.print();
+
+      body.querySelectorAll("[data-edit-ledger]").forEach((btn) => {
+        btn.onclick = () => {
+          const entry = ledger.find((x) => x.entry_id === btn.getAttribute("data-edit-ledger"));
+          if (entry) openLedgerModal(p.project_id, entry);
+        };
+      });
+
+      body.querySelectorAll("[data-del-ledger]").forEach((btn) => {
+        btn.onclick = () => withLock(btn, async () => {
+          const eid = btn.getAttribute("data-del-ledger");
+          const backup = ledger.find((x) => x.entry_id === eid);
+          await api(`/api/finance/ledger/${encodeURIComponent(eid)}`, "DELETE");
+          await loadEverything();
+          await loadActiveProjectFinance(p.project_id);
+          toast("Đã xóa bút toán tài chính.", { entity_type: "ledger", entity_id: eid, backup });
+        });
+      });
+
+      const recalcSim = () => {
+        const price = Math.max(0, Number(document.getElementById("sim-price").value || 0));
+        const unit = Math.max(0, Number(document.getElementById("sim-unit").value || 0));
+        const fixed = Math.max(0, Number(document.getElementById("sim-fixed").value || 0));
+        const taxPct = Math.max(0, Number(document.getElementById("sim-tax").value || 7));
+        const grossPct = price > 0 ? ((price - unit) / price) * 100 : 0;
+        const netUnit = price - unit - (price * taxPct) / 100;
+        const be = netUnit > 0 ? Math.ceil(fixed / netUnit) : 0;
+        const p50 = Math.round(netUnit * 50 - fixed);
+        const p200 = Math.round(netUnit * 200 - fixed);
+        const out = document.getElementById("sim-live-output");
+        if (out) {
+          out.innerHTML = `
+            <span>Biên lãi gộp: <strong class="${grossPct >= 65 ? "text-ok" : "text-err"}">${grossPct.toFixed(1)}%</strong></span>
+            <span>Hòa vốn: <strong>${be > 0 ? `${be} khách` : "Đang lỗ"}</strong></span>
+            <span>Mốc 50 khách: <strong class="${p50 >= 0 ? "text-ok" : "text-err"}">${vnd(p50)}/tháng</strong></span>
+            <span>Mốc 200 khách: <strong class="${p200 >= 0 ? "text-ok" : "text-err"}">${vnd(p200)}/tháng</strong></span>
+          `;
+        }
+      };
+      ["sim-price", "sim-unit", "sim-fixed", "sim-tax"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.oninput = recalcSim;
+      });
+      recalcSim();
+
+      const savePricingBtn = document.getElementById("btn-save-proj-pricing");
+      if (savePricingBtn) {
+        savePricingBtn.onclick = () => withLock(savePricingBtn, async () => {
+          await api(`/api/projects/${encodeURIComponent(p.project_id)}`, "PATCH", {
+            expected_price_vnd: Number(document.getElementById("sim-price").value || 0),
+            unit_cost_vnd: Number(document.getElementById("sim-unit").value || 0),
+            fixed_cost_monthly_vnd: Number(document.getElementById("sim-fixed").value || 0)
+          });
+          await loadEverything();
+          await loadActiveProjectFinance(p.project_id);
+          toast("Đã lưu cấu hình định giá vào dự án.");
+        });
+      }
+    } else if (state.projectSubTab === "tasks") {
+      const addTaskProjBtn = document.getElementById("btn-add-task-for-proj");
+      if (addTaskProjBtn) addTaskProjBtn.onclick = () => openNewTaskModal("BACKLOG", p.project_id);
+    } else if (state.projectSubTab === "docs") {
+      bindDocEditorEvents(p.project_id);
+      loadProjectDocs(p.project_id, true);
+    }
+
+    bindQuickActions(body);
+  }
+
+  function openLedgerModal(pid, entry = null) {
+    document.getElementById("ledger-modal-title").textContent = entry ? "Chỉnh sửa bút toán Thu hoặc Chi" : "Ghi nhận Thu hoặc Chi";
+    document.getElementById("edit-ledger-id").value = entry ? entry.entry_id : "";
+    document.getElementById("edit-ledger-pid").value = pid;
+    setListboxValue("inp-ledger-type", entry ? entry.entry_type : "REVENUE", true);
+    setListboxValue("inp-ledger-est", entry && entry.is_estimate ? "1" : "0", true);
+    document.getElementById("inp-ledger-title").value = entry ? entry.title : "";
+    document.getElementById("inp-ledger-amount").value = entry ? Number(entry.amount_vnd || 0) : "";
+    document.getElementById("inp-ledger-date").value = (entry && entry.entry_date) ? entry.entry_date.slice(0, 10) : todayIso();
+    document.getElementById("inp-ledger-category").value = entry ? (entry.category || "Vận hành") : "Vận hành";
+    document.getElementById("inp-ledger-note").value = entry ? (entry.note || "") : "";
+    openModal("modal-ledger");
+  }
+
+  function bindDocEditorEvents(pid) {
+    const newDocBtn = document.getElementById("btn-new-doc");
+    if (newDocBtn) {
+      newDocBtn.onclick = () => {
+        document.getElementById("form-doc").reset();
+        openModal("modal-doc");
+      };
+    }
+    const togBtn = document.getElementById("btn-toggle-doc-edit");
+    if (togBtn) {
+      togBtn.onclick = () => {
+        state.docEditMode = !state.docEditMode;
+        document.getElementById("doc-pretty-view").classList.toggle("is-hidden", state.docEditMode);
+        document.getElementById("doc-raw-editor").classList.toggle("is-hidden", !state.docEditMode);
+        document.getElementById("btn-save-doc").classList.toggle("is-hidden", !state.docEditMode);
+        togBtn.textContent = state.docEditMode ? "Xem bản trình bày" : "Sửa nội dung";
+      };
+    }
+    const saveBtn = document.getElementById("btn-save-doc");
+    if (saveBtn) {
+      saveBtn.onclick = () => withLock(saveBtn, async () => {
+        if (!pid || !state.currentDocFile) return;
+        const content = document.getElementById("doc-raw-editor").value;
+        await api(`/api/projects/${encodeURIComponent(pid)}/files`, "POST", { file: state.currentDocFile, content });
+        await openDocFile(pid, state.currentDocFile);
+        toast("Đã lưu tài liệu.");
+      });
+    }
+    const delBtn = document.getElementById("btn-delete-doc");
+    if (delBtn) {
+      delBtn.onclick = () => withLock(delBtn, async () => {
+        if (!pid || !state.currentDocFile) return;
+        const deletedFile = state.currentDocFile;
+        const res = await api(`/api/projects/${encodeURIComponent(pid)}/files?file=${encodeURIComponent(deletedFile)}`, "DELETE");
+        state.currentDocFile = "";
+        await loadProjectDocs(pid, false);
+        toast(`Đã xóa tệp ${deletedFile}.`, res.entity_id ? { entity_type: "doc", entity_id: res.entity_id } : null);
+      });
     }
   }
 
   function resetDocViewer() {
     state.currentDocFile = "";
     state.docEditMode = false;
-    document.getElementById("doc-current-name").textContent = "Chưa chọn tài liệu";
-    document.getElementById("doc-editor-actions").hidden = true;
-    document.getElementById("doc-pretty-view").innerHTML = "Chọn hoặc tạo một tài liệu mới để xem nội dung tại đây.";
-    document.getElementById("doc-pretty-view").classList.remove("is-hidden");
-    document.getElementById("doc-raw-editor").classList.add("is-hidden");
+    const nameEl = document.getElementById("doc-current-name");
+    const actEl = document.getElementById("doc-editor-actions");
+    const pvEl = document.getElementById("doc-pretty-view");
+    const edEl = document.getElementById("doc-raw-editor");
+    if (nameEl) nameEl.textContent = "Chưa chọn tài liệu";
+    if (actEl) actEl.hidden = true;
+    if (pvEl) { pvEl.innerHTML = "Chọn hoặc tạo một tài liệu mới để xem nội dung tại đây."; pvEl.classList.remove("is-hidden"); }
+    if (edEl) edEl.classList.add("is-hidden");
   }
 
   async function loadProjectDocs(pid, keepCurrentFile = true) {
     const dBox = document.getElementById("project-docs-list");
+    if (!dBox) return;
     if (!pid || state.staticMode) {
       dBox.innerHTML = `<div class="list-row"><span class="row-meta">Tài liệu dự án sẽ tải tự động khi kênh trực tuyến đang mở.</span></div>`;
       return;
@@ -2404,14 +3920,18 @@
       const doc = await api(`/api/projects/${encodeURIComponent(pid)}/files?file=${encodeURIComponent(filePath)}`);
       state.currentDocFile = filePath;
       state.docEditMode = false;
-      document.getElementById("doc-current-name").textContent = filePath;
-      document.getElementById("doc-editor-actions").hidden = false;
-      document.getElementById("doc-raw-editor").value = doc.content || "";
-      document.getElementById("doc-pretty-view").innerHTML = renderCleanMarkdown(doc.content || "");
-      document.getElementById("doc-pretty-view").classList.remove("is-hidden");
-      document.getElementById("doc-raw-editor").classList.add("is-hidden");
-      document.getElementById("btn-save-doc").classList.add("is-hidden");
-      document.getElementById("btn-toggle-doc-edit").textContent = "Sửa nội dung";
+      const nameEl = document.getElementById("doc-current-name");
+      const actEl = document.getElementById("doc-editor-actions");
+      const rawEl = document.getElementById("doc-raw-editor");
+      const pvEl = document.getElementById("doc-pretty-view");
+      const saveEl = document.getElementById("btn-save-doc");
+      const togEl = document.getElementById("btn-toggle-doc-edit");
+      if (nameEl) nameEl.textContent = filePath;
+      if (actEl) actEl.hidden = false;
+      if (rawEl) { rawEl.value = doc.content || ""; rawEl.classList.add("is-hidden"); }
+      if (pvEl) { pvEl.innerHTML = renderCleanMarkdown(doc.content || ""); pvEl.classList.remove("is-hidden"); }
+      if (saveEl) saveEl.classList.add("is-hidden");
+      if (togEl) togEl.textContent = "Sửa nội dung";
     } catch (_e) {}
   }
 
@@ -2423,14 +3943,42 @@
       el.onclick = (e) => { e.stopPropagation(); openStaffDrawer(el.getAttribute("data-open-staff")); };
     });
 
+    root.querySelectorAll("[data-open-task-drawer]").forEach((el) => {
+      el.onclick = (e) => { e.stopPropagation(); openTaskDrawer(el.getAttribute("data-open-task-drawer")); };
+    });
+
     root.querySelectorAll("[data-goto-missions]").forEach((el) => {
-      el.onclick = () => switchTab("missions");
+      el.onclick = () => { state.progressCat = "missions"; switchTab("missions"); };
+    });
+
+    root.querySelectorAll("[data-goto-tab]").forEach((el) => {
+      el.onclick = () => switchTab(el.getAttribute("data-goto-tab"));
+    });
+
+    root.querySelectorAll("[data-goto-news]").forEach((el) => {
+      el.onclick = () => {
+        state.newsSubView = el.getAttribute("data-goto-news") || "articles";
+        switchTab("news");
+      };
+    });
+
+    root.querySelectorAll("[data-trigger-learn-all]").forEach((b) => {
+      b.onclick = () => triggerLearningScan("all", b);
+    });
+
+    root.querySelectorAll("[data-trigger-scan-opps]").forEach((b) => {
+      b.onclick = () => withLock(b, async () => {
+        const res = await api("/api/opportunities/scan", "POST", {});
+        await loadEverything();
+        toast(sanitizeUiVietnamese((res && res.message) || "Đã gửi yêu cầu săn cơ hội kiếm tiền mới."));
+      });
     });
 
     root.querySelectorAll("[data-accept-opp]").forEach((b) => {
       b.onclick = () => withLock(b, async () => {
         const res = await api(`/api/opportunities/${encodeURIComponent(b.getAttribute("data-accept-opp"))}/accept`, "POST", {});
         await loadEverything();
+        state.progressCat = "missions";
         switchTab("missions");
         toast(
           res && res.bridge_online
@@ -2496,9 +4044,12 @@
     });
 
     root.querySelectorAll("[data-open-proj]").forEach((b) => {
-      b.onclick = () => {
-        state.selectedProjectId = b.getAttribute("data-open-proj");
+      b.onclick = async () => {
+        const pid = b.getAttribute("data-open-proj");
+        state.financeViewProjectId = pid;
+        state.projectSubTab = "finance";
         switchTab("finance");
+        await loadActiveProjectFinance(pid);
       };
     });
 
@@ -2507,7 +4058,7 @@
         const [mid, view] = String(b.getAttribute("data-msn-subtab") || "").split(":");
         if (mid && view) {
           state.missionViewTabs[mid] = view;
-          renderMissionsTab();
+          renderProgressTab();
         }
       };
     });
@@ -2521,6 +4072,7 @@
         const res = await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-approve-msn"))}/decision`, "POST", { decision: "APPROVE" });
         await loadEverything();
         if (res && res.phase === "PRODUCTION") {
+          state.progressCat = "missions";
           switchTab("missions");
           toast("Đã duyệt chốt kèo. Đội ngũ đã nhận lệnh bắt đầu sản xuất sản phẩm cuối (Bước 5 đến 8).");
         } else {
@@ -2589,6 +4141,7 @@
         e.stopPropagation();
         withLock(b, async () => {
           await api(`/api/tasks/${encodeURIComponent(b.getAttribute("data-approve-task"))}/decision`, "POST", { decision: "APPROVE" });
+          closeDrawer();
           await loadEverything();
           toast("Đã hoàn tất công việc.");
         });
@@ -2611,6 +4164,7 @@
         e.stopPropagation();
         const t = state.tasks.find((x) => x.task_id === b.getAttribute("data-edit-task"));
         if (!t) return;
+        closeDrawer();
         document.getElementById("task-modal-title").textContent = "Chỉnh sửa công việc";
         document.getElementById("edit-task-id").value = t.task_id;
         document.getElementById("inp-task-title").value = t.title;
@@ -2628,6 +4182,7 @@
         e.stopPropagation();
         withLock(b, async () => {
           await api(`/api/tasks/${encodeURIComponent(b.getAttribute("data-dup-task"))}/duplicate`, "POST", {});
+          closeDrawer();
           await loadEverything();
           toast("Đã tạo bản sao công việc.");
         });
@@ -2642,6 +4197,7 @@
           const backup = state.tasks.find((x) => x.task_id === tid);
           state.selectedTaskIds.delete(tid);
           await api(`/api/tasks/${encodeURIComponent(tid)}`, "DELETE");
+          closeDrawer();
           await loadEverything();
           toast("Đã xóa công việc.", { entity_type: "task", entity_id: tid, backup });
         });
@@ -2689,17 +4245,43 @@
         const pid = b.getAttribute("data-del-proj");
         const backup = state.projects.find((x) => x.project_id === pid);
         await api(`/api/projects/${encodeURIComponent(pid)}`, "DELETE");
+        if (state.financeViewProjectId === pid) state.financeViewProjectId = "";
         await loadEverything();
         toast("Đã xóa dự án.", { entity_type: "project", entity_id: pid, backup });
       });
     });
   }
 
+  async function openArtifactDrawer(relPath) {
+    document.getElementById("drawer-heading").textContent = relPath.split("/").pop() || "Báo cáo chuyên môn";
+    document.getElementById("drawer-body").innerHTML = `<p class="row-meta">Đang tải nội dung báo cáo...</p>`;
+    document.getElementById("drawer-backdrop").classList.add("open");
+    document.getElementById("inspector-drawer").classList.add("open");
+    try {
+      let content = "";
+      if (state.staticMode) {
+        const liveUrl = artifactHref(relPath);
+        const r = await fetch(liveUrl, { cache: "no-cache" });
+        if (!r.ok) throw new Error("Báo cáo đang đồng bộ lên đám mây, vui lòng mở lại sau vài giây.");
+        content = await r.text();
+      } else {
+        const res = await api(`/api/workspace/file?path=${encodeURIComponent(relPath)}`);
+        content = res.content || "";
+      }
+      document.getElementById("drawer-body").innerHTML = `
+        <div class="mono row-meta">Đường dẫn tệp: ${esc(relPath)}</div>
+        <div class="rendered-md">${renderCleanMarkdown(content)}</div>
+      `;
+    } catch (err) {
+      document.getElementById("drawer-body").innerHTML = `<p class="text-err">${esc(err.message)}</p>`;
+    }
+  }
+
   function updateBulkBar() {
     const bar = document.getElementById("bulk-bar");
     const cnt = state.selectedTaskIds.size;
     document.getElementById("bulk-count-lbl").textContent = `Đã chọn ${cnt} việc`;
-    bar.classList.toggle("visible", cnt > 0 && state.tab === "tasks");
+    bar.classList.toggle("visible", state.taskBulkMode && cnt > 0 && state.tab === "tasks");
   }
 
   // -------------------------------------------------------------------------
@@ -2744,13 +4326,13 @@
     document.querySelectorAll(".modal.open").forEach((m) => m.classList.remove("open"));
   }
 
-  function openNewTaskModal(defaultCol = "BACKLOG") {
+  function openNewTaskModal(defaultCol = "BACKLOG", defaultProj = "") {
     document.getElementById("task-modal-title").textContent = "Thêm công việc mới";
     document.getElementById("edit-task-id").value = "";
     document.getElementById("form-task").reset();
     setListboxValue("inp-task-col", defaultCol, true);
     setListboxValue("inp-task-prio", "HIGH", true);
-    setListboxValue("inp-task-proj", "", true);
+    setListboxValue("inp-task-proj", defaultProj, true);
     openModal("modal-task");
   }
 
@@ -2762,6 +4344,9 @@
     if (deptItems.length) {
       setListboxOptions("inp-task-dept", deptItems, true, "modal-task");
       setListboxOptions("url-dept-select", deptItems, true);
+      setListboxOptions("filter-task-dept", [{ value: "", label: "Mọi phòng ban" }, ...deptItems], true);
+      setListboxOptions("filter-skill-dept", [{ value: "", label: "Tất cả phòng ban" }, ...deptItems], true);
+      setListboxOptions("inp-skill-dept", [{ value: "", label: "Tự động chọn phòng phù hợp" }, ...deptItems], true);
     }
 
     const projTaskItems = [
@@ -2787,14 +4372,11 @@
   function renderAllViews() {
     renderCountsAndHeader();
     if (state.tab === "command") renderCommandTab();
-    if (state.tab === "missions") renderMissionsTab();
+    if (state.tab === "missions") renderProgressTab();
     if (state.tab === "tasks") renderTasksTab();
     if (state.tab === "staff") renderStaffTab();
     if (state.tab === "news") renderNewsTab();
-    if (state.tab === "finance") {
-      updateFinanceSliders();
-      renderProjectsSection(true);
-    }
+    if (state.tab === "finance") renderFinanceTab();
   }
 
   async function loadNews(q = "") {
@@ -2812,17 +4394,26 @@
       api("/api/departments"),
       api("/api/tasks")
     ]);
-    state.overview = ov;
-    state.bridge = ov.bridge || state.bridge;
-    state.orders = ov.orders || [];
-    state.swarmMessages = ov.swarm_messages || [];
-    state.divisions = ov.divisions || [];
-    state.projects = ov.projects || [];
-    state.missions = ov.missions || [];
-    state.opportunities = ov.opportunities || [];
-    state.departments = depts.departments || [];
-    state.tasks = tasks.tasks || [];
+    state.overview = ov || {};
+    state.bridge = (ov && ov.bridge) || state.bridge;
+    state.orders = (ov && ov.orders) || [];
+    state.swarmMessages = (ov && ov.swarm_messages) || [];
+    state.divisions = (ov && ov.divisions) || [];
+    state.projects = (ov && ov.projects) || [];
+    state.missions = (ov && ov.missions) || [];
+    state.opportunities = (ov && ov.opportunities) || [];
+    state.learningRuns = (ov && ov.learning_runs) || state.learningRuns;
+    if (ov && ov.learning_progress) state.learningProgress = ov.learning_progress;
+    if (ov && Array.isArray(ov.installed_skills)) state.installedSkills = ov.installed_skills;
+    if (ov && Array.isArray(ov.project_ledger)) state.projectLedger = ov.project_ledger;
+    if (ov && ov.finance_summary) state.financeSummary = ov.finance_summary;
+    state.departments = (depts && depts.departments) || [];
+    state.tasks = (tasks && tasks.tasks) || [];
     state.lastSyncAt = new Date().toISOString();
+
+    if (state.learningProgress && state.learningProgress.running && !state.learningPollTimer) {
+      startLearningStatusPolling();
+    }
     populateDynamicListboxes();
     renderAllViews();
   }
@@ -2906,10 +4497,7 @@
     const creds = await cryptoVault.unlock(pin);
     sessionUnlockedCloud = creds;
     const apiUrl = `https://api.github.com/repos/${creds.repo}/contents/corporate_hq/cloud_state/snapshot.json`;
-    const headers = {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${creds.token}`
-    };
+    const headers = { Accept: "application/vnd.github+json", Authorization: `Bearer ${creds.token}` };
     const r = await fetch(apiUrl, { headers });
     if (!r.ok) throw new Error(`Kênh đám mây báo mã lỗi ${r.status}. Vui lòng kiểm tra lại khóa truy cập.`);
     const meta = await r.json();
@@ -2933,6 +4521,8 @@
       state.tasks = remoteSnap.tasks || state.tasks;
       state.projects = remoteSnap.projects || state.projects;
       state.articles = remoteSnap.knowledge_atoms || state.articles;
+      state.installedSkills = remoteSnap.installed_skills || state.installedSkills;
+      state.projectLedger = remoteSnap.project_ledger || state.projectLedger;
       saveOfflineViewCache();
       renderAllViews();
     }
@@ -2967,6 +4557,11 @@
       const cTitle = cleanDeptTitleVi(d.dept_id, d.title_vi);
       if (!term || `${d.dept_id} ${d.code} ${cTitle}`.toLowerCase().includes(term)) {
         rows.push({ kind: "dept", id: d.dept_id, label: `Phòng #${d.dept_id}: ${cTitle}`, sub: DIV_SHORT_NAMES[d.division_code] || "" });
+      }
+    });
+    state.installedSkills.forEach((sk) => {
+      if (term && `${sk.title_vi} ${sk.skill_slug} ${sk.repo_name}`.toLowerCase().includes(term)) {
+        rows.push({ kind: "skill", label: `Kỹ năng: ${sanitizeUiVietnamese(sk.title_vi)}`, sub: sk.repo_name || "GitHub" });
       }
     });
     getDeduplicatedArticles().forEach((a) => {
@@ -3006,21 +4601,23 @@
     if (!item) return;
     closeModals();
     if (item.kind === "msn") {
-      state.missionFilter = "";
-      document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((x) => {
-        const on = x.getAttribute("data-mfilter") === "";
-        x.classList.toggle("active", on);
-        x.setAttribute("aria-selected", on ? "true" : "false");
-      });
+      state.progressCat = "missions";
       switchTab("missions");
     } else if (item.kind === "opp") {
       switchTab("command");
     } else if (item.kind === "task") {
       switchTab("tasks");
+      openTaskDrawer(item.id);
     } else if (item.kind === "proj") {
-      state.selectedProjectId = item.id;
+      state.financeViewProjectId = item.id;
+      state.projectSubTab = "finance";
       switchTab("finance");
+      loadActiveProjectFinance(item.id);
     } else if (item.kind === "news") {
+      state.newsSubView = "articles";
+      switchTab("news");
+    } else if (item.kind === "skill") {
+      state.newsSubView = "skills";
       switchTab("news");
     } else if (item.kind === "dept") {
       openStaffDrawer(item.id);
@@ -3039,7 +4636,13 @@
       applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
     };
 
-    // Tab 1: Mission Composer + inline validation
+    // Tab 1 live banner jump
+    document.getElementById("btn-live-activity-jump").onclick = (e) => {
+      state.progressCat = e.currentTarget.getAttribute("data-jump-pcat") || "all";
+      switchTab("missions");
+    };
+
+    // Tab 1 Mission Composer
     const promptEl = document.getElementById("mission-prompt-input");
     const errPrompt = document.getElementById("err-mission-prompt");
 
@@ -3083,6 +4686,7 @@
         promptEl.value = "";
         const res = await api("/api/missions", "POST", { title: text, goal_prompt: text, auto_approve: autoApp });
         await loadEverything();
+        state.progressCat = "missions";
         switchTab("missions");
         toast(
           res && res.bridge_online
@@ -3157,24 +4761,34 @@
           await api(`/api/tasks/${encodeURIComponent(id)}/decision`, "POST", { decision: "REJECT", note });
         }
         closeModals();
+        closeDrawer();
         await loadEverything();
         toast("Đã gửi yêu cầu làm lại cho nhân sự phụ trách.");
       });
     };
 
-    // Tab 2: Missions filters & cleanup
-    document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((b) => {
+    // Tab 2: Progress Categories & Mission Filters
+    document.querySelectorAll("#progress-cat-tabs .seg-btn").forEach((b) => {
       b.onclick = () => {
-        document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((x) => {
+        state.progressCat = b.getAttribute("data-pcat");
+        renderProgressTab();
+      };
+    });
+
+    document.querySelectorAll("#mission-filter-tabs .chip-btn").forEach((b) => {
+      b.onclick = () => {
+        document.querySelectorAll("#mission-filter-tabs .chip-btn").forEach((x) => {
           x.classList.remove("active");
           x.setAttribute("aria-selected", "false");
         });
         b.classList.add("active");
         b.setAttribute("aria-selected", "true");
         state.missionFilter = b.getAttribute("data-mfilter");
-        renderMissionsTab();
+        renderProgressTab();
       };
     });
+
+    document.getElementById("btn-prog-scan-news").onclick = (e) => triggerLearningScan("all", e.currentTarget);
 
     document.getElementById("btn-clear-completed-missions").onclick = (e) => withLock(e.currentTarget, async () => {
       const backups = state.missions.filter((m) => m.status === "COMPLETED");
@@ -3193,7 +4807,7 @@
       promptEl.focus();
     };
 
-    // Tab 3: Tasks filters, view switch, CRUD, bulk actions
+    // Tab 3: Tasks Calm Toolbar, Filter Drawer, Bulk Mode & Form
     document.querySelectorAll("#task-view-mode .seg-btn").forEach((b) => {
       b.onclick = () => {
         state.taskViewMode = b.getAttribute("data-tview");
@@ -3201,10 +4815,23 @@
       };
     });
 
+    document.getElementById("btn-toggle-task-filters").onclick = (e) => {
+      const panel = document.getElementById("task-extra-filters");
+      const open = panel.classList.contains("is-hidden");
+      panel.classList.toggle("is-hidden", !open);
+      e.currentTarget.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+
+    document.getElementById("btn-toggle-bulk-mode").onclick = () => {
+      state.taskBulkMode = !state.taskBulkMode;
+      if (!state.taskBulkMode) state.selectedTaskIds.clear();
+      renderTasksTab();
+    };
+
     document.getElementById("filter-task-q").oninput = renderTasksTab;
     document.getElementById("filter-task-project").addEventListener("change", renderTasksTab);
-    document.getElementById("filter-task-col").addEventListener("change", renderTasksTab);
     document.getElementById("filter-task-prio").addEventListener("change", renderTasksTab);
+    document.getElementById("filter-task-dept").addEventListener("change", renderTasksTab);
     document.getElementById("btn-quick-task").onclick = () => openNewTaskModal("BACKLOG");
     document.getElementById("btn-add-task-tab3").onclick = () => openNewTaskModal("BACKLOG");
 
@@ -3225,22 +4852,12 @@
         else await api("/api/tasks", "POST", payload);
         closeModals();
         await loadEverything();
+        if (state.tab === "finance" && state.financeViewProjectId) {
+          await loadActiveProjectFinance(state.financeViewProjectId);
+        }
         toast(tid ? "Đã cập nhật công việc." : "Đã thêm công việc mới.");
       });
     };
-
-    document.getElementById("btn-clear-done-tasks").onclick = (e) => withLock(e.currentTarget, async () => {
-      const backups = state.tasks.filter((t) => t.kanban_column === "DONE");
-      if (!backups.length) {
-        toast("Hiện không có công việc đã xong nào cần dọn.");
-        return;
-      }
-      const res = await api("/api/tasks/bulk", "POST", { action: "clear_done" });
-      await loadEverything();
-      toast(`Đã dọn ${res.affected || backups.length} công việc đã xong.`, {
-        items: backups.map((t) => ({ entity_type: "task", entity_id: t.task_id, backup: t }))
-      });
-    });
 
     document.getElementById("btn-bulk-done").onclick = (e) => withLock(e.currentTarget, async () => {
       const ids = Array.from(state.selectedTaskIds);
@@ -3263,11 +4880,27 @@
 
     document.getElementById("btn-bulk-clear").onclick = () => {
       state.selectedTaskIds.clear();
+      state.taskBulkMode = false;
       renderTasksTab();
     };
 
-    // Tab 4: Staff Search & Hire
+    // Tab 4: Staff Search, Division Listbox, Status Filter, Collapse All, Hire
     document.getElementById("staff-search").oninput = renderStaffTab;
+    document.getElementById("filter-staff-div").addEventListener("change", renderStaffTab);
+    document.querySelectorAll("#staff-status-filter .seg-btn").forEach((b) => {
+      b.onclick = () => {
+        state.staffStatusFilter = b.getAttribute("data-sstatus");
+        renderStaffTab();
+      };
+    });
+
+    document.getElementById("btn-toggle-all-divs").onclick = () => {
+      ensureStaffDivDefaults();
+      const anyClosed = DIV_ORDER.some((code) => !state.staffDivOpen[code]);
+      DIV_ORDER.forEach((code) => { state.staffDivOpen[code] = anyClosed; });
+      renderStaffTab();
+    };
+
     document.getElementById("btn-open-hire").onclick = () => openModal("modal-hire");
     document.getElementById("form-hire").onsubmit = (e) => {
       e.preventDefault();
@@ -3287,13 +4920,20 @@
       });
     };
 
-    // Tab 5: News Poll, Read URL, Star filter & Search
-    const pollNews = (e) => withLock(e.currentTarget, async () => {
-      const r = await api("/api/learning/run", "POST", { scope: "all" });
-      toast(sanitizeUiVietnamese(r.message || "Đang cập nhật tin tức thị trường mới."));
+    // Tab 5: Live Scan, Sub-view Toggle, URL Reader, Filters & GitHub Skills Acquire
+    document.getElementById("btn-scan-news").onclick = (e) => triggerLearningScan("all", e.currentTarget);
+    document.getElementById("btn-poll-feeds-tab5").onclick = (e) => triggerLearningScan("all", e.currentTarget);
+    document.getElementById("btn-goto-learning-history").onclick = () => {
+      state.progressCat = "learning";
+      switchTab("missions");
+    };
+
+    document.querySelectorAll("#news-subview-tabs .seg-btn").forEach((b) => {
+      b.onclick = () => {
+        state.newsSubView = b.getAttribute("data-nsub");
+        renderNewsTab();
+      };
     });
-    document.getElementById("btn-scan-news").onclick = pollNews;
-    document.getElementById("btn-poll-feeds-tab5").onclick = pollNews;
 
     document.getElementById("form-read-url").onsubmit = (e) => {
       e.preventDefault();
@@ -3321,17 +4961,43 @@
       };
     });
 
+    document.getElementById("filter-news-div").addEventListener("change", renderNewsTab);
     let searchT = null;
     document.getElementById("news-search-input").oninput = (e) => {
       clearTimeout(searchT);
       searchT = setTimeout(() => loadNews(e.target.value), 120);
     };
 
-    // Tab 6: Finance Sliders, Projects, Document Editor & Cloud Vault
-    ["rng-price", "rng-quota", "rng-unit", "rng-fixed"].forEach((id) => {
-      document.getElementById(id).oninput = updateFinanceSliders;
-    });
+    document.getElementById("skill-search-input").oninput = renderSkillsPanel;
+    document.getElementById("filter-skill-div").addEventListener("change", renderSkillsPanel);
+    document.getElementById("filter-skill-dept").addEventListener("change", renderSkillsPanel);
 
+    document.getElementById("form-acquire-skill").onsubmit = (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("btn-acquire-skill");
+      const outEl = document.getElementById("skill-acquire-result");
+      withLock(btn, async () => {
+        const rawInput = document.getElementById("inp-skill-query").value.trim();
+        const targetDept = getListboxValue("inp-skill-dept") || "";
+        const isUrl = /^https?:\/\/github\.com\//i.test(rawInput);
+        const payload = {
+          dept_id: targetDept || null,
+          query: isUrl ? "" : rawInput,
+          repo_url: isUrl ? rawInput : ""
+        };
+        const res = await api("/api/skills/acquire", "POST", payload);
+        document.getElementById("inp-skill-query").value = "";
+        await loadEverything();
+        const msg = sanitizeUiVietnamese((res && res.summary_vi) || `Đã nạp thành công ${res.acquired_count || 0} kỹ năng mới cho nhân sự.`);
+        if (outEl) {
+          outEl.textContent = msg;
+          outEl.classList.remove("is-hidden");
+        }
+        toast(msg);
+      });
+    };
+
+    // Tab 6: Projects, Ledger Modal, Doc Modal & Cloud Backup
     document.getElementById("btn-new-proj").onclick = () => {
       document.getElementById("proj-modal-title").textContent = "Tạo dự án mới";
       document.getElementById("edit-proj-id").value = "";
@@ -3354,14 +5020,53 @@
           status: getListboxValue("inp-proj-status") || "ACTIVE",
           objective: document.getElementById("inp-proj-obj").value.trim()
         };
-        if (pid) await api(`/api/projects/${encodeURIComponent(pid)}`, "PATCH", payload);
-        else {
+        if (pid) {
+          await api(`/api/projects/${encodeURIComponent(pid)}`, "PATCH", payload);
+          await loadEverything();
+          if (state.financeViewProjectId === pid) await loadActiveProjectFinance(pid);
+        } else {
           const created = await api("/api/projects", "POST", payload);
-          if (created && created.project_id) state.selectedProjectId = created.project_id;
+          await loadEverything();
+          if (created && created.project_id) {
+            state.financeViewProjectId = created.project_id;
+            state.projectSubTab = "finance";
+            renderFinanceTab();
+            await loadActiveProjectFinance(created.project_id);
+          }
+        }
+        closeModals();
+        toast("Đã lưu thông tin dự án.");
+      });
+    };
+
+    document.getElementById("form-ledger").onsubmit = (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector("button[type='submit']");
+      withLock(btn, async () => {
+        const eid = document.getElementById("edit-ledger-id").value;
+        const pid = document.getElementById("edit-ledger-pid").value || state.financeViewProjectId;
+        const amt = Number(document.getElementById("inp-ledger-amount").value);
+        if (Number.isNaN(amt) || amt < 0) {
+          throw new Error("Số tiền phải là số không âm hợp lệ.");
+        }
+        const payload = {
+          entry_type: getListboxValue("inp-ledger-type") || "EXPENSE",
+          is_estimate: getListboxValue("inp-ledger-est") === "1",
+          title: document.getElementById("inp-ledger-title").value.trim(),
+          amount_vnd: amt,
+          entry_date: document.getElementById("inp-ledger-date").value || todayIso(),
+          category: document.getElementById("inp-ledger-category").value.trim() || "Vận hành",
+          note: document.getElementById("inp-ledger-note").value.trim()
+        };
+        if (eid) {
+          await api(`/api/finance/ledger/${encodeURIComponent(eid)}`, "PATCH", payload);
+        } else {
+          await api(`/api/projects/${encodeURIComponent(pid)}/finance/ledger`, "POST", payload);
         }
         closeModals();
         await loadEverything();
-        toast("Đã lưu thông tin dự án.");
+        if (pid) await loadActiveProjectFinance(pid);
+        toast(eid ? "Đã cập nhật bút toán tài chính." : "Đã ghi nhận bút toán vào sổ thu chi dự án.");
       });
     };
 
@@ -3369,60 +5074,25 @@
       document.getElementById("inp-doc-filename").value = `${slugifyVi(e.target.value)}.md`;
     };
 
-    document.getElementById("btn-new-doc").onclick = () => {
-      if (!state.selectedProjectId) {
-        toast("Hãy tạo hoặc chọn một dự án trước khi thêm tài liệu.");
-        return;
-      }
-      document.getElementById("form-doc").reset();
-      openModal("modal-doc");
-    };
-
     document.getElementById("form-doc").onsubmit = (e) => {
       e.preventDefault();
       const btn = e.target.querySelector("button[type='submit']");
       withLock(btn, async () => {
+        const pid = state.financeViewProjectId;
+        if (!pid) throw new Error("Hãy chọn một dự án trước khi tạo tài liệu.");
         const docTitle = document.getElementById("inp-doc-title").value.trim();
         let fname = document.getElementById("inp-doc-filename").value.trim();
         if (!fname.endsWith(".md")) fname += ".md";
-        await api(`/api/projects/${encodeURIComponent(state.selectedProjectId)}/files`, "POST", {
+        await api(`/api/projects/${encodeURIComponent(pid)}/files`, "POST", {
           file: fname,
           content: `# ${docTitle}\n\n- **Mục tiêu:** \n- **Kế hoạch triển khai:** \n`
         });
         closeModals();
         state.currentDocFile = fname;
-        await loadProjectDocs(state.selectedProjectId, true);
+        await loadProjectDocs(pid, true);
         toast("Đã tạo tài liệu mới.");
       });
     };
-
-    document.getElementById("btn-toggle-doc-edit").onclick = () => {
-      state.docEditMode = !state.docEditMode;
-      document.getElementById("doc-pretty-view").classList.toggle("is-hidden", state.docEditMode);
-      document.getElementById("doc-raw-editor").classList.toggle("is-hidden", !state.docEditMode);
-      document.getElementById("btn-save-doc").classList.toggle("is-hidden", !state.docEditMode);
-      document.getElementById("btn-toggle-doc-edit").textContent = state.docEditMode ? "Xem bản trình bày" : "Sửa nội dung";
-    };
-
-    document.getElementById("btn-save-doc").onclick = (e) => withLock(e.currentTarget, async () => {
-      if (!state.selectedProjectId || !state.currentDocFile) return;
-      const content = document.getElementById("doc-raw-editor").value;
-      await api(`/api/projects/${encodeURIComponent(state.selectedProjectId)}/files`, "POST", {
-        file: state.currentDocFile,
-        content
-      });
-      await openDocFile(state.selectedProjectId, state.currentDocFile);
-      toast("Đã lưu tài liệu.");
-    });
-
-    document.getElementById("btn-delete-doc").onclick = (e) => withLock(e.currentTarget, async () => {
-      if (!state.selectedProjectId || !state.currentDocFile) return;
-      const deletedFile = state.currentDocFile;
-      const res = await api(`/api/projects/${encodeURIComponent(state.selectedProjectId)}/files?file=${encodeURIComponent(deletedFile)}`, "DELETE");
-      state.currentDocFile = "";
-      await loadProjectDocs(state.selectedProjectId, false);
-      toast(`Đã xóa tệp ${deletedFile}.`, res.entity_id ? { entity_type: "doc", entity_id: res.entity_id } : null);
-    });
 
     document.getElementById("btn-clear-events").onclick = (e) => withLock(e.currentTarget, async () => {
       const res = await api("/api/events", "DELETE");
@@ -3433,7 +5103,7 @@
       const snap = await api("/api/sync/snapshot");
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(snap, null, 2)], { type: "application/json" }));
-      a.download = `titan-sao-luu-${new Date().toISOString().slice(0, 10)}.json`;
+      a.download = `titan-sao-luu-${todayIso()}.json`;
       a.click();
     });
 
@@ -3487,7 +5157,6 @@
     document.getElementById("modal-backdrop").onclick = closeModals;
     document.querySelectorAll("[data-close-modal]").forEach((b) => { b.onclick = closeModals; });
 
-    // Keyboard shortcuts (Escape, Ctrl+K, Ctrl+B, 1-6, N, D)
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const openMenu = document.querySelector(".listbox-menu:not([hidden])");
@@ -3515,7 +5184,7 @@
 
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b" && state.tab === "tasks") {
         e.preventDefault();
-        state.taskViewMode = state.taskViewMode === "list" ? "board" : "list";
+        state.taskViewMode = state.taskViewMode === "grouped" ? "board" : "grouped";
         renderTasksTab();
         return;
       }
@@ -3540,17 +5209,8 @@
   async function init() {
     applyTheme(localStorage.getItem("titan_theme") || "light");
     initStaticListboxes();
-    try {
-      const savedSliders = JSON.parse(localStorage.getItem("titan_cfo_sliders") || "null");
-      if (savedSliders) {
-        if (savedSliders.price) document.getElementById("rng-price").value = savedSliders.price;
-        if (savedSliders.quota) document.getElementById("rng-quota").value = savedSliders.quota;
-        if (savedSliders.unit) document.getElementById("rng-unit").value = savedSliders.unit;
-        if (savedSliders.fixed !== undefined) document.getElementById("rng-fixed").value = savedSliders.fixed;
-      }
-    } catch (_e) {}
-
     bindGlobalEvents();
+
     const hash = (window.location.hash || "").replace("#", "");
     if (VIEW_TITLES[hash]) state.tab = hash;
 

@@ -44,9 +44,13 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
     swarm_messages = db.list_swarm_messages(limit=100)
     bridge = db.get_bridge_status()
     tombstones = db.list_tombstones()
+    learning_runs = db.list_learning_runs(limit=20)
+    installed_skills = db.list_installed_skills()
+    project_ledger = db.list_project_ledger()
+    finance_summary = db.get_corporate_finance_summary()
 
     return {
-        "schema_version": "6.3",
+        "schema_version": "8.0",
         "exported_at": utc_now_iso(),
         "bridge": bridge,
         "divisions": divisions,
@@ -63,6 +67,10 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
         "reflexions": reflexions,
         "knowledge_atoms": atoms,
         "activity_stream": events,
+        "learning_runs": learning_runs,
+        "installed_skills": installed_skills,
+        "project_ledger": project_ledger,
+        "finance_summary": finance_summary,
     }
 
 
@@ -131,6 +139,8 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                 conn.execute("DELETE FROM projects WHERE project_id = ?", (eid,))
             elif etype == "article":
                 conn.execute("DELETE FROM knowledge_atoms WHERE url_hash = ?", (eid,))
+            elif etype == "ledger":
+                conn.execute("DELETE FROM project_ledger WHERE entry_id = ?", (eid,))
 
         # 1. Projects
         for proj in remote_snapshot.get("projects", []):
@@ -538,6 +548,92 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                         sm.get("created_at") or utc_now_iso(),
                     ),
                 )
+
+        for lr in remote_snapshot.get("learning_runs", []):
+            rid = lr.get("run_id")
+            if not rid:
+                continue
+            conn.execute(
+                """
+                INSERT OR IGNORE INTO learning_runs(
+                    run_id, triggered_by, scope, sources_queried,
+                    new_atoms_added, duplicates_skipped, status, started_at, finished_at, error_log
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    rid,
+                    lr.get("triggered_by", "SYNC"),
+                    lr.get("scope", "all"),
+                    int(lr.get("sources_queried", 0)),
+                    int(lr.get("new_atoms_added", 0)),
+                    int(lr.get("duplicates_skipped", 0)),
+                    lr.get("status", "COMPLETED"),
+                    lr.get("started_at") or utc_now_iso(),
+                    lr.get("finished_at"),
+                    lr.get("error_log", ""),
+                ),
+            )
+
+        for sk in remote_snapshot.get("installed_skills", []):
+            sid = sk.get("skill_id")
+            if not sid:
+                continue
+            dept_json = sk.get("dept_ids_json")
+            if dept_json is None:
+                dept_json = json.dumps(sk.get("dept_ids", []), ensure_ascii=False)
+            conn.execute(
+                """
+                INSERT INTO installed_skills(
+                    skill_id, skill_slug, title_vi, repo_name, source_url,
+                    division_code, dept_ids_json, category_vi, summary_vi, local_path, installed_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(skill_id) DO UPDATE SET
+                    title_vi = excluded.title_vi,
+                    dept_ids_json = excluded.dept_ids_json,
+                    summary_vi = excluded.summary_vi,
+                    local_path = excluded.local_path,
+                    installed_at = MAX(installed_skills.installed_at, excluded.installed_at)
+                """,
+                (
+                    sid,
+                    sk.get("skill_slug", sid),
+                    sk.get("title_vi", sid),
+                    sk.get("repo_name", "github"),
+                    sk.get("source_url", ""),
+                    sk.get("division_code", "div1-strategy-intel"),
+                    dept_json,
+                    sk.get("category_vi", "Chuyên môn"),
+                    sk.get("summary_vi", ""),
+                    sk.get("local_path", ""),
+                    sk.get("installed_at") or utc_now_iso(),
+                ),
+            )
+
+        for lg in remote_snapshot.get("project_ledger", []):
+            eid = lg.get("entry_id")
+            pid = lg.get("project_id")
+            if not eid or not pid or f"ledger:{eid}" in tomb_keys or f"project:{pid}" in tomb_keys:
+                continue
+            conn.execute(
+                """
+                INSERT OR IGNORE INTO project_ledger(
+                    entry_id, project_id, entry_type, category, title,
+                    amount_vnd, is_estimate, entry_date, note, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    eid,
+                    pid,
+                    lg.get("entry_type", "EXPENSE"),
+                    lg.get("category", "Vận hành"),
+                    lg.get("title", ""),
+                    float(lg.get("amount_vnd", 0)),
+                    1 if lg.get("is_estimate") else 0,
+                    lg.get("entry_date") or utc_now_iso()[:10],
+                    lg.get("note", ""),
+                    lg.get("created_at") or utc_now_iso(),
+                ),
+            )
 
         conn.execute(
             """

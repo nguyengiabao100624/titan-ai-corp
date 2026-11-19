@@ -8,6 +8,7 @@ import concurrent.futures
 import gzip
 import hashlib
 import http.server
+import importlib
 import json
 import os
 import queue
@@ -57,6 +58,22 @@ class ThreadingCommandServer(socketserver.ThreadingMixIn, http.server.HTTPServer
         self.sse_queues_lock = threading.Lock()
         self.sse_queues: set[queue.Queue[dict[str, Any]]] = set()
         self.learning_in_progress = False
+        self.learning_progress_lock = threading.Lock()
+        self.learning_progress: dict[str, Any] = {
+            "running": False,
+            "run_id": "",
+            "scope": "all",
+            "sources_done": 0,
+            "sources_total": 0,
+            "current_source_vi": "",
+            "new_atoms_added": 0,
+            "duplicates_skipped": 0,
+            "errors_count": 0,
+            "touched_depts": [],
+            "started_at": "",
+            "finished_at": "",
+            "summary_vi": "",
+        }
         self.started_at = time.time()
         self._stop_watcher = threading.Event()
         self._last_broadcast_event_id = self._get_max_event_id()
@@ -64,6 +81,19 @@ class ThreadingCommandServer(socketserver.ThreadingMixIn, http.server.HTTPServer
         self.db.register_event_listener(self._broadcast_sse_event)
         self._watcher_thread = threading.Thread(target=self._watch_external_db_events, daemon=True, name="titan-sse-watch")
         self._watcher_thread.start()
+
+    def get_learning_progress(self) -> dict[str, Any]:
+        with self.learning_progress_lock:
+            snap = dict(self.learning_progress)
+            snap["touched_depts"] = list(snap.get("touched_depts") or [])
+            return snap
+
+    def update_learning_progress(self, updates: dict[str, Any]) -> dict[str, Any]:
+        with self.learning_progress_lock:
+            self.learning_progress.update(updates)
+            snap = dict(self.learning_progress)
+            snap["touched_depts"] = list(snap.get("touched_depts") or [])
+            return snap
 
     def _get_max_event_id(self) -> int:
         try:
@@ -348,7 +378,55 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 limit = int(qs.get("limit", ["60"])[0])
                 payload = db.get_overview_payload(events_limit=max(10, min(200, limit)))
                 payload["learning_in_progress"] = self.app_server.learning_in_progress
+                live_prog = self.app_server.get_learning_progress()
+                if live_prog.get("running") or live_prog.get("run_id"):
+                    payload["learning_progress"] = live_prog
                 self._send_json(payload, enable_etag=True)
+                return
+
+            # 05b: Live Learning Progress & Recent Runs
+            if path == "/api/learning/status":
+                recent_runs = db.list_learning_runs(limit=20)
+                live_prog = self.app_server.get_learning_progress()
+                if not live_prog.get("running") and not live_prog.get("run_id") and recent_runs:
+                    lr = recent_runs[0]
+                    live_prog = {
+                        **live_prog,
+                        "run_id": lr.get("run_id", ""),
+                        "scope": lr.get("scope", "all"),
+                        "sources_done": int(lr.get("sources_queried") or 0),
+                        "sources_total": int(lr.get("sources_queried") or 0),
+                        "new_atoms_added": int(lr.get("new_atoms_added") or 0),
+                        "duplicates_skipped": int(lr.get("duplicates_skipped") or 0),
+                        "started_at": lr.get("started_at") or "",
+                        "finished_at": lr.get("finished_at") or "",
+                    }
+                self._send_json(
+                    {
+                        "learning_in_progress": self.app_server.learning_in_progress,
+                        "learning_progress": live_prog,
+                        "recent_runs": recent_runs,
+                    },
+                    enable_etag=False,
+                )
+                return
+
+            # 05c: Installed GitHub Skills Catalog Query
+            if path == "/api/skills":
+                dept_id = qs.get("dept_id", [None])[0]
+                div_code = qs.get("division", [None])[0]
+                q = qs.get("q", [""])[0]
+                skills = db.list_installed_skills(dept_id=dept_id, division_code=div_code, query=q)
+                self._send_json({"count": len(skills), "skills": skills}, enable_etag=True)
+                return
+
+            # 05d: Corporate & Per-Project Finance Summary
+            if path == "/api/finance/summary":
+                pid = qs.get("project_id", [None])[0]
+                if pid:
+                    self._send_json(db.get_project_finance_summary(pid), enable_etag=False)
+                else:
+                    self._send_json(db.get_corporate_finance_summary(), enable_etag=False)
                 return
 
             # 06: Server-Sent Events (SSE) Stream with Last-Event-ID & Keep-Alive
@@ -382,6 +460,27 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
             m_pfiles = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)/files$", path)
             if m_pfiles:
                 self._handle_project_files(m_pfiles.group(1), qs)
+                return
+
+            # 13b: Per-Project Full Finance Dashboard & Ledger
+            m_pfin = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)/finance$", path)
+            if m_pfin:
+                pid = m_pfin.group(1)
+                proj = db.get_project(pid)
+                if not proj:
+                    self._send_json({"error": f"Dự án '{pid}' không tồn tại."}, status=404)
+                    return
+                missions = [m for m in db.list_missions() if m.get("project_id") == pid]
+                self._send_json(
+                    {
+                        "project": proj,
+                        "summary": db.get_project_finance_summary(pid),
+                        "ledger": db.list_project_ledger(project_id=pid),
+                        "tasks": db.list_tasks(project_id=pid),
+                        "missions": missions,
+                    },
+                    enable_etag=False,
+                )
                 return
 
             # 14: Kanban Tasks Query
@@ -490,6 +589,10 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 return
 
             self._send_json({"error": f"Đường dẫn không tồn tại: {path}"}, status=404)
+        except KeyError as ke:
+            self._send_json({"error": str(ke)}, status=404)
+        except ValueError as ve:
+            self._send_json({"error": str(ve)}, status=400)
         except Exception as exc:
             self._send_json({"error": str(exc)}, status=500)
         finally:
@@ -648,7 +751,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
 
             # 21: Trigger Non-Blocking Background Continual Learning Cycle
             if path == "/api/learning/run":
-                scope = str(body.get("scope", "all")).strip()
+                scope = str(body.get("scope", "all")).strip() or "all"
                 wait_sync = bool(body.get("wait", False))
                 if wait_sync:
                     res = self._execute_learning_job(scope, "CHAIRMAN_UI_SYNC")
@@ -656,16 +759,90 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     return
                 if self.app_server.learning_in_progress:
                     self._send_json(
-                        {"accepted": False, "message": "Một chu kỳ đọc báo đang chạy nền, vui lòng theo dõi trên dòng sự kiện!"},
+                        {
+                            "accepted": False,
+                            "learning_progress": self.app_server.get_learning_progress(),
+                            "message": "Một chu kỳ đọc báo đang chạy nền, vui lòng theo dõi thanh tiến độ trực tiếp.",
+                        },
                         status=202,
                     )
                     return
                 self.app_server.learning_in_progress = True
+                init_prog = self.app_server.update_learning_progress(
+                    {
+                        "running": True,
+                        "run_id": "",
+                        "scope": scope,
+                        "sources_done": 0,
+                        "sources_total": 0,
+                        "current_source_vi": "Đang khởi động các kênh thu thập tin tức...",
+                        "new_atoms_added": 0,
+                        "duplicates_skipped": 0,
+                        "errors_count": 0,
+                        "touched_depts": [],
+                        "started_at": utc_now_iso(),
+                        "finished_at": "",
+                        "summary_vi": "Đang bắt đầu quét các nguồn báo mới và tri thức thị trường...",
+                    }
+                )
                 self.app_server.bg_pool.submit(self._execute_learning_job, scope, "CHAIRMAN_UI")
                 self._send_json(
-                    {"accepted": True, "scope": scope, "message": "Đã kích hoạt quét báo chí & nghiên cứu chạy nền không khóa giao diện."},
+                    {
+                        "accepted": True,
+                        "scope": scope,
+                        "learning_progress": init_prog,
+                        "message": "Đã kích hoạt quét báo chí và nghiên cứu chạy nền không khóa giao diện.",
+                    },
                     status=202,
                 )
+                return
+
+            # 21b: Acquire & Teach Open-Source GitHub Skills to Departments
+            if path == "/api/skills/acquire":
+                try:
+                    importlib.invalidate_caches()
+                    skill_mod = importlib.import_module("skill_learner")
+                    engine_cls = getattr(skill_mod, "SkillAcquisitionEngine")
+                except Exception:
+                    self._send_json(
+                        {
+                            "ok": False,
+                            "error": "Động cơ nạp kỹ năng GitHub (skill_learner.py) chưa sẵn sàng. Vui lòng thử lại sau.",
+                        },
+                        status=503,
+                    )
+                    return
+                engine = engine_cls(db=db)
+                dept_arg = str(body.get("dept_id") or "").strip() or None
+                div_arg = str(body.get("division_code") or "").strip() or None
+                query_arg = str(body.get("query") or "").strip()
+                repo_arg = str(body.get("repo_url") or "").strip()
+                res = engine.acquire_skills(
+                    dept_id=dept_arg,
+                    division_code=div_arg,
+                    query=query_arg,
+                    repo_url=repo_arg,
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            # 21c: Add Project Finance Ledger Entry (REVENUE / EXPENSE / TAX_RESERVE)
+            m_pled = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)/finance/ledger$", path)
+            if m_pled:
+                pid = m_pled.group(1)
+                entry = db.add_project_ledger_entry(
+                    project_id=pid,
+                    entry_type=str(body.get("entry_type", "EXPENSE")),
+                    category=str(body.get("category", "Vận hành")),
+                    title=str(body.get("title", "")),
+                    amount_vnd=float(body.get("amount_vnd", 0)),
+                    entry_date=body.get("entry_date"),
+                    note=str(body.get("note", "")),
+                    is_estimate=bool(body.get("is_estimate", False)),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(entry, status=201)
                 return
 
             # 22: Deep URL Wisdom Ingestion
@@ -969,6 +1146,13 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(updated_k, status=200)
                 return
 
+            m_pled_upd = re.match(r"^/api/finance/ledger/([a-zA-Z0-9_-]+)$", path)
+            if m_pled_upd:
+                updated_l = db.update_project_ledger_entry(m_pled_upd.group(1), **body)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_l, status=200)
+                return
+
             self._send_json({"error": f"Đường dẫn cập nhật không tồn tại: {path}"}, status=404)
         except KeyError as ke:
             self._send_json({"error": str(ke)}, status=404)
@@ -1060,6 +1244,13 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(res, status=200)
                 return
 
+            m_dled = re.match(r"^/api/finance/ledger/([a-zA-Z0-9_-]+)$", path)
+            if m_dled:
+                res = db.delete_project_ledger_entry(m_dled.group(1))
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
             if path == "/api/events":
                 res = db.clear_activity_events()
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
@@ -1078,13 +1269,57 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
 
     def _execute_learning_job(self, scope: str, triggered_by: str) -> dict[str, Any]:
         db = self.app_server.db
+
+        def _on_progress(prog: dict[str, Any]) -> None:
+            snap = self.app_server.update_learning_progress(prog)
+            self.app_server._broadcast_sse_event(
+                {
+                    "event_id": 0,
+                    "event_uid": f"prog-{snap.get('run_id', 'live')}-{snap.get('sources_done', 0)}",
+                    "timestamp": utc_now_iso(),
+                    "actor_dept_id": "44",
+                    "event_type": "LEARNING_PROGRESS",
+                    "headline_vi": snap.get("summary_vi") or snap.get("current_source_vi") or "Đang quét nguồn tin...",
+                    "detail": snap,
+                }
+            )
+
         try:
             self.app_server.learning_in_progress = True
-            result = self.app_server.learning_engine.run_learning_cycle(scope=scope, triggered_by=triggered_by)
+            self.app_server.update_learning_progress(
+                {
+                    "running": True,
+                    "scope": scope,
+                    "started_at": utc_now_iso(),
+                    "finished_at": "",
+                }
+            )
+            result = self.app_server.learning_engine.run_learning_cycle(
+                scope=scope,
+                triggered_by=triggered_by,
+                progress_callback=_on_progress,
+            )
+            finished_ts = utc_now_iso()
+            self.app_server.update_learning_progress(
+                {
+                    "running": False,
+                    "run_id": result.get("run_id", ""),
+                    "scope": scope,
+                    "sources_done": int(result.get("sources_queried", 0) or 0),
+                    "sources_total": int(result.get("sources_queried", 0) or 0),
+                    "new_atoms_added": int(result.get("new_atoms_added", 0) or 0),
+                    "duplicates_skipped": int(result.get("duplicates_skipped", 0) or 0),
+                    "errors_count": len(result.get("errors") or []),
+                    "touched_depts": list(result.get("touched_depts") or result.get("departments_updated") or []),
+                    "finished_at": finished_ts,
+                    "summary_vi": result.get("summary_vi") or "Hoàn tất chu kỳ quét tri thức.",
+                }
+            )
             save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
             return result
         finally:
             self.app_server.learning_in_progress = False
+            self.app_server.update_learning_progress({"running": False, "finished_at": utc_now_iso()})
             db.close_thread_conn()
 
     def _handle_project_files(self, project_id: str, qs: dict[str, list[str]]) -> None:

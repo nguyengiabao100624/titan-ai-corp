@@ -1,85 +1,105 @@
-# SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 03: PHÂN TÍCH ĐỐI THỦ CẠNH TRANH
-- **Cập nhật lần cuối:** `2026-11-19T07:51:19Z`
-- **Tổng số tài liệu/bài báo đã nạp:** `16`
+# SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY - PHÒNG 03: Phân tích Đối thủ Cạnh tranh
+- **Cập nhật lần cuối:** `2026-11-19T10:54:41Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `33`
 
 ---
 
-### 1. [Thương mại điện tử tăng trưởng 45%, vì sao số gian hàng vẫn giảm? - Tạp chí Kinh tế chứng khoán Việt Nam](https://news.google.com/rss/articles/CBMilAFBVV95cUxQSkItYjFVemVpdXJ3T0hydjZXZE1yMklYdk9FdmRkTDlwMnh6QWItS191OVQzQVRNZkp2UzFTRm91MHhqZEEwRXcxS05nSms1NVpRdU0xM0pDc0N4VWJ3TGs2NmNoRXI4NnhoaVVLT2VFRWVUWDZ0Y1VMVU93Ti15YWRubGZ3ZE9VRkNObldWTXpwYlJE?oc=5)
+### 1. [Play That Back](https://www.producthunt.com/products/play-that-back)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** A pro camera built for iPhone Duo Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 2. [The Calm Creator Mastermind](https://www.producthunt.com/products/the-calm-creator-mastermind)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** For solopreneurs who are tired of being solo. Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 3. [Tabstack by Mozilla](https://www.producthunt.com/products/tabstack)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** Give your model the web without giving up your privacy Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 4. [Room AI](https://www.producthunt.com/products/room-ai-2)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** Talk to it like a designer. Your room, one change at a time Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 5. [Upsolve MCP Connections](https://www.producthunt.com/products/upsolve-ai)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Plug Notion, Linear and more into your data agent Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 6. [HeyGen Avatar 6](https://www.producthunt.com/products/heygen)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** AI Avatar Model That Looks Like You Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 7. [Stripo Email Widgets](https://www.producthunt.com/products/stripo-email)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Put a game, quiz or survey in your next email. No coding Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 8. [Rezora IO](https://www.producthunt.com/products/rezora-io-ai-calling-assistant)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Shopify for AI voice agents: live in 10 minutes Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 9. [Netlify Server](https://www.producthunt.com/products/netlify)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Run WebSockets, multiplayer apps, and long-running agents Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 10. [Dự án nhà ở xã hội lớn nhất Việt Nam của tỷ phú Phạm Nhật Vượng](https://cafef.vn/du-an-nha-o-lon-nhat-viet-nam-cua-ty-phu-pham-nhat-vuong-188261119155605922.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Quy mô dân số dự kiến 67.465 người.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 11. [Cập nhật tiến độ DA tỷ đô mở rộng nhà máy lọc dầu đầu tiên của Việt Nam, có thể tiết kiệm 200 triệu USD](https://cafef.vn/cap-nhat-tien-do-da-ty-do-mo-rong-nha-may-loc-dau-dau-tien-cua-viet-nam-co-the-tiet-kiem-200-trieu-usd-18826111915363728.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Dự án nâng cấp, mở rộng Nhà máy Lọc dầu Dung Quất đang đẩy nhanh tiến độ triển khai, hướng tới mục tiêu vận hành thử vào cuối năm 2028. Giá trúng thầu gói EPC thấp hơn khoảng 200 triệu USD so với mức được phê duyệt.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 12. [Chính thức đề xuất giảm phạt gần 12.700 tỉ đồng cho 2,5 triệu người nộp thuế](https://thanhnien.vn/chinh-thuc-de-xuat-giam-phat-gan-12700-ti-dong-cho-25-trieu-nguoi-nop-thue-185261119170524635.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Dự kiến từ 21.11, chính sách đặc thù tháo gỡ khó khăn cho người nộp thuế ở trạng thái 03 (ngừng hoạt động nhưng chưa đóng mã số thuế) và 06 (không hoạt động tại địa chỉ đăng ký) có hiệu lực. Tiền phạt dự kiến giảm tối đa 12.671 tỉ đồng.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 13. [100% chất thải của Carlsberg Việt Nam không chôn lấp](https://thanhnien.vn/100-chat-thai-cua-carlsberg-viet-nam-khong-chon-lap-185261119162532921.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** 100% chất thải được tái sử dụng và không chôn lấp ra môi trường là thông tin mà Carlsberg Việt Nam đã công bố tại sự kiện đưa vào sử dụng hệ thống điện mặt trời áp mái mới tại Nhà máy bia Phú Bài (thành phố Huế).
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 14. [MoMo đồng hành cùng chương trình Vibrant HCMC, tung loạt ưu đãi mùa mua sắm cuối năm](https://thanhnien.vn/momo-dong-hanh-cung-chuong-trinh-vibrant-hcmc-tung-loat-uu-dai-mua-mua-sam-cuoi-nam-185261119170730643.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Trở thành đối tác chính thức của chương trình tổng kích cầu Vibrant HCMC, MoMo trải ưu đãi khắp hệ sinh thái tài chính số, từ chuyển tiền, hóa đơn, vé phim đến Ví Trả Sau, dịch vụ công và bảo hiểm. Với MoMo, đây là dịp tiếp tục đồng hành cùng chính thành phố nơi ứng dụng ra đời và lớn lên.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 15. [Cục Hàng không siết tình trạng vé máy bay 'tăng nhanh, giảm chậm'](https://thanhnien.vn/cuc-hang-khong-siet-tinh-trang-ve-may-bay-tang-nhanh-giam-cham-185261119162818982.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Giá xăng dầu hạ nhiệt, Cục Hàng không Việt Nam yêu cầu các hãng hàng không thực hiện nghiêm việc kê khai, niêm yết giá, bán đúng giá công bố, không để tình trạng 'tăng nhanh, giảm chậm'
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 16. [VN-Index mất thêm 13 điểm, thủng mốc 1.700 điểm](https://thanhnien.vn/vn-index-mat-them-13-diem-thung-moc-1700-diem-185261119161022859.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Khối ngoại bán ròng hơn 1.100 tỉ đồng, nhóm cổ phiếu 'họ' Vingroup và FPT đồng loạt giảm, kéo VN-Index mất 13,39 điểm trong phiên giao dịch ngày 19.11 và về mức đóng cửa thấp nhất gần 4 tháng.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 17. [Việt Nam và “kho vàng trắng - hydrogen": Từ câu chuyện Mali, nhanh chân để hiện thực hóa cơ hội?](https://cafef.vn/viet-nam-va-kho-vang-trang-hydrogen-tu-cau-chuyen-mali-nhanh-chan-de-hien-thuc-hoa-co-hoi-188261119145952313.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T08:34:54Z`
+- **Tóm tắt cốt lõi:** Nếu Việt Nam bắt đầu ngay từ bây giờ, cũng sẽ mất một đến hai thập kỷ để có thể làm chủ nguồn năng lượng sạch gần như tuyệt đối là hydrogen tự nhiên.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 18. [Thương mại điện tử tăng trưởng 45%, vì sao số gian hàng vẫn giảm? - Tạp chí Kinh tế chứng khoán Việt Nam](https://news.google.com/rss/articles/CBMilAFBVV95cUxQSkItYjFVemVpdXJ3T0hydjZXZE1yMklYdk9FdmRkTDlwMnh6QWItS191OVQzQVRNZkp2UzFTRm91MHhqZEEwRXcxS05nSms1NVpRdU0xM0pDc0N4VWJ3TGs2NmNoRXI4NnhoaVVLT2VFRWVUWDZ0Y1VMVU93Ti15YWRubGZ3ZE9VRkNObldWTXpwYlJE?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:18Z`
 - **Tóm tắt cốt lõi:** Thương mại điện tử tăng trưởng 45%, vì sao số gian hàng vẫn giảm? Tạp chí Kinh tế chứng khoán Việt Nam
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 2. [6 sàn thương mại điện tử lớn dự kiến bị thanh tra trong năm 2027 - Tạp chí điện tử Thương Trường](https://news.google.com/rss/articles/CBMirgFBVV95cUxOejJpVWZoX2JsQVdqSGdQTVRHY2VENnQ5akxMSDdYRDBldk9fcTZybS1xRDJiVXdIMWdIUnhTWHpHbmJMZzlVV1lkWlB0TzREZi1WbzVpX0I2RTU0WG1DTEZWeXlYRWRGVU14a3pKVUp0c0FDT2NOOVQ4a0w4dXdrN19Ub2Z1RnUxZm1Ka2pYOXJIYzFPNkh2WGU5dExPdnRiMTgyeGlwMUE2NFBnMHc?oc=5)
+### 19. [6 sàn thương mại điện tử lớn dự kiến bị thanh tra trong năm 2027 - Tạp chí điện tử Thương Trường](https://news.google.com/rss/articles/CBMirgFBVV95cUxOejJpVWZoX2JsQVdqSGdQTVRHY2VENnQ5akxMSDdYRDBldk9fcTZybS1xRDJiVXdIMWdIUnhTWHpHbmJMZzlVV1lkWlB0TzREZi1WbzVpX0I2RTU0WG1DTEZWeXlYRWRGVU14a3pKVUp0c0FDT2NOOVQ4a0w4dXdrN19Ub2Z1RnUxZm1Ka2pYOXJIYzFPNkh2WGU5dExPdnRiMTgyeGlwMUE2NFBnMHc?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:18Z`
 - **Tóm tắt cốt lõi:** 6 sàn thương mại điện tử lớn dự kiến bị thanh tra trong năm 2027 Tạp chí điện tử Thương Trường
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 3. [VinFast muốn biến quốc gia 280 triệu dân thành cứ điểm xuất khẩu ô tô điện ra châu Á, dự kiến nâng công suất nhà máy lên gấp 7 lần](https://cafef.vn/vinfast-muon-bien-quoc-gia-280-trieu-dan-thanh-cu-diem-xuat-khau-o-to-dien-ra-chau-a-du-kien-nang-cong-suat-nha-may-len-gap-7-lan-188261119143837296.chn)
+### 20. [VinFast muốn biến quốc gia 280 triệu dân thành cứ điểm xuất khẩu ô tô điện ra châu Á, dự kiến nâng công suất nhà máy lên gấp 7 lần](https://cafef.vn/vinfast-muon-bien-quoc-gia-280-trieu-dan-thanh-cu-diem-xuat-khau-o-to-dien-ra-chau-a-du-kien-nang-cong-suat-nha-may-len-gap-7-lan-188261119143837296.chn)
 - **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
 - **Tóm tắt cốt lõi:** VinFast đang tính đến phương án đưa Indonesia trở thành trung tâm sản xuất và xuất khẩu ô tô điện sang các thị trường châu Á. Nhà máy của hãng tại quốc gia này có thể nâng công suất lên 350.000 xe mỗi năm, gấp 7 lần hiện tại.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 4. [Bầu Đức rót tiền vào một lĩnh vực hoàn toàn mới](https://cafef.vn/bau-duc-rot-tien-vao-mot-linh-vuc-hoan-toan-moi-188261119135403599.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Sau khi rút khỏi bất động sản, thu hẹp hoạt động chăn nuôi heo và dừng mở rộng diện tích chuối, Hoàng Anh Gia Lai của bầu Đức tiếp tục lấn sân sang lĩnh vực hạ tầng cụm công nghiệp tại Gia Lai.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 5. [Lãnh đạo OpenAI, Coca-Cola và Amazon hé lộ sức mạnh AI đang thay đổi cách làm việc: 4 ngày rút còn 20 phút, ngân hàng Việt tạo hơn 300 ứng dụng chỉ trong 6 tháng](https://cafef.vn/lanh-dao-openai-coca-cola-va-amazon-he-lo-suc-manh-ai-dang-thay-doi-cach-lam-viec-4-ngay-rut-con-20-phut-ngan-hang-viet-tao-hon-300-ung-dung-chi-trong-6-thang-188261119094413593.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Từ công việc mất nhiều ngày chỉ còn vài chục phút đến hàng trăm ứng dụng được phát triển trong nửa năm, AI đang tạo ra những thay đổi lớn trong cách các công ty vận hành.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 6. [AgriS sắp chào bán 1.000 tỷ đồng trái phiếu ra công chúng](https://cafef.vn/agris-sap-chao-ban-1000-ty-dong-trai-phieu-ra-cong-chung-188261119124832223.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** AgriS dự kiến huy động 1.000 tỷ đồng thông qua chào bán tối đa 10 triệu trái phiếu ra công chúng với giá 100.000 đồng/trái phiếu.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 7. [Siba Group muốn góp thêm 101 tỷ đồng vào công ty con chế biến sữa](https://cafef.vn/siba-group-muon-gop-them-101-ty-dong-vao-cong-ty-con-che-bien-sua-188261119120136513.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Siba Group sẽ mua thêm tối đa 10,1 triệu cổ phiếu chào bán thêm của Công ty cổ phần Thực phẩm Ocoba với giá 10.000 đồng/cổ phiếu.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 8. [Những khối thép khổng lồ sản xuất tại Vũng Tàu sắp vượt biển đến châu Phi, phục vụ dự án cảng biển 33,5 tỷ yên Nhật](https://cafef.vn/nhung-khoi-thep-khong-lo-san-xuat-tai-vung-tau-sap-vuot-bien-den-chau-phi-phuc-vu-du-an-cang-bien-335-ty-yen-nhat-188261118225318072.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Tập đoàn Đại Dũng đang hoàn thiện các cấu kiện thép kích thước lớn tại nhà máy Vũng Tàu để xuất khẩu sang Kenya, phục vụ dự án phát triển cảng biển Mombasa do tập đoàn Nhật Bản TOA Corporation làm tổng thầu.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 9. [Loạt vũ khí tối tân sắp hội tụ tại Hà Nội: UAV sát thủ của Mỹ, tàu ngầm Thổ Nhĩ Kỳ, tên lửa Nhật Bản và 116 sản phẩm của Viettel](https://cafef.vn/loat-vu-khi-toi-tan-sap-hoi-tu-tai-ha-noi-uav-sat-thu-cua-my-tau-ngam-tho-nhi-ky-ten-lua-nhat-ban-va-116-san-pham-cua-viettel-188261118225056899.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Triển lãm Quốc phòng quốc tế Việt Nam 2026 dự kiến quy tụ hàng trăm doanh nghiệp từ nhiều quốc gia. Mỹ dự kiến trưng bày UAV MQ-9 Reaper, Nhật Bản giới thiệu công nghệ tên lửa, UAV bằng bìa carton, trong khi Thổ Nhĩ Kỳ mang tới các thiết kế tàu ngầm, tàu chiến và UAV đánh chặn.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 10. [Lợi nhuận của AEON Mall Việt Nam trong nửa đầu năm tài khóa 2026 tăng hơn 35% lên hơn 500 tỷ đồng](https://cafef.vn/loi-nhuan-cua-aeon-mall-viet-nam-trong-nua-dau-nam-tai-khoa-2026-tang-hon-35-len-hon-500-ty-dong-188261118225452716.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Aeon Mall đến từ Nhật Bản khẳng định Việt Nam là thị trường được ưu tiên nhất cho việc mở cơ sở mới, với 3 dự án trong năm tài khóa 2026, so với 2 tại quê nhà Nhật Bản và 0 tại các thị trường khác (Trung Quốc, Campuchia, Indonesia).
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 11. [Vietcap định giá Long Châu hơn 44.000 tỷ đồng, gấp 18 lần FPT Shop: Hé lộ nhóm cổ đông đặc biệt nắm hơn 11% vốn](https://cafef.vn/vietcap-dinh-gia-long-chau-hon-44000-ty-dong-gap-18-lan-fpt-shop-he-lo-nhom-co-dong-dac-biet-nam-hon-11-von-18826111822215302.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Theo báo cáo mới nhất của Vietcap, giá trị ước tính của chuỗi nhà thuốc Long Châu vượt xa FPT Shop. Cơ cấu cổ đông của chuỗi này cũng xuất hiện một nhóm sở hữu lượng cổ phần có giá trị hàng nghìn tỷ đồng.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 12. [Nhà thầu Trung Quốc nâng kết cấu thép khổng lồ 616 tấn, đường kính hơn 70 m lên độ cao 34 m chính xác từng milimet cho siêu công trình Việt Nam](https://cafef.vn/nha-thau-trung-quoc-nang-ket-cau-thep-khong-lo-616-tan-duong-kinh-hon-70-m-len-do-cao-34-m-chinh-xac-tung-milimet-cho-sieu-cong-trinh-viet-nam-188261118212600658.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Chỉ trong 140 phút, mái vòm khổng lồ được nâng lên độ cao 34 m bằng công nghệ đặc biệt, phục vụ công trình chứa khí siêu lạnh cao ngang tòa nhà 16 tầng.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 13. [Thương mại điện tử: Khi lợi thế giá rẻ nhường chỗ cho sức nặng của niềm tin - baodautu](https://news.google.com/rss/articles/CBMiqwFBVV95cUxOcUZWYU53M1VUVWozVkx0M3BIcVplYXVreUJNZE5KTzZKX2R5WDlndGlkY3AzMDIzaExNZ0tlUW1jdHFmUHZpMTREaFJzeGtOUDlVaTE4US1HMUVnb3R6NUtuWjVxLXFoclZjTGw5c0FBV3lLZGdpZnJRcjdhQjZOMDFvMGo2eFQ5eXREbWhYT1RGVHZUZENQM2ZOcHh1ZDhHd0RtT0VfS21uZk0?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Thương mại điện tử: Khi lợi thế giá rẻ nhường chỗ cho sức nặng của niềm tin baodautu
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 14. [TikTok Shop áp sát ngôi vương thị phần của Shopee - VnExpress](https://news.google.com/rss/articles/CBMijAFBVV95cUxPdy1lY3hnM0l0UjRuamg2YVNPcWVZVXk1Wk5hcDUwNlNoVVFvYWxoaVdRY3V6YkdfbGJ0X0FaZnFINXlfeEo0VnlPNnYyQy1WZ0tsTFpFak8zVnIwY3owbzh2SDBCQ01uUFZ2bDlIVFB6OUpqM3JFOGRZWWlUZFBlb2dZOURPdXp1bHJCQw?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** TikTok Shop áp sát ngôi vương thị phần của Shopee VnExpress
-- **Ứng dụng thực chiến:** Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.
-
-### 15. [Online Friday 2026: Thúc đẩy thương mại điện tử không khoảng cách thông qua 5 trụ cột - Tạp chí Công Thương](https://news.google.com/rss/articles/CBMiwgFBVV95cUxOZ0tVbXZxV1N3NW9vQnY0ZmdvT084S1lkTHpyYXBhUW9WQzhBS3VCVEt6WFNSYzgzVFZMb1NXbklyaUtRSmk3MUwxWVVCRTJOR2hBUWx2QmFET245N2l3cnpjcjIyWlFKXzAxVkk5UlphYnlvbEp1RkEyNTlMRThLS1Q1M2cxZlp5QUxFeVRPVm9KRlhGSkVhRVFxZS1ncnpRdml0UnFramFISWxhbm1kQUF6R1hfYnVwWkV3RXBYN1Jmdw?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Online Friday 2026: Thúc đẩy thương mại điện tử không khoảng cách thông qua 5 trụ cột Tạp chí Công Thương
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 16. [Thị phần thương mại điện tử: TikTok Shop sắp "đuổi kịp" Shopee - VnEconomy](https://news.google.com/rss/articles/CBMijAFBVV95cUxPWFotYVNVSk9ndGsydVU5SDRaWFRZYWpyRTJvMlluTF9HMnNULU1FZVY1ek5ZUEZfY2tSenhrdWROOGFvdjJObnRwdUpxeE93NG4yTTI4MTZQS2NXT2d1WWpydEZkS0Y0XzZtQnZmMFZEbThXbVBhMEtEZk1GQVpZVTV4OW9QQUpqck1MYQ?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Thị phần thương mại điện tử: TikTok Shop sắp "đuổi kịp" Shopee VnEconomy
-- **Ứng dụng thực chiến:** Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.

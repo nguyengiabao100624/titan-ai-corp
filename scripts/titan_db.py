@@ -111,6 +111,13 @@ ENTITY_TYPE_LABELS_VI: dict[str, str] = {
     "project": "dự án",
     "article": "bài viết",
     "doc": "tài liệu",
+    "ledger": "bút toán tài chính",
+}
+
+LEDGER_TYPE_LABELS_VI: dict[str, str] = {
+    "REVENUE": "Doanh thu",
+    "EXPENSE": "Chi phí",
+    "TAX_RESERVE": "Dự phòng thuế",
 }
 
 
@@ -440,10 +447,39 @@ CREATE TABLE IF NOT EXISTS swarm_messages (
     created_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS project_ledger (
+    entry_id TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    entry_type TEXT NOT NULL CHECK(entry_type IN ('REVENUE','EXPENSE','TAX_RESERVE')),
+    category TEXT NOT NULL DEFAULT 'Vận hành',
+    title TEXT NOT NULL,
+    amount_vnd REAL NOT NULL DEFAULT 0,
+    is_estimate INTEGER NOT NULL DEFAULT 0,
+    entry_date TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS installed_skills (
+    skill_id TEXT PRIMARY KEY,
+    skill_slug TEXT NOT NULL,
+    title_vi TEXT NOT NULL,
+    repo_name TEXT NOT NULL,
+    source_url TEXT NOT NULL DEFAULT '',
+    division_code TEXT NOT NULL DEFAULT 'div1-strategy-intel',
+    dept_ids_json TEXT NOT NULL DEFAULT '[]',
+    category_vi TEXT NOT NULL DEFAULT 'Chuyên môn',
+    summary_vi TEXT NOT NULL DEFAULT '',
+    local_path TEXT NOT NULL DEFAULT '',
+    installed_at TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_mission_steps_order ON mission_steps(mission_id, step_order ASC);
 CREATE INDEX IF NOT EXISTS idx_opps_status ON opportunities(status, updated_at DESC);
 CREATE INDEX IF NOT EXISTS idx_ag_orders_status ON antigravity_orders(status, created_at ASC);
 CREATE INDEX IF NOT EXISTS idx_swarm_msgs_msn ON swarm_messages(mission_id, msg_id DESC);
+CREATE INDEX IF NOT EXISTS idx_ledger_proj_date ON project_ledger(project_id, entry_date DESC);
+CREATE INDEX IF NOT EXISTS idx_skills_div ON installed_skills(division_code, installed_at DESC);
 """
 
 
@@ -576,6 +612,7 @@ class TitanDatabase:
                     )
         self.sync_divisions_and_roster()
         self.seed_default_opportunities_if_empty()
+        self.seed_default_project_ledger_if_empty()
 
     def sync_divisions_and_roster(self) -> int:
         now = utc_now_iso()
@@ -1547,6 +1584,18 @@ class TitanDatabase:
             """,
             params,
         ).fetchall()
+        skill_counts: dict[str, int] = {}
+        for sk_row in conn.execute("SELECT dept_ids_json FROM installed_skills").fetchall():
+            try:
+                d_ids = json.loads(sk_row["dept_ids_json"] or "[]")
+                if isinstance(d_ids, list):
+                    for did in d_ids:
+                        key = str(did).strip()
+                        if key:
+                            skill_counts[key] = skill_counts.get(key, 0) + 1
+            except Exception:
+                pass
+
         result = []
         for r in rows:
             item = dict(r)
@@ -1554,6 +1603,7 @@ class TitanDatabase:
                 item["canonical_books"] = json.loads(item["canonical_books"])
             except Exception:
                 item["canonical_books"] = []
+            item["skills_count"] = skill_counts.get(item["dept_id"], 0)
             result.append(item)
         return result
 
@@ -1580,6 +1630,8 @@ class TitanDatabase:
         hb_path = ROOT_DIR / dept["handbook_path"]
         dept["handbook_markdown"] = hb_path.read_text(encoding="utf-8") if hb_path.is_file() else ""
         dept["learned_articles"] = self.search_knowledge_fts(query="", dept_id=actual_id, limit=40)
+        dept["installed_skills"] = self.list_installed_skills(dept_id=actual_id)
+        dept["skills_count"] = len(dept["installed_skills"])
         dept["tasks"] = self.list_tasks(dept_id=actual_id)
         dept["reflexions"] = [
             dict(rf)
@@ -1700,6 +1752,10 @@ class TitanDatabase:
             events.append(item)
 
         last_run = conn.execute("SELECT * FROM learning_runs ORDER BY started_at DESC LIMIT 1").fetchone()
+        learning_runs = self.list_learning_runs(limit=20)
+        installed_skills = self.list_installed_skills()
+        project_ledger = self.list_project_ledger()
+        finance_summary = self.get_corporate_finance_summary()
         latest_stamp_row = conn.execute(
             """
             SELECT MAX(ts) AS max_ts FROM (
@@ -1713,6 +1769,9 @@ class TitanDatabase:
                 UNION ALL SELECT MAX(created_at) AS ts FROM swarm_messages
                 UNION ALL SELECT MAX(timestamp) AS ts FROM activity_stream
                 UNION ALL SELECT MAX(fetched_at) AS ts FROM knowledge_atoms
+                UNION ALL SELECT MAX(created_at) AS ts FROM project_ledger
+                UNION ALL SELECT MAX(installed_at) AS ts FROM installed_skills
+                UNION ALL SELECT MAX(COALESCE(finished_at, started_at)) AS ts FROM learning_runs
             )
             """
         ).fetchone()
@@ -1735,15 +1794,35 @@ class TitanDatabase:
                 "done_tasks": task_counts["done_tasks"] or 0,
                 "total_knowledge_atoms": knowledge_counts["total_atoms"] or 0,
                 "atoms_last_24h": knowledge_counts["atoms_last_24h"] or 0,
+                "total_installed_skills": len(installed_skills),
             },
             "divisions": divisions,
             "projects": self.list_projects(),
             "missions": self.list_missions(),
             "opportunities": self.list_opportunities(),
-            "orders": self.list_orders(limit=25),
+            "orders": self.list_orders(limit=30),
             "swarm_messages": self.list_swarm_messages(limit=80),
             "recent_events": events,
             "last_learning_run": dict(last_run) if last_run else None,
+            "learning_runs": learning_runs,
+            "learning_progress": {
+                "running": False,
+                "run_id": (last_run["run_id"] if last_run else ""),
+                "scope": (last_run["scope"] if last_run else "all"),
+                "sources_done": (int(last_run["sources_queried"]) if last_run else 0),
+                "sources_total": (int(last_run["sources_queried"]) if last_run else 0),
+                "current_source_vi": "",
+                "new_atoms_added": (int(last_run["new_atoms_added"]) if last_run else 0),
+                "duplicates_skipped": (int(last_run["duplicates_skipped"]) if last_run else 0),
+                "errors_count": 0,
+                "touched_depts": [],
+                "started_at": (last_run["started_at"] if last_run else ""),
+                "finished_at": (last_run["finished_at"] or "" if last_run else ""),
+                "summary_vi": "",
+            },
+            "installed_skills": installed_skills,
+            "project_ledger": project_ledger,
+            "finance_summary": finance_summary,
         }
 
     def get_events_since(self, last_event_id: int) -> list[dict[str, Any]]:
@@ -2794,7 +2873,8 @@ class TitanDatabase:
         if not proj:
             raise KeyError(f"Dự án '{project_id}' không tồn tại.")
         tasks_in_proj = self.list_tasks(project_id=project_id)
-        backup = {"project": proj, "tasks": tasks_in_proj}
+        ledger_in_proj = self.list_project_ledger(project_id=project_id)
+        backup = {"project": proj, "tasks": tasks_in_proj, "ledger": ledger_in_proj}
         with self.immediate_tx() as conn:
             self._record_tombstone(conn, "project", project_id, backup)
             if delete_tasks:
@@ -2805,6 +2885,7 @@ class TitanDatabase:
                 conn.execute("DELETE FROM tasks WHERE project_id = ?", (project_id,))
             else:
                 conn.execute("UPDATE tasks SET project_id = NULL WHERE project_id = ?", (project_id,))
+            conn.execute("DELETE FROM project_ledger WHERE project_id = ?", (project_id,))
             conn.execute("DELETE FROM projects WHERE project_id = ?", (project_id,))
             self.log_event("00", "PROJECT_DELETED", f"Đã xóa dự án: {proj['title']}", conn=conn)
         return {"deleted": True, "entity_type": "project", "entity_id": project_id, "title": proj["title"]}
@@ -2978,6 +3059,38 @@ class TitanDatabase:
                             t.get("created_at", now), now,
                         ),
                     )
+                for lg in data.get("ledger", []):
+                    wconn.execute(
+                        """
+                        INSERT OR IGNORE INTO project_ledger(
+                            entry_id, project_id, entry_type, category, title,
+                            amount_vnd, is_estimate, entry_date, note, created_at
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            lg["entry_id"], p["project_id"], lg["entry_type"],
+                            lg.get("category", "Vận hành"), lg["title"],
+                            float(lg.get("amount_vnd", 0)), int(lg.get("is_estimate", 0)),
+                            lg.get("entry_date", now[:10]), lg.get("note", ""),
+                            lg.get("created_at", now),
+                        ),
+                    )
+            elif entity_type == "ledger":
+                wconn.execute(
+                    """
+                    INSERT OR REPLACE INTO project_ledger(
+                        entry_id, project_id, entry_type, category, title,
+                        amount_vnd, is_estimate, entry_date, note, created_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        data["entry_id"], data["project_id"], data["entry_type"],
+                        data.get("category", "Vận hành"), data["title"],
+                        float(data.get("amount_vnd", 0)), int(data.get("is_estimate", 0)),
+                        data.get("entry_date", now[:10]), data.get("note", ""),
+                        data.get("created_at", now),
+                    ),
+                )
             elif entity_type == "article":
                 wconn.execute(
                     """
@@ -3016,3 +3129,691 @@ class TitanDatabase:
             except KeyError:
                 pass
         return {"restored": True, "count": restored}
+
+    # =========================================================================
+    # V8.0: LEARNING HISTORY, INSTALLED GITHUB SKILLS & PER-PROJECT FINANCE LEDGER
+    # =========================================================================
+    def list_learning_runs(self, limit: int = 20) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        safe_limit = max(1, min(100, int(limit)))
+        rows = conn.execute(
+            "SELECT * FROM learning_runs ORDER BY started_at DESC LIMIT ?",
+            (safe_limit,),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+    @staticmethod
+    def _normalize_dept_ids(dept_ids: list[str] | tuple[str, ...] | set[str] | str | None) -> list[str]:
+        if dept_ids is None:
+            return []
+        if isinstance(dept_ids, str):
+            raw = dept_ids.strip()
+            if raw.startswith("["):
+                try:
+                    parsed = json.loads(raw)
+                    if isinstance(parsed, list):
+                        dept_ids = parsed
+                    else:
+                        dept_ids = [raw]
+                except Exception:
+                    dept_ids = [x.strip() for x in raw.split(",") if x.strip()]
+            else:
+                dept_ids = [x.strip() for x in raw.split(",") if x.strip()]
+        seen: list[str] = []
+        for item in dept_ids:
+            s = str(item).strip()
+            if not s:
+                continue
+            if s.isdigit() and len(s) < 2:
+                s = s.zfill(2)
+            if s not in seen:
+                seen.append(s)
+        return seen
+
+    def upsert_installed_skill(
+        self,
+        skill_id: str,
+        skill_slug: str,
+        title_vi: str,
+        repo_name: str,
+        source_url: str = "",
+        division_code: str = "div1-strategy-intel",
+        dept_ids: list[str] | str | None = None,
+        category_vi: str = "Chuyên môn",
+        summary_vi: str = "",
+        local_path: str = "",
+        installed_at: str | None = None,
+    ) -> dict[str, Any]:
+        sid = str(skill_id).strip()
+        if not sid:
+            raise ValueError("Mã kỹ năng skill_id không được để trống.")
+        norm_depts = self._normalize_dept_ids(dept_ids)
+        dept_json = json.dumps(norm_depts, ensure_ascii=False)
+        ts = installed_at or utc_now_iso()
+        with self.immediate_tx() as conn:
+            conn.execute(
+                """
+                INSERT INTO installed_skills(
+                    skill_id, skill_slug, title_vi, repo_name, source_url,
+                    division_code, dept_ids_json, category_vi, summary_vi, local_path, installed_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(skill_id) DO UPDATE SET
+                    skill_slug = excluded.skill_slug,
+                    title_vi = excluded.title_vi,
+                    repo_name = excluded.repo_name,
+                    source_url = excluded.source_url,
+                    division_code = excluded.division_code,
+                    dept_ids_json = excluded.dept_ids_json,
+                    category_vi = excluded.category_vi,
+                    summary_vi = excluded.summary_vi,
+                    local_path = excluded.local_path,
+                    installed_at = excluded.installed_at
+                """,
+                (
+                    sid,
+                    str(skill_slug).strip() or sid,
+                    str(title_vi).strip() or str(skill_slug).strip(),
+                    str(repo_name).strip() or "github",
+                    str(source_url).strip(),
+                    str(division_code).strip() or "div1-strategy-intel",
+                    dept_json,
+                    str(category_vi).strip() or "Chuyên môn",
+                    str(summary_vi).strip(),
+                    str(local_path).strip(),
+                    ts,
+                ),
+            )
+        row = self._get_conn().execute("SELECT * FROM installed_skills WHERE skill_id = ?", (sid,)).fetchone()
+        out = dict(row)
+        out["dept_ids"] = norm_depts
+        return out
+
+    def list_installed_skills(
+        self,
+        dept_id: str | None = None,
+        division_code: str | None = None,
+        query: str = "",
+    ) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        clauses = ["1=1"]
+        params: list[Any] = []
+        if division_code and division_code.strip() and division_code.strip() != "all":
+            clauses.append("division_code = ?")
+            params.append(division_code.strip())
+
+        rows = conn.execute(
+            f"SELECT * FROM installed_skills WHERE {' AND '.join(clauses)} ORDER BY installed_at DESC, skill_slug ASC",
+            params,
+        ).fetchall()
+
+        norm_target_dept = ""
+        if dept_id and dept_id.strip() and dept_id.strip() != "all":
+            raw_d = dept_id.strip()
+            norm_target_dept = raw_d.zfill(2) if raw_d.isdigit() and len(raw_d) < 2 else raw_d
+        q_lower = (query or "").strip().lower()
+
+        result: list[dict[str, Any]] = []
+        for r in rows:
+            item = dict(r)
+            try:
+                parsed = json.loads(item.get("dept_ids_json") or "[]")
+                item["dept_ids"] = [str(x).strip() for x in parsed] if isinstance(parsed, list) else []
+            except Exception:
+                item["dept_ids"] = []
+            if norm_target_dept and norm_target_dept not in item["dept_ids"]:
+                continue
+            if q_lower:
+                haystack = " ".join(
+                    [
+                        item.get("title_vi", ""),
+                        item.get("skill_slug", ""),
+                        item.get("repo_name", ""),
+                        item.get("category_vi", ""),
+                        item.get("summary_vi", ""),
+                    ]
+                ).lower()
+                if q_lower not in haystack:
+                    continue
+            result.append(item)
+        return result
+
+    def seed_default_project_ledger_if_empty(self) -> None:
+        conn = self._get_conn()
+        cnt = conn.execute("SELECT COUNT(*) FROM project_ledger").fetchone()[0]
+        tomb_cnt = conn.execute("SELECT COUNT(*) FROM deleted_tombstones WHERE entity_type = 'ledger'").fetchone()[0]
+        if cnt > 0 or tomb_cnt > 0:
+            return
+
+        existing_ids = {r["project_id"] for r in conn.execute("SELECT project_id FROM projects").fetchall()}
+        if not existing_ids:
+            return
+
+        now = utc_now_iso()
+        today = now[:10]
+        plan_seeds: list[tuple[str, str, str, str, str, float, int, str, str]] = []
+
+        if "proj-so-thu-chi-thue-hkd" in existing_ids:
+            plan_seeds.extend(
+                [
+                    (
+                        "led-plan-hkd-infra",
+                        "proj-so-thu-chi-thue-hkd",
+                        "EXPENSE",
+                        "Hạ tầng và tên miền",
+                        "Dự toán chi phí hạ tầng máy chủ, tên miền và chứng chỉ bảo mật tháng đầu",
+                        450000.0,
+                        1,
+                        today,
+                        "Kế hoạch dự toán ban đầu (chưa phát sinh thu chi thực tế)",
+                    ),
+                    (
+                        "led-plan-hkd-ai",
+                        "proj-so-thu-chi-thue-hkd",
+                        "EXPENSE",
+                        "Vận hành AI",
+                        "Dự toán chi phí xử lý AI theo hạn mức 50 khách đầu (gói 249.000đ)",
+                        1050000.0,
+                        1,
+                        today,
+                        "Tính theo kịch bản trung bình 60% hạn mức sử dụng",
+                    ),
+                    (
+                        "led-plan-hkd-launch",
+                        "proj-so-thu-chi-thue-hkd",
+                        "EXPENSE",
+                        "Kiểm định và ra mắt",
+                        "Dự toán kiểm định chất lượng, nội dung giới thiệu và tiếp cận 50 khách đầu",
+                        1500000.0,
+                        1,
+                        today,
+                        "Kế hoạch dự toán cho giai đoạn mở bán đợt 1",
+                    ),
+                    (
+                        "led-plan-hkd-rev",
+                        "proj-so-thu-chi-thue-hkd",
+                        "REVENUE",
+                        "Thuê bao gói cơ bản",
+                        "Mục tiêu doanh thu dự toán 50 chủ shop đầu tiên (249.000đ/tháng)",
+                        12450000.0,
+                        1,
+                        today,
+                        "Kế hoạch dự toán mục tiêu, tách biệt hoàn toàn với doanh thu thực tế",
+                    ),
+                    (
+                        "led-plan-hkd-tax",
+                        "proj-so-thu-chi-thue-hkd",
+                        "TAX_RESERVE",
+                        "Dự phòng thuế",
+                        "Dự phòng thuế theo kế hoạch 7% trên doanh thu mục tiêu 50 khách",
+                        871500.0,
+                        1,
+                        today,
+                        "Trích dự phòng tuân thủ nghĩa vụ thuế hộ kinh doanh",
+                    ),
+                ]
+            )
+
+        if "proj-rem-cua-ai" in existing_ids:
+            plan_seeds.extend(
+                [
+                    (
+                        "led-plan-rem-infra",
+                        "proj-rem-cua-ai",
+                        "EXPENSE",
+                        "Hạ tầng và xử lý ảnh",
+                        "Dự toán chi phí máy chủ ảnh và xử lý ướm mẫu AI tháng đầu",
+                        1500000.0,
+                        1,
+                        today,
+                        "Kế hoạch dự toán hạ tầng cơ bản",
+                    ),
+                    (
+                        "led-plan-rem-mkt",
+                        "proj-rem-cua-ai",
+                        "EXPENSE",
+                        "Tiếp cận khách hàng",
+                        "Dự toán chi phí tiếp cận chủ tiệm rèm cửa và sàn gỗ đợt đầu",
+                        1200000.0,
+                        1,
+                        today,
+                        "Kế hoạch dự toán thử nghiệm bán hàng",
+                    ),
+                    (
+                        "led-plan-rem-rev",
+                        "proj-rem-cua-ai",
+                        "REVENUE",
+                        "Thuê bao cửa hàng",
+                        "Mục tiêu doanh thu dự toán 30 cửa hàng tháng đầu (399.000đ/tháng)",
+                        11970000.0,
+                        1,
+                        today,
+                        "Kế hoạch dự toán mục tiêu (thực thu hiện tại = 0đ)",
+                    ),
+                    (
+                        "led-plan-rem-tax",
+                        "proj-rem-cua-ai",
+                        "TAX_RESERVE",
+                        "Dự phòng thuế",
+                        "Dự phòng thuế theo kế hoạch 7% trên doanh thu mục tiêu 30 cửa hàng",
+                        837900.0,
+                        1,
+                        today,
+                        "Quỹ dự phòng thuế theo kế hoạch",
+                    ),
+                ]
+            )
+
+        if not plan_seeds:
+            return
+
+        with self.immediate_tx() as wconn:
+            for item in plan_seeds:
+                wconn.execute(
+                    """
+                    INSERT OR IGNORE INTO project_ledger(
+                        entry_id, project_id, entry_type, category, title,
+                        amount_vnd, is_estimate, entry_date, note, created_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (*item, now),
+                )
+
+    def list_project_ledger(self, project_id: str | None = None) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        if project_id:
+            rows = conn.execute(
+                """
+                SELECT pl.*, p.title AS project_title, p.slug AS project_slug
+                FROM project_ledger pl
+                LEFT JOIN projects p ON p.project_id = pl.project_id
+                WHERE pl.project_id = ?
+                ORDER BY pl.entry_date DESC, pl.created_at DESC
+                """,
+                (project_id,),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                """
+                SELECT pl.*, p.title AS project_title, p.slug AS project_slug
+                FROM project_ledger pl
+                LEFT JOIN projects p ON p.project_id = pl.project_id
+                ORDER BY pl.entry_date DESC, pl.created_at DESC
+                """
+            ).fetchall()
+        out: list[dict[str, Any]] = []
+        for r in rows:
+            item = dict(r)
+            item["is_estimate"] = bool(item.get("is_estimate"))
+            out.append(item)
+        return out
+
+    def add_project_ledger_entry(
+        self,
+        project_id: str,
+        entry_type: str,
+        category: str,
+        title: str,
+        amount_vnd: float,
+        entry_date: str | None = None,
+        note: str = "",
+        is_estimate: bool = False,
+        entry_id: str | None = None,
+    ) -> dict[str, Any]:
+        proj = self.get_project(project_id)
+        if not proj:
+            raise KeyError(f"Dự án '{project_id}' không tồn tại.")
+        etype = str(entry_type or "").upper().strip()
+        if etype not in ("REVENUE", "EXPENSE", "TAX_RESERVE"):
+            raise ValueError("Loại bút toán phải là REVENUE, EXPENSE hoặc TAX_RESERVE.")
+        clean_title = str(title or "").strip()
+        if not clean_title:
+            raise ValueError("Nội dung bút toán không được để trống.")
+        amt = float(amount_vnd)
+        if amt < 0:
+            raise ValueError("Số tiền bút toán không được là số âm.")
+        now = utc_now_iso()
+        edate = str(entry_date or "").strip() or now[:10]
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", edate):
+            edate = now[:10]
+        eid = str(entry_id).strip() if entry_id else f"led-{uuid.uuid4().hex[:10]}"
+        cat = str(category or "").strip() or "Vận hành"
+        est_flag = 1 if bool(is_estimate) else 0
+
+        with self.immediate_tx() as conn:
+            self._clear_tombstone(conn, "ledger", eid)
+            conn.execute(
+                """
+                INSERT INTO project_ledger(
+                    entry_id, project_id, entry_type, category, title,
+                    amount_vnd, is_estimate, entry_date, note, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (eid, project_id, etype, cat, clean_title, round(amt, 2), est_flag, edate, str(note or "").strip(), now),
+            )
+            etype_vi = LEDGER_TYPE_LABELS_VI.get(etype, etype)
+            mode_vi = "Dự toán" if est_flag else "Thực tế"
+            self.log_event(
+                actor_dept_id="37",
+                event_type="LEDGER_ADDED",
+                headline_vi=f"Ghi sổ {etype_vi} ({mode_vi}) cho '{proj['title']}': {clean_title} ({int(round(amt)):,}đ)",
+                project_id=project_id,
+                detail={"entry_id": eid, "entry_type": etype, "amount_vnd": round(amt, 2), "is_estimate": bool(est_flag)},
+                conn=conn,
+            )
+        row = self._get_conn().execute(
+            """
+            SELECT pl.*, p.title AS project_title, p.slug AS project_slug
+            FROM project_ledger pl
+            LEFT JOIN projects p ON p.project_id = pl.project_id
+            WHERE pl.entry_id = ?
+            """,
+            (eid,),
+        ).fetchone()
+        res = dict(row)
+        res["is_estimate"] = bool(res.get("is_estimate"))
+        return res
+
+    def update_project_ledger_entry(self, entry_id: str, **fields: Any) -> dict[str, Any]:
+        allowed = {"entry_type", "category", "title", "amount_vnd", "is_estimate", "entry_date", "note"}
+        updates: dict[str, Any] = {}
+        for k, v in fields.items():
+            if k not in allowed or v is None:
+                continue
+            if k == "entry_type":
+                et = str(v).upper().strip()
+                if et not in ("REVENUE", "EXPENSE", "TAX_RESERVE"):
+                    raise ValueError("Loại bút toán phải là REVENUE, EXPENSE hoặc TAX_RESERVE.")
+                updates[k] = et
+            elif k == "amount_vnd":
+                amt = float(v)
+                if amt < 0:
+                    raise ValueError("Số tiền bút toán không được là số âm.")
+                updates[k] = round(amt, 2)
+            elif k == "is_estimate":
+                updates[k] = 1 if bool(v) else 0
+            elif k == "title":
+                t = str(v).strip()
+                if not t:
+                    raise ValueError("Nội dung bút toán không được để trống.")
+                updates[k] = t
+            elif k == "entry_date":
+                ed = str(v).strip()
+                if re.match(r"^\d{4}-\d{2}-\d{2}$", ed):
+                    updates[k] = ed
+            else:
+                updates[k] = str(v).strip()
+
+        with self.immediate_tx() as conn:
+            cur = conn.execute("SELECT * FROM project_ledger WHERE entry_id = ?", (entry_id,)).fetchone()
+            if not cur:
+                raise KeyError(f"Bút toán tài chính '{entry_id}' không tồn tại.")
+            if updates:
+                cols = ", ".join(f"{k} = ?" for k in updates)
+                conn.execute(
+                    f"UPDATE project_ledger SET {cols} WHERE entry_id = ?",
+                    [*updates.values(), entry_id],
+                )
+        row = self._get_conn().execute(
+            """
+            SELECT pl.*, p.title AS project_title, p.slug AS project_slug
+            FROM project_ledger pl
+            LEFT JOIN projects p ON p.project_id = pl.project_id
+            WHERE pl.entry_id = ?
+            """,
+            (entry_id,),
+        ).fetchone()
+        res = dict(row)
+        res["is_estimate"] = bool(res.get("is_estimate"))
+        return res
+
+    def delete_project_ledger_entry(self, entry_id: str) -> dict[str, Any]:
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM project_ledger WHERE entry_id = ?", (entry_id,)).fetchone()
+            if not row:
+                raise KeyError(f"Bút toán tài chính '{entry_id}' không tồn tại.")
+            payload = dict(row)
+            self._record_tombstone(conn, "ledger", entry_id, payload)
+            conn.execute("DELETE FROM project_ledger WHERE entry_id = ?", (entry_id,))
+            self.log_event(
+                actor_dept_id="37",
+                event_type="LEDGER_DELETED",
+                headline_vi=f"Đã xóa bút toán tài chính: {payload['title']}",
+                project_id=payload["project_id"],
+                conn=conn,
+            )
+        return {
+            "deleted": True,
+            "entity_type": "ledger",
+            "entity_id": entry_id,
+            "project_id": payload["project_id"],
+            "title": payload["title"],
+        }
+
+    @staticmethod
+    def _discover_project_preview_urls(slug: str, workspace_path: str = "") -> list[dict[str, str]]:
+        """Tìm ứng dụng và trang bán hàng đã sản xuất trong corporate_hq/projects/<slug>/ bằng đường dẫn tương đối."""
+        previews: list[dict[str, str]] = []
+        base_dir = ROOT_DIR / "corporate_hq" / "projects" / slug
+        if not base_dir.is_dir() and workspace_path:
+            alt = ROOT_DIR / workspace_path
+            if alt.is_dir():
+                base_dir = alt
+        if not base_dir.is_dir():
+            return previews
+
+        if (base_dir / "app" / "index.html").is_file():
+            previews.append(
+                {
+                    "label": "Mở ứng dụng trực tiếp",
+                    "url": f"./projects/{slug}/app/index.html",
+                    "kind": "app",
+                }
+            )
+        elif (base_dir / "index.html").is_file():
+            previews.append(
+                {
+                    "label": "Mở sản phẩm trực tiếp",
+                    "url": f"./projects/{slug}/index.html",
+                    "kind": "app",
+                }
+            )
+        if (base_dir / "go-to-market" / "landing" / "index.html").is_file():
+            previews.append(
+                {
+                    "label": "Mở trang bán hàng",
+                    "url": f"./projects/{slug}/go-to-market/landing/index.html",
+                    "kind": "landing",
+                }
+            )
+        return previews
+
+    def get_project_finance_summary(self, project_id: str) -> dict[str, Any]:
+        proj = self.get_project(project_id)
+        if not proj:
+            raise KeyError(f"Dự án '{project_id}' không tồn tại.")
+
+        conn = self._get_conn()
+        ledger = self.list_project_ledger(project_id=project_id)
+
+        actual_rev = 0.0
+        actual_exp = 0.0
+        actual_tax = 0.0
+        plan_rev = 0.0
+        plan_exp = 0.0
+        plan_tax = 0.0
+
+        monthly_map: dict[str, dict[str, Any]] = {}
+        cat_map: dict[tuple[str, str], dict[str, Any]] = {}
+
+        for row in ledger:
+            amt = float(row.get("amount_vnd") or 0.0)
+            etype = str(row.get("entry_type") or "EXPENSE").upper()
+            is_est = bool(row.get("is_estimate"))
+            month = str(row.get("entry_date") or "")[:7] or utc_now_iso()[:7]
+            cat = str(row.get("category") or "Vận hành")
+
+            m_bucket = monthly_map.setdefault(
+                month,
+                {
+                    "month": month,
+                    "revenue": 0.0,
+                    "expense": 0.0,
+                    "tax": 0.0,
+                    "profit": 0.0,
+                    "plan_revenue": 0.0,
+                    "plan_expense": 0.0,
+                    "plan_tax": 0.0,
+                    "plan_profit": 0.0,
+                },
+            )
+            c_bucket = cat_map.setdefault(
+                (cat, etype),
+                {
+                    "category": cat,
+                    "entry_type": etype,
+                    "amount_vnd": 0.0,
+                    "actual_vnd": 0.0,
+                    "plan_vnd": 0.0,
+                },
+            )
+            c_bucket["amount_vnd"] += amt
+            if is_est:
+                c_bucket["plan_vnd"] += amt
+                if etype == "REVENUE":
+                    plan_rev += amt
+                    m_bucket["plan_revenue"] += amt
+                elif etype == "EXPENSE":
+                    plan_exp += amt
+                    m_bucket["plan_expense"] += amt
+                elif etype == "TAX_RESERVE":
+                    plan_tax += amt
+                    m_bucket["plan_tax"] += amt
+            else:
+                c_bucket["actual_vnd"] += amt
+                if etype == "REVENUE":
+                    actual_rev += amt
+                    m_bucket["revenue"] += amt
+                elif etype == "EXPENSE":
+                    actual_exp += amt
+                    m_bucket["expense"] += amt
+                elif etype == "TAX_RESERVE":
+                    actual_tax += amt
+                    m_bucket["tax"] += amt
+
+        monthly_series: list[dict[str, Any]] = []
+        for m_key in sorted(monthly_map.keys()):
+            b = monthly_map[m_key]
+            b["revenue"] = round(b["revenue"], 2)
+            b["expense"] = round(b["expense"], 2)
+            b["tax"] = round(b["tax"], 2)
+            b["profit"] = round(b["revenue"] - b["expense"] - b["tax"], 2)
+            b["plan_revenue"] = round(b["plan_revenue"], 2)
+            b["plan_expense"] = round(b["plan_expense"], 2)
+            b["plan_tax"] = round(b["plan_tax"], 2)
+            b["plan_profit"] = round(b["plan_revenue"] - b["plan_expense"] - b["plan_tax"], 2)
+            monthly_series.append(b)
+
+        by_category = sorted(
+            [
+                {
+                    "category": v["category"],
+                    "entry_type": v["entry_type"],
+                    "amount_vnd": round(v["amount_vnd"], 2),
+                    "actual_vnd": round(v["actual_vnd"], 2),
+                    "plan_vnd": round(v["plan_vnd"], 2),
+                }
+                for v in cat_map.values()
+            ],
+            key=lambda x: x["amount_vnd"],
+            reverse=True,
+        )
+
+        price = float(proj.get("expected_price_vnd") or 0.0)
+        unit_cost = float(proj.get("unit_cost_vnd") or 0.0)
+        fixed_cost = float(proj.get("fixed_cost_monthly_vnd") or 0.0)
+        gross_margin_pct = round(((price - unit_cost) / price * 100.0), 2) if price > 0 else 0.0
+        net_per_user = price - unit_cost - (price * 0.07)
+        breakeven_customers = math.ceil(fixed_cost / net_per_user) if (net_per_user > 0 and fixed_cost > 0) else (0 if fixed_cost == 0 else -1)
+        target_100_mrr = round(price * 100.0, 2)
+
+        t_row = conn.execute(
+            """
+            SELECT COUNT(*) AS total_tasks,
+                   SUM(CASE WHEN kanban_column = 'DONE' THEN 1 ELSE 0 END) AS done_tasks
+            FROM tasks
+            WHERE project_id = ?
+            """,
+            (project_id,),
+        ).fetchone()
+        tasks_total = int(t_row["total_tasks"] or 0)
+        tasks_done = int(t_row["done_tasks"] or 0)
+
+        m_rows = conn.execute(
+            "SELECT progress_pct FROM missions WHERE project_id = ?",
+            (project_id,),
+        ).fetchall()
+        missions_count = len(m_rows)
+        if tasks_total > 0:
+            progress_pct = int(round((tasks_done / tasks_total) * 100))
+        elif missions_count > 0:
+            progress_pct = int(round(sum(int(r["progress_pct"] or 0) for r in m_rows) / missions_count))
+        elif str(proj.get("status", "")).upper() == "SHIPPED":
+            progress_pct = 100
+        else:
+            progress_pct = 0
+
+        return {
+            "project_id": proj["project_id"],
+            "slug": proj["slug"],
+            "title": proj["title"],
+            "status": proj["status"],
+            "target_market": proj["target_market"],
+            "expected_price_vnd": round(price, 2),
+            "unit_cost_vnd": round(unit_cost, 2),
+            "fixed_cost_monthly_vnd": round(fixed_cost, 2),
+            "actual_revenue_vnd": round(actual_rev, 2),
+            "actual_expense_vnd": round(actual_exp, 2),
+            "actual_tax_vnd": round(actual_tax, 2),
+            "actual_net_profit_vnd": round(actual_rev - actual_exp - actual_tax, 2),
+            "plan_revenue_vnd": round(plan_rev, 2),
+            "plan_expense_vnd": round(plan_exp, 2),
+            "plan_tax_vnd": round(plan_tax, 2),
+            "plan_net_profit_vnd": round(plan_rev - plan_exp - plan_tax, 2),
+            "gross_margin_pct": gross_margin_pct,
+            "breakeven_customers": breakeven_customers,
+            "target_100_mrr_vnd": target_100_mrr,
+            "monthly_series": monthly_series,
+            "by_category": by_category,
+            "tasks_total": tasks_total,
+            "tasks_done": tasks_done,
+            "progress_pct": progress_pct,
+            "missions_count": missions_count,
+            "preview_urls": self._discover_project_preview_urls(proj["slug"], proj.get("workspace_path", "")),
+        }
+
+    def get_corporate_finance_summary(self) -> dict[str, Any]:
+        projects = self.list_projects()
+        per_project = [self.get_project_finance_summary(p["project_id"]) for p in projects]
+        actual_rev = round(sum(p["actual_revenue_vnd"] for p in per_project), 2)
+        actual_exp = round(sum(p["actual_expense_vnd"] for p in per_project), 2)
+        actual_tax = round(sum(p["actual_tax_vnd"] for p in per_project), 2)
+        plan_rev = round(sum(p["plan_revenue_vnd"] for p in per_project), 2)
+        plan_exp = round(sum(p["plan_expense_vnd"] for p in per_project), 2)
+        plan_tax = round(sum(p["plan_tax_vnd"] for p in per_project), 2)
+        target_mrr = round(sum(p["target_100_mrr_vnd"] for p in per_project), 2)
+
+        return {
+            "total_projects": len(per_project),
+            "shipped_projects": sum(1 for p in per_project if p["status"] == "SHIPPED"),
+            "active_projects": sum(1 for p in per_project if p["status"] == "ACTIVE"),
+            "actual_revenue_vnd": actual_rev,
+            "actual_expense_vnd": actual_exp,
+            "actual_tax_vnd": actual_tax,
+            "actual_net_profit_vnd": round(actual_rev - actual_exp - actual_tax, 2),
+            "plan_revenue_vnd": plan_rev,
+            "plan_expense_vnd": plan_exp,
+            "plan_tax_vnd": plan_tax,
+            "plan_net_profit_vnd": round(plan_rev - plan_exp - plan_tax, 2),
+            "target_100_mrr_vnd": target_mrr,
+            "projects": per_project,
+        }

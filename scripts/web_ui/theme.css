@@ -159,7 +159,10 @@
   --size-doc-max: 26rem;
   --size-menu-max: 16rem;
   --size-cmd-max: 20rem;
-  --size-kanban-col: 15.5rem;
+  --size-kanban-col: 16rem;
+  --size-table-min: 42rem;
+  --size-filter-min: 10.5rem;
+  --size-bar-track: 0.5rem;
   --measure-prose: 65ch;
 
   /* Depth & Focus */

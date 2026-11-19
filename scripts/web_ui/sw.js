@@ -1,5 +1,5 @@
-/* Trung tam Dieu hanh Titan v7.0: Service Worker cap nhat truc tuyen uu tien mang moi nhat */
-const CACHE_NAME = "titan-command-center-v7.0";
+/* Trung tam Dieu hanh Titan v8.0: Service Worker uu tien mang moi nhat va du phong ngoai tuyen */
+const CACHE_NAME = "titan-command-center-v8.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -30,7 +30,6 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   if (url.pathname.endsWith("/api/events/stream")) return;
 
-  // Network-first for live API, online_endpoint, snapshot, and core assets so updates appear immediately
   event.respondWith(
     fetch(req)
       .then((res) => {

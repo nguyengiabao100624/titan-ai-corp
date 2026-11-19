@@ -1,90 +1,105 @@
-# SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 37: KẾ TOÁN TỔNG HỢP & ĐỐI SOÁT DÒNG TIỀN
-- **Cập nhật lần cuối:** `2026-11-19T07:51:19Z`
-- **Tổng số tài liệu/bài báo đã nạp:** `17`
+# SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY - PHÒNG 37: Kế toán Tổng hợp và Đối soát Dòng tiền
+- **Cập nhật lần cuối:** `2026-11-19T10:51:20Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `32`
 
 ---
 
-### 1. [Hộ kinh doanh khi nào bắt buộc phải sử dụng hóa đơn điện tử? - Tạp chí Kinh tế - Tài chính Online](https://news.google.com/rss/articles/CBMitgFBVV95cUxQdWo5TlVCMEppUVExanJRaHp0dVJZbU1LYVFDXzBFeEdsTm83RDBmWGV3dzlrdVVmZ2V0SjZnOUJCOTdKVVlrRmNETHNxcWNiZkZOQVJuOWJ0b3dhdEhaVWlIS1lLVC1lVVY1RkxMRXZsY2xlVEhSNmZfbEI4Y1R4RVNQcXh1dWwzZWlGRDQ4bkZicmlpTEsyazFvdlZJTzJnbW15ZTdsZDQyaDkzR0RKbXZDam1Jdw?oc=5)
+### 1. [Áp dụng hóa đơn điện tử với hộ kinh doanh từ ngày 1/7/2026, phân định rõ trường hợp bắt buộc và miễn trừ - Báo Pháp Luật Việt Nam](https://news.google.com/rss/articles/CBMi2AFBVV95cUxPVG5CbUZhWWs0TGtqcG43VjZmQzY3YXZCUDQ0cnFvZTZfd0J2UTY1RDhicnUtLV9QRUh0QVJoX1VwQTRmQXlJX1A0WE5CQmctb1NfZEozOWtLR2J3cGR5NUhST25ac0didS1fcGptd1czQzVkUEkxNDV5NF84REVLTThzZjllZ2NhUk02aHlDVGhZVEJLcXVPcmYzNHhmYTNUdHYtSkJnT0stbGlxeHVWNHdqQVZzdmc1QTdXaXNISkxXRlN5WlNVMXJFQm4tMFFUR1AzZEpNQlE?oc=5)
+- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-19T10:51:20Z`
+- **Tóm tắt cốt lõi:** Áp dụng hóa đơn điện tử với hộ kinh doanh từ ngày 1/7/2026, phân định rõ trường hợp bắt buộc và miễn trừ Báo Pháp Luật Việt Nam
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 2. [Thuế Đắk Lắk chuyển từ quản lý hồ sơ sang giám sát có trọng tâm - Thời báo Tài chính Việt Nam](https://news.google.com/rss/articles/CBMitwFBVV95cUxPc1lsbkFWZWFPVElyRHctUG5jMTlpSHRTR2lDczdyQTgtaGRWaWVjNUpvd2pNMzlQQ3hKaV9pTVZZaHZLZnoxcjFCSlJ3cDVyS3hqdkNReEdlQXhSMGh1MDB2TlNfRGo2cEhta3JFWW01SWpPNkJOVXJXX281aXVEbTJkRVk2Q2V6d0Z3XzhIeW9vZTh0bmFMSVZaVjRkVUk3cXBjbEJIMDVKM0M3RDJBcTZGUkZtRk0?oc=5)
+- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-19T10:51:20Z`
+- **Tóm tắt cốt lõi:** Thuế Đắk Lắk chuyển từ quản lý hồ sơ sang giám sát có trọng tâm Thời báo Tài chính Việt Nam
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 3. [Quảng Ninh giảm gánh nặng chi phí cho doanh nghiệp nhỏ - baodautu](https://news.google.com/rss/articles/CBMikAFBVV95cUxPRlNCSGVhSGlKRk5GRy0wcHFwZ25QTWV6NUF3THdMaldYY2pQVW5DSnJ1dUtKb2xWS3pKZndZRTAxSmZjRG4wS1hxOXh5R0JNZXF4TW11SGFLWUZ0RjNoOVV1cXB2QlNHV3dpYjNtc2VZMkJIdEhoNVM1VklHX2JyaFg3Ui1vUXl4NmFxaUo0VUs?oc=5)
+- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-19T10:51:20Z`
+- **Tóm tắt cốt lõi:** Quảng Ninh giảm gánh nặng chi phí cho doanh nghiệp nhỏ baodautu
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 4. [Việt Nam thắng lớn trong gói thầu nhập khẩu gạo của Hàn Quốc](https://dantri.com.vn/kinh-doanh/viet-nam-thang-lon-trong-goi-thau-nhap-khau-gao-cua-han-quoc-20261119165458715.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Trong tổng số 45.600 tấn gạo được Hàn Quốc trao thầu đợt vừa qua, Việt Nam chiếm hơn 75% thị phần với đơn hàng 35.000 tấn gạo tấm hạt dài.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 5. [Chứng khoán mất mốc 1.700 điểm, một mã bị khối ngoại bán liên tục 8 phiên](https://dantri.com.vn/kinh-doanh/chung-khoan-mat-moc-1700-diem-mot-ma-bi-khoi-ngoai-ban-lien-tuc-8-phien-20261119164059625.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - VN-Index giảm hơn 13 điểm trong phiên 19/11, lùi về dưới mốc 1.700 điểm. Trên sàn HoSE, khối ngoại bán ròng gần 996 tỷ đồng, tập trung vào cổ phiếu FPT.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 6. [Vàng, dầu hạ nhiệt: Giá bitcoin biến động ra sao?](https://dantri.com.vn/kinh-doanh/vang-dau-ha-nhiet-gia-bitcoin-bien-dong-ra-sao-20261119144713068.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Trong bối cảnh các kênh tài sản truyền thống chịu áp lực điều chỉnh, bitcoin cũng ghi nhận mức sụt giảm hơn 15% trong một tuần, lùi về vùng 63.000 USD trước những tín hiệu thận trọng từ Fed.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 7. [Gỡ 4 rào cản thẻ tín dụng nội địa, góp phần đẩy lùi tín dụng đen](https://dantri.com.vn/kinh-doanh/go-4-rao-can-the-tin-dung-noi-dia-gop-phan-day-lui-tin-dung-den-20261119152444028.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Số thẻ tín dụng nội địa đang lưu hành đã vượt 7,4 triệu, chiếm khoảng 35% tổng số thẻ tín dụng trên thị trường. Ngân hàng Nhà nước chỉ ra 4 rào cản khiến phân khúc này chưa phát huy hết tiềm năng.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 8. [Bộ Tài chính đề xuất giảm mạnh mức phạt vi phạm thuế cho hộ kinh doanh](https://dantri.com.vn/kinh-doanh/bo-tai-chinh-de-xuat-giam-manh-muc-phat-vi-pham-thue-cho-ho-kinh-doanh-20261119150600836.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Bộ Tài chính đề xuất mức phạt đối với hộ kinh doanh, cá nhân kinh doanh nộp thuế theo phương pháp kê khai chỉ bằng 15% mức phạt thông thường.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 9. [Tín dụng đen: Công nhân thường xuyên bị đòi nợ, gây sức ép](https://cafef.vn/tin-dung-den-cong-nhan-thuong-xuyen-bi-doi-no-gay-suc-ep-188261119161622784.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Những khoản chi đột xuất như tiền thuê nhà, học phí, viện phí có thể đẩy công nhân vào cảnh thiếu hụt tài chính và tìm đến tín dụng đen với lãi suất, chi phí vay khó lường. Trong khi đó, hàng triệu lao động vẫn gặp rào cản về điều kiện cấp thẻ tín dụng, giải ngân.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 10. [Công an sẽ điều tra các giao dịch quét mã QR và chuyển tiền như sau](https://cafef.vn/cong-an-se-dieu-tra-cac-giao-dich-quet-ma-qr-va-chuyen-tien-nhu-sau-188261119160246879.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Công an xã Xuân Phú, TP Đồng Nai vừa cảnh báo về thủ đoạn lừa đảo chuyển khoản nhầm, gửi mã QR yêu cầu hoàn tiền nhằm chiếm đoạt tài sản.
+- **Ứng dụng thực chiến:** Bổ sung mẫu kiểm thử phòng thủ vào Cổng 3 (QA & An ninh mạng) để bảo vệ sản phẩm và dữ liệu khách hàng.
+
+### 11. [VRB: 20 năm kết nối kinh tế Việt Nam - Nga](https://vneconomy.vn/vrb-20-nam-ket-noi-kinh-te-viet-nam-nga.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Bà Fokina Anastasia – Chủ tịch Hội đồng thành viên Ngân hàng Liên doanh Việt – Nga (VRB), chia sẻ với Tạp chí Kinh tế Việt Nam/VnEconomy về hành trình 20 năm hoạt động tại Việt Nam, cũng như vai trò của ngân hàng trong thúc đẩy quan hệ hợp tác kinh tế Việt Nam - Nga...
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 12. [TP. Hồ Chí Minh: Tín dụng bất động sản nhà ở xã hội, khu công nghiệp và du lịch vượt 112.000 tỷ đồng](https://vneconomy.vn/tp-ho-chi-minh-tin-dung-bat-dong-san-nha-o-xa-hoi-khu-cong-nghiep-va-du-lich-vuot-112000-ty-dong.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Đến cuối tháng 10/2026, dư nợ tín dụng bất động sản đối với ba lĩnh vực nhà ở xã hội, khu công nghiệp - khu chế xuất và du lịch tại TP. Hồ Chí Minh đạt 112.600 tỷ đồng. Đây là những lĩnh vực được loại trừ khi tính dư nợ tín dụng bất động sản trong năm 2026...
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 13. [[Bài 2] Sử dụng quyền chọn để bảo vệ danh mục và xây dựng chiến lược đầu tư](https://vneconomy.vn/bai-2-su-dung-quyen-chon-de-bao-ve-danh-muc-va-xay-dung-chien-luoc-dau-tu.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Không có chiến lược quyền chọn nào "tốt nhất". Chỉ có chiến lược phù hợp với một mục tiêu cụ thể, một kịch bản thị trường cụ thể và một mức lỗ mà nhà đầu tư thật sự chấp nhận được.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 14. [TP. Hồ Chí Minh quyết liệt rà soát và sắp xếp hơn 10.200 cơ sở nhà, đất công](https://vneconomy.vn/tp-ho-chi-minh-quyet-liet-ra-soat-va-sap-xep-hon-10200-co-so-nha-dat-cong.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** TP. Hồ Chí Minh đang thực hiện một bước đi quan trọng trong việc quản lý tài sản công bằng cách phê duyệt phương án sắp xếp và xử lý hơn 10.200 cơ sở nhà, đất công trên địa bàn…
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 15. [Môi trường tổ chức chiếm tới 67% tác động thực tế của AI trong doanh nghiệp](https://vneconomy.vn/moi-truong-to-chuc-chiem-toi-67-tac-dong-thuc-te-cua-ai-trong-doanh-nghiep.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Có tới 65% người sử dụng AI lo ngại bị tụt hậu nếu không ứng dụng công nghệ mới và yếu tố môi trường tổ chức chiếm tới 67% tác động thực tế của AI…
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 16. [Hộ kinh doanh khi nào bắt buộc phải sử dụng hóa đơn điện tử? - Tạp chí Kinh tế - Tài chính Online](https://news.google.com/rss/articles/CBMitgFBVV95cUxQdWo5TlVCMEppUVExanJRaHp0dVJZbU1LYVFDXzBFeEdsTm83RDBmWGV3dzlrdVVmZ2V0SjZnOUJCOTdKVVlrRmNETHNxcWNiZkZOQVJuOWJ0b3dhdEhaVWlIS1lLVC1lVVY1RkxMRXZsY2xlVEhSNmZfbEI4Y1R4RVNQcXh1dWwzZWlGRDQ4bkZicmlpTEsyazFvdlZJTzJnbW15ZTdsZDQyaDkzR0RKbXZDam1Jdw?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-19T07:51:18Z`
 - **Tóm tắt cốt lõi:** Hộ kinh doanh khi nào bắt buộc phải sử dụng hóa đơn điện tử? Tạp chí Kinh tế - Tài chính Online
 - **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
 
-### 2. [Danh sách 51 thủ tục hành chính về thuế không phụ thuộc địa giới hành chính từ 12/11/2026 - LuatVietnam](https://news.google.com/rss/articles/CBMi5wFBVV95cUxQQ1FfUzJfNXQ4RkRYYTI5aFNURm1QcVp2Sk9RWGJtdWpxSjNLNU5jSVlKYTdYd2FoaTNRNmxmbFJ4QXhDS2xRTG1PbllsTUh6c3RLUkdvS3ROamRlWkNxQ1Y2bHFYU0lUUVZ5QzFVcmZJQVlhcnpJdlZsZjFEQkxRM0pUMHRqdGRvTU5jSTIzTlFJTU1DcVplTmNpQ21LNkpTb3Q3Rk15T2NrQVZvOHFJNlZhaWQ0bXQyLXZlNDdQcXlhSDhBOTlmTVhFaXBGdG96RE9mY1lidGdjXzJOVlFaaS1JSm5fVVE?oc=5)
+### 17. [Danh sách 51 thủ tục hành chính về thuế không phụ thuộc địa giới hành chính từ 12/11/2026 - LuatVietnam](https://news.google.com/rss/articles/CBMi5wFBVV95cUxQQ1FfUzJfNXQ4RkRYYTI5aFNURm1QcVp2Sk9RWGJtdWpxSjNLNU5jSVlKYTdYd2FoaTNRNmxmbFJ4QXhDS2xRTG1PbllsTUh6c3RLUkdvS3ROamRlWkNxQ1Y2bHFYU0lUUVZ5QzFVcmZJQVlhcnpJdlZsZjFEQkxRM0pUMHRqdGRvTU5jSTIzTlFJTU1DcVplTmNpQ21LNkpTb3Q3Rk15T2NrQVZvOHFJNlZhaWQ0bXQyLXZlNDdQcXlhSDhBOTlmTVhFaXBGdG96RE9mY1lidGdjXzJOVlFaaS1JSm5fVVE?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-19T07:51:18Z`
 - **Tóm tắt cốt lõi:** Danh sách 51 thủ tục hành chính về thuế không phụ thuộc địa giới hành chính từ 12/11/2026 LuatVietnam
 - **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
 
-### 3. [Cách tính thuế hộ kinh doanh 2026: Hướng dẫn chi tiết và ví dụ thực tế - Hóa Đơn Điện Tử MISA MEINVOICE](https://news.google.com/rss/articles/CBMid0FVX3lxTE5INXlQWlhKWm1TUDkzSGxhNmE2UXYzekxsQ3Itc1A4dEwweEFDcmwwMlp1Q1FfWGo1Z2kxZ21KaVlqdnktUjE1WDl1dm5GdDJQdFFKdnpyQjZic0NpMWN4YWFkendfYmpSc1FpcjZScU9NcE5JOG4w?oc=5)
+### 18. [Cách tính thuế hộ kinh doanh 2026: Hướng dẫn chi tiết và ví dụ thực tế - Hóa Đơn Điện Tử MISA MEINVOICE](https://news.google.com/rss/articles/CBMid0FVX3lxTE5INXlQWlhKWm1TUDkzSGxhNmE2UXYzekxsQ3Itc1A4dEwweEFDcmwwMlp1Q1FfWGo1Z2kxZ21KaVlqdnktUjE1WDl1dm5GdDJQdFFKdnpyQjZic0NpMWN4YWFkendfYmpSc1FpcjZScU9NcE5JOG4w?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-19T07:51:18Z`
 - **Tóm tắt cốt lõi:** Cách tính thuế hộ kinh doanh 2026: Hướng dẫn chi tiết và ví dụ thực tế Hóa Đơn Điện Tử MISA MEINVOICE
 - **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
 
-### 4. [Giảm 30% thuế: Thêm điểm tựa cho hộ kinh doanh và doanh nghiệp nhỏ - Báo Đắk Lắk điện tử](https://news.google.com/rss/articles/CBMirgFBVV95cUxNMWdnQjQwbno0T19zMjRRZHV0bnU4MVdXSHdOeG5adnZRZnoyaVJ2U0xnU05zMVRfU3EyUkoyTHY3WFlyNFlsb21JdzF0ZWlIS3Uzd0JmdXY3aXc3SlRGcUNDLXJDaVVCY2tvdGhpZWZXbnVqRlZoNFhveUo1dnFwTUlKaURrYWxBaTVWRnRadzV2M0d1RUVIbFg1a3E3S0M5NUQ3OEs3TU5OWHZ0amc?oc=5)
+### 19. [Giảm 30% thuế: Thêm điểm tựa cho hộ kinh doanh và doanh nghiệp nhỏ - Báo Đắk Lắk điện tử](https://news.google.com/rss/articles/CBMirgFBVV95cUxNMWdnQjQwbno0T19zMjRRZHV0bnU4MVdXSHdOeG5adnZRZnoyaVJ2U0xnU05zMVRfU3EyUkoyTHY3WFlyNFlsb21JdzF0ZWlIS3Uzd0JmdXY3aXc3SlRGcUNDLXJDaVVCY2tvdGhpZWZXbnVqRlZoNFhveUo1dnFwTUlKaURrYWxBaTVWRnRadzV2M0d1RUVIbFg1a3E3S0M5NUQ3OEs3TU5OWHZ0amc?oc=5)
 - **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-19T07:51:18Z`
 - **Tóm tắt cốt lõi:** Giảm 30% thuế: Thêm điểm tựa cho hộ kinh doanh và doanh nghiệp nhỏ Báo Đắk Lắk điện tử
 - **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
 
-### 5. [OmniHub: Công nghệ tạo tốc độ, nhưng chuyên gia tài chính phải là người cầm lái mô hình](https://cafef.vn/omnihub-cong-nghe-tao-toc-do-nhung-chuyen-gia-tai-chinh-phai-la-nguoi-cam-lai-mo-hinh-188261119111534971.chn)
+### 20. [OmniHub: Công nghệ tạo tốc độ, nhưng chuyên gia tài chính phải là người cầm lái mô hình](https://cafef.vn/omnihub-cong-nghe-tao-toc-do-nhung-chuyen-gia-tai-chinh-phai-la-nguoi-cam-lai-mo-hinh-188261119111534971.chn)
 - **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
 - **Tóm tắt cốt lõi:** Tại tọa đàm Chương trình tài trợ vốn cho doanh nghiệp nhỏ và vừa trên nền tảng số, ông Nguyễn Thanh Nghị, TGĐ Thiên Minh Rating (TMR), đã giới thiệu OmniHub. Đưa AI vào đánh giá rủi ro doanh nghiệp giúp việc phân tích hồ sơ xuống dưới 24 giờ. Vậy ai kiểm soát mô hình, dữ liệu an toàn ra sao? Lời giải nằm ở thiết kế OmniHub.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 6. [Giá trị 3 ngân hàng lớn nhất Việt Nam không bằng một nửa Vingroup dù vốn chủ sở hữu gấp 3 lần, tài sản gấp 6 lần](https://cafef.vn/gia-tri-3-ngan-hang-lon-nhat-viet-nam-khong-bang-mot-nua-vingroup-du-von-chu-so-huu-gap-3-lan-tai-san-gap-6-lan-188261119115254646.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Từ đầu năm 2026 đến nay, tổng vốn hóa của Vietcombank, VietinBank và BIDV đã giảm hơn 133.000 tỷ đồng, trái ngược với mức tăng gần 600.000 tỷ đồng của Vingroup. Sự phân hóa này khiến tổng giá trị thị trường của ba ngân hàng quốc doanh lớn nhất sàn chứng khoán hiện chưa bằng một nửa Vingroup, dù sở hữu tổng tài sản và vốn chủ sở hữu vượt xa tập đoàn này.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 7. [Lãi suất ngân hàng: Trái phiếu neo cao, tiết kiệm hạ nhiệt](https://cafef.vn/lai-suat-ngan-hang-trai-phieu-neo-cao-tiet-kiem-ha-nhiet-188261119112330236.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Trong khi lãi suất tiền gửi tiết kiệm có xu hướng giảm từ 0,5-1%/năm nhiều ngân hàng vẫn huy động vốn qua kênh trái phiếu với mức lãi suất 9-10%/năm. Diễn biến này cho thấy nhu cầu bổ sung nguồn vốn trung và dài hạn của các nhà băng vẫn rất lớn, trong bối cảnh áp lực cân đối nguồn vốn và nhu cầu tín dụng gia tăng.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 8. [Vì sao VietinBank bán dự án trụ sở chính cho Sun Group dù đã đầu tư hàng nghìn tỷ đồng?](https://cafef.vn/vi-sao-vietinbank-ban-du-an-tru-so-chinh-cho-sun-group-du-da-dau-tu-hang-nghin-ty-dong-188261119105546171.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Sau 16 năm triển khai dang dở, VietinBank đã hoàn tất chuyển nhượng dự án VietinBank Tower tại Ciputra (Hà Nội) cho một doanh nghiệp thuộc hệ sinh thái Sun Group.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 9. [Thắng kiện vụ bị truy thu thuế bán pizza qua GrabFood: Những thay đổi 'sống còn' mà hộ kinh doanh cần biết - Báo Tuổi Trẻ](https://news.google.com/rss/articles/CBMi3AFBVV95cUxPSTNiUnBROWJRWkMzblRvakVFSWVrOXpiSFZ1eU5LeVlpNWZ5aEQtOG1ycXF5bU9zOWRiRGNsWjQwY3FxQWFIWWF2cTRVNXZjcTM1WkoxRGNvQXhMMHJXWVE4SnZER1FydDNLa2JqWHlPNlM3OE9GcWlWOTNLVFd2UWhWOU0wS1BRZi1lZGZucWVwMUUzejlsbExaREhlUGZLSDV3V0pOSDRiSEd3YVpGLU9iNUE5TVRpSGJ6RDgxVkNXMFdyQ3VIdlFDVGJXeERsSE04RXpRejhaVkZF?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Thắng kiện vụ bị truy thu thuế bán pizza qua GrabFood: Những thay đổi 'sống còn' mà hộ kinh doanh cần biết Báo Tuổi Trẻ
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 10. [Đắk Lắk: Thu ngân sách từ hộ kinh doanh, cá nhân kinh vượt dự toán sau 10 tháng - Tạp chí Tài chính Doanh nghiệp](https://news.google.com/rss/articles/CBMiwgFBVV95cUxOZGpmWWp1aXQwMXVBNU02bkIyQXB1VHVOTUY1blBEWGFxVXRGN0Fra1pBN0M0a3NhVElQemhVc0hiTTlkU0FudFBhM0R0ZlZSS0I0Mnk0bUdSa3lDeFNLRG01YVA4SDFHdlRKd0xPSng5M1h1N1htZGluYzNYN2d3b1JzVUd4OXNyUGJFeFY3SFpiMFUwNXNRbTFTMUYtdEhYNDhLUWlPQ1czSzcySS1XVHlmNUNoRkZZUWVfOHo3TXBXdw?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Đắk Lắk: Thu ngân sách từ hộ kinh doanh, cá nhân kinh vượt dự toán sau 10 tháng Tạp chí Tài chính Doanh nghiệp
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 11. [Đề xuất không phạt tiền nếu lập hóa đơn sai thời điểm nhưng đã khai thuế - Tin nhanh chứng khoán](https://news.google.com/rss/articles/CBMivwFBVV95cUxOaUtKSlRkMDhHMzZUWnNLTEFGSTQzNzFrRGQ2NktBWWRyQTU0b0lJMzJRakw2M2xaYkgyc0FFOVRKdDJMMU1UR2xNMF9yNW5uQkQ2SlIzUnVDWnI3bFpqU2tqVWVOU1g0LV8xVTRjaEN1ZWpCdnNEckduVEN6RWJ0U01NMGtGbmt4XzZtTmtNRnlCcWZHVzh6VlRVWTU2b3NmZXZtc0I1bnNPeXJGaXNMVU9yNDRMTENEaXVKZGJCb9IBuwFBVV95cUxNOEdOZVBWcWowbFlfcVRJdnlRVGJvVDFEb3FiREo2a2tDbU9zZXlWVFFjNHBMMkpzNUdfcnpmQkw1VXpzYjhDd1prTnpzRGFkbnoxRy00YXBRdjB4MVgxSmw2MDFBQWVJdjBJd3VjdTF3cVBEd3pJUjlLd3h2UF9DMzBfM1BDX0pSUE04NUVSWnRxMENpSW9VcElhb2xqSE4zaEItaHZWVllRS1BhYWd5TkI2ZjJUUUp6dGpR?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Đề xuất không phạt tiền nếu lập hóa đơn sai thời điểm nhưng đã khai thuế Tin nhanh chứng khoán
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 12. [Thuế tỉnh Điện Biên thu ngân sách 10 tháng tăng 21% so với cùng kỳ - Thời báo Tài chính Việt Nam](https://news.google.com/rss/articles/CBMisAFBVV95cUxQQWhfQ2tzeW5LQmpQTVNWV0hzdXNvcGhwLWJ0RXhULUNLSUZGMk01MVBNQ081Z3R5cTJzRW1tMDhad05TUjQ5bnVMY0VHSTVjZ0xmODgxeWVHWmNSX1lqVmNOdUZXRnNKdEtBOHJRWk8zWk5CYVBIWExRcFVlTHRIQkNyUTZGUUY0MTFUMG5oZm1yTlFmZmN6OFVTMkVSNEdIUnNiSGYwR1E3X0dJaWR4ag?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Thuế tỉnh Điện Biên thu ngân sách 10 tháng tăng 21% so với cùng kỳ Thời báo Tài chính Việt Nam
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 13. [Chương trình lựa chọn “Hóa đơn may mắn” các tháng của quý III/2026 - Báo Cao Bằng](https://news.google.com/rss/articles/CBMioAFBVV95cUxNZ0ZtYUx6cWlzUG5TRWlwTm53NHR5alNDaFIxWk1vSmxTWDg2R1pyRmxsakNuSVhqN3BQMEFBODMwVndFaWZUSGtuTV81WC1yYkdvRW1vVTIwd3VzZUh5UHJUVGgxckZNLWtCQzlFWHZKQTRQQm94VEhmQmRiMEw1SHhYbWJRUXBTYjZ0N1ZGOVNNZkpUM1dGbzNHQlVxYzh3?oc=5)
-- **Nguồn:** `google_news` | **Độ quan trọng:** `9/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Chương trình lựa chọn “Hóa đơn may mắn” các tháng của quý III/2026 Báo Cao Bằng
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 14. [Giá vàng SJC, vàng nhẫn 9999 sáng ngày 19/11](https://cafef.vn/gia-vang-sjc-vang-nhan-9999-sang-ngay-19-11-188261119020430468.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Giá vàng trong nước sáng 19/11 ghi nhận điều chỉnh giảm tại Bảo Tín Minh Châu và Phú Quý, trong khi các thương hiệu còn lại giữ nguyên giá niêm yết so với đầu giờ chiều 18/11.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 15. [Ngày 19/11, gửi dưới 100 triệu 6 tháng tại MB, VPBank, Techcombank, Sacombank, SHB, HDBank và ACB nhận được bao nhiêu tiền lãi?](https://cafef.vn/ngay-19-11-gui-duoi-100-trieu-6-thang-tai-mb-vpbank-techcombank-sacombank-shb-hdbank-va-acb-nhan-duoc-bao-nhieu-tien-lai-188261118232517873.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Với khoản tiền gửi dưới 100 triệu đồng kỳ hạn 6 tháng, lãi suất tiết kiệm tại 7 ngân hàng lớncó sự chênh lệch đáng kể giữa hình thức gửi tại quầy và online. Vậy gửi tiền tại ngân hàng nào có lợi hơn?
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 16. [Làm việc với tỉnh Hưng Yên, Phó Thống đốc Phạm Thanh Hà cho biết NHNN sẽ yêu cầu các TCTD trên địa bàn tiếp tục giữ ổn định mặt bằng lãi suất và phấn đấu giảm lãi suất cho vay](https://cafef.vn/lam-viec-voi-tinh-hung-yen-pho-thong-doc-pham-thanh-ha-cho-biet-nhnn-se-yeu-cau-cac-tctd-tren-dia-ban-tiep-tuc-giu-on-dinh-mat-bang-lai-suat-va-phan-dau-giam-lai-suat-cho-vay-188261118233614218.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Phó Thống đốc cũng đề nghị UBND tỉnh Hưng Yên chỉ đạo các sở, ban, ngành phối hợp chặt chẽ với ngành Ngân hàng trên địa bàn để triển khai các chính sách hỗ trợ, tháo gỡ khó khăn cho các doanh nghiệp trong tiếp cận vốn, đẩy mạnh cho vay các dự án có hiệu quả, dự án trọng điểm của tỉnh
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 17. [UOB: Việt Nam tiếp tục là thị trường lạc quan nhất ASEAN](https://cafef.vn/uob-viet-nam-tiep-tuc-la-thi-truong-lac-quan-nhat-asean-18826111820522325.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Khảo sát mới nhất của UOB cho thấy, Việt Nam tiếp tục dẫn đầu ASEAN về mức độ lạc quan của người tiêu dùng trong năm 2026. Đáng chú ý, 92% người Việt tự tin vào khả năng quản lý tài chính cá nhân, 89% tiết kiệm trên 10% thu nhập hằng tháng và 85% sử dụng các công cụ số để quản lý tài sản.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.

@@ -1,95 +1,105 @@
-# SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 06: QUẢN TRỊ SẢN PHẨM (PM)
-- **Cập nhật lần cuối:** `2026-11-19T07:51:19Z`
-- **Tổng số tài liệu/bài báo đã nạp:** `18`
+# SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY - PHÒNG 06: Quản trị Sản phẩm
+- **Cập nhật lần cuối:** `2026-11-19T10:54:41Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `35`
 
 ---
 
-### 1. [[HN ▲1 💬1] Show HN: The FODMAP mistake most health writers make](https://news.ycombinator.com/item?id=50555919)
+### 1. [Play That Back](https://www.producthunt.com/products/play-that-back)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** A pro camera built for iPhone Duo Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 2. [The Calm Creator Mastermind](https://www.producthunt.com/products/the-calm-creator-mastermind)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** For solopreneurs who are tired of being solo. Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 3. [Tabstack by Mozilla](https://www.producthunt.com/products/tabstack)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** Give your model the web without giving up your privacy Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 4. [Room AI](https://www.producthunt.com/products/room-ai-2)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:54:40Z`
+- **Tóm tắt cốt lõi:** Talk to it like a designer. Your room, one change at a time Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 5. [Upsolve MCP Connections](https://www.producthunt.com/products/upsolve-ai)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Plug Notion, Linear and more into your data agent Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 6. [HeyGen Avatar 6](https://www.producthunt.com/products/heygen)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** AI Avatar Model That Looks Like You Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 7. [Stripo Email Widgets](https://www.producthunt.com/products/stripo-email)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Put a game, quiz or survey in your next email. No coding Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 8. [Rezora IO](https://www.producthunt.com/products/rezora-io-ai-calling-assistant)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Shopify for AI voice agents: live in 10 minutes Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 9. [Netlify Server](https://www.producthunt.com/products/netlify)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T10:51:19Z`
+- **Tóm tắt cốt lõi:** Run WebSockets, multiplayer apps, and long-running agents Discussion | Link
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 10. [iPhone thành 'điện thoại Pro Max' rẻ nhất tại Việt Nam](https://vnexpress.net/iphone-thanh-dien-thoai-pro-max-re-nhat-tai-viet-nam-5146588.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Với tầm giá 50 triệu đồng, ba smartphone mới bán là Oppo Find X10 Pro Max, Vivo X500 Pro Max, Xiaomi 18 Pro Max đều đắt hơn iPhone 18 Pro Max.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 11. [VNPT ra mắt modem Wi-Fi 8 tích hợp AI](https://vnexpress.net/vnpt-ra-mat-modem-wi-fi-8-tich-hop-ai-5146630.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** VNPT giới thiệu bản thử nghiệm modem Internet tích hợp Wi-Fi 8, có khả năng xử lý tác vụ AI cục bộ thay vì phụ thuộc máy chủ đám mây.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 12. [Robot hình người nhặt trứng trong trang trại gia cầm](https://vnexpress.net/robot-hinh-nguoi-nhat-trung-trong-trang-trai-gia-cam-5146244.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Nhóm nghiên cứu tại Đại học Bắc Carolina (Mỹ) phát triển robot nhặt trứng giúp tiết kiệm thời gian và sức lao động tại các trang trại nuôi thả tự do.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 13. [5 nhược điểm của tấm pin mặt trời cắm trực tiếp](https://thanhnien.vn/5-nhuoc-diem-cua-tam-pin-mat-troi-cam-truc-tiep-185261118145645926.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Dù giúp tiết kiệm chi phí mà không cần lắp đặt phức tạp, tấm pin năng lượng mặt trời cắm trực tiếp vẫn tồn tại nhiều bất cập về an toàn và hiệu suất.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 14. [Apple bị tố ép nhà cung ứng rút phát ngôn về lỗi iPhone Duo](https://thanhnien.vn/apple-bi-to-ep-nha-cung-ung-rut-phat-ngon-ve-loi-iphone-duo-185261119111417638.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Theo nguồn tin từ The Elec, Apple được cho là đã yêu cầu đối tác cung ứng linh kiện Hàn Quốc Fine M-Tec gỡ bỏ thông báo phủ nhận trách nhiệm trong sự cố nứt màn hình xảy ra trên một số thiết bị iPhone Duo.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 15. [Lỗi lạ trên Windows 11 khiến nhiều laptop tự 'ngủ đông'](https://thanhnien.vn/loi-la-tren-windows-11-khien-nhieu-laptop-tu-ngu-dong-185261119094724337.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Cơ chế mới của Windows 11 bị phát hiện đưa laptop vào trạng thái chờ khi gập màn hình, làm gián đoạn tác vụ chạy ngầm và đóng băng ứng dụng.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 16. [4 món đồ điện tử không nên mua hàng đã qua sử dụng](https://thanhnien.vn/4-mon-do-dien-tu-khong-nen-mua-hang-da-qua-su-dung-185261018192804182.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Thị trường đồ điện tử cũ có nhiều lựa chọn giá rẻ, nhưng người mua cần cân nhắc độ an toàn, độ bền và chính sách bảo hành.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 17. [Dòng Galaxy S26 đã được thử nghiệm One UI 9.5](https://thanhnien.vn/dong-galaxy-s26-da-duoc-thu-nghiem-one-ui-95-185261119092159697.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T10:51:18Z`
+- **Tóm tắt cốt lõi:** Samsung tung bản One UI 9.5 beta cho dòng Galaxy S26 với những nâng cấp mạnh mẽ về camera và bảo mật.
+- **Ứng dụng thực chiến:** Bổ sung mẫu kiểm thử phòng thủ vào Cổng 3 (QA & An ninh mạng) để bảo vệ sản phẩm và dữ liệu khách hàng.
+
+### 18. [[HN ▲1 💬1] Show HN: The FODMAP mistake most health writers make](https://news.ycombinator.com/item?id=50555919)
 - **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:19Z`
 - **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (1 điểm, 1 bình luận): Show HN: The FODMAP mistake most health writers make
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 2. [[HN ▲2 💬2] Show HN: Toggles, a game based on analyzing data](https://toggles.codewalkers.net)
+### 19. [[HN ▲2 💬2] Show HN: Toggles, a game based on analyzing data](https://toggles.codewalkers.net)
 - **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:19Z`
 - **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (2 điểm, 2 bình luận): Show HN: Toggles, a game based on analyzing data
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 3. [[HN ▲2 💬0] Show HN: A forkable folk song; each recording holds the code that sang it](https://now.itsby.you/)
+### 20. [[HN ▲2 💬0] Show HN: A forkable folk song; each recording holds the code that sang it](https://now.itsby.you/)
 - **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:19Z`
 - **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (2 điểm, 0 bình luận): Show HN: A forkable folk song; each recording holds the code that sang it
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 4. [Trung Quốc thử nghiệm khai khoáng biển sâu quy mô lớn](https://vnexpress.net/trung-quoc-thu-nghiem-khai-khoang-bien-sau-quy-mo-lon-5146520.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Các nhà nghiên cứu sử dụng hệ thống tời thả tàu lặn xuống đáy biển phía đông Thái Bình Dương để thăm dò, sau đó triển khai phương tiện robot thu thập nốt đa kim.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 5. [TS Aimée R. Kreimer: 'Còn nhiều câu hỏi về ngừa ung thư cần nhà khoa học trẻ Việt Nam'](https://vnexpress.net/ts-aimee-r-kreimer-con-nhieu-cau-hoi-ve-ngua-ung-thu-can-nha-khoa-hoc-tre-viet-nam-5146082.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** TS Aimée R. Kreimer, Viện Ung thư Quốc gia Mỹ cho rằng vẫn còn nhiều câu hỏi quan trọng trong phòng ngừa HPV và nghiên cứu ung thư cần nhà nghiên cứu trẻ Việt Nam tham gia tìm lời giải.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 6. [Google phát hiện cuộc tấn công hoàn toàn tự động bằng AI](https://vnexpress.net/google-phat-hien-cuoc-tan-cong-hoan-toan-tu-dong-bang-ai-5146302.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Google cho biết tình cờ phát hiện hệ thống tác nhân có khả năng tự tìm lỗ hổng, viết mã khai thác và tấn công các trang web tại Pháp không cần sự can thiệp của con người.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 7. [Madison Huang - 'bản thu nhỏ' của Jensen Huang tại Nvidia](https://vnexpress.net/madison-huang-ban-thu-nho-cua-jensen-huang-tai-nvidia-5146212.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Madison Huang, con gái nhà sáng lập Nvidia Jensen Huang, có nhiều tố chất trở thành CEO Nvidia, nhưng bị đánh giá không được lòng nhân viên.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 8. [Lỗ hổng Java mới làm dấy lên lo ngại về an ninh mạng](https://vnexpress.net/lo-hong-java-moi-lam-day-len-lo-ngai-ve-an-ninh-mang-5146330.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-19T07:51:17Z`
-- **Tóm tắt cốt lõi:** Lỗ hổng trong bộ công cụ Java cho phép tin tặc thực thi mã độc từ xa, đánh cắp dữ liệu hoặc chiếm quyền kiểm soát ứng dụng, khiến nhiều quốc gia lo ngại.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 9. [[HN ▲3 💬0] Show HN: RedCat an open-source AI agent for your desktop](https://github.com/manamaliahmad/redcat)
-- **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:39Z`
-- **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (3 điểm, 0 bình luận): Show HN: RedCat an open-source AI agent for your desktop
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 10. [[HN ▲2 💬0] Show HN: Indexed_bzip2 2.0 – I used AI to make bzip2 decompression 4x faster](https://github.com/mxmlnkn/librapidarchive/releases/tag/v2.0.0)
-- **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:39Z`
-- **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (2 điểm, 0 bình luận): Show HN: Indexed_bzip2 2.0 – I used AI to make bzip2 decompression 4x faster
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 11. [[HN ▲1 💬0] Show HN: Hallucination-as-a-service – API for AI excuses](https://haas.antoniorodriguez.no/hallucination)
-- **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:39Z`
-- **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (1 điểm, 0 bình luận): Show HN: Hallucination-as-a-service – API for AI excuses
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 12. [[HN ▲1 💬0] Show HN: Ask your AI before you renew any SaaS (free MCP server)](https://hissingkitty.com/developers)
-- **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:39Z`
-- **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (1 điểm, 0 bình luận): Show HN: Ask your AI before you renew any SaaS (free MCP server)
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 13. [[HN ▲2 💬0] Show HN: Crosshead - Working memory and persistent identity for agents](https://crosshead.sh/)
-- **Nguồn:** `hackernews` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:39Z`
-- **Tóm tắt cốt lõi:** Thảo luận thực tế trên Hacker News (2 điểm, 0 bình luận): Show HN: Crosshead - Working memory and persistent identity for agents
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 14. [AI thay đổi cách con người thi công metro, đường hầm](https://vnexpress.net/ai-thay-doi-cach-con-nguoi-thi-cong-metro-duong-ham-5145811.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Từ dữ liệu khảo sát địa chất và cảm biến, AI dự báo những biến động khó quan sát dưới lòng đất, nhận diện những biến động, hỗ trợ kỹ sư dự báo rủi ro, đặc biệt khi thi công các công trình ngầm dưới đô thị.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 15. [Tổng Bí thư, Chủ tịch nước dự Diễn đàn Kết nối công nghệ Việt Nam với Vùng Vịnh Lớn Trung Quốc](https://vnexpress.net/tong-bi-thu-chu-tich-nuoc-du-dien-dan-ket-noi-cong-nghe-viet-nam-voi-vung-vinh-lon-trung-quoc-5146289.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Tổng Bí thư, Chủ tịch nước Tô Lâm mong muốn hợp tác khoa học, công nghệ và đào tạo nhân lực giữa Việt Nam với Vùng Vịnh Lớn trở thành điểm sáng trong quan hệ giữa hai nước.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 16. [Mỹ sử dụng hệ thống AI để điều phối không lưu](https://vnexpress.net/my-su-dung-he-thong-ai-de-dieu-phoi-khong-luu-5145797.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Cục Hàng không Liên bang Mỹ đang tăng cường triển khai hệ thống AI để tránh nguy cơ va chạm, giảm chậm trễ, tiết kiệm nhiêu liệu và cải thiện trải nghiệm trong chuyến bay.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 17. [Tàu vũ trụ đầu tiên bay cách Trái Đất một ngày ánh sáng](https://vnexpress.net/tau-vu-tru-dau-tien-bay-cach-trai-dat-mot-ngay-anh-sang-5146261.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Tàu vũ trụ Voyager 1 của NASA đạt khoảng cách một ngày ánh sáng từ Trái Đất vào ngày 18/11, củng cố danh hiệu vật thể nhân tạo bay xa nhất lịch sử.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
-
-### 18. [Xiaomi lần đầu bán máy giặt, tủ lạnh giá 40 triệu đồng tại Việt Nam](https://vnexpress.net/xiaomi-lan-dau-ban-may-giat-tu-lanh-gia-40-trieu-dong-tai-viet-nam-5146199.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `7/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Thay vì các mẫu tầm 10 triệu đồng, Xiaomi ra mắt tủ lạnh bốn cửa và máy giặt ba lồng có giá 40 triệu đồng, nằm ở phân khúc cao cấp nhất trên thị trường.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
