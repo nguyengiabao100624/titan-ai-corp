@@ -1,14 +1,14 @@
 {
   "schema_version": "8.0",
-  "exported_at": "2026-11-19T11:09:20Z",
+  "exported_at": "2026-11-19T11:29:24Z",
   "bridge": {
-    "online": false,
+    "online": true,
     "mode": "ANTIGRAVITY_SWARM",
-    "pid": 26668,
+    "pid": 21480,
     "swarm_title": "",
     "active_workers": [],
     "note": "Hệ thống điều phối đang trực chiến, sẵn sàng nhận việc tức thì từ máy tính và điện thoại",
-    "last_heartbeat_at": "2026-11-19T08:58:04Z",
+    "last_heartbeat_at": "2026-11-19T11:29:24Z",
     "pending_orders_count": 0,
     "active_orders_count": 0
   },
@@ -101,9 +101,9 @@
       "tasks_completed": 1,
       "articles_learned": 16,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "01",
@@ -119,11 +119,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 5,
-      "articles_learned": 45,
+      "articles_learned": 47,
       "version": 4,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "02",
@@ -159,11 +159,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 5,
-      "articles_learned": 33,
+      "articles_learned": 37,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "04",
@@ -179,11 +179,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 0,
-      "articles_learned": 47,
+      "articles_learned": 51,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "05",
@@ -199,11 +199,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 0,
-      "articles_learned": 18,
+      "articles_learned": 23,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "06",
@@ -219,11 +219,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 7,
-      "articles_learned": 35,
+      "articles_learned": 38,
       "version": 2,
       "last_heartbeat_at": "2026-11-19T07:26:12Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "07",
@@ -241,9 +241,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "08",
@@ -261,9 +261,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "09",
@@ -281,9 +281,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "10",
@@ -301,9 +301,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "11",
@@ -321,9 +321,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "12",
@@ -339,11 +339,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 7,
-      "articles_learned": 19,
+      "articles_learned": 22,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "13",
@@ -361,9 +361,9 @@
       "tasks_completed": 1,
       "articles_learned": 5,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "14",
@@ -381,9 +381,9 @@
       "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "15",
@@ -401,9 +401,9 @@
       "tasks_completed": 1,
       "articles_learned": 10,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "16",
@@ -421,9 +421,9 @@
       "tasks_completed": 1,
       "articles_learned": 6,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "17",
@@ -441,9 +441,9 @@
       "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "18",
@@ -461,9 +461,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "19",
@@ -481,9 +481,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "20",
@@ -501,9 +501,9 @@
       "tasks_completed": 7,
       "articles_learned": 5,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "21",
@@ -521,9 +521,9 @@
       "tasks_completed": 0,
       "articles_learned": 6,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "22",
@@ -541,9 +541,9 @@
       "tasks_completed": 0,
       "articles_learned": 11,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "23",
@@ -561,9 +561,9 @@
       "tasks_completed": 1,
       "articles_learned": 11,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "24",
@@ -581,9 +581,9 @@
       "tasks_completed": 0,
       "articles_learned": 11,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "25",
@@ -601,9 +601,9 @@
       "tasks_completed": 7,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "26",
@@ -621,9 +621,9 @@
       "tasks_completed": 1,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "27",
@@ -641,9 +641,9 @@
       "tasks_completed": 0,
       "articles_learned": 6,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "28",
@@ -661,9 +661,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "29",
@@ -681,9 +681,9 @@
       "tasks_completed": 1,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "30",
@@ -701,9 +701,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "31",
@@ -721,9 +721,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "32",
@@ -741,9 +741,9 @@
       "tasks_completed": 7,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "33",
@@ -761,9 +761,9 @@
       "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "34",
@@ -781,9 +781,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "35",
@@ -801,9 +801,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "36",
@@ -821,9 +821,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "37",
@@ -839,11 +839,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 0,
-      "articles_learned": 32,
+      "articles_learned": 38,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "38",
@@ -861,9 +861,9 @@
       "tasks_completed": 5,
       "articles_learned": 0,
       "version": 4,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "39",
@@ -879,11 +879,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 5,
-      "articles_learned": 12,
+      "articles_learned": 13,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "40",
@@ -901,9 +901,9 @@
       "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "41",
@@ -921,9 +921,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "42",
@@ -941,9 +941,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "43",
@@ -961,9 +961,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "44",
@@ -981,9 +981,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "45",
@@ -1001,9 +1001,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "46",
@@ -1021,9 +1021,9 @@
       "tasks_completed": 10,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "47",
@@ -1041,9 +1041,9 @@
       "tasks_completed": 27,
       "articles_learned": 0,
       "version": 2,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "48",
@@ -1061,9 +1061,9 @@
       "tasks_completed": 16,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "49",
@@ -1081,9 +1081,9 @@
       "tasks_completed": 21,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     },
     {
       "dept_id": "50",
@@ -1101,29 +1101,12 @@
       "tasks_completed": 5,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T10:54:41Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T11:20:14Z",
+      "last_studied_at": "2026-11-19T11:20:14Z",
+      "updated_at": "2026-11-19T11:20:14Z"
     }
   ],
   "projects": [
-    {
-      "project_id": "proj-rem-cua-ai",
-      "slug": "rem-cua-ai",
-      "title": "App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây",
-      "objective": "Giúp chủ cửa hàng rèm cửa, sàn gỗ và giấy dán tường chụp ảnh phòng khách, ướm mẫu vải/vân gỗ thật trong 3 chạm trên Zalo/iPad và xuất báo giá PDF tức thì để chốt cọc ngay tại nhà khách.",
-      "target_market": "Vietnam & Global",
-      "current_gate": 2,
-      "current_stage": 2,
-      "status": "ACTIVE",
-      "expected_price_vnd": 399000.0,
-      "unit_cost_vnd": 95000.0,
-      "fixed_cost_monthly_vnd": 1500000.0,
-      "workspace_path": "corporate_hq/projects/rem-cua-ai",
-      "version": 1,
-      "created_at": "2026-11-18T19:28:37Z",
-      "updated_at": "2026-11-18T21:20:07Z"
-    },
     {
       "project_id": "proj-so-thu-chi-thue-hkd",
       "slug": "so-thu-chi-thue-hkd",
@@ -1142,77 +1125,7 @@
       "updated_at": "2026-11-19T08:55:15Z"
     }
   ],
-  "tasks": [
-    {
-      "task_id": "task-81199e1f2c",
-      "project_id": "proj-rem-cua-ai",
-      "parent_task_id": null,
-      "title": "[App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây] Giải mã tử huyệt tâm lý sợ mất tiền & từ điển khách hàng",
-      "description": "Giúp chủ cửa hàng rèm cửa, sàn gỗ và giấy dán tường chụp ảnh phòng khách, ướm mẫu vải/vân gỗ thật trong 3 chạm trên Zalo/iPad và xuất báo giá PDF tức thì để chốt cọc ngay tại nhà khách.",
-      "assigned_dept_id": "02",
-      "reviewer_dept_id": "06",
-      "gate_number": 1,
-      "stage_number": 2,
-      "priority": "HIGH",
-      "kanban_column": "IN_PROGRESS",
-      "checkout_lock_owner": "dept-02",
-      "checkout_locked_at": "2026-11-18T19:57:51Z",
-      "evidence_level": 0,
-      "approval_note": "",
-      "actor_priority": 1,
-      "version": 2,
-      "created_at": "2026-11-18T19:28:37Z",
-      "updated_at": "2026-11-18T19:57:51Z",
-      "started_at": "2026-11-18T19:57:51Z",
-      "completed_at": null
-    },
-    {
-      "task_id": "task-9fc0ae6b35",
-      "project_id": "proj-rem-cua-ai",
-      "parent_task_id": null,
-      "title": "[App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây] Điều tra thị trường, độ khát & quy mô khách sẵn tiền",
-      "description": "Giúp chủ cửa hàng rèm cửa, sàn gỗ và giấy dán tường chụp ảnh phòng khách, ướm mẫu vải/vân gỗ thật trong 3 chạm trên Zalo/iPad và xuất báo giá PDF tức thì để chốt cọc ngay tại nhà khách.",
-      "assigned_dept_id": "01",
-      "reviewer_dept_id": "38",
-      "gate_number": 1,
-      "stage_number": 2,
-      "priority": "CRITICAL",
-      "kanban_column": "IN_PROGRESS",
-      "checkout_lock_owner": null,
-      "checkout_locked_at": "2026-11-18T19:57:23Z",
-      "evidence_level": 3,
-      "approval_note": "Chưa đạt yêu cầu nghiệm thu tại cổng kiểm duyệt.",
-      "actor_priority": 10,
-      "version": 4,
-      "created_at": "2026-11-18T19:28:37Z",
-      "updated_at": "2026-11-18T19:57:36Z",
-      "started_at": "2026-11-18T19:57:23Z",
-      "completed_at": null
-    },
-    {
-      "task_id": "task-c6533f6524",
-      "project_id": "proj-rem-cua-ai",
-      "parent_task_id": null,
-      "title": "[App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây] Chốt đặc tả PRD tinh gọn & luồng UX 3 chạm trình Chủ tịch",
-      "description": "Giúp chủ cửa hàng rèm cửa, sàn gỗ và giấy dán tường chụp ảnh phòng khách, ướm mẫu vải/vân gỗ thật trong 3 chạm trên Zalo/iPad và xuất báo giá PDF tức thì để chốt cọc ngay tại nhà khách.",
-      "assigned_dept_id": "06",
-      "reviewer_dept_id": "00",
-      "gate_number": 2,
-      "stage_number": 4,
-      "priority": "HIGH",
-      "kanban_column": "IN_PROGRESS",
-      "checkout_lock_owner": "dept-06",
-      "checkout_locked_at": "2026-11-18T19:57:52Z",
-      "evidence_level": 0,
-      "approval_note": "",
-      "actor_priority": 1,
-      "version": 2,
-      "created_at": "2026-11-18T19:28:37Z",
-      "updated_at": "2026-11-18T19:57:52Z",
-      "started_at": "2026-11-18T19:57:52Z",
-      "completed_at": null
-    }
-  ],
+  "tasks": [],
   "missions": [
     {
       "mission_id": "msn-47b19760",
@@ -1561,6 +1474,25 @@
   ],
   "opportunities": [
     {
+      "opp_id": "opp-865ef2e9",
+      "title": "Sổ Cảnh Báo Thuốc Cận Hạn, Tách Kho Biệt Trữ và Ghi Nhiệt Độ Chuẩn Nhà Thuốc Tư Nhân",
+      "target_customer": "Chủ nhà thuốc tây, quầy thuốc bán lẻ tư nhân doanh thu 80 đến 400 triệu đồng/tháng (349.000đ/tháng)",
+      "pain_point": "Nghị định 90/2026 có hiệu lực từ 15/5/2026 nâng mức phạt bán hoặc để sót thuốc hết hạn lên 20 đến 30 triệu đồng với cá nhân, gấp đôi với tổ chức và tước chứng chỉ hành nghề 1 đến 3 tháng. Nhiều quầy thuốc nhỏ vẫn nhớ hạn dùng bằng giấy, vừa mất hàng triệu đồng thuốc quá hạn mỗi quý vừa hay quên ghi sổ nhiệt độ độ ẩm 2 lần mỗi ngày.",
+      "proposed_solution": "Nhập lô thuốc kèm hạn sử dụng ngay trên điện thoại khi nhận hàng, phần mềm tự động báo đỏ trước 90 ngày và 30 ngày để kịp đổi trả nhà cung cấp hoặc đẩy hàng sớm. Tự lập danh sách biệt trữ in nhãn dán riêng cho thuốc quá hạn và có nút bấm ghi nhiệt độ độ ẩm sáng chiều 1 chạm, xuất ngay sổ chuẩn để trình thanh tra y tế.",
+      "price_vnd": 349000.0,
+      "est_margin_pct": 77.9,
+      "breakeven_users": 6,
+      "survival_score": 92,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là nhà thuốc đã có phần mềm bán hàng cũ ngại nhập liệu trùng hai nơi, hoặc tưởng phần mềm tự liên thông cổng đơn thuốc quốc gia thay phần mềm dược chuyên dụng. Cách chặn: tập trung đúng nỗi đau sót thuốc cận hạn và sổ nhiệt độ biệt trữ nhẹ gọn độc lập, hỗ trợ chụp ảnh hóa đơn nhập lô và nhập bảng tính có sẵn chỉ trong 1 phút, không hứa làm phần mềm kê đơn.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Dược sĩ đứng quầy bận khách vẫn dùng xong trong 30 giây với 3 chạm: mở bảng cảnh báo đỏ hôm nay, chạm xác nhận lô thuốc chuyển sang ngăn biệt trữ, chạm ghi nhanh nhiệt độ sáng hoặc chiều.",
+      "source_url": "https://suckhoedoisong.vn/tu-15-5-ke-don-sai-ban-thuoc-het-han-doi-mat-muc-phat-nang-tuoc-chung-chi-169260407150436525.htm",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T11:29:24Z",
+      "updated_at": "2026-11-19T11:29:24Z"
+    },
+    {
       "opp_id": "opp-d0bf991f",
       "title": "Sổ Chấm Tọa Độ Vùng Trồng và Đóng Gói Hồ Sơ Nguồn Gốc Xuất Khẩu Châu Âu cho Vựa Cà Phê, Xưởng Gỗ",
       "target_customer": "Đại lý thu mua cấp 1, hợp tác xã cà phê, hồ tiêu, cao su và xưởng gỗ xuất khẩu sang châu Âu (599.000đ/tháng)",
@@ -1597,6 +1529,25 @@
       "version": 1,
       "created_at": "2026-11-19T08:46:23Z",
       "updated_at": "2026-11-19T08:46:23Z"
+    },
+    {
+      "opp_id": "opp-3d5cb555",
+      "title": "Sổ Kiểm Thực 3 Bước Điện Tử, In Nhãn Lưu Mẫu 24 Giờ và Hồ Sơ Nguyên Liệu cho Bếp Ăn Mầm Non",
+      "target_customer": "Chủ trường mầm non tư thục, nhóm trẻ độc lập, bếp ăn công ty và xưởng suất ăn 50 đến 1.000 suất/ngày (299.000đ/tháng)",
+      "pain_point": "Các đợt kiểm tra an toàn thực phẩm năm 2026 xử phạt rất nặng lỗi ghi thiếu sổ kiểm thực 3 bước hoặc sai quy cách lưu mẫu thức ăn 24 giờ, mức phạt 6 đến 10 triệu đồng mỗi lỗi với tổ chức cùng nguy cơ đình chỉ bếp. Nhân viên bếp và y tế trường phải chép sổ giấy mỗi sáng rất dễ quên giờ, rách mất phiếu giao nguyên liệu và không có bản sạch gửi phụ huynh xem.",
+      "proposed_solution": "Chạy ngay trên điện thoại của nhân viên bếp theo đúng 3 bước chuẩn Bộ Y tế: chụp phiếu giao nguyên liệu đầu vào, ghi giờ và cảm quan lúc nấu, chốt nhận xét trước khi chia suất. Hệ thống tự khóa mốc giờ không sửa lùi, tự in nhãn dán hộp lưu mẫu 24 giờ có đồng hồ nhắc hủy mẫu và xuất sổ gọn đẹp trình đoàn kiểm tra hoặc gửi nhóm Zalo phụ huynh mỗi ngày.",
+      "price_vnd": 299000.0,
+      "est_margin_pct": 78.4,
+      "breakeven_users": 7,
+      "survival_score": 90,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là một số đoàn kiểm tra địa phương vẫn đòi xem sổ giấy có chữ ký tươi trực tiếp tại bếp ăn, khiến chủ trường lo bản điện tử chưa được chấp nhận thay thế hoàn toàn. Cách chặn: thiết kế nút in 1 chạm xuất đúng mẫu bảng biểu chuẩn Quyết định 1246 ra khổ giấy ngang để bếp ký lưu kẹp bìa cuối tuần, giúp giảm 80% thời gian chép tay mà vẫn tuyệt đối đúng luật.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Cô cấp dưỡng tay bận việc bếp hoàn thành báo cáo bữa trưa trong 30 giây bằng 3 chạm: chụp ảnh phiếu thịt rau đầu vào, chạm chọn đạt chuẩn từng món theo thực đơn sẵn, bấm xuất nhãn lưu mẫu và ảnh báo phụ huynh.",
+      "source_url": "https://laodong.vn/suc-khoe/tphcm-phat-hon-1-ti-dong-cac-co-so-vi-pham-an-toan-thuc-pham-trong-nam-2026-1803299.ldo",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T11:29:24Z",
+      "updated_at": "2026-11-19T11:29:24Z"
     },
     {
       "opp_id": "opp-90dda7a4",
@@ -1654,6 +1605,25 @@
       "version": 1,
       "created_at": "2026-11-18T20:55:24Z",
       "updated_at": "2026-11-18T20:55:24Z"
+    },
+    {
+      "opp_id": "opp-5bb11270",
+      "title": "Công Cụ Chấm Điểm và Chuẩn Hóa Hồ Sơ Doanh Nghiệp để Được Công Cụ Hỏi Đáp Trí Tuệ Nhân Tạo Đề Xuất",
+      "target_customer": "Chủ khách sạn độc lập, công ty du lịch lữ hành, doanh nghiệp dịch vụ vừa và nhỏ tại Việt Nam và quốc tế (499.000đ/tháng)",
+      "pain_point": "Cuối năm 2026, người mua chuyển mạnh sang đặt câu hỏi trực tiếp cho các trợ lý trí tuệ nhân tạo thay vì tự bấm từng trang kết quả tìm kiếm. Nhiều doanh nghiệp có trang giới thiệu trình bày rời rạc, lệch bảng giá giữa các kênh hoặc thiếu tệp thông tin chuẩn máy đọc nên bị trợ lý bỏ qua hoàn toàn hoặc giới thiệu nhầm sang đối thủ, hụt hẳn lượng khách tự nhiên.",
+      "proposed_solution": "Dán địa chỉ trang giới thiệu của doanh nghiệp để hệ thống tự quét và chấm điểm độ rõ ràng của bảng giá, địa chỉ, chính sách và bộ hỏi đáp đối với công cụ hỏi đáp trí tuệ nhân tạo. Tự động sinh bộ tệp hồ sơ thương hiệu song ngữ Việt Anh chuẩn máy đọc để dán 1 lần lên trang chủ và kiểm tra định kỳ hàng tháng xem thương hiệu có bị đọc sai giá hay bị bỏ sót hay không.",
+      "price_vnd": 499000.0,
+      "est_margin_pct": 74.5,
+      "breakeven_users": 4,
+      "survival_score": 88,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là khách kỳ vọng trả tiền xong sẽ lập tức đứng đầu mọi câu trả lời của trợ lý trí tuệ nhân tạo, dẫn tới hủy gói nếu không thấy đơn ngay tuần đầu. Cách chặn: định vị trung thực là công cụ sửa sạch lỗi sai giá, thiếu dữ liệu chuẩn máy đọc và đo mức độ xuất hiện trước và sau từng tháng kèm báo cáo bằng chứng câu hỏi thật, không bao giờ cam kết thao túng thứ hạng.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Chủ khách sạn không rành kỹ thuật dùng xong trong 30 giây với 3 chạm trên điện thoại: dán địa chỉ trang giới thiệu, xem bảng chấm điểm đỏ vàng xanh chỉ rõ 3 chỗ cần sửa, bấm gửi gói tệp đã tạo sẵn cho người quản trị trang chủ dán vào.",
+      "source_url": "https://cafef.vn/nguoi-dung-hoi-ai-thay-vi-go-tu-khoa-thuong-hieu-can-chuan-bi-gi-188261119181838704.chn",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T11:29:24Z",
+      "updated_at": "2026-11-19T11:29:24Z"
     },
     {
       "opp_id": "opp-rem-cua-3cham",
@@ -1733,6 +1703,21 @@
     }
   ],
   "orders": [
+    {
+      "order_id": "ord-11a55b26",
+      "order_type": "SCAN_OPPORTUNITIES",
+      "mission_id": null,
+      "task_id": null,
+      "title": "Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "instructions": "Đọc tin tức thị trường & dữ liệu kinh tế thực tế mới nhất, săn 2–3 cơ hội sản phẩm/dịch vụ dễ thu tiền tại Việt Nam & toàn cầu (lãi gộp >= 65%, hòa vốn <= 10 khách), phản biện thẳng rủi ro (#46) và kiểm tra độ dễ dùng 3 chạm (#48) trước khi đăng lên bảng Cơ hội.",
+      "source_device": "web-local",
+      "status": "COMPLETED",
+      "claimed_by": "antigravity-coordinator",
+      "swarm_title": "",
+      "result_summary": "Đã săn và kiểm toán xong 3 cơ hội kiếm tiền mới 2026 (Nhà thuốc cận hạn chuẩn Nghị định 90/2026, Sổ kiểm thực 3 bước bếp ăn mầm non, và Chuẩn hóa hồ sơ doanh nghiệp cho công cụ hỏi đáp trí tuệ nhân tạo).",
+      "created_at": "2026-11-19T11:23:27Z",
+      "updated_at": "2026-11-19T11:29:24Z"
+    },
     {
       "order_id": "ord-a3760ab7",
       "order_type": "SCAN_OPPORTUNITIES",
@@ -1931,21 +1916,15 @@
       "entity_type": "ledger",
       "entity_id": "led-1a38362622",
       "deleted_at": "2026-11-19T10:58:30Z"
-    }
-  ],
-  "deliverables": [
+    },
     {
-      "deliverable_id": "deliv-ba14aca276",
-      "task_id": "task-9fc0ae6b35",
-      "dept_id": "01",
-      "title": "Hồ sơ bàn giao trình Cổng kiểm soát",
-      "artifact_type": "REPORT",
-      "file_path": "",
-      "summary": "Đã hoàn thành kiểm tra tiêu chuẩn đầu ra và đính kèm dữ liệu thực chứng.",
-      "version": 1,
-      "created_at": "2026-11-18T19:57:28Z"
+      "tombstone_key": "project:proj-rem-cua-ai",
+      "entity_type": "project",
+      "entity_id": "proj-rem-cua-ai",
+      "deleted_at": "2026-11-19T11:21:06Z"
     }
   ],
+  "deliverables": [],
   "citations": [],
   "reflexions": [
     {
@@ -1986,6 +1965,454 @@
     }
   ],
   "knowledge_atoms": [
+    {
+      "atom_id": 1401,
+      "url_hash": "0b8369261088bdf084674e1e2405be8d78903fff82925bc526e73be9580d6ccb",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 129336 sao] stablyai/orca (TypeScript)",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "2026-11-19T11:18:23Z",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Orca lets you run a fleet of coding agents (e.g. Claude Code, Codex) with your own subscription. Available on desktop, mobile and remote runtime.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1400,
+      "url_hash": "9c34372d988facf3f65944e6ce6d0fbeeb3b7bb01c636d7591bfba209ed8a6a5",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 129336 sao] stablyai/orca (TypeScript)",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "2026-11-19T11:18:23Z",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Orca lets you run a fleet of coding agents (e.g. Claude Code, Codex) with your own subscription. Available on desktop, mobile and remote runtime.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1399,
+      "url_hash": "c9144a389fff54211bff31c6823bebb071e8d0e79263d52ae98bfaee23a43d45",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 216 sao] gy15901580825/Argus (Python)",
+      "url": "https://github.com/gy15901580825/Argus",
+      "published_at": "2026-11-19T02:39:21Z",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Open-source red-team testing for AI agents. 313 bundled probes with OWASP LLM Top 10, MITRE ATLAS, and NIST AI RMF mappings. Selected probes use recorded browser requests, MCP tool calls, or mock payments. CLI, SARIF, GitHub Action.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1398,
+      "url_hash": "1de8a30265b8cedec9504cbb14ea0e3c63c9ef3e547013dc297ca5e955875ec9",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 216 sao] gy15901580825/Argus (Python)",
+      "url": "https://github.com/gy15901580825/Argus",
+      "published_at": "2026-11-19T02:39:21Z",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Open-source red-team testing for AI agents. 313 bundled probes with OWASP LLM Top 10, MITRE ATLAS, and NIST AI RMF mappings. Selected probes use recorded browser requests, MCP tool calls, or mock payments. CLI, SARIF, GitHub Action.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1397,
+      "url_hash": "4a6e9b469799dac4b30196ab2709b676ba28e78b17bce987f5889ddff063b782",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 426 sao] smart-mcp-proxy/mcpproxy-go (Go)",
+      "url": "https://github.com/smart-mcp-proxy/mcpproxy-go",
+      "published_at": "2026-11-19T08:39:47Z",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Supercharge AI Agents, Safely",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1396,
+      "url_hash": "0915fbf4f48befbafd358cc764743c161dd20b93cf1648b573397fd884425f41",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 426 sao] smart-mcp-proxy/mcpproxy-go (Go)",
+      "url": "https://github.com/smart-mcp-proxy/mcpproxy-go",
+      "published_at": "2026-11-19T08:39:47Z",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Supercharge AI Agents, Safely",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1363,
+      "url_hash": "11b8a1e7fcf16da0837283fd628d6e0824ca6fdeb2c9d8ffcf3208139eb4edbf",
+      "source_connector": "google_news",
+      "dept_id": "37",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Lào Cai thu thuế và phí đạt 11.200 tỷ đồng, tăng 21% so cùng kỳ - Báo Nhân Dân điện tử",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPb0pwNDlaNTg0QklJd2VEaXZ5RERaUFktelZ2WDlTOERRY0lFSGpYTTczaXhoOVdhVDhiRXhRZ3JPTDN6Y2w4eUMzTzdmN1RVdU9FQnFiTG1QS1VDZ2dDcWpQTWx2X3ROLXo3Tmo0N0puejR0OEJvQVd5eU00Q0s5OFJKTnZPSHF1MmJBcEhtR3laQ1NTU3dzTmtzTG0?oc=5",
+      "published_at": "Thu, 19 Nov 2026 11:14:00 GMT",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Lào Cai thu thuế và phí đạt 11.200 tỷ đồng, tăng 21% so cùng kỳ Báo Nhân Dân điện tử",
+      "actionable_insight": "Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.",
+      "importance": 9,
+      "tags": "thue hoa-don-dien-tu ho-kinh-doanh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1362,
+      "url_hash": "3eaf0b6a605bfa826fd0c390acb0b4c2a89dcbc45ca39282b941561e03e825a9",
+      "source_connector": "google_news",
+      "dept_id": "39",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Lào Cai thu thuế và phí đạt 11.200 tỷ đồng, tăng 21% so cùng kỳ - Báo Nhân Dân điện tử",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPb0pwNDlaNTg0QklJd2VEaXZ5RERaUFktelZ2WDlTOERRY0lFSGpYTTczaXhoOVdhVDhiRXhRZ3JPTDN6Y2w4eUMzTzdmN1RVdU9FQnFiTG1QS1VDZ2dDcWpQTWx2X3ROLXo3Tmo0N0puejR0OEJvQVd5eU00Q0s5OFJKTnZPSHF1MmJBcEhtR3laQ1NTU3dzTmtzTG0?oc=5",
+      "published_at": "Thu, 19 Nov 2026 11:14:00 GMT",
+      "fetched_at": "2026-11-19T11:20:14Z",
+      "summary_vi": "Lào Cai thu thuế và phí đạt 11.200 tỷ đồng, tăng 21% so cùng kỳ Báo Nhân Dân điện tử",
+      "actionable_insight": "Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.",
+      "importance": 9,
+      "tags": "thue hoa-don-dien-tu ho-kinh-doanh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1337,
+      "url_hash": "2bf0fd1f6b7bf0e26ce76bfda314b95b05f67c0e86a345cbfeca90be67f29910",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Ableten Hybrid AI Travel Planner",
+      "url": "https://www.producthunt.com/products/ableten-source-library",
+      "published_at": "2026-08-18T23:21:46-07:00",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Get your group on the same map. Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1336,
+      "url_hash": "8883f8519dc73c5079bac90561eb02a59eef10706f49567bd860fd7a183ff991",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Ableten Hybrid AI Travel Planner",
+      "url": "https://www.producthunt.com/products/ableten-source-library",
+      "published_at": "2026-08-18T23:21:46-07:00",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Get your group on the same map. Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1333,
+      "url_hash": "f057142e70a0722b0eae670a006710aec622b40b566b4560e4cb1b5a0712e8be",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Meilisearch Searchandising",
+      "url": "https://www.producthunt.com/products/meilisearch-cloud",
+      "published_at": "2026-11-05T05:25:09-08:00",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Pin, boost, hide and personalize search results Discussion | Link",
+      "actionable_insight": "Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1332,
+      "url_hash": "f7c5fe3e7d1dafa2d9c2ad1bccd83679e9a0b7268ff66ef446b7b08d15beb1b8",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Meilisearch Searchandising",
+      "url": "https://www.producthunt.com/products/meilisearch-cloud",
+      "published_at": "2026-11-05T05:25:09-08:00",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Pin, boost, hide and personalize search results Discussion | Link",
+      "actionable_insight": "Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1311,
+      "url_hash": "88ad1433f0251aae6edf7b8847b12d7e7a68823f679cfddc22744602318e77d2",
+      "source_connector": "vn_news",
+      "dept_id": "06",
+      "division_code": "div3-engineering-ai",
+      "title": "Apple sắp đưa khung titan trở lại trên iPhone 20 Pro sau hai năm",
+      "url": "https://thanhnien.vn/apple-sap-dua-khung-titan-tro-lai-tren-iphone-20-pro-sau-hai-nam-1852611191228512.htm",
+      "published_at": "Thu, 19 Nov 26 18:14:00 +0700",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Apple được cho là đang thử nghiệm khung titan cho iPhone 20 Pro, đánh dấu khả năng quay lại vật liệu cao cấp này.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 7,
+      "tags": "cong-nghe phan-mem ai",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1310,
+      "url_hash": "5ae4116f5d7e18de74de406da3e324ee506886491c4134cbd020eb2a8399eb47",
+      "source_connector": "vn_news",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "Apple sắp đưa khung titan trở lại trên iPhone 20 Pro sau hai năm",
+      "url": "https://thanhnien.vn/apple-sap-dua-khung-titan-tro-lai-tren-iphone-20-pro-sau-hai-nam-1852611191228512.htm",
+      "published_at": "Thu, 19 Nov 26 18:14:00 +0700",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Apple được cho là đang thử nghiệm khung titan cho iPhone 20 Pro, đánh dấu khả năng quay lại vật liệu cao cấp này.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 7,
+      "tags": "cong-nghe phan-mem ai",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1303,
+      "url_hash": "1323fe09edd0f98d2aa47fcb2f6caf8a0dc39ac1d61d4a0bd5d9eeb02cffe3ac",
+      "source_connector": "vn_news",
+      "dept_id": "03",
+      "division_code": "div6-sales-commercial",
+      "title": "Người dùng hỏi AI thay vì gõ từ khóa, thương hiệu cần chuẩn bị gì?",
+      "url": "https://cafef.vn/nguoi-dung-hoi-ai-thay-vi-go-tu-khoa-thuong-hieu-can-chuan-bi-gi-188261119181838704.chn",
+      "published_at": "Thu, 19 Nov 26 18:00:00 +0700",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "AI Search thay đổi cách người dùng tiếp cận thông tin: từ tự tìm kiếm sang đặt câu hỏi để AI tổng hợp và trả lời. Do đó, doanh nghiệp cần xây dựng thông tin thương hiệu rõ ràng, nhất quán, đáng tin cậy để AI hiểu và tham chiếu.",
+      "actionable_insight": "Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1302,
+      "url_hash": "caf1c22cc734df98697897c8b6bc32c70b893213b2f75aed14539b812fae3b3a",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div6-sales-commercial",
+      "title": "Người dùng hỏi AI thay vì gõ từ khóa, thương hiệu cần chuẩn bị gì?",
+      "url": "https://cafef.vn/nguoi-dung-hoi-ai-thay-vi-go-tu-khoa-thuong-hieu-can-chuan-bi-gi-188261119181838704.chn",
+      "published_at": "Thu, 19 Nov 26 18:00:00 +0700",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "AI Search thay đổi cách người dùng tiếp cận thông tin: từ tự tìm kiếm sang đặt câu hỏi để AI tổng hợp và trả lời. Do đó, doanh nghiệp cần xây dựng thông tin thương hiệu rõ ràng, nhất quán, đáng tin cậy để AI hiểu và tham chiếu.",
+      "actionable_insight": "Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1301,
+      "url_hash": "d8821d43cb7defbfc59d83dc3cff9feb87abc48842f090fabeb360898372d95a",
+      "source_connector": "vn_news",
+      "dept_id": "03",
+      "division_code": "div6-sales-commercial",
+      "title": "Chủ tịch UBND tỉnh Đắk Lắk kiểm tra, đôn đốc thi công các dự án trọng điểm",
+      "url": "https://cafef.vn/chu-tich-ubnd-tinh-dak-lak-kiem-tra-don-doc-thi-cong-cac-du-an-trong-diem-18826111918192112.chn",
+      "published_at": "Thu, 19 Nov 26 18:00:00 +0700",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Chiều 18/11, đồng chí Đỗ Hữu Huy, Phó bí thư Tỉnh ủy, Chủ tịch UBND tỉnh Đắk Lắk, dẫn đầu đoàn công tác kiểm tra thực địa, đôn đốc tiến độ thi công xây dựng các dự án trọng điểm.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1300,
+      "url_hash": "d156d783529acc2ce8d7a27b58475c8b2737f9009f92a2bceacc566bc39d09a6",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div6-sales-commercial",
+      "title": "Chủ tịch UBND tỉnh Đắk Lắk kiểm tra, đôn đốc thi công các dự án trọng điểm",
+      "url": "https://cafef.vn/chu-tich-ubnd-tinh-dak-lak-kiem-tra-don-doc-thi-cong-cac-du-an-trong-diem-18826111918192112.chn",
+      "published_at": "Thu, 19 Nov 26 18:00:00 +0700",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Chiều 18/11, đồng chí Đỗ Hữu Huy, Phó bí thư Tỉnh ủy, Chủ tịch UBND tỉnh Đắk Lắk, dẫn đầu đoàn công tác kiểm tra thực địa, đôn đốc tiến độ thi công xây dựng các dự án trọng điểm.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1299,
+      "url_hash": "9495c575d7fcfec968098cc95a1a76132b4d92109a9079bf668d8c2df7a9070d",
+      "source_connector": "vn_news",
+      "dept_id": "37",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Tổng Bí thư, Chủ tịch nước Tô Lâm tiếp nhận vai trò chủ nhà APEC 2027",
+      "url": "https://vneconomy.vn/tong-bi-thu-chu-tich-nuoc-to-lam-tiep-nhan-vai-tro-chu-nha-apec-2027.htm",
+      "published_at": "Thu, 19 Nov 2026 10:47:15 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Sáng 19/11, tại Thâm Quyến (Trung Quốc), Tổng Bí thư, Chủ tịch nước Tô Lâm chính thức tiếp nhận vai trò chủ nhà Năm APEC 2027 từ Tổng Bí thư, Chủ tịch Trung Quốc Tập Cận Bình, đánh dấu việc khởi động Năm APEC Việt Nam 2027 với chủ đề “Cùng kiến tạo một kỷ nguyên mới tự cường, đổi mới sáng tạo và thịnh vượng chung”.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1298,
+      "url_hash": "30b22925399d56aa9ff0d3118a42c8b468899d716d615f5b4adc877b69234953",
+      "source_connector": "vn_news",
+      "dept_id": "05",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Tổng Bí thư, Chủ tịch nước Tô Lâm tiếp nhận vai trò chủ nhà APEC 2027",
+      "url": "https://vneconomy.vn/tong-bi-thu-chu-tich-nuoc-to-lam-tiep-nhan-vai-tro-chu-nha-apec-2027.htm",
+      "published_at": "Thu, 19 Nov 2026 10:47:15 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Sáng 19/11, tại Thâm Quyến (Trung Quốc), Tổng Bí thư, Chủ tịch nước Tô Lâm chính thức tiếp nhận vai trò chủ nhà Năm APEC 2027 từ Tổng Bí thư, Chủ tịch Trung Quốc Tập Cận Bình, đánh dấu việc khởi động Năm APEC Việt Nam 2027 với chủ đề “Cùng kiến tạo một kỷ nguyên mới tự cường, đổi mới sáng tạo và thịnh vượng chung”.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1297,
+      "url_hash": "b68c581503b88481ab302ffa6189e7581a13bdff33f1ad8a9a653c40edaf32be",
+      "source_connector": "vn_news",
+      "dept_id": "37",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Việt Nam đề xuất ba ưu tiên lớn cho hợp tác APEC trong giai đoạn mới",
+      "url": "https://vneconomy.vn/viet-nam-de-xuat-ba-uu-tien-lon-cho-hop-tac-apec-trong-giai-doan-moi.htm",
+      "published_at": "Thu, 19 Nov 2026 10:48:56 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Sáng 19/11, tại Thâm Quyến (Trung Quốc), Tổng Bí thư, Chủ tịch nước Tô Lâm tham dự Hội nghị các nhà lãnh đạo kinh tế APEC lần thứ 33, đề xuất ba ưu tiên lớn nhằm thúc đẩy liên kết kinh tế, khai mở động lực tăng trưởng mới và tăng cường đối thoại, hợp tác vì thịnh vượng chung.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1296,
+      "url_hash": "07748bcda1e52b9a96dbf25b0299546dd7a4e7452dfd624b6be7ebdf7f05a3ef",
+      "source_connector": "vn_news",
+      "dept_id": "05",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Việt Nam đề xuất ba ưu tiên lớn cho hợp tác APEC trong giai đoạn mới",
+      "url": "https://vneconomy.vn/viet-nam-de-xuat-ba-uu-tien-lon-cho-hop-tac-apec-trong-giai-doan-moi.htm",
+      "published_at": "Thu, 19 Nov 2026 10:48:56 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Sáng 19/11, tại Thâm Quyến (Trung Quốc), Tổng Bí thư, Chủ tịch nước Tô Lâm tham dự Hội nghị các nhà lãnh đạo kinh tế APEC lần thứ 33, đề xuất ba ưu tiên lớn nhằm thúc đẩy liên kết kinh tế, khai mở động lực tăng trưởng mới và tăng cường đối thoại, hợp tác vì thịnh vượng chung.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1295,
+      "url_hash": "90dbb95ad5eb879157df06ee87781fbb1028fa3e4ff273086c19a8a832fc3408",
+      "source_connector": "vn_news",
+      "dept_id": "37",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Thượng đỉnh Mỹ - Trung: Chủ tịch Tập Cận Bình kêu gọi đưa quan hệ song phương đi đúng hướng",
+      "url": "https://vneconomy.vn/thuong-dinh-my-trung-chu-tich-tap-can-binh-keu-goi-dua-quan-he-song-phuong-di-dung-huong.htm",
+      "published_at": "Thu, 19 Nov 2026 10:50:32 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Ngày thứ Năm (19/11), tại cuộc hội đàm ở Thâm Quyến, Chủ tịch Trung Quốc Tập Cận Bình nhận định quan hệ với Mỹ ổn định, tích cực, còn Tổng thống Mỹ Donald Trump kêu gọi hai bên cùng giúp chấm dứt chiến tranh Nga - Ukraine...",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1294,
+      "url_hash": "0609a5c24ef5a61c93e2a8c12d46f3934577aa900d63e5f3ea5f59fbc8aaafb1",
+      "source_connector": "vn_news",
+      "dept_id": "05",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Thượng đỉnh Mỹ - Trung: Chủ tịch Tập Cận Bình kêu gọi đưa quan hệ song phương đi đúng hướng",
+      "url": "https://vneconomy.vn/thuong-dinh-my-trung-chu-tich-tap-can-binh-keu-goi-dua-quan-he-song-phuong-di-dung-huong.htm",
+      "published_at": "Thu, 19 Nov 2026 10:50:32 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Ngày thứ Năm (19/11), tại cuộc hội đàm ở Thâm Quyến, Chủ tịch Trung Quốc Tập Cận Bình nhận định quan hệ với Mỹ ổn định, tích cực, còn Tổng thống Mỹ Donald Trump kêu gọi hai bên cùng giúp chấm dứt chiến tranh Nga - Ukraine...",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1293,
+      "url_hash": "d03f826fced591eb8ef36e32ce34ef71b78a0d1c8fa603302c7af0b8c18de3a7",
+      "source_connector": "vn_news",
+      "dept_id": "37",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Những tác động của kháng thuốc vượt ra ngoài phạm vi điều trị",
+      "url": "https://vneconomy.vn/nhung-tac-dong-cua-khang-thuoc-vuot-ra-ngoai-pham-vi-dieu-tri.htm",
+      "published_at": "Thu, 19 Nov 2026 10:52:15 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Kháng thuốc kháng vi sinh vật (AMR) đang trở thành một trong những thách thức nghiêm trọng đối với sức khỏe cộng đồng toàn cầu. Tình trạng này xảy ra khi các vi sinh vật như vi khuẩn, virus, nấm và ký sinh trùng không còn đáp ứng với những loại thuốc vốn được sử dụng để phòng ngừa, điều trị bệnh truyền nhiễm…",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1292,
+      "url_hash": "29c50a4151fb5d5360ee47fe1510c30b264b17785856077f67d557f7100d25f7",
+      "source_connector": "vn_news",
+      "dept_id": "05",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Những tác động của kháng thuốc vượt ra ngoài phạm vi điều trị",
+      "url": "https://vneconomy.vn/nhung-tac-dong-cua-khang-thuoc-vuot-ra-ngoai-pham-vi-dieu-tri.htm",
+      "published_at": "Thu, 19 Nov 2026 10:52:15 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Kháng thuốc kháng vi sinh vật (AMR) đang trở thành một trong những thách thức nghiêm trọng đối với sức khỏe cộng đồng toàn cầu. Tình trạng này xảy ra khi các vi sinh vật như vi khuẩn, virus, nấm và ký sinh trùng không còn đáp ứng với những loại thuốc vốn được sử dụng để phòng ngừa, điều trị bệnh truyền nhiễm…",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1291,
+      "url_hash": "4099f312c999ba7dcc358536081ebbd2cf5c371d836f2ed6b30e1c988fa6ecb6",
+      "source_connector": "vn_news",
+      "dept_id": "37",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Hồng Kông và Ma Cao \"bù đắp\" cho thị trường xa xỉ Trung Quốc",
+      "url": "https://vneconomy.vn/hong-kong-va-ma-cao-bu-dap-cho-thi-truong-xa-xi-trung-quoc.htm",
+      "published_at": "Thu, 19 Nov 2026 10:52:24 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Trong khi thị trường xa xỉ tại Trung Quốc đại lục đang gặp khó khăn vì doanh thu sụt giảm, sức mua tại hai thị trường Hồng Kông và Ma Cao đang cho thấy những tín hiệu tích cực...",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1290,
+      "url_hash": "7a1ad772a702542dc66699bab3e6738bbdd0bffcb123d0aabf1dceb3afceafa3",
+      "source_connector": "vn_news",
+      "dept_id": "05",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Hồng Kông và Ma Cao \"bù đắp\" cho thị trường xa xỉ Trung Quốc",
+      "url": "https://vneconomy.vn/hong-kong-va-ma-cao-bu-dap-cho-thi-truong-xa-xi-trung-quoc.htm",
+      "published_at": "Thu, 19 Nov 2026 10:52:24 GMT",
+      "fetched_at": "2026-11-19T11:20:13Z",
+      "summary_vi": "Trong khi thị trường xa xỉ tại Trung Quốc đại lục đang gặp khó khăn vì doanh thu sụt giảm, sức mua tại hai thị trường Hồng Kông và Ma Cao đang cho thấy những tín hiệu tích cực...",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-te vi-mo dau-tu tai-chinh",
+      "is_starred": 0
+    },
     {
       "atom_id": 1197,
       "url_hash": "df68e3ab86a532eddacea75b75b27549dad030b84640e3611b7cf582f6e01a32",
@@ -7621,6 +8048,193 @@
   ],
   "activity_stream": [
     {
+      "event_id": 251,
+      "event_uid": "a0aa8213-7a48-4860-82f4-cb5e29826f09",
+      "timestamp": "2026-11-19T11:29:24Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Công Cụ Chấm Điểm và Chuẩn Hóa Hồ Sơ Doanh Nghiệp để Được Công Cụ Hỏi Đáp Trí Tuệ Nhân Tạo Đề Xuất",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 250,
+      "event_uid": "caf97444-4882-4495-a4fb-2e8ef307886d",
+      "timestamp": "2026-11-19T11:29:24Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Sổ Kiểm Thực 3 Bước Điện Tử, In Nhãn Lưu Mẫu 24 Giờ và Hồ Sơ Nguyên Liệu cho Bếp Ăn Mầm Non",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 249,
+      "event_uid": "f6b25139-22ec-4983-870e-e4d46166b82a",
+      "timestamp": "2026-11-19T11:29:24Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Sổ Cảnh Báo Thuốc Cận Hạn, Tách Kho Biệt Trữ và Ghi Nhiệt Độ Chuẩn Nhà Thuốc Tư Nhân",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 248,
+      "event_uid": "2609153f-2e88-4fbb-8974-a3b6c76460b5",
+      "timestamp": "2026-11-19T11:23:28Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_CLAIMED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Hệ thống điều phối AI đã tiếp nhận lệnh: Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "detail_json": "{\"order_id\": \"ord-11a55b26\", \"mission_id\": null, \"claimed_by\": \"antigravity-coordinator\"}"
+    },
+    {
+      "event_id": 247,
+      "event_uid": "1dc1622c-70cc-4d6a-a367-1809b147bd02",
+      "timestamp": "2026-11-19T11:23:27Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_QUEUED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã chuyển lệnh (Săn cơ hội mới) sang hệ thống điều phối AI: Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "detail_json": "{\"order_id\": \"ord-11a55b26\", \"order_type\": \"SCAN_OPPORTUNITIES\", \"mission_id\": null, \"task_id\": null}"
+    },
+    {
+      "event_id": 246,
+      "event_uid": "40abae6c-4e79-44fb-bdba-b18838b958f2",
+      "timestamp": "2026-11-19T11:21:06Z",
+      "actor_dept_id": "00",
+      "event_type": "PROJECT_DELETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã xóa dự án: App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 245,
+      "event_uid": "d3c0a587-3477-472c-8184-ed466b49fd7f",
+      "timestamp": "2026-11-19T11:20:14Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_COMPLETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã quét 24 kênh tin: Nạp mới 28 bài vào 8 phòng ban, bỏ qua 172 bài đã có trong kho, 1 kênh tạm gián đoạn",
+      "detail_json": "{\"run_id\": \"learn-ab02907836\", \"scope\": \"all\", \"sources_queried\": 24, \"new_atoms_added\": 28, \"duplicates_skipped\": 172, \"errors_count\": 1, \"touched_depts\": [\"01\", \"03\", \"04\", \"05\", \"06\", \"12\", \"37\", \"39\"]}"
+    },
+    {
+      "event_id": 244,
+      "event_uid": "b20e046f-1677-46ca-9012-3eb20c5a1ed5",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "03",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 03 vừa đọc & đúc kết [product_pulse]: Meilisearch Searchandising",
+      "detail_json": "{\"url\": \"https://www.producthunt.com/products/meilisearch-cloud\", \"importance\": 8, \"atom_id\": 1332}"
+    },
+    {
+      "event_id": 243,
+      "event_uid": "4931f23f-c6ab-4693-a0fe-487a7d7d3ac8",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "04",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 04 vừa đọc & đúc kết [vn_news]: Apple sắp đưa khung titan trở lại trên iPhone 20 Pro sau hai năm",
+      "detail_json": "{\"url\": \"https://thanhnien.vn/apple-sap-dua-khung-titan-tro-lai-tren-iphone-20-pro-sau-hai-nam-1852611191228512.htm\", \"importance\": 7, \"atom_id\": 1310}"
+    },
+    {
+      "event_id": 242,
+      "event_uid": "8f9e1238-2952-4164-81cc-731e4b219e99",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Người dùng hỏi AI thay vì gõ từ khóa, thương hiệu cần chuẩn bị gì?",
+      "detail_json": "{\"url\": \"https://cafef.vn/nguoi-dung-hoi-ai-thay-vi-go-tu-khoa-thuong-hieu-can-chuan-bi-gi-188261119181838704.chn\", \"importance\": 8, \"atom_id\": 1302}"
+    },
+    {
+      "event_id": 241,
+      "event_uid": "fc58435b-c870-4a04-b885-b23cd6c33e76",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Chủ tịch UBND tỉnh Đắk Lắk kiểm tra, đôn đốc thi công các dự án trọng điểm",
+      "detail_json": "{\"url\": \"https://cafef.vn/chu-tich-ubnd-tinh-dak-lak-kiem-tra-don-doc-thi-cong-cac-du-an-trong-diem-18826111918192112.chn\", \"importance\": 8, \"atom_id\": 1300}"
+    },
+    {
+      "event_id": 240,
+      "event_uid": "271926b5-f897-4013-9630-bf2872d04033",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "05",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 05 vừa đọc & đúc kết [vn_news]: Tổng Bí thư, Chủ tịch nước Tô Lâm tiếp nhận vai trò chủ nhà APEC 2027",
+      "detail_json": "{\"url\": \"https://vneconomy.vn/tong-bi-thu-chu-tich-nuoc-to-lam-tiep-nhan-vai-tro-chu-nha-apec-2027.htm\", \"importance\": 8, \"atom_id\": 1298}"
+    },
+    {
+      "event_id": 239,
+      "event_uid": "cae8b33c-bad0-42b0-9cb8-d9d2bd0f54c7",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "05",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 05 vừa đọc & đúc kết [vn_news]: Việt Nam đề xuất ba ưu tiên lớn cho hợp tác APEC trong giai đoạn mới",
+      "detail_json": "{\"url\": \"https://vneconomy.vn/viet-nam-de-xuat-ba-uu-tien-lon-cho-hop-tac-apec-trong-giai-doan-moi.htm\", \"importance\": 8, \"atom_id\": 1296}"
+    },
+    {
+      "event_id": 238,
+      "event_uid": "813c5d71-b3b0-4ebc-a644-375e7abc0673",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "05",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 05 vừa đọc & đúc kết [vn_news]: Thượng đỉnh Mỹ - Trung: Chủ tịch Tập Cận Bình kêu gọi đưa quan hệ song phương đi đúng hướn",
+      "detail_json": "{\"url\": \"https://vneconomy.vn/thuong-dinh-my-trung-chu-tich-tap-can-binh-keu-goi-dua-quan-he-song-phuong-di-dung-huong.htm\", \"importance\": 8, \"atom_id\": 1294}"
+    },
+    {
+      "event_id": 237,
+      "event_uid": "fb0ff37f-0d71-49d5-8ef0-32a9ebca82b4",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "05",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 05 vừa đọc & đúc kết [vn_news]: Những tác động của kháng thuốc vượt ra ngoài phạm vi điều trị",
+      "detail_json": "{\"url\": \"https://vneconomy.vn/nhung-tac-dong-cua-khang-thuoc-vuot-ra-ngoai-pham-vi-dieu-tri.htm\", \"importance\": 8, \"atom_id\": 1292}"
+    },
+    {
+      "event_id": 236,
+      "event_uid": "b27b1ac3-fce3-4c03-8281-fde8c8bb50e6",
+      "timestamp": "2026-11-19T11:20:13Z",
+      "actor_dept_id": "05",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 05 vừa đọc & đúc kết [vn_news]: Hồng Kông và Ma Cao \"bù đắp\" cho thị trường xa xỉ Trung Quốc",
+      "detail_json": "{\"url\": \"https://vneconomy.vn/hong-kong-va-ma-cao-bu-dap-cho-thi-truong-xa-xi-trung-quoc.htm\", \"importance\": 8, \"atom_id\": 1290}"
+    },
+    {
+      "event_id": 235,
+      "event_uid": "b8896fdf-4a15-450b-8004-cc7fbd28f573",
+      "timestamp": "2026-11-19T11:20:12Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Bắt đầu chu kỳ đọc báo, nghiên cứu arXiv và quét thị trường (24 kênh trực tuyến)",
+      "detail_json": "{\"run_id\": \"learn-ab02907836\", \"scope\": \"all\", \"triggered_by\": \"CHAIRMAN_UI\", \"sources_total\": 24}"
+    },
+    {
       "event_id": 234,
       "event_uid": "b790312a-48d4-4eaa-9bfa-accb339a4861",
       "timestamp": "2026-11-19T10:58:30Z",
@@ -8601,6 +9215,18 @@
     }
   ],
   "learning_runs": [
+    {
+      "run_id": "learn-ab02907836",
+      "triggered_by": "CHAIRMAN_UI",
+      "scope": "all",
+      "sources_queried": 24,
+      "new_atoms_added": 28,
+      "duplicates_skipped": 172,
+      "status": "COMPLETED",
+      "started_at": "2026-11-19T11:20:12Z",
+      "finished_at": "2026-11-19T11:20:14Z",
+      "error_log": "baochinhphu-chinh-sach: HTTP Error 404: Not Found"
+    },
     {
       "run_id": "learn-3b43ab8933",
       "triggered_by": "CHAIRMAN_UI",
@@ -9746,62 +10372,6 @@
   ],
   "project_ledger": [
     {
-      "entry_id": "led-plan-rem-infra",
-      "project_id": "proj-rem-cua-ai",
-      "entry_type": "EXPENSE",
-      "category": "Hạ tầng và xử lý ảnh",
-      "title": "Dự toán chi phí máy chủ ảnh và xử lý ướm mẫu AI tháng đầu",
-      "amount_vnd": 1500000.0,
-      "is_estimate": true,
-      "entry_date": "2026-11-19",
-      "note": "Kế hoạch dự toán hạ tầng cơ bản",
-      "created_at": "2026-11-19T10:23:57Z",
-      "project_title": "App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây",
-      "project_slug": "rem-cua-ai"
-    },
-    {
-      "entry_id": "led-plan-rem-mkt",
-      "project_id": "proj-rem-cua-ai",
-      "entry_type": "EXPENSE",
-      "category": "Tiếp cận khách hàng",
-      "title": "Dự toán chi phí tiếp cận chủ tiệm rèm cửa và sàn gỗ đợt đầu",
-      "amount_vnd": 1200000.0,
-      "is_estimate": true,
-      "entry_date": "2026-11-19",
-      "note": "Kế hoạch dự toán thử nghiệm bán hàng",
-      "created_at": "2026-11-19T10:23:57Z",
-      "project_title": "App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây",
-      "project_slug": "rem-cua-ai"
-    },
-    {
-      "entry_id": "led-plan-rem-rev",
-      "project_id": "proj-rem-cua-ai",
-      "entry_type": "REVENUE",
-      "category": "Thuê bao cửa hàng",
-      "title": "Mục tiêu doanh thu dự toán 30 cửa hàng tháng đầu (399.000đ/tháng)",
-      "amount_vnd": 11970000.0,
-      "is_estimate": true,
-      "entry_date": "2026-11-19",
-      "note": "Kế hoạch dự toán mục tiêu (thực thu hiện tại = 0đ)",
-      "created_at": "2026-11-19T10:23:57Z",
-      "project_title": "App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây",
-      "project_slug": "rem-cua-ai"
-    },
-    {
-      "entry_id": "led-plan-rem-tax",
-      "project_id": "proj-rem-cua-ai",
-      "entry_type": "TAX_RESERVE",
-      "category": "Dự phòng thuế",
-      "title": "Dự phòng thuế theo kế hoạch 7% trên doanh thu mục tiêu 30 cửa hàng",
-      "amount_vnd": 837900.0,
-      "is_estimate": true,
-      "entry_date": "2026-11-19",
-      "note": "Quỹ dự phòng thuế theo kế hoạch",
-      "created_at": "2026-11-19T10:23:57Z",
-      "project_title": "App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây",
-      "project_slug": "rem-cua-ai"
-    },
-    {
       "entry_id": "led-plan-hkd-infra",
       "project_id": "proj-so-thu-chi-thue-hkd",
       "entry_type": "EXPENSE",
@@ -9873,18 +10443,18 @@
     }
   ],
   "finance_summary": {
-    "total_projects": 2,
+    "total_projects": 1,
     "shipped_projects": 1,
-    "active_projects": 1,
+    "active_projects": 0,
     "actual_revenue_vnd": 0.0,
     "actual_expense_vnd": 0.0,
     "actual_tax_vnd": 0.0,
     "actual_net_profit_vnd": 0.0,
-    "plan_revenue_vnd": 24420000.0,
-    "plan_expense_vnd": 5700000.0,
-    "plan_tax_vnd": 1709400.0,
-    "plan_net_profit_vnd": 17010600.0,
-    "target_100_mrr_vnd": 64800000.0,
+    "plan_revenue_vnd": 12450000.0,
+    "plan_expense_vnd": 3000000.0,
+    "plan_tax_vnd": 871500.0,
+    "plan_net_profit_vnd": 8578500.0,
+    "target_100_mrr_vnd": 24900000.0,
     "projects": [
       {
         "project_id": "proj-so-thu-chi-thue-hkd",
@@ -9972,75 +10542,6 @@
             "kind": "landing"
           }
         ]
-      },
-      {
-        "project_id": "proj-rem-cua-ai",
-        "slug": "rem-cua-ai",
-        "title": "App Ướm Mẫu Rèm & Sàn Gỗ Thật Vào Nhà Khách Báo Giá 10 Giây",
-        "status": "ACTIVE",
-        "target_market": "Vietnam & Global",
-        "expected_price_vnd": 399000.0,
-        "unit_cost_vnd": 95000.0,
-        "fixed_cost_monthly_vnd": 1500000.0,
-        "actual_revenue_vnd": 0.0,
-        "actual_expense_vnd": 0.0,
-        "actual_tax_vnd": 0.0,
-        "actual_net_profit_vnd": 0.0,
-        "plan_revenue_vnd": 11970000.0,
-        "plan_expense_vnd": 2700000.0,
-        "plan_tax_vnd": 837900.0,
-        "plan_net_profit_vnd": 8432100.0,
-        "gross_margin_pct": 76.19,
-        "breakeven_customers": 6,
-        "target_100_mrr_vnd": 39900000.0,
-        "monthly_series": [
-          {
-            "month": "2026-11",
-            "revenue": 0.0,
-            "expense": 0.0,
-            "tax": 0.0,
-            "profit": 0.0,
-            "plan_revenue": 11970000.0,
-            "plan_expense": 2700000.0,
-            "plan_tax": 837900.0,
-            "plan_profit": 8432100.0
-          }
-        ],
-        "by_category": [
-          {
-            "category": "Thuê bao cửa hàng",
-            "entry_type": "REVENUE",
-            "amount_vnd": 11970000.0,
-            "actual_vnd": 0.0,
-            "plan_vnd": 11970000.0
-          },
-          {
-            "category": "Hạ tầng và xử lý ảnh",
-            "entry_type": "EXPENSE",
-            "amount_vnd": 1500000.0,
-            "actual_vnd": 0.0,
-            "plan_vnd": 1500000.0
-          },
-          {
-            "category": "Tiếp cận khách hàng",
-            "entry_type": "EXPENSE",
-            "amount_vnd": 1200000.0,
-            "actual_vnd": 0.0,
-            "plan_vnd": 1200000.0
-          },
-          {
-            "category": "Dự phòng thuế",
-            "entry_type": "TAX_RESERVE",
-            "amount_vnd": 837900.0,
-            "actual_vnd": 0.0,
-            "plan_vnd": 837900.0
-          }
-        ],
-        "tasks_total": 3,
-        "tasks_done": 0,
-        "progress_pct": 0,
-        "missions_count": 0,
-        "preview_urls": []
       }
     ]
   }
