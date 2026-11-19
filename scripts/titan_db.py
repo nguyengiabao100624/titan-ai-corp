@@ -135,6 +135,35 @@ def clean_department_title_vi(raw_title: str) -> str:
     return text
 
 
+SMART_ROUTE_RULES: list[tuple[tuple[str, ...], str]] = [
+    (("thuế", "hóa đơn", "kê khai", "quyết toán", "nghị định"), "39"),
+    (("tài chính", "định giá", "bảng giá", "giá bán", "mức giá", "gói giá", "lãi", "lợi nhuận", "hòa vốn", "dòng tiền", "kế toán", "chi phí"), "38"),
+    (("bảo mật", "hack", "lỗ hổng", "xss", "an ninh", "xâm nhập", "mã hóa"), "23"),
+    (("kiểm thử", "test", "dùng thử", "đóng vai khách", "qa"), "20"),
+    (("giao diện", "ui", "ux", "thiết kế", "màu sắc", "bố cục", "trải nghiệm"), "08"),
+    (("server", "api", "thanh toán", "vietqr", "webhook", "backend", "cơ sở dữ liệu", "database", "máy chủ"), "15"),
+    (("pháp lý", "hợp đồng", "điều khoản", "miễn trừ", "bản quyền", "chính sách"), "40"),
+    (("phản biện", "rủi ro", "thẩm định", "chặn lỗ"), "46"),
+    (("săn cơ hội", "thị trường", "đối thủ", "ngách", "khảo sát", "nhu cầu"), "50"),
+    (("seo", "nội dung", "bài viết", "blog", "từ khóa", "tìm kiếm"), "30"),
+    (("quảng cáo", "bán hàng", "zalo", "video", "tiktok", "youtube", "facebook", "chốt đơn", "landing", "khách hàng"), "31"),
+    (("web", "app", "code", "lỗi", "bug", "lập trình", "tính năng", "ứng dụng", "script"), "13"),
+]
+
+
+def smart_route_department(title: str, description: str = "") -> str:
+    """Tự động định tuyến phòng ban phù hợp nhất theo từ khóa tiếng Việt trong tiêu đề và mô tả."""
+    haystack = f"{title or ''} {description or ''}".lower()
+    for keywords, dept_id in SMART_ROUTE_RULES:
+        for kw in keywords:
+            if kw in ("ui", "ux", "qa", "api", "seo", "web", "app", "bug", "test", "code", "giá"):
+                if re.search(rf"(?<![a-zA-ZÀ-ỹ0-9]){re.escape(kw)}(?![a-zA-ZÀ-ỹ0-9])", haystack):
+                    return dept_id
+            elif kw in haystack:
+                return dept_id
+    return "00"
+
+
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -978,6 +1007,7 @@ class TitanDatabase:
                 detail={"priority": prio, "gate": gate_number, "stage": stage_number},
                 conn=conn,
             )
+        self.reconcile_live_system_state()
         return self.get_task(tid)  # type: ignore[return-value]
 
     def checkout_task_atomic(self, task_id: str, dept_id: str, worker_token: str | None = None) -> dict[str, Any]:
@@ -1030,6 +1060,7 @@ class TitanDatabase:
                 detail={"owner": owner},
                 conn=conn,
             )
+        self.reconcile_live_system_state()
         return {"acquired": True, "task_id": task_id, "locked_by": owner, "task": self.get_task(task_id)}
 
     def add_task_citation(
@@ -1129,6 +1160,7 @@ class TitanDatabase:
                 detail={"deliverable_id": did, "file_path": file_path, "evidence_level": evidence_level},
                 conn=conn,
             )
+        self.reconcile_live_system_state()
         return {"deliverable_id": did, "task": self.get_task(task_id)}
 
     def chairman_decide_task(
@@ -1144,6 +1176,34 @@ class TitanDatabase:
         if dec not in ("APPROVE", "REJECT"):
             raise ValueError("Decision phải là 'APPROVE' hoặc 'REJECT'.")
         now = utc_now_iso()
+
+        # Nếu Chủ tịch duyệt/từ chối trực tiếp một task cổng `auto-*` ở Tab 3, đồng bộ ngay sang decide_mission()!
+        if task_id.startswith("auto-"):
+            raw_step_id = task_id[5:]
+            step_info = self._get_conn().execute(
+                """
+                SELECT ms.mission_id, ms.step_order, ms.status AS step_status, m.status AS mission_status
+                FROM mission_steps ms
+                JOIN missions m ON m.mission_id = ms.mission_id
+                WHERE ms.step_id = ?
+                """,
+                (raw_step_id,),
+            ).fetchone()
+            if step_info and (
+                str(step_info["mission_status"] or "").upper() == "WAITING_CHAIRMAN"
+                or str(step_info["step_status"] or "").upper() == "WAITING_APPROVAL"
+                or int(step_info["step_order"] or 0) in (4, 8)
+            ):
+                msn_res = self.decide_mission(step_info["mission_id"], dec, note=note)
+                updated_t = self.get_task(task_id)
+                if updated_t is not None:
+                    updated_t["synced_mission"] = msn_res
+                    return updated_t
+                return {
+                    "task_id": task_id,
+                    "kanban_column": "DONE" if dec == "APPROVE" else "IN_PROGRESS",
+                    "synced_mission": msn_res,
+                }
 
         with self.immediate_tx() as conn:
             task_row = conn.execute("SELECT * FROM tasks WHERE task_id = ?", (task_id,)).fetchone()
@@ -1244,6 +1304,14 @@ class TitanDatabase:
                     conn=conn,
                 )
 
+        if dec == "APPROVE" and task_id.startswith("auto-"):
+            raw_ref = task_id[5:]
+            with self.immediate_tx() as wconn:
+                wconn.execute(
+                    "UPDATE mission_steps SET status = 'DONE', progress_pct = 100, completed_at = COALESCE(completed_at, ?), updated_at = ? WHERE step_id = ?",
+                    (now, now, raw_ref),
+                )
+        self.reconcile_live_system_state()
         return self.get_task(task_id)  # type: ignore[return-value]
 
     def transition_task_column(self, task_id: str, column: str, note: str = "") -> dict[str, Any]:
@@ -1279,6 +1347,7 @@ class TitanDatabase:
                 detail={"column": col, "note": note},
                 conn=conn,
             )
+        self.reconcile_live_system_state()
         return self.get_task(task_id)  # type: ignore[return-value]
 
     def get_task(self, task_id: str) -> dict[str, Any] | None:
@@ -1309,6 +1378,7 @@ class TitanDatabase:
                 "SELECT * FROM deliverables WHERE task_id = ? ORDER BY created_at DESC", (task_id,)
             ).fetchall()
         ]
+        self._enrich_task_rows([result])
         return result
 
     def list_tasks(
@@ -1317,7 +1387,10 @@ class TitanDatabase:
         division_code: str | None = None,
         kanban_column: str | None = None,
         dept_id: str | None = None,
+        _skip_reconcile: bool = False,
     ) -> list[dict[str, Any]]:
+        if not _skip_reconcile:
+            self.reconcile_live_system_state()
         conn = self._get_conn()
         clauses = ["1=1"]
         params: list[Any] = []
@@ -1351,7 +1424,7 @@ class TitanDatabase:
             """,
             params,
         ).fetchall()
-        return [dict(r) for r in rows]
+        return self._enrich_task_rows([dict(r) for r in rows])
 
     # =========================================================================
     # CONTINUAL LEARNING STORAGE, FTS5 BM25 & STANFORD 3D MEMORY RECALL
@@ -1562,7 +1635,16 @@ class TitanDatabase:
     # =========================================================================
     # DEPARTMENTS, OVERVIEW TELEMETRY & CFO SIMULATOR
     # =========================================================================
-    def list_departments(self, division_code: str | None = None, status: str | None = None) -> list[dict[str, Any]]:
+    def list_departments(
+        self,
+        division_code: str | None = None,
+        status: str | None = None,
+        _skip_reconcile: bool = False,
+        _work_map: dict[str, dict[str, Any]] | None = None,
+    ) -> list[dict[str, Any]]:
+        work_map = _work_map
+        if not _skip_reconcile or work_map is None:
+            work_map = self.reconcile_live_system_state().get("work_map", {})
         conn = self._get_conn()
         clauses = ["1=1"]
         params: list[Any] = []
@@ -1604,10 +1686,16 @@ class TitanDatabase:
             except Exception:
                 item["canonical_books"] = []
             item["skills_count"] = skill_counts.get(item["dept_id"], 0)
+            live = work_map.get(item["dept_id"], {})
+            item["current_work_title"] = str(live.get("current_work_title") or "")
+            item["current_work_type"] = str(live.get("current_work_type") or "")
+            item["current_mission_id"] = live.get("current_mission_id")
+            item["current_task_id"] = live.get("current_task_id") if live.get("current_task_id") is not None else item.get("current_task_id")
             result.append(item)
         return result
 
     def get_department_detail(self, dept_id: str) -> dict[str, Any] | None:
+        work_map = self.reconcile_live_system_state().get("work_map", {})
         conn = self._get_conn()
         row = conn.execute(
             """
@@ -1627,12 +1715,18 @@ class TitanDatabase:
         except Exception:
             dept["canonical_books"] = []
 
+        live = work_map.get(actual_id, {})
+        dept["current_work_title"] = str(live.get("current_work_title") or "")
+        dept["current_work_type"] = str(live.get("current_work_type") or "")
+        dept["current_mission_id"] = live.get("current_mission_id")
+        dept["current_task_id"] = live.get("current_task_id") if live.get("current_task_id") is not None else dept.get("current_task_id")
+
         hb_path = ROOT_DIR / dept["handbook_path"]
         dept["handbook_markdown"] = hb_path.read_text(encoding="utf-8") if hb_path.is_file() else ""
         dept["learned_articles"] = self.search_knowledge_fts(query="", dept_id=actual_id, limit=40)
         dept["installed_skills"] = self.list_installed_skills(dept_id=actual_id)
         dept["skills_count"] = len(dept["installed_skills"])
-        dept["tasks"] = self.list_tasks(dept_id=actual_id)
+        dept["tasks"] = self.list_tasks(dept_id=actual_id, _skip_reconcile=True)
         dept["reflexions"] = [
             dict(rf)
             for rf in conn.execute(
@@ -1696,6 +1790,8 @@ class TitanDatabase:
         return self.get_department_detail(actual_id)  # type: ignore[return-value]
 
     def get_overview_payload(self, events_limit: int = 60) -> dict[str, Any]:
+        reconcile_info = self.reconcile_live_system_state()
+        work_map = reconcile_info.get("work_map", {})
         conn = self._get_conn()
         dept_counts = conn.execute(
             """
@@ -1797,7 +1893,9 @@ class TitanDatabase:
                 "total_installed_skills": len(installed_skills),
             },
             "divisions": divisions,
+            "departments": self.list_departments(_skip_reconcile=True, _work_map=work_map),
             "projects": self.list_projects(),
+            "tasks": self.list_tasks(_skip_reconcile=True),
             "missions": self.list_missions(),
             "opportunities": self.list_opportunities(),
             "orders": self.list_orders(limit=30),
@@ -2210,6 +2308,7 @@ class TitanDatabase:
                 detail={"mission_id": mid, "order_id": order_id},
                 conn=conn,
             )
+        self.reconcile_live_system_state()
         msn = self.get_mission(mid)  # type: ignore[return-value]
         if msn is not None and order_id:
             msn["order_id"] = order_id
@@ -2258,6 +2357,7 @@ class TitanDatabase:
                     f"UPDATE missions SET {cols}, version = version + 1, updated_at = ? WHERE mission_id = ?",
                     [*updates.values(), now, mission_id],
                 )
+        self.reconcile_live_system_state()
         return self.get_mission(mission_id)  # type: ignore[return-value]
 
     def update_mission_step(self, step_id: str, **fields: Any) -> None:
@@ -2291,6 +2391,7 @@ class TitanDatabase:
                 "UPDATE missions SET progress_pct = ?, current_step_order = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
                 (overall_pct, active, now, mid),
             )
+        self.reconcile_live_system_state()
 
     def decide_mission(self, mission_id: str, decision: str, note: str = "") -> dict[str, Any]:
         """
@@ -2440,6 +2541,7 @@ class TitanDatabase:
                     detail={"mission_id": mission_id, "order_id": emitted_order_id, "reason": reason},
                     conn=conn,
                 )
+        self.reconcile_live_system_state()
         res = self.get_mission(mission_id)  # type: ignore[return-value]
         if res is not None and emitted_order_id:
             res["order_id"] = emitted_order_id
@@ -2459,6 +2561,7 @@ class TitanDatabase:
             conn.execute("DELETE FROM mission_steps WHERE mission_id = ?", (mission_id,))
             conn.execute("DELETE FROM missions WHERE mission_id = ?", (mission_id,))
             self.log_event("00", "MISSION_DELETED", f"Đã xóa nhiệm vụ: {full['title']}", conn=conn)
+        self.reconcile_live_system_state()
         return {"deleted": True, "entity_type": "mission", "entity_id": mission_id, "title": full["title"]}
 
     # -------------------------------------------------------------------------
@@ -2497,6 +2600,7 @@ class TitanDatabase:
                 detail={"order_id": oid, "order_type": otype, "mission_id": mission_id, "task_id": task_id},
                 conn=conn,
             )
+        self.reconcile_live_system_state()
         row = self._get_conn().execute("SELECT * FROM antigravity_orders WHERE order_id = ?", (oid,)).fetchone()
         return dict(row)
 
@@ -2543,6 +2647,7 @@ class TitanDatabase:
                 detail={"order_id": oid, "mission_id": row["mission_id"], "claimed_by": claimed_by},
                 conn=conn,
             )
+        self.reconcile_live_system_state()
         return self.get_order(oid)
 
     def complete_order(
@@ -2564,6 +2669,7 @@ class TitanDatabase:
                 "UPDATE antigravity_orders SET status = ?, result_summary = COALESCE(NULLIF(?, ''), result_summary), swarm_title = COALESCE(NULLIF(?, ''), swarm_title), updated_at = ? WHERE order_id = ?",
                 (st, result_summary, swarm_title, now, order_id),
             )
+        self.reconcile_live_system_state()
         return self.get_order(order_id)  # type: ignore[return-value]
 
     def set_bridge_heartbeat(
@@ -2788,6 +2894,7 @@ class TitanDatabase:
                         "UPDATE departments SET tasks_completed = tasks_completed + 1, status = CASE WHEN current_task_id = ? THEN 'IDLE' ELSE status END, current_task_id = CASE WHEN current_task_id = ? THEN NULL ELSE current_task_id END WHERE dept_id = ?",
                         (task_id, task_id, target_dept),
                     )
+        self.reconcile_live_system_state()
         return self.get_task(task_id)  # type: ignore[return-value]
 
     def delete_task(self, task_id: str) -> dict[str, Any]:
@@ -2801,6 +2908,7 @@ class TitanDatabase:
             conn.execute("DELETE FROM deliverables WHERE task_id = ?", (task_id,))
             conn.execute("DELETE FROM tasks WHERE task_id = ?", (task_id,))
             self.log_event("00", "TASK_DELETED", f"Đã xóa đầu việc: {full['title']}", conn=conn)
+        self.reconcile_live_system_state()
         return {"deleted": True, "entity_type": "task", "entity_id": task_id, "title": full["title"]}
 
     def duplicate_task(self, task_id: str) -> dict[str, Any]:
@@ -3118,6 +3226,7 @@ class TitanDatabase:
             self._clear_tombstone(wconn, entity_type, entity_id)
             etype_vi = ENTITY_TYPE_LABELS_VI.get(entity_type, entity_type)
             self.log_event("00", "ITEM_RESTORED", f"Đã hoàn tác khôi phục {etype_vi} vừa xóa", conn=wconn)
+        self.reconcile_live_system_state()
         return {"restored": True, "entity_type": entity_type, "entity_id": entity_id}
 
     def restore_batch_from_trash(self, items: list[dict[str, str]]) -> dict[str, Any]:
@@ -3816,4 +3925,546 @@ class TitanDatabase:
             "plan_net_profit_vnd": round(plan_rev - plan_exp - plan_tax, 2),
             "target_100_mrr_vnd": target_mrr,
             "projects": per_project,
+        }
+
+    # =========================================================================
+    # V9.0: LIVE STATE RECONCILIATION (51 DEPARTMENTS <-> MISSIONS/ORDERS/TASKS)
+    # =========================================================================
+    @staticmethod
+    def smart_route_department(title: str, description: str = "") -> str:
+        return smart_route_department(title, description)
+
+    def _enrich_task_rows(self, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        if not rows:
+            return rows
+        conn = self._get_conn()
+        step_to_mission = {
+            r["step_id"]: r["mission_id"]
+            for r in conn.execute("SELECT step_id, mission_id FROM mission_steps").fetchall()
+        }
+        task_to_order: dict[str, str] = {}
+        for r in conn.execute(
+            "SELECT order_id, task_id FROM antigravity_orders WHERE task_id IS NOT NULL ORDER BY created_at DESC"
+        ).fetchall():
+            tid = str(r["task_id"] or "")
+            if tid and tid not in task_to_order:
+                task_to_order[tid] = str(r["order_id"])
+        existing_orders = {
+            r["order_id"] for r in conn.execute("SELECT order_id FROM antigravity_orders").fetchall()
+        }
+
+        for item in rows:
+            tid = str(item.get("task_id") or "")
+            is_auto = tid.startswith("auto-")
+            item["auto_synced"] = is_auto
+            linked_mission_id: str | None = None
+            linked_order_id: str | None = task_to_order.get(tid)
+            if is_auto:
+                raw_ref = tid[5:]
+                if raw_ref in step_to_mission:
+                    linked_mission_id = step_to_mission[raw_ref]
+                elif raw_ref in existing_orders:
+                    linked_order_id = raw_ref
+                else:
+                    m_step = re.match(r"^(.+)-s\d+$", raw_ref)
+                    if m_step:
+                        linked_mission_id = m_step.group(1)
+            item["linked_mission_id"] = linked_mission_id
+            item["linked_order_id"] = linked_order_id
+        return rows
+
+    def reconcile_live_system_state(self, emit_event: bool = False) -> dict[str, Any]:
+        """
+        Đồng bộ 2 chiều tự động 100% giữa Nhiệm vụ 8 bước, Đơn hàng AI, Đợt học, Bảng việc và 51 Nhân sự:
+        - Tự tạo/cập nhật đầu việc `auto-<step_id>` và `auto-<order_id>` (tôn trọng deleted_tombstones).
+        - Tính chính xác trạng thái sống (`EXECUTING`, `RESEARCHING_TASK`, `IN_QA_REVIEW`, `WAITING_CHAIRMAN`, `STUDYING`, `IDLE`)
+          và gắn `current_work_title`, `current_work_type`, `current_mission_id`, `current_task_id` cho từng phòng ban.
+        - Đường nhanh zero-write: nếu trạng thái DB đã khớp 100%, không mở giao dịch ghi để giữ nguyên ETag & chịu tải cao.
+        """
+        conn = self._get_conn()
+
+        valid_depts = {r["dept_id"] for r in conn.execute("SELECT dept_id FROM departments").fetchall()}
+        valid_projects = {r["project_id"] for r in conn.execute("SELECT project_id FROM projects").fetchall()}
+        deleted_task_ids = {
+            r["entity_id"]
+            for r in conn.execute("SELECT entity_id FROM deleted_tombstones WHERE entity_type = 'task'").fetchall()
+        }
+
+        missions = [dict(r) for r in conn.execute("SELECT * FROM missions ORDER BY created_at DESC").fetchall()]
+        missions_by_id = {m["mission_id"]: m for m in missions}
+        all_steps = [
+            dict(r)
+            for r in conn.execute("SELECT * FROM mission_steps ORDER BY mission_id, step_order ASC").fetchall()
+        ]
+        steps_by_mission: dict[str, list[dict[str, Any]]] = {}
+        for st in all_steps:
+            steps_by_mission.setdefault(st["mission_id"], []).append(st)
+
+        all_orders = [
+            dict(r)
+            for r in conn.execute("SELECT * FROM antigravity_orders ORDER BY created_at DESC").fetchall()
+        ]
+
+        # ---------------------------------------------------------------------
+        # 1. Tính danh sách đầu việc tự động (`auto-*`) mong muốn
+        # ---------------------------------------------------------------------
+        desired_auto_tasks: dict[str, dict[str, Any]] = {}
+
+        for m in missions:
+            mid = m["mission_id"]
+            m_status = str(m.get("status") or "RUNNING").upper()
+            m_proj = str(m.get("project_id") or "").strip()
+            linked_proj = m_proj if (m_proj and m_proj in valid_projects) else None
+            short_m_title = str(m.get("title") or "").strip()
+            if len(short_m_title) > 72:
+                short_m_title = short_m_title[:69].rstrip() + "..."
+
+            m_steps = steps_by_mission.get(mid, [])
+            added_next_pending = False
+            for st in m_steps:
+                s_status = str(st.get("status") or "PENDING").upper()
+                s_order = int(st.get("step_order") or 1)
+                col: str | None = None
+                if s_status == "RUNNING":
+                    col = "IN_PROGRESS"
+                elif s_status == "WAITING_APPROVAL":
+                    col = "WAITING_APPROVAL"
+                elif s_status == "DONE":
+                    col = "DONE"
+                elif s_status == "FAILED":
+                    col = "REJECTED"
+                elif s_status == "PENDING":
+                    if m_status == "WAITING_CHAIRMAN" and s_order == int(m.get("current_step_order") or 0):
+                        col = "WAITING_APPROVAL"
+                    elif m_status == "RUNNING" and not added_next_pending:
+                        col = "BACKLOG"
+                        added_next_pending = True
+
+                if col is None:
+                    continue
+
+                tid = f"auto-{st['step_id']}"
+                if tid in deleted_task_ids:
+                    continue
+
+                leads = [x.strip() for x in str(st.get("lead_dept_ids") or "").split(",") if x.strip()]
+                assigned = next((d for d in leads if d in valid_depts), "00")
+                reviewer = str(st.get("critic_dept_id") or "47").strip()
+                if reviewer not in valid_depts:
+                    reviewer = "20" if "20" in valid_depts else "00"
+
+                step_title = str(st.get("title") or f"Bước {s_order}").strip()
+                task_title = f"Bước {s_order}/8: {step_title} ({short_m_title})"
+                task_desc = (
+                    str(st.get("live_activity_text") or "").strip()
+                    or str(st.get("output_summary") or "").strip()
+                    or str(m.get("goal_prompt") or short_m_title)
+                )
+                prio = "CRITICAL" if col in ("WAITING_APPROVAL", "IN_PROGRESS") else "HIGH"
+                desired_auto_tasks[tid] = {
+                    "task_id": tid,
+                    "project_id": linked_proj,
+                    "title": task_title,
+                    "description": task_desc,
+                    "assigned_dept_id": assigned,
+                    "reviewer_dept_id": reviewer,
+                    "gate_number": 1 if s_order <= 4 else 2,
+                    "stage_number": s_order,
+                    "priority": prio,
+                    "kanban_column": col,
+                }
+
+        for ord_row in all_orders:
+            if str(ord_row.get("order_type") or "").upper() != "SCAN_OPPORTUNITIES":
+                continue
+            o_status = str(ord_row.get("status") or "PENDING").upper()
+            if o_status == "CANCELLED":
+                continue
+            tid = f"auto-{ord_row['order_id']}"
+            if tid in deleted_task_ids:
+                continue
+            col = "DONE" if o_status == "COMPLETED" else "IN_PROGRESS"
+            assigned = "50" if "50" in valid_depts else "00"
+            desired_auto_tasks[tid] = {
+                "task_id": tid,
+                "project_id": None,
+                "title": str(ord_row.get("title") or "Săn cơ hội đẻ ra tiền mới (Phòng #50)").strip(),
+                "description": str(ord_row.get("result_summary") or ord_row.get("instructions") or "").strip(),
+                "assigned_dept_id": assigned,
+                "reviewer_dept_id": "46" if "46" in valid_depts else "00",
+                "gate_number": 1,
+                "stage_number": 1,
+                "priority": "HIGH",
+                "kanban_column": col,
+            }
+
+        existing_tasks_all = [dict(r) for r in conn.execute("SELECT * FROM tasks").fetchall()]
+        existing_auto = {t["task_id"]: t for t in existing_tasks_all if str(t["task_id"]).startswith("auto-")}
+        existing_manual = [t for t in existing_tasks_all if not str(t["task_id"]).startswith("auto-")]
+
+        to_insert: list[dict[str, Any]] = []
+        to_update: list[dict[str, Any]] = []
+        to_delete: list[str] = []
+
+        for tid, want in desired_auto_tasks.items():
+            cur = existing_auto.get(tid)
+            if cur is None:
+                to_insert.append(want)
+            else:
+                changed = (
+                    cur.get("title") != want["title"]
+                    or cur.get("description") != want["description"]
+                    or cur.get("assigned_dept_id") != want["assigned_dept_id"]
+                    or cur.get("project_id") != want["project_id"]
+                    or cur.get("kanban_column") != want["kanban_column"]
+                    or cur.get("priority") != want["priority"]
+                )
+                if changed:
+                    to_update.append(want)
+
+        for tid in existing_auto:
+            if tid not in desired_auto_tasks:
+                to_delete.append(tid)
+
+        # Hợp nhất danh sách task sau đồng bộ để tính trạng thái nhân sự chính xác 100%
+        effective_tasks: dict[str, dict[str, Any]] = {t["task_id"]: t for t in existing_manual}
+        for tid, want in desired_auto_tasks.items():
+            effective_tasks[tid] = want
+
+        # ---------------------------------------------------------------------
+        # 2. Tính trạng thái sống & công việc hiện tại cho toàn bộ 51 phòng ban
+        # ---------------------------------------------------------------------
+        cur_dept_rows = [
+            dict(r)
+            for r in conn.execute("SELECT dept_id, status, current_task_id FROM departments").fetchall()
+        ]
+        cur_dept_map = {r["dept_id"]: r for r in cur_dept_rows}
+        has_running_learning = bool(
+            conn.execute("SELECT 1 FROM learning_runs WHERE status = 'RUNNING' LIMIT 1").fetchone()
+        )
+
+        # Lưu theo mức ưu tiên (số nhỏ hơn = ưu tiên cao hơn)
+        assigned_live: dict[str, tuple[int, str, dict[str, Any]]] = {}
+
+        def _assign(
+            dept_id: str,
+            rank: int,
+            status: str,
+            work_title: str,
+            work_type: str,
+            mission_id: str | None = None,
+            task_id: str | None = None,
+        ) -> None:
+            if dept_id not in valid_depts:
+                return
+            prev = assigned_live.get(dept_id)
+            if prev is not None and prev[0] <= rank:
+                return
+            assigned_live[dept_id] = (
+                rank,
+                status,
+                {
+                    "current_work_title": work_title,
+                    "current_work_type": work_type,
+                    "current_mission_id": mission_id,
+                    "current_task_id": task_id,
+                },
+            )
+
+        # Mức 1: Bước mission_steps đang RUNNING thuộc mission đang RUNNING
+        missions_with_running_step: set[str] = set()
+        for m in missions:
+            mid = m["mission_id"]
+            if str(m.get("status") or "").upper() != "RUNNING":
+                continue
+            short_m = str(m.get("title") or "").strip()
+            if len(short_m) > 64:
+                short_m = short_m[:61].rstrip() + "..."
+            for st in steps_by_mission.get(mid, []):
+                if str(st.get("status") or "").upper() != "RUNNING":
+                    continue
+                missions_with_running_step.add(mid)
+                leads = [x.strip() for x in str(st.get("lead_dept_ids") or "").split(",") if x.strip()]
+                auto_tid = f"auto-{st['step_id']}"
+                linked_tid = auto_tid if auto_tid in effective_tasks else None
+                w_title = f"Bước {st['step_order']}: {st['title']} ({short_m})"
+                for did in leads:
+                    _assign(did, 1, "EXECUTING", w_title, "mission", mission_id=mid, task_id=linked_tid)
+
+        # Mức 2: Đơn antigravity_orders đang PENDING / CLAIMED / RUNNING
+        for ord_row in all_orders:
+            o_status = str(ord_row.get("status") or "").upper()
+            if o_status not in ("PENDING", "CLAIMED", "RUNNING"):
+                continue
+            o_type = str(ord_row.get("order_type") or "").upper()
+            o_title = str(ord_row.get("title") or "").strip()
+            if len(o_title) > 76:
+                o_title = o_title[:73].rstrip() + "..."
+            if o_type == "SCAN_OPPORTUNITIES":
+                auto_tid = f"auto-{ord_row['order_id']}"
+                linked_tid = auto_tid if auto_tid in effective_tasks else None
+                for did in ("50", "46", "38"):
+                    _assign(
+                        did,
+                        2,
+                        "RESEARCHING_TASK",
+                        f"Săn cơ hội mới: {o_title}",
+                        "order",
+                        mission_id=None,
+                        task_id=linked_tid,
+                    )
+            elif o_type == "EXECUTE_TASK":
+                t_id = str(ord_row.get("task_id") or "").strip()
+                t_obj = effective_tasks.get(t_id)
+                if t_obj and str(t_obj.get("kanban_column") or "").upper() != "DONE":
+                    _assign(
+                        str(t_obj["assigned_dept_id"]),
+                        2,
+                        "EXECUTING",
+                        f"Đang thực thi việc lẻ: {t_obj['title'][:76]}",
+                        "task",
+                        mission_id=None,
+                        task_id=t_id,
+                    )
+            elif o_type in ("NEW_MISSION", "BUILD_PRODUCT", "MISSION_REWORK"):
+                mid = ord_row.get("mission_id")
+                m_obj = missions_by_id.get(mid) if mid else None
+                m_st = str(m_obj.get("status") or "RUNNING").upper() if m_obj else "RUNNING"
+                if m_st == "RUNNING" and (not mid or mid not in missions_with_running_step):
+                    _assign(
+                        "00",
+                        2,
+                        "EXECUTING",
+                        f"Điều phối nhiệm vụ: {o_title}",
+                        "mission" if mid else "order",
+                        mission_id=mid,
+                        task_id=None,
+                    )
+
+        # Mức 3: Nhiệm vụ / bước cổng đang WAITING_CHAIRMAN / WAITING_APPROVAL
+        for m in missions:
+            mid = m["mission_id"]
+            m_status = str(m.get("status") or "").upper()
+            if m_status in ("COMPLETED", "REJECTED"):
+                continue
+            short_m = str(m.get("title") or "").strip()
+            if len(short_m) > 64:
+                short_m = short_m[:61].rstrip() + "..."
+            found_gate = False
+            for st in steps_by_mission.get(mid, []):
+                if str(st.get("status") or "").upper() == "WAITING_APPROVAL":
+                    found_gate = True
+                    leads = [x.strip() for x in str(st.get("lead_dept_ids") or "").split(",") if x.strip()] or ["00"]
+                    auto_tid = f"auto-{st['step_id']}"
+                    linked_tid = auto_tid if auto_tid in effective_tasks else None
+                    w_title = f"Chờ Chủ tịch duyệt: Bước {st['step_order']} ({short_m})"
+                    for did in leads:
+                        _assign(did, 3, "WAITING_CHAIRMAN", w_title, "mission", mission_id=mid, task_id=linked_tid)
+            if m_status == "WAITING_CHAIRMAN" and not found_gate:
+                _assign("00", 3, "WAITING_CHAIRMAN", f"Chờ Chủ tịch duyệt: {short_m}", "mission", mission_id=mid, task_id=None)
+
+        # Mức 4: Công việc đang hoạt động trên Bảng việc (`tasks`)
+        col_to_dept_status = {
+            "IN_PROGRESS": ("EXECUTING", 4),
+            "QA_SECURITY_REVIEW": ("IN_QA_REVIEW", 4),
+            "WAITING_APPROVAL": ("WAITING_CHAIRMAN", 5),
+        }
+        for t in effective_tasks.values():
+            col = str(t.get("kanban_column") or "BACKLOG").upper()
+            mapped = col_to_dept_status.get(col)
+            if not mapped:
+                continue
+            d_status, rank = mapped
+            tid = str(t["task_id"])
+            w_type = "task"
+            m_link: str | None = None
+            if tid.startswith("auto-ord-"):
+                w_type = "order"
+            elif tid.startswith("auto-"):
+                w_type = "mission"
+                m_match = re.match(r"^auto-(.+)-s\d+$", tid)
+                if m_match:
+                    m_link = m_match.group(1)
+            _assign(
+                str(t["assigned_dept_id"]),
+                rank,
+                d_status,
+                str(t.get("title") or "")[:90],
+                w_type,
+                mission_id=m_link,
+                task_id=tid,
+            )
+
+        # Mức 5: Đợt học `learning_runs` đang RUNNING -> giữ nguyên STUDYING
+        if has_running_learning:
+            for did, cur_d in cur_dept_map.items():
+                if str(cur_d.get("status") or "").upper() == "STUDYING":
+                    _assign(
+                        did,
+                        6,
+                        "STUDYING",
+                        "Đang đọc báo mới và nạp tri thức trực tuyến",
+                        "learning",
+                        mission_id=None,
+                        task_id=None,
+                    )
+
+        # Xây work_map hoàn chỉnh và so sánh diff với bảng departments
+        work_map: dict[str, dict[str, Any]] = {}
+        dept_diffs: list[tuple[str, str, str | None]] = []
+
+        for did, cur_d in cur_dept_map.items():
+            cur_status = str(cur_d.get("status") or "IDLE").upper()
+            cur_tid = cur_d.get("current_task_id")
+
+            entry = assigned_live.get(did)
+            if entry is not None:
+                _rank, target_status, meta = entry
+                target_tid = meta["current_task_id"]
+                work_map[did] = meta
+            elif cur_status == "BLOCKED":
+                target_status = "BLOCKED"
+                target_tid = cur_tid if (cur_tid and cur_tid in effective_tasks) else None
+                work_map[did] = {
+                    "current_work_title": "Đang bị chặn, cần tháo gỡ",
+                    "current_work_type": "task" if target_tid else "",
+                    "current_mission_id": None,
+                    "current_task_id": target_tid,
+                }
+            else:
+                target_status = "IDLE"
+                target_tid = None
+                work_map[did] = {
+                    "current_work_title": "",
+                    "current_work_type": "",
+                    "current_mission_id": None,
+                    "current_task_id": None,
+                }
+
+            if cur_status != target_status or (cur_tid or None) != (target_tid or None):
+                dept_diffs.append((did, target_status, target_tid))
+
+        # Đường nhanh ZERO-WRITE khi không có sai lệch
+        if not to_insert and not to_update and not to_delete and not dept_diffs:
+            return {
+                "changed": False,
+                "tasks_inserted": 0,
+                "tasks_updated": 0,
+                "tasks_deleted": 0,
+                "depts_updated": 0,
+                "work_map": work_map,
+            }
+
+        now = utc_now_iso()
+        with self.immediate_tx() as wconn:
+            for tid in to_delete:
+                wconn.execute("DELETE FROM task_citations WHERE task_id = ?", (tid,))
+                wconn.execute("DELETE FROM deliverables WHERE task_id = ?", (tid,))
+                wconn.execute("DELETE FROM tasks WHERE task_id = ?", (tid,))
+
+            for want in to_insert:
+                comp_at = now if want["kanban_column"] == "DONE" else None
+                start_at = now if want["kanban_column"] in ("IN_PROGRESS", "WAITING_APPROVAL", "DONE") else None
+                wconn.execute(
+                    """
+                    INSERT OR IGNORE INTO tasks(
+                        task_id, project_id, title, description, assigned_dept_id,
+                        reviewer_dept_id, gate_number, stage_number, priority,
+                        kanban_column, started_at, completed_at, actor_priority, version, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, ?, ?)
+                    """,
+                    (
+                        want["task_id"],
+                        want["project_id"],
+                        want["title"],
+                        want["description"],
+                        want["assigned_dept_id"],
+                        want["reviewer_dept_id"],
+                        want["gate_number"],
+                        want["stage_number"],
+                        want["priority"],
+                        want["kanban_column"],
+                        start_at,
+                        comp_at,
+                        now,
+                        now,
+                    ),
+                )
+
+            for want in to_update:
+                comp_at = now if want["kanban_column"] == "DONE" else None
+                start_at = now if want["kanban_column"] in ("IN_PROGRESS", "WAITING_APPROVAL", "DONE") else None
+                wconn.execute(
+                    """
+                    UPDATE tasks
+                    SET project_id = ?,
+                        title = ?,
+                        description = ?,
+                        assigned_dept_id = ?,
+                        reviewer_dept_id = ?,
+                        gate_number = ?,
+                        stage_number = ?,
+                        priority = ?,
+                        kanban_column = ?,
+                        started_at = COALESCE(started_at, ?),
+                        completed_at = CASE WHEN ? IS NOT NULL THEN COALESCE(completed_at, ?) ELSE completed_at END,
+                        version = version + 1,
+                        updated_at = ?
+                    WHERE task_id = ?
+                    """,
+                    (
+                        want["project_id"],
+                        want["title"],
+                        want["description"],
+                        want["assigned_dept_id"],
+                        want["reviewer_dept_id"],
+                        want["gate_number"],
+                        want["stage_number"],
+                        want["priority"],
+                        want["kanban_column"],
+                        start_at,
+                        comp_at,
+                        comp_at,
+                        now,
+                        want["task_id"],
+                    ),
+                )
+
+            for did, target_status, target_tid in dept_diffs:
+                wconn.execute(
+                    """
+                    UPDATE departments
+                    SET status = ?,
+                        current_task_id = ?,
+                        last_heartbeat_at = ?,
+                        updated_at = ?
+                    WHERE dept_id = ?
+                    """,
+                    (target_status, target_tid, now, now, did),
+                )
+
+            if emit_event:
+                self.log_event(
+                    actor_dept_id="00",
+                    event_type="STATE_SYNCED",
+                    headline_vi=(
+                        f"Tự động đồng bộ trạng thái {len(dept_diffs)} phòng ban và "
+                        f"{len(to_insert) + len(to_update)} đầu việc trên toàn hệ thống"
+                    ),
+                    detail={
+                        "depts_updated": len(dept_diffs),
+                        "tasks_inserted": len(to_insert),
+                        "tasks_updated": len(to_update),
+                        "tasks_deleted": len(to_delete),
+                    },
+                    conn=wconn,
+                )
+
+        return {
+            "changed": True,
+            "tasks_inserted": len(to_insert),
+            "tasks_updated": len(to_update),
+            "tasks_deleted": len(to_delete),
+            "depts_updated": len(dept_diffs),
+            "work_map": work_map,
         }

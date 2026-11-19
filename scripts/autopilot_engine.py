@@ -50,6 +50,8 @@ class AntigravityBridgeDispatcher:
         task = self.db.get_task(task_id)
         if not task:
             raise KeyError(f"Công việc '{task_id}' không tồn tại.")
+        if str(task.get("kanban_column") or "BACKLOG").upper() in ("BACKLOG", "REJECTED"):
+            task = self.db.update_task(task_id, kanban_column="IN_PROGRESS")
         order = self.db.enqueue_order(
             order_type="EXECUTE_TASK",
             title=task["title"],
@@ -59,6 +61,16 @@ class AntigravityBridgeDispatcher:
             ),
             task_id=task_id,
             source_device=source_device,
+        )
+        self.db.reconcile_live_system_state()
+        dept_label = task.get("assigned_dept_title") or f"Phòng #{task['assigned_dept_id']}"
+        self.db.log_event(
+            actor_dept_id=str(task["assigned_dept_id"]),
+            event_type="TASK_DISPATCHED",
+            headline_vi=f"Đã giao Phòng #{task['assigned_dept_id']} ({dept_label}) thực thi ngay: {task['title']}",
+            project_id=task.get("project_id"),
+            task_id=task_id,
+            detail={"order_id": order["order_id"], "assigned_dept_id": task["assigned_dept_id"]},
         )
         save_snapshot_file(self.db, DEFAULT_SNAPSHOT_PATH)
         return order

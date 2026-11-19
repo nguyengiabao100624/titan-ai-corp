@@ -1,5 +1,5 @@
-/* Trung tam Dieu hanh Titan v8.0: Service Worker uu tien mang moi nhat va du phong ngoai tuyen */
-const CACHE_NAME = "titan-command-center-v8.1";
+/* Trung tam Dieu hanh Titan v9.0: Service Worker uu tien mang moi nhat va du phong ngoai tuyen */
+const CACHE_NAME = "titan-command-center-v9.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",

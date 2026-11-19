@@ -358,12 +358,21 @@
             </div>
           </div>
 
-          <div class="chip-row is-hidden" id="mission-filter-tabs" role="tablist" aria-label="Lọc trạng thái dự án 8 bước">
-            <button type="button" class="chip-btn active" role="tab" aria-selected="true" data-mfilter="">Tất cả trạng thái</button>
-            <button type="button" class="chip-btn" role="tab" aria-selected="false" data-mfilter="RUNNING">Đang làm</button>
-            <button type="button" class="chip-btn" role="tab" aria-selected="false" data-mfilter="WAITING_CHAIRMAN">Chờ duyệt</button>
-            <button type="button" class="chip-btn" role="tab" aria-selected="false" data-mfilter="PAUSED">Tạm dừng</button>
-            <button type="button" class="chip-btn" role="tab" aria-selected="false" data-mfilter="COMPLETED">Đã xong</button>
+          <div class="toolbar-row" id="progress-search-bar">
+            <div class="toolbar-group url-input-grow">
+              <input type="search" class="input url-input-grow" id="progress-search-input" placeholder="Tìm theo tên dự án, đợt săn cơ hội, đợt học..." aria-label="Tìm nhanh hoạt động toàn tập đoàn" />
+              <div class="listbox-field listbox-inline" data-listbox="filter-progress-status">
+                <input type="hidden" id="filter-progress-status" value="" />
+                <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-filter-progress-status" aria-label="Lọc trạng thái hoạt động">
+                  <span class="listbox-value">Mọi trạng thái</span>
+                  <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </button>
+                <ul class="listbox-menu" id="lb-filter-progress-status" role="listbox" tabindex="-1" hidden></ul>
+              </div>
+            </div>
+            <div class="action-group">
+              <button type="button" class="btn btn-xs" id="btn-toggle-all-progress">Mở tất cả</button>
+            </div>
           </div>
 
           <div class="mission-list" id="progress-content-container"></div>
@@ -681,7 +690,7 @@
       </main>
 
       <footer class="app-footer">
-        <span>Trung tâm Điều hành Titan v8.0: Vận hành trực tuyến 51 phòng chuyên gia.</span>
+        <span>Trung tâm Điều hành Titan v9.0: Vận hành trực tuyến tự động 51 phòng chuyên gia.</span>
         <div class="footer-meta">
           <span id="footer-last-sync">Cập nhật gần nhất: Đang nạp dữ liệu</span>
           <span id="footer-conn-summary">Kênh trực tuyến bảo mật</span>
@@ -734,10 +743,10 @@
   <!-- SHARED MODAL BACKDROP -->
   <div class="backdrop" id="modal-backdrop"></div>
 
-  <!-- MODAL 1: ADD / EDIT TASK -->
+  <!-- MODAL 1: ADD / EDIT TASK (1-CLICK AI DISPATCH) -->
   <div class="modal" id="modal-task" role="dialog" aria-modal="true" aria-labelledby="task-modal-title">
     <div class="modal-head">
-      <h2 class="sec-title" id="task-modal-title">Thêm công việc mới</h2>
+      <h2 class="sec-title" id="task-modal-title">Giao việc nhanh cho AI</h2>
       <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">
         <svg class="ico ico-xs" aria-hidden="true"><use href="#i-x"/></svg>
         <span>Đóng</span>
@@ -746,64 +755,76 @@
     <form class="form-stack" id="form-task">
       <input type="hidden" id="edit-task-id" />
       <div class="form-field">
-        <label for="inp-task-title">Tên công việc</label>
-        <input type="text" class="input" id="inp-task-title" placeholder="Ví dụ: Khảo sát bảng giá 10 đối thủ trực tiếp" required />
+        <label for="inp-task-title">Bạn muốn giao việc gì cho AI?</label>
+        <input type="text" class="input" id="inp-task-title" placeholder="Ví dụ: Khảo sát bảng giá 10 đối thủ trực tiếp hoặc kiểm tra thuế gói bán hàng" required />
       </div>
-      <div class="form-grid-2">
-        <div class="form-field">
-          <label id="lbl-task-dept">Nhân sự phụ trách</label>
-          <div class="listbox-field" data-listbox="inp-task-dept">
-            <input type="hidden" id="inp-task-dept" value="00" />
-            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-dept" aria-labelledby="lbl-task-dept">
-              <span class="listbox-value">Phòng #00</span>
-              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
-            </button>
-            <ul class="listbox-menu" id="lb-inp-task-dept" role="listbox" tabindex="-1" hidden></ul>
+      <div class="task-auto-dispatch-box" id="wrap-task-dispatch-now">
+        <label class="check-label">
+          <input type="checkbox" id="chk-task-dispatch-now" checked />
+          <span>Tự chọn phòng ban phù hợp và giao AI làm ngay</span>
+        </label>
+        <p class="row-meta">Hệ thống sẽ tự định tuyến đúng phòng chuyên gia, chuyển sang Đang thực hiện và chạy ngay.</p>
+      </div>
+      <details class="advanced-toggle" id="task-advanced-details">
+        <summary>Tùy chọn nâng cao (phòng ban, dự án, ưu tiên, ghi chú)</summary>
+        <div class="advanced-toggle-body">
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label id="lbl-task-dept">Chọn phòng ban thủ công</label>
+              <div class="listbox-field" data-listbox="inp-task-dept">
+                <input type="hidden" id="inp-task-dept" value="AUTO" />
+                <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-dept" aria-labelledby="lbl-task-dept">
+                  <span class="listbox-value">Tự động chọn phòng ban phù hợp</span>
+                  <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </button>
+                <ul class="listbox-menu" id="lb-inp-task-dept" role="listbox" tabindex="-1" hidden></ul>
+              </div>
+            </div>
+            <div class="form-field">
+              <label id="lbl-task-col">Trạng thái</label>
+              <div class="listbox-field" data-listbox="inp-task-col">
+                <input type="hidden" id="inp-task-col" value="BACKLOG" />
+                <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-col" aria-labelledby="lbl-task-col">
+                  <span class="listbox-value">Chờ triển khai</span>
+                  <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </button>
+                <ul class="listbox-menu" id="lb-inp-task-col" role="listbox" tabindex="-1" hidden></ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label id="lbl-task-proj">Thuộc dự án</label>
+              <div class="listbox-field" data-listbox="inp-task-proj">
+                <input type="hidden" id="inp-task-proj" value="" />
+                <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-proj" aria-labelledby="lbl-task-proj">
+                  <span class="listbox-value">Không gắn dự án</span>
+                  <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </button>
+                <ul class="listbox-menu" id="lb-inp-task-proj" role="listbox" tabindex="-1" hidden></ul>
+              </div>
+            </div>
+            <div class="form-field">
+              <label id="lbl-task-prio">Độ ưu tiên</label>
+              <div class="listbox-field" data-listbox="inp-task-prio">
+                <input type="hidden" id="inp-task-prio" value="HIGH" />
+                <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-prio" aria-labelledby="lbl-task-prio">
+                  <span class="listbox-value">Cao</span>
+                  <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </button>
+                <ul class="listbox-menu" id="lb-inp-task-prio" role="listbox" tabindex="-1" hidden></ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="inp-task-desc">Ghi chú chi tiết</label>
+            <textarea class="textarea" id="inp-task-desc" placeholder="Mô tả ngắn gọn đầu ra mong muốn nếu cần..."></textarea>
           </div>
         </div>
-        <div class="form-field">
-          <label id="lbl-task-col">Trạng thái</label>
-          <div class="listbox-field" data-listbox="inp-task-col">
-            <input type="hidden" id="inp-task-col" value="BACKLOG" />
-            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-col" aria-labelledby="lbl-task-col">
-              <span class="listbox-value">Chờ triển khai</span>
-              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
-            </button>
-            <ul class="listbox-menu" id="lb-inp-task-col" role="listbox" tabindex="-1" hidden></ul>
-          </div>
-        </div>
-      </div>
-      <div class="form-grid-2">
-        <div class="form-field">
-          <label id="lbl-task-proj">Thuộc dự án</label>
-          <div class="listbox-field" data-listbox="inp-task-proj">
-            <input type="hidden" id="inp-task-proj" value="" />
-            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-proj" aria-labelledby="lbl-task-proj">
-              <span class="listbox-value">Không gắn dự án</span>
-              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
-            </button>
-            <ul class="listbox-menu" id="lb-inp-task-proj" role="listbox" tabindex="-1" hidden></ul>
-          </div>
-        </div>
-        <div class="form-field">
-          <label id="lbl-task-prio">Độ ưu tiên</label>
-          <div class="listbox-field" data-listbox="inp-task-prio">
-            <input type="hidden" id="inp-task-prio" value="HIGH" />
-            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-task-prio" aria-labelledby="lbl-task-prio">
-              <span class="listbox-value">Cao</span>
-              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
-            </button>
-            <ul class="listbox-menu" id="lb-inp-task-prio" role="listbox" tabindex="-1" hidden></ul>
-          </div>
-        </div>
-      </div>
-      <div class="form-field">
-        <label for="inp-task-desc">Ghi chú yêu cầu</label>
-        <textarea class="textarea" id="inp-task-desc" placeholder="Mô tả ngắn gọn đầu ra mong muốn..."></textarea>
-      </div>
+      </details>
       <div class="form-grid-2">
         <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
-        <button type="submit" class="btn btn-primary">Lưu công việc</button>
+        <button type="submit" class="btn btn-primary" id="btn-submit-task">Giao AI làm ngay</button>
       </div>
     </form>
   </div>

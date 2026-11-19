@@ -1,14 +1,14 @@
 {
   "schema_version": "8.0",
-  "exported_at": "2026-11-19T11:29:24Z",
+  "exported_at": "2026-11-19T12:38:43Z",
   "bridge": {
     "online": true,
     "mode": "ANTIGRAVITY_SWARM",
-    "pid": 21480,
+    "pid": 3944,
     "swarm_title": "",
     "active_workers": [],
     "note": "Hệ thống điều phối đang trực chiến, sẵn sàng nhận việc tức thì từ máy tính và điện thoại",
-    "last_heartbeat_at": "2026-11-19T11:29:24Z",
+    "last_heartbeat_at": "2026-11-19T12:38:40Z",
     "pending_orders_count": 0,
     "active_orders_count": 0
   },
@@ -91,8 +91,8 @@
       "division_code": "exec-board",
       "title_vi": "Tổng Giám đốc và Chánh Văn phòng",
       "manager_code": "chairman",
-      "status": "IDLE",
-      "current_task_id": null,
+      "status": "WAITING_CHAIRMAN",
+      "current_task_id": "auto-msn-81fa3c95-s4",
       "handbook_path": ".agents/skills/titan-ceo-orchestrator/SKILL.md",
       "handbook_version": "4.0",
       "canonical_books": "[\"High Output Management (Andy Grove)\", \"Principles (Ray Dalio)\", \"Paperclip Control Plane & Obra Superpowers\"]",
@@ -101,9 +101,9 @@
       "tasks_completed": 1,
       "articles_learned": 16,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:31:42Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:31:42Z"
     },
     {
       "dept_id": "01",
@@ -118,12 +118,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `01` (`@market-intel`) — Trực thuộc Khối `div1-strategy-intel`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CSO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"02-consumer-psychology, 03-competitor-intel, 05-biz-model-architect.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 5,
-      "articles_learned": 47,
+      "tasks_completed": 7,
+      "articles_learned": 55,
       "version": 4,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:16:34Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:16:34Z"
     },
     {
       "dept_id": "02",
@@ -131,19 +131,19 @@
       "division_code": "div1-strategy-intel",
       "title_vi": "Nghiên cứu Tâm lý và Hành vi Khách hàng",
       "manager_code": "ceo",
-      "status": "EXECUTING",
-      "current_task_id": "task-81199e1f2c",
+      "status": "IDLE",
+      "current_task_id": null,
       "handbook_path": ".agents/skills/div1-strategy-intel/specialists/02-consumer-psychology.md",
       "handbook_version": "4.0",
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `02` (`@consumer-psychology`) — Trực thuộc Khối `div1-strategy-intel`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CSO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 5,
-      "articles_learned": 12,
+      "tasks_completed": 7,
+      "articles_learned": 17,
       "version": 2,
-      "last_heartbeat_at": "2026-11-19T07:15:54Z",
-      "last_studied_at": "2026-11-19T10:54:41Z",
-      "updated_at": "2026-11-19T10:54:41Z"
+      "last_heartbeat_at": "2026-11-19T12:31:42Z",
+      "last_studied_at": "2026-11-19T11:52:06Z",
+      "updated_at": "2026-11-19T12:31:42Z"
     },
     {
       "dept_id": "03",
@@ -158,12 +158,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `03` (`@competitor-intel`) — Trực thuộc Khối `div1-strategy-intel`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CSO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"06-product-manager, 10-brand-director, 38-pricing-fpa.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 5,
-      "articles_learned": 37,
+      "tasks_completed": 7,
+      "articles_learned": 47,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:16:34Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:16:34Z"
     },
     {
       "dept_id": "04",
@@ -179,11 +179,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 0,
-      "articles_learned": 51,
+      "articles_learned": 55,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "05",
@@ -201,9 +201,9 @@
       "tasks_completed": 0,
       "articles_learned": 23,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "06",
@@ -211,19 +211,19 @@
       "division_code": "div2-product-design",
       "title_vi": "Quản trị Sản phẩm",
       "manager_code": "ceo",
-      "status": "EXECUTING",
-      "current_task_id": "task-c6533f6524",
+      "status": "IDLE",
+      "current_task_id": null,
       "handbook_path": ".agents/skills/div2-product-design/specialists/06-product-manager.md",
       "handbook_version": "4.0",
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `06` (`@product-manager`) — Trực thuộc Khối `div2-product-design`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CPO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 7,
-      "articles_learned": 38,
+      "tasks_completed": 8,
+      "articles_learned": 45,
       "version": 2,
-      "last_heartbeat_at": "2026-11-19T07:26:12Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:31:42Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:31:42Z"
     },
     {
       "dept_id": "07",
@@ -241,9 +241,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "08",
@@ -261,9 +261,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "09",
@@ -281,9 +281,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "10",
@@ -301,9 +301,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "11",
@@ -321,9 +321,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "12",
@@ -338,12 +338,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `12` (`@system-architect`) — Trực thuộc Khối `div3-engineering-ai`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CTO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 7,
-      "articles_learned": 22,
+      "tasks_completed": 8,
+      "articles_learned": 26,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:20:03Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:20:03Z"
     },
     {
       "dept_id": "13",
@@ -361,9 +361,9 @@
       "tasks_completed": 1,
       "articles_learned": 5,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "14",
@@ -381,9 +381,9 @@
       "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "15",
@@ -401,9 +401,9 @@
       "tasks_completed": 1,
       "articles_learned": 10,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "16",
@@ -421,9 +421,9 @@
       "tasks_completed": 1,
       "articles_learned": 6,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "17",
@@ -441,9 +441,9 @@
       "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "18",
@@ -461,9 +461,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "19",
@@ -481,9 +481,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "20",
@@ -501,9 +501,9 @@
       "tasks_completed": 7,
       "articles_learned": 5,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "21",
@@ -521,9 +521,9 @@
       "tasks_completed": 0,
       "articles_learned": 6,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "22",
@@ -541,9 +541,9 @@
       "tasks_completed": 0,
       "articles_learned": 11,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "23",
@@ -559,11 +559,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 1,
-      "articles_learned": 11,
+      "articles_learned": 12,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "24",
@@ -579,11 +579,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 0,
-      "articles_learned": 11,
+      "articles_learned": 12,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "25",
@@ -601,9 +601,9 @@
       "tasks_completed": 7,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "26",
@@ -621,9 +621,9 @@
       "tasks_completed": 1,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "27",
@@ -641,9 +641,9 @@
       "tasks_completed": 0,
       "articles_learned": 6,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "28",
@@ -661,9 +661,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "29",
@@ -681,9 +681,9 @@
       "tasks_completed": 1,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "30",
@@ -701,9 +701,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "31",
@@ -721,9 +721,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "32",
@@ -738,12 +738,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `32` (`@lead-gen-sdr`) — Trực thuộc Khối `div6-sales-commercial`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CRO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"33-sales-closer.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 7,
+      "tasks_completed": 9,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:16:34Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:16:34Z"
     },
     {
       "dept_id": "33",
@@ -758,12 +758,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `33` (`@sales-closer`) — Trực thuộc Khối `div6-sales-commercial`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CRO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"35-customer-onboarding, 37-chief-accountant.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 1,
+      "tasks_completed": 3,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:16:34Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:16:34Z"
     },
     {
       "dept_id": "34",
@@ -781,9 +781,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "35",
@@ -801,9 +801,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "36",
@@ -821,9 +821,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "37",
@@ -841,9 +841,9 @@
       "tasks_completed": 0,
       "articles_learned": 38,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "38",
@@ -858,12 +858,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `38` (`@pricing-fpa`) — Trực thuộc Khối `div7-finance-tax-legal`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CFO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Chốt chặn Cổng 1 trước khi cho phép thiết kế hay lập trình.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 5,
+      "tasks_completed": 7,
       "articles_learned": 0,
       "version": 4,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:16:34Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:16:34Z"
     },
     {
       "dept_id": "39",
@@ -878,12 +878,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `39` (`@tax-specialist`) — Trực thuộc Khối `div7-finance-tax-legal`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CFO/CLO.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"37-chief-accountant, 40-legal-counsel, Chủ tịch HĐQT.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 5,
+      "tasks_completed": 7,
       "articles_learned": 13,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:16:34Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:16:34Z"
     },
     {
       "dept_id": "40",
@@ -901,9 +901,9 @@
       "tasks_completed": 1,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "41",
@@ -921,9 +921,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "42",
@@ -941,9 +941,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "43",
@@ -961,9 +961,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "44",
@@ -981,9 +981,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "45",
@@ -1001,9 +1001,9 @@
       "tasks_completed": 0,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "46",
@@ -1018,12 +1018,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo (Độc lập với cả 8 Khối thi công).\\n-\", \"Tuyến bàn giao kế tiếp:\", \"47-process-challenger, 05-biz-model-architect, 38-pricing-fpa.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 10,
+      "tasks_completed": 11,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:20:03Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:20:03Z"
     },
     {
       "dept_id": "47",
@@ -1038,12 +1038,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `47` (`@process-challenger`) — Trực thuộc Khối `div9-critique-ux-lab`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Gác cổng bắt buộc giữa mọi bước bàn giao của Phòng 01..50.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 27,
+      "tasks_completed": 28,
       "articles_learned": 0,
       "version": 2,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:20:03Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:20:03Z"
     },
     {
       "dept_id": "48",
@@ -1058,12 +1058,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"49-ux-friction-destroyer, 07-ux-researcher, 13-frontend-web, 14-mobile-app.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 16,
+      "tasks_completed": 17,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:20:03Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:20:03Z"
     },
     {
       "dept_id": "49",
@@ -1081,9 +1081,9 @@
       "tasks_completed": 21,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T11:55:32Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T11:55:32Z"
     },
     {
       "dept_id": "50",
@@ -1098,12 +1098,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `50` (`@opportunity-hunter`) — Trực thuộc Khối `div9-critique-ux-lab`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"01-market-intel, 38-pricing-fpa, 46-devils-advocate-biz.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 5,
+      "tasks_completed": 7,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T11:20:14Z",
-      "last_studied_at": "2026-11-19T11:20:14Z",
-      "updated_at": "2026-11-19T11:20:14Z"
+      "last_heartbeat_at": "2026-11-19T12:16:34Z",
+      "last_studied_at": "2026-11-19T11:55:32Z",
+      "updated_at": "2026-11-19T12:16:34Z"
     }
   ],
   "projects": [
@@ -1120,13 +1120,707 @@
       "unit_cost_vnd": 56235.0,
       "fixed_cost_monthly_vnd": 1500000.0,
       "workspace_path": "corporate_hq/projects/so-thu-chi-thue-hkd",
-      "version": 1,
+      "version": 3,
       "created_at": "2026-11-19T07:36:24Z",
-      "updated_at": "2026-11-19T08:55:15Z"
+      "updated_at": "2026-11-19T12:00:14Z"
     }
   ],
-  "tasks": [],
+  "tasks": [
+    {
+      "task_id": "auto-msn-47b19760-s1",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 1/8: [GĐ 1] Săn nhu cầu thật, đối thủ & tâm lý khách trả tiền (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "@researcher đã hoàn tất bước 1/7 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "01",
+      "reviewer_dept_id": "47",
+      "gate_number": 1,
+      "stage_number": 1,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-47b19760-s2",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 2/8: [GĐ 1] Tính vốn, giá bán, thuế & khóa biên lãi gộp >= 65% (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "@cfo đã hoàn tất bước 2/7 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "38",
+      "reviewer_dept_id": "46",
+      "gate_number": 1,
+      "stage_number": 2,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-47b19760-s3",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 3/8: [GĐ 1] Hội đồng phản biện rủi ro trước triển khai và chốt kiến trúc sản phẩm (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "@critic đã hoàn tất bước 3/7 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "46",
+      "reviewer_dept_id": "47",
+      "gate_number": 1,
+      "stage_number": 3,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-47b19760-s4",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 4/8: [GĐ 1] Trình Chủ tịch DUYỆT CHỐT KÈO để bắt đầu sản xuất (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "Đã xong Giai đoạn 1 (Nghiên cứu, tính lãi & phản biện) — Chờ Chủ tịch bấm Duyệt chốt kèo để toàn công ty bắt đầu sản xuất sản phẩm thật!",
+      "assigned_dept_id": "00",
+      "reviewer_dept_id": "46",
+      "gate_number": 1,
+      "stage_number": 4,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-47b19760-s5",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 5/8: [GĐ 2] Lập trình và xây dựng sản phẩm cuối hoàn chỉnh (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "Kỹ sư Xây dựng Sản phẩm đã hoàn tất bước 5 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "13",
+      "reviewer_dept_id": "47",
+      "gate_number": 2,
+      "stage_number": 5,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-47b19760-s6",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 6/8: [GĐ 2] Đóng gói trang bán hàng, bảng giá, video và kịch bản kiếm 50 khách đầu (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "Đội Đóng gói & Bán hàng đã hoàn tất bước 6 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "25",
+      "reviewer_dept_id": "47",
+      "gate_number": 2,
+      "stage_number": 6,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-47b19760-s7",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 7/8: [GĐ 2] Kiểm thử viên đóng vai 5 nhóm khách hàng dùng thử thật và phản biện chốt lỗi (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "Hội đồng Phản biện và Bảo mật đã hoàn tất bước 7 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "48",
+      "reviewer_dept_id": "47",
+      "gate_number": 2,
+      "stage_number": 7,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-47b19760-s8",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "parent_task_id": null,
+      "title": "Bước 8/8: [GĐ 2] Bàn giao Sản phẩm Cuối hoàn chỉnh & Kịch bản thu tiền cho Chủ tịch (Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ sho...)",
+      "description": "Toàn công ty đã sản xuất xong sản phẩm cuối và kiểm thử đóng vai người dùng thật. Mời Chủ tịch xem sản phẩm và nghiệm thu.",
+      "assigned_dept_id": "00",
+      "reviewer_dept_id": "46",
+      "gate_number": 2,
+      "stage_number": 8,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-81fa3c95-s1",
+      "project_id": null,
+      "parent_task_id": null,
+      "title": "Bước 1/8: [GĐ 1] Săn nhu cầu thật, đối thủ và tâm lý khách trả tiền (săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ...)",
+      "description": "@trinh-sat-co-hoi đã hoàn tất bước 1 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "01",
+      "reviewer_dept_id": "47",
+      "gate_number": 1,
+      "stage_number": 1,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-81fa3c95-s2",
+      "project_id": null,
+      "parent_task_id": null,
+      "title": "Bước 2/8: [GĐ 1] Tính vốn, giá bán, thuế và khóa biên lãi gộp >= 65% (săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ...)",
+      "description": "Đội Đóng gói và Bán hàng đã hoàn tất bước 2 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "38",
+      "reviewer_dept_id": "46",
+      "gate_number": 1,
+      "stage_number": 2,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-81fa3c95-s3",
+      "project_id": null,
+      "parent_task_id": null,
+      "title": "Bước 3/8: [GĐ 1] Hội đồng phản biện rủi ro trước triển khai và chốt kiến trúc sản phẩm (săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ...)",
+      "description": "Hội đồng Phản biện và Bảo mật đã hoàn tất bước 3 với kết quả kiểm chứng thật.",
+      "assigned_dept_id": "46",
+      "reviewer_dept_id": "47",
+      "gate_number": 1,
+      "stage_number": 3,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-msn-81fa3c95-s4",
+      "project_id": null,
+      "parent_task_id": null,
+      "title": "Bước 4/8: [GĐ 1] Trình Chủ tịch duyệt chốt phương án để bắt đầu sản xuất (săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ...)",
+      "description": "Đã xong Giai đoạn 1 (Nghiên cứu, tính lãi và phản biện). Chờ Chủ tịch bấm duyệt chốt phương án để toàn công ty bắt đầu sản xuất sản phẩm thật.",
+      "assigned_dept_id": "00",
+      "reviewer_dept_id": "46",
+      "gate_number": 1,
+      "stage_number": 4,
+      "priority": "CRITICAL",
+      "kanban_column": "WAITING_APPROVAL",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": null
+    },
+    {
+      "task_id": "auto-ord-11a55b26",
+      "project_id": null,
+      "parent_task_id": null,
+      "title": "Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "description": "Đã săn và kiểm toán xong 3 cơ hội kiếm tiền mới 2026 (Nhà thuốc cận hạn chuẩn Nghị định 90/2026, Sổ kiểm thực 3 bước bếp ăn mầm non, và Chuẩn hóa hồ sơ doanh nghiệp cho công cụ hỏi đáp trí tuệ nhân tạo).",
+      "assigned_dept_id": "50",
+      "reviewer_dept_id": "46",
+      "gate_number": 1,
+      "stage_number": 1,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    },
+    {
+      "task_id": "auto-ord-a3760ab7",
+      "project_id": null,
+      "parent_task_id": null,
+      "title": "Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "description": "Đã săn và thẩm định xong 3 cơ hội kiếm tiền mới từ dữ liệu thị trường thật.",
+      "assigned_dept_id": "50",
+      "reviewer_dept_id": "46",
+      "gate_number": 1,
+      "stage_number": 1,
+      "priority": "HIGH",
+      "kanban_column": "DONE",
+      "checkout_lock_owner": null,
+      "checkout_locked_at": null,
+      "evidence_level": 0,
+      "approval_note": "",
+      "actor_priority": 1,
+      "version": 1,
+      "created_at": "2026-11-19T12:31:42Z",
+      "updated_at": "2026-11-19T12:31:42Z",
+      "started_at": "2026-11-19T12:31:42Z",
+      "completed_at": "2026-11-19T12:31:42Z"
+    }
+  ],
   "missions": [
+    {
+      "mission_id": "msn-81fa3c95",
+      "title": "săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn, và ưu tiên không tốn chi phí đầu tư có thể dùng miễn phí toàn bộ các hạ tầng có sẵn khi nào có 1 lượng khách hàng lớn thì mới thật sự cần nâng cấp hệ thông khi vẫn có lời và lời hơn nhiều từ việc nâng cấp hệ thống",
+      "goal_prompt": "săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn, và ưu tiên không tốn chi phí đầu tư có thể dùng miễn phí toàn bộ các hạ tầng có sẵn khi nào có 1 lượng khách hàng lớn thì mới thật sự cần nâng cấp hệ thông khi vẫn có lời và lời hơn nhiều từ việc nâng cấp hệ thống",
+      "category": "MONEY_MAKER",
+      "status": "WAITING_CHAIRMAN",
+      "auto_approve": 0,
+      "current_step_order": 4,
+      "total_steps": 8,
+      "progress_pct": 49,
+      "final_summary": "Đề xuất chốt sản xuất Giai đoạn 2: Ứng dụng Web chạy mượt trên điện thoại 'Cắt Biển Nhanh' cho Xưởng Biển Quảng Cáo và Hộp Đèn (0 đồng chi phí hạ tầng ban đầu). 1. Tránh hoàn toàn tập đoàn lớn (MISA/KiotViet/Sapo chỉ đếm cái bán lẻ; Corel chỉ chạy máy tính ở xưởng). 2. Lõi cắt tấm Alu/Mica 2D 1,22x2,44m có bù mạch cắt 4mm và mép gập 4cm, cắt sắt hộp 6m, tính nguồn LED 12V và xuất ảnh báo giá mặt tiền gửi Zalo trong 15 giây, chạy ngoại tuyến 0đ API AI. 3. Tài chính Python 0đ hạ tầng: giá 249.000đ/tháng (Quý 699k, Năm 2,49tr), biên ròng 93%, hòa vốn ngay từ khách đầu tiên (+231.570đ/tháng), 200 khách lãi +46,31tr/tháng; chỉ nâng cấp 650k/tháng từ mốc 200+ khách để mở gói Đội Nhóm 399k tăng lãi gấp 12,8 đến 41 lần chi phí nâng cấp. Đã đăng thêm cả 3 cơ hội 0đ hạ tầng lên Tab Giao việc.",
+      "survival_score": 95,
+      "ux_score": 94,
+      "expected_margin_pct": 93.0,
+      "version": 9,
+      "created_at": "2026-11-19T12:09:34Z",
+      "updated_at": "2026-11-19T12:20:04Z",
+      "dispatch_state": "WAITING_CHAIRMAN",
+      "swarm_title": "",
+      "swarm_workers_json": "[]",
+      "phase": "PROPOSAL",
+      "project_id": "",
+      "steps": [
+        {
+          "step_id": "msn-81fa3c95-s1",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 1,
+          "title": "[GĐ 1] Săn nhu cầu thật, đối thủ và tâm lý khách trả tiền",
+          "lead_dept_ids": "01,02,03,50",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "49",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "@trinh-sat-co-hoi đã hoàn tất bước 1 với kết quả kiểm chứng thật.",
+          "output_summary": "Hoàn tất rà soát 5 nhóm cơ hội cũ dễ bị tập đoàn lớn đè, chủ động loại 3 ngách vùng đỏ (cân lúa, nhôm kính thuần, đối soát sàn) và chọn ra Top 3 ngách Điểm mù Tập đoàn lớn 2026: (1) Xưởng Biển Quảng Cáo và Hộp Đèn (95/100), (2) Cơ Sở Nấu Tiệc Lưu Động (94/100), (3) Đội Thầu Sửa Nhà Nhỏ 3 đến 20 Thợ (92/100).",
+          "critique_verdict": "Đã đối chiếu đích danh đối thủ thật (Soft Việt, Faceworks, Corel+eCut, MISA CukCuk, FastCons, Emektra) và chứng minh tập đoàn bán lẻ đếm cái không đè được bài toán cắt tấm 2D, sắt 6m, mâm cỗ và chốt phát sinh công trình.",
+          "ux_verdict": "Cả 3 ngách đều thiết kế thao tác 3 chạm ngay tại hiện trường ngoài nắng hoặc chợ sáng bằng điện thoại.",
+          "started_at": null,
+          "completed_at": "2026-11-19T12:16:34Z",
+          "updated_at": "2026-11-19T12:16:34Z",
+          "worker_name": "@trinh-sat-co-hoi",
+          "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step1_market_anti_bigcorp.md",
+          "lead_depts": [
+            {
+              "dept_id": "01",
+              "title_vi": "Tình báo Thị trường Toàn cầu"
+            },
+            {
+              "dept_id": "02",
+              "title_vi": "Nghiên cứu Tâm lý và Hành vi Khách hàng"
+            },
+            {
+              "dept_id": "03",
+              "title_vi": "Phân tích Đối thủ Cạnh tranh"
+            },
+            {
+              "dept_id": "50",
+              "title_vi": "Trinh sát Săn Cơ hội và Thiết kế Sản phẩm Sinh lời"
+            }
+          ],
+          "critic_title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+          "ux_tester_title_vi": "Thanh tra Tối giản Thao tác và Diệt Rối mắt"
+        },
+        {
+          "step_id": "msn-81fa3c95-s2",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 2,
+          "title": "[GĐ 1] Tính vốn, giá bán, thuế và khóa biên lãi gộp >= 65%",
+          "lead_dept_ids": "38,39",
+          "critic_dept_id": "46",
+          "ux_tester_dept_id": "49",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Đội Đóng gói và Bán hàng đã hoàn tất bước 2 với kết quả kiểm chứng thật.",
+          "output_summary": "Hoàn tất kiểm toán tài chính 18 kịch bản Python, đường thu 50 khách đầu 0đ quảng cáo và bổ sung kịch bản Hạ tầng 0đ ban đầu: Chốt hạng 1 là Xưởng Biển Quảng Cáo (249.000đ/tháng, gói Quý 699k, Năm 2,49tr; 0đ hạ tầng ban đầu đạt biên ròng 93% và hòa vốn ngay từ khách đầu tiên +231.570đ/tháng; thuê hạ tầng 1,5tr/tháng vẫn đạt biên gộp xấu 90,47% và hòa vốn 7 khách). Hạng 2: Đội Thầu Sửa Nhà (199k/tháng). Hạng 3: Cơ Sở Nấu Tiệc (199k/tháng, rủi ro mùa vụ tháng 7 Âm lịch).",
+          "critique_verdict": "Đã phủ quyết bằng Python 2 mô hình lỗ ngầm: bán trọn đời 299k (-62,04% biên xấu) và quét AI vô hạn (-13,95%); cấm đốt quảng cáo trực tiếp (LTV/CAC < 3x), khóa đường thu 0đ Ads qua hội nhóm thợ và tổng kho vật tư.",
+          "ux_verdict": "Mồi miễn phí 15 giây vẽ sơ đồ cắt tấm Alu 1,22x2,44m ngay trên điện thoại không cần đăng nhập, thu tiền chuyển khoản VietQR không tự trừ thẻ.",
+          "started_at": null,
+          "completed_at": "2026-11-19T12:16:34Z",
+          "updated_at": "2026-11-19T12:16:34Z",
+          "worker_name": "@doi-ban-hang",
+          "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step2_cfo_gtm_reality.md",
+          "lead_depts": [
+            {
+              "dept_id": "38",
+              "title_vi": "Định giá và Phân tích Lợi nhuận"
+            },
+            {
+              "dept_id": "39",
+              "title_vi": "Chuyên gia Thuế và Hóa đơn Điện tử"
+            }
+          ],
+          "critic_title_vi": "Hội đồng Phản biện Mô hình Kiếm tiền",
+          "ux_tester_title_vi": "Thanh tra Tối giản Thao tác và Diệt Rối mắt"
+        },
+        {
+          "step_id": "msn-81fa3c95-s3",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 3,
+          "title": "[GĐ 1] Hội đồng phản biện rủi ro trước triển khai và chốt kiến trúc sản phẩm",
+          "lead_dept_ids": "46,47,06,12",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "48",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Hội đồng Phản biện và Bảo mật đã hoàn tất bước 3 với kết quả kiểm chứng thật.",
+          "output_summary": "Hoàn tất Phản biện rủi ro (5 khóa chặn cứng) và Kiến trúc Hạ tầng 0 đồng cho ngách số 1 Cắt Biển Nhanh (Xưởng Biển Quảng Cáo và Hộp Đèn): dùng trang tĩnh miễn phí, lõi cắt 2D Alu/Mica + sắt 6m + nguồn LED 12V bằng JavaScript thuần trên điện thoại khách, lưu dữ liệu cục bộ, thu VietQR 0% phí và chữ ký số gắn cứng Tên xưởng + SĐT chống dùng chùa. Mô phỏng Python xác nhận hòa vốn ngay khách thứ 1 (+231.570đ/tháng, biên ròng 93%, 200 khách lãi +46,31tr/tháng); chỉ bỏ 650k/tháng nâng cấp mây khi đạt >= 200 khách để bán gói Đội Nhóm 399k tăng lãi ròng thêm +8,33tr đến +26,65tr/tháng (gấp 12,8 đến 41 lần chi phí nâng cấp).",
+          "critique_verdict": "ĐẠT CỔNG 1 (95/100 điểm sống sót): Đã khóa 5 nguy cơ chí mạng (bù mép gập Alu 4cm và mạch cắt CNC 4mm, nạp sẵn 3 bảng giá vùng miền, mồi cắt 2D miễn phí 15 giây, chữ ký số gắn danh tính chống dùng chùa, định vị chốt cọc 15 giây ngoài mặt tiền khác hẳn Corel trên máy tính).",
+          "ux_verdict": "Đạt thiết kế 3 chạm ngoài trời nắng (mục tiêu 94/100): nhập mét biển -> xem sơ đồ cắt 2D từng tấm và giá vốn -> lưu ảnh báo giá kèm ảnh mặt tiền gửi Zalo trong 15 giây, chạy mượt cả khi mất mạng.",
+          "started_at": "2026-11-19T12:16:34Z",
+          "completed_at": "2026-11-19T12:20:03Z",
+          "updated_at": "2026-11-19T12:20:03Z",
+          "worker_name": "@phan-bien-doc-lap",
+          "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step3_premortem_zero_cost_architecture.md",
+          "lead_depts": [
+            {
+              "dept_id": "46",
+              "title_vi": "Hội đồng Phản biện Mô hình Kiếm tiền"
+            },
+            {
+              "dept_id": "47",
+              "title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban"
+            },
+            {
+              "dept_id": "06",
+              "title_vi": "Quản trị Sản phẩm"
+            },
+            {
+              "dept_id": "12",
+              "title_vi": "Kiến trúc Hệ thống Trưởng"
+            }
+          ],
+          "critic_title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+          "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+        },
+        {
+          "step_id": "msn-81fa3c95-s4",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 4,
+          "title": "[GĐ 1] Trình Chủ tịch duyệt chốt phương án để bắt đầu sản xuất",
+          "lead_dept_ids": "00",
+          "critic_dept_id": "46",
+          "ux_tester_dept_id": "48",
+          "status": "WAITING_APPROVAL",
+          "progress_pct": 90,
+          "live_activity_text": "Đã xong Giai đoạn 1 (Nghiên cứu, tính lãi và phản biện). Chờ Chủ tịch bấm duyệt chốt phương án để toàn công ty bắt đầu sản xuất sản phẩm thật.",
+          "output_summary": "Đề xuất chốt sản xuất Giai đoạn 2: Ứng dụng Web chạy mượt trên điện thoại 'Cắt Biển Nhanh' cho Xưởng Biển Quảng Cáo và Hộp Đèn (0 đồng chi phí hạ tầng ban đầu). 1. Tránh hoàn toàn tập đoàn lớn (MISA/KiotViet/Sapo chỉ đếm cái bán lẻ; Corel chỉ chạy máy tính ở xưởng). 2. Lõi cắt tấm Alu/Mica 2D 1,22x2,44m có bù mạch cắt 4mm và mép gập 4cm, cắt sắt hộp 6m, tính nguồn LED 12V và xuất ảnh báo giá mặt tiền gửi Zalo trong 15 giây, chạy ngoại tuyến 0đ API AI. 3. Tài chính Python 0đ hạ tầng: giá 249.000đ/tháng (Quý 699k, Năm 2,49tr), biên ròng 93%, hòa vốn ngay từ khách đầu tiên (+231.570đ/tháng), 200 khách lãi +46,31tr/tháng; chỉ nâng cấp 650k/tháng từ mốc 200+ khách để mở gói Đội Nhóm 399k tăng lãi gấp 12,8 đến 41 lần chi phí nâng cấp. Đã đăng thêm cả 3 cơ hội 0đ hạ tầng lên Tab Giao việc.",
+          "critique_verdict": "Hội đồng Phản biện (#46/#47/#12) phê duyệt Cổng 1 đạt 95/100 điểm sống sót, 0 đồng vốn cố định ban đầu, 0 lỗ hổng cạnh tranh tập đoàn lớn.",
+          "ux_verdict": "Phòng #48 chốt chuẩn 3 chạm 15 giây ngoài mặt tiền nắng gắt (mục tiêu 94/100), chạy ngoại tuyến trên điện thoại 390px.",
+          "started_at": "2026-11-19T12:20:04Z",
+          "completed_at": null,
+          "updated_at": "2026-11-19T12:20:04Z",
+          "worker_name": "@phan-bien-doc-lap",
+          "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step3_premortem_zero_cost_architecture.md",
+          "lead_depts": [
+            {
+              "dept_id": "00",
+              "title_vi": "Tổng Giám đốc và Chánh Văn phòng"
+            }
+          ],
+          "critic_title_vi": "Hội đồng Phản biện Mô hình Kiếm tiền",
+          "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+        },
+        {
+          "step_id": "msn-81fa3c95-s5",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 5,
+          "title": "[GĐ 2] Lập trình và xây dựng sản phẩm cuối hoàn chỉnh",
+          "lead_dept_ids": "13,14,15,16,17,19",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "49",
+          "status": "PENDING",
+          "progress_pct": 0,
+          "live_activity_text": "",
+          "output_summary": "",
+          "critique_verdict": "",
+          "ux_verdict": "",
+          "started_at": null,
+          "completed_at": null,
+          "updated_at": "2026-11-19T12:09:34Z",
+          "worker_name": "",
+          "artifact_path": "",
+          "lead_depts": [
+            {
+              "dept_id": "13",
+              "title_vi": "Kỹ thuật Giao diện Trực tuyến"
+            },
+            {
+              "dept_id": "14",
+              "title_vi": "Phát triển Ứng dụng Di động"
+            },
+            {
+              "dept_id": "15",
+              "title_vi": "Kỹ thuật Máy chủ và Cổng Thanh toán"
+            },
+            {
+              "dept_id": "16",
+              "title_vi": "Kỹ sư Trí tuệ nhân tạo và Tự động hóa"
+            },
+            {
+              "dept_id": "17",
+              "title_vi": "Quản trị Cơ sở Dữ liệu"
+            },
+            {
+              "dept_id": "19",
+              "title_vi": "Hạ tầng Đám mây và Vận hành Hệ thống"
+            }
+          ],
+          "critic_title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+          "ux_tester_title_vi": "Thanh tra Tối giản Thao tác và Diệt Rối mắt"
+        },
+        {
+          "step_id": "msn-81fa3c95-s6",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 6,
+          "title": "[GĐ 2] Đóng gói trang bán hàng, bảng giá, video và kịch bản kiếm 50 khách đầu",
+          "lead_dept_ids": "25,26,29,32,33,40",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "48",
+          "status": "PENDING",
+          "progress_pct": 0,
+          "live_activity_text": "",
+          "output_summary": "",
+          "critique_verdict": "",
+          "ux_verdict": "",
+          "started_at": null,
+          "completed_at": null,
+          "updated_at": "2026-11-19T12:09:34Z",
+          "worker_name": "",
+          "artifact_path": "",
+          "lead_depts": [
+            {
+              "dept_id": "25",
+              "title_vi": "Chiến lược Hệ thống Kênh Video và Nội dung Ngắn"
+            },
+            {
+              "dept_id": "26",
+              "title_vi": "Biên kịch Lan truyền và Câu Mở đầu 3 giây"
+            },
+            {
+              "dept_id": "29",
+              "title_vi": "Thiết kế Ảnh bìa và Tối ưu Tỷ lệ Bấm"
+            },
+            {
+              "dept_id": "32",
+              "title_vi": "Tìm kiếm Khách hàng Tiềm năng"
+            },
+            {
+              "dept_id": "33",
+              "title_vi": "Chốt đơn Giá trị cao và Gói thuê bao"
+            },
+            {
+              "dept_id": "40",
+              "title_vi": "Pháp chế và Hợp đồng Thương mại"
+            }
+          ],
+          "critic_title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+          "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+        },
+        {
+          "step_id": "msn-81fa3c95-s7",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 7,
+          "title": "[GĐ 2] Kiểm thử viên đóng vai 5 nhóm khách hàng dùng thử thật và phản biện chốt lỗi",
+          "lead_dept_ids": "48,49,20,23,47",
+          "critic_dept_id": "47",
+          "ux_tester_dept_id": "48",
+          "status": "PENDING",
+          "progress_pct": 0,
+          "live_activity_text": "",
+          "output_summary": "",
+          "critique_verdict": "",
+          "ux_verdict": "",
+          "started_at": null,
+          "completed_at": null,
+          "updated_at": "2026-11-19T12:09:34Z",
+          "worker_name": "",
+          "artifact_path": "",
+          "lead_depts": [
+            {
+              "dept_id": "48",
+              "title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+            },
+            {
+              "dept_id": "49",
+              "title_vi": "Thanh tra Tối giản Thao tác và Diệt Rối mắt"
+            },
+            {
+              "dept_id": "20",
+              "title_vi": "Kiểm thử Phần mềm và Tự động hóa"
+            },
+            {
+              "dept_id": "23",
+              "title_vi": "An ninh Mạng và Chống Xâm nhập"
+            },
+            {
+              "dept_id": "47",
+              "title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban"
+            }
+          ],
+          "critic_title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+          "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+        },
+        {
+          "step_id": "msn-81fa3c95-s8",
+          "mission_id": "msn-81fa3c95",
+          "step_order": 8,
+          "title": "[GĐ 2] Bàn giao sản phẩm cuối hoàn chỉnh và kịch bản thu tiền cho Chủ tịch",
+          "lead_dept_ids": "00,19,35",
+          "critic_dept_id": "46",
+          "ux_tester_dept_id": "48",
+          "status": "PENDING",
+          "progress_pct": 0,
+          "live_activity_text": "",
+          "output_summary": "",
+          "critique_verdict": "",
+          "ux_verdict": "",
+          "started_at": null,
+          "completed_at": null,
+          "updated_at": "2026-11-19T12:09:34Z",
+          "worker_name": "",
+          "artifact_path": "",
+          "lead_depts": [
+            {
+              "dept_id": "00",
+              "title_vi": "Tổng Giám đốc và Chánh Văn phòng"
+            },
+            {
+              "dept_id": "19",
+              "title_vi": "Hạ tầng Đám mây và Vận hành Hệ thống"
+            },
+            {
+              "dept_id": "35",
+              "title_vi": "Bàn giao và Hướng dẫn Khách hàng 180 giây"
+            }
+          ],
+          "critic_title_vi": "Hội đồng Phản biện Mô hình Kiếm tiền",
+          "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+        }
+      ],
+      "done_steps_count": 3,
+      "running_step": {
+        "step_id": "msn-81fa3c95-s4",
+        "mission_id": "msn-81fa3c95",
+        "step_order": 4,
+        "title": "[GĐ 1] Trình Chủ tịch duyệt chốt phương án để bắt đầu sản xuất",
+        "lead_dept_ids": "00",
+        "critic_dept_id": "46",
+        "ux_tester_dept_id": "48",
+        "status": "WAITING_APPROVAL",
+        "progress_pct": 90,
+        "live_activity_text": "Đã xong Giai đoạn 1 (Nghiên cứu, tính lãi và phản biện). Chờ Chủ tịch bấm duyệt chốt phương án để toàn công ty bắt đầu sản xuất sản phẩm thật.",
+        "output_summary": "Đề xuất chốt sản xuất Giai đoạn 2: Ứng dụng Web chạy mượt trên điện thoại 'Cắt Biển Nhanh' cho Xưởng Biển Quảng Cáo và Hộp Đèn (0 đồng chi phí hạ tầng ban đầu). 1. Tránh hoàn toàn tập đoàn lớn (MISA/KiotViet/Sapo chỉ đếm cái bán lẻ; Corel chỉ chạy máy tính ở xưởng). 2. Lõi cắt tấm Alu/Mica 2D 1,22x2,44m có bù mạch cắt 4mm và mép gập 4cm, cắt sắt hộp 6m, tính nguồn LED 12V và xuất ảnh báo giá mặt tiền gửi Zalo trong 15 giây, chạy ngoại tuyến 0đ API AI. 3. Tài chính Python 0đ hạ tầng: giá 249.000đ/tháng (Quý 699k, Năm 2,49tr), biên ròng 93%, hòa vốn ngay từ khách đầu tiên (+231.570đ/tháng), 200 khách lãi +46,31tr/tháng; chỉ nâng cấp 650k/tháng từ mốc 200+ khách để mở gói Đội Nhóm 399k tăng lãi gấp 12,8 đến 41 lần chi phí nâng cấp. Đã đăng thêm cả 3 cơ hội 0đ hạ tầng lên Tab Giao việc.",
+        "critique_verdict": "Hội đồng Phản biện (#46/#47/#12) phê duyệt Cổng 1 đạt 95/100 điểm sống sót, 0 đồng vốn cố định ban đầu, 0 lỗ hổng cạnh tranh tập đoàn lớn.",
+        "ux_verdict": "Phòng #48 chốt chuẩn 3 chạm 15 giây ngoài mặt tiền nắng gắt (mục tiêu 94/100), chạy ngoại tuyến trên điện thoại 390px.",
+        "started_at": "2026-11-19T12:20:04Z",
+        "completed_at": null,
+        "updated_at": "2026-11-19T12:20:04Z",
+        "worker_name": "@phan-bien-doc-lap",
+        "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step3_premortem_zero_cost_architecture.md",
+        "lead_depts": [
+          {
+            "dept_id": "00",
+            "title_vi": "Tổng Giám đốc và Chánh Văn phòng"
+          }
+        ],
+        "critic_title_vi": "Hội đồng Phản biện Mô hình Kiếm tiền",
+        "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+      },
+      "pending_steps_count": 4
+    },
     {
       "mission_id": "msn-47b19760",
       "title": "Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
@@ -1474,6 +2168,44 @@
   ],
   "opportunities": [
     {
+      "opp_id": "opp-d73e1179",
+      "title": "Ứng dụng Cắt Tấm Alu, Mica 2D, Sắt Hộp 6m và Báo Giá Biển Quảng Cáo 15 Giây (Hạ tầng 0đ)",
+      "target_customer": "Chủ xưởng làm biển hiệu quảng cáo, chữ nổi Mica gắn đèn LED, hộp đèn quy mô 2 đến 15 thợ",
+      "pain_point": "Đứng ngoài mặt tiền khảo sát phải nhẩm tay tấm Alu 1,22x2,44m, cây sắt 6m và nguồn LED 12V; hẹn về xưởng mở máy tính thì mất khách, còn nhẩm sai mép gập 4cm thì lỗ ngay 700k đến 1,6tr tiền vật tư.",
+      "proposed_solution": "Ứng dụng web chạy 0 đồng hạ tầng ngay trên điện thoại (dùng được khi mất mạng): nhập kích thước biển, tự vẽ sơ đồ cắt tấm 2D có bù mạch cắt CNC và mép gập 4cm, xếp cây sắt 6m, tính nguồn LED tải an toàn 80% và xuất ảnh báo giá kèm ảnh mặt tiền gửi Zalo chốt cọc 50% trong 15 giây.",
+      "price_vnd": 249000.0,
+      "est_margin_pct": 93.0,
+      "breakeven_users": 1,
+      "survival_score": 95,
+      "critique_note": "MISA, KiotViet, Sapo chỉ đếm cái tại quầy; Corel chỉ chạy máy tính văn phòng. Hạ tầng 0đ ban đầu (trang tĩnh miễn phí, lưu cục bộ, VietQR 0% phí) đạt biên ròng 93%, hòa vốn ngay từ khách đầu tiên (+231.570đ/tháng); chỉ nâng cấp 650k/tháng khi đạt >= 200 khách để bán gói Đội Nhóm 399k lời gấp 12,8 đến 41 lần.",
+      "ux_note": "Đúng 3 chạm dưới 15 giây ngoài trời nắng: nhập kích thước mét -> xem sơ đồ cắt 2D từng tấm và giá vốn -> bấm xuất ảnh báo giá gửi Zalo, kèm 3 bảng giá vùng miền có sẵn.",
+      "source_url": "https://softviet.vn/phan-mem-quan-ly-bao-gia-in-an.html",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T12:20:03Z",
+      "updated_at": "2026-11-19T12:20:03Z"
+    },
+    {
+      "opp_id": "opp-792cb8f4",
+      "title": "Công cụ Bóc Khối Lượng Sơn, Thạch Cao và Phiếu Chốt Phát Sinh Ảnh Zalo cho Đội Thầu Sửa Nhà Nhỏ (Hạ tầng 0đ)",
+      "target_customer": "Cai thợ, chủ đội thầu nhận khoán hoàn thiện và sửa nhà dân dụng (sơn nước, trần thạch cao, chống thấm, mái tôn) 3 đến 20 thợ",
+      "pain_point": "Mất trắng 10 đến 30 triệu tiền làm thêm phát sinh mỗi công trình vì hứa miệng không giấy tờ; quên hạng mục ẩn khi báo giá tại chỗ và rối sổ chấm công ứng lương lắt nhắt.",
+      "proposed_solution": "Ứng dụng điện thoại 0 đồng hạ tầng: bóc khối lượng sơn, thạch cao, mái tôn có nhắc hạng mục ẩn; nút 1 chạm tạo Phiếu Chốt Phát Sinh kèm ảnh chụp hiện trường gửi Zalo khóa xác nhận chủ nhà; sổ chấm công và ứng tiền tổ thợ 10 giây cuối ngày.",
+      "price_vnd": 199000.0,
+      "est_margin_pct": 93.0,
+      "breakeven_users": 1,
+      "survival_score": 92,
+      "critique_note": "FastCons và G8 bán 5 đến 30 triệu/năm cho công ty xây dựng lớn; Emektra chỉ chấm công mà thiếu bóc khối lượng và chốt phát sinh. Chạy 0đ hạ tầng ban đầu đạt biên ròng 93%, hòa vốn ngay từ khách đầu tiên (+185.070đ/tháng).",
+      "ux_note": "3 chạm ngay dưới chân giàn giáo: chọn hạng mục -> chụp ảnh tạo phiếu phát sinh gửi Zalo -> chạm 1 cái chấm công cả tổ thợ.",
+      "source_url": "https://apps.apple.com/us/app/emektra-ch%E1%BA%A5m-c%C3%B4ng-t%C3%ADnh-l%C6%B0%C6%A1ng/id6757244404?l=vi",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T12:20:03Z",
+      "updated_at": "2026-11-19T12:20:03Z"
+    },
+    {
       "opp_id": "opp-865ef2e9",
       "title": "Sổ Cảnh Báo Thuốc Cận Hạn, Tách Kho Biệt Trữ và Ghi Nhiệt Độ Chuẩn Nhà Thuốc Tư Nhân",
       "target_customer": "Chủ nhà thuốc tây, quầy thuốc bán lẻ tư nhân doanh thu 80 đến 400 triệu đồng/tháng (349.000đ/tháng)",
@@ -1510,6 +2242,25 @@
       "version": 1,
       "created_at": "2026-11-19T08:46:23Z",
       "updated_at": "2026-11-19T08:46:23Z"
+    },
+    {
+      "opp_id": "opp-06b7fa48",
+      "title": "Công cụ Định Lượng Mâm Cỗ và Tách Phiếu Đi Chợ 4 Giờ Sáng theo Sạp cho Cơ Sở Nấu Tiệc Lưu Động (Hạ tầng 0đ)",
+      "target_customer": "Chủ cơ sở nấu cỗ tại nhà, đặt tiệc cưới hỏi, thôi nôi, tân gia lưu động quy mô 10 đến 200 mâm mỗi tiệc",
+      "pain_point": "Mỗi cuối tuần chạy 2 đến 5 đám tiệc phải nhân tay định lượng từng gram gia vị và kg thịt tôm cộng hao hụt sơ chế; tính sai 10% là đổ bỏ 3 đến 5 triệu đồ tươi sống hoặc thiếu món giữa tiệc.",
+      "proposed_solution": "Ứng dụng 0 đồng hạ tầng lưu công thức riêng từng bếp ngay trên máy: nhập số mâm đặt và mâm dự phòng, báo giá thực đơn 15 giây gửi Zalo khóa lịch chống trùng đám, tự gộp nhiều tiệc Chủ Nhật và tách riêng 4 phiếu đi chợ 4 giờ sáng gửi sạp Thịt, Hải sản, Rau củ, Đồ khô.",
+      "price_vnd": 199000.0,
+      "est_margin_pct": 93.0,
+      "breakeven_users": 1,
+      "survival_score": 91,
+      "critique_note": "MISA CukCuk và KiotViet chỉ làm máy tính tiền bàn cố định tại quán ăn; 90% bếp tiệc vẫn ghi giấy. Cần bán mạnh gói Mùa Tiệc 6 tháng (1,09tr) và Gói Năm (1,99tr) để khóa rủi ro thấp điểm tháng 7 Âm lịch; hạ tầng 0đ giúp hòa vốn ngay từ khách đầu tiên (+185.070đ/tháng).",
+      "ux_note": "3 nút chữ to dễ bấm lúc 4 giờ sáng tay ướt ngoài chợ, cài sẵn 30 món cỗ 3 miền sửa nhanh định lượng.",
+      "source_url": "https://dattiectainha.vn/",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T12:20:03Z",
+      "updated_at": "2026-11-19T12:20:03Z"
     },
     {
       "opp_id": "opp-816d0b3a",
@@ -1703,6 +2454,36 @@
     }
   ],
   "orders": [
+    {
+      "order_id": "ord-3ed6d582",
+      "order_type": "NEW_MISSION",
+      "mission_id": "msn-81fa3c95",
+      "task_id": null,
+      "title": "săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn, và ưu tiên không tốn chi phí đầu tư có thể dùng miễn phí toàn bộ các hạ tầng có sẵn khi nào có 1 lượng khách hàng lớn thì mới thật sự cần nâng cấp hệ thông khi vẫn có lời và lời hơn nhiều từ việc nâng cấp hệ thống",
+      "instructions": "săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn, và ưu tiên không tốn chi phí đầu tư có thể dùng miễn phí toàn bộ các hạ tầng có sẵn khi nào có 1 lượng khách hàng lớn thì mới thật sự cần nâng cấp hệ thông khi vẫn có lời và lời hơn nhiều từ việc nâng cấp hệ thống",
+      "source_device": "web-local",
+      "status": "COMPLETED",
+      "claimed_by": "antigravity-coordinator",
+      "swarm_title": "",
+      "result_summary": "Đề xuất chốt sản xuất Giai đoạn 2: Ứng dụng Web chạy mượt trên điện thoại 'Cắt Biển Nhanh' cho Xưởng Biển Quảng Cáo và Hộp Đèn (0 đồng chi phí hạ tầng ban đầu). 1. Tránh hoàn toàn tập đoàn lớn (MISA/KiotViet/Sapo chỉ đếm cái bán lẻ; Corel chỉ chạy máy tính ở xưởng). 2. Lõi cắt tấm Alu/Mica 2D 1,22x2,44m có bù mạch cắt 4mm và mép gập 4cm, cắt sắt hộp 6m, tính nguồn LED 12V và xuất ảnh báo giá mặt t",
+      "created_at": "2026-11-19T12:09:34Z",
+      "updated_at": "2026-11-19T12:20:04Z"
+    },
+    {
+      "order_id": "ord-dd64af00",
+      "order_type": "NEW_MISSION",
+      "mission_id": "msn-7f85897f",
+      "task_id": null,
+      "title": "săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn",
+      "instructions": "săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn",
+      "source_device": "web-local",
+      "status": "CANCELLED",
+      "claimed_by": "antigravity-coordinator",
+      "swarm_title": "",
+      "result_summary": "",
+      "created_at": "2026-11-19T11:53:51Z",
+      "updated_at": "2026-11-19T12:07:19Z"
+    },
     {
       "order_id": "ord-11a55b26",
       "order_type": "SCAN_OPPORTUNITIES",
@@ -1908,6 +2689,102 @@
       "content_vi": "Hoàn tất Bước 7: Hoàn tất kiểm thử trình duyệt Chrome thật 2 vòng (0 lỗi bảng điều khiển, 0px tràn ngang điện thoại 390px/320px, 95/100 điểm trải nghiệm 5 nhóm khách hàng) và kiểm toán độc lập thuế/bảo mật 0 lỗi (10/10 bài kiểm thử lõi thuế đạt, 0đ sai số 3 chiều, 0 lỗ hổng XSS và chống chèn công thức bảng tính).\n• Phản biện: ĐẠT CỔNG 2 (#46-#47-#23): Khớp 0đ công thức thuế NĐ 141/2026, NĐ 68/2026, NĐ 117/2025, NĐ 70/2025 giữa bản chuẩn Bước 3, Ứng dụng và Máy tính 10 giây; kiểm thử xâm nhập XSS qua tham số địa chỉ và nhập tệp bảng tính trên Chrome thật đạt 0 lỗ hổng; đủ Miễn trừ pháp lý 3 lớp, 0 nội dung lách luật, giữ đúng 3 bậc giá 249k/399k/799k và hạn mức AI 150/300/600 lượt/tháng (biên lãi gộp xấu 77,42%).\n• Trải nghiệm khách hàng: ĐẠT CHUẨN 95/100 (#48): 5/5 nhóm chủ shop thật (Cô Hoa 95, Anh Minh 96, Chị Lan 97, Anh Tuấn 94, Bạn Vy 95) thao tác mượt <= 3 chạm trên máy tính và điện thoại 390px/320px ở cả Sáng và Tối, 100% tương phản đạt chuẩn, đã khắc phục triệt để 10/10 lỗi Vòng 1.",
       "artifact_path": "corporate_hq/projects/so-thu-chi-thue-hkd/step7_ux_persona_qa.md",
       "created_at": "2026-11-19T08:45:23Z"
+    },
+    {
+      "msg_id": 13,
+      "mission_id": "msn-7f85897f",
+      "sender_slug": "@trinh-sat-co-hoi",
+      "sender_name_vi": "@trinh-sat-co-hoi",
+      "sender_dept_ids": "01,02,03,50",
+      "recipient_name_vi": "Chủ tịch & Toàn đội",
+      "msg_type": "UPDATE",
+      "content_vi": "Bắt đầu Bước 1: Đang tự kiểm điểm cơ hội cũ, soi điểm mù của các tập đoàn lớn (KiotViet, MISA, Sapo, FPT, Viettel) và tra cứu đối thủ thật cho 5 ngách tiềm năng...",
+      "artifact_path": "",
+      "created_at": "2026-11-19T11:56:15Z"
+    },
+    {
+      "msg_id": 14,
+      "mission_id": "msn-7f85897f",
+      "sender_slug": "@trinh-sat-co-hoi",
+      "sender_name_vi": "@trinh-sat-co-hoi",
+      "sender_dept_ids": "01,02,03,50",
+      "recipient_name_vi": "Toàn đội & Chủ tịch",
+      "msg_type": "DONE",
+      "content_vi": "Hoàn tất Bước 1: Đã hoàn tất tự kiểm điểm thẳng thắn 5 nhóm cơ hội cũ và loại bỏ 3 ngách vùng đỏ/giá rẻ (Cân lúa 99k trọn đời, Nhôm kính Cường ACT 1 triệu trọn đời, Đối soát Shopee có Sapo/Nhanh/BigSeller). Xác minh thực tế 5 ngách Điểm mù Tập đoàn lớn 2026 đều đạt Cổng 1 (lãi gộp xấu 79,7% đến 86,5%, hòa vốn 5 đến 8 khách). Top 3 mạnh nhất: (1) Bóc khổ tấm Alu/Mica/Sắt hộp 2D và báo giá mặt tiền 15 giây cho Xưởng Biển Quảng Cáo (299k/tháng, 95/100); (2) Định lượng mâm cỗ và tách phiếu đi chợ 4 giờ sáng theo sạp cho Cơ Sở Nấu Tiệc Lưu Động (249k/tháng, 94/100); (3) Bóc khối lượng, phiếu chốt phát sinh kèm ảnh Zalo và sổ công nhật cho Đội Thầu Sửa Nhà Nhỏ (249k/tháng, 92/100).\n• Phản biện: Phòng #46 Phản biện: Không tự lừa mình là chưa có đối thủ; đã chỉ mặt đặt tên Soft Việt, Faceworks, Corel+eCut, MISA CukCuk, FastCons, Emektra, Tidogo và Xưởng May Số kèm giá thật. Rủi ro cần khóa ở Bước 2 là tính mùa vụ của nấu tiệc và thói quen ngại nhập liệu chi li của cai thợ/chủ xưởng quảng cáo.\n• Trải nghiệm khách hàng: Phòng #48 Kiểm thử Khách hàng: Mọi ứng viên Top 3 đều chạy trực tiếp trên điện thoại ngay tại mặt tiền, ngoài chợ 4 giờ sáng hoặc chân giàn giáo trong đúng 3 chạm dưới 30 giây, không bắt gõ bảng tính hay câu lệnh phức tạp.",
+      "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step1_market_anti_bigcorp.md",
+      "created_at": "2026-11-19T12:04:24Z"
+    },
+    {
+      "msg_id": 15,
+      "mission_id": "msn-7f85897f",
+      "sender_slug": "@doi-ban-hang",
+      "sender_name_vi": "Đội Đóng gói và Bán hàng",
+      "sender_dept_ids": "38,39,32,33",
+      "recipient_name_vi": "Chủ tịch & Toàn đội",
+      "msg_type": "UPDATE",
+      "content_vi": "Bắt đầu Bước 2: Đang kiểm toán đơn vị kinh tế (CFO), thuế, nguy cơ rời bỏ và đường thu 50 khách đầu 0đ Ads cho Top 3 ngách tránh tập đoàn lớn...",
+      "artifact_path": "",
+      "created_at": "2026-11-19T12:06:51Z"
+    },
+    {
+      "msg_id": 16,
+      "mission_id": "msn-7f85897f",
+      "sender_slug": "@doi-ban-hang",
+      "sender_name_vi": "Đội Đóng gói và Bán hàng",
+      "sender_dept_ids": "38,39,32,33",
+      "recipient_name_vi": "Toàn đội & Chủ tịch",
+      "msg_type": "DONE",
+      "content_vi": "Hoàn tất Bước 2: Hoàn tất kiểm toán CFO bằng Python thật (18 kịch bản simulate_cfo_unit_economics), thuế 7%, churn mùa vụ và phễu thu 50 khách đầu 0đ Ads cho Top 3 ngách tránh tập đoàn lớn. Cả 3 đều đạt Cổng 1 (biên gộp xấu 86,44% đến 91,72% nhờ lõi toán học 0đ AI); phủ quyết bán trọn đời 299k (-62,04% lỗ ngược) và quét AI vô hạn (-13,95%). Chốt đề xuất SỐ 1: Xưởng Biển Quảng Cáo & Hộp Đèn (92,50/100; giá 249k/T, Quý 699k, Năm 2,49tr, Pro 349k; biên xấu 90,47%; hòa vốn 7-8 khách; LTV/CAC 0đ Ads đạt 19,24x; dễ thu tiền nhất trong 7 ngày và ít churn nhất quanh năm).\n• Phản biện: Phản biện giá & mùa vụ so với Bước 1: hạ giá cơ bản xuống sát túi tiền thợ Việt (Quảng cáo 249k, Sửa nhà 199k do mốc LTP Attendance 1,2-1,8tr/năm, Nấu tiệc 199k); đẩy Thầu Sửa Nhà (84,10/100) lên Hạng 2 nhờ tần suất chấm công hàng ngày và lùi Nấu Tiệc (81,20/100) xuống Hạng 3 vì churn mùa vụ tháng 7 Âm lịch nặng (19%/tháng nếu chỉ bán tháng). Cảnh báo kỹ thuật bàn giao Bước 3: công cụ cắt tấm Alu phải tính mép gập cạnh 3-5cm và mạch cắt CNC 3-5mm.\n• Trải nghiệm khách hàng: Tâm lý thợ và chủ xưởng Việt ngại trừ thẻ định kỳ: áp dụng chuyển khoản VietQR không tự gia hạn + Gói Quý 3T/Mùa tiệc 6T/Năm tặng 2T; mồi miễn phí 15 giây vẽ sơ đồ cắt 2D ngay trên điện thoại không cần đăng nhập, chỉ thu tiền khi xuất phiếu báo giá Zalo gắn logo/ảnh mặt tiền và lưu kho giá riêng.",
+      "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step2_cfo_gtm_reality.md",
+      "created_at": "2026-11-19T12:11:56Z"
+    },
+    {
+      "msg_id": 17,
+      "mission_id": "msn-81fa3c95",
+      "sender_slug": "@trinh-sat-co-hoi",
+      "sender_name_vi": "@trinh-sat-co-hoi",
+      "sender_dept_ids": "01,02,03,50",
+      "recipient_name_vi": "Toàn đội & Chủ tịch",
+      "msg_type": "DONE",
+      "content_vi": "Hoàn tất Bước 1: Hoàn tất rà soát 5 nhóm cơ hội cũ dễ bị tập đoàn lớn đè, chủ động loại 3 ngách vùng đỏ (cân lúa, nhôm kính thuần, đối soát sàn) và chọn ra Top 3 ngách Điểm mù Tập đoàn lớn 2026: (1) Xưởng Biển Quảng Cáo và Hộp Đèn (95/100), (2) Cơ Sở Nấu Tiệc Lưu Động (94/100), (3) Đội Thầu Sửa Nhà Nhỏ 3 đến 20 Thợ (92/100).\n• Phản biện: Đã đối chiếu đích danh đối thủ thật (Soft Việt, Faceworks, Corel+eCut, MISA CukCuk, FastCons, Emektra) và chứng minh tập đoàn bán lẻ đếm cái không đè được bài toán cắt tấm 2D, sắt 6m, mâm cỗ và chốt phát sinh công trình.\n• Trải nghiệm khách hàng: Cả 3 ngách đều thiết kế thao tác 3 chạm ngay tại hiện trường ngoài nắng hoặc chợ sáng bằng điện thoại.",
+      "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step1_market_anti_bigcorp.md",
+      "created_at": "2026-11-19T12:16:34Z"
+    },
+    {
+      "msg_id": 18,
+      "mission_id": "msn-81fa3c95",
+      "sender_slug": "@doi-ban-hang",
+      "sender_name_vi": "Đội Đóng gói và Bán hàng",
+      "sender_dept_ids": "38,39,32,33",
+      "recipient_name_vi": "Toàn đội & Chủ tịch",
+      "msg_type": "DONE",
+      "content_vi": "Hoàn tất Bước 2: Hoàn tất kiểm toán tài chính 18 kịch bản Python, đường thu 50 khách đầu 0đ quảng cáo và bổ sung kịch bản Hạ tầng 0đ ban đầu: Chốt hạng 1 là Xưởng Biển Quảng Cáo (249.000đ/tháng, gói Quý 699k, Năm 2,49tr; 0đ hạ tầng ban đầu đạt biên ròng 93% và hòa vốn ngay từ khách đầu tiên +231.570đ/tháng; thuê hạ tầng 1,5tr/tháng vẫn đạt biên gộp xấu 90,47% và hòa vốn 7 khách). Hạng 2: Đội Thầu Sửa Nhà (199k/tháng). Hạng 3: Cơ Sở Nấu Tiệc (199k/tháng, rủi ro mùa vụ tháng 7 Âm lịch).\n• Phản biện: Đã phủ quyết bằng Python 2 mô hình lỗ ngầm: bán trọn đời 299k (-62,04% biên xấu) và quét AI vô hạn (-13,95%); cấm đốt quảng cáo trực tiếp (LTV/CAC < 3x), khóa đường thu 0đ Ads qua hội nhóm thợ và tổng kho vật tư.\n• Trải nghiệm khách hàng: Mồi miễn phí 15 giây vẽ sơ đồ cắt tấm Alu 1,22x2,44m ngay trên điện thoại không cần đăng nhập, thu tiền chuyển khoản VietQR không tự trừ thẻ.",
+      "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step2_cfo_gtm_reality.md",
+      "created_at": "2026-11-19T12:16:34Z"
+    },
+    {
+      "msg_id": 19,
+      "mission_id": "msn-81fa3c95",
+      "sender_slug": "@phan-bien-doc-lap",
+      "sender_name_vi": "Hội đồng Phản biện và Bảo mật",
+      "sender_dept_ids": "46,47,06,12,48",
+      "recipient_name_vi": "Chủ tịch & Toàn đội",
+      "msg_type": "UPDATE",
+      "content_vi": "Bắt đầu Bước 3: Đang kiểm toán Phản biện rủi ro (5 khóa chặn cứng), thiết kế Kiến trúc Hạ tầng 0đ ban đầu đến mốc 200 khách và lộ trình nâng cấp siêu lời cho Cắt Biển Nhanh...",
+      "artifact_path": "",
+      "created_at": "2026-11-19T12:16:34Z"
+    },
+    {
+      "msg_id": 20,
+      "mission_id": "msn-81fa3c95",
+      "sender_slug": "@phan-bien-doc-lap",
+      "sender_name_vi": "Hội đồng Phản biện và Bảo mật",
+      "sender_dept_ids": "46,47,06,12,48",
+      "recipient_name_vi": "Toàn đội & Chủ tịch",
+      "msg_type": "DONE",
+      "content_vi": "Hoàn tất Bước 3: Hoàn tất Phản biện rủi ro (5 khóa chặn cứng) và Kiến trúc Hạ tầng 0 đồng cho ngách số 1 Cắt Biển Nhanh (Xưởng Biển Quảng Cáo và Hộp Đèn): dùng trang tĩnh miễn phí, lõi cắt 2D Alu/Mica + sắt 6m + nguồn LED 12V bằng JavaScript thuần trên điện thoại khách, lưu dữ liệu cục bộ, thu VietQR 0% phí và chữ ký số gắn cứng Tên xưởng + SĐT chống dùng chùa. Mô phỏng Python xác nhận hòa vốn ngay khách thứ 1 (+231.570đ/tháng, biên ròng 93%, 200 khách lãi +46,31tr/tháng); chỉ bỏ 650k/tháng nâng cấp mây khi đạt >= 200 khách để bán gói Đội Nhóm 399k tăng lãi ròng thêm +8,33tr đến +26,65tr/tháng (gấp 12,8 đến 41 lần chi phí nâng cấp).\n• Phản biện: ĐẠT CỔNG 1 (95/100 điểm sống sót): Đã khóa 5 nguy cơ chí mạng (bù mép gập Alu 4cm và mạch cắt CNC 4mm, nạp sẵn 3 bảng giá vùng miền, mồi cắt 2D miễn phí 15 giây, chữ ký số gắn danh tính chống dùng chùa, định vị chốt cọc 15 giây ngoài mặt tiền khác hẳn Corel trên máy tính).\n• Trải nghiệm khách hàng: Đạt thiết kế 3 chạm ngoài trời nắng (mục tiêu 94/100): nhập mét biển -> xem sơ đồ cắt 2D từng tấm và giá vốn -> lưu ảnh báo giá kèm ảnh mặt tiền gửi Zalo trong 15 giây, chạy mượt cả khi mất mạng.",
+      "artifact_path": "corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step3_premortem_zero_cost_architecture.md",
+      "created_at": "2026-11-19T12:20:03Z"
     }
   ],
   "tombstones": [
@@ -1922,6 +2799,12 @@
       "entity_type": "project",
       "entity_id": "proj-rem-cua-ai",
       "deleted_at": "2026-11-19T11:21:06Z"
+    },
+    {
+      "tombstone_key": "mission:msn-7f85897f",
+      "entity_type": "mission",
+      "entity_id": "msn-7f85897f",
+      "deleted_at": "2026-11-19T12:07:19Z"
     }
   ],
   "deliverables": [],
@@ -1965,6 +2848,646 @@
     }
   ],
   "knowledge_atoms": [
+    {
+      "atom_id": 2001,
+      "url_hash": "ed5d4160c92fe3b74d3a06e01164574367fc9de012d3feb6d6ab84e39624af47",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 3827 sao] agentscope-ai/ReMe (Python)",
+      "url": "https://github.com/agentscope-ai/ReMe",
+      "published_at": "2026-11-19T11:55:11Z",
+      "fetched_at": "2026-11-19T11:55:31Z",
+      "summary_vi": "ReMe: Memory Management Kit for Agents - Remember Me, Refine Me.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 2000,
+      "url_hash": "81287c1a312dfbc82794d682dfdf278b943ca4a14e97bbc89a8e09d64081f77e",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 3827 sao] agentscope-ai/ReMe (Python)",
+      "url": "https://github.com/agentscope-ai/ReMe",
+      "published_at": "2026-11-19T11:55:11Z",
+      "fetched_at": "2026-11-19T11:55:31Z",
+      "summary_vi": "ReMe: Memory Management Kit for Agents - Remember Me, Refine Me.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1997,
+      "url_hash": "9ef2d8b0d480ba0b09e935e06c23e9a734cb9af88cf0aa64dc7ee7e37c82febe",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 3841 sao] mdiri-ai/SoduWork (JavaScript)",
+      "url": "https://github.com/mdiri-ai/SoduWork",
+      "published_at": "2026-11-19T11:55:17Z",
+      "fetched_at": "2026-11-19T11:55:31Z",
+      "summary_vi": "The AI-native engine for teams and their agents. Multi-harness, multi-agent, self-hosted.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1996,
+      "url_hash": "e9df594336611999dd5f04f098709248708279ed5d0bd966487216c64616cee8",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 3841 sao] mdiri-ai/SoduWork (JavaScript)",
+      "url": "https://github.com/mdiri-ai/SoduWork",
+      "published_at": "2026-11-19T11:55:17Z",
+      "fetched_at": "2026-11-19T11:55:31Z",
+      "summary_vi": "The AI-native engine for teams and their agents. Multi-harness, multi-agent, self-hosted.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1945,
+      "url_hash": "bc853f69b309f5f11b4c9362cf6a59e5389897997c85d7ceb0bd2c4acc84d444",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Fieldwork Code",
+      "url": "https://www.producthunt.com/products/fieldwork-code",
+      "published_at": "2026-11-18T05:32:13-08:00",
+      "fetched_at": "2026-11-19T11:55:30Z",
+      "summary_vi": "AI coding on your laptop or in the cloud, from your phone Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1944,
+      "url_hash": "65f6db9807940505383efd730e456b530baf32e4ac9aab0ba2114df12c8e96f7",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Fieldwork Code",
+      "url": "https://www.producthunt.com/products/fieldwork-code",
+      "published_at": "2026-11-18T05:32:13-08:00",
+      "fetched_at": "2026-11-19T11:55:30Z",
+      "summary_vi": "AI coding on your laptop or in the cloud, from your phone Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1821,
+      "url_hash": "9aa3dec6e005ce1f5dbeed8be5f2fcc4762d23de96d27ab40d6e85f836cbc5de",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "TestSprite 4.0",
+      "url": "https://www.producthunt.com/products/testsprite",
+      "published_at": "2026-11-12T14:40:48-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Fix one thing, break another? This agent checks it all Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1820,
+      "url_hash": "2f28fc87c40c66b1146c68a263db6246b31d11fb93564a42d5010c5ad3a8e139",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "TestSprite 4.0",
+      "url": "https://www.producthunt.com/products/testsprite",
+      "published_at": "2026-11-12T14:40:48-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Fix one thing, break another? This agent checks it all Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1819,
+      "url_hash": "ccce81c4714ebbd743a10cdf0e48b891c25d4afe8088d0380faaee502a1ed93d",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Spellar for Chrome",
+      "url": "https://www.producthunt.com/products/spellar",
+      "published_at": "2026-11-16T04:57:22-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Free, no-bot meeting notes with memory, now in your browser Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1818,
+      "url_hash": "5808a00cfc73fd087ff2ff46043b1efb1fbf0f33f804e7fcfea3baec04b450c1",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Spellar for Chrome",
+      "url": "https://www.producthunt.com/products/spellar",
+      "published_at": "2026-11-16T04:57:22-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Free, no-bot meeting notes with memory, now in your browser Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1817,
+      "url_hash": "7d6f311029db98a9ef61f6b817b163bd4f950f1655f9963cf1a6e44c555728bb",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Verse Engine by Ctruh",
+      "url": "https://www.producthunt.com/products/verse-engine-by-ctruh",
+      "published_at": "2026-11-17T06:44:33-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Blender, Unity or Unreal to a live 3D link in one click Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1816,
+      "url_hash": "bb8d04e234868ac07c8090281fee470bd326226cb95101f0422a17f92d5b5408",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Verse Engine by Ctruh",
+      "url": "https://www.producthunt.com/products/verse-engine-by-ctruh",
+      "published_at": "2026-11-17T06:44:33-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Blender, Unity or Unreal to a live 3D link in one click Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1813,
+      "url_hash": "0113bcdadc36ce90dc786df68188066c640635b4871d75d31ac5dfe83f1b13af",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Gemini 4 Neon",
+      "url": "https://www.producthunt.com/products/gemini-6",
+      "published_at": "2026-11-18T18:32:38-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Frontier reasoning with faster task completion Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1812,
+      "url_hash": "bed488fe969b0c0c275498e5de7e1c9461153a8db0a9487c94e932228827ca85",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Gemini 4 Neon",
+      "url": "https://www.producthunt.com/products/gemini-6",
+      "published_at": "2026-11-18T18:32:38-08:00",
+      "fetched_at": "2026-11-19T11:52:22Z",
+      "summary_vi": "Frontier reasoning with faster task completion Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1593,
+      "url_hash": "f0ba09328c931cde0f673df60de0c2704c8569b037269d979d28cfc42c9ae571",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 9343 sao] MervinPraison/PraisonAI (Python)",
+      "url": "https://github.com/MervinPraison/PraisonAI",
+      "published_at": "2026-11-19T07:07:12Z",
+      "fetched_at": "2026-11-19T11:52:06Z",
+      "summary_vi": "Private AI agents for highly regulated teams, and for anyone who wants AI on their own computer. Open-source Python agent framework that runs fully offline.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1592,
+      "url_hash": "1901085c2b3854fe18450ae1df67fc3461d9bebb3bc4ad1e493f15782773547b",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 9343 sao] MervinPraison/PraisonAI (Python)",
+      "url": "https://github.com/MervinPraison/PraisonAI",
+      "published_at": "2026-11-19T07:07:12Z",
+      "fetched_at": "2026-11-19T11:52:06Z",
+      "summary_vi": "Private AI agents for highly regulated teams, and for anyone who wants AI on their own computer. Open-source Python agent framework that runs fully offline.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1591,
+      "url_hash": "041fc72c133a8144b7f9b9af15645e3824af22f2e6ebcbd7744ef10fe36a1b27",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 436 sao] aimpact-inc/repo-harness (TypeScript)",
+      "url": "https://github.com/aimpact-inc/repo-harness",
+      "published_at": "2026-11-12T16:43:43Z",
+      "fetched_at": "2026-11-19T11:52:06Z",
+      "summary_vi": "File-backed workflow harness for reliable Claude Code and Codex sessions.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1590,
+      "url_hash": "ea4571b5a63e5ffd4f7ce461f826e35e38335351c8c38bd487f1b3dfe7cf401f",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub 436 sao] aimpact-inc/repo-harness (TypeScript)",
+      "url": "https://github.com/aimpact-inc/repo-harness",
+      "published_at": "2026-11-12T16:43:43Z",
+      "fetched_at": "2026-11-19T11:52:06Z",
+      "summary_vi": "File-backed workflow harness for reliable Claude Code and Codex sessions.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "ma-nguon-mo github kien-truc",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1543,
+      "url_hash": "4dbad3afc8ac2aaf86f05c05dc32d80a1fd831acab876845cb8e6a1baa3b0943",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Source",
+      "url": "https://www.producthunt.com/products/source-public-beta",
+      "published_at": "2026-11-16T09:34:12-08:00",
+      "fetched_at": "2026-11-19T11:52:05Z",
+      "summary_vi": "The attribution data layer for your agents to drive pipeline Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1542,
+      "url_hash": "5814bcd8bd7491ddf999e381ab66c4d5ab1f01fb63d69fe7d4e0ab0744823e9c",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Source",
+      "url": "https://www.producthunt.com/products/source-public-beta",
+      "published_at": "2026-11-16T09:34:12-08:00",
+      "fetched_at": "2026-11-19T11:52:05Z",
+      "summary_vi": "The attribution data layer for your agents to drive pipeline Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1539,
+      "url_hash": "326ffb41c33ba67b7390e2088d687fc8e81021d1a8dbb4834e40066b43542ed3",
+      "source_connector": "product_pulse",
+      "dept_id": "06",
+      "division_code": "div2-product-design",
+      "title": "Manufact",
+      "url": "https://www.producthunt.com/products/manufact",
+      "published_at": "2026-11-09T17:42:17-08:00",
+      "fetched_at": "2026-11-19T11:52:05Z",
+      "summary_vi": "Ship and test your MCP to every plugin marketplace Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1538,
+      "url_hash": "648fcc9ee50093a399eb340838c842af4bee6bcda58ca3c6e40391e9e861a40c",
+      "source_connector": "product_pulse",
+      "dept_id": "03",
+      "division_code": "div2-product-design",
+      "title": "Manufact",
+      "url": "https://www.producthunt.com/products/manufact",
+      "published_at": "2026-11-09T17:42:17-08:00",
+      "fetched_at": "2026-11-19T11:52:05Z",
+      "summary_vi": "Ship and test your MCP to every plugin marketplace Discussion | Link",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "san-pham-moi giao-dien trai-nghiem co-hoi",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1467,
+      "url_hash": "94de81d93cf73be79fda6fc5c5c630c1352c2fe90a2b0d6d6e391e3d1c6c6dfa",
+      "source_connector": "vn_news",
+      "dept_id": "03",
+      "division_code": "div6-sales-commercial",
+      "title": "Thời gian đi lại đang thay đổi cách người mua chọn căn hộ",
+      "url": "https://cafef.vn/thoi-gian-di-lai-dang-thay-doi-cach-nguoi-mua-chon-can-ho-188261119183339342.chn",
+      "published_at": "Thu, 19 Nov 26 18:33:00 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Tại khu Đông TP HCM, khi việc làm và dịch vụ ngày càng tập trung, cùng với tuyến metro số 1 đã vận hành, người mua bắt đầu chọn căn hộ theo thời gian đi tới nơi làm việc, trường học và những nơi cần đến hằng ngày.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1466,
+      "url_hash": "611680be0cdeb21f25df39e4734f4515ae6e4877d4101493d26e05bb0a8e4851",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div6-sales-commercial",
+      "title": "Thời gian đi lại đang thay đổi cách người mua chọn căn hộ",
+      "url": "https://cafef.vn/thoi-gian-di-lai-dang-thay-doi-cach-nguoi-mua-chon-can-ho-188261119183339342.chn",
+      "published_at": "Thu, 19 Nov 26 18:33:00 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Tại khu Đông TP HCM, khi việc làm và dịch vụ ngày càng tập trung, cùng với tuyến metro số 1 đã vận hành, người mua bắt đầu chọn căn hộ theo thời gian đi tới nơi làm việc, trường học và những nơi cần đến hằng ngày.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1465,
+      "url_hash": "7f6f3e36e44b8ccf8739cf7571ec22024850409a48abd6dfcf2b0afdf0ff38ff",
+      "source_connector": "vn_news",
+      "dept_id": "03",
+      "division_code": "div6-sales-commercial",
+      "title": "Tổng Bí thư, Chủ tịch nước Tô Lâm nhắc tên Viettel, VinFast, FPT, THACO, Vinamilk tại Hội nghị APEC 2026",
+      "url": "https://cafef.vn/tong-bi-thu-chu-tich-nuoc-to-lam-nhac-ten-viettel-vinfast-fpt-thaco-vinamilk-tai-hoi-nghi-apec-2026-188261119183618311.chn",
+      "published_at": "Thu, 19 Nov 26 18:36:04 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Trong bài phát biểu tại Hội nghị Thượng đỉnh Doanh nghiệp APEC 2026, Tổng Bí thư, Chủ tịch nước Tô Lâm nhắc đến 5 doanh nghiệp Việt Nam gồm Viettel, FPT, VinFast, Vinamilk và THACO khi nói về sự lớn mạnh của doanh nghiệp trong nước và quá trình hội nhập kinh tế quốc tế.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1464,
+      "url_hash": "e8eb7066710a81e424165ce3244784a6622e637d2b4c4094876a9e17ba6c4c52",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div6-sales-commercial",
+      "title": "Tổng Bí thư, Chủ tịch nước Tô Lâm nhắc tên Viettel, VinFast, FPT, THACO, Vinamilk tại Hội nghị APEC 2026",
+      "url": "https://cafef.vn/tong-bi-thu-chu-tich-nuoc-to-lam-nhac-ten-viettel-vinfast-fpt-thaco-vinamilk-tai-hoi-nghi-apec-2026-188261119183618311.chn",
+      "published_at": "Thu, 19 Nov 26 18:36:04 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Trong bài phát biểu tại Hội nghị Thượng đỉnh Doanh nghiệp APEC 2026, Tổng Bí thư, Chủ tịch nước Tô Lâm nhắc đến 5 doanh nghiệp Việt Nam gồm Viettel, FPT, VinFast, Vinamilk và THACO khi nói về sự lớn mạnh của doanh nghiệp trong nước và quá trình hội nhập kinh tế quốc tế.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1463,
+      "url_hash": "33cffcd5d1ba410701b6569c142a27cf22fe8d3512771ee64472d64e390d1f07",
+      "source_connector": "vn_news",
+      "dept_id": "03",
+      "division_code": "div6-sales-commercial",
+      "title": "Nữ CEO Sunshine Group bất ngờ xin từ nhiệm thành viên HĐQT",
+      "url": "https://cafef.vn/nu-ceo-sunshine-group-bat-ngo-xin-tu-nhiem-thanh-vien-hdqt-188261119184604124.chn",
+      "published_at": "Thu, 19 Nov 26 18:45:00 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Tổng giám đốc Sunshine Group Nguyễn Thị Phương Loan vừa có đơn xin từ nhiệm vị trí thành viên HĐQT.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1462,
+      "url_hash": "5bd0d1ed296506a95d964b8ec46699a0a0f9465fe52ae8322da60dbad0ff02d1",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div6-sales-commercial",
+      "title": "Nữ CEO Sunshine Group bất ngờ xin từ nhiệm thành viên HĐQT",
+      "url": "https://cafef.vn/nu-ceo-sunshine-group-bat-ngo-xin-tu-nhiem-thanh-vien-hdqt-188261119184604124.chn",
+      "published_at": "Thu, 19 Nov 26 18:45:00 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Tổng giám đốc Sunshine Group Nguyễn Thị Phương Loan vừa có đơn xin từ nhiệm vị trí thành viên HĐQT.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1451,
+      "url_hash": "be8c25dda9efd193f8630bfdef48db11edf28751ac98fcdceea2bef0fc70bb60",
+      "source_connector": "vn_news",
+      "dept_id": "02",
+      "division_code": "div1-strategy-intel",
+      "title": "Sân bay Long Thành hoạt động từ ngày 24-12, với 20-30 chuyến bay mỗi ngày",
+      "url": "https://tuoitre.vn/san-bay-long-thanh-hoat-dong-tu-ngay-24-12-voi-20-30-chuyen-bay-moi-ngay-100261119173245108.htm",
+      "published_at": "11/19/2026 5:50:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Sân bay Long Thành dự kiến chính thức khai thác thương mại từ ngày 24-12, với 20-30 chuyến bay/ngày trong giai đoạn đầu.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1450,
+      "url_hash": "1873015f5eb9f05cc0c4881d94ef6f7c2308426255bbef57abbea166bff25a36",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div1-strategy-intel",
+      "title": "Sân bay Long Thành hoạt động từ ngày 24-12, với 20-30 chuyến bay mỗi ngày",
+      "url": "https://tuoitre.vn/san-bay-long-thanh-hoat-dong-tu-ngay-24-12-voi-20-30-chuyen-bay-moi-ngay-100261119173245108.htm",
+      "published_at": "11/19/2026 5:50:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Sân bay Long Thành dự kiến chính thức khai thác thương mại từ ngày 24-12, với 20-30 chuyến bay/ngày trong giai đoạn đầu.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1449,
+      "url_hash": "ecc2fabb909fb19681fca74d537895890d2c75fa4a9d9476894fc97402acc764",
+      "source_connector": "vn_news",
+      "dept_id": "02",
+      "division_code": "div1-strategy-intel",
+      "title": "Ngư dân được hỗ trợ gì để vừa làm giàu từ biển, vừa bảo vệ nguồn lợi thủy sản?",
+      "url": "https://tuoitre.vn/ngu-dan-duoc-ho-tro-gi-de-vua-lam-giau-tu-bien-vua-bao-ve-nguon-loi-thuy-san-100261119164651509.htm",
+      "published_at": "11/19/2026 5:54:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Trước chủ trương xây dựng và phát triển Việt Nam trở thành quốc gia biển mạnh, đâu là những cơ hội sinh kế mới cho ngư dân và họ được hỗ trợ như thế nào để vừa làm giàu từ biển, vừa bảo vệ nguồn lợi và hệ sinh thái biển?",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1448,
+      "url_hash": "d8b8f03edfaa1338753296e87512b67f16783a4996f49c56f8c6a1d0df009cfa",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div1-strategy-intel",
+      "title": "Ngư dân được hỗ trợ gì để vừa làm giàu từ biển, vừa bảo vệ nguồn lợi thủy sản?",
+      "url": "https://tuoitre.vn/ngu-dan-duoc-ho-tro-gi-de-vua-lam-giau-tu-bien-vua-bao-ve-nguon-loi-thuy-san-100261119164651509.htm",
+      "published_at": "11/19/2026 5:54:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Trước chủ trương xây dựng và phát triển Việt Nam trở thành quốc gia biển mạnh, đâu là những cơ hội sinh kế mới cho ngư dân và họ được hỗ trợ như thế nào để vừa làm giàu từ biển, vừa bảo vệ nguồn lợi và hệ sinh thái biển?",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1447,
+      "url_hash": "b1e3b7ee20259a9aceade9add426f3af5e2292a75783ab7107463e6788afed70",
+      "source_connector": "vn_news",
+      "dept_id": "02",
+      "division_code": "div1-strategy-intel",
+      "title": "ROX Group 4 năm liên tiếp vào Top 100 nơi làm việc tốt nhất",
+      "url": "https://tuoitre.vn/rox-group-4-nam-lien-tiep-vao-top-100-noi-lam-viec-tot-nhat-100261119180608239.htm",
+      "published_at": "11/19/2026 6:00:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "ROX Group vừa được vinh danh trong Top 100 Nơi làm việc tốt nhất Việt Nam 2026, đánh dấu năm thứ tư liên tiếp góp mặt trong bảng xếp hạng. Tập đoàn còn nhận chứng nhận doanh nghiệp tiêu biểu có “nguồn nhân lực hạnh phúc”.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1446,
+      "url_hash": "011c6913ce1e14d7b7062c3f7a7dc7b581a03dc89b6698b257677c6f557aa66b",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div1-strategy-intel",
+      "title": "ROX Group 4 năm liên tiếp vào Top 100 nơi làm việc tốt nhất",
+      "url": "https://tuoitre.vn/rox-group-4-nam-lien-tiep-vao-top-100-noi-lam-viec-tot-nhat-100261119180608239.htm",
+      "published_at": "11/19/2026 6:00:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "ROX Group vừa được vinh danh trong Top 100 Nơi làm việc tốt nhất Việt Nam 2026, đánh dấu năm thứ tư liên tiếp góp mặt trong bảng xếp hạng. Tập đoàn còn nhận chứng nhận doanh nghiệp tiêu biểu có “nguồn nhân lực hạnh phúc”.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1445,
+      "url_hash": "e3c8508327fa7dcc7d99bd01908ffe884df1b7cf110e014e259374c3b8d87a67",
+      "source_connector": "vn_news",
+      "dept_id": "02",
+      "division_code": "div1-strategy-intel",
+      "title": "Metro số 1 TP.HCM đông khách thấy rõ",
+      "url": "https://tuoitre.vn/metro-so-1-tphcm-dong-khach-thay-ro-10026111917465136.htm",
+      "published_at": "11/19/2026 6:04:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Metro số 1 (Bến Thành - Suối Tiên) ghi nhận hơn 20,25 triệu lượt khách trong 10 tháng đầu năm 2026, tăng khoảng 21% so với cùng kỳ năm 2025. Lượng khách đi học, đi làm đang ngày càng rõ hơn.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1444,
+      "url_hash": "e80ca75343948b2e16ea58f9226d9dfe1e1848cb47eaa8822140ef840f6dec0c",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div1-strategy-intel",
+      "title": "Metro số 1 TP.HCM đông khách thấy rõ",
+      "url": "https://tuoitre.vn/metro-so-1-tphcm-dong-khach-thay-ro-10026111917465136.htm",
+      "published_at": "11/19/2026 6:04:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Metro số 1 (Bến Thành - Suối Tiên) ghi nhận hơn 20,25 triệu lượt khách trong 10 tháng đầu năm 2026, tăng khoảng 21% so với cùng kỳ năm 2025. Lượng khách đi học, đi làm đang ngày càng rõ hơn.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1443,
+      "url_hash": "b4a00cafc8be4aedd91d8dd5e11ef9a23ab09f1bd44c7f594bdeef3e91a73f72",
+      "source_connector": "vn_news",
+      "dept_id": "02",
+      "division_code": "div1-strategy-intel",
+      "title": "Anthropic có thể tạo ra hàng ngàn triệu phú mới",
+      "url": "https://tuoitre.vn/anthropic-co-the-tao-ra-hang-ngan-trieu-phu-moi-100261119172008188.htm",
+      "published_at": "11/19/2026 6:10:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Anthropic ấn định giá chào bán 83 USD/cổ phiếu trên sàn giao dịch Nasdaq, được đánh giá là thương vụ IPO lớn nhất lịch sử.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1442,
+      "url_hash": "eae20699f26d4cc297758ace821247c4e8b4bebcbd6af76fbb291ec44ba90126",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div1-strategy-intel",
+      "title": "Anthropic có thể tạo ra hàng ngàn triệu phú mới",
+      "url": "https://tuoitre.vn/anthropic-co-the-tao-ra-hang-ngan-trieu-phu-moi-100261119172008188.htm",
+      "published_at": "11/19/2026 6:10:00 PM",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Anthropic ấn định giá chào bán 83 USD/cổ phiếu trên sàn giao dịch Nasdaq, được đánh giá là thương vụ IPO lớn nhất lịch sử.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "kinh-doanh tieu-dung thi-truong",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1435,
+      "url_hash": "94aa1e7355ca63d1621afee57c7f1804a67bde95c5927a377f32367d1ba94124",
+      "source_connector": "vn_news",
+      "dept_id": "24",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Xe tải rẽ ẩu làm 2 chị em tử vong, tài xế bị bắt",
+      "url": "https://vnexpress.net/xe-tai-re-au-lam-2-chi-em-tu-vong-tai-xe-bi-bat-5146754.html",
+      "published_at": "Thu, 19 Nov 2026 17:51:36 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Đinh Xuân Sơn, 27 tuổi, bị cáo buộc lái xe ben rẽ phải không đảm bảo an toàn, va chạm xe đạp điện khiến hai chị em ruột 15 và 17 tuổi tử vong.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "phap-luat an-ninh tuan-thu",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 1434,
+      "url_hash": "7a925b5a45e5bce1e4f0dbddbdf211d40286eb12046f4eef05a9ec21ed76970a",
+      "source_connector": "vn_news",
+      "dept_id": "23",
+      "division_code": "div7-finance-tax-legal",
+      "title": "Xe tải rẽ ẩu làm 2 chị em tử vong, tài xế bị bắt",
+      "url": "https://vnexpress.net/xe-tai-re-au-lam-2-chi-em-tu-vong-tai-xe-bi-bat-5146754.html",
+      "published_at": "Thu, 19 Nov 2026 17:51:36 +0700",
+      "fetched_at": "2026-11-19T11:52:04Z",
+      "summary_vi": "Đinh Xuân Sơn, 27 tuổi, bị cáo buộc lái xe ben rẽ phải không đảm bảo an toàn, va chạm xe đạp điện khiến hai chị em ruột 15 và 17 tuổi tử vong.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "phap-luat an-ninh tuan-thu",
+      "is_starred": 0
+    },
     {
       "atom_id": 1401,
       "url_hash": "0b8369261088bdf084674e1e2405be8d78903fff82925bc526e73be9580d6ccb",
@@ -8048,6 +9571,534 @@
   ],
   "activity_stream": [
     {
+      "event_id": 299,
+      "event_uid": "278b1302-e1f3-4dbf-9d20-be17fbcd840c",
+      "timestamp": "2026-11-19T12:31:42Z",
+      "actor_dept_id": "00",
+      "event_type": "STATE_SYNCED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Tự động đồng bộ trạng thái 3 phòng ban và 14 đầu việc trên toàn hệ thống",
+      "detail_json": "{\"depts_updated\": 3, \"tasks_inserted\": 14, \"tasks_updated\": 0, \"tasks_deleted\": 0}"
+    },
+    {
+      "event_id": 298,
+      "event_uid": "d33f23b3-c224-46c3-ba67-5cde0a413306",
+      "timestamp": "2026-11-19T12:20:04Z",
+      "actor_dept_id": "00",
+      "event_type": "PROPOSAL_WAITING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Giai đoạn 1 hoàn tất cho 'săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn, và ưu tiên không tốn chi phí đầu tư có thể dùng miễn phí toàn bộ các hạ tầng có sẵn khi nào có 1 lượng khách hàng lớn thì mới thật sự cần nâng cấp hệ thông khi vẫn có lời và lời hơn nhiều từ việc nâng cấp hệ thống'. Mời Chủ tịch duyệt chốt phương án để bắt đầu sản xuất sản phẩm cuối.",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"phase\": \"PROPOSAL\"}"
+    },
+    {
+      "event_id": 297,
+      "event_uid": "0d55489f-7932-46a3-abd1-99f8b9164f25",
+      "timestamp": "2026-11-19T12:20:03Z",
+      "actor_dept_id": "46",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Hội đồng Phản biện và Bảo mật → Toàn đội & Chủ tịch] Hoàn tất Bước 3: Hoàn tất Phản biện rủi ro (5 khóa chặn cứng) và Kiến trúc Hạ tầng 0 đồng cho ngách số 1 Cắt Biển Nhanh ",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"msg_id\": 20, \"msg_type\": \"DONE\"}"
+    },
+    {
+      "event_id": 296,
+      "event_uid": "3d337362-8836-488f-9e4c-ce0b71aed584",
+      "timestamp": "2026-11-19T12:20:03Z",
+      "actor_dept_id": "46",
+      "event_type": "STEP_DONE",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Xong Bước 3 · Hội đồng Phản biện và Bảo mật] Hoàn tất Phản biện rủi ro (5 khóa chặn cứng) và Kiến trúc Hạ tầng 0 đồng cho ngách số 1 Cắt Biển Nhanh (Xưởng Biển Quảng",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"step\": 3, \"worker\": \"@phan-bien-doc-lap\", \"artifact\": \"corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step3_premortem_zero_cost_architecture.md\"}"
+    },
+    {
+      "event_id": 295,
+      "event_uid": "e61a019c-0f5e-4b02-887b-b47812b38c72",
+      "timestamp": "2026-11-19T12:20:03Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Công cụ Định Lượng Mâm Cỗ và Tách Phiếu Đi Chợ 4 Giờ Sáng theo Sạp cho Cơ Sở Nấu Tiệc Lưu Động (Hạ tầng 0đ)",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 294,
+      "event_uid": "7a627fac-dc55-402d-a879-56b4f9f05ef8",
+      "timestamp": "2026-11-19T12:20:03Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Công cụ Bóc Khối Lượng Sơn, Thạch Cao và Phiếu Chốt Phát Sinh Ảnh Zalo cho Đội Thầu Sửa Nhà Nhỏ (Hạ tầng 0đ)",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 293,
+      "event_uid": "1661e9cb-7541-4e57-802b-3320474ca2f5",
+      "timestamp": "2026-11-19T12:20:03Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Ứng dụng Cắt Tấm Alu, Mica 2D, Sắt Hộp 6m và Báo Giá Biển Quảng Cáo 15 Giây (Hạ tầng 0đ)",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 292,
+      "event_uid": "3c102d0a-0e56-447e-ae81-9a28fae0e339",
+      "timestamp": "2026-11-19T12:16:34Z",
+      "actor_dept_id": "46",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Hội đồng Phản biện và Bảo mật → Chủ tịch & Toàn đội] Bắt đầu Bước 3: Đang kiểm toán Phản biện rủi ro (5 khóa chặn cứng), thiết kế Kiến trúc Hạ tầng 0đ ban đầu đến mốc 200 kh",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"msg_id\": 19, \"msg_type\": \"UPDATE\"}"
+    },
+    {
+      "event_id": 291,
+      "event_uid": "9483230b-c013-46f4-924e-dd9cdca1c006",
+      "timestamp": "2026-11-19T12:16:34Z",
+      "actor_dept_id": "46",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 3/8 · Hội đồng Phản biện và Bảo mật] Đang kiểm toán Phản biện rủi ro (5 khóa chặn cứng), thiết kế Kiến trúc Hạ tầng 0đ ban đầu đến mốc 200 khách và lộ trình nâng cấp siêu lời cho Cắt Biển Nhanh...",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"step\": 3, \"worker\": \"@phan-bien-doc-lap\"}"
+    },
+    {
+      "event_id": 290,
+      "event_uid": "885f9611-658a-45b4-b947-b4b459264021",
+      "timestamp": "2026-11-19T12:16:34Z",
+      "actor_dept_id": "38",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Đội Đóng gói và Bán hàng → Toàn đội & Chủ tịch] Hoàn tất Bước 2: Hoàn tất kiểm toán tài chính 18 kịch bản Python, đường thu 50 khách đầu 0đ quảng cáo và bổ sung kịch bả",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"msg_id\": 18, \"msg_type\": \"DONE\"}"
+    },
+    {
+      "event_id": 289,
+      "event_uid": "15f5c3a1-b2ff-4415-b97c-2da6258d1c92",
+      "timestamp": "2026-11-19T12:16:34Z",
+      "actor_dept_id": "38",
+      "event_type": "STEP_DONE",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Xong Bước 2 · Đội Đóng gói và Bán hàng] Hoàn tất kiểm toán tài chính 18 kịch bản Python, đường thu 50 khách đầu 0đ quảng cáo và bổ sung kịch bản Hạ tầng 0đ ban ",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"step\": 2, \"worker\": \"@doi-ban-hang\", \"artifact\": \"corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step2_cfo_gtm_reality.md\"}"
+    },
+    {
+      "event_id": 288,
+      "event_uid": "1b41f708-1b95-44a2-ae4d-295947774c34",
+      "timestamp": "2026-11-19T12:16:34Z",
+      "actor_dept_id": "01",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[@trinh-sat-co-hoi → Toàn đội & Chủ tịch] Hoàn tất Bước 1: Hoàn tất rà soát 5 nhóm cơ hội cũ dễ bị tập đoàn lớn đè, chủ động loại 3 ngách vùng đỏ (cân lúa, nhôm k",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"msg_id\": 17, \"msg_type\": \"DONE\"}"
+    },
+    {
+      "event_id": 287,
+      "event_uid": "930f3767-37ae-4b0c-aa5b-e1e2348b2cd2",
+      "timestamp": "2026-11-19T12:16:34Z",
+      "actor_dept_id": "01",
+      "event_type": "STEP_DONE",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Xong Bước 1 · @trinh-sat-co-hoi] Hoàn tất rà soát 5 nhóm cơ hội cũ dễ bị tập đoàn lớn đè, chủ động loại 3 ngách vùng đỏ (cân lúa, nhôm kính thuần, đối so",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"step\": 1, \"worker\": \"@trinh-sat-co-hoi\", \"artifact\": \"corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step1_market_anti_bigcorp.md\"}"
+    },
+    {
+      "event_id": 286,
+      "event_uid": "763118f4-2cb8-44a5-a690-c4cbf05bfec9",
+      "timestamp": "2026-11-19T12:11:56Z",
+      "actor_dept_id": "38",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Đội Đóng gói và Bán hàng → Toàn đội & Chủ tịch] Hoàn tất Bước 2: Hoàn tất kiểm toán CFO bằng Python thật (18 kịch bản simulate_cfo_unit_economics), thuế 7%, churn mùa v",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"msg_id\": 16, \"msg_type\": \"DONE\"}"
+    },
+    {
+      "event_id": 285,
+      "event_uid": "0307d266-3552-4d19-96ec-59820ae8a53c",
+      "timestamp": "2026-11-19T12:11:56Z",
+      "actor_dept_id": "38",
+      "event_type": "STEP_DONE",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Xong Bước 2 · Đội Đóng gói và Bán hàng] Hoàn tất kiểm toán CFO bằng Python thật (18 kịch bản simulate_cfo_unit_economics), thuế 7%, churn mùa vụ và phễu thu 50 ",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"step\": 2, \"worker\": \"@doi-ban-hang\", \"artifact\": \"corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step2_cfo_gtm_reality.md\"}"
+    },
+    {
+      "event_id": 284,
+      "event_uid": "14dc2b2c-bffe-44f1-b203-9ba20e2665c3",
+      "timestamp": "2026-11-19T12:09:35Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_CLAIMED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Hệ thống điều phối AI đã tiếp nhận lệnh: săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn, và ưu tiên không tốn chi phí đầu tư có thể dùng miễn phí toàn bộ các hạ tầng có sẵn khi nào có 1 lượng khách hàng lớn thì mới thật sự cần nâng cấp hệ thông khi vẫn có lời và lời hơn nhiều từ việc nâng cấp hệ thống",
+      "detail_json": "{\"order_id\": \"ord-3ed6d582\", \"mission_id\": \"msn-81fa3c95\", \"claimed_by\": \"antigravity-coordinator\"}"
+    },
+    {
+      "event_id": 283,
+      "event_uid": "bf05e054-9040-4923-bad6-26871e812e30",
+      "timestamp": "2026-11-19T12:09:34Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_QUEUED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã gửi nhiệm vụ sang hệ thống điều phối AI: săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn, và ưu tiên không tốn chi phí đầu tư có thể dùng miễn phí toàn bộ các hạ tầng có sẵn khi nào có 1 lượng khách hàng lớn thì mới thật sự cần nâng cấp hệ thông khi vẫn có lời và lời hơn nhiều từ việc nâng cấp hệ thống",
+      "detail_json": "{\"mission_id\": \"msn-81fa3c95\", \"order_id\": \"ord-3ed6d582\"}"
+    },
+    {
+      "event_id": 282,
+      "event_uid": "773c89ba-cdd0-44eb-b2a0-0234f1989e89",
+      "timestamp": "2026-11-19T12:07:19Z",
+      "actor_dept_id": "00",
+      "event_type": "MISSION_DELETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã xóa nhiệm vụ: săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 281,
+      "event_uid": "fdbc15f8-5c5d-4ad3-b4f2-29b90d05a5c5",
+      "timestamp": "2026-11-19T12:06:51Z",
+      "actor_dept_id": "38",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Đội Đóng gói và Bán hàng → Chủ tịch & Toàn đội] Bắt đầu Bước 2: Đang kiểm toán đơn vị kinh tế (CFO), thuế, nguy cơ rời bỏ và đường thu 50 khách đầu 0đ Ads cho Top 3 ngá",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"msg_id\": 15, \"msg_type\": \"UPDATE\"}"
+    },
+    {
+      "event_id": 280,
+      "event_uid": "286caf91-499a-4fa4-aa7a-96c48768a8ea",
+      "timestamp": "2026-11-19T12:06:51Z",
+      "actor_dept_id": "38",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 2/8 · Đội Đóng gói và Bán hàng] Đang kiểm toán đơn vị kinh tế (CFO), thuế, nguy cơ rời bỏ và đường thu 50 khách đầu 0đ Ads cho Top 3 ngách tránh tập đoàn lớn...",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"step\": 2, \"worker\": \"@doi-ban-hang\"}"
+    },
+    {
+      "event_id": 279,
+      "event_uid": "83617a97-59bd-4474-8f36-50c20ed06a9e",
+      "timestamp": "2026-11-19T12:04:24Z",
+      "actor_dept_id": "01",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[@trinh-sat-co-hoi → Toàn đội & Chủ tịch] Hoàn tất Bước 1: Đã hoàn tất tự kiểm điểm thẳng thắn 5 nhóm cơ hội cũ và loại bỏ 3 ngách vùng đỏ/giá rẻ (Cân lúa 99k trọ",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"msg_id\": 14, \"msg_type\": \"DONE\"}"
+    },
+    {
+      "event_id": 278,
+      "event_uid": "8aa1c600-0078-4f90-b175-6ce1af736281",
+      "timestamp": "2026-11-19T12:04:24Z",
+      "actor_dept_id": "01",
+      "event_type": "STEP_DONE",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Xong Bước 1 · @trinh-sat-co-hoi] Đã hoàn tất tự kiểm điểm thẳng thắn 5 nhóm cơ hội cũ và loại bỏ 3 ngách vùng đỏ/giá rẻ (Cân lúa 99k trọn đời, Nhôm kính ",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"step\": 1, \"worker\": \"@trinh-sat-co-hoi\", \"artifact\": \"corporate_hq/projects/co-hoi-tranh-tap-doan-lon/step1_market_anti_bigcorp.md\"}"
+    },
+    {
+      "event_id": 277,
+      "event_uid": "87cb634d-6a70-474c-af64-675547e292e6",
+      "timestamp": "2026-11-19T11:56:15Z",
+      "actor_dept_id": "01",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[@trinh-sat-co-hoi → Chủ tịch & Toàn đội] Bắt đầu Bước 1: Đang tự kiểm điểm cơ hội cũ, soi điểm mù của các tập đoàn lớn (KiotViet, MISA, Sapo, FPT, Viettel) và tr",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"msg_id\": 13, \"msg_type\": \"UPDATE\"}"
+    },
+    {
+      "event_id": 276,
+      "event_uid": "0a2a6b5f-bc81-4819-96f7-764b6e5e0adb",
+      "timestamp": "2026-11-19T11:56:15Z",
+      "actor_dept_id": "01",
+      "event_type": "STEP_RUNNING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Bước 1/8 · @trinh-sat-co-hoi] Đang tự kiểm điểm cơ hội cũ, soi điểm mù của các tập đoàn lớn (KiotViet, MISA, Sapo, FPT, Viettel) và tra cứu đối thủ thật cho 5 ngách tiềm năng...",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"step\": 1, \"worker\": \"@trinh-sat-co-hoi\"}"
+    },
+    {
+      "event_id": 275,
+      "event_uid": "d583a43f-52b2-4b6e-8ef7-0c776f69b083",
+      "timestamp": "2026-11-19T11:55:32Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_COMPLETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã quét 24 kênh tin: Nạp mới 6 bài vào 4 phòng ban, bỏ qua 194 bài đã có trong kho, 1 kênh tạm gián đoạn",
+      "detail_json": "{\"run_id\": \"learn-55caf4e8c6\", \"scope\": \"all\", \"sources_queried\": 24, \"new_atoms_added\": 6, \"duplicates_skipped\": 194, \"errors_count\": 1, \"touched_depts\": [\"03\", \"04\", \"06\", \"12\"]}"
+    },
+    {
+      "event_id": 274,
+      "event_uid": "61168158-d659-4e04-b946-d83f18fa5927",
+      "timestamp": "2026-11-19T11:55:31Z",
+      "actor_dept_id": "04",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 04 vừa đọc & đúc kết [github_repo]: [GitHub 3827 sao] agentscope-ai/ReMe (Python)",
+      "detail_json": "{\"url\": \"https://github.com/agentscope-ai/ReMe\", \"importance\": 8, \"atom_id\": 2000}"
+    },
+    {
+      "event_id": 273,
+      "event_uid": "38124bdb-0f6e-4597-b104-57492b50a987",
+      "timestamp": "2026-11-19T11:55:31Z",
+      "actor_dept_id": "04",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 04 vừa đọc & đúc kết [github_repo]: [GitHub 3841 sao] mdiri-ai/SoduWork (JavaScript)",
+      "detail_json": "{\"url\": \"https://github.com/mdiri-ai/SoduWork\", \"importance\": 8, \"atom_id\": 1996}"
+    },
+    {
+      "event_id": 272,
+      "event_uid": "d6a250fe-d9e5-4845-9127-650c4af5b6af",
+      "timestamp": "2026-11-19T11:55:30Z",
+      "actor_dept_id": "03",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 03 vừa đọc & đúc kết [product_pulse]: Fieldwork Code",
+      "detail_json": "{\"url\": \"https://www.producthunt.com/products/fieldwork-code\", \"importance\": 8, \"atom_id\": 1944}"
+    },
+    {
+      "event_id": 271,
+      "event_uid": "214fecb7-b917-4e90-9be9-744994f252ac",
+      "timestamp": "2026-11-19T11:55:28Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Bắt đầu chu kỳ đọc báo, nghiên cứu arXiv và quét thị trường (24 kênh trực tuyến)",
+      "detail_json": "{\"run_id\": \"learn-55caf4e8c6\", \"scope\": \"all\", \"triggered_by\": \"CHAIRMAN_UI\", \"sources_total\": 24}"
+    },
+    {
+      "event_id": 270,
+      "event_uid": "c635f5c2-25b8-44b7-a4cd-dbb36fabfb16",
+      "timestamp": "2026-11-19T11:53:52Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_CLAIMED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Hệ thống điều phối AI đã tiếp nhận lệnh: săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn",
+      "detail_json": "{\"order_id\": \"ord-dd64af00\", \"mission_id\": \"msn-7f85897f\", \"claimed_by\": \"antigravity-coordinator\"}"
+    },
+    {
+      "event_id": 269,
+      "event_uid": "b6ddbc67-25ea-4d02-8f52-4239545ba774",
+      "timestamp": "2026-11-19T11:53:51Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_QUEUED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã gửi nhiệm vụ sang hệ thống điều phối AI: săn cơ hội mới thiết thực hơn đi và làm cái nào cạnh tranh lại ấy chứ nhiều cái bạn đưa ra cạnh tranh không lại những tập đoàn lớn",
+      "detail_json": "{\"mission_id\": \"msn-7f85897f\", \"order_id\": \"ord-dd64af00\"}"
+    },
+    {
+      "event_id": 268,
+      "event_uid": "0bef9031-3c0c-4b26-ab1d-ccef3c4484d4",
+      "timestamp": "2026-11-19T11:52:22Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_COMPLETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã quét 24 kênh tin: Nạp mới 8 bài vào 2 phòng ban, bỏ qua 192 bài đã có trong kho, 1 kênh tạm gián đoạn",
+      "detail_json": "{\"run_id\": \"learn-85e34309c7\", \"scope\": \"all\", \"sources_queried\": 24, \"new_atoms_added\": 8, \"duplicates_skipped\": 192, \"errors_count\": 1, \"touched_depts\": [\"03\", \"06\"]}"
+    },
+    {
+      "event_id": 267,
+      "event_uid": "cb1cda28-fb47-435b-bd44-0470e5727dc8",
+      "timestamp": "2026-11-19T11:52:22Z",
+      "actor_dept_id": "03",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 03 vừa đọc & đúc kết [product_pulse]: TestSprite 4.0",
+      "detail_json": "{\"url\": \"https://www.producthunt.com/products/testsprite\", \"importance\": 8, \"atom_id\": 1820}"
+    },
+    {
+      "event_id": 266,
+      "event_uid": "6b5be885-81cb-4a9e-93b9-e23f036c3bc9",
+      "timestamp": "2026-11-19T11:52:22Z",
+      "actor_dept_id": "03",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 03 vừa đọc & đúc kết [product_pulse]: Spellar for Chrome",
+      "detail_json": "{\"url\": \"https://www.producthunt.com/products/spellar\", \"importance\": 8, \"atom_id\": 1818}"
+    },
+    {
+      "event_id": 265,
+      "event_uid": "0586fa43-0af9-4e68-88a6-0394514a17b3",
+      "timestamp": "2026-11-19T11:52:22Z",
+      "actor_dept_id": "03",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 03 vừa đọc & đúc kết [product_pulse]: Verse Engine by Ctruh",
+      "detail_json": "{\"url\": \"https://www.producthunt.com/products/verse-engine-by-ctruh\", \"importance\": 8, \"atom_id\": 1816}"
+    },
+    {
+      "event_id": 264,
+      "event_uid": "60e72d89-64fc-4b55-9763-62f48ccc54c3",
+      "timestamp": "2026-11-19T11:52:22Z",
+      "actor_dept_id": "03",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 03 vừa đọc & đúc kết [product_pulse]: Gemini 4 Neon",
+      "detail_json": "{\"url\": \"https://www.producthunt.com/products/gemini-6\", \"importance\": 8, \"atom_id\": 1812}"
+    },
+    {
+      "event_id": 263,
+      "event_uid": "3496048f-60ef-446d-91f7-6c403a9cd28b",
+      "timestamp": "2026-11-19T11:52:20Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Bắt đầu chu kỳ đọc báo, nghiên cứu arXiv và quét thị trường (24 kênh trực tuyến)",
+      "detail_json": "{\"run_id\": \"learn-85e34309c7\", \"scope\": \"all\", \"triggered_by\": \"CHAIRMAN_UI\", \"sources_total\": 24}"
+    },
+    {
+      "event_id": 262,
+      "event_uid": "342677c2-8a2d-4e69-b059-8cd98e88b6ba",
+      "timestamp": "2026-11-19T11:52:06Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_COMPLETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã quét 24 kênh tin: Nạp mới 26 bài vào 8 phòng ban, bỏ qua 174 bài đã có trong kho, 1 kênh tạm gián đoạn",
+      "detail_json": "{\"run_id\": \"learn-6f10588e65\", \"scope\": \"all\", \"sources_queried\": 24, \"new_atoms_added\": 26, \"duplicates_skipped\": 174, \"errors_count\": 1, \"touched_depts\": [\"01\", \"02\", \"03\", \"04\", \"06\", \"12\", \"23\", \"24\"]}"
+    },
+    {
+      "event_id": 261,
+      "event_uid": "44ca9058-237c-485d-a708-676b950f2b67",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Thời gian đi lại đang thay đổi cách người mua chọn căn hộ",
+      "detail_json": "{\"url\": \"https://cafef.vn/thoi-gian-di-lai-dang-thay-doi-cach-nguoi-mua-chon-can-ho-188261119183339342.chn\", \"importance\": 8, \"atom_id\": 1466}"
+    },
+    {
+      "event_id": 260,
+      "event_uid": "d379f32a-16de-4ff1-93b7-e98ed5a5c79b",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Tổng Bí thư, Chủ tịch nước Tô Lâm nhắc tên Viettel, VinFast, FPT, THACO, Vinamilk tại Hội ",
+      "detail_json": "{\"url\": \"https://cafef.vn/tong-bi-thu-chu-tich-nuoc-to-lam-nhac-ten-viettel-vinfast-fpt-thaco-vinamilk-tai-hoi-nghi-apec-2026-188261119183618311.chn\", \"importance\": 8, \"atom_id\": 1464}"
+    },
+    {
+      "event_id": 259,
+      "event_uid": "0e439f38-9c11-4227-8ded-45baac172ddf",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Nữ CEO Sunshine Group bất ngờ xin từ nhiệm thành viên HĐQT",
+      "detail_json": "{\"url\": \"https://cafef.vn/nu-ceo-sunshine-group-bat-ngo-xin-tu-nhiem-thanh-vien-hdqt-188261119184604124.chn\", \"importance\": 8, \"atom_id\": 1462}"
+    },
+    {
+      "event_id": 258,
+      "event_uid": "36a4b44b-d7ba-494c-9d5e-fdf81ffe2f0d",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Sân bay Long Thành hoạt động từ ngày 24-12, với 20-30 chuyến bay mỗi ngày",
+      "detail_json": "{\"url\": \"https://tuoitre.vn/san-bay-long-thanh-hoat-dong-tu-ngay-24-12-voi-20-30-chuyen-bay-moi-ngay-100261119173245108.htm\", \"importance\": 8, \"atom_id\": 1450}"
+    },
+    {
+      "event_id": 257,
+      "event_uid": "8c33badf-0686-4135-a145-f822569b04b6",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Ngư dân được hỗ trợ gì để vừa làm giàu từ biển, vừa bảo vệ nguồn lợi thủy sản?",
+      "detail_json": "{\"url\": \"https://tuoitre.vn/ngu-dan-duoc-ho-tro-gi-de-vua-lam-giau-tu-bien-vua-bao-ve-nguon-loi-thuy-san-100261119164651509.htm\", \"importance\": 8, \"atom_id\": 1448}"
+    },
+    {
+      "event_id": 256,
+      "event_uid": "e6ce0e9f-ab4b-42c7-a438-985724009167",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: ROX Group 4 năm liên tiếp vào Top 100 nơi làm việc tốt nhất",
+      "detail_json": "{\"url\": \"https://tuoitre.vn/rox-group-4-nam-lien-tiep-vao-top-100-noi-lam-viec-tot-nhat-100261119180608239.htm\", \"importance\": 8, \"atom_id\": 1446}"
+    },
+    {
+      "event_id": 255,
+      "event_uid": "14a070ce-c912-4296-bca1-ce54f5624176",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Metro số 1 TP.HCM đông khách thấy rõ",
+      "detail_json": "{\"url\": \"https://tuoitre.vn/metro-so-1-tphcm-dong-khach-thay-ro-10026111917465136.htm\", \"importance\": 8, \"atom_id\": 1444}"
+    },
+    {
+      "event_id": 254,
+      "event_uid": "717aa643-af0b-4406-8c82-274b03249160",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Anthropic có thể tạo ra hàng ngàn triệu phú mới",
+      "detail_json": "{\"url\": \"https://tuoitre.vn/anthropic-co-the-tao-ra-hang-ngan-trieu-phu-moi-100261119172008188.htm\", \"importance\": 8, \"atom_id\": 1442}"
+    },
+    {
+      "event_id": 253,
+      "event_uid": "582668a2-20d4-48b5-94bd-73800afd89c8",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "23",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 23 vừa đọc & đúc kết [vn_news]: Xe tải rẽ ẩu làm 2 chị em tử vong, tài xế bị bắt",
+      "detail_json": "{\"url\": \"https://vnexpress.net/xe-tai-re-au-lam-2-chi-em-tu-vong-tai-xe-bi-bat-5146754.html\", \"importance\": 8, \"atom_id\": 1434}"
+    },
+    {
+      "event_id": 252,
+      "event_uid": "fc6da3f9-57f2-4344-915a-d95e776008dc",
+      "timestamp": "2026-11-19T11:52:04Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Bắt đầu chu kỳ đọc báo, nghiên cứu arXiv và quét thị trường (24 kênh trực tuyến)",
+      "detail_json": "{\"run_id\": \"learn-6f10588e65\", \"scope\": \"all\", \"triggered_by\": \"CHAIRMAN_UI\", \"sources_total\": 24}"
+    },
+    {
       "event_id": 251,
       "event_uid": "a0aa8213-7a48-4860-82f4-cb5e29826f09",
       "timestamp": "2026-11-19T11:29:24Z",
@@ -9215,6 +11266,42 @@
     }
   ],
   "learning_runs": [
+    {
+      "run_id": "learn-55caf4e8c6",
+      "triggered_by": "CHAIRMAN_UI",
+      "scope": "all",
+      "sources_queried": 24,
+      "new_atoms_added": 6,
+      "duplicates_skipped": 194,
+      "status": "COMPLETED",
+      "started_at": "2026-11-19T11:55:28Z",
+      "finished_at": "2026-11-19T11:55:32Z",
+      "error_log": "baochinhphu-chinh-sach: HTTP Error 404: Not Found"
+    },
+    {
+      "run_id": "learn-85e34309c7",
+      "triggered_by": "CHAIRMAN_UI",
+      "scope": "all",
+      "sources_queried": 24,
+      "new_atoms_added": 8,
+      "duplicates_skipped": 192,
+      "status": "COMPLETED",
+      "started_at": "2026-11-19T11:52:20Z",
+      "finished_at": "2026-11-19T11:52:22Z",
+      "error_log": "baochinhphu-chinh-sach: HTTP Error 404: Not Found"
+    },
+    {
+      "run_id": "learn-6f10588e65",
+      "triggered_by": "CHAIRMAN_UI",
+      "scope": "all",
+      "sources_queried": 24,
+      "new_atoms_added": 26,
+      "duplicates_skipped": 174,
+      "status": "COMPLETED",
+      "started_at": "2026-11-19T11:52:04Z",
+      "finished_at": "2026-11-19T11:52:06Z",
+      "error_log": "baochinhphu-chinh-sach: HTTP Error 404: Not Found"
+    },
     {
       "run_id": "learn-ab02907836",
       "triggered_by": "CHAIRMAN_UI",
@@ -10526,8 +12613,8 @@
             "plan_vnd": 450000.0
           }
         ],
-        "tasks_total": 0,
-        "tasks_done": 0,
+        "tasks_total": 8,
+        "tasks_done": 8,
         "progress_pct": 100,
         "missions_count": 1,
         "preview_urls": [

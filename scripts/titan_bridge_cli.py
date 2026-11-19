@@ -51,7 +51,8 @@ def _vi_worker_name(slug: str) -> str:
     return WORKER_VI_NAMES.get(s.lower(), s)
 
 
-def _sync_snapshot(db: TitanDatabase, snapshot_path: Path = DEFAULT_SNAPSHOT_PATH) -> None:
+def _sync_snapshot(db: TitanDatabase, snapshot_path: Path = DEFAULT_SNAPSHOT_PATH, emit_event: bool = True) -> None:
+    db.reconcile_live_system_state(emit_event=emit_event)
     if Path(db.db_path).resolve() == DEFAULT_DB_PATH.resolve():
         save_snapshot_file(db, snapshot_path)
 

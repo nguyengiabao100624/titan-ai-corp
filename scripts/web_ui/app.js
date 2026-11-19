@@ -234,11 +234,17 @@
     activeProjectFinance: null,
     progressCat: "all",
     missionFilter: "",
+    openMissions: new Set(),
+    missionsInitialized: false,
+    knownMissionIds: new Set(),
+    progressGroupOpen: { missions: true, opps: true, learning: true, tasks: true },
+    progressExpandedLimit: { missions: false, opps: false, learning: false, tasks: false },
     taskViewMode: "grouped",
     taskBulkMode: false,
     taskGroupOpen: { WAITING_APPROVAL: true, ACTIVE: true, PENDING: true, DONE: false },
     staffStatusFilter: "",
     staffDivOpen: null,
+    autoOpenedBusyDivs: new Set(),
     newsSubView: "articles",
     newsStarFilter: "all",
     financeViewProjectId: "",
@@ -251,6 +257,7 @@
     cmdItems: [],
     sse: null,
     bridgeTimer: null,
+    bgSyncTimer: null,
     reconnectTimer: null,
     learningPollTimer: null
   };
@@ -416,16 +423,53 @@
     const st = String(raw || "IDLE").toUpperCase();
     if (st === "STUDYING" || st === "LEARNING") return "STUDYING";
     if (st === "BLOCKED" || st === "ERROR") return "BLOCKED";
-    if (st === "WORKING" || st === "BUSY" || st === "RUNNING" || st === "ACTIVE") return "WORKING";
+    if (
+      st === "WORKING" ||
+      st === "EXECUTING" ||
+      st === "RESEARCHING_TASK" ||
+      st === "IN_QA_REVIEW" ||
+      st === "WAITING_CHAIRMAN" ||
+      st === "BUSY" ||
+      st === "RUNNING" ||
+      st === "ACTIVE"
+    ) {
+      return "WORKING";
+    }
     return "IDLE";
   }
 
   function deptStatusMeta(raw) {
-    const norm = normalizeDeptStatus(raw);
+    const st = String(raw || "IDLE").toUpperCase();
+    const norm = normalizeDeptStatus(st);
+    if (st === "RESEARCHING_TASK") return { norm, label: "Đang nghiên cứu", cls: "badge-run", icon: "compass" };
+    if (st === "IN_QA_REVIEW") return { norm, label: "Đang kiểm định", cls: "badge-run", icon: "shield-check" };
+    if (st === "WAITING_CHAIRMAN") return { norm, label: "Chờ bạn duyệt", cls: "badge-wait", icon: "flag" };
     if (norm === "WORKING") return { norm, label: "Đang làm việc", cls: "badge-run", icon: "activity" };
     if (norm === "STUDYING") return { norm, label: "Đang học", cls: "badge-study", icon: "book-open" };
     if (norm === "BLOCKED") return { norm, label: "Đang bị chặn", cls: "badge-fail", icon: "alert-circle" };
     return { norm: "IDLE", label: "Sẵn sàng", cls: "badge-idle", icon: "check" };
+  }
+
+  function smartRouteDepartmentLocal(title, desc = "") {
+    const txt = `${title || ""} ${desc || ""}`.toLowerCase();
+    const rules = [
+      [/thuế|hóa đơn|kê khai/, "39"],
+      [/tài chính|giá bán|lãi|hòa vốn|lỗ|ngân sách|thu chi/, "38"],
+      [/giao diện|ui|ux|thiết kế|màu sắc|bố cục/, "08"],
+      [/web|app|code|lập trình|lỗi giao diện|tính năng/, "13"],
+      [/máy chủ|api|thanh toán|vietqr|database|csdl/, "15"],
+      [/bảo mật|hack|xâm nhập|an ninh/, "23"],
+      [/kiểm thử|test|qa|bắt lỗi/, "20"],
+      [/quảng cáo|bán hàng|zalo|video|khách hàng|chốt đơn/, "31"],
+      [/seo|nội dung|bài viết|blog/, "30"],
+      [/săn cơ hội|thị trường|đối thủ|khảo sát/, "50"],
+      [/phản biện|rủi ro|kiểm toán/, "46"],
+      [/pháp lý|hợp đồng|luật|nghị định/, "40"]
+    ];
+    for (const [re, id] of rules) {
+      if (re.test(txt)) return id;
+    }
+    return "00";
   }
 
   function formatInlineMd(rawText) {
@@ -704,6 +748,13 @@
     setListboxOptions("filter-staff-div", divFilterOptions, false);
     setListboxOptions("filter-news-div", divFilterOptions, false);
     setListboxOptions("filter-skill-div", divFilterOptions, false);
+    setListboxOptions("filter-progress-status", [
+      { value: "", label: "Mọi trạng thái" },
+      { value: "RUNNING", label: "Đang chạy" },
+      { value: "WAITING_CHAIRMAN", label: "Chờ bạn duyệt" },
+      { value: "COMPLETED", label: "Đã hoàn thành" },
+      { value: "PAUSED", label: "Tạm dừng" }
+    ], false);
     setListboxOptions("inp-ledger-type", [
       { value: "REVENUE", label: "Doanh thu (Thu)" },
       { value: "EXPENSE", label: "Chi phí (Chi)" },
@@ -1275,10 +1326,35 @@
       return { queued: true, order: ord };
     }
     if (method === "POST" && path === "/api/tasks") {
-      const nt = { task_id: `task-${Date.now()}`, kanban_column: body.kanban_column || "BACKLOG", priority: body.priority || "HIGH", ...body };
+      const resolvedDept = (!body.assigned_dept_id || body.assigned_dept_id === "AUTO")
+        ? smartRouteDepartmentLocal(body.title, body.description)
+        : body.assigned_dept_id;
+      const dispatchNow = Boolean(body.dispatch_now);
+      const nt = {
+        task_id: `task-${Date.now()}`,
+        kanban_column: dispatchNow ? "IN_PROGRESS" : (body.kanban_column || "BACKLOG"),
+        priority: body.priority || "HIGH",
+        ...body,
+        assigned_dept_id: resolvedDept
+      };
       state.tasks.unshift(nt);
+      let ord = null;
+      if (dispatchNow) {
+        ord = {
+          order_id: `ord-${Date.now().toString(36)}`,
+          order_type: "EXECUTE_TASK",
+          task_id: nt.task_id,
+          title: nt.title,
+          instructions: nt.description || nt.title,
+          source_device: "web-online",
+          status: "PENDING",
+          created_at: new Date().toISOString()
+        };
+        state.orders.unshift(ord);
+        pushRemoteOrderToCloud(ord).catch(() => {});
+      }
       saveOfflineViewCache();
-      return nt;
+      return { ...nt, dispatched: dispatchNow, order: ord, assigned_dept_title_vi: deptTitle(resolvedDept) };
     }
     if (method === "POST" && path.endsWith("/duplicate")) {
       const tid = path.split("/")[3];
@@ -1638,14 +1714,26 @@
       }
     }
 
-    const busyStaff = state.departments.filter((d) => normalizeDeptStatus(d.status) !== "IDLE").length;
-    const readyPct = Math.round(((staffTotal - busyStaff) / Math.max(1, staffTotal)) * 100);
+    const workingStaff = state.departments.filter((d) => normalizeDeptStatus(d.status) === "WORKING").length;
+    const studyingStaff = state.departments.filter((d) => normalizeDeptStatus(d.status) === "STUDYING").length;
+    const blockedStaff = state.departments.filter((d) => normalizeDeptStatus(d.status) === "BLOCKED").length;
+    const idleStaff = Math.max(0, staffTotal - workingStaff - studyingStaff - blockedStaff);
+    const busyStaff = workingStaff + studyingStaff + blockedStaff;
+    const readyPct = Math.round((idleStaff / Math.max(1, staffTotal)) * 100);
     const sideSummary = document.getElementById("sidebar-staff-summary");
     const sideFill = document.getElementById("sidebar-readiness-fill");
     if (sideSummary) {
-      sideSummary.textContent = busyStaff > 0
-        ? `${busyStaff} phòng đang hoạt động, ${staffTotal - busyStaff} phòng sẵn sàng`
-        : `${staffTotal} phòng chuyên gia sẵn sàng nhận đề bài`;
+      if (workingStaff > 0 && studyingStaff > 0) {
+        sideSummary.textContent = `${workingStaff} phòng đang làm việc, ${studyingStaff} đang học, ${idleStaff} sẵn sàng`;
+      } else if (workingStaff > 0) {
+        sideSummary.textContent = `${workingStaff} phòng đang làm việc, ${idleStaff} sẵn sàng`;
+      } else if (studyingStaff > 0) {
+        sideSummary.textContent = `${studyingStaff} phòng đang học, ${idleStaff} sẵn sàng`;
+      } else if (blockedStaff > 0) {
+        sideSummary.textContent = `${blockedStaff} phòng đang bị chặn, ${idleStaff} sẵn sàng`;
+      } else {
+        sideSummary.textContent = `${staffTotal} phòng chuyên gia sẵn sàng nhận đề bài`;
+      }
     }
     if (sideFill) sideFill.style.inlineSize = `${Math.max(10, readyPct)}%`;
 
@@ -1734,7 +1822,7 @@
               ${m.final_summary ? `<div class="step-summary">${esc(sanitizeUiVietnamese(m.final_summary.split("\n")[0]))}</div>` : ""}
             </div>
             <div class="row-actions">
-              <button type="button" class="btn btn-xs" data-goto-missions>Xem chi tiết</button>
+              <button type="button" class="btn btn-xs" data-open-mission="${esc(m.mission_id)}">Xem chi tiết</button>
               <button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${approveLabel}</button>
               <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">${ico("rotate-ccw")}<span>Sửa lại</span></button>
               <button type="button" class="btn btn-xs btn-destructive" data-del-msn="${esc(m.mission_id)}">${ico("trash")}<span>Xóa</span></button>
@@ -1750,6 +1838,7 @@
               <div class="row-meta">Việc lẻ: Phòng #${esc(t.assigned_dept_id)} (${esc(deptTitle(t.assigned_dept_id))}) trình duyệt</div>
             </div>
             <div class="row-actions">
+              <button type="button" class="btn btn-xs" data-open-task-jump="${esc(t.task_id)}">Xem chi tiết</button>
               <button type="button" class="btn btn-xs btn-primary" data-approve-task="${esc(t.task_id)}">${ico("check")}<span>Chấp nhận</span></button>
               <button type="button" class="btn btn-xs" data-reject-task="${esc(t.task_id)}">${ico("rotate-ccw")}<span>Làm lại</span></button>
               <button type="button" class="btn btn-xs btn-destructive" data-del-task="${esc(t.task_id)}">${ico("trash")}<span>Xóa</span></button>
@@ -2076,6 +2165,30 @@
     `;
   }
 
+  function syncOpenMissionsDefaults() {
+    if (!state.missionsInitialized) {
+      let opened = 0;
+      state.missions.forEach((m) => {
+        state.knownMissionIds.add(m.mission_id);
+        const isActive = m.status === "RUNNING" || m.status === "WAITING_CHAIRMAN";
+        if (isActive && opened < 2) {
+          state.openMissions.add(m.mission_id);
+          opened += 1;
+        }
+      });
+      state.missionsInitialized = true;
+      return;
+    }
+    state.missions.forEach((m) => {
+      if (!state.knownMissionIds.has(m.mission_id)) {
+        state.knownMissionIds.add(m.mission_id);
+        if (m.status === "RUNNING" || m.status === "WAITING_CHAIRMAN") {
+          state.openMissions.add(m.mission_id);
+        }
+      }
+    });
+  }
+
   function buildMissionCardHtml(m) {
     let swarmWorkers = [];
     try { swarmWorkers = JSON.parse(m.swarm_workers_json || "[]"); } catch (_e) {}
@@ -2084,6 +2197,11 @@
 
     const isProposalGate = m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8;
     const isProductionPhase = m.phase === "PRODUCTION";
+    const isOpen = state.openMissions.has(m.mission_id);
+    const doneSteps = (m.steps || []).filter((s) => s.status === "DONE").length;
+    const totalSteps = m.total_steps || (m.steps || []).length || 8;
+    const pct = Number(m.progress_pct || 0);
+
     const phaseBadge = isProductionPhase
       ? `<span class="badge badge-run">${ico("layers")}<span>Giai đoạn 2: Sản xuất Sản phẩm Cuối</span></span>`
       : m.phase === "DELIVERED"
@@ -2092,12 +2210,19 @@
 
     const stBadge =
       m.status === "COMPLETED" ? `<span class="badge badge-done">${ico("check")}<span>Đã nghiệm thu hoàn tất</span></span>` :
-      (m.status === "WAITING_CHAIRMAN" && isProposalGate) ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ duyệt kèo -> Sản xuất sản phẩm</span></span>` :
-      m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ nghiệm thu Sản phẩm Cuối</span></span>` :
-      m.status === "PAUSED" ? `<span class="badge badge-idle">${ico("pause")}<span>Đang tạm dừng</span></span>` :
-      isSwarm ? `<span class="badge badge-run">${ico("activity")}<span>Đang thực thi: Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>` :
-      isQueued ? `<span class="badge badge-wait">${ico("clock")}<span>Đã đưa vào hàng đợi trực tuyến</span></span>` :
-      `<span class="badge badge-run">${ico("activity")}<span>Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>`;
+      (m.status === "WAITING_CHAIRMAN" && isProposalGate) ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ duyệt chốt kèo</span></span>` :
+      m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ nghiệm thu cuối</span></span>` :
+      m.status === "PAUSED" ? `<span class="badge badge-idle">${ico("pause")}<span>Tạm dừng</span></span>` :
+      isSwarm ? `<span class="badge badge-run">${ico("activity")}<span>Đang chạy: Bước ${m.current_step_order || 1}/${totalSteps}</span></span>` :
+      isQueued ? `<span class="badge badge-wait">${ico("clock")}<span>Đang xếp hàng trực tuyến</span></span>` :
+      `<span class="badge badge-run">${ico("activity")}<span>Bước ${m.current_step_order || 1}/${totalSteps}</span></span>`;
+
+    const quickHeaderCta =
+      m.status === "WAITING_CHAIRMAN"
+        ? `<button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${ico("check")}<span>Duyệt ngay</span></button>`
+        : m.project_id
+        ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}"><span>Mở dự án</span>${ico("arrow-right")}</button>`
+        : "";
 
     const uniqueWorkerNames = Array.from(new Set(swarmWorkers.map((w) => viWorkerLabel(w)).filter(Boolean)));
     const workerChipsHtml = uniqueWorkerNames.length
@@ -2159,54 +2284,74 @@
       `<div class="stepper-list">${stepsHtml}</div>`;
 
     return `
-      <article class="mission-card">
-        <div class="mission-header">
-          <div class="mission-title-group">
-            <h3 class="mission-title">${esc(sanitizeUiVietnamese(m.title))}</h3>
-            <div class="mission-badges">${phaseBadge}${stBadge}</div>
-            ${workerChipsHtml}
-          </div>
-
-          <div class="progress-row">
-            <span class="mono doc-name-label">${m.progress_pct || 0}%</span>
-            <div class="progress-track">
-              <div class="progress-fill" style="inline-size:${m.progress_pct || 0}%;"></div>
-            </div>
-
-            <div class="action-group">
-              ${m.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}"><span>Mở dự án</span>${ico("arrow-right")}</button>` : ""}
-              ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-handoff="${esc(m.mission_id)}">${ico("copy")}<span>Sao chép lệnh</span></button>` : ""}
-              ${m.status === "WAITING_CHAIRMAN" ? `
-                <button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${ico("check")}<span>${isProposalGate ? "Duyệt kèo -> Sản xuất sản phẩm" : "Nghiệm thu Sản phẩm Cuối"}</span></button>
-                <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">${ico("rotate-ccw")}<span>Gửi lại sửa</span></button>
-              ` : ""}
-              ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">${ico("pause")}<span>Tạm dừng</span></button>` : ""}
-              ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">${ico("play")}<span>Chạy tiếp</span></button>` : ""}
-              <button type="button" class="btn btn-xs" data-edit-msn="${esc(m.mission_id)}">${ico("pencil")}<span>Sửa</span></button>
-              <button type="button" class="btn btn-xs btn-destructive" data-del-msn="${esc(m.mission_id)}">${ico("trash")}<span>Xóa</span></button>
-            </div>
+      <article class="mission-acc-card" data-mission-card="${esc(m.mission_id)}">
+        <div class="mission-acc-head-bar">
+          <button type="button" class="mission-acc-toggle" aria-expanded="${isOpen ? "true" : "false"}" data-toggle-mission="${esc(m.mission_id)}">
+            ${ico("chevron-down", "ico-sm acc-chevron")}
+            <span class="mission-acc-title">${esc(sanitizeUiVietnamese(m.title))}</span>
+          </button>
+          <div class="mission-acc-meta">
+            ${stBadge}
+            <span class="mission-acc-mini-prog mono">
+              <span class="mission-acc-mini-track" aria-hidden="true"><span class="progress-fill" style="display:block;inline-size:${Math.max(4, pct)}%;"></span></span>
+              <span>${doneSteps}/${totalSteps} bước, ${pct}%</span>
+            </span>
+            ${quickHeaderCta}
           </div>
         </div>
 
-        <div class="room-subnav">
-          <div class="segmented" role="tablist" aria-label="Chế độ phòng họp trực tiếp">
-            <button type="button" class="seg-btn ${activeSubTab === "steps" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "steps" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:steps">
-              ${ico("layers")}<span>Tiến độ ${m.total_steps || 8} bước</span>
-            </button>
-            <button type="button" class="seg-btn ${activeSubTab === "board" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "board" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:board">
-              ${ico("message-square")}<span>Bảng trao đổi (${msnMsgs.length})</span>
-            </button>
-            <button type="button" class="seg-btn ${activeSubTab === "members" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "members" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:members">
-              ${ico("users")}<span>Đội ngũ tham gia (${msnMembers.length})</span>
-            </button>
-            <button type="button" class="seg-btn ${activeSubTab === "graph" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "graph" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:graph">
-              ${ico("git-branch")}<span>Sơ đồ chuyền việc</span>
-            </button>
-          </div>
-          <span class="room-caption">Phòng họp trực tiếp: 100% Tiếng Việt</span>
-        </div>
+        <div class="acc-panel ${isOpen ? "open" : ""}" data-mission-panel="${esc(m.mission_id)}">
+          <div class="acc-inner">
+            <div class="mission-acc-body">
+              <div class="mission-header">
+                <div class="mission-title-group">
+                  <div class="mission-badges">${phaseBadge}${stBadge}</div>
+                  ${workerChipsHtml}
+                </div>
 
-        ${bodyHtml}
+                <div class="progress-row">
+                  <span class="mono doc-name-label">${pct}%</span>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="inline-size:${pct}%;"></div>
+                  </div>
+
+                  <div class="action-group">
+                    ${m.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}"><span>Mở dự án</span>${ico("arrow-right")}</button>` : ""}
+                    ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-handoff="${esc(m.mission_id)}">${ico("copy")}<span>Sao chép lệnh</span></button>` : ""}
+                    ${m.status === "WAITING_CHAIRMAN" ? `
+                      <button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${ico("check")}<span>${isProposalGate ? "Duyệt kèo -> Sản xuất sản phẩm" : "Nghiệm thu Sản phẩm Cuối"}</span></button>
+                      <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">${ico("rotate-ccw")}<span>Gửi lại sửa</span></button>
+                    ` : ""}
+                    ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">${ico("pause")}<span>Tạm dừng</span></button>` : ""}
+                    ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">${ico("play")}<span>Chạy tiếp</span></button>` : ""}
+                    <button type="button" class="btn btn-xs" data-edit-msn="${esc(m.mission_id)}">${ico("pencil")}<span>Sửa</span></button>
+                    <button type="button" class="btn btn-xs btn-destructive" data-del-msn="${esc(m.mission_id)}">${ico("trash")}<span>Xóa</span></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="room-subnav">
+                <div class="segmented" role="tablist" aria-label="Chế độ phòng họp trực tiếp">
+                  <button type="button" class="seg-btn ${activeSubTab === "steps" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "steps" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:steps">
+                    ${ico("layers")}<span>Tiến độ ${totalSteps} bước</span>
+                  </button>
+                  <button type="button" class="seg-btn ${activeSubTab === "board" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "board" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:board">
+                    ${ico("message-square")}<span>Bảng trao đổi (${msnMsgs.length})</span>
+                  </button>
+                  <button type="button" class="seg-btn ${activeSubTab === "members" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "members" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:members">
+                    ${ico("users")}<span>Đội ngũ tham gia (${msnMembers.length})</span>
+                  </button>
+                  <button type="button" class="seg-btn ${activeSubTab === "graph" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "graph" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:graph">
+                    ${ico("git-branch")}<span>Sơ đồ chuyền việc</span>
+                  </button>
+                </div>
+                <span class="room-caption">Phòng họp trực tiếp: 100% Tiếng Việt</span>
+              </div>
+
+              ${bodyHtml}
+            </div>
+          </div>
+        </div>
       </article>
     `;
   }
@@ -2234,10 +2379,52 @@
     `;
   }
 
-  function renderLearningRunsSectionHtml(limit = 20) {
-    const runs = (state.learningRuns || []).slice(0, limit);
+  function matchProgressStatus(itemStatus, filterVal) {
+    if (!filterVal) return true;
+    const st = String(itemStatus || "").toUpperCase();
+    if (filterVal === "RUNNING") return ["RUNNING", "PENDING", "CLAIMED", "IN_PROGRESS"].includes(st);
+    if (filterVal === "WAITING_CHAIRMAN") return st === "WAITING_CHAIRMAN" || st === "WAITING_APPROVAL";
+    if (filterVal === "COMPLETED") return st === "COMPLETED" || st === "DONE";
+    if (filterVal === "PAUSED") return st === "PAUSED" || st === "FAILED";
+    return st === filterVal;
+  }
+
+  function wrapProgressGroupHtml(groupKey, title, totalCount, shownCount, bodyHtml, headerActionHtml = "") {
+    const isOpen = state.progressGroupOpen[groupKey] !== false;
+    const isExpanded = Boolean(state.progressExpandedLimit[groupKey]);
+    const remaining = Math.max(0, totalCount - shownCount);
+    const footerHtml = remaining > 0
+      ? `<div class="show-more-row"><button type="button" class="btn btn-xs" data-expand-pgroup="${esc(groupKey)}">Xem thêm (${remaining} mục)</button></div>`
+      : (isExpanded && totalCount > 5
+        ? `<div class="show-more-row"><button type="button" class="btn btn-xs" data-collapse-pgroup="${esc(groupKey)}">Thu gọn bớt</button></div>`
+        : "");
+
+    return `
+      <div class="acc-card">
+        <div class="acc-trigger" role="presentation">
+          <button type="button" class="mission-acc-toggle" aria-expanded="${isOpen ? "true" : "false"}" data-toggle-pgroup="${esc(groupKey)}">
+            ${ico("chevron-down", "ico-sm acc-chevron")}
+            <span>${esc(title)}</span>
+            <span class="badge badge-idle">${totalCount}</span>
+          </button>
+          <span class="acc-trigger-right">${headerActionHtml}</span>
+        </div>
+        <div class="acc-panel ${isOpen ? "open" : ""}" data-pgroup-panel="${esc(groupKey)}">
+          <div class="acc-inner">
+            <div class="acc-body">
+              ${bodyHtml}
+              ${footerHtml}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderLearningRunsSectionHtml(runsInput, asGroupCard = true) {
+    const allRuns = Array.isArray(runsInput) ? runsInput : (state.learningRuns || []);
     const liveHtml = renderLearningProgressCardHtml();
-    if (!runs.length && !liveHtml) {
+    if (!allRuns.length && !liveHtml) {
       return `
         <div class="empty-state">
           <h3>Chưa có đợt học tri thức hoặc nạp kỹ năng nào</h3>
@@ -2246,50 +2433,61 @@
         </div>
       `;
     }
+    const showAll = Boolean(state.progressExpandedLimit.learning);
+    const visible = showAll ? allRuns : allRuns.slice(0, 5);
+    const listHtml = visible.length ? `
+      <div class="hairline-list">
+        ${visible.map((r) => {
+          const isSkill = String(r.scope || "").startsWith("skills:");
+          const scopeLabel = isSkill ? "Nạp kỹ năng GitHub" : (r.scope === "all" ? "Toàn tập đoàn (24 nguồn)" : `Phạm vi: ${sanitizeUiVietnamese(r.scope || "tổng hợp")}`);
+          const added = Number(r.new_atoms_added ?? r.articles_added ?? 0);
+          const skipped = Number(r.duplicates_skipped ?? 0);
+          const scanned = Number(r.sources_queried ?? r.sources_scanned ?? r.sources_total ?? 0);
+          const errCnt = Number(r.errors_count ?? (r.error_log ? String(r.error_log).split(/\n|;/).filter((x) => x.trim()).length : 0));
+          const summary = r.summary_vi
+            ? sanitizeUiVietnamese(r.summary_vi)
+            : `Đã quét ${scanned} nguồn: nạp mới ${added} bài, bỏ qua ${skipped} bài đã có trong kho.`;
+          return `
+            <div class="list-row">
+              <div class="row-main">
+                <div class="action-group">
+                  <span class="badge ${isSkill ? "badge-study" : "badge-done"}">${ico(isSkill ? "layers" : "book-open")}<span>${esc(scopeLabel)}</span></span>
+                  <span class="mono row-meta">${esc(shortDate(r.finished_at || r.started_at))} ${esc(shortTime(r.finished_at || r.started_at))}</span>
+                </div>
+                <div class="row-title">${esc(summary)}</div>
+                <div class="row-meta">Nạp mới: ${added}, Bỏ qua trùng: ${skipped}, Lỗi nguồn: ${errCnt}</div>
+              </div>
+              <div class="row-actions">
+                <button type="button" class="btn btn-xs" data-goto-news="${isSkill ? "skills" : "articles"}">Xem kho</button>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    ` : "";
+
+    const actionBtn = `<button type="button" class="btn btn-xs btn-primary" data-trigger-learn-all>${ico("refresh-cw")}<span>Quét báo mới</span></button>`;
+    if (asGroupCard) {
+      return `${liveHtml}${wrapProgressGroupHtml("learning", "Đợt học tri thức và Kỹ năng", allRuns.length, visible.length, listHtml, actionBtn)}`;
+    }
+    const remaining = Math.max(0, allRuns.length - visible.length);
     return `
       <div class="section-block">
         ${liveHtml}
         <div class="sec-head">
-          <h2 class="sec-title">Lịch sử Học tri thức và Kỹ năng (${runs.length})</h2>
-          <button type="button" class="btn btn-xs btn-primary" data-trigger-learn-all>${ico("refresh-cw")}<span>Quét báo mới ngay</span></button>
+          <h2 class="sec-title">Lịch sử Học tri thức và Kỹ năng (${allRuns.length})</h2>
+          ${actionBtn}
         </div>
-        ${runs.length ? `
-          <div class="hairline-list">
-            ${runs.map((r) => {
-              const isSkill = String(r.scope || "").startsWith("skills:");
-              const scopeLabel = isSkill ? "Nạp kỹ năng GitHub" : (r.scope === "all" ? "Toàn tập đoàn (24 nguồn)" : `Phạm vi: ${sanitizeUiVietnamese(r.scope || "tổng hợp")}`);
-              const added = Number(r.new_atoms_added ?? r.articles_added ?? 0);
-              const skipped = Number(r.duplicates_skipped ?? 0);
-              const scanned = Number(r.sources_queried ?? r.sources_scanned ?? r.sources_total ?? 0);
-              const errCnt = Number(r.errors_count ?? (r.error_log ? String(r.error_log).split(/\n|;/).filter((x) => x.trim()).length : 0));
-              const summary = r.summary_vi
-                ? sanitizeUiVietnamese(r.summary_vi)
-                : `Đã quét ${scanned} nguồn: nạp mới ${added} bài, bỏ qua ${skipped} bài đã có trong kho.`;
-              return `
-                <div class="list-row">
-                  <div class="row-main">
-                    <div class="action-group">
-                      <span class="badge ${isSkill ? "badge-study" : "badge-done"}">${ico(isSkill ? "layers" : "book-open")}<span>${esc(scopeLabel)}</span></span>
-                      <span class="mono row-meta">${esc(shortDate(r.finished_at || r.started_at))} ${esc(shortTime(r.finished_at || r.started_at))}</span>
-                    </div>
-                    <div class="row-title">${esc(summary)}</div>
-                    <div class="row-meta">Nạp mới: ${added}, Bỏ qua trùng: ${skipped}, Lỗi nguồn: ${errCnt}</div>
-                  </div>
-                  <div class="row-actions">
-                    <button type="button" class="btn btn-xs" data-goto-news="${isSkill ? "skills" : "articles"}">Xem kho</button>
-                  </div>
-                </div>
-              `;
-            }).join("")}
-          </div>
-        ` : ""}
+        ${listHtml}
+        ${remaining > 0 ? `<div class="show-more-row"><button type="button" class="btn btn-xs" data-expand-pgroup="learning">Xem thêm (${remaining} mục)</button></div>` : ""}
       </div>
     `;
   }
 
-  function renderOrdersSectionHtml(orderType, title, emptyMsg, actionHtml) {
-    const items = (state.orders || []).filter((o) => o.order_type === orderType);
+  function renderOrdersSectionHtml(itemsInput, orderType, groupKey, title, emptyMsg, actionHtml, asGroupCard = true) {
+    const items = Array.isArray(itemsInput) ? itemsInput : (state.orders || []).filter((o) => o.order_type === orderType);
     if (!items.length) {
+      if (asGroupCard) return "";
       return `
         <div class="empty-state">
           <h3>${esc(title)}</h3>
@@ -2298,58 +2496,73 @@
         </div>
       `;
     }
+    const showAll = Boolean(state.progressExpandedLimit[groupKey]);
+    const visible = showAll ? items : items.slice(0, 5);
+    const listHtml = `
+      <div class="hairline-list">
+        ${visible.map((o) => {
+          const st = ORDER_STATUS_VI[String(o.status || "PENDING").toUpperCase()] || ORDER_STATUS_VI.PENDING;
+          const detail = sanitizeUiVietnamese(o.result_summary || o.instructions || "");
+          return `
+            <div class="list-row">
+              <div class="row-main">
+                <div class="action-group">
+                  <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+                  <span class="mono row-meta">${esc(shortDate(o.created_at))} ${esc(shortTime(o.created_at))}</span>
+                </div>
+                <div class="row-title">${esc(sanitizeUiVietnamese(o.title || o.order_id))}</div>
+                ${detail ? `<div class="row-meta">${esc(detail)}</div>` : ""}
+              </div>
+              <div class="row-actions">
+                ${orderType === "SCAN_OPPORTUNITIES"
+                  ? `<button type="button" class="btn btn-xs" data-goto-tab="command">Xem cơ hội</button>`
+                  : (o.task_id
+                    ? `<button type="button" class="btn btn-xs" data-open-task-jump="${esc(o.task_id)}">Mở chi tiết</button>`
+                    : `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Mở bảng việc</button>`)
+                }
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+
+    if (asGroupCard) {
+      return wrapProgressGroupHtml(groupKey, title, items.length, visible.length, listHtml, actionHtml);
+    }
+    const remaining = Math.max(0, items.length - visible.length);
     return `
       <div class="section-block">
         <div class="sec-head">
           <h2 class="sec-title">${esc(title)} (${items.length})</h2>
           ${actionHtml}
         </div>
-        <div class="hairline-list">
-          ${items.map((o) => {
-            const st = ORDER_STATUS_VI[String(o.status || "PENDING").toUpperCase()] || ORDER_STATUS_VI.PENDING;
-            const detail = sanitizeUiVietnamese(o.result_summary || o.instructions || "");
-            return `
-              <div class="list-row">
-                <div class="row-main">
-                  <div class="action-group">
-                    <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
-                    <span class="mono row-meta">${esc(shortDate(o.created_at))} ${esc(shortTime(o.created_at))}</span>
-                  </div>
-                  <div class="row-title">${esc(sanitizeUiVietnamese(o.title || o.order_id))}</div>
-                  ${detail ? `<div class="row-meta">${esc(detail)}</div>` : ""}
-                </div>
-                <div class="row-actions">
-                  ${orderType === "SCAN_OPPORTUNITIES"
-                    ? `<button type="button" class="btn btn-xs" data-goto-tab="command">Xem cơ hội</button>`
-                    : `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Mở bảng việc</button>`
-                  }
-                </div>
-              </div>
-            `;
-          }).join("")}
-        </div>
+        ${listHtml}
+        ${remaining > 0 ? `<div class="show-more-row"><button type="button" class="btn btn-xs" data-expand-pgroup="${esc(groupKey)}">Xem thêm (${remaining} mục)</button></div>` : ""}
       </div>
     `;
   }
 
   function renderProgressTab() {
-    const oppOrders = (state.orders || []).filter((o) => o.order_type === "SCAN_OPPORTUNITIES");
-    const taskOrders = (state.orders || []).filter((o) => o.order_type === "EXECUTE_TASK");
+    syncOpenMissionsDefaults();
+
+    const oppOrdersAll = (state.orders || []).filter((o) => o.order_type === "SCAN_OPPORTUNITIES");
+    const taskOrdersAll = (state.orders || []).filter((o) => o.order_type === "EXECUTE_TASK");
     const runningM = state.missions.filter((m) => m.status === "RUNNING").length;
-    const activeOrdersCnt = (state.orders || []).filter((o) => ["PENDING", "RUNNING", "IN_PROGRESS"].includes(String(o.status || "").toUpperCase())).length;
+    const activeOrdersCnt = (state.orders || []).filter((o) => ["PENDING", "CLAIMED", "RUNNING", "IN_PROGRESS"].includes(String(o.status || "").toUpperCase())).length;
     const learningRunning = Boolean(state.learningProgress && state.learningProgress.running);
     const totalActive = runningM + activeOrdersCnt + (learningRunning ? 1 : 0);
 
     document.getElementById("prog-hero-active").textContent = totalActive;
     document.getElementById("prog-cnt-missions").textContent = state.missions.length;
-    document.getElementById("prog-cnt-opps").textContent = oppOrders.length;
+    document.getElementById("prog-cnt-opps").textContent = oppOrdersAll.length;
     document.getElementById("prog-cnt-learning").textContent = state.learningRuns.length;
 
     const noteEl = document.getElementById("prog-hero-note");
     if (noteEl) {
       noteEl.textContent = totalActive > 0
         ? `Đang có ${totalActive} hoạt động chạy trực tuyến (${runningM} dự án 8 bước, ${activeOrdersCnt} lệnh xử lý${learningRunning ? ", 1 đợt quét báo mới" : ""}).`
-        : "Tất cả luồng xử lý hiện đã ổn định. Xem chi tiết từng nhóm bên dưới.";
+        : "Tất cả luồng xử lý hiện đã ổn định. Nhấn vào từng thẻ để mở rộng chi tiết.";
     }
 
     document.querySelectorAll("#progress-cat-tabs .seg-btn").forEach((b) => {
@@ -2358,89 +2571,178 @@
       b.setAttribute("aria-selected", on ? "true" : "false");
     });
 
-    const subFilterRow = document.getElementById("mission-filter-tabs");
     const subFilterAct = document.getElementById("mission-subfilter-actions");
-    const showMissionFilters = state.progressCat === "missions";
-    subFilterRow.classList.toggle("is-hidden", !showMissionFilters);
-    subFilterAct.classList.toggle("is-hidden", !(state.progressCat === "missions" || state.progressCat === "all"));
+    if (subFilterAct) subFilterAct.classList.toggle("is-hidden", !(state.progressCat === "missions" || state.progressCat === "all"));
+
+    const searchInp = document.getElementById("progress-search-input");
+    const q = (searchInp ? searchInp.value : "").trim().toLowerCase();
+    const statusFilter = getListboxValue("filter-progress-status") || "";
+
+    const filteredMissions = state.missions.filter((m) => {
+      if (!matchProgressStatus(m.status, statusFilter)) return false;
+      if (q && !`${m.title} ${m.goal_prompt || ""}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    const filteredOpps = oppOrdersAll.filter((o) => {
+      if (!matchProgressStatus(o.status, statusFilter)) return false;
+      if (q && !`${o.title || ""} ${o.result_summary || ""} ${o.instructions || ""}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    const filteredTasks = taskOrdersAll.filter((o) => {
+      if (!matchProgressStatus(o.status, statusFilter)) return false;
+      if (q && !`${o.title || ""} ${o.result_summary || ""} ${o.instructions || ""}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    const filteredLearning = (state.learningRuns || []).filter((r) => {
+      if (!matchProgressStatus(r.status || "COMPLETED", statusFilter)) return false;
+      if (q && !`${r.scope || ""} ${r.summary_vi || ""}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    // Update Collapse All / Expand All button label
+    const toggleAllBtn = document.getElementById("btn-toggle-all-progress");
+    if (toggleAllBtn) {
+      const anyMissionOpen = filteredMissions.some((m) => state.openMissions.has(m.mission_id));
+      const anyGroupOpen = state.progressCat === "all" && Object.values(state.progressGroupOpen).some(Boolean);
+      toggleAllBtn.textContent = (anyMissionOpen || (state.progressCat === "all" && anyGroupOpen && !filteredMissions.length))
+        ? "Thu gọn hết"
+        : "Mở tất cả";
+    }
 
     const box = document.getElementById("progress-content-container");
-    const filteredMissions = state.missions.filter((m) => !state.missionFilter || m.status === state.missionFilter);
-
     if (state.progressCat === "missions") {
       if (!filteredMissions.length) {
         box.innerHTML = `
           <div class="empty-state">
-            <h3>Chưa có dự án 8 bước nào ở trạng thái này</h3>
-            <p>Giao một đề bài mới để xem toàn bộ 8 bước thực thi, phản biện rủi ro và kiểm thử khách hàng trực tiếp tại đây.</p>
+            <h3>Không có dự án 8 bước nào khớp bộ lọc</h3>
+            <p>Thử xóa từ khóa tìm kiếm, đổi trạng thái hoặc giao một đề bài mới cho toàn tập đoàn.</p>
             <button type="button" class="btn btn-primary" data-goto-tab="command">${ico("plus")}<span>Giao nhiệm vụ mới</span></button>
           </div>
         `;
       } else {
-        box.innerHTML = filteredMissions.map(buildMissionCardHtml).join("");
+        const showAll = Boolean(state.progressExpandedLimit.missions);
+        const visibleM = showAll ? filteredMissions : filteredMissions.slice(0, 5);
+        const rem = Math.max(0, filteredMissions.length - visibleM.length);
+        box.innerHTML = `
+          ${visibleM.map(buildMissionCardHtml).join("")}
+          ${rem > 0 ? `<div class="show-more-row"><button type="button" class="btn btn-xs" data-expand-pgroup="missions">Xem thêm (${rem} mục)</button></div>` : ""}
+        `;
       }
     } else if (state.progressCat === "opps") {
       box.innerHTML = renderOrdersSectionHtml(
+        filteredOpps,
         "SCAN_OPPORTUNITIES",
+        "opps",
         "Đợt săn cơ hội kiếm tiền",
-        "Chưa có đợt săn cơ hội nào gần đây. Bấm nút bên dưới để Phòng #50 và #46 quét cơ hội mới.",
-        `<button type="button" class="btn btn-xs btn-primary" data-trigger-scan-opps>${ico("compass")}<span>Săn cơ hội mới</span></button>`
+        "Chưa có đợt săn cơ hội nào khớp bộ lọc. Bấm nút bên dưới để Phòng #50 và #46 quét cơ hội mới.",
+        `<button type="button" class="btn btn-xs btn-primary" data-trigger-scan-opps>${ico("compass")}<span>Săn cơ hội mới</span></button>`,
+        false
       );
     } else if (state.progressCat === "learning") {
-      box.innerHTML = renderLearningRunsSectionHtml(25);
+      box.innerHTML = renderLearningRunsSectionHtml(filteredLearning, false);
     } else if (state.progressCat === "tasks") {
       box.innerHTML = renderOrdersSectionHtml(
+        filteredTasks,
         "EXECUTE_TASK",
+        "tasks",
         "Đầu việc lẻ giao chuyên gia",
-        "Chưa có đầu việc lẻ nào được giao chạy tự động. Mở Bảng việc và bấm Giao AI làm trên một công việc bất kỳ.",
-        `<button type="button" class="btn btn-xs btn-primary" data-goto-tab="tasks">${ico("check-square")}<span>Mở bảng việc</span></button>`
+        "Chưa có đầu việc lẻ nào khớp bộ lọc. Mở Bảng việc hoặc bấm Thêm việc để giao AI làm ngay.",
+        `<button type="button" class="btn btn-xs btn-primary" data-goto-tab="tasks">${ico("check-square")}<span>Mở bảng việc</span></button>`,
+        false
       );
     } else {
-      // Unified real-time feed: Live learning + Recent orders + Learning runs + 8-step missions
       const parts = [];
       const liveCard = renderLearningProgressCardHtml();
       if (liveCard) parts.push(liveCard);
 
-      if (oppOrders.length) {
+      if (filteredMissions.length) {
+        const showAllM = Boolean(state.progressExpandedLimit.missions);
+        const visibleM = showAllM ? filteredMissions : filteredMissions.slice(0, 5);
+        const mBody = `<div class="mission-list" style="padding:var(--space-3);">${visibleM.map(buildMissionCardHtml).join("")}</div>`;
+        parts.push(wrapProgressGroupHtml("missions", "Dự án 8 bước", filteredMissions.length, visibleM.length, mBody));
+      }
+      if (filteredOpps.length) {
         parts.push(renderOrdersSectionHtml(
+          filteredOpps,
           "SCAN_OPPORTUNITIES",
-          "Đợt săn cơ hội gần đây",
+          "opps",
+          "Đợt săn cơ hội",
           "",
-          `<button type="button" class="btn btn-xs" data-trigger-scan-opps>${ico("compass")}<span>Săn cơ hội mới</span></button>`
+          `<button type="button" class="btn btn-xs" data-trigger-scan-opps>${ico("compass")}<span>Săn cơ hội mới</span></button>`,
+          true
         ));
       }
-      if (state.missions.length) {
-        parts.push(`
-          <div class="section-block">
-            <div class="sec-head">
-              <h2 class="sec-title">Dự án 8 bước (${state.missions.length})</h2>
-            </div>
-            <div class="mission-list">${state.missions.map(buildMissionCardHtml).join("")}</div>
-          </div>
-        `);
-      }
-      if (taskOrders.length) {
+      if (filteredTasks.length) {
         parts.push(renderOrdersSectionHtml(
+          filteredTasks,
           "EXECUTE_TASK",
-          "Đầu việc giao AI gần đây",
+          "tasks",
+          "Đầu việc giao AI",
           "",
-          `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Xem bảng việc</button>`
+          `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Xem bảng việc</button>`,
+          true
         ));
       }
-      if (state.learningRuns.length) {
-        parts.push(renderLearningRunsSectionHtml(5));
+      if (filteredLearning.length) {
+        parts.push(renderLearningRunsSectionHtml(filteredLearning, true));
       }
       if (!parts.length) {
         parts.push(`
           <div class="empty-state">
-            <h3>Chưa có hoạt động nào đang chạy</h3>
-            <p>Giao một nhiệm vụ mới, săn cơ hội hoặc quét báo mới để theo dõi tiến độ toàn tập đoàn tại đây.</p>
+            <h3>Không tìm thấy hoạt động nào khớp bộ lọc</h3>
+            <p>Thử đổi từ khóa hoặc trạng thái, hoặc giao một nhiệm vụ mới để theo dõi trực tiếp tại đây.</p>
             <button type="button" class="btn btn-primary" data-goto-tab="command">${ico("plus")}<span>Bắt đầu giao việc</span></button>
           </div>
         `);
       }
       box.innerHTML = parts.join("");
     }
+
+    // Bind mission accordion toggles
+    box.querySelectorAll("[data-toggle-mission]").forEach((btn) => {
+      btn.onclick = () => {
+        const mid = btn.getAttribute("data-toggle-mission");
+        const nextOpen = !state.openMissions.has(mid);
+        if (nextOpen) state.openMissions.add(mid);
+        else state.openMissions.delete(mid);
+        btn.setAttribute("aria-expanded", nextOpen ? "true" : "false");
+        const panel = box.querySelector(`[data-mission-panel="${mid}"]`);
+        if (panel) panel.classList.toggle("open", nextOpen);
+        const togBtn = document.getElementById("btn-toggle-all-progress");
+        if (togBtn) {
+          const anyOpen = filteredMissions.some((m) => state.openMissions.has(m.mission_id));
+          togBtn.textContent = anyOpen ? "Thu gọn hết" : "Mở tất cả";
+        }
+      };
+    });
+
+    // Bind collapsible activity groups & show-more pagination
+    box.querySelectorAll("[data-toggle-pgroup]").forEach((btn) => {
+      btn.onclick = () => {
+        const k = btn.getAttribute("data-toggle-pgroup");
+        const nextOpen = !(btn.getAttribute("aria-expanded") === "true");
+        state.progressGroupOpen[k] = nextOpen;
+        btn.setAttribute("aria-expanded", nextOpen ? "true" : "false");
+        const panel = box.querySelector(`[data-pgroup-panel="${k}"]`);
+        if (panel) panel.classList.toggle("open", nextOpen);
+      };
+    });
+
+    box.querySelectorAll("[data-expand-pgroup]").forEach((btn) => {
+      btn.onclick = () => {
+        const k = btn.getAttribute("data-expand-pgroup");
+        state.progressExpandedLimit[k] = true;
+        renderProgressTab();
+      };
+    });
+
+    box.querySelectorAll("[data-collapse-pgroup]").forEach((btn) => {
+      btn.onclick = () => {
+        const k = btn.getAttribute("data-collapse-pgroup");
+        state.progressExpandedLimit[k] = false;
+        renderProgressTab();
+      };
+    });
 
     bindQuickActions(box);
   }
@@ -2531,7 +2833,7 @@
                 t.kanban_column === "WAITING_APPROVAL" ? "badge-wait" :
                 t.kanban_column === "REJECTED" ? "badge-fail" :
                 t.kanban_column === "IN_PROGRESS" ? "badge-run" : "badge-idle";
-              const metaLine = `${projectTitle(t.project_id)}, Phòng #${t.assigned_dept_id}, Ưu tiên ${PRIO_LABELS[t.priority] || "Cao"}`;
+              const metaLine = `${projectTitle(t.project_id)}, Phòng #${t.assigned_dept_id}, Ưu tiên ${PRIO_LABELS[t.priority] || "Cao"}${t.auto_synced ? ", Tự đồng bộ" : ""}`;
               // Strictly ONE contextual primary action button per row!
               let primaryAction = `<button type="button" class="btn btn-xs" data-open-task-drawer="${esc(t.task_id)}">Chi tiết</button>`;
               if (t.kanban_column === "BACKLOG" || t.kanban_column === "REJECTED") {
@@ -2686,8 +2988,15 @@
         <div class="action-group">
           <span class="badge badge-idle">Phòng #${esc(t.assigned_dept_id)}: ${esc(deptTitle(t.assigned_dept_id))}</span>
           <span class="badge badge-idle">Ưu tiên: ${esc(PRIO_LABELS[t.priority] || "Cao")}</span>
+          ${t.auto_synced ? `<span class="badge badge-sync">Tự đồng bộ</span>` : ""}
         </div>
         <p class="row-meta">Dự án: <strong>${esc(projectTitle(t.project_id))}</strong></p>
+        ${(t.linked_mission_id || t.project_id) ? `
+          <div class="action-group">
+            ${t.linked_mission_id ? `<button type="button" class="btn btn-xs" data-open-mission="${esc(t.linked_mission_id)}">${ico("layers")}<span>Mở phòng họp tiến độ</span></button>` : ""}
+            ${t.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(t.project_id)}">${ico("folder")}<span>Mở dự án</span></button>` : ""}
+          </div>
+        ` : ""}
       </div>
 
       <div class="form-field">
@@ -2746,22 +3055,35 @@
   }
 
   function ensureStaffDivDefaults() {
-    if (state.staffDivOpen !== null) return;
-    state.staffDivOpen = {};
-    let anyActive = false;
+    if (state.staffDivOpen === null) {
+      state.staffDivOpen = {};
+      let anyActive = false;
+      DIV_ORDER.forEach((code) => {
+        const hasBusy = state.departments.some((d) => d.division_code === code && normalizeDeptStatus(d.status) !== "IDLE");
+        if (hasBusy) {
+          state.staffDivOpen[code] = true;
+          state.autoOpenedBusyDivs.add(code);
+          anyActive = true;
+        } else {
+          state.staffDivOpen[code] = false;
+        }
+      });
+      if (!anyActive) {
+        state.staffDivOpen["exec-board"] = true;
+        state.staffDivOpen["div9-critique-ux-lab"] = true;
+      }
+      return;
+    }
+    // Auto-open any division that newly becomes busy (WORKING / STUDYING)
     DIV_ORDER.forEach((code) => {
-      const hasBusy = state.departments.some((d) => d.division_code === code && normalizeDeptStatus(d.status) !== "IDLE");
-      if (hasBusy) {
+      const hasBusy = state.departments.some((d) => d.division_code === code && ["WORKING", "STUDYING"].includes(normalizeDeptStatus(d.status)));
+      if (hasBusy && !state.autoOpenedBusyDivs.has(code)) {
         state.staffDivOpen[code] = true;
-        anyActive = true;
-      } else {
-        state.staffDivOpen[code] = false;
+        state.autoOpenedBusyDivs.add(code);
+      } else if (!hasBusy && state.autoOpenedBusyDivs.has(code)) {
+        state.autoOpenedBusyDivs.delete(code);
       }
     });
-    if (!anyActive) {
-      state.staffDivOpen["exec-board"] = true;
-      state.staffDivOpen["div9-critique-ux-lab"] = true;
-    }
   }
 
   function renderStaffTab() {
@@ -2860,17 +3182,37 @@
                     const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
                     const skCnt = skillsCountForDept(d.dept_id);
                     const artCnt = Number(d.articles_learned || 0);
+                    const isBusy = st.norm === "WORKING" || st.norm === "STUDYING";
+                    const workTitle = sanitizeUiVietnamese(d.current_work_title || (st.norm === "STUDYING" ? "Đang cập nhật tri thức mới" : ""));
+                    let jumpBtnHtml = "";
+                    if (d.current_mission_id) {
+                      jumpBtnHtml = `<button type="button" class="btn btn-xs" data-open-mission="${esc(d.current_mission_id)}">Xem tiến độ</button>`;
+                    } else if (d.current_task_id) {
+                      jumpBtnHtml = `<button type="button" class="btn btn-xs" data-open-task-jump="${esc(d.current_task_id)}">Xem tiến độ</button>`;
+                    } else if (st.norm === "STUDYING") {
+                      jumpBtnHtml = `<button type="button" class="btn btn-xs" data-jump-progress-cat="learning">Xem tiến độ</button>`;
+                    } else if (isBusy) {
+                      jumpBtnHtml = `<button type="button" class="btn btn-xs" data-jump-progress-cat="all">Xem tiến độ</button>`;
+                    }
                     return `
-                      <button type="button" class="staff-card" data-open-staff="${esc(d.dept_id)}">
-                        <span class="sq-avatar">#${esc(d.dept_id)}</span>
-                        <span class="staff-info">
-                          <span class="row-title">${esc(cleanName)}</span>
-                          <span class="staff-foot">
-                            <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+                      <article class="staff-card" data-open-staff="${esc(d.dept_id)}" role="button" tabindex="0">
+                        <div class="staff-card-top">
+                          <span class="sq-avatar">#${esc(d.dept_id)}</span>
+                          <span class="staff-info">
+                            <span class="row-title">${esc(cleanName)}</span>
+                            <span class="staff-foot">
+                              <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+                            </span>
+                            <span class="mono row-meta">${artCnt} bài đã học, ${skCnt} kỹ năng GitHub</span>
                           </span>
-                          <span class="mono row-meta">${artCnt} bài đã học, ${skCnt} kỹ năng GitHub</span>
-                        </span>
-                      </button>
+                        </div>
+                        ${(isBusy && (workTitle || jumpBtnHtml)) ? `
+                          <div class="staff-live-work">
+                            <span class="staff-live-work-title" title="${esc(workTitle)}">${esc(workTitle || "Đang thực thi công việc")}</span>
+                            ${jumpBtnHtml}
+                          </div>
+                        ` : ""}
+                      </article>
                     `;
                   }).join("")}
                 </div>
@@ -2918,6 +3260,17 @@
           <span class="mono row-meta">Bài học: <strong>${(d.learned_articles || []).length}</strong></span>
           <span class="mono row-meta">Kỹ năng: <strong>${deptSkills.length}</strong></span>
         </div>
+
+        ${d.current_work_title ? `
+          <div class="staff-live-work">
+            <span class="staff-live-work-title">${esc(sanitizeUiVietnamese(d.current_work_title))}</span>
+            ${d.current_mission_id
+              ? `<button type="button" class="btn btn-xs" data-open-mission="${esc(d.current_mission_id)}">Xem tiến độ</button>`
+              : d.current_task_id
+              ? `<button type="button" class="btn btn-xs" data-open-task-jump="${esc(d.current_task_id)}">Xem công việc</button>`
+              : ""}
+          </div>
+        ` : ""}
 
         <button type="button" class="btn btn-primary btn-block" id="btn-dept-learn-more">
           ${ico("download")}<span>Nạp thêm kiến thức và kỹ năng mới cho phòng này</span>
@@ -3720,7 +4073,7 @@
                       <div class="row-title">${esc(sanitizeUiVietnamese(m.title))}</div>
                       <div class="row-meta">Tiến độ: ${m.progress_pct || 0}%, Giai đoạn: ${m.phase === "DELIVERED" ? "Đã bàn giao" : m.phase === "PRODUCTION" ? "Sản xuất sản phẩm" : "Nghiên cứu chốt kèo"}</div>
                     </div>
-                    <button type="button" class="btn btn-xs" data-goto-missions>Mở phòng họp</button>
+                    <button type="button" class="btn btn-xs" data-open-mission="${esc(m.mission_id)}">Mở phòng họp</button>
                   </div>
                 `).join("")}
               </div>
@@ -4064,13 +4417,92 @@
   // -------------------------------------------------------------------------
   // 12. QUICK ACTIONS, BULK BAR & MODALS
   // -------------------------------------------------------------------------
+  function openMissionInProgress(missionId) {
+    if (!missionId) {
+      state.progressCat = "missions";
+      switchTab("missions");
+      return;
+    }
+    closeDrawer();
+    closeModals();
+    state.progressCat = "missions";
+    state.progressExpandedLimit.missions = true;
+    const searchEl = document.getElementById("progress-search-input");
+    if (searchEl) searchEl.value = "";
+    setListboxValue("filter-progress-status", "", true);
+    state.openMissions.add(missionId);
+    switchTab("missions");
+    setTimeout(() => {
+      const el = document.querySelector(`[data-mission-card="${missionId}"]`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  }
+
+  function openTaskInBoard(taskId) {
+    closeDrawer();
+    closeModals();
+    switchTab("tasks");
+    if (taskId) {
+      setTimeout(() => openTaskDrawer(taskId), 40);
+    }
+  }
+
+  async function openProjectInFinance(projectId) {
+    if (!projectId) {
+      switchTab("finance");
+      return;
+    }
+    closeDrawer();
+    closeModals();
+    state.financeViewProjectId = projectId;
+    state.projectSubTab = "finance";
+    switchTab("finance");
+    await loadActiveProjectFinance(projectId);
+  }
+
   function bindQuickActions(root) {
     root.querySelectorAll("[data-open-staff]").forEach((el) => {
-      el.onclick = (e) => { e.stopPropagation(); openStaffDrawer(el.getAttribute("data-open-staff")); };
+      el.onclick = (e) => {
+        if (e.target.closest("button:not([data-open-staff])")) return;
+        e.stopPropagation();
+        openStaffDrawer(el.getAttribute("data-open-staff"));
+      };
+      if (el.tagName !== "BUTTON") {
+        el.onkeydown = (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            if (e.target.closest("button")) return;
+            e.preventDefault();
+            openStaffDrawer(el.getAttribute("data-open-staff"));
+          }
+        };
+      }
     });
 
     root.querySelectorAll("[data-open-task-drawer]").forEach((el) => {
       el.onclick = (e) => { e.stopPropagation(); openTaskDrawer(el.getAttribute("data-open-task-drawer")); };
+    });
+
+    root.querySelectorAll("[data-open-mission]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        openMissionInProgress(el.getAttribute("data-open-mission"));
+      };
+    });
+
+    root.querySelectorAll("[data-open-task-jump]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        openTaskInBoard(el.getAttribute("data-open-task-jump"));
+      };
+    });
+
+    root.querySelectorAll("[data-jump-progress-cat]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        closeDrawer();
+        state.progressCat = el.getAttribute("data-jump-progress-cat") || "all";
+        switchTab("missions");
+      };
     });
 
     root.querySelectorAll("[data-goto-missions]").forEach((el) => {
@@ -4170,12 +4602,9 @@
     });
 
     root.querySelectorAll("[data-open-proj]").forEach((b) => {
-      b.onclick = async () => {
-        const pid = b.getAttribute("data-open-proj");
-        state.financeViewProjectId = pid;
-        state.projectSubTab = "finance";
-        switchTab("finance");
-        await loadActiveProjectFinance(pid);
+      b.onclick = (e) => {
+        e.stopPropagation();
+        openProjectInFinance(b.getAttribute("data-open-proj"));
       };
     });
 
@@ -4294,6 +4723,14 @@
         document.getElementById("task-modal-title").textContent = "Chỉnh sửa công việc";
         document.getElementById("edit-task-id").value = t.task_id;
         document.getElementById("inp-task-title").value = t.title;
+        const wrapDisp = document.getElementById("wrap-task-dispatch-now");
+        const chkDisp = document.getElementById("chk-task-dispatch-now");
+        const advDet = document.getElementById("task-advanced-details");
+        const submitBtn = document.getElementById("btn-submit-task");
+        if (wrapDisp) wrapDisp.classList.add("is-hidden");
+        if (chkDisp) chkDisp.checked = false;
+        if (advDet) advDet.open = true;
+        if (submitBtn) submitBtn.textContent = "Lưu thay đổi";
         setListboxValue("inp-task-dept", t.assigned_dept_id || "00", true);
         setListboxValue("inp-task-col", t.kanban_column || "BACKLOG", true);
         setListboxValue("inp-task-proj", t.project_id || "", true);
@@ -4453,9 +4890,18 @@
   }
 
   function openNewTaskModal(defaultCol = "BACKLOG", defaultProj = "") {
-    document.getElementById("task-modal-title").textContent = "Thêm công việc mới";
+    document.getElementById("task-modal-title").textContent = "Giao việc nhanh cho AI";
     document.getElementById("edit-task-id").value = "";
     document.getElementById("form-task").reset();
+    const wrapDisp = document.getElementById("wrap-task-dispatch-now");
+    const chkDisp = document.getElementById("chk-task-dispatch-now");
+    const advDet = document.getElementById("task-advanced-details");
+    const submitBtn = document.getElementById("btn-submit-task");
+    if (wrapDisp) wrapDisp.classList.remove("is-hidden");
+    if (chkDisp) chkDisp.checked = true;
+    if (advDet) advDet.open = Boolean(defaultProj);
+    if (submitBtn) submitBtn.textContent = "Giao AI làm ngay";
+    setListboxValue("inp-task-dept", "AUTO", true);
     setListboxValue("inp-task-col", defaultCol, true);
     setListboxValue("inp-task-prio", "HIGH", true);
     setListboxValue("inp-task-proj", defaultProj, true);
@@ -4468,7 +4914,7 @@
       label: `#${d.dept_id}: ${cleanDeptTitleVi(d.dept_id, d.title_vi)}`
     }));
     if (deptItems.length) {
-      setListboxOptions("inp-task-dept", deptItems, true, "modal-task");
+      setListboxOptions("inp-task-dept", [{ value: "AUTO", label: "Tự động chọn phòng ban phù hợp" }, ...deptItems], true, "modal-task");
       setListboxOptions("url-dept-select", deptItems, true);
       setListboxOptions("filter-task-dept", [{ value: "", label: "Mọi phòng ban" }, ...deptItems], true);
       setListboxOptions("filter-skill-dept", [{ value: "", label: "Tất cả phòng ban" }, ...deptItems], true);
@@ -4567,16 +5013,40 @@
       try { evtType = JSON.parse(ev.data).event_type || ""; } catch (_e) {}
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
-        loadEverything();
+        loadEverything().catch(() => {});
+        if (state.tab === "finance" && state.financeViewProjectId) {
+          loadActiveProjectFinance(state.financeViewProjectId).catch(() => {});
+        }
         if (evtType.includes("LEARNING") || evtType.includes("ARTICLE") || state.tab === "news") {
           loadNews(document.getElementById("news-search-input").value || "");
         }
-      }, 240);
+      }, 350);
     });
     es.onerror = () => {
       es.close();
       if (!state.staticMode) setTimeout(startLiveStream, 3500);
     };
+  }
+
+  function hasActiveLiveOperations() {
+    const hasRunMsn = state.missions.some((m) => m.status === "RUNNING" || m.status === "WAITING_CHAIRMAN");
+    const hasRunOrd = (state.orders || []).some((o) => ["PENDING", "CLAIMED", "RUNNING", "IN_PROGRESS"].includes(String(o.status || "").toUpperCase()));
+    const hasRunLearn = Boolean(state.learningProgress && state.learningProgress.running);
+    return hasRunMsn || hasRunOrd || hasRunLearn;
+  }
+
+  function startBackgroundSyncLoop() {
+    if (state.bgSyncTimer) clearInterval(state.bgSyncTimer);
+    state.bgSyncTimer = setInterval(() => {
+      if (document.hidden || state.staticMode) return;
+      if (!hasActiveLiveOperations()) return;
+      loadEverything().catch(() => {});
+    }, 8000);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && !state.staticMode) {
+        loadEverything().catch(() => {});
+      }
+    });
   }
 
   function scheduleOnlineReconnect() {
@@ -4661,7 +5131,7 @@
     const rows = [];
     state.missions.forEach((m) => {
       if (!term || m.title.toLowerCase().includes(term)) {
-        rows.push({ kind: "msn", label: `Nhiệm vụ: ${sanitizeUiVietnamese(m.title)}`, sub: "Tiến độ 8 bước" });
+        rows.push({ kind: "msn", id: m.mission_id, label: `Nhiệm vụ: ${sanitizeUiVietnamese(m.title)}`, sub: "Tiến độ 8 bước" });
       }
     });
     state.opportunities.forEach((o) => {
@@ -4727,18 +5197,13 @@
     if (!item) return;
     closeModals();
     if (item.kind === "msn") {
-      state.progressCat = "missions";
-      switchTab("missions");
+      openMissionInProgress(item.id);
     } else if (item.kind === "opp") {
       switchTab("command");
     } else if (item.kind === "task") {
-      switchTab("tasks");
-      openTaskDrawer(item.id);
+      openTaskInBoard(item.id);
     } else if (item.kind === "proj") {
-      state.financeViewProjectId = item.id;
-      state.projectSubTab = "finance";
-      switchTab("finance");
-      loadActiveProjectFinance(item.id);
+      openProjectInFinance(item.id);
     } else if (item.kind === "news") {
       state.newsSubView = "articles";
       switchTab("news");
@@ -4812,8 +5277,7 @@
         promptEl.value = "";
         const res = await api("/api/missions", "POST", { title: text, goal_prompt: text, auto_approve: autoApp });
         await loadEverything();
-        state.progressCat = "missions";
-        switchTab("missions");
+        openMissionInProgress(res && res.mission_id);
         toast(
           res && res.bridge_online
             ? "Đã gửi đề bài cho đội ngũ chuyên gia trực tuyến tiếp nhận ngay."
@@ -4893,7 +5357,7 @@
       });
     };
 
-    // Tab 2: Progress Categories & Mission Filters
+    // Tab 2: Progress Categories, Search, Status Filter & Collapse/Expand All
     document.querySelectorAll("#progress-cat-tabs .seg-btn").forEach((b) => {
       b.onclick = () => {
         state.progressCat = b.getAttribute("data-pcat");
@@ -4901,18 +5365,25 @@
       };
     });
 
-    document.querySelectorAll("#mission-filter-tabs .chip-btn").forEach((b) => {
-      b.onclick = () => {
-        document.querySelectorAll("#mission-filter-tabs .chip-btn").forEach((x) => {
-          x.classList.remove("active");
-          x.setAttribute("aria-selected", "false");
-        });
-        b.classList.add("active");
-        b.setAttribute("aria-selected", "true");
-        state.missionFilter = b.getAttribute("data-mfilter");
+    const progSearch = document.getElementById("progress-search-input");
+    if (progSearch) progSearch.oninput = renderProgressTab;
+    const progStatus = document.getElementById("filter-progress-status");
+    if (progStatus) progStatus.addEventListener("change", renderProgressTab);
+
+    const progToggleAll = document.getElementById("btn-toggle-all-progress");
+    if (progToggleAll) {
+      progToggleAll.onclick = () => {
+        const shouldCollapse = progToggleAll.textContent.includes("Thu gọn");
+        if (shouldCollapse) {
+          state.openMissions.clear();
+          Object.keys(state.progressGroupOpen).forEach((k) => { state.progressGroupOpen[k] = false; });
+        } else {
+          state.missions.forEach((m) => state.openMissions.add(m.mission_id));
+          Object.keys(state.progressGroupOpen).forEach((k) => { state.progressGroupOpen[k] = true; });
+        }
         renderProgressTab();
       };
-    });
+    }
 
     document.getElementById("btn-prog-scan-news").onclick = (e) => triggerLearningScan("all", e.currentTarget);
 
@@ -4961,27 +5432,62 @@
     document.getElementById("btn-quick-task").onclick = () => openNewTaskModal("BACKLOG");
     document.getElementById("btn-add-task-tab3").onclick = () => openNewTaskModal("BACKLOG");
 
+    const chkDispatchNow = document.getElementById("chk-task-dispatch-now");
+    if (chkDispatchNow) {
+      chkDispatchNow.onchange = () => {
+        const isEdit = Boolean(document.getElementById("edit-task-id").value);
+        const submitBtn = document.getElementById("btn-submit-task");
+        if (!isEdit && submitBtn) {
+          submitBtn.textContent = chkDispatchNow.checked ? "Giao AI làm ngay" : "Lưu công việc";
+        }
+      };
+    }
+
     document.getElementById("form-task").onsubmit = (e) => {
       e.preventDefault();
       const btn = e.target.querySelector("button[type='submit']");
       withLock(btn, async () => {
         const tid = document.getElementById("edit-task-id").value;
+        const title = document.getElementById("inp-task-title").value.trim();
+        const desc = document.getElementById("inp-task-desc").value.trim();
+        const rawDept = getListboxValue("inp-task-dept") || "AUTO";
+        const dispatchNow = !tid && Boolean(document.getElementById("chk-task-dispatch-now")?.checked);
         const payload = {
-          title: document.getElementById("inp-task-title").value.trim(),
-          assigned_dept_id: getListboxValue("inp-task-dept") || "00",
-          kanban_column: getListboxValue("inp-task-col") || "BACKLOG",
+          title,
+          assigned_dept_id: tid ? (rawDept === "AUTO" ? smartRouteDepartmentLocal(title, desc) : rawDept) : rawDept,
+          kanban_column: dispatchNow ? "IN_PROGRESS" : (getListboxValue("inp-task-col") || "BACKLOG"),
           project_id: getListboxValue("inp-task-proj") || null,
           priority: getListboxValue("inp-task-prio") || "HIGH",
-          description: document.getElementById("inp-task-desc").value.trim()
+          description: desc
         };
-        if (tid) await api(`/api/tasks/${encodeURIComponent(tid)}`, "PATCH", payload);
-        else await api("/api/tasks", "POST", payload);
+        if (dispatchNow) payload.dispatch_now = true;
+
+        let res = null;
+        if (tid) {
+          res = await api(`/api/tasks/${encodeURIComponent(tid)}`, "PATCH", payload);
+        } else {
+          res = await api("/api/tasks", "POST", payload);
+          // Safe backward compatibility if backend has not yet restarted to v9.0 dispatch_now
+          if (dispatchNow && res && res.task_id && !res.dispatched && !state.staticMode) {
+            await api(`/api/tasks/${encodeURIComponent(res.task_id)}/dispatch`, "POST", {}).catch(() => {});
+          }
+        }
         closeModals();
         await loadEverything();
         if (state.tab === "finance" && state.financeViewProjectId) {
           await loadActiveProjectFinance(state.financeViewProjectId);
         }
-        toast(tid ? "Đã cập nhật công việc." : "Đã thêm công việc mới.");
+        if (tid) {
+          toast("Đã cập nhật công việc.");
+        } else if (dispatchNow) {
+          const finalDeptId = (res && res.assigned_dept_id && res.assigned_dept_id !== "AUTO")
+            ? res.assigned_dept_id
+            : smartRouteDepartmentLocal(title, desc);
+          const finalDeptName = sanitizeUiVietnamese((res && res.assigned_dept_title_vi) || deptTitle(finalDeptId));
+          toast(`Đã tự giao Phòng #${finalDeptId} (${finalDeptName}) thực hiện ngay.`);
+        } else {
+          toast("Đã thêm công việc mới vào bảng việc.");
+        }
       });
     };
 
@@ -5351,6 +5857,7 @@
 
     switchTab(state.tab);
     startLiveStream();
+    startBackgroundSyncLoop();
     if (!state.staticMode) {
       state.bridgeTimer = setInterval(pollBridgeStatus, 5000);
     } else {

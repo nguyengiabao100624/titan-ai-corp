@@ -23,7 +23,7 @@ from learning_engine import (
     parse_github_repos_json,
     parse_hackernews_json,
 )
-from titan_db import TitanDatabase
+from titan_db import TitanDatabase, smart_route_department
 
 
 SAMPLE_FEED_XML = """<?xml version="1.0" encoding="UTF-8"?>
@@ -438,6 +438,172 @@ class TestTitanSystemV8(unittest.TestCase):
         for u in urls:
             self.assertNotIn("127.0.0.1", u)
             self.assertNotIn("localhost", u)
+
+    def test_05_v9_live_reconcile_department_statuses_and_gate_sync(self) -> None:
+        # 1. Queue SCAN_OPPORTUNITIES -> depts 50, 46, 38 become RESEARCHING_TASK + auto task IN_PROGRESS
+        st_scan, _, raw_scan = self._req("/api/opportunities/scan", method="POST", body={})
+        self.assertEqual(st_scan, 202)
+        scan_order_id = json.loads(raw_scan.decode("utf-8"))["order"]["order_id"]
+
+        st_depts, _, raw_depts = self._req("/api/departments")
+        self.assertEqual(st_depts, 200)
+        depts_by_id = {d["dept_id"]: d for d in json.loads(raw_depts.decode("utf-8"))["departments"]}
+        for did in ("50", "46", "38"):
+            self.assertEqual(depts_by_id[did]["status"], "RESEARCHING_TASK", f"Dept {did} must be RESEARCHING_TASK")
+            self.assertEqual(depts_by_id[did]["current_work_type"], "order")
+            self.assertTrue(depts_by_id[did]["current_work_title"])
+            self.assertEqual(depts_by_id[did]["current_task_id"], f"auto-{scan_order_id}")
+
+        st_tasks, _, raw_tasks = self._req("/api/tasks")
+        self.assertEqual(st_tasks, 200)
+        tasks_by_id = {t["task_id"]: t for t in json.loads(raw_tasks.decode("utf-8"))["tasks"]}
+        scan_auto_tid = f"auto-{scan_order_id}"
+        self.assertIn(scan_auto_tid, tasks_by_id)
+        self.assertEqual(tasks_by_id[scan_auto_tid]["kanban_column"], "IN_PROGRESS")
+        self.assertTrue(tasks_by_id[scan_auto_tid]["auto_synced"])
+        self.assertEqual(tasks_by_id[scan_auto_tid]["linked_order_id"], scan_order_id)
+
+        # Complete SCAN_OPPORTUNITIES -> depts 50, 46, 38 return to IDLE + auto task DONE
+        self.db.complete_order(scan_order_id, result_summary="Đã tìm thấy 3 cơ hội mới", status="COMPLETED")
+        st_depts2, _, raw_depts2 = self._req("/api/departments")
+        self.assertEqual(st_depts2, 200)
+        depts2 = {d["dept_id"]: d for d in json.loads(raw_depts2.decode("utf-8"))["departments"]}
+        for did in ("50", "46", "38"):
+            self.assertEqual(depts2[did]["status"], "IDLE")
+            self.assertEqual(depts2[did]["current_work_title"], "")
+        self.assertEqual(self.db.get_task(scan_auto_tid)["kanban_column"], "DONE")
+
+        # 2. Create Mission -> dept 00 EXECUTING + step 1 auto task in BACKLOG
+        st_m, _, raw_m = self._req("/api/missions", method="POST", body={"title": "Phần mềm quản lý tiệm giặt ủi"})
+        self.assertEqual(st_m, 201)
+        mid = json.loads(raw_m.decode("utf-8"))["mission_id"]
+
+        d00 = self.db.get_department_detail("00")
+        self.assertEqual(d00["status"], "EXECUTING")
+        self.assertEqual(d00["current_mission_id"], mid)
+        self.assertEqual(self.db.get_task(f"auto-{mid}-s1")["kanban_column"], "BACKLOG")
+        self.assertEqual(self.db.get_task(f"auto-{mid}-s1")["linked_mission_id"], mid)
+
+        # 3. Start Step 1 -> lead_dept_ids (01, 02, 03, 50) become EXECUTING + auto task IN_PROGRESS
+        self.db.update_mission_step(f"{mid}-s1", status="RUNNING", progress_pct=45, live_activity_text="Đang khảo sát tiệm giặt")
+        depts3 = {d["dept_id"]: d for d in self.db.list_departments()}
+        for did in ("01", "02", "03", "50"):
+            self.assertEqual(depts3[did]["status"], "EXECUTING")
+            self.assertEqual(depts3[did]["current_mission_id"], mid)
+            self.assertIn("Bước 1", depts3[did]["current_work_title"])
+        self.assertEqual(self.db.get_task(f"auto-{mid}-s1")["kanban_column"], "IN_PROGRESS")
+
+        # 4. Present Gate 1 (Step 4 WAITING_APPROVAL) -> dept 00 WAITING_CHAIRMAN -> approve from Tab 3 syncs mission!
+        self.db.update_mission_step(f"{mid}-s1", status="DONE", progress_pct=100)
+        self.db.update_mission_step(f"{mid}-s4", status="WAITING_APPROVAL", progress_pct=90)
+        self.db.update_mission(mid, status="WAITING_CHAIRMAN", phase="PROPOSAL")
+        d00_wait = self.db.get_department_detail("00")
+        self.assertEqual(d00_wait["status"], "WAITING_CHAIRMAN")
+        self.assertEqual(self.db.get_task(f"auto-{mid}-s4")["kanban_column"], "WAITING_APPROVAL")
+
+        st_dec, _, raw_dec = self._req(
+            f"/api/tasks/auto-{mid}-s4/decision",
+            method="POST",
+            body={"decision": "APPROVE", "note": "Chốt triển khai giai đoạn 2"},
+        )
+        self.assertEqual(st_dec, 200)
+        dec_payload = json.loads(raw_dec.decode("utf-8"))
+        self.assertEqual(dec_payload["synced_mission"]["phase"], "PRODUCTION")
+        self.assertEqual(self.db.get_mission(mid)["phase"], "PRODUCTION")
+        self.assertEqual(self.db.get_task(f"auto-{mid}-s4")["kanban_column"], "DONE")
+        self.assertEqual(self.db.get_task(f"auto-{mid}-s5")["kanban_column"], "BACKLOG")
+
+        # Clean up auto-created project folder
+        auto_pid = dec_payload["synced_mission"].get("project_id")
+        if auto_pid:
+            auto_p = self.db.get_project(auto_pid)
+            if auto_p and auto_p.get("workspace_path"):
+                shutil.rmtree(ROOT_DIR / auto_p["workspace_path"], ignore_errors=True)
+
+    def test_06_v9_auto_tasks_respect_tombstone_and_overview_fields(self) -> None:
+        st_m, _, raw_m = self._req("/api/missions", method="POST", body={"title": "Kiểm chứng tombstone auto task"})
+        self.assertEqual(st_m, 201)
+        mid = json.loads(raw_m.decode("utf-8"))["mission_id"]
+        auto_tid = f"auto-{mid}-s1"
+        self.assertIsNotNone(self.db.get_task(auto_tid))
+
+        # Delete auto task -> must NOT be recreated on subsequent reconcile/overview/tasks reads!
+        st_del, _, _ = self._req(f"/api/tasks/{auto_tid}", method="DELETE")
+        self.assertEqual(st_del, 200)
+
+        st_ov, _, raw_ov = self._req("/api/overview")
+        self.assertEqual(st_ov, 200)
+        ov = json.loads(raw_ov.decode("utf-8"))
+        self.assertIn("departments", ov)
+        self.assertIn("tasks", ov)
+        ov_task_ids = {t["task_id"] for t in ov["tasks"]}
+        self.assertNotIn(auto_tid, ov_task_ids, "Deleted auto-* task must respect deleted_tombstones!")
+        sample_dept = ov["departments"][0]
+        for field in ("current_work_title", "current_work_type", "current_mission_id", "current_task_id"):
+            self.assertIn(field, sample_dept)
+
+        # Undo restore brings it back cleanly
+        st_rest, _, _ = self._req("/api/trash/restore", method="POST", body={"entity_type": "task", "entity_id": auto_tid})
+        self.assertEqual(st_rest, 200)
+        self.assertIsNotNone(self.db.get_task(auto_tid))
+
+    def test_07_v9_smart_route_department_and_one_tap_dispatch_now(self) -> None:
+        self.assertEqual(smart_route_department("Tính thuế và hóa đơn điện tử quý 4"), "39")
+        self.assertEqual(smart_route_department("Tối ưu bảng giá bán và điểm hòa vốn"), "38")
+        self.assertEqual(smart_route_department("Cải thiện giao diện UI/UX trang chủ"), "08")
+        self.assertEqual(smart_route_department("Sửa lỗi web app trên điện thoại"), "13")
+        self.assertEqual(smart_route_department("Tích hợp API cổng thanh toán VietQR"), "15")
+        self.assertEqual(smart_route_department("Kiểm tra bảo mật chống XSS"), "23")
+        self.assertEqual(smart_route_department("Chạy kiểm thử tự động bộ sản phẩm"), "20")
+        self.assertEqual(smart_route_department("Chạy quảng cáo Zalo và video bán hàng"), "31")
+        self.assertEqual(smart_route_department("Tối ưu SEO bài viết blog"), "30")
+        self.assertEqual(smart_route_department("Săn cơ hội ngách thị trường ít đối thủ"), "50")
+        self.assertEqual(smart_route_department("Phản biện rủi ro mô hình kinh doanh"), "46")
+        self.assertEqual(smart_route_department("Soạn hợp đồng pháp lý và điều khoản"), "40")
+        self.assertEqual(smart_route_department("Họp giao ban tổng kết tuần"), "00")
+
+        # 1-Tap POST /api/tasks with assigned_dept_id="AUTO" + dispatch_now=True
+        st_t, _, raw_t = self._req(
+            "/api/tasks",
+            method="POST",
+            body={
+                "title": "Rà soát quy định thuế hộ kinh doanh mới nhất",
+                "assigned_dept_id": "AUTO",
+                "dispatch_now": True,
+            },
+        )
+        self.assertEqual(st_t, 201)
+        t_res = json.loads(raw_t.decode("utf-8"))
+        self.assertEqual(t_res["assigned_dept_id"], "39")
+        self.assertTrue(t_res["auto_routed"])
+        self.assertTrue(t_res["dispatched"])
+        self.assertEqual(t_res["kanban_column"], "IN_PROGRESS")
+        self.assertEqual(t_res["order"]["order_type"], "EXECUTE_TASK")
+        self.assertTrue(t_res["assigned_dept_title_vi"])
+
+        # Dept 39 is immediately EXECUTING this exact task!
+        st_d39, _, raw_d39 = self._req("/api/departments/39")
+        self.assertEqual(st_d39, 200)
+        d39 = json.loads(raw_d39.decode("utf-8"))
+        self.assertEqual(d39["status"], "EXECUTING")
+        self.assertEqual(d39["current_task_id"], t_res["task_id"])
+
+        # Dispatching an existing BACKLOG task transitions it to IN_PROGRESS + dept EXECUTING
+        st_b, _, raw_b = self._req(
+            "/api/tasks",
+            method="POST",
+            body={"title": "Thiết kế lại nút thanh toán", "assigned_dept_id": "08", "kanban_column": "BACKLOG"},
+        )
+        self.assertEqual(st_b, 201)
+        btid = json.loads(raw_b.decode("utf-8"))["task_id"]
+        self.assertEqual(self.db.get_department_detail("08")["status"], "IDLE")
+
+        st_disp, _, raw_disp = self._req(f"/api/tasks/{btid}/dispatch", method="POST", body={})
+        self.assertEqual(st_disp, 202)
+        disp_res = json.loads(raw_disp.decode("utf-8"))
+        self.assertTrue(disp_res["dispatched"])
+        self.assertEqual(disp_res["task"]["kanban_column"], "IN_PROGRESS")
+        self.assertEqual(self.db.get_department_detail("08")["status"], "EXECUTING")
 
 
 if __name__ == "__main__":

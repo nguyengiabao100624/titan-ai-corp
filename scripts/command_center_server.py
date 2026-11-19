@@ -29,7 +29,7 @@ from autopilot_engine import AutonomousMissionEngine
 from cloud_sync import DEFAULT_SNAPSHOT_PATH, export_snapshot, merge_snapshot_into_db, save_snapshot_file
 from learning_engine import ContinualLearningEngine
 from titan_cli import add_department, run_audit
-from titan_db import DEFAULT_DB_PATH, ROOT_DIR, TitanDatabase, utc_now_iso
+from titan_db import DEFAULT_DB_PATH, ROOT_DIR, TitanDatabase, smart_route_department, utc_now_iso
 
 WEB_UI_DIR = SCRIPT_DIR / "web_ui"
 DEFAULT_ONLINE_ENDPOINT_PATH = ROOT_DIR / "corporate_hq" / "cloud_state" / "online_endpoint.json"
@@ -656,25 +656,50 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(proj, status=201)
                 return
 
-            # 15: Create Task
+            # 15: Create Task (v9.0: Smart Auto-Routing + 1-Tap dispatch_now!)
             if path == "/api/tasks":
                 title = str(body.get("title", "")).strip()
-                dept_id = str(body.get("assigned_dept_id", "00")).strip()
+                description = str(body.get("description", "")).strip()
                 if not title:
                     self._send_json({"error": "Tiêu đề đầu việc không được để trống."}, status=400)
                     return
+                raw_dept = str(body.get("assigned_dept_id") or "").strip()
+                auto_routed = False
+                if not raw_dept or raw_dept.upper() == "AUTO":
+                    dept_id = smart_route_department(title, description)
+                    auto_routed = True
+                else:
+                    dept_id = raw_dept
+
+                dispatch_now = bool(body.get("dispatch_now", False))
+                initial_col = "IN_PROGRESS" if dispatch_now else str(body.get("kanban_column", "BACKLOG"))
                 task = db.create_task(
                     title=title,
                     assigned_dept_id=dept_id,
-                    description=str(body.get("description", "")),
+                    description=description,
                     project_id=body.get("project_id") or None,
                     reviewer_dept_id=str(body.get("reviewer_dept_id", "20")),
                     gate_number=int(body.get("gate_number", 1)),
                     stage_number=int(body.get("stage_number", 1)),
                     priority=str(body.get("priority", "HIGH")),
-                    kanban_column=str(body.get("kanban_column", "BACKLOG")),
+                    kanban_column=initial_col,
                 )
-                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                order_obj = None
+                if dispatch_now:
+                    order_obj = self.app_server.autopilot.queue_task_execution(
+                        task["task_id"],
+                        source_device=str(body.get("source_device") or "web-online"),
+                    )
+                    task = db.get_task(task["task_id"]) or task
+                else:
+                    save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+
+                task["dispatched"] = dispatch_now
+                task["auto_routed"] = auto_routed
+                task["assigned_dept_title_vi"] = task.get("assigned_dept_title") or f"Phòng #{dept_id}"
+                task["bridge_online"] = db.get_bridge_status().get("online", False)
+                if order_obj is not None:
+                    task["order"] = order_obj
                 self._send_json(task, status=201)
                 return
 
@@ -990,11 +1015,22 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
             # 26b: Dispatch Individual Kanban Task or Custom Order straight to Antigravity Swarm
             m_tdisp = re.match(r"^/api/tasks/([a-zA-Z0-9_-]+)/dispatch$", path)
             if m_tdisp:
+                tid = m_tdisp.group(1)
                 order = self.app_server.autopilot.queue_task_execution(
-                    m_tdisp.group(1),
+                    tid,
                     source_device=str(body.get("source_device") or "web-local"),
                 )
-                self._send_json({"queued": True, "order": order, "bridge_online": db.get_bridge_status().get("online", False)}, status=202)
+                updated_task = db.get_task(tid)
+                self._send_json(
+                    {
+                        "queued": True,
+                        "dispatched": True,
+                        "order": order,
+                        "task": updated_task,
+                        "bridge_online": db.get_bridge_status().get("online", False),
+                    },
+                    status=202,
+                )
                 return
 
             if path == "/api/orders":
