@@ -40,17 +40,21 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
     divisions = [dict(r) for r in conn.execute("SELECT * FROM divisions ORDER BY sort_order").fetchall()]
     missions = db.list_missions()
     opportunities = db.list_opportunities()
+    orders = db.list_orders(limit=40)
+    bridge = db.get_bridge_status()
     tombstones = db.list_tombstones()
 
     return {
-        "schema_version": "5.0",
+        "schema_version": "6.0",
         "exported_at": utc_now_iso(),
+        "bridge": bridge,
         "divisions": divisions,
         "departments": departments,
         "projects": projects,
         "tasks": tasks,
         "missions": missions,
         "opportunities": opportunities,
+        "orders": orders,
         "tombstones": tombstones,
         "deliverables": deliverables,
         "citations": citations,
@@ -436,8 +440,9 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                 INSERT OR REPLACE INTO missions(
                     mission_id, title, goal_prompt, category, status, auto_approve,
                     current_step_order, total_steps, progress_pct, final_summary,
-                    survival_score, ux_score, expected_margin_pct, version, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    survival_score, ux_score, expected_margin_pct, dispatch_state,
+                    swarm_title, swarm_workers_json, version, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     mid, msn.get("title", ""), msn.get("goal_prompt", ""), msn.get("category", "MONEY_MAKER"),
@@ -445,7 +450,11 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     int(msn.get("current_step_order", 1)), int(msn.get("total_steps", 7)),
                     int(msn.get("progress_pct", 0)), msn.get("final_summary", ""),
                     int(msn.get("survival_score", 85)), int(msn.get("ux_score", 90)),
-                    float(msn.get("expected_margin_pct", 74.0)), int(msn.get("version", 1)),
+                    float(msn.get("expected_margin_pct", 74.0)),
+                    msn.get("dispatch_state", "QUEUED_FOR_ANTIGRAVITY"),
+                    msn.get("swarm_title", ""),
+                    msn.get("swarm_workers_json", "[]"),
+                    int(msn.get("version", 1)),
                     msn.get("created_at") or utc_now_iso(), msn.get("updated_at") or utc_now_iso(),
                 ),
             )
@@ -456,17 +465,47 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                         step_id, mission_id, step_order, title, lead_dept_ids,
                         critic_dept_id, ux_tester_dept_id, status, progress_pct,
                         live_activity_text, output_summary, critique_verdict, ux_verdict,
-                        started_at, completed_at, updated_at
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        worker_name, artifact_path, started_at, completed_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         s["step_id"], mid, int(s["step_order"]), s["title"], s["lead_dept_ids"],
                         s.get("critic_dept_id", "47"), s.get("ux_tester_dept_id", "48"),
                         s["status"], int(s.get("progress_pct", 0)), s.get("live_activity_text", ""),
                         s.get("output_summary", ""), s.get("critique_verdict", ""), s.get("ux_verdict", ""),
+                        s.get("worker_name", ""), s.get("artifact_path", ""),
                         s.get("started_at"), s.get("completed_at"), s.get("updated_at") or utc_now_iso(),
                     ),
                 )
+
+        for ord_item in remote_snapshot.get("orders", []):
+            oid = ord_item.get("order_id")
+            if not oid:
+                continue
+            conn.execute(
+                """
+                INSERT OR IGNORE INTO antigravity_orders(
+                    order_id, order_type, mission_id, task_id, title, instructions,
+                    source_device, status, claimed_by, swarm_title, result_summary,
+                    created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    oid,
+                    ord_item.get("order_type", "NEW_MISSION"),
+                    ord_item.get("mission_id"),
+                    ord_item.get("task_id"),
+                    ord_item.get("title", ""),
+                    ord_item.get("instructions", ""),
+                    ord_item.get("source_device", "remote"),
+                    ord_item.get("status", "PENDING"),
+                    ord_item.get("claimed_by", ""),
+                    ord_item.get("swarm_title", ""),
+                    ord_item.get("result_summary", ""),
+                    ord_item.get("created_at") or utc_now_iso(),
+                    ord_item.get("updated_at") or utc_now_iso(),
+                ),
+            )
 
         conn.execute(
             """

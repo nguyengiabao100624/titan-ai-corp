@@ -54,10 +54,44 @@ class ThreadingCommandServer(socketserver.ThreadingMixIn, http.server.HTTPServer
         self.sse_queues: set[queue.Queue[dict[str, Any]]] = set()
         self.learning_in_progress = False
         self.started_at = time.time()
+        self._stop_watcher = threading.Event()
+        self._last_broadcast_event_id = self._get_max_event_id()
 
         self.db.register_event_listener(self._broadcast_sse_event)
+        self._watcher_thread = threading.Thread(target=self._watch_external_db_events, daemon=True, name="titan-sse-watch")
+        self._watcher_thread.start()
+
+    def _get_max_event_id(self) -> int:
+        try:
+            row = self.db._get_conn().execute("SELECT COALESCE(MAX(event_id), 0) FROM activity_stream").fetchone()
+            return int(row[0]) if row else 0
+        except Exception:
+            return 0
+
+    def _watch_external_db_events(self) -> None:
+        """Tail cross-process events written by Antigravity Swarm / titan_bridge_cli.py and push via SSE."""
+        try:
+            while not self._stop_watcher.wait(0.75):
+                with self.sse_queues_lock:
+                    has_clients = bool(self.sse_queues)
+                if not has_clients:
+                    continue
+                try:
+                    new_events = self.db.get_events_since(self._last_broadcast_event_id)
+                    for ev in new_events:
+                        eid = int(ev.get("event_id") or 0)
+                        if eid > self._last_broadcast_event_id:
+                            self._last_broadcast_event_id = eid
+                            self._broadcast_sse_event(ev)
+                except Exception:
+                    pass
+        finally:
+            self.db.close_thread_conn()
 
     def _broadcast_sse_event(self, event_dict: dict[str, Any]) -> None:
+        eid = int(event_dict.get("event_id") or 0)
+        if eid > self._last_broadcast_event_id:
+            self._last_broadcast_event_id = eid
         with self.sse_queues_lock:
             targets = list(self.sse_queues)
         dead: list[queue.Queue[dict[str, Any]]] = []
@@ -72,6 +106,7 @@ class ThreadingCommandServer(socketserver.ThreadingMixIn, http.server.HTTPServer
                     self.sse_queues.discard(dq)
 
     def shutdown_clean(self) -> None:
+        self._stop_watcher.set()
         self.db.unregister_event_listener(self._broadcast_sse_event)
         self.bg_pool.shutdown(wait=False)
         self.server_close()
@@ -365,6 +400,17 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"opportunities": db.list_opportunities(status=st)}, enable_etag=True)
                 return
 
+            # 27: Direct Antigravity Swarm Bridge Status & Orders Queue
+            if path == "/api/bridge/status":
+                self._send_json(db.get_bridge_status(), enable_etag=False)
+                return
+
+            if path == "/api/orders":
+                st = qs.get("status", [None])[0]
+                limit = max(5, min(100, int(qs.get("limit", ["30"])[0])))
+                self._send_json({"orders": db.list_orders(status=st, limit=limit), "bridge": db.get_bridge_status()})
+                return
+
             self._send_json({"error": f"Endpoint không tồn tại: {path}"}, status=404)
         except Exception as exc:
             self._send_json({"error": str(exc)}, status=500)
@@ -593,7 +639,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"merged": True, "stats": stats, "snapshot": export_snapshot(db)}, status=200)
                 return
 
-            # 25: Create & Auto-Run 7-Step Mission
+            # 25: Create Mission & Queue Direct Order for Antigravity Swarm (Zero Fake Simulation!)
             if path == "/api/missions":
                 title = str(body.get("title") or body.get("goal_prompt") or "").strip()
                 if not title:
@@ -604,23 +650,21 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     goal_prompt=str(body.get("goal_prompt") or title),
                     category=str(body.get("category") or "MONEY_MAKER"),
                     auto_approve=bool(body.get("auto_approve", False)),
+                    enqueue_order=True,
+                    source_device=str(body.get("source_device") or "web-local"),
                 )
-                if bool(body.get("wait", False)):
-                    msn = self.app_server.autopilot.execute_mission_sync(msn["mission_id"]) or msn
-                else:
-                    self.app_server.autopilot.launch_background(msn["mission_id"], pool=self.app_server.bg_pool)
+                msn["bridge_online"] = db.get_bridge_status().get("online", False)
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(msn, status=201)
                 return
 
-            # Mission Chairman Decision (APPROVE / REJECT)
+            # Mission Chairman Decision (APPROVE / REJECT -> Rework Order to Antigravity Swarm)
             m_mdec = re.match(r"^/api/missions/([a-zA-Z0-9_-]+)/decision$", path)
             if m_mdec:
                 mid = m_mdec.group(1)
                 dec = str(body.get("decision", "")).upper().strip()
                 res = db.decide_mission(mid, dec, note=str(body.get("note", "")))
-                if dec == "REJECT":
-                    self.app_server.autopilot.launch_background(mid, pool=self.app_server.bg_pool)
+                res["bridge_online"] = db.get_bridge_status().get("online", False)
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(res, status=200)
                 return
@@ -632,7 +676,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(res, status=200)
                 return
 
-            # 26: Money-Maker Opportunities Create / Scan / Accept
+            # 26: Money-Maker Opportunities Create / Real Antigravity Scan / Accept
             if path == "/api/opportunities":
                 title = str(body.get("title", "")).strip()
                 if not title:
@@ -655,19 +699,65 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 return
 
             if path == "/api/opportunities/scan":
-                created = self.app_server.autopilot.scan_and_propose_new_opportunities()
-                self._send_json({"scanned": True, "added_count": len(created), "opportunities": db.list_opportunities()}, status=200)
+                order = self.app_server.autopilot.queue_opportunity_scan(
+                    source_device=str(body.get("source_device") or "web-local"),
+                    custom_focus=str(body.get("focus") or ""),
+                )
+                bridge_online = db.get_bridge_status().get("online", False)
+                self._send_json(
+                    {
+                        "queued": True,
+                        "bridge_online": bridge_online,
+                        "order": order,
+                        "opportunities": db.list_opportunities(),
+                        "message": (
+                            "Đã gửi lệnh săn cơ hội kiếm tiền thật sang Antigravity Swarm!"
+                            if bridge_online
+                            else "Đã đưa lệnh săn cơ hội vào hàng đợi Antigravity (sẽ tự chạy ngay khi bật Trực chiến)."
+                        ),
+                    },
+                    status=202,
+                )
                 return
 
             m_oacc = re.match(r"^/api/opportunities/([a-zA-Z0-9_-]+)/accept$", path)
             if m_oacc:
-                msn = db.accept_opportunity_into_mission(m_oacc.group(1), auto_approve=bool(body.get("auto_approve", False)))
-                if bool(body.get("wait", False)):
-                    msn = self.app_server.autopilot.execute_mission_sync(msn["mission_id"]) or msn
-                else:
-                    self.app_server.autopilot.launch_background(msn["mission_id"], pool=self.app_server.bg_pool)
+                msn = db.accept_opportunity_into_mission(
+                    m_oacc.group(1),
+                    auto_approve=bool(body.get("auto_approve", False)),
+                    source_device=str(body.get("source_device") or "web-local"),
+                )
+                msn["bridge_online"] = db.get_bridge_status().get("online", False)
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(msn, status=201)
+                return
+
+            # 26b: Dispatch Individual Kanban Task or Custom Order straight to Antigravity Swarm
+            m_tdisp = re.match(r"^/api/tasks/([a-zA-Z0-9_-]+)/dispatch$", path)
+            if m_tdisp:
+                order = self.app_server.autopilot.queue_task_execution(
+                    m_tdisp.group(1),
+                    source_device=str(body.get("source_device") or "web-local"),
+                )
+                self._send_json({"queued": True, "order": order, "bridge_online": db.get_bridge_status().get("online", False)}, status=202)
+                return
+
+            if path == "/api/orders":
+                otype = str(body.get("order_type") or "NEW_MISSION").upper().strip()
+                title = str(body.get("title") or "").strip()
+                if not title:
+                    self._send_json({"error": "Tiêu đề lệnh không được để trống."}, status=400)
+                    return
+                order = db.enqueue_order(
+                    order_type=otype,
+                    title=title,
+                    instructions=str(body.get("instructions") or title),
+                    mission_id=body.get("mission_id"),
+                    task_id=body.get("task_id"),
+                    source_device=str(body.get("source_device") or "web-local"),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json({"queued": True, "order": order, "bridge_online": db.get_bridge_status().get("online", False)}, status=201)
                 return
 
             # 27: Task Duplicate & Bulk Actions
@@ -766,8 +856,16 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
             if m_pmsn:
                 mid = m_pmsn.group(1)
                 updated_m = db.update_mission(mid, **body)
-                if updated_m.get("status") == "RUNNING":
-                    self.app_server.autopilot.launch_background(mid, pool=self.app_server.bg_pool)
+                if str(body.get("status", "")).upper() == "RUNNING":
+                    db.update_mission(mid, dispatch_state="QUEUED_FOR_ANTIGRAVITY")
+                    db.enqueue_order(
+                        order_type="NEW_MISSION",
+                        title=f"[Tiếp tục] {updated_m['title']}",
+                        instructions=updated_m.get("goal_prompt") or updated_m["title"],
+                        mission_id=mid,
+                        source_device="web-local",
+                    )
+                    updated_m = db.get_mission(mid) or updated_m
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(updated_m, status=200)
                 return
@@ -1014,7 +1112,7 @@ def run_server(host: str = "127.0.0.1", port: int = 8765, db_path: Path = DEFAUL
     admin_tok = os.environ.get("TITAN_ADMIN_TOKEN", "")
     srv = ThreadingCommandServer((host, port), CommandCenterHandler, db=db, admin_token=admin_tok)
     srv.autopilot.resume_orphaned_missions(pool=srv.bg_pool)
-    print(f"[TITAN COMMAND CENTER v5.0] Live at http://{host}:{port} (51 AI Brains + Auto-Pilot + PWA Ready)", flush=True)
+    print(f"[TITAN COMMAND CENTER v6.0] Live at http://{host}:{port} (Direct Antigravity Swarm Bridge + 51 AI Brains + PWA Ready)", flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

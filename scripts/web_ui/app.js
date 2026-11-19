@@ -80,6 +80,8 @@
     tab: "command",
     staticMode: false,
     overview: null,
+    bridge: { online: false, mode: "ANTIGRAVITY_SWARM", active_workers: [], pending_orders_count: 0 },
+    orders: [],
     departments: [],
     divisions: [],
     missions: [],
@@ -99,7 +101,8 @@
     docEditMode: false,
     cmdIndex: 0,
     cmdItems: [],
-    sse: null
+    sse: null,
+    bridgeTimer: null
   };
 
   // -------------------------------------------------------------------------
@@ -393,7 +396,8 @@
           if (sr.ok) {
             const snap = await sr.json();
             state.staticMode = true;
-            document.getElementById("live-label").textContent = "Đám mây 24/7";
+            state.bridge = snap.bridge || { online: false, mode: "ANTIGRAVITY_SWARM", active_workers: [], pending_orders_count: 0 };
+            state.orders = snap.orders || [];
             const saved = getLocalFallbackStore();
             state.divisions = snap.divisions || [];
             state.departments = snap.departments || [];
@@ -415,13 +419,17 @@
     if (method === "GET") {
       if (path.startsWith("/api/overview")) {
         return {
+          bridge: state.bridge,
           kpis: { total_departments: state.departments.length, total_knowledge_atoms: state.articles.length },
           divisions: state.divisions,
           projects: state.projects,
           missions: state.missions,
-          opportunities: state.opportunities
+          opportunities: state.opportunities,
+          orders: state.orders
         };
       }
+      if (path === "/api/bridge/status") return state.bridge;
+      if (path.startsWith("/api/orders")) return { orders: state.orders, bridge: state.bridge };
       if (path === "/api/departments") return { departments: state.departments };
       const md = path.match(/^\/api\/departments\/(.+)$/);
       if (md) {
@@ -441,32 +449,45 @@
       if (path.startsWith("/api/projects")) return { projects: state.projects, files: [] };
       if (path.startsWith("/api/sync/snapshot")) {
         return {
-          schema_version: "5.1",
+          schema_version: "6.0",
+          bridge: state.bridge,
           divisions: state.divisions,
           departments: state.departments,
           projects: state.projects,
           tasks: state.tasks,
           missions: state.missions,
           opportunities: state.opportunities,
+          orders: state.orders,
           knowledge_atoms: state.articles
         };
       }
     }
 
-    // Complete Static Mutations
+    // Static / Mobile Mode (GitHub Pages): Queue real Antigravity orders (NEVER fake simulated steps!)
     if (method === "POST" && path === "/api/missions") {
       const msn = buildClientMission(body.title || body.goal_prompt, body.auto_approve);
       state.missions.unshift(msn);
+      const ord = {
+        order_id: `ord-${Date.now().toString(36)}`,
+        order_type: "NEW_MISSION",
+        mission_id: msn.mission_id,
+        title: msn.title,
+        instructions: msn.goal_prompt,
+        source_device: "mobile-github-pages",
+        status: "PENDING",
+        created_at: new Date().toISOString()
+      };
+      state.orders.unshift(ord);
       saveLocalFallbackStore();
-      simulateClientMissionRun(msn.mission_id);
-      return msn;
+      pushRemoteOrderToGitHub(ord).catch(() => {});
+      return { ...msn, order_id: ord.order_id, bridge_online: false };
     }
     if (method === "PATCH" && path.startsWith("/api/missions/")) {
       const mid = path.split("/")[3];
       const m = state.missions.find((x) => x.mission_id === mid);
       if (m) {
         Object.assign(m, body);
-        if (body.status === "RUNNING") simulateClientMissionRun(mid);
+        if (body.status === "RUNNING") m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
       }
       saveLocalFallbackStore();
       return m || {};
@@ -493,20 +514,19 @@
       return o || {};
     }
     if (method === "POST" && path === "/api/opportunities/scan") {
-      const no = {
-        opp_id: `opp-${Date.now().toString(36)}`,
-        title: "Bộ Báo giá Nhanh & Nhắc lịch Bảo trì Tự động cho Thợ Điện lạnh / Lọc nước",
-        target_customer: "Đội thợ điện lạnh, lọc nước gia đình (199.000đ/tháng)",
-        pain_point: "Làm xong quên lịch 6 tháng nhắc khách vệ sinh máy/thay lõi, bỏ phí mỏ vàng khách cũ.",
-        price_vnd: 199000,
-        est_margin_pct: 86,
-        breakeven_users: 8,
-        survival_score: 90,
-        status: "NEW"
+      const ord = {
+        order_id: `ord-${Date.now().toString(36)}`,
+        order_type: "SCAN_OPPORTUNITIES",
+        title: "Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+        instructions: "Săn 2–3 cơ hội sản phẩm/dịch vụ dễ thu tiền mới nhất cho Chủ tịch.",
+        source_device: "mobile-github-pages",
+        status: "PENDING",
+        created_at: new Date().toISOString()
       };
-      state.opportunities.unshift(no);
+      state.orders.unshift(ord);
       saveLocalFallbackStore();
-      return { scanned: true, opportunities: state.opportunities };
+      pushRemoteOrderToGitHub(ord).catch(() => {});
+      return { queued: true, order: ord, opportunities: state.opportunities, message: "Đã đưa lệnh săn cơ hội thật vào hàng đợi Antigravity!" };
     }
     if (method === "POST" && path.endsWith("/accept")) {
       const oid = path.split("/")[3];
@@ -515,10 +535,39 @@
         opp.status = "ACCEPTED";
         const msn = buildClientMission(opp.title, false);
         state.missions.unshift(msn);
+        const ord = {
+          order_id: `ord-${Date.now().toString(36)}`,
+          order_type: "NEW_MISSION",
+          mission_id: msn.mission_id,
+          title: opp.title,
+          instructions: `Khách hàng: ${opp.target_customer}. Nỗi đau: ${opp.pain_point}`,
+          source_device: "mobile-github-pages",
+          status: "PENDING",
+          created_at: new Date().toISOString()
+        };
+        state.orders.unshift(ord);
         saveLocalFallbackStore();
-        simulateClientMissionRun(msn.mission_id);
-        return msn;
+        pushRemoteOrderToGitHub(ord).catch(() => {});
+        return { ...msn, order_id: ord.order_id, bridge_online: false };
       }
+    }
+    if (method === "POST" && path.endsWith("/dispatch")) {
+      const tid = path.split("/")[3];
+      const t = state.tasks.find((x) => x.task_id === tid);
+      const ord = {
+        order_id: `ord-${Date.now().toString(36)}`,
+        order_type: "EXECUTE_TASK",
+        task_id: tid,
+        title: t ? t.title : tid,
+        instructions: t ? t.description || t.title : tid,
+        source_device: "mobile-github-pages",
+        status: "PENDING",
+        created_at: new Date().toISOString()
+      };
+      state.orders.unshift(ord);
+      saveLocalFallbackStore();
+      pushRemoteOrderToGitHub(ord).catch(() => {});
+      return { queued: true, order: ord };
     }
     if (method === "POST" && path === "/api/tasks") {
       const nt = { task_id: `task-${Date.now()}`, kanban_column: body.kanban_column || "BACKLOG", priority: body.priority || "HIGH", ...body };
@@ -597,13 +646,34 @@
         if (m) {
           if (body.decision === "APPROVE") {
             m.status = "COMPLETED";
+            m.dispatch_state = "COMPLETED";
             m.progress_pct = 100;
             m.steps.forEach((s) => { s.status = "DONE"; });
+            pushRemoteOrderToGitHub({
+              order_id: `ord-${Date.now().toString(36)}`,
+              order_type: "MISSION_APPROVED",
+              mission_id: m.mission_id,
+              title: m.title,
+              instructions: body.note || "Chủ tịch duyệt từ điện thoại",
+              source_device: "mobile-github-pages",
+              status: "PENDING",
+              created_at: new Date().toISOString()
+            }).catch(() => {});
           } else {
             m.status = "RUNNING";
+            m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
             m.progress_pct = 57;
-            m.steps.forEach((s) => { if (s.step_order >= 5) s.status = "PENDING"; });
-            simulateClientMissionRun(m.mission_id);
+            m.steps.forEach((s) => { if (s.step_order >= 5) { s.status = "PENDING"; s.live_activity_text = `Đã gửi yêu cầu làm lại sang Antigravity: ${body.note || ""}`; } });
+            pushRemoteOrderToGitHub({
+              order_id: `ord-${Date.now().toString(36)}`,
+              order_type: "MISSION_REWORK",
+              mission_id: m.mission_id,
+              title: `[Làm lại] ${m.title}`,
+              instructions: body.note || "Chủ tịch yêu cầu làm lại kỹ hơn",
+              source_device: "mobile-github-pages",
+              status: "PENDING",
+              created_at: new Date().toISOString()
+            }).catch(() => {});
           }
         }
         saveLocalFallbackStore();
@@ -635,10 +705,13 @@
       title,
       goal_prompt: title,
       status: "RUNNING",
+      dispatch_state: "QUEUED_FOR_ANTIGRAVITY",
+      swarm_title: "",
+      swarm_workers_json: "[]",
       auto_approve: autoApprove ? 1 : 0,
       current_step_order: 1,
       total_steps: 7,
-      progress_pct: 5,
+      progress_pct: 0,
       steps: tpl.map(([ord, stitle, leads]) => ({
         step_id: `${mid}-s${ord}`,
         step_order: ord,
@@ -646,6 +719,9 @@
         lead_dept_ids: leads,
         lead_depts: leads.split(",").map((i) => ({ dept_id: i, title_vi: deptTitle(i) })),
         status: "PENDING",
+        worker_name: "",
+        artifact_path: "",
+        live_activity_text: ord === 1 ? "Đã xếp hàng chờ cầu nối Antigravity Swarm trên máy tính nhận việc thật..." : "",
         output_summary: "",
         critique_verdict: "",
         ux_verdict: ""
@@ -653,42 +729,45 @@
     };
   }
 
-  function simulateClientMissionRun(mid) {
-    const stepTick = () => {
-      const m = state.missions.find((x) => x.mission_id === mid);
-      if (!m || m.status !== "RUNNING") return;
-      const nextIdx = m.steps.findIndex((s) => s.status !== "DONE");
-      if (nextIdx === -1) return;
-      const step = m.steps[nextIdx];
-      m.current_step_order = step.step_order;
-
-      if (step.step_order === 7 && !m.auto_approve) {
-        step.status = "WAITING_APPROVAL";
-        step.output_summary = "Đã vượt qua đủ 6 bước Phản biện (#46-#47) & Tester người dùng (#48-#49). Đang chờ bạn bấm Chấp nhận.";
-        m.status = "WAITING_CHAIRMAN";
-        m.final_summary = step.output_summary;
-        m.progress_pct = 92;
-        saveLocalFallbackStore();
-        renderAllViews();
-        return;
+  // Push remote order from Mobile (GitHub Pages) -> corporate_hq/cloud_state/remote_inbox.json
+  let sessionUnlockedGitHub = null;
+  async function pushRemoteOrderToGitHub(orderObj) {
+    if (!sessionUnlockedGitHub) return false;
+    const { repo, token } = sessionUnlockedGitHub;
+    const apiUrl = `https://api.github.com/repos/${repo}/contents/corporate_hq/cloud_state/remote_inbox.json`;
+    const headers = { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}` };
+    let sha = null;
+    let inbox = { updated_at: new Date().toISOString(), orders: [] };
+    try {
+      const r = await fetch(apiUrl, { headers });
+      if (r.ok) {
+        const meta = await r.json();
+        sha = meta.sha;
+        inbox = JSON.parse(cryptoVault.b64ToUtf8(meta.content || ""));
       }
-      step.status = "RUNNING";
-      renderAllViews();
-      setTimeout(() => {
-        const checkM = state.missions.find((x) => x.mission_id === mid);
-        if (!checkM || checkM.status !== "RUNNING") return;
-        step.status = "DONE";
-        step.output_summary = "Đã hoàn thành thực thi và vượt qua phản biện chéo tại chỗ.";
-        step.critique_verdict = "Phòng #47 Phản biện: Đạt";
-        step.ux_verdict = "Phòng #48 Tester Người dùng: Đạt";
-        checkM.progress_pct = Math.round(((nextIdx + 1) / checkM.steps.length) * 100);
-        if (nextIdx === checkM.steps.length - 1) checkM.status = "COMPLETED";
-        saveLocalFallbackStore();
-        renderAllViews();
-        stepTick();
-      }, 600);
+    } catch (_e) {}
+    inbox.orders = (inbox.orders || []).slice(-29);
+    inbox.orders.push(orderObj);
+    inbox.updated_at = new Date().toISOString();
+    const putBody = {
+      message: `chore(mobile-order): ${orderObj.title.slice(0, 60)}`,
+      content: cryptoVault.utf8ToB64(JSON.stringify(inbox, null, 2))
     };
-    stepTick();
+    if (sha) putBody.sha = sha;
+    const pr = await fetch(apiUrl, {
+      method: "PUT",
+      headers: { ...headers, "Content-Type": "application/json" },
+      body: JSON.stringify(putBody)
+    });
+    if (pr.ok) {
+      toast("Đã bắn thẳng đơn từ Điện thoại lên GitHub → Antigravity máy tính sẽ bắt lệnh sau ~15 giây!");
+      return true;
+    }
+    return false;
+  }
+
+  function buildAntigravityHandoffCommand(mission) {
+    return `/teamwork Thực thi thật nhiệm vụ "${mission.title}" (Mã: ${mission.mission_id}) theo đúng 7 bước Titan AI Corp, phản biện #46-#47 & test người dùng #48-#49, cập nhật tiến độ về Web qua scripts/titan_bridge_cli.py.`;
   }
 
   async function restoreDeleted(undoPayload) {
@@ -768,17 +847,32 @@
     document.getElementById("nav-cnt-news").textContent = uniqueNewsCount;
 
     if (state.tab === "staff") {
-      document.getElementById("view-heading").textContent = `Đội ngũ ${staffTotal} Nhân sự AI`;
+      document.getElementById("view-heading").textContent = `Nhân sự AI (${staffTotal})`;
     }
 
     const dot = document.getElementById("live-dot");
     const lbl = document.getElementById("live-label");
-    if (runningM > 0) {
+    const b = state.bridge || {};
+    const pendingOrd = Number(b.pending_orders_count || 0);
+    if (state.staticMode) {
+      if (sessionUnlockedGitHub) {
+        dot.className = "pulse-dot pulse-cloud";
+        lbl.textContent = "Đám mây 2 chiều → Antigravity";
+      } else {
+        dot.className = "pulse-dot pulse-warn";
+        lbl.textContent = "Đám mây 24/7 · Chưa nối PAT";
+      }
+    } else if (b.online) {
       dot.className = "pulse-dot pulse-active";
-      lbl.textContent = `Đang tự chạy ${runningM} nhiệm vụ...`;
+      const workers = Array.isArray(b.active_workers) ? b.active_workers : [];
+      lbl.textContent = workers.length
+        ? `Antigravity Swarm (${workers.length} AI đang chạy)`
+        : "Antigravity: Đang trực chiến";
     } else {
-      dot.className = "pulse-dot";
-      lbl.textContent = state.staticMode ? "Đám mây 24/7" : "Tự động hóa Sẵn sàng";
+      dot.className = "pulse-dot pulse-warn";
+      lbl.textContent = pendingOrd > 0
+        ? `Chờ bật Antigravity (${pendingOrd} lệnh chờ)`
+        : "Antigravity: Chờ bật trực chiến";
     }
   }
 
@@ -861,7 +955,7 @@
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
               ${isAccepted
                 ? `<button type="button" class="btn btn-xs" data-goto-missions>Xem tiến độ →</button>`
-                : `<button type="button" class="btn btn-xs btn-primary" data-accept-opp="${esc(o.opp_id)}">✓ Duyệt làm tự động</button>`
+                : `<button type="button" class="btn btn-xs btn-primary" data-accept-opp="${esc(o.opp_id)}">✓ Gửi Antigravity làm</button>`
               }
               <button type="button" class="btn btn-xs" data-edit-opp="${esc(o.opp_id)}">Sửa</button>
             </div>
@@ -892,11 +986,22 @@
     }
 
     box.innerHTML = list.map((m) => {
+      let swarmWorkers = [];
+      try { swarmWorkers = JSON.parse(m.swarm_workers_json || "[]"); } catch (_e) {}
+      const isQueued = m.status === "RUNNING" && m.dispatch_state === "QUEUED_FOR_ANTIGRAVITY";
+      const isSwarm = m.status === "RUNNING" && m.dispatch_state === "SWARM_ACTIVE";
+
       const stBadge =
         m.status === "COMPLETED" ? `<span class="badge badge-done">✓ Đã xong 100%</span>` :
         m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">⚑ Chờ bạn duyệt</span>` :
         m.status === "PAUSED" ? `<span class="badge badge-idle">⏸ Đang tạm dừng</span>` :
-        `<span class="badge badge-run">● Đang chạy Bước ${m.current_step_order || 1}/${m.total_steps || 7}</span>`;
+        isSwarm ? `<span class="badge badge-run">⚡ Antigravity Swarm · Bước ${m.current_step_order || 1}/${m.total_steps || 7}</span>` :
+        isQueued ? `<span class="badge badge-wait">⏳ Đã gửi sang Antigravity</span>` :
+        `<span class="badge badge-run">● Bước ${m.current_step_order || 1}/${m.total_steps || 7}</span>`;
+
+      const workerChipsHtml = swarmWorkers.length
+        ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(w)}</span>`).join("")}</div>`
+        : "";
 
       const stepsHtml = (m.steps || []).map((s) => {
         const isDone = s.status === "DONE";
@@ -908,14 +1013,15 @@
         const whoStateLabel = isDone
           ? `<strong style="color:var(--ok-text);">Đã làm xong:</strong>`
           : isRun
-          ? `<strong style="color:var(--run-text);">Đang làm ngay lúc này:</strong>`
+          ? `<strong style="color:var(--run-text);">Antigravity đang làm thật:</strong>`
           : isWait
-          ? `<strong style="color:var(--warn-text);">Chờ quyết định:</strong>`
-          : `<span>Chưa làm (Chờ tới lượt):</span>`;
+          ? `<strong style="color:var(--warn-text);">Chờ bạn duyệt:</strong>`
+          : `<span>Chờ tới lượt:</span>`;
 
         const deptChips = (s.lead_depts || []).map((d) =>
           `<span class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(calmTitle(d.title_vi))}</span>`
         ).join("");
+        const workerPill = s.worker_name ? `<span class="worker-tag">${esc(s.worker_name)}</span>` : "";
 
         return `
           <div class="step-row ${isRun ? "is-running" : ""} ${isWait ? "is-waiting" : ""}">
@@ -923,13 +1029,15 @@
             <div class="step-main">
               <div class="step-title-line">
                 <span class="step-name">Bước ${s.step_order}. ${esc(s.title)}</span>
+                ${workerPill}
               </div>
               <div class="who-chips">
                 ${whoStateLabel}
                 ${deptChips}
               </div>
-              ${(isRun && s.live_activity_text) ? `<div class="step-summary" style="color:var(--run-text);">${esc(s.live_activity_text)}</div>` : ""}
+              ${(s.live_activity_text && !isDone) ? `<div class="step-summary" style="color:${isRun ? "var(--run-text)" : "var(--text-muted)"};">${esc(s.live_activity_text)}</div>` : ""}
               ${(s.output_summary && (isDone || isWait)) ? `<div class="step-summary">${esc(s.output_summary)}</div>` : ""}
+              ${s.artifact_path ? `<div class="artifact-tag">Tệp kết quả: ${esc(s.artifact_path)}</div>` : ""}
               ${isDone ? `
                 <div class="step-checks">
                   ${s.critique_verdict ? `<span>✓ ${esc(s.critique_verdict)}</span>` : ""}
@@ -950,6 +1058,7 @@
             <div class="mission-title-group">
               <h3 class="mission-title">${esc(m.title)}</h3>
               ${stBadge}
+              ${workerChipsHtml}
             </div>
 
             <div class="progress-wrap">
@@ -958,12 +1067,13 @@
                 <div class="progress-fill" style="width:${m.progress_pct || 0}%;"></div>
               </div>
 
+              ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-ag-cmd="${esc(m.mission_id)}" title="Sao chép lệnh gửi nhanh vào khung chat Antigravity">Copy lệnh</button>` : ""}
               ${m.status === "WAITING_CHAIRMAN" ? `
                 <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">✓ Chấp nhận</button>
-                <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Làm lại</button>
+                <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Gửi lại sửa</button>
               ` : ""}
               ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">⏸ Tạm dừng</button>` : ""}
-              ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">▶ Chạy tiếp</button>` : ""}
+              ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">▶ Gửi chạy tiếp</button>` : ""}
               <button type="button" class="btn btn-xs" data-edit-msn="${esc(m.mission_id)}">Sửa</button>
               <button type="button" class="btn btn-xs btn-danger-ghost" data-del-msn="${esc(m.mission_id)}">Xóa</button>
             </div>
@@ -1037,6 +1147,7 @@
             </div>
             <span class="badge ${colCls}">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
             <div class="row-actions">
+              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs" data-dispatch-task="${esc(t.task_id)}" title="Gửi đầu việc này sang Antigravity Swarm làm thật">⚡ Giao AI</button>` : ""}
               ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs btn-ok" data-approve-task="${esc(t.task_id)}" title="Đánh dấu hoàn tất">✓ Xong</button>` : ""}
               <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
               <button type="button" class="btn btn-xs hide-sm" data-dup-task="${esc(t.task_id)}">Sao chép</button>
@@ -1536,11 +1647,45 @@
 
     root.querySelectorAll("[data-accept-opp]").forEach((b) => {
       b.onclick = () => withLock(b, async () => {
-        await api(`/api/opportunities/${encodeURIComponent(b.getAttribute("data-accept-opp"))}/accept`, "POST", {});
+        const res = await api(`/api/opportunities/${encodeURIComponent(b.getAttribute("data-accept-opp"))}/accept`, "POST", {});
         await loadEverything();
         switchTab("missions");
-        toast("Đã kích hoạt dây chuyền tự động 7 bước.");
+        toast(
+          res && res.bridge_online
+            ? "Đã chuyển cơ hội sang Antigravity Swarm — Đang khởi động AI làm thật!"
+            : "Đã xếp cơ hội vào hàng đợi Antigravity (sẽ tự chạy ngay khi bật Trực chiến)."
+        );
       });
+    });
+
+    root.querySelectorAll("[data-copy-ag-cmd]").forEach((b) => {
+      b.onclick = async () => {
+        const m = state.missions.find((x) => x.mission_id === b.getAttribute("data-copy-ag-cmd"));
+        if (!m) return;
+        const cmd = buildAntigravityHandoffCommand(m);
+        try {
+          await navigator.clipboard.writeText(cmd);
+          toast("Đã sao chép lệnh! Dán vào khung chat Antigravity nếu chưa bật cầu nối trực chiến.");
+        } catch (_e) {
+          toast(cmd);
+        }
+      };
+    });
+
+    root.querySelectorAll("[data-dispatch-task]").forEach((b) => {
+      b.onclick = (e) => {
+        e.stopPropagation();
+        withLock(b, async () => {
+          const tid = b.getAttribute("data-dispatch-task");
+          const res = await api(`/api/tasks/${encodeURIComponent(tid)}/dispatch`, "POST", {});
+          await loadEverything();
+          toast(
+            res && res.bridge_online
+              ? "Đã bắn công việc sang Antigravity Swarm để làm thật!"
+              : "Đã đưa công việc vào hàng đợi Antigravity (tự chạy khi bật Trực chiến)."
+          );
+        });
+      };
     });
 
     root.querySelectorAll("[data-edit-opp]").forEach((b) => {
@@ -1870,6 +2015,8 @@
       api("/api/tasks")
     ]);
     state.overview = ov;
+    state.bridge = ov.bridge || state.bridge;
+    state.orders = ov.orders || [];
     state.divisions = ov.divisions || [];
     state.projects = ov.projects || [];
     state.missions = ov.missions || [];
@@ -1878,6 +2025,18 @@
     state.tasks = tasks.tasks || [];
     populateDropdowns();
     renderAllViews();
+  }
+
+  async function pollBridgeStatus() {
+    if (state.staticMode) return;
+    try {
+      const b = await api("/api/bridge/status");
+      const changed = Boolean(b.online) !== Boolean(state.bridge.online)
+        || Number(b.pending_orders_count || 0) !== Number(state.bridge.pending_orders_count || 0)
+        || JSON.stringify(b.active_workers || []) !== JSON.stringify(state.bridge.active_workers || []);
+      state.bridge = b;
+      if (changed) renderCountsAndHeader();
+    } catch (_e) {}
   }
 
   function startLiveStream() {
@@ -1923,6 +2082,7 @@
       throw new Error("Vui lòng nhập Mã PIN mở két (tối thiểu 4 ký tự).");
     }
     const creds = await cryptoVault.unlock(pin);
+    sessionUnlockedGitHub = creds;
     const apiUrl = `https://api.github.com/repos/${creds.repo}/contents/corporate_hq/cloud_state/snapshot.json`;
     const headers = {
       Accept: "application/vnd.github+json",
@@ -2072,17 +2232,21 @@
       withLock(btn, async () => {
         const autoApp = document.getElementById("chk-auto-approve").checked;
         promptEl.value = "";
-        await api("/api/missions", "POST", { title: text, goal_prompt: text, auto_approve: autoApp });
+        const res = await api("/api/missions", "POST", { title: text, goal_prompt: text, auto_approve: autoApp });
         await loadEverything();
         switchTab("missions");
-        toast("Đã giao nhiệm vụ — Đội ngũ AI đang tự động thực thi từng bước!");
+        toast(
+          res && res.bridge_online
+            ? "Đã gửi đề bài thẳng sang Antigravity Swarm — Đội AI thật đang tiếp nhận!"
+            : "Đã xếp đơn vào hàng đợi Antigravity — Sẽ tự động chạy thật ngay khi bật Trực chiến."
+        );
       });
     };
 
     document.getElementById("btn-scan-opps").onclick = (e) => withLock(e.currentTarget, async () => {
-      await api("/api/opportunities/scan", "POST", {});
+      const res = await api("/api/opportunities/scan", "POST", {});
       await loadEverything();
-      toast("Phòng #50 vừa đề xuất thêm cơ hội kiếm tiền mới.");
+      toast((res && res.message) || "Đã gửi lệnh săn cơ hội kiếm tiền thật sang Antigravity Swarm!");
     });
 
     document.getElementById("btn-add-opp").onclick = () => {
@@ -2530,6 +2694,9 @@
     await Promise.all([loadEverything(), loadNews("")]);
     switchTab(state.tab);
     startLiveStream();
+    if (!state.staticMode) {
+      state.bridgeTimer = setInterval(pollBridgeStatus, 5000);
+    }
 
     if ("serviceWorker" in navigator && window.location.protocol.startsWith("http")) {
       navigator.serviceWorker.register("./sw.js").catch(() => {});

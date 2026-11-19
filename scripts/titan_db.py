@@ -307,8 +307,33 @@ CREATE TABLE IF NOT EXISTS deleted_tombstones (
     deleted_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS antigravity_orders (
+    order_id TEXT PRIMARY KEY,
+    order_type TEXT NOT NULL
+        CHECK(order_type IN ('NEW_MISSION','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK')),
+    mission_id TEXT,
+    task_id TEXT,
+    title TEXT NOT NULL,
+    instructions TEXT NOT NULL DEFAULT '',
+    source_device TEXT NOT NULL DEFAULT 'web-local',
+    status TEXT NOT NULL DEFAULT 'PENDING'
+        CHECK(status IN ('PENDING','CLAIMED','RUNNING','COMPLETED','CANCELLED')),
+    claimed_by TEXT NOT NULL DEFAULT '',
+    swarm_title TEXT NOT NULL DEFAULT '',
+    result_summary TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS bridge_state (
+    key TEXT PRIMARY KEY,
+    value_json TEXT NOT NULL DEFAULT '{}',
+    updated_at TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_mission_steps_order ON mission_steps(mission_id, step_order ASC);
 CREATE INDEX IF NOT EXISTS idx_opps_status ON opportunities(status, updated_at DESC);
+CREATE INDEX IF NOT EXISTS idx_ag_orders_status ON antigravity_orders(status, created_at ASC);
 """
 
 
@@ -380,10 +405,19 @@ class TitanDatabase:
         with self._write_lock:
             conn = self._get_conn()
             conn.executescript(SCHEMA_SQL)
-            try:
-                conn.execute("ALTER TABLE knowledge_atoms ADD COLUMN is_starred INTEGER NOT NULL DEFAULT 0;")
-            except sqlite3.OperationalError:
-                pass
+            migrations = [
+                "ALTER TABLE knowledge_atoms ADD COLUMN is_starred INTEGER NOT NULL DEFAULT 0;",
+                "ALTER TABLE missions ADD COLUMN dispatch_state TEXT NOT NULL DEFAULT 'QUEUED_FOR_ANTIGRAVITY';",
+                "ALTER TABLE missions ADD COLUMN swarm_title TEXT NOT NULL DEFAULT '';",
+                "ALTER TABLE missions ADD COLUMN swarm_workers_json TEXT NOT NULL DEFAULT '[]';",
+                "ALTER TABLE mission_steps ADD COLUMN worker_name TEXT NOT NULL DEFAULT '';",
+                "ALTER TABLE mission_steps ADD COLUMN artifact_path TEXT NOT NULL DEFAULT '';",
+            ]
+            for stmt in migrations:
+                try:
+                    conn.execute(stmt)
+                except sqlite3.OperationalError:
+                    pass
         self.sync_divisions_and_roster()
         self.seed_default_opportunities_if_empty()
 
@@ -1495,6 +1529,8 @@ class TitanDatabase:
                 UNION ALL SELECT MAX(updated_at) AS ts FROM projects
                 UNION ALL SELECT MAX(updated_at) AS ts FROM missions
                 UNION ALL SELECT MAX(updated_at) AS ts FROM opportunities
+                UNION ALL SELECT MAX(updated_at) AS ts FROM antigravity_orders
+                UNION ALL SELECT MAX(updated_at) AS ts FROM bridge_state
                 UNION ALL SELECT MAX(timestamp) AS ts FROM activity_stream
                 UNION ALL SELECT MAX(fetched_at) AS ts FROM knowledge_atoms
             )
@@ -1504,6 +1540,7 @@ class TitanDatabase:
 
         return {
             "generated_at": state_stamp,
+            "bridge": self.get_bridge_status(),
             "kpis": {
                 "total_departments": dept_counts["total_depts"] or 0,
                 "active_departments": dept_counts["active_depts"] or 0,
@@ -1523,6 +1560,7 @@ class TitanDatabase:
             "projects": self.list_projects(),
             "missions": self.list_missions(),
             "opportunities": self.list_opportunities(),
+            "orders": self.list_orders(limit=25),
             "recent_events": events,
             "last_learning_run": dict(last_run) if last_run else None,
         }
@@ -1857,35 +1895,67 @@ class TitanDatabase:
         category: str = "MONEY_MAKER",
         auto_approve: bool = False,
         mission_id: str | None = None,
+        enqueue_order: bool = True,
+        source_device: str = "web-local",
     ) -> dict[str, Any]:
         now = utc_now_iso()
         mid = mission_id or f"msn-{uuid.uuid4().hex[:8]}"
+        order_id: str | None = None
         with self.immediate_tx() as conn:
             self._clear_tombstone(conn, "mission", mid)
             conn.execute(
                 """
                 INSERT INTO missions(
                     mission_id, title, goal_prompt, category, status, auto_approve,
-                    current_step_order, total_steps, progress_pct, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, ?, ?)
+                    current_step_order, total_steps, progress_pct, dispatch_state,
+                    swarm_title, swarm_workers_json, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, 'QUEUED_FOR_ANTIGRAVITY', '', '[]', ?, ?)
                 """,
                 (mid, title, goal_prompt or title, category, 1 if auto_approve else 0, len(self.DEFAULT_7_STEPS_TEMPLATE), now, now),
             )
             for order, stitle, leads, critic, ux_tester in self.DEFAULT_7_STEPS_TEMPLATE:
                 sid = f"{mid}-s{order}"
+                init_note = (
+                    "Đã gửi đề bài sang cầu nối Antigravity Swarm — chờ AI chuyên trách nhận việc..."
+                    if order == 1
+                    else ""
+                )
                 conn.execute(
                     """
                     INSERT INTO mission_steps(
                         step_id, mission_id, step_order, title, lead_dept_ids,
-                        critic_dept_id, ux_tester_dept_id, status, progress_pct, updated_at
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', 0, ?)
+                        critic_dept_id, ux_tester_dept_id, status, progress_pct,
+                        live_activity_text, worker_name, artifact_path, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', 0, ?, '', '', ?)
                     """,
-                    (sid, mid, order, stitle, leads, critic, ux_tester, now),
+                    (sid, mid, order, stitle, leads, critic, ux_tester, init_note, now),
                 )
-            self.log_event("00", "MISSION_STARTED", f"Khởi chạy dây chuyền tự động 7 bước: {title}", conn=conn)
-        return self.get_mission(mid)  # type: ignore[return-value]
+            if enqueue_order:
+                order_id = f"ord-{uuid.uuid4().hex[:8]}"
+                conn.execute(
+                    """
+                    INSERT INTO antigravity_orders(
+                        order_id, order_type, mission_id, task_id, title, instructions,
+                        source_device, status, created_at, updated_at
+                    ) VALUES (?, 'NEW_MISSION', ?, NULL, ?, ?, ?, 'PENDING', ?, ?)
+                    """,
+                    (order_id, mid, title, goal_prompt or title, source_device, now, now),
+                )
+            self.log_event(
+                "00",
+                "ORDER_QUEUED",
+                f"Đã gửi nhiệm vụ sang Antigravity Swarm: {title}",
+                detail={"mission_id": mid, "order_id": order_id},
+                conn=conn,
+            )
+        msn = self.get_mission(mid)  # type: ignore[return-value]
+        if msn is not None and order_id:
+            msn["order_id"] = order_id
+        return msn  # type: ignore[return-value]
 
-    def accept_opportunity_into_mission(self, opp_id: str, auto_approve: bool = False) -> dict[str, Any]:
+    def accept_opportunity_into_mission(
+        self, opp_id: str, auto_approve: bool = False, source_device: str = "web-local"
+    ) -> dict[str, Any]:
         conn = self._get_conn()
         opp = conn.execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone()
         if not opp:
@@ -1896,6 +1966,8 @@ class TitanDatabase:
             goal_prompt=f"Khách hàng: {opp_d['target_customer']}. Nỗi đau: {opp_d['pain_point']}. Giải pháp: {opp_d['proposed_solution']}",
             category="MONEY_MAKER",
             auto_approve=auto_approve,
+            enqueue_order=True,
+            source_device=source_device,
         )
         with self.immediate_tx() as wconn:
             wconn.execute(
@@ -1905,7 +1977,11 @@ class TitanDatabase:
         return msn
 
     def update_mission(self, mission_id: str, **fields: Any) -> dict[str, Any]:
-        allowed = {"title", "goal_prompt", "status", "auto_approve", "final_summary", "survival_score", "ux_score", "expected_margin_pct"}
+        allowed = {
+            "title", "goal_prompt", "status", "auto_approve", "final_summary",
+            "survival_score", "ux_score", "expected_margin_pct",
+            "dispatch_state", "swarm_title", "swarm_workers_json",
+        }
         updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
         if "auto_approve" in updates:
             updates["auto_approve"] = 1 if bool(updates["auto_approve"]) else 0
@@ -1926,6 +2002,7 @@ class TitanDatabase:
         allowed = {
             "status", "progress_pct", "live_activity_text", "output_summary",
             "critique_verdict", "ux_verdict", "started_at", "completed_at",
+            "worker_name", "artifact_path",
         }
         updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
         now = utc_now_iso()
@@ -1958,6 +2035,7 @@ class TitanDatabase:
         if dec not in ("APPROVE", "REJECT"):
             raise ValueError("Quyết định phải là APPROVE hoặc REJECT.")
         now = utc_now_iso()
+        rework_order_id: str | None = None
         with self.immediate_tx() as conn:
             mrow = conn.execute("SELECT * FROM missions WHERE mission_id = ?", (mission_id,)).fetchone()
             if not mrow:
@@ -1971,8 +2049,12 @@ class TitanDatabase:
                 if note:
                     summary = f"{summary}\n• Ghi chú phê duyệt của Chủ tịch: {note}".strip()
                 conn.execute(
-                    "UPDATE missions SET status = 'COMPLETED', progress_pct = 100, final_summary = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    "UPDATE missions SET status = 'COMPLETED', dispatch_state = 'COMPLETED', progress_pct = 100, final_summary = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
                     (summary, now, mission_id),
+                )
+                conn.execute(
+                    "UPDATE antigravity_orders SET status = 'COMPLETED', result_summary = 'Chủ tịch đã duyệt hoàn tất', updated_at = ? WHERE mission_id = ? AND status IN ('PENDING','CLAIMED','RUNNING')",
+                    (now, mission_id),
                 )
                 self.log_event("00", "MISSION_APPROVED", f"Chủ tịch CHẤP NHẬN nghiệm thu nhiệm vụ: {mrow['title']}", conn=conn)
             else:
@@ -1984,25 +2066,249 @@ class TitanDatabase:
                 )
                 conn.execute(
                     "UPDATE mission_steps SET status = 'PENDING', progress_pct = 0, live_activity_text = ? WHERE mission_id = ? AND step_order >= 5",
-                    (f"Làm lại theo chỉ đạo: {reason}", mission_id),
+                    (f"Đã gửi yêu cầu làm lại sang Antigravity: {reason}", mission_id),
                 )
                 conn.execute(
-                    "UPDATE missions SET status = 'RUNNING', current_step_order = 5, progress_pct = 57, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    "UPDATE missions SET status = 'RUNNING', dispatch_state = 'QUEUED_FOR_ANTIGRAVITY', current_step_order = 5, progress_pct = 57, version = version + 1, updated_at = ? WHERE mission_id = ?",
                     (now, mission_id),
                 )
-                self.log_event("47", "MISSION_REJECTED", f"Yêu cầu chạy sửa lại từ Bước 5 cho nhiệm vụ: {mrow['title']}", conn=conn)
-        return self.get_mission(mission_id)  # type: ignore[return-value]
+                rework_order_id = f"ord-{uuid.uuid4().hex[:8]}"
+                conn.execute(
+                    """
+                    INSERT INTO antigravity_orders(
+                        order_id, order_type, mission_id, task_id, title, instructions,
+                        source_device, status, created_at, updated_at
+                    ) VALUES (?, 'MISSION_REWORK', ?, NULL, ?, ?, 'web-local', 'PENDING', ?, ?)
+                    """,
+                    (rework_order_id, mission_id, f"[Làm lại] {mrow['title']}", reason, now, now),
+                )
+                self.log_event(
+                    "47",
+                    "MISSION_REJECTED",
+                    f"Đã gửi yêu cầu sửa lại sang Antigravity Swarm cho: {mrow['title']}",
+                    detail={"mission_id": mission_id, "order_id": rework_order_id, "reason": reason},
+                    conn=conn,
+                )
+        res = self.get_mission(mission_id)  # type: ignore[return-value]
+        if res is not None and rework_order_id:
+            res["order_id"] = rework_order_id
+        return res  # type: ignore[return-value]
 
     def delete_mission(self, mission_id: str) -> dict[str, Any]:
         full = self.get_mission(mission_id)
         if not full:
             raise KeyError(f"Nhiệm vụ '{mission_id}' không tồn tại.")
+        now = utc_now_iso()
         with self.immediate_tx() as conn:
             self._record_tombstone(conn, "mission", mission_id, full)
+            conn.execute(
+                "UPDATE antigravity_orders SET status = 'CANCELLED', updated_at = ? WHERE mission_id = ? AND status IN ('PENDING','CLAIMED','RUNNING')",
+                (now, mission_id),
+            )
             conn.execute("DELETE FROM mission_steps WHERE mission_id = ?", (mission_id,))
             conn.execute("DELETE FROM missions WHERE mission_id = ?", (mission_id,))
             self.log_event("00", "MISSION_DELETED", f"Đã xóa nhiệm vụ: {full['title']}", conn=conn)
         return {"deleted": True, "entity_type": "mission", "entity_id": mission_id, "title": full["title"]}
+
+    # -------------------------------------------------------------------------
+    # ANTIGRAVITY DIRECT SWARM BRIDGE (ORDERS QUEUE + LIVE HEARTBEAT)
+    # -------------------------------------------------------------------------
+    def enqueue_order(
+        self,
+        order_type: str,
+        title: str,
+        instructions: str = "",
+        mission_id: str | None = None,
+        task_id: str | None = None,
+        source_device: str = "web-local",
+        order_id: str | None = None,
+    ) -> dict[str, Any]:
+        otype = order_type.upper().strip()
+        if otype not in ("NEW_MISSION", "MISSION_REWORK", "MISSION_APPROVED", "SCAN_OPPORTUNITIES", "EXECUTE_TASK"):
+            raise ValueError(f"Loại lệnh không hợp lệ: {otype}")
+        now = utc_now_iso()
+        oid = order_id or f"ord-{uuid.uuid4().hex[:8]}"
+        with self.immediate_tx() as conn:
+            conn.execute(
+                """
+                INSERT OR IGNORE INTO antigravity_orders(
+                    order_id, order_type, mission_id, task_id, title, instructions,
+                    source_device, status, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', ?, ?)
+                """,
+                (oid, otype, mission_id, task_id, title.strip(), instructions.strip() or title.strip(), source_device, now, now),
+            )
+            self.log_event(
+                "00",
+                "ORDER_QUEUED",
+                f"Đã chuyển lệnh ({otype}) sang cầu nối Antigravity Swarm: {title.strip()}",
+                detail={"order_id": oid, "order_type": otype, "mission_id": mission_id, "task_id": task_id},
+                conn=conn,
+            )
+        row = self._get_conn().execute("SELECT * FROM antigravity_orders WHERE order_id = ?", (oid,)).fetchone()
+        return dict(row)
+
+    def list_orders(self, status: str | None = None, limit: int = 30) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        if status:
+            rows = conn.execute(
+                "SELECT * FROM antigravity_orders WHERE status = ? ORDER BY created_at DESC LIMIT ?",
+                (status.upper(), limit),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT * FROM antigravity_orders ORDER BY created_at DESC LIMIT ?",
+                (limit,),
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def get_order(self, order_id: str) -> dict[str, Any] | None:
+        row = self._get_conn().execute("SELECT * FROM antigravity_orders WHERE order_id = ?", (order_id,)).fetchone()
+        return dict(row) if row else None
+
+    def claim_next_pending_order(self, claimed_by: str = "antigravity-coordinator") -> dict[str, Any] | None:
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            row = conn.execute(
+                "SELECT * FROM antigravity_orders WHERE status = 'PENDING' ORDER BY created_at ASC LIMIT 1"
+            ).fetchone()
+            if not row:
+                return None
+            oid = row["order_id"]
+            conn.execute(
+                "UPDATE antigravity_orders SET status = 'CLAIMED', claimed_by = ?, updated_at = ? WHERE order_id = ?",
+                (claimed_by, now, oid),
+            )
+            if row["mission_id"]:
+                conn.execute(
+                    "UPDATE missions SET dispatch_state = 'SWARM_ACTIVE', version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    (now, row["mission_id"]),
+                )
+            self.log_event(
+                "00",
+                "ORDER_CLAIMED",
+                f"Antigravity Swarm đã tiếp nhận lệnh thật: {row['title']}",
+                detail={"order_id": oid, "mission_id": row["mission_id"], "claimed_by": claimed_by},
+                conn=conn,
+            )
+        return self.get_order(oid)
+
+    def complete_order(
+        self,
+        order_id: str,
+        result_summary: str = "",
+        status: str = "COMPLETED",
+        swarm_title: str = "",
+    ) -> dict[str, Any]:
+        st = status.upper().strip()
+        if st not in ("RUNNING", "COMPLETED", "CANCELLED"):
+            raise ValueError(f"Trạng thái lệnh không hợp lệ: {st}")
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            row = conn.execute("SELECT * FROM antigravity_orders WHERE order_id = ?", (order_id,)).fetchone()
+            if not row:
+                raise KeyError(f"Đơn hàng '{order_id}' không tồn tại.")
+            conn.execute(
+                "UPDATE antigravity_orders SET status = ?, result_summary = COALESCE(NULLIF(?, ''), result_summary), swarm_title = COALESCE(NULLIF(?, ''), swarm_title), updated_at = ? WHERE order_id = ?",
+                (st, result_summary, swarm_title, now, order_id),
+            )
+        return self.get_order(order_id)  # type: ignore[return-value]
+
+    def set_bridge_heartbeat(
+        self,
+        online: bool = True,
+        pid: int | None = None,
+        swarm_title: str | None = None,
+        active_workers: list[str] | None = None,
+        note: str = "",
+    ) -> dict[str, Any]:
+        now = utc_now_iso()
+        existing = self.get_bridge_status()
+        payload = {
+            "online_flag": bool(online),
+            "pid": pid if pid is not None else existing.get("pid"),
+            "swarm_title": swarm_title if swarm_title is not None else existing.get("swarm_title", ""),
+            "active_workers": active_workers if active_workers is not None else existing.get("active_workers", []),
+            "note": note or existing.get("note", ""),
+            "last_heartbeat_at": now if online else "",
+        }
+        with self.immediate_tx() as conn:
+            conn.execute(
+                """
+                INSERT INTO bridge_state(key, value_json, updated_at)
+                VALUES ('antigravity_bridge', ?, ?)
+                ON CONFLICT(key) DO UPDATE SET value_json = excluded.value_json, updated_at = excluded.updated_at
+                """,
+                (json.dumps(payload, ensure_ascii=False), now),
+            )
+        return self.get_bridge_status()
+
+    def get_bridge_status(self, stale_after_sec: int = 25) -> dict[str, Any]:
+        conn = self._get_conn()
+        row = conn.execute("SELECT value_json, updated_at FROM bridge_state WHERE key = 'antigravity_bridge'").fetchone()
+        pending_cnt = conn.execute("SELECT COUNT(*) FROM antigravity_orders WHERE status = 'PENDING'").fetchone()[0]
+        active_cnt = conn.execute("SELECT COUNT(*) FROM antigravity_orders WHERE status IN ('CLAIMED','RUNNING')").fetchone()[0]
+        if not row:
+            return {
+                "online": False,
+                "mode": "ANTIGRAVITY_SWARM",
+                "pid": None,
+                "swarm_title": "",
+                "active_workers": [],
+                "note": "Chưa bật cầu nối Antigravity",
+                "last_heartbeat_at": "",
+                "pending_orders_count": int(pending_cnt),
+                "active_orders_count": int(active_cnt),
+            }
+        try:
+            data = json.loads(row["value_json"])
+        except Exception:
+            data = {}
+        hb_str = str(data.get("last_heartbeat_at") or "")
+        is_online = False
+        if bool(data.get("online_flag")) and hb_str:
+            try:
+                hb_dt = datetime.fromisoformat(hb_str.replace("Z", "+00:00"))
+                age_sec = (datetime.now(timezone.utc) - hb_dt).total_seconds()
+                is_online = age_sec <= stale_after_sec
+            except Exception:
+                is_online = False
+        return {
+            "online": is_online,
+            "mode": "ANTIGRAVITY_SWARM",
+            "pid": data.get("pid"),
+            "swarm_title": str(data.get("swarm_title") or ""),
+            "active_workers": list(data.get("active_workers") or []),
+            "note": str(data.get("note") or ""),
+            "last_heartbeat_at": hb_str,
+            "pending_orders_count": int(pending_cnt),
+            "active_orders_count": int(active_cnt),
+        }
+
+    def set_departments_activity(self, dept_ids: list[str], status: str, increment_done: bool = False) -> None:
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            for did in dept_ids:
+                if status == "IDLE":
+                    busy_step = conn.execute(
+                        "SELECT 1 FROM mission_steps WHERE status = 'RUNNING' AND (',' || lead_dept_ids || ',') LIKE ?",
+                        (f"%,{did},%",),
+                    ).fetchone()
+                    if increment_done:
+                        conn.execute(
+                            "UPDATE departments SET tasks_completed = tasks_completed + 1, updated_at = ? WHERE dept_id = ?",
+                            (now, did),
+                        )
+                    if not busy_step:
+                        conn.execute(
+                            "UPDATE departments SET status = CASE WHEN current_task_id IS NULL THEN 'IDLE' ELSE status END, last_heartbeat_at = ?, updated_at = ? WHERE dept_id = ?",
+                            (now, now, did),
+                        )
+                else:
+                    conn.execute(
+                        "UPDATE departments SET status = ?, last_heartbeat_at = ?, updated_at = ? WHERE dept_id = ?",
+                        (status, now, now, did),
+                    )
 
     def bulk_missions_action(self, action: str, mission_ids: list[str] | None = None) -> dict[str, Any]:
         act = action.lower().strip()

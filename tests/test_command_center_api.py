@@ -236,25 +236,25 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
             hired = json.loads(raw_h.decode("utf-8"))
             self.assertTrue(hired["created"])
 
-    def test_04_v5_autonomous_missions_opportunities_full_crud_and_undo(self) -> None:
-        # Speed up step delay in unit test
-        self.server.autopilot.step_delay_sec = 0.02
-
-        # 1. Scan Money-Maker Opportunities & Accept one into an Autonomous 7-Step Mission
+    def test_04_v6_direct_antigravity_dispatch_full_crud_and_undo(self) -> None:
+        # 1. Request Real Opportunity Scan -> Queues SCAN_OPPORTUNITIES order for Antigravity Swarm (202, zero fake rows)
         st_scan, _, raw_scan = self._req("/api/opportunities/scan", method="POST", body={})
-        self.assertEqual(st_scan, 200)
-        opps = json.loads(raw_scan.decode("utf-8"))["opportunities"]
-        self.assertGreaterEqual(len(opps), 4)
+        self.assertEqual(st_scan, 202)
+        scan_res = json.loads(raw_scan.decode("utf-8"))
+        self.assertTrue(scan_res["queued"])
+        self.assertEqual(scan_res["order"]["order_type"], "SCAN_OPPORTUNITIES")
+        opps = scan_res["opportunities"]
+        self.assertGreaterEqual(len(opps), 2)
         oid = opps[0]["opp_id"]
 
-        st_acc, _, raw_acc = self._req(f"/api/opportunities/{oid}/accept", method="POST", body={"wait": True})
+        # 2. Accept Opportunity -> Creates Mission in QUEUED_FOR_ANTIGRAVITY + Enqueues real NEW_MISSION order (no fake steps!)
+        st_acc, _, raw_acc = self._req(f"/api/opportunities/{oid}/accept", method="POST", body={})
         self.assertEqual(st_acc, 201)
         msn = json.loads(raw_acc.decode("utf-8"))
         mid = msn["mission_id"]
-        self.assertEqual(msn["status"], "WAITING_CHAIRMAN")
-        self.assertEqual(msn["done_steps_count"], 6)
-        # Verify Step 4 & Step 6 contain Adversarial Critique (#46-#47) & Persona UX Tester (#48-#49) verdicts
-        self.assertTrue(all(s["critique_verdict"] and s["ux_verdict"] for s in msn["steps"][:6]))
+        self.assertEqual(msn["dispatch_state"], "QUEUED_FOR_ANTIGRAVITY")
+        self.assertEqual(msn["done_steps_count"], 0)
+        self.assertTrue(msn.get("order_id", "").startswith("ord-"))
 
         # Approve Mission -> 100% COMPLETED
         st_mdec, _, raw_mdec = self._req(f"/api/missions/{mid}/decision", method="POST", body={"decision": "APPROVE"})
@@ -273,9 +273,13 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
         self.assertEqual(st_back, 200)
         self.assertEqual(len(json.loads(raw_back.decode("utf-8"))["steps"]), 7)
 
-        # 2. Task Full CRUD: Create -> Edit (PATCH) -> Duplicate -> Delete -> Undo -> Bulk Delete
+        # 3. Task Full CRUD + Dispatch to Antigravity + Undo + Bulk Restore
         _, _, raw_t = self._req("/api/tasks", method="POST", body={"title": "Việc gốc cần sửa xóa", "assigned_dept_id": "48"})
         tid = json.loads(raw_t.decode("utf-8"))["task_id"]
+
+        st_disp, _, raw_disp = self._req(f"/api/tasks/{tid}/dispatch", method="POST", body={})
+        self.assertEqual(st_disp, 202)
+        self.assertEqual(json.loads(raw_disp.decode("utf-8"))["order"]["order_type"], "EXECUTE_TASK")
 
         st_patch, _, raw_patch = self._req(f"/api/tasks/{tid}", method="PATCH", body={"title": "Việc đã sửa gọn", "kanban_column": "IN_PROGRESS"})
         self.assertEqual(st_patch, 200)
