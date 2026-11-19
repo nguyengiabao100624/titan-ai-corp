@@ -149,18 +149,53 @@
   const WORKER_VI_MAP = {
     "@researcher": "Trinh sát Thị trường và Đối thủ",
     "@trinh-sat-thi-truong": "Trinh sát Thị trường và Đối thủ",
-    "@cfo": "Chuyên gia Tài chính và Giá bán",
+    "@trinh-sat-co-hoi": "Trinh sát Thị trường và Đối thủ",
+    "trinh sát thị trường và đối thủ": "Trinh sát Thị trường và Đối thủ",
+    "trinh sát thị trường & đối thủ": "Trinh sát Thị trường và Đối thủ",
+    "@cfo": "Chuyên gia Tài chính và Thuế",
+    "@chuyen-gia-tai-chinh": "Chuyên gia Tài chính và Thuế",
     "@tai-chinh-thue": "Chuyên gia Tài chính và Thuế",
-    "@critic": "Hội đồng Phản biện Rủi ro",
+    "chuyên gia tài chính và thuế": "Chuyên gia Tài chính và Thuế",
+    "chuyên gia tài chính và giá bán": "Chuyên gia Tài chính và Thuế",
+    "giám đốc tài chính & thuế": "Chuyên gia Tài chính và Thuế",
+    "giám đốc tài chính và thuế": "Chuyên gia Tài chính và Thuế",
+    "@critic": "Hội đồng Phản biện và An ninh",
     "@phan-bien-doc-lap": "Hội đồng Phản biện và An ninh",
+    "@phan-bien-rui-ro": "Hội đồng Phản biện và An ninh",
+    "hội đồng phản biện rủi ro": "Hội đồng Phản biện và An ninh",
+    "hội đồng phản biện độc lập": "Hội đồng Phản biện và An ninh",
+    "hội đồng phản biện và an ninh": "Hội đồng Phản biện và An ninh",
+    "hội đồng phản biện và bảo mật": "Hội đồng Phản biện và An ninh",
     "@ky-su-san-pham": "Kỹ sư Phát triển Sản phẩm",
+    "@builder": "Kỹ sư Phát triển Sản phẩm",
+    "kỹ sư phát triển sản phẩm": "Kỹ sư Phát triển Sản phẩm",
+    "kỹ sư xây dựng sản phẩm": "Kỹ sư Phát triển Sản phẩm",
     "@doi-ban-hang": "Đội Đóng gói và Bán hàng",
+    "đội đóng gói và bán hàng": "Đội Đóng gói và Bán hàng",
+    "đội đóng gói & bán hàng": "Đội Đóng gói và Bán hàng",
     "@tester-khach-hang": "Kiểm thử viên Khách hàng thật",
+    "@ux-tester": "Kiểm thử viên Khách hàng thật",
+    "kiểm thử viên khách hàng thật": "Kiểm thử viên Khách hàng thật",
     "@kien-truc-giao-dien": "Kiến trúc sư Giao diện",
     "@ket-noi-truc-tuyen": "Kỹ sư Kết nối Trực tuyến",
     "@kho-ky-nang": "Chuyên gia Kho Kỹ năng",
     "@coordinator": "Tổng Điều phối",
-    "@dieu-phoi": "Tổng Điều phối"
+    "@dieu-phoi": "Tổng Điều phối",
+    "tổng điều phối": "Tổng Điều phối",
+    "tổng điều phối điều hành": "Tổng Điều phối"
+  };
+
+  const WORKER_ROLE_DESC_VI = {
+    "Tổng Điều phối": "Điều phối luồng công việc, chốt cổng duyệt và nghiệm thu tổng thể.",
+    "Trinh sát Thị trường và Đối thủ": "Nghiên cứu nhu cầu thật, đối thủ cạnh tranh và cơ hội sinh lời.",
+    "Chuyên gia Tài chính và Thuế": "Tính giá bán, điểm hòa vốn, thuế và khóa biên lãi gộp an toàn.",
+    "Kỹ sư Phát triển Sản phẩm": "Xây dựng mã nguồn sản phẩm chạy thật và kiểm thử kỹ thuật.",
+    "Đội Đóng gói và Bán hàng": "Thiết kế trang bán hàng và kịch bản thu khách hàng đầu tiên.",
+    "Kiểm thử viên Khách hàng thật": "Đóng vai người dùng thật kiểm tra trải nghiệm và bắt lỗi giao diện.",
+    "Hội đồng Phản biện và An ninh": "Phản biện rủi ro lỗ vốn, kiểm toán bảo mật và kiểm định độc lập.",
+    "Kiến trúc sư Giao diện": "Thiết kế hệ thống giao diện, bố cục đáp ứng và kiểm định trải nghiệm.",
+    "Kỹ sư Kết nối Trực tuyến": "Vận hành máy chủ, cơ sở dữ liệu và đồng bộ trực tuyến đa thiết bị.",
+    "Chuyên gia Kho Kỹ năng": "Sưu tầm, kiểm duyệt và huấn luyện bộ kỹ năng chuyên môn cho phòng ban."
   };
 
   const MSG_TYPE_VI = {
@@ -358,10 +393,12 @@
 
   function viWorkerLabel(slug) {
     if (!slug) return "";
-    const k = String(slug).trim().toLowerCase();
-    const key = k.startsWith("@") ? k : `@${k}`;
-    if (WORKER_VI_MAP[key]) return WORKER_VI_MAP[key];
-    return sanitizeUiVietnamese(String(slug).replace(/^@/, "").replace(/-/g, " "));
+    const raw = String(slug).trim();
+    const k = raw.toLowerCase();
+    if (WORKER_VI_MAP[k]) return WORKER_VI_MAP[k];
+    const atKey = k.startsWith("@") ? k : `@${k}`;
+    if (WORKER_VI_MAP[atKey]) return WORKER_VI_MAP[atKey];
+    return sanitizeUiVietnamese(raw.replace(/^@/, "").replace(/-/g, " "));
   }
 
   function parseDeptIdsJson(raw) {
@@ -1894,57 +1931,144 @@
     `;
   }
 
-  function renderSwarmMembersPanel(m, msgs) {
+  function buildMissionMembersList(m, msgs) {
     const memberMap = new Map();
+    const addDepts = (rec, rawDepts) => {
+      if (!rawDepts) return;
+      String(rawDepts).split(",").map((x) => x.trim()).filter(Boolean).forEach((id) => {
+        rec.deptSet.add(id.padStart(2, "0"));
+      });
+    };
     const ensure = (slug, depts = "") => {
       const norm = String(slug || "").trim();
       if (!norm) return null;
       const vi = viWorkerLabel(norm);
+      if (!vi) return null;
       if (!memberMap.has(vi)) {
-        memberMap.set(vi, { slug: norm, name_vi: vi, depts, status: "PENDING", lastNote: "Đang chờ tới lượt phân công.", stepOrder: 99 });
+        memberMap.set(vi, {
+          name_vi: vi,
+          roleDesc: WORKER_ROLE_DESC_VI[vi] || "Chuyên gia tham gia phối hợp triển khai và kiểm định sản phẩm.",
+          deptSet: new Set(),
+          stepOrders: new Set(),
+          msgCount: 0,
+          hasRunningStep: false,
+          hasDoneStep: false,
+          hasDoneMsg: false,
+          minOrder: 99
+        });
       }
-      return memberMap.get(vi);
+      const rec = memberMap.get(vi);
+      addDepts(rec, depts);
+      return rec;
     };
+
     let declared = [];
     try { declared = JSON.parse(m.swarm_workers_json || "[]"); } catch (_e) {}
     declared.forEach((w) => ensure(w));
+
     (m.steps || []).forEach((s) => {
       if (!s.worker_name) return;
       const rec = ensure(s.worker_name, s.lead_dept_ids);
-      if (rec) {
-        rec.depts = rec.depts || s.lead_dept_ids;
-        rec.stepOrder = Math.min(rec.stepOrder, s.step_order);
-        if (s.status === "RUNNING") {
-          rec.status = "RUNNING";
-          rec.lastNote = sanitizeUiVietnamese(s.live_activity_text || `Đang thực thi Bước ${s.step_order}`);
-        } else if (s.status === "DONE" && rec.status !== "RUNNING") {
-          rec.status = "DONE";
-          rec.lastNote = sanitizeUiVietnamese(s.output_summary || `Đã hoàn tất Bước ${s.step_order}`).slice(0, 140);
-        }
+      if (!rec) return;
+      rec.stepOrders.add(Number(s.step_order));
+      rec.minOrder = Math.min(rec.minOrder, Number(s.step_order || 99));
+      if (s.status === "RUNNING") rec.hasRunningStep = true;
+      if (s.status === "DONE") rec.hasDoneStep = true;
+    });
+
+    const DONE_MSG_TYPES = new Set(["HANDOFF", "DECISION", "DONE", "APPROVAL", "QA_REPORT", "CRITIQUE"]);
+    (msgs || []).forEach((msg) => {
+      const rec = ensure(msg.sender_slug || msg.sender_name_vi, msg.sender_dept_ids);
+      if (!rec) return;
+      rec.msgCount += 1;
+      if (DONE_MSG_TYPES.has(String(msg.msg_type || "").toUpperCase())) {
+        rec.hasDoneMsg = true;
       }
     });
-    msgs.forEach((msg) => {
-      const rec = ensure(msg.sender_slug, msg.sender_dept_ids);
-      if (rec) rec.lastNote = sanitizeUiVietnamese(msg.content_vi || "").slice(0, 140);
-    });
-    const members = Array.from(memberMap.values()).sort((a, b) => a.stepOrder - b.stepOrder);
+
+    const isMissionCompleted =
+      m.status === "COMPLETED" ||
+      m.phase === "DELIVERED" ||
+      Number(m.progress_pct || 0) >= 100;
+    const isMissionWaitingChairman = m.status === "WAITING_CHAIRMAN";
+
+    return Array.from(memberMap.values())
+      .map((rec) => {
+        let stCls = "badge-idle";
+        let stIcon = "clock";
+        let stTxt = "Chờ tới lượt";
+
+        if (isMissionCompleted) {
+          stCls = "badge-done";
+          stIcon = "check";
+          stTxt = "Đã xong phần việc";
+        } else if (isMissionWaitingChairman) {
+          if (rec.hasDoneStep || rec.hasDoneMsg || rec.msgCount > 0) {
+            stCls = "badge-wait";
+            stIcon = "flag";
+            stTxt = "Đã bàn giao, chờ duyệt";
+          } else if (rec.hasRunningStep) {
+            stCls = "badge-run";
+            stIcon = "activity";
+            stTxt = "Đang làm việc";
+          }
+        } else if (rec.hasRunningStep) {
+          stCls = "badge-run";
+          stIcon = "activity";
+          stTxt = "Đang làm việc";
+        } else if (rec.hasDoneStep || rec.hasDoneMsg) {
+          stCls = "badge-done";
+          stIcon = "check";
+          stTxt = "Đã xong phần việc";
+        }
+
+        const stepsSorted = Array.from(rec.stepOrders).sort((a, b) => a - b);
+        const deptIds = Array.from(rec.deptSet).sort();
+        return {
+          name_vi: rec.name_vi,
+          roleDesc: rec.roleDesc,
+          stepsSorted,
+          deptIds,
+          msgCount: rec.msgCount,
+          minOrder: rec.minOrder,
+          stCls,
+          stIcon,
+          stTxt
+        };
+      })
+      .sort((a, b) => (a.minOrder - b.minOrder) || a.name_vi.localeCompare(b.name_vi, "vi"));
+  }
+
+  function renderSwarmMembersPanel(m, msgs, prebuiltMembers = null) {
+    const members = prebuiltMembers || buildMissionMembersList(m, msgs);
     if (!members.length) {
       return `<div class="room-feed"><p class="row-meta">Chưa có thành viên chuyên trách nào được kích hoạt cho nhiệm vụ này.</p></div>`;
     }
     return `
       <div class="room-member-grid">
         ${members.map((mb) => {
-          const stCls = mb.status === "RUNNING" ? "badge-run" : mb.status === "DONE" ? "badge-done" : "badge-idle";
-          const stIcon = mb.status === "RUNNING" ? "activity" : mb.status === "DONE" ? "check" : "clock";
-          const stTxt = mb.status === "RUNNING" ? "Đang xử lý" : mb.status === "DONE" ? "Đã hoàn tất" : "Đang trực chờ";
+          const stepPart = mb.stepsSorted.length
+            ? `Đảm nhiệm: Bước ${mb.stepsSorted.join(", ")}`
+            : "Vai trò: Phối hợp và kiểm định";
+          const msgPart = `Đã gửi: ${mb.msgCount} trao đổi`;
+          const deptChipsHtml = mb.deptIds.length
+            ? `<div class="who-chips">${mb.deptIds.map((id) =>
+                `<button type="button" class="agent-pill" data-open-staff="${esc(id)}" title="${esc(deptTitle(id))}">#${esc(id)}</button>`
+              ).join("")}</div>`
+            : "";
           return `
             <article class="room-member-card">
-              <div class="opp-head">
-                <strong>${esc(mb.name_vi)}</strong>
-                <span class="badge ${stCls}">${ico(stIcon)}<span>${stTxt}</span></span>
+              <div class="member-card-top">
+                <div class="opp-head">
+                  <strong>${esc(mb.name_vi)}</strong>
+                  <span class="badge ${mb.stCls}">${ico(mb.stIcon)}<span>${mb.stTxt}</span></span>
+                </div>
+                <p class="member-role-desc">${esc(mb.roleDesc)}</p>
               </div>
-              ${mb.depts ? `<div class="mono row-meta">Phòng chuyên trách: #${esc(mb.depts.split(",").join(", #"))}</div>` : ""}
-              <p class="row-meta">${esc(mb.lastNote)}</p>
+              <div class="member-card-foot">
+                <div class="member-contrib-line">${esc(stepPart)} | ${esc(msgPart)}</div>
+                ${deptChipsHtml}
+              </div>
             </article>
           `;
         }).join("")}
@@ -1975,11 +2099,13 @@
       isQueued ? `<span class="badge badge-wait">${ico("clock")}<span>Đã đưa vào hàng đợi trực tuyến</span></span>` :
       `<span class="badge badge-run">${ico("activity")}<span>Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>`;
 
-    const workerChipsHtml = swarmWorkers.length
-      ? `<div class="chip-row">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(viWorkerLabel(w))}</span>`).join("")}</div>`
+    const uniqueWorkerNames = Array.from(new Set(swarmWorkers.map((w) => viWorkerLabel(w)).filter(Boolean)));
+    const workerChipsHtml = uniqueWorkerNames.length
+      ? `<div class="chip-row">${uniqueWorkerNames.map((w) => `<span class="worker-tag">${esc(w)}</span>`).join("")}</div>`
       : "";
 
     const msnMsgs = state.swarmMessages.filter((x) => x.mission_id === m.mission_id);
+    const msnMembers = buildMissionMembersList(m, msnMsgs);
     const activeSubTab = state.missionViewTabs[m.mission_id] || "steps";
 
     const stepsHtml = (m.steps || []).map((s) => {
@@ -2028,7 +2154,7 @@
 
     const bodyHtml =
       activeSubTab === "board" ? renderSwarmBoardPanel(m, msnMsgs) :
-      activeSubTab === "members" ? renderSwarmMembersPanel(m, msnMsgs) :
+      activeSubTab === "members" ? renderSwarmMembersPanel(m, msnMsgs, msnMembers) :
       activeSubTab === "graph" ? renderSwarmGraphSvg(m) :
       `<div class="stepper-list">${stepsHtml}</div>`;
 
@@ -2071,7 +2197,7 @@
               ${ico("message-square")}<span>Bảng trao đổi (${msnMsgs.length})</span>
             </button>
             <button type="button" class="seg-btn ${activeSubTab === "members" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "members" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:members">
-              ${ico("users")}<span>Thành viên</span>
+              ${ico("users")}<span>Đội ngũ tham gia (${msnMembers.length})</span>
             </button>
             <button type="button" class="seg-btn ${activeSubTab === "graph" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "graph" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:graph">
               ${ico("git-branch")}<span>Sơ đồ chuyền việc</span>

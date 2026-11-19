@@ -1522,12 +1522,33 @@ ol {
 }
 
 .room-member-card {
-  display: grid;
-  gap: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-3);
   padding: var(--space-4);
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-button);
   background: var(--color-surface-page);
+}
+
+.member-card-top,
+.member-card-foot {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.member-role-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+.member-contrib-line {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
 }
 
 .room-graph-wrap {
