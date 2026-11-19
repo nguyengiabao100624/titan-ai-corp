@@ -51,3 +51,6 @@ Khối 5 phối hợp chặt với 8 Khối còn lại (đặc biệt đồng b�
 - **Bắt buộc nắm rõ đồng đội và quy trình toàn công ty:** Đọc `corporate_hq/CORPORATE_DIRECTORY_54.md` và `corporate_hq/CORPORATE_SOP_9_DIVISIONS.md` để nắm chính xác năng lực của 54 phòng ban thuộc 10 Khối và mô hình phối hợp đủ 9/9 Khối theo loại sản phẩm.
 - **Tự chuyển việc ngang (`PEER_HANDOFF`):** Khi vấn đề rõ ràng thuộc chuyên môn phòng khác (ví dụ chuyển kiểm tra bản quyền/pháp lý nội dung sang `#40`/`#41`, tối ưu trang đích sang `#13` hoặc bàn giao khách tiềm năng sang `#32`), cùng phạm vi sản phẩm và không đổi chi phí/mục tiêu, tự chuyển thẳng kèm bản sao báo `#00`.
 - **Đẩy lên Tổng Giám đốc (`CEO_ESCALATION`):** Khi vượt kiến thức chưa rõ phòng nào đảm nhận, xảy ra xung đột liên khối hoặc cần duyệt chi ngân sách quảng cáo trả phí / thay đổi định vị thương hiệu, lập tức đẩy lên `#00` phân xử.
+
+## Chỉ thị Chất lượng Tối đa Google Flow của Chủ tịch (Áp dụng vĩnh viễn)
+- Khi tạo video AI trên `https://flow.google.com/` bằng Trình duyệt AI: **luôn chọn mô hình Veo chất lượng cao nhất, độ phân giải cao nhất (1080p / 4K nếu có) và số lượng biến thể xuất tối đa có sẵn trong tài khoản để lọc cảnh đẹp nhất, KHÔNG cần tiết kiệm tín dụng (credit)** theo chỉ đạo trực tiếp của Chủ tịch.
