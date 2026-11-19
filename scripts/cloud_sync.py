@@ -41,11 +41,12 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
     missions = db.list_missions()
     opportunities = db.list_opportunities()
     orders = db.list_orders(limit=40)
+    swarm_messages = db.list_swarm_messages(limit=100)
     bridge = db.get_bridge_status()
     tombstones = db.list_tombstones()
 
     return {
-        "schema_version": "6.0",
+        "schema_version": "6.3",
         "exported_at": utc_now_iso(),
         "bridge": bridge,
         "divisions": divisions,
@@ -55,6 +56,7 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
         "missions": missions,
         "opportunities": opportunities,
         "orders": orders,
+        "swarm_messages": swarm_messages,
         "tombstones": tombstones,
         "deliverables": deliverables,
         "citations": citations,
@@ -508,6 +510,34 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     ord_item.get("updated_at") or utc_now_iso(),
                 ),
             )
+
+        for sm in remote_snapshot.get("swarm_messages", []):
+            if not sm.get("mission_id") or not sm.get("content_vi"):
+                continue
+            exists = conn.execute(
+                "SELECT 1 FROM swarm_messages WHERE mission_id = ? AND sender_slug = ? AND created_at = ?",
+                (sm["mission_id"], sm.get("sender_slug", ""), sm.get("created_at", "")),
+            ).fetchone()
+            if not exists:
+                conn.execute(
+                    """
+                    INSERT INTO swarm_messages(
+                        mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                        recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        sm["mission_id"],
+                        sm.get("sender_slug", "@dieu-phoi"),
+                        sm.get("sender_name_vi", "Tổng Điều Phối"),
+                        sm.get("sender_dept_ids", ""),
+                        sm.get("recipient_name_vi", "Toàn đội"),
+                        sm.get("msg_type", "UPDATE"),
+                        sm["content_vi"],
+                        sm.get("artifact_path", ""),
+                        sm.get("created_at") or utc_now_iso(),
+                    ),
+                )
 
         conn.execute(
             """

@@ -331,9 +331,24 @@ CREATE TABLE IF NOT EXISTS bridge_state (
     updated_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS swarm_messages (
+    msg_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    mission_id TEXT NOT NULL,
+    sender_slug TEXT NOT NULL,
+    sender_name_vi TEXT NOT NULL,
+    sender_dept_ids TEXT NOT NULL DEFAULT '',
+    recipient_name_vi TEXT NOT NULL DEFAULT 'Toàn đội',
+    msg_type TEXT NOT NULL DEFAULT 'UPDATE'
+        CHECK(msg_type IN ('HANDOFF','UPDATE','CRITIQUE','QA_REPORT','DONE','APPROVAL')),
+    content_vi TEXT NOT NULL,
+    artifact_path TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_mission_steps_order ON mission_steps(mission_id, step_order ASC);
 CREATE INDEX IF NOT EXISTS idx_opps_status ON opportunities(status, updated_at DESC);
 CREATE INDEX IF NOT EXISTS idx_ag_orders_status ON antigravity_orders(status, created_at ASC);
+CREATE INDEX IF NOT EXISTS idx_swarm_msgs_msn ON swarm_messages(mission_id, msg_id DESC);
 """
 
 
@@ -1577,6 +1592,7 @@ class TitanDatabase:
                 UNION ALL SELECT MAX(updated_at) AS ts FROM opportunities
                 UNION ALL SELECT MAX(updated_at) AS ts FROM antigravity_orders
                 UNION ALL SELECT MAX(updated_at) AS ts FROM bridge_state
+                UNION ALL SELECT MAX(created_at) AS ts FROM swarm_messages
                 UNION ALL SELECT MAX(timestamp) AS ts FROM activity_stream
                 UNION ALL SELECT MAX(fetched_at) AS ts FROM knowledge_atoms
             )
@@ -1607,6 +1623,7 @@ class TitanDatabase:
             "missions": self.list_missions(),
             "opportunities": self.list_opportunities(),
             "orders": self.list_orders(limit=25),
+            "swarm_messages": self.list_swarm_messages(limit=80),
             "recent_events": events,
             "last_learning_run": dict(last_run) if last_run else None,
         }
@@ -2446,6 +2463,70 @@ class TitanDatabase:
                         "UPDATE departments SET status = ?, last_heartbeat_at = ?, updated_at = ? WHERE dept_id = ?",
                         (status, now, now, did),
                     )
+
+    # -------------------------------------------------------------------------
+    # VIETNAMESE LIVE SWARM ROOM (BẢNG TRAO ĐỔI TRỰC TIẾP 100% TIẾNG VIỆT)
+    # -------------------------------------------------------------------------
+    def post_swarm_message(
+        self,
+        mission_id: str,
+        sender_slug: str,
+        sender_name_vi: str,
+        content_vi: str,
+        recipient_name_vi: str = "Toàn đội",
+        sender_dept_ids: str = "",
+        msg_type: str = "UPDATE",
+        artifact_path: str = "",
+    ) -> dict[str, Any]:
+        mtype = msg_type.upper().strip()
+        if mtype not in ("HANDOFF", "UPDATE", "CRITIQUE", "QA_REPORT", "DONE", "APPROVAL"):
+            mtype = "UPDATE"
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            cur = conn.execute(
+                """
+                INSERT INTO swarm_messages(
+                    mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                    recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    mission_id,
+                    sender_slug.strip() or "@dieu-phoi",
+                    sender_name_vi.strip() or "Tổng Điều Phối",
+                    sender_dept_ids.strip(),
+                    recipient_name_vi.strip() or "Toàn đội",
+                    mtype,
+                    content_vi.strip(),
+                    artifact_path.strip(),
+                    now,
+                ),
+            )
+            msg_id = int(cur.lastrowid)
+            first_dept = sender_dept_ids.split(",")[0].strip() if sender_dept_ids else "00"
+            self.log_event(
+                first_dept or "00",
+                "SWARM_MSG",
+                f"[{sender_name_vi} → {recipient_name_vi}] {content_vi[:120]}",
+                detail={"mission_id": mission_id, "msg_id": msg_id, "msg_type": mtype},
+                conn=conn,
+            )
+        row = self._get_conn().execute("SELECT * FROM swarm_messages WHERE msg_id = ?", (msg_id,)).fetchone()
+        return dict(row)
+
+    def list_swarm_messages(self, mission_id: str | None = None, limit: int = 80) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        if mission_id:
+            rows = conn.execute(
+                "SELECT * FROM swarm_messages WHERE mission_id = ? ORDER BY msg_id ASC LIMIT ?",
+                (mission_id, limit),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT * FROM (SELECT * FROM swarm_messages ORDER BY msg_id DESC LIMIT ?) ORDER BY msg_id ASC",
+                (limit,),
+            ).fetchall()
+        return [dict(r) for r in rows]
 
     def bulk_missions_action(self, action: str, mission_ids: list[str] | None = None) -> dict[str, Any]:
         act = action.lower().strip()

@@ -259,6 +259,34 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._serve_static_file(DEFAULT_SNAPSHOT_PATH, "application/json; charset=utf-8", cache_control="no-cache")
                 return
+            if path.startswith("/projects/"):
+                rel = urllib.parse.unquote(path[len("/projects/"):]).lstrip("/")
+                proj_base = (ROOT_DIR / "corporate_hq" / "projects").resolve()
+                target = (proj_base / rel).resolve()
+                if not target.is_relative_to(proj_base):
+                    self._send_json({"error": "Chặn truy cập ngoài thư mục dự án!"}, status=403)
+                    return
+                if target.is_dir():
+                    target = target / "index.html"
+                if not target.is_file():
+                    self._send_json({"error": f"Không tìm thấy tệp sản phẩm: {rel}"}, status=404)
+                    return
+                ext = target.suffix.lower()
+                mime_map = {
+                    ".html": "text/html; charset=utf-8",
+                    ".css": "text/css; charset=utf-8",
+                    ".js": "application/javascript; charset=utf-8",
+                    ".json": "application/json; charset=utf-8",
+                    ".webmanifest": "application/manifest+json; charset=utf-8",
+                    ".svg": "image/svg+xml",
+                    ".png": "image/png",
+                    ".jpg": "image/jpeg",
+                    ".csv": "text/csv; charset=utf-8",
+                    ".md": "text/markdown; charset=utf-8",
+                    ".txt": "text/plain; charset=utf-8",
+                }
+                self._serve_static_file(target, mime_map.get(ext, "application/octet-stream"), cache_control="no-cache")
+                return
 
             # 04: Health & Latency Probe
             if path == "/api/health":
@@ -410,6 +438,23 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 st = qs.get("status", [None])[0]
                 limit = max(5, min(100, int(qs.get("limit", ["30"])[0])))
                 self._send_json({"orders": db.list_orders(status=st, limit=limit), "bridge": db.get_bridge_status()})
+                return
+
+            # 28: Vietnamese Live Swarm Room Messages & Safe Report Reader
+            if path == "/api/swarm/messages":
+                mid = qs.get("mission_id", [None])[0]
+                limit = max(10, min(200, int(qs.get("limit", ["80"])[0])))
+                self._send_json({"messages": db.list_swarm_messages(mission_id=mid, limit=limit)})
+                return
+
+            if path == "/api/workspace/file":
+                req_path = str(qs.get("path", [""])[0]).strip().lstrip("/\\")
+                proj_base = (ROOT_DIR / "corporate_hq" / "projects").resolve()
+                candidate = (ROOT_DIR / req_path).resolve()
+                if not candidate.is_relative_to(proj_base) or not candidate.is_file():
+                    self._send_json({"error": "Không tìm thấy tệp báo cáo trong thư mục dự án."}, status=404)
+                    return
+                self._send_json({"path": req_path, "name": candidate.name, "content": candidate.read_text(encoding="utf-8", errors="replace")})
                 return
 
             self._send_json({"error": f"Endpoint không tồn tại: {path}"}, status=404)

@@ -24,6 +24,28 @@ from cloud_sync import DEFAULT_SNAPSHOT_PATH, save_snapshot_file
 from titan_db import DEFAULT_DB_PATH, ROOT_DIR, TitanDatabase, utc_now_iso
 
 
+WORKER_VI_NAMES: dict[str, str] = {
+    "@researcher": "Trinh sát Thị trường & Đối thủ",
+    "@trinh-sat-thi-truong": "Trinh sát Thị trường & Đối thủ",
+    "@cfo": "Giám đốc Tài chính & Thuế",
+    "@tai-chinh-thue": "Giám đốc Tài chính & Thuế",
+    "@critic": "Hội đồng Phản biện Độc lập",
+    "@phan-bien-doc-lap": "Hội đồng Phản biện & Bảo mật",
+    "@ky-su-san-pham": "Kỹ sư Sản phẩm (Code Web/App)",
+    "@doi-ban-hang": "Đội Đóng gói & Bán hàng",
+    "@tester-khach-hang": "Tester Đóng vai Khách hàng Thật",
+    "@coordinator": "Tổng Điều Phối (CEO)",
+    "@dieu-phoi": "Tổng Điều Phối (CEO)",
+}
+
+
+def _vi_worker_name(slug: str) -> str:
+    s = slug.strip()
+    if not s.startswith("@"):
+        s = f"@{s}"
+    return WORKER_VI_NAMES.get(s.lower(), s)
+
+
 def _sync_snapshot(db: TitanDatabase, snapshot_path: Path = DEFAULT_SNAPSHOT_PATH) -> None:
     if Path(db.db_path).resolve() == DEFAULT_DB_PATH.resolve():
         save_snapshot_file(db, snapshot_path)
@@ -78,8 +100,17 @@ def cmd_step_start(db: TitanDatabase, args: argparse.Namespace) -> dict:
     db.log_event(
         depts[0] if depts else "00",
         "STEP_RUNNING",
-        f"[Bước {args.step}/7 · {args.worker}] {args.activity}",
+        f"[Bước {args.step}/8 · {_vi_worker_name(args.worker)}] {args.activity}",
         detail={"mission_id": args.mission, "step": args.step, "worker": args.worker},
+    )
+    db.post_swarm_message(
+        mission_id=args.mission,
+        sender_slug=args.worker,
+        sender_name_vi=_vi_worker_name(args.worker),
+        sender_dept_ids=args.depts or "",
+        recipient_name_vi="Chủ tịch & Toàn đội",
+        msg_type="UPDATE",
+        content_vi=f"Bắt đầu Bước {args.step}: {args.activity}",
     )
     _sync_snapshot(db)
     return {"ok": True, "step_id": sid, "status": "RUNNING"}
@@ -93,7 +124,7 @@ def cmd_step_complete(db: TitanDatabase, args: argparse.Namespace) -> dict:
         status="DONE",
         progress_pct=100,
         worker_name=args.worker,
-        live_activity_text=args.activity or f"{args.worker} đã hoàn tất bước {args.step}/7 với kết quả kiểm chứng thật.",
+        live_activity_text=args.activity or f"{_vi_worker_name(args.worker)} đã hoàn tất bước {args.step} với kết quả kiểm chứng thật.",
         output_summary=args.summary,
         critique_verdict=args.critique or "",
         ux_verdict=args.ux or "",
@@ -105,8 +136,23 @@ def cmd_step_complete(db: TitanDatabase, args: argparse.Namespace) -> dict:
     db.log_event(
         depts[0] if depts else "00",
         "STEP_DONE",
-        f"[Xong Bước {args.step}/7 · {args.worker}] {args.summary[:120]}",
+        f"[Xong Bước {args.step} · {_vi_worker_name(args.worker)}] {args.summary[:120]}",
         detail={"mission_id": args.mission, "step": args.step, "worker": args.worker, "artifact": args.artifact},
+    )
+    chat_body = args.summary
+    if args.critique:
+        chat_body += f"\n• Phản biện: {args.critique}"
+    if args.ux:
+        chat_body += f"\n• Trải nghiệm khách hàng: {args.ux}"
+    db.post_swarm_message(
+        mission_id=args.mission,
+        sender_slug=args.worker,
+        sender_name_vi=_vi_worker_name(args.worker),
+        sender_dept_ids=args.depts or "",
+        recipient_name_vi="Toàn đội & Chủ tịch",
+        msg_type="DONE",
+        content_vi=f"Hoàn tất Bước {args.step}: {chat_body}",
+        artifact_path=args.artifact or "",
     )
     _sync_snapshot(db)
     return {"ok": True, "step_id": sid, "status": "DONE"}
@@ -204,6 +250,21 @@ def cmd_add_opportunity(db: TitanDatabase, args: argparse.Namespace) -> dict:
     )
     _sync_snapshot(db)
     return {"ok": True, "opportunity": opp}
+
+
+def cmd_post_chat(db: TitanDatabase, args: argparse.Namespace) -> dict:
+    msg = db.post_swarm_message(
+        mission_id=args.mission,
+        sender_slug=args.worker,
+        sender_name_vi=args.name_vi or _vi_worker_name(args.worker),
+        sender_dept_ids=args.depts or "",
+        recipient_name_vi=args.to or "Toàn đội",
+        msg_type=args.msg_type or "UPDATE",
+        content_vi=args.message,
+        artifact_path=args.artifact or "",
+    )
+    _sync_snapshot(db)
+    return {"ok": True, "message": msg}
 
 
 def cmd_complete_order(db: TitanDatabase, args: argparse.Namespace) -> dict:
@@ -318,6 +379,16 @@ def main() -> int:
     p_ao.add_argument("--ux", required=True)
     p_ao.add_argument("--url", default="")
 
+    p_chat = sub.add_parser("post-chat")
+    p_chat.add_argument("--mission", required=True)
+    p_chat.add_argument("--worker", required=True)
+    p_chat.add_argument("--name-vi", default="")
+    p_chat.add_argument("--depts", default="")
+    p_chat.add_argument("--to", default="Toàn đội")
+    p_chat.add_argument("--msg-type", default="UPDATE")
+    p_chat.add_argument("--message", required=True)
+    p_chat.add_argument("--artifact", default="")
+
     p_co = sub.add_parser("complete-order")
     p_co.add_argument("--order", required=True)
     p_co.add_argument("--summary", default="")
@@ -336,6 +407,7 @@ def main() -> int:
             "request-proposal-approval": cmd_request_proposal_approval,
             "request-approval": cmd_request_approval,
             "add-opportunity": cmd_add_opportunity,
+            "post-chat": cmd_post_chat,
             "complete-order": cmd_complete_order,
             "publish-cloud": cmd_publish_cloud,
         }

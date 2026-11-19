@@ -82,6 +82,8 @@
     overview: null,
     bridge: { online: false, mode: "ANTIGRAVITY_SWARM", active_workers: [], pending_orders_count: 0 },
     orders: [],
+    swarmMessages: [],
+    missionViewTabs: {},
     departments: [],
     divisions: [],
     missions: [],
@@ -424,6 +426,7 @@
             state.staticMode = true;
             state.bridge = snap.bridge || { online: false, mode: "ANTIGRAVITY_SWARM", active_workers: [], pending_orders_count: 0 };
             state.orders = snap.orders || [];
+            state.swarmMessages = snap.swarm_messages || [];
             // Always prefer fresh cloud snapshot from Antigravity Swarm over stale localStorage!
             state.divisions = snap.divisions || [];
             state.departments = snap.departments || [];
@@ -451,7 +454,8 @@
           projects: state.projects,
           missions: state.missions,
           opportunities: state.opportunities,
-          orders: state.orders
+          orders: state.orders,
+          swarm_messages: state.swarmMessages
         };
       }
       if (path === "/api/bridge/status") return state.bridge;
@@ -1026,6 +1030,232 @@
     bindQuickActions(oppGrid);
   }
 
+  const WORKER_VI_MAP = {
+    "@researcher": "Trinh sát Thị trường & Đối thủ",
+    "@trinh-sat-thi-truong": "Trinh sát Thị trường & Đối thủ",
+    "@cfo": "Giám đốc Tài chính & Thuế",
+    "@tai-chinh-thue": "Giám đốc Tài chính & Thuế",
+    "@critic": "Hội đồng Phản biện Độc lập",
+    "@phan-bien-doc-lap": "Hội đồng Phản biện & Bảo mật",
+    "@ky-su-san-pham": "Kỹ sư Sản phẩm (Code Web/App)",
+    "@doi-ban-hang": "Đội Đóng gói & Bán hàng",
+    "@tester-khach-hang": "Tester Đóng vai Khách hàng Thật",
+    "@coordinator": "Tổng Điều Phối (CEO)",
+    "@dieu-phoi": "Tổng Điều Phối (CEO)"
+  };
+
+  function viWorkerLabel(slug) {
+    if (!slug) return "";
+    const k = String(slug).trim().toLowerCase();
+    const key = k.startsWith("@") ? k : `@${k}`;
+    return WORKER_VI_MAP[key] || slug;
+  }
+
+  function artifactHref(relPath) {
+    const clean = String(relPath || "").replace(/^\/+/, "");
+    if (clean.startsWith("corporate_hq/projects/")) {
+      const sub = clean.slice("corporate_hq/projects/".length);
+      return state.staticMode ? `./projects/${sub}` : `${API_BASE}/projects/${sub}`;
+    }
+    return "";
+  }
+
+  const MSG_TYPE_VI = {
+    HANDOFF: { label: "Chuyền việc", cls: "badge-run" },
+    UPDATE: { label: "Đang xử lý", cls: "badge-idle" },
+    CRITIQUE: { label: "Phản biện", cls: "badge-wait" },
+    QA_REPORT: { label: "Kiểm thử khách", cls: "badge-wait" },
+    DONE: { label: "Hoàn tất", cls: "badge-done" },
+    APPROVAL: { label: "Duyệt cổng", cls: "badge-done" }
+  };
+
+  function renderSwarmGraphSvg(m) {
+    const stepsByOrd = {};
+    (m.steps || []).forEach((s) => { stepsByOrd[s.step_order] = s; });
+    const colorOf = (ord) => {
+      const s = stepsByOrd[ord];
+      if (!s) return { fill: "#F1F5F9", stroke: "#CBD5E1", text: "#475569", dot: "#94A3B8", state: "Chờ" };
+      if (s.status === "DONE") return { fill: "#ECFDF5", stroke: "#059669", text: "#065F46", dot: "#059669", state: "✓ Xong" };
+      if (s.status === "RUNNING") return { fill: "#EFF6FF", stroke: "#2563EB", text: "#1E40AF", dot: "#2563EB", state: "● Đang làm" };
+      if (s.status === "WAITING_APPROVAL") return { fill: "#FFFBEB", stroke: "#D97706", text: "#92400E", dot: "#D97706", state: "⚑ Chờ duyệt" };
+      return { fill: "#F8FAFC", stroke: "#CBD5E1", text: "#475569", dot: "#94A3B8", state: "○ Chưa tới" };
+    };
+    const box = (x, y, w, h, ord, line1, line2) => {
+      const c = colorOf(ord);
+      return `
+        <g>
+          <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${c.fill}" stroke="${c.stroke}" stroke-width="1.6"/>
+          <circle cx="${x + 14}" cy="${y + 18}" r="4.5" fill="${c.dot}"/>
+          <text x="${x + 24}" y="${y + 22}" font-size="11.5" font-weight="700" fill="${c.text}">${esc(line1)}</text>
+          <text x="${x + 12}" y="${y + 40}" font-size="10.5" fill="#475569">${esc(line2)}</text>
+          <text x="${x + 12}" y="${y + 56}" font-size="10" font-weight="600" fill="${c.text}">${c.state}</text>
+        </g>
+      `;
+    };
+    return `
+      <div class="swarm-graph-wrap">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">
+          Sơ đồ phối hợp trực tiếp giữa các AI chuyên trách — từ <strong>Giai đoạn 1 (Săn kèo &amp; Phản biện)</strong> sang <strong>Giai đoạn 2 (Sản xuất Sản phẩm Cuối &amp; Kiểm thử thật)</strong>:
+        </div>
+        <svg class="swarm-graph-svg" viewBox="0 0 920 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#94A3B8"/>
+            </marker>
+          </defs>
+          <!-- Phase 1 & Phase 2 background regions -->
+          <rect x="6" y="6" width="444" height="208" rx="12" fill="none" stroke="#CBD5E1" stroke-dasharray="4 4"/>
+          <text x="18" y="24" font-size="11" font-weight="700" fill="#64748B">GIAI ĐOẠN 1 · NGHIÊN CỨU, TÍNH LÃI &amp; CHỐT KÈO</text>
+          <rect x="466" y="6" width="448" height="208" rx="12" fill="none" stroke="#0F766E" stroke-dasharray="4 4"/>
+          <text x="478" y="24" font-size="11" font-weight="700" fill="#0F766E">GIAI ĐOẠN 2 · SẢN XUẤT SẢN PHẨM CUỐI &amp; BÀN GIAO</text>
+
+          <!-- Phase 1 Nodes -->
+          ${box(18, 38, 152, 68, 1, "B1 · Trinh sát Thị trường", "#01, #02, #03, #50")}
+          ${box(18, 126, 152, 68, 2, "B2 · Tài chính & Thuế", "#38, #39 (CFO)")}
+          ${box(196, 82, 122, 68, 3, "B3 · Phản biện", "#46, #47, #06, #12")}
+          ${box(340, 82, 100, 68, 4, "CỔNG 1", "Chủ tịch duyệt")}
+
+          <!-- Phase 2 Nodes -->
+          ${box(478, 38, 152, 68, 5, "B5 · Kỹ sư Sản phẩm", "Code App thật (#13-#19)")}
+          ${box(478, 126, 152, 68, 6, "B6 · Đội Bán hàng", "Landing & 50 khách đầu")}
+          ${box(656, 82, 134, 68, 7, "B7 · Tester & Bảo mật", "#48, #49, #20, #23")}
+          ${box(812, 82, 92, 68, 8, "CỔNG 2", "Bàn giao SP")}
+
+          <!-- Arrows -->
+          <path d="M 170 72 L 194 106" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+          <path d="M 170 160 L 194 126" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+          <path d="M 318 116 L 338 116" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+          <path d="M 440 116 L 476 72" stroke="#0F766E" stroke-width="1.8" fill="none" marker-end="url(#arr)"/>
+          <path d="M 440 116 L 476 160" stroke="#0F766E" stroke-width="1.8" fill="none" marker-end="url(#arr)"/>
+          <path d="M 630 72 L 654 106" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+          <path d="M 630 160 L 654 126" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
+          <path d="M 790 116 L 810 116" stroke="#0F766E" stroke-width="1.8" fill="none" marker-end="url(#arr)"/>
+        </svg>
+      </div>
+    `;
+  }
+
+  function renderSwarmBoardPanel(m, msgs) {
+    if (!msgs.length) {
+      return `<div style="padding:20px;color:var(--text-muted);font-size:13px;">Chưa có trao đổi nào trong phòng họp cho nhiệm vụ này. Khi đội ngũ AI Antigravity chạy, toàn bộ quá trình báo cáo và phản biện chéo bằng tiếng Việt sẽ hiện trực tiếp tại đây.</div>`;
+    }
+    return `
+      <div class="swarm-feed">
+        ${msgs.map((msg) => {
+          const mt = MSG_TYPE_VI[msg.msg_type] || MSG_TYPE_VI.UPDATE;
+          const artBtn = msg.artifact_path ? renderArtifactChip(msg.artifact_path) : "";
+          return `
+            <div class="swarm-msg-card type-${esc(msg.msg_type)}">
+              <div class="swarm-msg-head">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <strong style="color:var(--text-primary);font-size:13px;">${esc(msg.sender_name_vi || viWorkerLabel(msg.sender_slug))}</strong>
+                  <span style="font-size:11.5px;color:var(--text-muted);">→ ${esc(msg.recipient_name_vi || "Toàn đội")}</span>
+                  <span class="badge ${mt.cls}">${mt.label}</span>
+                </div>
+                <span class="mono" style="font-size:11px;color:var(--text-muted);">${esc(shortTime(msg.created_at))}</span>
+              </div>
+              <div class="swarm-msg-body">${esc(msg.content_vi)}</div>
+              ${artBtn}
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+  }
+
+  function renderSwarmMembersPanel(m, msgs) {
+    const memberMap = new Map();
+    const ensure = (slug, depts = "") => {
+      const norm = String(slug || "").trim();
+      if (!norm) return null;
+      const vi = viWorkerLabel(norm);
+      if (!memberMap.has(vi)) {
+        memberMap.set(vi, { slug: norm, name_vi: vi, depts, status: "PENDING", lastNote: "Đang chờ tới lượt phân công.", stepOrder: 99 });
+      }
+      return memberMap.get(vi);
+    };
+    let declared = [];
+    try { declared = JSON.parse(m.swarm_workers_json || "[]"); } catch (_e) {}
+    declared.forEach((w) => ensure(w));
+    (m.steps || []).forEach((s) => {
+      if (!s.worker_name) return;
+      const rec = ensure(s.worker_name, s.lead_dept_ids);
+      if (rec) {
+        rec.depts = rec.depts || s.lead_dept_ids;
+        rec.stepOrder = Math.min(rec.stepOrder, s.step_order);
+        if (s.status === "RUNNING") {
+          rec.status = "RUNNING";
+          rec.lastNote = s.live_activity_text || `Đang thực thi Bước ${s.step_order}`;
+        } else if (s.status === "DONE" && rec.status !== "RUNNING") {
+          rec.status = "DONE";
+          rec.lastNote = (s.output_summary || `Đã hoàn tất Bước ${s.step_order}`).slice(0, 140);
+        }
+      }
+    });
+    msgs.forEach((msg) => {
+      const rec = ensure(msg.sender_slug, msg.sender_dept_ids);
+      if (rec) rec.lastNote = msg.content_vi.slice(0, 140);
+    });
+    const members = Array.from(memberMap.values()).sort((a, b) => a.stepOrder - b.stepOrder);
+    if (!members.length) {
+      return `<div style="padding:20px;color:var(--text-muted);font-size:13px;">Chưa có thành viên AI nào được kích hoạt cho nhiệm vụ này.</div>`;
+    }
+    return `
+      <div class="swarm-member-grid">
+        ${members.map((mb) => {
+          const stCls = mb.status === "RUNNING" ? "badge-run" : mb.status === "DONE" ? "badge-done" : "badge-idle";
+          const stTxt = mb.status === "RUNNING" ? "● Đang làm thật" : mb.status === "DONE" ? "✓ Đã hoàn tất" : "○ Đang trực chờ";
+          return `
+            <div class="swarm-member-card">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+                <strong style="color:var(--text-primary);font-size:13.5px;">${esc(mb.name_vi)}</strong>
+                <span class="badge ${stCls}">${stTxt}</span>
+              </div>
+              ${mb.depts ? `<div class="mono" style="font-size:11px;color:var(--text-muted);">Phòng chuyên trách: #${esc(mb.depts.split(",").join(", #"))}</div>` : ""}
+              <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.45;">${esc(mb.lastNote)}</div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+  }
+
+  function renderArtifactChip(relPath) {
+    const clean = String(relPath || "").trim();
+    if (!clean) return "";
+    const lower = clean.toLowerCase();
+    const liveUrl = artifactHref(clean);
+    if (lower.endsWith(".html") || lower.endsWith("/app/") || lower.endsWith("/landing/")) {
+      return `<a class="artifact-tag" href="${esc(liveUrl)}" target="_blank" rel="noopener">Mở dùng thử trực tiếp: ${esc(clean.split("/").slice(-2).join("/"))} ↗</a>`;
+    }
+    return `<button type="button" class="artifact-tag" data-read-artifact="${esc(clean)}">Đọc báo cáo: ${esc(clean.split("/").pop())}</button>`;
+  }
+
+  async function openArtifactDrawer(relPath) {
+    document.getElementById("drawer-heading").textContent = relPath.split("/").pop() || "Báo cáo chuyên môn";
+    document.getElementById("drawer-body").innerHTML = `<div style="color:var(--text-muted);">Đang tải nội dung báo cáo...</div>`;
+    document.getElementById("drawer-backdrop").classList.add("open");
+    document.getElementById("inspector-drawer").classList.add("open");
+    try {
+      let content = "";
+      if (state.staticMode) {
+        const liveUrl = artifactHref(relPath);
+        const r = await fetch(liveUrl, { cache: "no-cache" });
+        if (!r.ok) throw new Error("Báo cáo đang đồng bộ lên đám mây — mở lại sau vài giây.");
+        content = await r.text();
+      } else {
+        const res = await api(`/api/workspace/file?path=${encodeURIComponent(relPath)}`);
+        content = res.content || "";
+      }
+      document.getElementById("drawer-body").innerHTML = `
+        <div class="mono" style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">Đường dẫn: ${esc(relPath)}</div>
+        <div class="rendered-md">${renderCleanMarkdown(content)}</div>
+      `;
+    } catch (err) {
+      document.getElementById("drawer-body").innerHTML = `<div style="color:var(--danger);">${esc(err.message)}</div>`;
+    }
+  }
+
   function renderMissionsTab() {
     const box = document.getElementById("missions-container");
     const list = state.missions.filter((m) => !state.missionFilter || m.status === state.missionFilter);
@@ -1067,8 +1297,11 @@
         `<span class="badge badge-run">● Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span>`;
 
       const workerChipsHtml = swarmWorkers.length
-        ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(w)}</span>`).join("")}</div>`
+        ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(viWorkerLabel(w))}</span>`).join("")}</div>`
         : "";
+
+      const msnMsgs = state.swarmMessages.filter((x) => x.mission_id === m.mission_id);
+      const activeSubTab = state.missionViewTabs[m.mission_id] || "steps";
 
       const stepsHtml = (m.steps || []).map((s) => {
         const isDone = s.status === "DONE";
@@ -1080,7 +1313,7 @@
         const whoStateLabel = isDone
           ? `<strong style="color:var(--ok-text);">Đã làm xong:</strong>`
           : isRun
-          ? `<strong style="color:var(--run-text);">Antigravity đang làm thật:</strong>`
+          ? `<strong style="color:var(--run-text);">Đang làm thật ngay lúc này:</strong>`
           : isWait
           ? `<strong style="color:var(--warn-text);">Chờ bạn duyệt:</strong>`
           : `<span>Chờ tới lượt:</span>`;
@@ -1088,7 +1321,7 @@
         const deptChips = (s.lead_depts || []).map((d) =>
           `<span class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(calmTitle(d.title_vi))}</span>`
         ).join("");
-        const workerPill = s.worker_name ? `<span class="worker-tag">${esc(s.worker_name)}</span>` : "";
+        const workerPill = s.worker_name ? `<span class="worker-tag">${esc(viWorkerLabel(s.worker_name))}</span>` : "";
 
         return `
           <div class="step-row ${isRun ? "is-running" : ""} ${isWait ? "is-waiting" : ""}">
@@ -1104,7 +1337,7 @@
               </div>
               ${(s.live_activity_text && !isDone) ? `<div class="step-summary" style="color:${isRun ? "var(--run-text)" : "var(--text-muted)"};">${esc(s.live_activity_text)}</div>` : ""}
               ${(s.output_summary && (isDone || isWait)) ? `<div class="step-summary">${esc(s.output_summary)}</div>` : ""}
-              ${s.artifact_path ? `<div class="artifact-tag">Tệp kết quả: ${esc(s.artifact_path)}</div>` : ""}
+              ${s.artifact_path ? renderArtifactChip(s.artifact_path) : ""}
               ${isDone ? `
                 <div class="step-checks">
                   ${s.critique_verdict ? `<span>✓ ${esc(s.critique_verdict)}</span>` : ""}
@@ -1118,6 +1351,12 @@
           </div>
         `;
       }).join("");
+
+      const bodyHtml =
+        activeSubTab === "board" ? renderSwarmBoardPanel(m, msnMsgs) :
+        activeSubTab === "members" ? renderSwarmMembersPanel(m, msnMsgs) :
+        activeSubTab === "graph" ? renderSwarmGraphSvg(m) :
+        `<div class="stepper-list">${stepsHtml}</div>`;
 
       return `
         <article class="mission-card">
@@ -1147,7 +1386,16 @@
               <button type="button" class="btn btn-xs btn-danger-ghost" data-del-msn="${esc(m.mission_id)}">Xóa</button>
             </div>
           </div>
-          <div class="stepper-list">${stepsHtml}</div>
+          <div class="swarm-subnav">
+            <div class="swarm-tabs">
+              <button type="button" class="swarm-tab-btn ${activeSubTab === "steps" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:steps">Tiến độ ${m.total_steps || 8} bước</button>
+              <button type="button" class="swarm-tab-btn ${activeSubTab === "board" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:board">Bảng trao đổi (${msnMsgs.length})</button>
+              <button type="button" class="swarm-tab-btn ${activeSubTab === "members" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:members">Thành viên</button>
+              <button type="button" class="swarm-tab-btn ${activeSubTab === "graph" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:graph">Sơ đồ chuyền việc</button>
+            </div>
+            <span style="font-size:11.5px;color:var(--text-muted);">Phòng họp trực tiếp · 100% Tiếng Việt</span>
+          </div>
+          ${bodyHtml}
         </article>
       `;
     }).join("");
@@ -1789,6 +2037,20 @@
       };
     });
 
+    root.querySelectorAll("[data-msn-subtab]").forEach((b) => {
+      b.onclick = () => {
+        const [mid, view] = String(b.getAttribute("data-msn-subtab") || "").split(":");
+        if (mid && view) {
+          state.missionViewTabs[mid] = view;
+          renderMissionsTab();
+        }
+      };
+    });
+
+    root.querySelectorAll("[data-read-artifact]").forEach((b) => {
+      b.onclick = () => openArtifactDrawer(b.getAttribute("data-read-artifact"));
+    });
+
     root.querySelectorAll("[data-approve-msn]").forEach((b) => {
       b.onclick = () => withLock(b, async () => {
         const res = await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-approve-msn"))}/decision`, "POST", { decision: "APPROVE" });
@@ -2102,6 +2364,7 @@
     state.overview = ov;
     state.bridge = ov.bridge || state.bridge;
     state.orders = ov.orders || [];
+    state.swarmMessages = ov.swarm_messages || [];
     state.divisions = ov.divisions || [];
     state.projects = ov.projects || [];
     state.missions = ov.missions || [];

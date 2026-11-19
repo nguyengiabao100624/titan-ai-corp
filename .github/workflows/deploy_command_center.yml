@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/web_ui/**"
       - "corporate_hq/cloud_state/snapshot.json"
+      - "corporate_hq/projects/**"
       - ".github/workflows/deploy_command_center.yml"
   workflow_dispatch:
 
@@ -40,9 +41,10 @@ jobs:
 
       - name: Assemble Zero-Sleep Static PWA Bundle
         run: |
-          mkdir -p _site/cloud_state
+          mkdir -p _site/cloud_state _site/projects
           cp -r scripts/web_ui/* _site/
           cp corporate_hq/cloud_state/snapshot.json _site/cloud_state/snapshot.json
+          if [ -d corporate_hq/projects ]; then cp -r corporate_hq/projects/* _site/projects/ 2>/dev/null || true; fi
           touch _site/.nojekyll
 
       - name: Configure GitHub Pages
