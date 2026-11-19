@@ -1,6 +1,6 @@
 {
   "schema_version": "6.3",
-  "exported_at": "2026-11-19T08:47:14Z",
+  "exported_at": "2026-11-19T08:48:42Z",
   "bridge": {
     "online": true,
     "mode": "ANTIGRAVITY_SWARM",
@@ -8,7 +8,7 @@
     "swarm_title": "",
     "active_workers": [],
     "note": "Hệ thống điều phối đang trực chiến, sẵn sàng nhận việc tức thì từ máy tính và điện thoại",
-    "last_heartbeat_at": "2026-11-19T08:47:13Z",
+    "last_heartbeat_at": "2026-11-19T08:48:41Z",
     "pending_orders_count": 0,
     "active_orders_count": 0
   },
