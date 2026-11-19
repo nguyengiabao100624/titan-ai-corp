@@ -88,7 +88,7 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
         etag = hdr1.get("ETag")
         self.assertTrue(etag and etag.startswith('"'))
         ov = json.loads(gzip.decompress(body1).decode("utf-8"))
-        self.assertEqual(ov["kpis"]["total_departments"], 51)
+        self.assertEqual(ov["kpis"]["total_departments"], 54)
 
         st2, _hdr2, body2 = self._req("/api/overview", headers={"If-None-Match": etag})
         self.assertEqual(st2, 304)
