@@ -1,6 +1,6 @@
 {
   "schema_version": "6.0",
-  "exported_at": "2026-11-19T05:58:13Z",
+  "exported_at": "2026-11-19T07:06:45Z",
   "bridge": {
     "online": false,
     "mode": "ANTIGRAVITY_SWARM",
@@ -103,7 +103,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "01",
@@ -123,7 +123,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "02",
@@ -143,7 +143,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "03",
@@ -163,7 +163,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "04",
@@ -183,7 +183,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "05",
@@ -203,7 +203,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "06",
@@ -223,7 +223,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "07",
@@ -243,7 +243,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "08",
@@ -263,7 +263,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "09",
@@ -283,7 +283,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "10",
@@ -303,7 +303,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "11",
@@ -323,7 +323,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "12",
@@ -343,7 +343,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "13",
@@ -363,7 +363,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "14",
@@ -383,7 +383,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "15",
@@ -403,7 +403,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "16",
@@ -423,7 +423,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "17",
@@ -443,7 +443,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "18",
@@ -463,7 +463,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "19",
@@ -483,7 +483,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "20",
@@ -503,7 +503,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "21",
@@ -523,7 +523,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "22",
@@ -543,7 +543,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "23",
@@ -563,7 +563,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "24",
@@ -583,7 +583,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "25",
@@ -603,7 +603,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "26",
@@ -623,7 +623,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "27",
@@ -643,7 +643,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "28",
@@ -663,7 +663,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "29",
@@ -683,7 +683,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "30",
@@ -703,7 +703,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "31",
@@ -723,7 +723,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "32",
@@ -743,7 +743,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "33",
@@ -763,7 +763,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "34",
@@ -783,7 +783,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "35",
@@ -803,7 +803,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "36",
@@ -823,7 +823,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "37",
@@ -843,7 +843,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "38",
@@ -863,7 +863,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "39",
@@ -883,7 +883,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "40",
@@ -903,7 +903,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "41",
@@ -923,7 +923,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "42",
@@ -943,7 +943,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "43",
@@ -963,7 +963,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "44",
@@ -983,7 +983,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "45",
@@ -1003,7 +1003,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "46",
@@ -1023,7 +1023,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "47",
@@ -1043,7 +1043,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "48",
@@ -1063,7 +1063,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "49",
@@ -1083,7 +1083,7 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "dept_id": "50",
@@ -1103,13 +1103,13 @@
       "version": 1,
       "last_heartbeat_at": null,
       "last_studied_at": null,
-      "updated_at": "2026-11-19T05:58:12Z"
+      "updated_at": "2026-11-19T07:06:45Z"
     }
   ],
   "projects": [
     {
-      "project_id": "proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742",
-      "slug": "s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742",
+      "project_id": "proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89",
+      "slug": "s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89",
       "title": "Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
       "objective": "Khách hàng: Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng). Nỗi đau: Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.. Giải pháp: Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.",
       "target_market": "Vietnam & Global",
@@ -1119,15 +1119,15 @@
       "expected_price_vnd": 399000.0,
       "unit_cost_vnd": 95000.0,
       "fixed_cost_monthly_vnd": 1500000.0,
-      "workspace_path": "corporate_hq/projects/s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742",
+      "workspace_path": "corporate_hq/projects/s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89",
       "version": 1,
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:12Z"
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
     }
   ],
   "tasks": [
     {
-      "task_id": "task-a30ecb411b",
+      "task_id": "task-58a0178ad3",
       "project_id": null,
       "parent_task_id": null,
       "title": "Việc gốc cần sửa xóa",
@@ -1144,15 +1144,15 @@
       "approval_note": "",
       "actor_priority": 1,
       "version": 1,
-      "created_at": "2026-11-19T05:58:13Z",
-      "updated_at": "2026-11-19T05:58:13Z",
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z",
       "started_at": null,
       "completed_at": null
     }
   ],
   "missions": [
     {
-      "mission_id": "msn-0c711742",
+      "mission_id": "msn-84b95a89",
       "title": "Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
       "goal_prompt": "Khách hàng: Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng). Nỗi đau: Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.. Giải pháp: Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.",
       "category": "MONEY_MAKER",
@@ -1166,8 +1166,8 @@
       "ux_score": 90,
       "expected_margin_pct": 74.0,
       "version": 4,
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:13Z",
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z",
       "dispatch_state": "QUEUED_FOR_ANTIGRAVITY",
       "swarm_title": "",
       "swarm_workers_json": "[]",
@@ -1175,8 +1175,8 @@
       "project_id": "",
       "steps": [
         {
-          "step_id": "msn-0c711742-s1",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s1",
+          "mission_id": "msn-84b95a89",
           "step_order": 1,
           "title": "[GĐ 1] Săn nhu cầu thật, đối thủ & tâm lý khách trả tiền",
           "lead_dept_ids": "01,02,03,50",
@@ -1189,8 +1189,8 @@
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1215,8 +1215,8 @@
           "ux_tester_title_vi": "THANH TRA DIỆT RỐI MẮT, ĐẾM SỐ CHẠM & TỐI GIẢN GIAO DIỆN"
         },
         {
-          "step_id": "msn-0c711742-s2",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s2",
+          "mission_id": "msn-84b95a89",
           "step_order": 2,
           "title": "[GĐ 1] Tính vốn, giá bán, thuế & khóa biên lãi gộp >= 65%",
           "lead_dept_ids": "38,39",
@@ -1229,8 +1229,8 @@
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1247,8 +1247,8 @@
           "ux_tester_title_vi": "THANH TRA DIỆT RỐI MẮT, ĐẾM SỐ CHẠM & TỐI GIẢN GIAO DIỆN"
         },
         {
-          "step_id": "msn-0c711742-s3",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s3",
+          "mission_id": "msn-84b95a89",
           "step_order": 3,
           "title": "[GĐ 1] Hội đồng phản biện Pre-Mortem & chốt kiến trúc sản phẩm",
           "lead_dept_ids": "46,47,06,12",
@@ -1261,8 +1261,8 @@
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1287,8 +1287,8 @@
           "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
         },
         {
-          "step_id": "msn-0c711742-s4",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s4",
+          "mission_id": "msn-84b95a89",
           "step_order": 4,
           "title": "[GĐ 1] Trình Chủ tịch DUYỆT CHỐT KÈO để bắt đầu sản xuất",
           "lead_dept_ids": "00",
@@ -1301,8 +1301,8 @@
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1315,8 +1315,8 @@
           "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
         },
         {
-          "step_id": "msn-0c711742-s5",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s5",
+          "mission_id": "msn-84b95a89",
           "step_order": 5,
           "title": "[GĐ 2] Lập trình & Xây dựng Sản phẩm Cuối hoàn chỉnh (Code / Web / App)",
           "lead_dept_ids": "13,14,15,16,17,19",
@@ -1324,13 +1324,13 @@
           "ux_tester_dept_id": "49",
           "status": "DONE",
           "progress_pct": 100,
-          "live_activity_text": "Chủ tịch đã DUYỆT CHỐT KÈO! Đang chuyển sang Antigravity Swarm để sản xuất sản phẩm thật tại `corporate_hq/projects/s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742`...",
+          "live_activity_text": "Chủ tịch đã DUYỆT CHỐT KÈO! Đang chuyển sang Antigravity Swarm để sản xuất sản phẩm thật tại `corporate_hq/projects/s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89`...",
           "output_summary": "",
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1363,8 +1363,8 @@
           "ux_tester_title_vi": "THANH TRA DIỆT RỐI MẮT, ĐẾM SỐ CHẠM & TỐI GIẢN GIAO DIỆN"
         },
         {
-          "step_id": "msn-0c711742-s6",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s6",
+          "mission_id": "msn-84b95a89",
           "step_order": 6,
           "title": "[GĐ 2] Đóng gói Landing Page, Bảng giá, Video & Kịch bản kiếm 50 khách đầu",
           "lead_dept_ids": "25,26,29,32,33,40",
@@ -1377,8 +1377,8 @@
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1411,8 +1411,8 @@
           "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
         },
         {
-          "step_id": "msn-0c711742-s7",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s7",
+          "mission_id": "msn-84b95a89",
           "step_order": 7,
           "title": "[GĐ 2] Tester đóng vai 5 nhóm khách hàng dùng thử thật & Phản biện chốt lỗi",
           "lead_dept_ids": "48,49,20,23,47",
@@ -1425,8 +1425,8 @@
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1455,8 +1455,8 @@
           "ux_tester_title_vi": "TESTER ĐÓNG VAI 5 NHÓM NGƯỜI DÙNG THẬT TRẢI NGHIỆM TOÀN DIỆN"
         },
         {
-          "step_id": "msn-0c711742-s8",
-          "mission_id": "msn-0c711742",
+          "step_id": "msn-84b95a89-s8",
+          "mission_id": "msn-84b95a89",
           "step_order": 8,
           "title": "[GĐ 2] Bàn giao Sản phẩm Cuối hoàn chỉnh & Kịch bản thu tiền cho Chủ tịch",
           "lead_dept_ids": "00,19,35",
@@ -1469,8 +1469,8 @@
           "critique_verdict": "",
           "ux_verdict": "",
           "started_at": null,
-          "completed_at": "2026-11-19T05:58:12Z",
-          "updated_at": "2026-11-19T05:58:13Z",
+          "completed_at": "2026-11-19T07:06:45Z",
+          "updated_at": "2026-11-19T07:06:45Z",
           "worker_name": "",
           "artifact_path": "",
           "lead_depts": [
@@ -1513,8 +1513,8 @@
       "status": "NEW",
       "mission_id": null,
       "version": 1,
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:12Z"
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "opp_id": "opp-anh-menu-quan-an",
@@ -1532,8 +1532,8 @@
       "status": "NEW",
       "mission_id": null,
       "version": 1,
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:12Z"
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
       "opp_id": "opp-tro-ly-thue-hkd",
@@ -1549,30 +1549,15 @@
       "ux_note": "Phòng #48 Tester Người dùng: Giao diện chỉ hiện 3 con số bằng tiếng Việt bình dân (Tiền về - Tiền cất đóng thuế - Tiền xài được).",
       "source_url": "https://cafef.vn",
       "status": "ACCEPTED",
-      "mission_id": "msn-0c711742",
+      "mission_id": "msn-84b95a89",
       "version": 2,
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:12Z"
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
     }
   ],
   "orders": [
     {
-      "order_id": "ord-8de421b5",
-      "order_type": "EXECUTE_TASK",
-      "mission_id": null,
-      "task_id": "task-a30ecb411b",
-      "title": "Việc gốc cần sửa xóa",
-      "instructions": "Thực thi thật đầu việc Kanban `task-a30ecb411b` (Phòng #48): Việc gốc cần sửa xóa. Mô tả: Hoàn thành xuất sắc và qua kiểm định QA #47/#48.",
-      "source_device": "web-local",
-      "status": "PENDING",
-      "claimed_by": "",
-      "swarm_title": "",
-      "result_summary": "",
-      "created_at": "2026-11-19T05:58:13Z",
-      "updated_at": "2026-11-19T05:58:13Z"
-    },
-    {
-      "order_id": "ord-8ace6ee7",
+      "order_id": "ord-330ae82d",
       "order_type": "SCAN_OPPORTUNITIES",
       "mission_id": null,
       "task_id": null,
@@ -1583,13 +1568,13 @@
       "claimed_by": "",
       "swarm_title": "",
       "result_summary": "",
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:12Z"
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
-      "order_id": "ord-842bd011",
+      "order_id": "ord-9406c9f3",
       "order_type": "NEW_MISSION",
-      "mission_id": "msn-0c711742",
+      "mission_id": "msn-84b95a89",
       "task_id": null,
       "title": "Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
       "instructions": "Khách hàng: Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng). Nỗi đau: Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.. Giải pháp: Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.",
@@ -1598,23 +1583,38 @@
       "claimed_by": "",
       "swarm_title": "",
       "result_summary": "Chủ tịch đã nghiệm thu sản phẩm cuối 100%",
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:12Z"
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
     },
     {
-      "order_id": "ord-c7100d6e",
+      "order_id": "ord-8150225c",
       "order_type": "BUILD_PRODUCT",
-      "mission_id": "msn-0c711742",
+      "mission_id": "msn-84b95a89",
       "task_id": null,
       "title": "[Sản xuất SP cuối] Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
-      "instructions": "Chủ tịch ĐÃ DUYỆT CHỐT KÈO 'Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT' — BẮT ĐẦU GIAI ĐOẠN 2 SẢN XUẤT SẢN PHẨM CUỐI THẬT 100%!\n• Thư mục dự án: corporate_hq/projects/s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742 (project_id=proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742)\n• Phương án đã duyệt: Khách hàng: Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng). Nỗi đau: Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.. Giải pháp: Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.\n• Chỉ đạo thêm của Chủ tịch: Làm hoàn chỉnh ra sản phẩm chạy được thật, bộ bán hàng thật và test trình duyệt thật rồi trình Bước 8.",
+      "instructions": "Chủ tịch ĐÃ DUYỆT CHỐT KÈO 'Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT' — BẮT ĐẦU GIAI ĐOẠN 2 SẢN XUẤT SẢN PHẨM CUỐI THẬT 100%!\n• Thư mục dự án: corporate_hq/projects/s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89 (project_id=proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89)\n• Phương án đã duyệt: Khách hàng: Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng). Nỗi đau: Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.. Giải pháp: Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.\n• Chỉ đạo thêm của Chủ tịch: Làm hoàn chỉnh ra sản phẩm chạy được thật, bộ bán hàng thật và test trình duyệt thật rồi trình Bước 8.",
       "source_device": "web-local",
       "status": "COMPLETED",
       "claimed_by": "",
       "swarm_title": "",
       "result_summary": "Chủ tịch đã nghiệm thu sản phẩm cuối 100%",
-      "created_at": "2026-11-19T05:58:12Z",
-      "updated_at": "2026-11-19T05:58:12Z"
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
+    },
+    {
+      "order_id": "ord-61872f6b",
+      "order_type": "EXECUTE_TASK",
+      "mission_id": null,
+      "task_id": "task-58a0178ad3",
+      "title": "Việc gốc cần sửa xóa",
+      "instructions": "Thực thi thật đầu việc Kanban `task-58a0178ad3` (Phòng #48): Việc gốc cần sửa xóa. Mô tả: Hoàn thành xuất sắc và qua kiểm định QA #47/#48.",
+      "source_device": "web-local",
+      "status": "PENDING",
+      "claimed_by": "",
+      "swarm_title": "",
+      "result_summary": "",
+      "created_at": "2026-11-19T07:06:45Z",
+      "updated_at": "2026-11-19T07:06:45Z"
     }
   ],
   "tombstones": [],
@@ -1625,30 +1625,30 @@
   "activity_stream": [
     {
       "event_id": 9,
-      "event_uid": "d7d95f7c-3789-4e61-912f-be7df8092f98",
-      "timestamp": "2026-11-19T05:58:13Z",
+      "event_uid": "a11f87f5-4fb7-4777-be09-b288683d527b",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "ORDER_QUEUED",
       "project_id": null,
       "task_id": null,
       "headline_vi": "Đã chuyển lệnh (EXECUTE_TASK) sang cầu nối Antigravity Swarm: Việc gốc cần sửa xóa",
-      "detail_json": "{\"order_id\": \"ord-8de421b5\", \"order_type\": \"EXECUTE_TASK\", \"mission_id\": null, \"task_id\": \"task-a30ecb411b\"}"
+      "detail_json": "{\"order_id\": \"ord-61872f6b\", \"order_type\": \"EXECUTE_TASK\", \"mission_id\": null, \"task_id\": \"task-58a0178ad3\"}"
     },
     {
       "event_id": 8,
-      "event_uid": "d64b796e-f15d-4702-8983-d533899b5305",
-      "timestamp": "2026-11-19T05:58:13Z",
+      "event_uid": "20890660-4794-4310-ae9e-ea0be9fada4d",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "48",
       "event_type": "TASK_CREATED",
       "project_id": null,
-      "task_id": "task-a30ecb411b",
+      "task_id": "task-58a0178ad3",
       "headline_vi": "Giao đầu việc mới cho Phòng 48: Việc gốc cần sửa xóa",
       "detail_json": "{\"priority\": \"HIGH\", \"gate\": 1, \"stage\": 1}"
     },
     {
       "event_id": 7,
-      "event_uid": "696a109a-ea15-40ce-958d-56d0a6a601ab",
-      "timestamp": "2026-11-19T05:58:13Z",
+      "event_uid": "36bd1728-523f-4f79-bc58-f627b2c3e974",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "ITEM_RESTORED",
       "project_id": null,
@@ -1658,8 +1658,8 @@
     },
     {
       "event_id": 6,
-      "event_uid": "22e65dae-0a78-4d8d-883e-e424f9caefa5",
-      "timestamp": "2026-11-19T05:58:12Z",
+      "event_uid": "0117548b-e06c-4d3f-a20e-3af113ac4318",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "MISSION_DELETED",
       "project_id": null,
@@ -1669,8 +1669,8 @@
     },
     {
       "event_id": 5,
-      "event_uid": "c72cb018-67a4-426f-8ad1-9730ef100afd",
-      "timestamp": "2026-11-19T05:58:12Z",
+      "event_uid": "ccd18670-c4a1-4737-8cfa-074e4f4dbfce",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "MISSION_APPROVED",
       "project_id": null,
@@ -1680,47 +1680,47 @@
     },
     {
       "event_id": 4,
-      "event_uid": "1a85c5ea-1829-432c-bb60-a147276c2a0e",
-      "timestamp": "2026-11-19T05:58:12Z",
+      "event_uid": "96280703-e437-4cd2-9f03-b20834d01233",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "PRODUCTION_LAUNCHED",
       "project_id": null,
       "task_id": null,
       "headline_vi": "Chủ tịch DUYỆT CHỐT KÈO 'Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT' → Đã phát lệnh BUILD_PRODUCT sang Antigravity Swarm sản xuất sản phẩm cuối!",
-      "detail_json": "{\"mission_id\": \"msn-0c711742\", \"project_id\": \"proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742\", \"order_id\": \"ord-c7100d6e\"}"
+      "detail_json": "{\"mission_id\": \"msn-84b95a89\", \"project_id\": \"proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89\", \"order_id\": \"ord-8150225c\"}"
     },
     {
       "event_id": 3,
-      "event_uid": "3344d003-7682-480f-b4ef-39be399fe061",
-      "timestamp": "2026-11-19T05:58:12Z",
+      "event_uid": "c30ed084-84a9-463b-b3a2-554513dabe46",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "PROJECT_CREATED",
-      "project_id": "proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742",
+      "project_id": "proj-s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89",
       "task_id": null,
       "headline_vi": "Khởi tạo dự án mới: Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT (Vietnam & Global)",
-      "detail_json": "{\"slug\": \"s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-1742\", \"expected_price_vnd\": 399000.0}"
+      "detail_json": "{\"slug\": \"s-thu-chi-c-nh-b-o-ng-ng-thu-t-ng-ch-5a89\", \"expected_price_vnd\": 399000.0}"
     },
     {
       "event_id": 2,
-      "event_uid": "a9bd27ef-9e48-44ab-ad6f-6e44cbae8f47",
-      "timestamp": "2026-11-19T05:58:12Z",
+      "event_uid": "4bdd4fcd-1825-48fe-8746-2e7f64e48932",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "ORDER_QUEUED",
       "project_id": null,
       "task_id": null,
       "headline_vi": "Đã gửi nhiệm vụ sang Antigravity Swarm: Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
-      "detail_json": "{\"mission_id\": \"msn-0c711742\", \"order_id\": \"ord-842bd011\"}"
+      "detail_json": "{\"mission_id\": \"msn-84b95a89\", \"order_id\": \"ord-9406c9f3\"}"
     },
     {
       "event_id": 1,
-      "event_uid": "5458f6a5-11ac-4b16-b95b-25a756e89b72",
-      "timestamp": "2026-11-19T05:58:12Z",
+      "event_uid": "7a49618e-100c-4a89-b5d7-1cc9eb29dc58",
+      "timestamp": "2026-11-19T07:06:45Z",
       "actor_dept_id": "00",
       "event_type": "ORDER_QUEUED",
       "project_id": null,
       "task_id": null,
       "headline_vi": "Đã chuyển lệnh (SCAN_OPPORTUNITIES) sang cầu nối Antigravity Swarm: Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
-      "detail_json": "{\"order_id\": \"ord-8ace6ee7\", \"order_type\": \"SCAN_OPPORTUNITIES\", \"mission_id\": null, \"task_id\": null}"
+      "detail_json": "{\"order_id\": \"ord-330ae82d\", \"order_type\": \"SCAN_OPPORTUNITIES\", \"mission_id\": null, \"task_id\": null}"
     }
   ]
 }

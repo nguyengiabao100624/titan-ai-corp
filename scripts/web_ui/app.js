@@ -351,20 +351,46 @@
     } catch (_e) {}
   }
 
+  let API_BASE = "";
+
+  async function detectLocalBridgeHost() {
+    if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
+      API_BASE = "";
+      return true;
+    }
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 1400);
+      const r = await fetch("http://127.0.0.1:8765/api/health", { signal: ctrl.signal, cache: "no-store" });
+      clearTimeout(timer);
+      if (r.ok) {
+        const j = await r.json();
+        if (j && j.status === "ok") {
+          API_BASE = "http://127.0.0.1:8765";
+          state.staticMode = false;
+          try { localStorage.removeItem("titan_v5_cloud_local_store"); } catch (_e) {}
+          return true;
+        }
+      }
+    } catch (_e) {}
+    return false;
+  }
+
   async function api(path, method = "GET", body = null) {
     if (state.staticMode && path.startsWith("/api/")) {
       return handleStaticFallback(path, method, body);
     }
 
+    const fullUrl = path.startsWith("/api/") ? `${API_BASE}${path}` : path;
     let res;
     try {
-      res = await fetch(path, {
+      res = await fetch(fullUrl, {
         method,
         headers: body ? { "Content-Type": "application/json" } : {},
         body: body ? JSON.stringify(body) : null
       });
     } catch (networkErr) {
-      // Pure network failure (e.g. serverless GitHub Pages) -> switch to static snapshot mode
+      // Pure network failure (e.g. serverless GitHub Pages on Phone without PC localhost)
       if (path.startsWith("/api/")) {
         return activateAndHandleStaticFallback(path, method, body, networkErr);
       }
@@ -398,14 +424,14 @@
             state.staticMode = true;
             state.bridge = snap.bridge || { online: false, mode: "ANTIGRAVITY_SWARM", active_workers: [], pending_orders_count: 0 };
             state.orders = snap.orders || [];
-            const saved = getLocalFallbackStore();
+            // Always prefer fresh cloud snapshot from Antigravity Swarm over stale localStorage!
             state.divisions = snap.divisions || [];
             state.departments = snap.departments || [];
-            state.missions = (saved && saved.missions) || snap.missions || [];
-            state.opportunities = (saved && saved.opportunities) || snap.opportunities || [];
-            state.tasks = (saved && saved.tasks) || snap.tasks || [];
-            state.projects = (saved && saved.projects) || snap.projects || [];
-            state.articles = (saved && saved.articles) || snap.knowledge_atoms || [];
+            state.missions = snap.missions || [];
+            state.opportunities = snap.opportunities || [];
+            state.tasks = snap.tasks || [];
+            state.projects = snap.projects || [];
+            state.articles = snap.knowledge_atoms || [];
             break;
           }
         } catch (_e) {}
@@ -2101,7 +2127,7 @@
   function startLiveStream() {
     if (state.staticMode || !window.EventSource) return;
     if (state.sse) state.sse.close();
-    const es = new EventSource("/api/events/stream");
+    const es = new EventSource(`${API_BASE}/api/events/stream`);
     state.sse = es;
     let debounceTimer = null;
     es.addEventListener("activity", (ev) => {
@@ -2750,6 +2776,7 @@
     bindGlobalEvents();
     const hash = (window.location.hash || "").replace("#", "");
     if (VIEW_TITLES[hash]) state.tab = hash;
+    await detectLocalBridgeHost();
     await Promise.all([loadEverything(), loadNews("")]);
     switchTab(state.tab);
     startLiveStream();
