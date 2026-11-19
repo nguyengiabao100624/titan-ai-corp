@@ -1,5 +1,5 @@
 /* Titan AI Corp v5.0 — Stale-While-Revalidate + Offline Snapshot PWA Service Worker */
-const CACHE_NAME = "titan-command-center-v6.0";
+const CACHE_NAME = "titan-command-center-v6.1";
 const CORE_ASSETS = [
   "./",
   "./index.html",

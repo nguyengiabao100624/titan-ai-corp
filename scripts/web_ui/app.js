@@ -644,7 +644,29 @@
       if (parts[2] === "missions") {
         const m = state.missions.find((x) => x.mission_id === parts[3]);
         if (m) {
-          if (body.decision === "APPROVE") {
+          const isProposalGate = (m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8);
+          if (body.decision === "APPROVE" && isProposalGate) {
+            m.phase = "PRODUCTION";
+            m.status = "RUNNING";
+            m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
+            m.current_step_order = 5;
+            m.progress_pct = 50;
+            m.steps.forEach((s) => {
+              if (s.step_order <= 4) s.status = "DONE";
+              if (s.step_order === 5) s.live_activity_text = "Đã duyệt chốt kèo! Chờ Antigravity Swarm sản xuất sản phẩm thật...";
+            });
+            pushRemoteOrderToGitHub({
+              order_id: `ord-${Date.now().toString(36)}`,
+              order_type: "BUILD_PRODUCT",
+              mission_id: m.mission_id,
+              title: `[Sản xuất SP cuối] ${m.title}`,
+              instructions: body.note || m.goal_prompt || m.title,
+              source_device: "mobile-github-pages",
+              status: "PENDING",
+              created_at: new Date().toISOString()
+            }).catch(() => {});
+          } else if (body.decision === "APPROVE") {
+            m.phase = "DELIVERED";
             m.status = "COMPLETED";
             m.dispatch_state = "COMPLETED";
             m.progress_pct = 100;
@@ -654,16 +676,17 @@
               order_type: "MISSION_APPROVED",
               mission_id: m.mission_id,
               title: m.title,
-              instructions: body.note || "Chủ tịch duyệt từ điện thoại",
+              instructions: body.note || "Chủ tịch nghiệm thu sản phẩm cuối từ điện thoại",
               source_device: "mobile-github-pages",
               status: "PENDING",
               created_at: new Date().toISOString()
             }).catch(() => {});
           } else {
+            const resetFrom = isProposalGate ? 2 : 5;
             m.status = "RUNNING";
             m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
-            m.progress_pct = 57;
-            m.steps.forEach((s) => { if (s.step_order >= 5) { s.status = "PENDING"; s.live_activity_text = `Đã gửi yêu cầu làm lại sang Antigravity: ${body.note || ""}`; } });
+            m.progress_pct = isProposalGate ? 15 : 50;
+            m.steps.forEach((s) => { if (s.step_order >= resetFrom) { s.status = "PENDING"; s.live_activity_text = `Đã gửi yêu cầu làm lại sang Antigravity: ${body.note || ""}`; } });
             pushRemoteOrderToGitHub({
               order_id: `ord-${Date.now().toString(36)}`,
               order_type: "MISSION_REWORK",
@@ -692,25 +715,28 @@
   function buildClientMission(title, autoApprove) {
     const mid = `msn-${Date.now().toString(36)}`;
     const tpl = [
-      [1, "Điều tra thị trường & nhu cầu thực tế", "01,50"],
-      [2, "Giải mã tâm lý khách rút ví & điểm yếu đối thủ", "02,03"],
-      [3, "Tính dòng tiền, giá bán, thuế & điểm hòa vốn", "38,39"],
-      [4, "Hội đồng phản biện Pre-Mortem mổ xẻ rủi ro", "46,47"],
-      [5, "Thiết kế giải pháp 3 chạm & kênh săn khách đầu tiên", "06,12,25,32"],
-      [6, "Tester đóng vai 5 nhóm người dùng thật trải nghiệm", "48,49,20"],
-      [7, "Tổng hợp kế hoạch trình Chủ tịch nghiệm thu", "00"]
+      [1, "[GĐ 1] Săn nhu cầu thật, đối thủ & tâm lý khách trả tiền", "01,02,03,50"],
+      [2, "[GĐ 1] Tính vốn, giá bán, thuế & khóa biên lãi gộp >= 65%", "38,39"],
+      [3, "[GĐ 1] Hội đồng phản biện Pre-Mortem & chốt kiến trúc sản phẩm", "46,47,06,12"],
+      [4, "[GĐ 1] Trình Chủ tịch DUYỆT CHỐT KÈO để bắt đầu sản xuất", "00"],
+      [5, "[GĐ 2] Lập trình & Xây dựng Sản phẩm Cuối hoàn chỉnh (Code / Web / App)", "13,14,15,16,17,19"],
+      [6, "[GĐ 2] Đóng gói Landing Page, Bảng giá, Video & Kịch bản kiếm 50 khách đầu", "25,26,29,32,33,40"],
+      [7, "[GĐ 2] Tester đóng vai 5 nhóm khách hàng dùng thử thật & Phản biện chốt lỗi", "48,49,20,23,47"],
+      [8, "[GĐ 2] Bàn giao Sản phẩm Cuối hoàn chỉnh & Kịch bản thu tiền cho Chủ tịch", "00,19,35"]
     ];
     return {
       mission_id: mid,
       title,
       goal_prompt: title,
       status: "RUNNING",
+      phase: "PROPOSAL",
+      project_id: "",
       dispatch_state: "QUEUED_FOR_ANTIGRAVITY",
       swarm_title: "",
       swarm_workers_json: "[]",
       auto_approve: autoApprove ? 1 : 0,
       current_step_order: 1,
-      total_steps: 7,
+      total_steps: 8,
       progress_pct: 0,
       steps: tpl.map(([ord, stitle, leads]) => ({
         step_id: `${mid}-s${ord}`,
@@ -891,16 +917,22 @@
       wrap.style.display = "block";
       let html = "";
       waitMissions.forEach((m) => {
+        const isProposalGate = (m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8);
+        const gateSubtitle = isProposalGate
+          ? "Cổng 1 · Chờ duyệt chốt kèo để toàn công ty bắt đầu sản xuất sản phẩm thật (Bước 5 → 8)"
+          : "Cổng 2 · Sản phẩm cuối đã làm xong & test người dùng thật — Chờ nghiệm thu bàn giao";
+        const approveLabel = isProposalGate ? "✓ Duyệt kèo → Sản xuất SP" : "✓ Nghiệm thu Hoàn tất";
         html += `
           <div class="list-row" style="grid-template-columns:minmax(0,1fr) auto;">
             <div style="min-width:0;">
               <div style="font-weight:700;color:var(--text-primary);">${esc(m.title)}</div>
-              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Nhiệm vụ 7 bước · Đã qua #46 Phản biện &amp; #48 Tester người dùng</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${gateSubtitle}</div>
               ${m.final_summary ? `<div class="step-summary" style="font-size:12px;margin-top:4px;">${esc(m.final_summary.split("\n")[0])}</div>` : ""}
             </div>
             <div class="row-actions">
-              <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">✓ Chấp nhận</button>
-              <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Làm lại</button>
+              <button type="button" class="btn btn-xs" data-goto-missions>Xem chi tiết</button>
+              <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">${approveLabel}</button>
+              <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Sửa lại</button>
               <button type="button" class="btn btn-xs btn-danger-ghost" data-del-msn="${esc(m.mission_id)}">Xóa</button>
             </div>
           </div>
@@ -991,13 +1023,22 @@
       const isQueued = m.status === "RUNNING" && m.dispatch_state === "QUEUED_FOR_ANTIGRAVITY";
       const isSwarm = m.status === "RUNNING" && m.dispatch_state === "SWARM_ACTIVE";
 
+      const isProposalGate = (m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8);
+      const isProductionPhase = (m.phase === "PRODUCTION");
+      const phaseBadge = isProductionPhase
+        ? `<span class="badge badge-run">Giai đoạn 2 · Sản xuất Sản phẩm Cuối</span>`
+        : m.phase === "DELIVERED"
+        ? `<span class="badge badge-done">Đã bàn giao Sản phẩm Cuối</span>`
+        : `<span class="badge badge-idle">Giai đoạn 1 · Nghiên cứu &amp; Chốt kèo</span>`;
+
       const stBadge =
-        m.status === "COMPLETED" ? `<span class="badge badge-done">✓ Đã xong 100%</span>` :
-        m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">⚑ Chờ bạn duyệt</span>` :
+        m.status === "COMPLETED" ? `<span class="badge badge-done">✓ Đã nghiệm thu 100%</span>` :
+        (m.status === "WAITING_CHAIRMAN" && isProposalGate) ? `<span class="badge badge-wait">⚑ Chờ duyệt kèo → Sản xuất SP</span>` :
+        m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">⚑ Chờ nghiệm thu Sản phẩm Cuối</span>` :
         m.status === "PAUSED" ? `<span class="badge badge-idle">⏸ Đang tạm dừng</span>` :
-        isSwarm ? `<span class="badge badge-run">⚡ Antigravity Swarm · Bước ${m.current_step_order || 1}/${m.total_steps || 7}</span>` :
+        isSwarm ? `<span class="badge badge-run">⚡ Antigravity Swarm · Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span>` :
         isQueued ? `<span class="badge badge-wait">⏳ Đã gửi sang Antigravity</span>` :
-        `<span class="badge badge-run">● Bước ${m.current_step_order || 1}/${m.total_steps || 7}</span>`;
+        `<span class="badge badge-run">● Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span>`;
 
       const workerChipsHtml = swarmWorkers.length
         ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(w)}</span>`).join("")}</div>`
@@ -1057,6 +1098,7 @@
           <div class="mission-header">
             <div class="mission-title-group">
               <h3 class="mission-title">${esc(m.title)}</h3>
+              ${phaseBadge}
               ${stBadge}
               ${workerChipsHtml}
             </div>
@@ -1067,9 +1109,10 @@
                 <div class="progress-fill" style="width:${m.progress_pct || 0}%;"></div>
               </div>
 
+              ${m.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}">Mở SP &amp; Mã nguồn →</button>` : ""}
               ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-ag-cmd="${esc(m.mission_id)}" title="Sao chép lệnh gửi nhanh vào khung chat Antigravity">Copy lệnh</button>` : ""}
               ${m.status === "WAITING_CHAIRMAN" ? `
-                <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">✓ Chấp nhận</button>
+                <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">${isProposalGate ? "✓ Duyệt kèo → Sản xuất SP" : "✓ Nghiệm thu Hoàn tất"}</button>
                 <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Gửi lại sửa</button>
               ` : ""}
               ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">⏸ Tạm dừng</button>` : ""}
@@ -1713,11 +1756,27 @@
       });
     });
 
+    root.querySelectorAll("[data-open-proj]").forEach((b) => {
+      b.onclick = () => {
+        state.selectedProjectId = b.getAttribute("data-open-proj");
+        switchTab("finance");
+      };
+    });
+
     root.querySelectorAll("[data-approve-msn]").forEach((b) => {
       b.onclick = () => withLock(b, async () => {
-        await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-approve-msn"))}/decision`, "POST", { decision: "APPROVE" });
+        const res = await api(`/api/missions/${encodeURIComponent(b.getAttribute("data-approve-msn"))}/decision`, "POST", { decision: "APPROVE" });
         await loadEverything();
-        toast("Đã chấp nhận nghiệm thu nhiệm vụ.");
+        if (res && res.phase === "PRODUCTION") {
+          switchTab("missions");
+          toast(
+            res.bridge_online
+              ? "Đã duyệt chốt kèo! Đã phát lệnh BUILD_PRODUCT sang Antigravity Swarm sản xuất sản phẩm cuối (Bước 5 → 8)!"
+              : "Đã duyệt chốt kèo & tạo thư mục dự án! Bật trực chiến Antigravity để đội ngũ sản xuất sản phẩm thật ngay."
+          );
+        } else {
+          toast("Đã nghiệm thu sản phẩm cuối hoàn tất 100%! Xem lưu trữ ở Tab Tiến độ → Đã xong & Tab Tài chính.");
+        }
       });
     });
 

@@ -441,19 +441,21 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     mission_id, title, goal_prompt, category, status, auto_approve,
                     current_step_order, total_steps, progress_pct, final_summary,
                     survival_score, ux_score, expected_margin_pct, dispatch_state,
-                    swarm_title, swarm_workers_json, version, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    swarm_title, swarm_workers_json, phase, project_id, version, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     mid, msn.get("title", ""), msn.get("goal_prompt", ""), msn.get("category", "MONEY_MAKER"),
                     msn.get("status", "RUNNING"), int(msn.get("auto_approve", 0)),
-                    int(msn.get("current_step_order", 1)), int(msn.get("total_steps", 7)),
+                    int(msn.get("current_step_order", 1)), int(msn.get("total_steps", 8)),
                     int(msn.get("progress_pct", 0)), msn.get("final_summary", ""),
                     int(msn.get("survival_score", 85)), int(msn.get("ux_score", 90)),
                     float(msn.get("expected_margin_pct", 74.0)),
                     msn.get("dispatch_state", "QUEUED_FOR_ANTIGRAVITY"),
                     msn.get("swarm_title", ""),
                     msn.get("swarm_workers_json", "[]"),
+                    msn.get("phase", "PROPOSAL"),
+                    msn.get("project_id", ""),
                     int(msn.get("version", 1)),
                     msn.get("created_at") or utc_now_iso(), msn.get("updated_at") or utc_now_iso(),
                 ),

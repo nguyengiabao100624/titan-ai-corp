@@ -1356,6 +1356,12 @@ input[type="range"] {
   .form-grid-2 {
     grid-template-columns: minmax(0, 1fr);
   }
+  #btn-quick-task span {
+    display: none;
+  }
+  #btn-quick-task {
+    padding: 0 10px;
+  }
 }
 
 .pulse-dot.pulse-warn {

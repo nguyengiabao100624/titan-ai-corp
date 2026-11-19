@@ -256,10 +256,28 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
         self.assertEqual(msn["done_steps_count"], 0)
         self.assertTrue(msn.get("order_id", "").startswith("ord-"))
 
-        # Approve Mission -> 100% COMPLETED
+        # Gate 1 Approve (PROPOSAL -> PRODUCTION + Auto-creates Project + Enqueues BUILD_PRODUCT order!)
+        st_g1, _, raw_g1 = self._req(f"/api/missions/{mid}/decision", method="POST", body={"decision": "APPROVE"})
+        self.assertEqual(st_g1, 200)
+        g1 = json.loads(raw_g1.decode("utf-8"))
+        self.assertEqual(g1["phase"], "PRODUCTION")
+        self.assertEqual(g1["status"], "RUNNING")
+        self.assertTrue(bool(g1.get("project_id")))
+        self.assertTrue(g1.get("order_id", "").startswith("ord-"))
+
+        # Gate 2 Approve (PRODUCTION -> DELIVERED / COMPLETED 100%!)
         st_mdec, _, raw_mdec = self._req(f"/api/missions/{mid}/decision", method="POST", body={"decision": "APPROVE"})
         self.assertEqual(st_mdec, 200)
-        self.assertEqual(json.loads(raw_mdec.decode("utf-8"))["status"], "COMPLETED")
+        g2 = json.loads(raw_mdec.decode("utf-8"))
+        self.assertEqual(g2["status"], "COMPLETED")
+        self.assertEqual(g2["phase"], "DELIVERED")
+
+        # Clean up auto-created project folder in tearDown-safe manner
+        auto_pid = g1.get("project_id")
+        if auto_pid:
+            auto_p = self.db.get_project(auto_pid)
+            if auto_p and auto_p.get("workspace_path"):
+                shutil.rmtree(ROOT_DIR / auto_p["workspace_path"], ignore_errors=True)
 
         # Delete Mission & Restore via 5-Second Undo!
         st_mdel, _, _ = self._req(f"/api/missions/{mid}", method="DELETE")
@@ -271,7 +289,7 @@ class TestCommandCenterAPIAndSecurity(unittest.TestCase):
         self.assertEqual(st_rest, 200)
         st_back, _, raw_back = self._req(f"/api/missions/{mid}")
         self.assertEqual(st_back, 200)
-        self.assertEqual(len(json.loads(raw_back.decode("utf-8"))["steps"]), 7)
+        self.assertEqual(len(json.loads(raw_back.decode("utf-8"))["steps"]), 8)
 
         # 3. Task Full CRUD + Dispatch to Antigravity + Undo + Bulk Restore
         _, _, raw_t = self._req("/api/tasks", method="POST", body={"title": "Việc gốc cần sửa xóa", "assigned_dept_id": "48"})

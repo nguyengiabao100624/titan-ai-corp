@@ -186,14 +186,22 @@ def format_order_handoff(db: TitanDatabase, order: dict[str, Any]) -> dict[str, 
         "reporting_cli": "python scripts/titan_bridge_cli.py",
         "suggested_swarm_playbook": {
             "NEW_MISSION": (
-                "Spawn real Antigravity Swarm workers (`swarm add`): "
-                "@researcher (read #01/#03/#50 brains), @builder (read #06/#12/#13/#38 brains), "
-                "@critic (read #46/#47 brains — adversarial pre-mortem), @ux-tester (read #48/#49 brains — real user QA). "
-                "Report real progress live after each step via `python scripts/titan_bridge_cli.py step-start / step-complete / request-approval`."
+                "PHASE 1 (Steps 1-4): Spawn real Antigravity Swarm workers (`swarm add`): "
+                "@researcher (read #01/#02/#03/#50), @cfo (#38/#39), @critic (#46/#47 Pre-Mortem). "
+                "Report Steps 1-3 via `titan_bridge_cli.py step-start / step-complete`, then call "
+                "`request-proposal-approval` at Step 4 so Chairman reviews & approves launching Phase 2 Production!"
+            ),
+            "BUILD_PRODUCT": (
+                "PHASE 2 FULL PRODUCTION (Steps 5-8): Chairman APPROVED the deal! Spawn full company Swarm: "
+                "@builder (read #13/#14/#15/#16/#19 — write REAL runnable app/code/tool inside the linked project folder), "
+                "@growth-pack (#25/#26/#32/#33/#40 — build REAL landing page, pricing, sales scripts & legal checklist), "
+                "@ux-tester (#48/#49/#20 — open REAL browser and test every button as 5 customer personas), "
+                "@critic (#46/#47/#23 — audit bugs/security). Report Steps 5-7 live via `titan_bridge_cli.py`, "
+                "then present the finished runnable product at Step 8 via `request-approval`!"
             ),
             "MISSION_REWORK": (
                 "Wake or spawn Swarm workers to fix the exact Chairman rejection note in `order.instructions`, "
-                "re-verify with @critic (#46/#47) & @ux-tester (#48), and call `request-approval` again."
+                "re-verify with @critic (#46/#47) & @ux-tester (#48), and re-submit to Chairman."
             ),
             "SCAN_OPPORTUNITIES": (
                 "Spawn @opportunity-hunter (#50) + @critic (#46) + @cfo (#38) to research REAL live market pains "

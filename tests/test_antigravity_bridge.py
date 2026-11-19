@@ -136,13 +136,13 @@ class TestDirectAntigravitySwarmBridge(unittest.TestCase):
         subprocess.run(
             cli
             + [
-                "request-approval",
+                "request-proposal-approval",
                 "--mission",
                 mid,
                 "--order",
                 oid,
                 "--summary",
-                "Bản đề xuất hoàn chỉnh từ Antigravity Swarm.",
+                "Đề xuất GĐ 1 hoàn chỉnh từ Antigravity Swarm (Lãi gộp 82.5%, hòa vốn 6 khách).",
                 "--survival",
                 "91",
                 "--ux-score",
@@ -154,16 +154,54 @@ class TestDirectAntigravitySwarmBridge(unittest.TestCase):
             stdout=subprocess.DEVNULL,
         )
 
-        # 4. Verify Web API sees 100% real Swarm worker data
+        # 4. Verify Gate 1 (PROPOSAL) waits for Chairman -> Chairman APPROVES -> Launches Phase 2 BUILD_PRODUCT!
+        m_g1 = self._get(f"/api/missions/{mid}")
+        self.assertEqual(m_g1["status"], "WAITING_CHAIRMAN")
+        self.assertEqual(m_g1["phase"], "PROPOSAL")
+        self.assertEqual(m_g1["steps"][0]["worker_name"], "@researcher")
+        self.assertEqual(m_g1["steps"][0]["artifact_path"], "corporate_hq/projects/bao-tri-may-lanh/step1_market.md")
+
+        g1_app = self._post(f"/api/missions/{mid}/decision", {"decision": "APPROVE", "note": "Chốt làm sản phẩm thật ngay!"})
+        self.assertEqual(g1_app["phase"], "PRODUCTION")
+        self.assertEqual(g1_app["status"], "RUNNING")
+        self.assertEqual(g1_app["dispatch_state"], "QUEUED_FOR_ANTIGRAVITY")
+        self.assertTrue(bool(g1_app.get("project_id")))
+        pending_build = self._get("/api/orders?status=PENDING")["orders"]
+        self.assertEqual(len(pending_build), 1)
+        self.assertEqual(pending_build[0]["order_type"], "BUILD_PRODUCT")
+
+        # Clean up auto-created project folder
+        auto_p = self.db.get_project(g1_app["project_id"])
+        if auto_p and auto_p.get("workspace_path"):
+            import shutil
+            shutil.rmtree(ROOT_DIR / auto_p["workspace_path"], ignore_errors=True)
+
+        # 5. Swarm completes Phase 2 (Step 8) -> Chairman requests REWORK -> MISSION_REWORK queued!
+        subprocess.run(
+            cli
+            + [
+                "request-approval",
+                "--mission",
+                mid,
+                "--order",
+                pending_build[0]["order_id"],
+                "--summary",
+                "Sản phẩm cuối + bộ bán hàng đã hoàn chỉnh & test trình duyệt thật.",
+                "--survival",
+                "91",
+                "--ux-score",
+                "95",
+                "--margin",
+                "82.5",
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+        )
         m_after = self._get(f"/api/missions/{mid}")
         self.assertEqual(m_after["status"], "WAITING_CHAIRMAN")
-        self.assertEqual(m_after["dispatch_state"], "WAITING_CHAIRMAN")
-        self.assertIn("@researcher", m_after["swarm_workers_json"])
-        self.assertEqual(m_after["steps"][0]["worker_name"], "@researcher")
-        self.assertEqual(m_after["steps"][0]["artifact_path"], "corporate_hq/projects/bao-tri-may-lanh/step1_market.md")
+        self.assertEqual(m_after["phase"], "PRODUCTION")
         self.assertEqual(m_after["survival_score"], 91)
 
-        # 5. Chairman clicks REJECT on Web -> enqueues real MISSION_REWORK order for Antigravity!
         rej = self._post(f"/api/missions/{mid}/decision", {"decision": "REJECT", "note": "Cần bổ sung kịch bản gọi điện mẫu"})
         self.assertEqual(rej["dispatch_state"], "QUEUED_FOR_ANTIGRAVITY")
         self.assertTrue(rej.get("order_id", "").startswith("ord-"))

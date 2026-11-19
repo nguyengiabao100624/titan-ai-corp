@@ -112,23 +112,64 @@ def cmd_step_complete(db: TitanDatabase, args: argparse.Namespace) -> dict:
     return {"ok": True, "step_id": sid, "status": "DONE"}
 
 
-def cmd_request_approval(db: TitanDatabase, args: argparse.Namespace) -> dict:
-    sid = f"{args.mission}-s7"
+def cmd_request_proposal_approval(db: TitanDatabase, args: argparse.Namespace) -> dict:
+    """Gate 1 (Step 4): Present researched & vetted money-making proposal so Chairman approves Phase 2 Production."""
+    sid = f"{args.mission}-s4"
     db.update_mission_step(
         sid,
         status="WAITING_APPROVAL",
         progress_pct=90,
         worker_name=args.worker or "@coordinator",
-        live_activity_text="Antigravity Swarm đã hoàn tất 6 bước thực chiến — Chờ Chủ tịch bấm Chấp nhận hoặc Yêu cầu sửa.",
+        live_activity_text="Đã xong Giai đoạn 1 (Nghiên cứu, tính lãi & phản biện) — Chờ Chủ tịch bấm Duyệt chốt kèo để toàn công ty bắt đầu sản xuất sản phẩm thật!",
         output_summary=args.summary,
-        critique_verdict=args.critique or "Đã qua phản biện độc lập bởi @critic (#46-#47)",
-        ux_verdict=args.ux or "Đã qua kiểm thử đóng vai người dùng thật bởi @ux-tester (#48-#49)",
+        critique_verdict=args.critique or "Đã qua phản biện Pre-Mortem bởi @critic (#46-#47)",
+        ux_verdict=args.ux or "Đã chốt thiết kế tối giản <= 3 chạm bởi #48-#49",
         artifact_path=args.artifact or "",
         started_at=utc_now_iso(),
     )
     msn = db.update_mission(
         args.mission,
         status="WAITING_CHAIRMAN",
+        phase="PROPOSAL",
+        dispatch_state="WAITING_CHAIRMAN",
+        final_summary=args.summary,
+        survival_score=int(args.survival),
+        ux_score=int(args.ux_score),
+        expected_margin_pct=float(args.margin),
+    )
+    if args.order:
+        db.complete_order(args.order, result_summary=args.summary[:400], status="COMPLETED")
+    db.log_event(
+        "00",
+        "PROPOSAL_WAITING",
+        f"GĐ 1 hoàn tất cho '{msn['title']}' — Mời Chủ tịch duyệt chốt kèo để phát lệnh sản xuất sản phẩm cuối!",
+        detail={"mission_id": args.mission, "phase": "PROPOSAL"},
+    )
+    _sync_snapshot(db)
+    return {"ok": True, "mission_id": args.mission, "phase": "PROPOSAL", "status": "WAITING_CHAIRMAN"}
+
+
+def cmd_request_approval(db: TitanDatabase, args: argparse.Namespace) -> dict:
+    """Gate 2 (Step 8): Present finished, tested final product & go-to-market pack for Chairman acceptance."""
+    msn_now = db.get_mission(args.mission)
+    step_num = int(args.step) if getattr(args, "step", None) else (int(msn_now["total_steps"]) if msn_now else 8)
+    sid = f"{args.mission}-s{step_num}"
+    db.update_mission_step(
+        sid,
+        status="WAITING_APPROVAL",
+        progress_pct=95,
+        worker_name=args.worker or "@coordinator",
+        live_activity_text="Toàn công ty đã sản xuất xong SẢN PHẨM CUỐI & kiểm thử đóng vai người dùng thật — Mời Chủ tịch xem sản phẩm và nghiệm thu!",
+        output_summary=args.summary,
+        critique_verdict=args.critique or "Đã qua phản biện & kiểm toán bảo mật độc lập (#46-#47-#23)",
+        ux_verdict=args.ux or "Đã qua kiểm thử trình duyệt đóng vai 5 nhóm khách hàng thật (#48-#49)",
+        artifact_path=args.artifact or "",
+        started_at=utc_now_iso(),
+    )
+    msn = db.update_mission(
+        args.mission,
+        status="WAITING_CHAIRMAN",
+        phase="PRODUCTION",
         dispatch_state="WAITING_CHAIRMAN",
         final_summary=args.summary,
         survival_score=int(args.survival),
@@ -140,11 +181,11 @@ def cmd_request_approval(db: TitanDatabase, args: argparse.Namespace) -> dict:
     db.log_event(
         "00",
         "MISSION_WAITING",
-        f"Antigravity Swarm đã xong 6 bước thật cho '{msn['title']}' — Mời Chủ tịch duyệt chốt!",
-        detail={"mission_id": args.mission},
+        f"SẢN PHẨM CUỐI của '{msn['title']}' đã hoàn thiện & test thật — Mời Chủ tịch nghiệm thu bàn giao!",
+        detail={"mission_id": args.mission, "phase": "PRODUCTION"},
     )
     _sync_snapshot(db)
-    return {"ok": True, "mission_id": args.mission, "status": "WAITING_CHAIRMAN"}
+    return {"ok": True, "mission_id": args.mission, "phase": "PRODUCTION", "status": "WAITING_CHAIRMAN"}
 
 
 def cmd_add_opportunity(db: TitanDatabase, args: argparse.Namespace) -> dict:
@@ -239,9 +280,22 @@ def main() -> int:
     p_sc.add_argument("--artifact", default="")
     p_sc.add_argument("--activity", default="")
 
+    p_rpa = sub.add_parser("request-proposal-approval")
+    p_rpa.add_argument("--mission", required=True)
+    p_rpa.add_argument("--order", default="")
+    p_rpa.add_argument("--worker", default="@coordinator")
+    p_rpa.add_argument("--summary", required=True)
+    p_rpa.add_argument("--critique", default="")
+    p_rpa.add_argument("--ux", default="")
+    p_rpa.add_argument("--artifact", default="")
+    p_rpa.add_argument("--survival", type=int, default=88)
+    p_rpa.add_argument("--ux-score", type=int, default=90)
+    p_rpa.add_argument("--margin", type=float, default=75.0)
+
     p_ra = sub.add_parser("request-approval")
     p_ra.add_argument("--mission", required=True)
     p_ra.add_argument("--order", default="")
+    p_ra.add_argument("--step", type=int, default=0)
     p_ra.add_argument("--worker", default="@coordinator")
     p_ra.add_argument("--summary", required=True)
     p_ra.add_argument("--critique", default="")
@@ -279,6 +333,7 @@ def main() -> int:
             "mission-claimed": cmd_mission_claimed,
             "step-start": cmd_step_start,
             "step-complete": cmd_step_complete,
+            "request-proposal-approval": cmd_request_proposal_approval,
             "request-approval": cmd_request_approval,
             "add-opportunity": cmd_add_opportunity,
             "complete-order": cmd_complete_order,

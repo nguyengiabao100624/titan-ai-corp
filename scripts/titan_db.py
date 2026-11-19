@@ -310,7 +310,7 @@ CREATE TABLE IF NOT EXISTS deleted_tombstones (
 CREATE TABLE IF NOT EXISTS antigravity_orders (
     order_id TEXT PRIMARY KEY,
     order_type TEXT NOT NULL
-        CHECK(order_type IN ('NEW_MISSION','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK')),
+        CHECK(order_type IN ('NEW_MISSION','BUILD_PRODUCT','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK')),
     mission_id TEXT,
     task_id TEXT,
     title TEXT NOT NULL,
@@ -410,6 +410,8 @@ class TitanDatabase:
                 "ALTER TABLE missions ADD COLUMN dispatch_state TEXT NOT NULL DEFAULT 'QUEUED_FOR_ANTIGRAVITY';",
                 "ALTER TABLE missions ADD COLUMN swarm_title TEXT NOT NULL DEFAULT '';",
                 "ALTER TABLE missions ADD COLUMN swarm_workers_json TEXT NOT NULL DEFAULT '[]';",
+                "ALTER TABLE missions ADD COLUMN phase TEXT NOT NULL DEFAULT 'PROPOSAL';",
+                "ALTER TABLE missions ADD COLUMN project_id TEXT NOT NULL DEFAULT '';",
                 "ALTER TABLE mission_steps ADD COLUMN worker_name TEXT NOT NULL DEFAULT '';",
                 "ALTER TABLE mission_steps ADD COLUMN artifact_path TEXT NOT NULL DEFAULT '';",
             ]
@@ -418,6 +420,50 @@ class TitanDatabase:
                     conn.execute(stmt)
                 except sqlite3.OperationalError:
                     pass
+            # Upgrade antigravity_orders CHECK constraint if created before BUILD_PRODUCT existed
+            ord_ddl = conn.execute(
+                "SELECT sql FROM sqlite_master WHERE type='table' AND name='antigravity_orders'"
+            ).fetchone()
+            if ord_ddl and "BUILD_PRODUCT" not in (ord_ddl["sql"] or ""):
+                old_rows = [dict(r) for r in conn.execute("SELECT * FROM antigravity_orders").fetchall()]
+                conn.execute("DROP TABLE antigravity_orders;")
+                conn.execute(
+                    """
+                    CREATE TABLE antigravity_orders (
+                        order_id TEXT PRIMARY KEY,
+                        order_type TEXT NOT NULL
+                            CHECK(order_type IN ('NEW_MISSION','BUILD_PRODUCT','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK')),
+                        mission_id TEXT,
+                        task_id TEXT,
+                        title TEXT NOT NULL,
+                        instructions TEXT NOT NULL DEFAULT '',
+                        source_device TEXT NOT NULL DEFAULT 'web-local',
+                        status TEXT NOT NULL DEFAULT 'PENDING'
+                            CHECK(status IN ('PENDING','CLAIMED','RUNNING','COMPLETED','CANCELLED')),
+                        claimed_by TEXT NOT NULL DEFAULT '',
+                        swarm_title TEXT NOT NULL DEFAULT '',
+                        result_summary TEXT NOT NULL DEFAULT '',
+                        created_at TEXT NOT NULL,
+                        updated_at TEXT NOT NULL
+                    );
+                    """
+                )
+                conn.execute("CREATE INDEX IF NOT EXISTS idx_ag_orders_status ON antigravity_orders(status, created_at ASC);")
+                for r in old_rows:
+                    conn.execute(
+                        """
+                        INSERT INTO antigravity_orders(
+                            order_id, order_type, mission_id, task_id, title, instructions,
+                            source_device, status, claimed_by, swarm_title, result_summary, created_at, updated_at
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            r["order_id"], r["order_type"], r.get("mission_id"), r.get("task_id"),
+                            r["title"], r.get("instructions", ""), r.get("source_device", "web-local"),
+                            r.get("status", "PENDING"), r.get("claimed_by", ""), r.get("swarm_title", ""),
+                            r.get("result_summary", ""), r["created_at"], r["updated_at"],
+                        ),
+                    )
         self.sync_divisions_and_roster()
         self.seed_default_opportunities_if_empty()
 
@@ -1665,17 +1711,19 @@ class TitanDatabase:
         }
 
     # =========================================================================
-    # V5.0: AUTONOMOUS MISSIONS, STEP-BY-STEP TRACKER, OPPORTUNITIES & FULL CRUD
+    # V6.1: 2-PHASE FULL-LIFECYCLE PIPELINE (GĐ 1: CHỐT KÈO → GĐ 2: SẢN XUẤT RA SẢN PHẨM CUỐI)
     # =========================================================================
-    DEFAULT_7_STEPS_TEMPLATE: list[tuple[int, str, str, str, str]] = [
-        (1, "Điều tra thị trường & nhu cầu thực tế", "01,50", "47", "49"),
-        (2, "Giải mã tâm lý khách rút ví & điểm yếu đối thủ", "02,03", "47", "48"),
-        (3, "Tính dòng tiền, giá bán, thuế & điểm hòa vốn", "38,39", "46", "49"),
-        (4, "Hội đồng phản biện Pre-Mortem mổ xẻ rủi ro", "46,47", "47", "48"),
-        (5, "Thiết kế giải pháp 3 chạm & kênh săn khách đầu tiên", "06,12,25,32", "47", "49"),
-        (6, "Tester đóng vai 5 nhóm người dùng thật trải nghiệm", "48,49,20", "47", "48"),
-        (7, "Tổng hợp kế hoạch trình Chủ tịch nghiệm thu", "00", "46", "48"),
+    DEFAULT_8_STEPS_TEMPLATE: list[tuple[int, str, str, str, str]] = [
+        (1, "[GĐ 1] Săn nhu cầu thật, đối thủ & tâm lý khách trả tiền", "01,02,03,50", "47", "49"),
+        (2, "[GĐ 1] Tính vốn, giá bán, thuế & khóa biên lãi gộp >= 65%", "38,39", "46", "49"),
+        (3, "[GĐ 1] Hội đồng phản biện Pre-Mortem & chốt kiến trúc sản phẩm", "46,47,06,12", "47", "48"),
+        (4, "[GĐ 1] Trình Chủ tịch DUYỆT CHỐT KÈO để bắt đầu sản xuất", "00", "46", "48"),
+        (5, "[GĐ 2] Lập trình & Xây dựng Sản phẩm Cuối hoàn chỉnh (Code / Web / App)", "13,14,15,16,17,19", "47", "49"),
+        (6, "[GĐ 2] Đóng gói Landing Page, Bảng giá, Video & Kịch bản kiếm 50 khách đầu", "25,26,29,32,33,40", "47", "48"),
+        (7, "[GĐ 2] Tester đóng vai 5 nhóm khách hàng dùng thử thật & Phản biện chốt lỗi", "48,49,20,23,47", "47", "48"),
+        (8, "[GĐ 2] Bàn giao Sản phẩm Cuối hoàn chỉnh & Kịch bản thu tiền cho Chủ tịch", "00,19,35", "46", "48"),
     ]
+    DEFAULT_7_STEPS_TEMPLATE = DEFAULT_8_STEPS_TEMPLATE
 
     def _record_tombstone(self, conn: sqlite3.Connection, entity_type: str, entity_id: str, payload: dict[str, Any]) -> None:
         tkey = f"{entity_type}:{entity_id}"
@@ -1908,15 +1956,15 @@ class TitanDatabase:
                 INSERT INTO missions(
                     mission_id, title, goal_prompt, category, status, auto_approve,
                     current_step_order, total_steps, progress_pct, dispatch_state,
-                    swarm_title, swarm_workers_json, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, 'QUEUED_FOR_ANTIGRAVITY', '', '[]', ?, ?)
+                    swarm_title, swarm_workers_json, phase, project_id, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, 'QUEUED_FOR_ANTIGRAVITY', '', '[]', 'PROPOSAL', '', ?, ?)
                 """,
-                (mid, title, goal_prompt or title, category, 1 if auto_approve else 0, len(self.DEFAULT_7_STEPS_TEMPLATE), now, now),
+                (mid, title, goal_prompt or title, category, 1 if auto_approve else 0, len(self.DEFAULT_8_STEPS_TEMPLATE), now, now),
             )
-            for order, stitle, leads, critic, ux_tester in self.DEFAULT_7_STEPS_TEMPLATE:
+            for order, stitle, leads, critic, ux_tester in self.DEFAULT_8_STEPS_TEMPLATE:
                 sid = f"{mid}-s{order}"
                 init_note = (
-                    "Đã gửi đề bài sang cầu nối Antigravity Swarm — chờ AI chuyên trách nhận việc..."
+                    "Đã gửi đề bài sang cầu nối Antigravity Swarm — chờ đội AI nhận việc..."
                     if order == 1
                     else ""
                 )
@@ -1980,7 +2028,7 @@ class TitanDatabase:
         allowed = {
             "title", "goal_prompt", "status", "auto_approve", "final_summary",
             "survival_score", "ux_score", "expected_margin_pct",
-            "dispatch_state", "swarm_title", "swarm_workers_json",
+            "dispatch_state", "swarm_title", "swarm_workers_json", "phase", "project_id",
         }
         updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
         if "auto_approve" in updates:
@@ -2031,48 +2079,137 @@ class TitanDatabase:
             )
 
     def decide_mission(self, mission_id: str, decision: str, note: str = "") -> dict[str, Any]:
+        """
+        2-Phase Chairman Decision Gate:
+        - Gate 1 (phase == 'PROPOSAL'):
+            APPROVE -> Locks proposal (Steps 1–4 DONE), auto-scaffolds a real Project workspace,
+                       transitions mission into phase='PRODUCTION' (Steps 5–8), and dispatches
+                       a REAL `BUILD_PRODUCT` order to Antigravity Swarm so the full company builds
+                       and tests the actual final product!
+            REJECT  -> Reworks Steps 2–4 via `MISSION_REWORK` order.
+        - Gate 2 (phase == 'PRODUCTION'):
+            APPROVE -> Accepts finished product (Steps 1–8 DONE, phase='DELIVERED', status='COMPLETED',
+                       linked project='SHIPPED').
+            REJECT  -> Sends finished product back to Swarm Steps 5–8 via `MISSION_REWORK` order.
+        """
         dec = decision.upper().strip()
         if dec not in ("APPROVE", "REJECT"):
             raise ValueError("Quyết định phải là APPROVE hoặc REJECT.")
         now = utc_now_iso()
-        rework_order_id: str | None = None
+        emitted_order_id: str | None = None
+        mrow_pre = self._get_conn().execute("SELECT * FROM missions WHERE mission_id = ?", (mission_id,)).fetchone()
+        if not mrow_pre:
+            raise KeyError(f"Nhiệm vụ '{mission_id}' không tồn tại.")
+
+        current_phase = str(mrow_pre["phase"] or "PROPOSAL").upper()
+        total_steps = int(mrow_pre["total_steps"] or 8)
+        is_proposal_gate = (current_phase == "PROPOSAL" and total_steps >= 8)
+
+        # If approving Gate 1 (Proposal -> Production), auto-create real Project folder if not yet linked!
+        linked_project_id = str(mrow_pre["project_id"] or "")
+        linked_workspace = ""
+        if dec == "APPROVE" and is_proposal_gate and not linked_project_id:
+            slug_base = re.sub(r"[^a-z0-9]+", "-", mrow_pre["title"].lower()).strip("-")[:36] or mission_id
+            proj = self.create_project(
+                slug=f"{slug_base}-{mission_id[-4:]}",
+                title=mrow_pre["title"],
+                objective=mrow_pre["goal_prompt"] or mrow_pre["title"],
+                status="ACTIVE",
+                seed_gate1_tasks=False,
+            )
+            linked_project_id = proj["project_id"]
+            linked_workspace = proj["workspace_path"]
+        elif linked_project_id:
+            existing_p = self.get_project(linked_project_id)
+            if existing_p:
+                linked_workspace = existing_p.get("workspace_path", "")
+
         with self.immediate_tx() as conn:
             mrow = conn.execute("SELECT * FROM missions WHERE mission_id = ?", (mission_id,)).fetchone()
             if not mrow:
                 raise KeyError(f"Nhiệm vụ '{mission_id}' không tồn tại.")
-            if dec == "APPROVE":
+
+            if dec == "APPROVE" and is_proposal_gate:
+                # GATE 1 APPROVED -> LAUNCH FULL PRODUCTION PHASE 2 (BUILD_PRODUCT)!
+                conn.execute(
+                    "UPDATE mission_steps SET status = 'DONE', progress_pct = 100, completed_at = COALESCE(completed_at, ?), updated_at = ? WHERE mission_id = ? AND step_order <= 4",
+                    (now, now, mission_id),
+                )
+                conn.execute(
+                    "UPDATE mission_steps SET status = 'PENDING', progress_pct = 0, live_activity_text = ? WHERE mission_id = ? AND step_order = 5",
+                    (f"Chủ tịch đã DUYỆT CHỐT KÈO! Đang chuyển sang Antigravity Swarm để sản xuất sản phẩm thật tại `{linked_workspace}`...", mission_id),
+                )
+                conn.execute(
+                    """
+                    UPDATE missions
+                    SET status = 'RUNNING', phase = 'PRODUCTION', dispatch_state = 'QUEUED_FOR_ANTIGRAVITY',
+                        project_id = ?, current_step_order = 5, progress_pct = 50,
+                        version = version + 1, updated_at = ?
+                    WHERE mission_id = ?
+                    """,
+                    (linked_project_id, now, mission_id),
+                )
+                emitted_order_id = f"ord-{uuid.uuid4().hex[:8]}"
+                build_instr = (
+                    f"Chủ tịch ĐÃ DUYỆT CHỐT KÈO '{mrow['title']}' — BẮT ĐẦU GIAI ĐOẠN 2 SẢN XUẤT SẢN PHẨM CUỐI THẬT 100%!\n"
+                    f"• Thư mục dự án: {linked_workspace} (project_id={linked_project_id})\n"
+                    f"• Phương án đã duyệt: {mrow['final_summary'] or mrow['goal_prompt']}\n"
+                    f"• Chỉ đạo thêm của Chủ tịch: {note or 'Làm hoàn chỉnh ra sản phẩm chạy được thật, bộ bán hàng thật và test trình duyệt thật rồi trình Bước 8.'}"
+                )
+                conn.execute(
+                    """
+                    INSERT INTO antigravity_orders(
+                        order_id, order_type, mission_id, task_id, title, instructions,
+                        source_device, status, created_at, updated_at
+                    ) VALUES (?, 'BUILD_PRODUCT', ?, NULL, ?, ?, 'web-local', 'PENDING', ?, ?)
+                    """,
+                    (emitted_order_id, mission_id, f"[Sản xuất SP cuối] {mrow['title']}", build_instr, now, now),
+                )
+                self.log_event(
+                    "00",
+                    "PRODUCTION_LAUNCHED",
+                    f"Chủ tịch DUYỆT CHỐT KÈO '{mrow['title']}' → Đã phát lệnh BUILD_PRODUCT sang Antigravity Swarm sản xuất sản phẩm cuối!",
+                    detail={"mission_id": mission_id, "project_id": linked_project_id, "order_id": emitted_order_id},
+                    conn=conn,
+                )
+            elif dec == "APPROVE":
+                # GATE 2 APPROVED -> FINAL PRODUCT ACCEPTED & SHIPPED!
                 conn.execute(
                     "UPDATE mission_steps SET status = 'DONE', progress_pct = 100, completed_at = COALESCE(completed_at, ?), updated_at = ? WHERE mission_id = ?",
                     (now, now, mission_id),
                 )
                 summary = mrow["final_summary"]
                 if note:
-                    summary = f"{summary}\n• Ghi chú phê duyệt của Chủ tịch: {note}".strip()
+                    summary = f"{summary}\n• Ghi chú nghiệm thu sản phẩm của Chủ tịch: {note}".strip()
                 conn.execute(
-                    "UPDATE missions SET status = 'COMPLETED', dispatch_state = 'COMPLETED', progress_pct = 100, final_summary = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    "UPDATE missions SET status = 'COMPLETED', phase = 'DELIVERED', dispatch_state = 'COMPLETED', progress_pct = 100, final_summary = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
                     (summary, now, mission_id),
                 )
+                if linked_project_id:
+                    conn.execute("UPDATE projects SET status = 'SHIPPED', updated_at = ? WHERE project_id = ?", (now, linked_project_id))
                 conn.execute(
-                    "UPDATE antigravity_orders SET status = 'COMPLETED', result_summary = 'Chủ tịch đã duyệt hoàn tất', updated_at = ? WHERE mission_id = ? AND status IN ('PENDING','CLAIMED','RUNNING')",
+                    "UPDATE antigravity_orders SET status = 'COMPLETED', result_summary = 'Chủ tịch đã nghiệm thu sản phẩm cuối 100%', updated_at = ? WHERE mission_id = ? AND status IN ('PENDING','CLAIMED','RUNNING')",
                     (now, mission_id),
                 )
-                self.log_event("00", "MISSION_APPROVED", f"Chủ tịch CHẤP NHẬN nghiệm thu nhiệm vụ: {mrow['title']}", conn=conn)
+                self.log_event("00", "MISSION_APPROVED", f"Chủ tịch NGHIỆM THU SẢN PHẨM CUỐI hoàn tất 100%: {mrow['title']}", conn=conn)
             else:
-                reason = note or "Chủ tịch yêu cầu rà soát và hoàn thiện kỹ hơn."
+                reason = note or "Chủ tịch yêu cầu chỉnh sửa và hoàn thiện kỹ hơn."
                 ref_id = f"refl-{uuid.uuid4().hex[:8]}"
                 conn.execute(
-                    "INSERT INTO reflexions(reflexion_id, dept_id, failure_symptom, root_cause, preventive_rule, created_at) VALUES (?, '00', ?, 'Chưa thỏa mãn kỳ vọng Chủ tịch ở cổng cuối', ?, ?)",
+                    "INSERT INTO reflexions(reflexion_id, dept_id, failure_symptom, root_cause, preventive_rule, created_at) VALUES (?, '00', ?, 'Chưa thỏa mãn kỳ vọng Chủ tịch', ?, ?)",
                     (ref_id, reason, f"Bắt buộc khắc phục yêu cầu '{reason}' trước khi trình lại.", now),
                 )
+                reset_from = 2 if is_proposal_gate else 5
+                reset_pct = 15 if is_proposal_gate else 50
                 conn.execute(
-                    "UPDATE mission_steps SET status = 'PENDING', progress_pct = 0, live_activity_text = ? WHERE mission_id = ? AND step_order >= 5",
-                    (f"Đã gửi yêu cầu làm lại sang Antigravity: {reason}", mission_id),
+                    "UPDATE mission_steps SET status = 'PENDING', progress_pct = 0, live_activity_text = ? WHERE mission_id = ? AND step_order >= ?",
+                    (f"Đã gửi yêu cầu làm lại sang Antigravity: {reason}", mission_id, reset_from),
                 )
                 conn.execute(
-                    "UPDATE missions SET status = 'RUNNING', dispatch_state = 'QUEUED_FOR_ANTIGRAVITY', current_step_order = 5, progress_pct = 57, version = version + 1, updated_at = ? WHERE mission_id = ?",
-                    (now, mission_id),
+                    "UPDATE missions SET status = 'RUNNING', dispatch_state = 'QUEUED_FOR_ANTIGRAVITY', current_step_order = ?, progress_pct = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
+                    (reset_from, reset_pct, now, mission_id),
                 )
-                rework_order_id = f"ord-{uuid.uuid4().hex[:8]}"
+                emitted_order_id = f"ord-{uuid.uuid4().hex[:8]}"
                 conn.execute(
                     """
                     INSERT INTO antigravity_orders(
@@ -2080,18 +2217,18 @@ class TitanDatabase:
                         source_device, status, created_at, updated_at
                     ) VALUES (?, 'MISSION_REWORK', ?, NULL, ?, ?, 'web-local', 'PENDING', ?, ?)
                     """,
-                    (rework_order_id, mission_id, f"[Làm lại] {mrow['title']}", reason, now, now),
+                    (emitted_order_id, mission_id, f"[Làm lại GĐ {1 if is_proposal_gate else 2}] {mrow['title']}", reason, now, now),
                 )
                 self.log_event(
                     "47",
                     "MISSION_REJECTED",
-                    f"Đã gửi yêu cầu sửa lại sang Antigravity Swarm cho: {mrow['title']}",
-                    detail={"mission_id": mission_id, "order_id": rework_order_id, "reason": reason},
+                    f"Đã gửi yêu cầu sửa lại (từ Bước {reset_from}) sang Antigravity Swarm cho: {mrow['title']}",
+                    detail={"mission_id": mission_id, "order_id": emitted_order_id, "reason": reason},
                     conn=conn,
                 )
         res = self.get_mission(mission_id)  # type: ignore[return-value]
-        if res is not None and rework_order_id:
-            res["order_id"] = rework_order_id
+        if res is not None and emitted_order_id:
+            res["order_id"] = emitted_order_id
         return res  # type: ignore[return-value]
 
     def delete_mission(self, mission_id: str) -> dict[str, Any]:
@@ -2124,7 +2261,7 @@ class TitanDatabase:
         order_id: str | None = None,
     ) -> dict[str, Any]:
         otype = order_type.upper().strip()
-        if otype not in ("NEW_MISSION", "MISSION_REWORK", "MISSION_APPROVED", "SCAN_OPPORTUNITIES", "EXECUTE_TASK"):
+        if otype not in ("NEW_MISSION", "BUILD_PRODUCT", "MISSION_REWORK", "MISSION_APPROVED", "SCAN_OPPORTUNITIES", "EXECUTE_TASK"):
             raise ValueError(f"Loại lệnh không hợp lệ: {otype}")
         now = utc_now_iso()
         oid = order_id or f"ord-{uuid.uuid4().hex[:8]}"
