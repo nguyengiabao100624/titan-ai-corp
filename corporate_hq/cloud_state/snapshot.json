@@ -1,16 +1,16 @@
 {
   "schema_version": "6.3",
-  "exported_at": "2026-11-19T08:34:15Z",
+  "exported_at": "2026-11-19T08:47:14Z",
   "bridge": {
-    "online": false,
+    "online": true,
     "mode": "ANTIGRAVITY_SWARM",
-    "pid": 1888,
+    "pid": 26668,
     "swarm_title": "",
     "active_workers": [],
-    "note": "[Kiểm thử viên Khách hàng thật] Bước 7/8: Đang đóng vai 5 nhóm chủ shop thật bấm kiểm tra toàn bộ Két Thuế Shop & Landing Page (Desk",
-    "last_heartbeat_at": "2026-11-19T08:05:35Z",
+    "note": "Hệ thống điều phối đang trực chiến, sẵn sàng nhận việc tức thì từ máy tính và điện thoại",
+    "last_heartbeat_at": "2026-11-19T08:47:13Z",
     "pending_orders_count": 0,
-    "active_orders_count": 1
+    "active_orders_count": 0
   },
   "divisions": [
     {
@@ -119,11 +119,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 5,
-      "articles_learned": 22,
+      "articles_learned": 23,
       "version": 4,
       "last_heartbeat_at": "2026-11-19T07:15:54Z",
-      "last_studied_at": "2026-11-19T07:51:17Z",
-      "updated_at": "2026-11-19T07:51:17Z"
+      "last_studied_at": "2026-11-19T08:34:54Z",
+      "updated_at": "2026-11-19T08:34:54Z"
     },
     {
       "dept_id": "02",
@@ -159,11 +159,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 5,
-      "articles_learned": 16,
+      "articles_learned": 17,
       "version": 1,
       "last_heartbeat_at": "2026-11-19T07:15:54Z",
-      "last_studied_at": "2026-11-19T07:51:18Z",
-      "updated_at": "2026-11-19T07:51:18Z"
+      "last_studied_at": "2026-11-19T08:34:54Z",
+      "updated_at": "2026-11-19T08:34:54Z"
     },
     {
       "dept_id": "04",
@@ -179,11 +179,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 0,
-      "articles_learned": 25,
+      "articles_learned": 27,
       "version": 1,
       "last_heartbeat_at": null,
-      "last_studied_at": "2026-11-19T07:51:19Z",
-      "updated_at": "2026-11-19T07:51:19Z"
+      "last_studied_at": "2026-11-19T08:43:33Z",
+      "updated_at": "2026-11-19T08:43:33Z"
     },
     {
       "dept_id": "05",
@@ -339,11 +339,11 @@
       "token_budget_monthly": 500000,
       "tokens_used": 0,
       "tasks_completed": 7,
-      "articles_learned": 15,
+      "articles_learned": 17,
       "version": 1,
       "last_heartbeat_at": "2026-11-19T07:26:12Z",
-      "last_studied_at": "2026-11-19T07:51:19Z",
-      "updated_at": "2026-11-19T07:51:19Z"
+      "last_studied_at": "2026-11-19T08:43:33Z",
+      "updated_at": "2026-11-19T08:43:33Z"
     },
     {
       "dept_id": "13",
@@ -498,12 +498,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CISO/QA (Độc lập 100% với Khối 3).\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Chặn Cổng 3 hoặc trả hồ sơ kèm Reflexion về Khối 3.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 6,
+      "tasks_completed": 7,
       "articles_learned": 5,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T08:05:35Z",
+      "last_heartbeat_at": "2026-11-19T08:45:23Z",
       "last_studied_at": "2026-11-18T21:13:45Z",
-      "updated_at": "2026-11-19T08:05:35Z"
+      "updated_at": "2026-11-19T08:45:23Z"
     },
     {
       "dept_id": "21",
@@ -558,12 +558,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"@ceo (00) & Khối trưởng CISO/QA.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"15-backend-payment, 19-cloud-devops.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 0,
+      "tasks_completed": 1,
       "articles_learned": 9,
       "version": 1,
-      "last_heartbeat_at": null,
+      "last_heartbeat_at": "2026-11-19T08:45:23Z",
       "last_studied_at": "2026-11-19T07:51:17Z",
-      "updated_at": "2026-11-19T07:51:17Z"
+      "updated_at": "2026-11-19T08:45:23Z"
     },
     {
       "dept_id": "24",
@@ -1038,12 +1038,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Phòng `47` (`@process-challenger`) — Trực thuộc Khối `div9-critique-ux-lab`.\\n-\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"Gác cổng bắt buộc giữa mọi bước bàn giao của Phòng 01..50.\\n-\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 26,
+      "tasks_completed": 27,
       "articles_learned": 0,
       "version": 2,
-      "last_heartbeat_at": "2026-11-19T07:26:12Z",
+      "last_heartbeat_at": "2026-11-19T08:45:23Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-19T07:26:12Z"
+      "updated_at": "2026-11-19T08:45:23Z"
     },
     {
       "dept_id": "48",
@@ -1058,12 +1058,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"49-ux-friction-destroyer, 07-ux-researcher, 13-frontend-web, 14-mobile-app.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 15,
+      "tasks_completed": 16,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T08:05:35Z",
+      "last_heartbeat_at": "2026-11-19T08:45:23Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-19T08:05:35Z"
+      "updated_at": "2026-11-19T08:45:23Z"
     },
     {
       "dept_id": "49",
@@ -1078,12 +1078,12 @@
       "canonical_books": "[\"Mã định danh biên chế:\", \"Tuyến báo cáo trực tiếp:\", \"Trực tiếp Chủ tịch HĐQT & @ceo.\\n-\", \"Tuyến bàn giao kế tiếp:\", \"08-ui-design-system, 13-frontend-web, 48-persona-customer-tester.\\n-\", \"Sứ mệnh cốt lõi:\"]",
       "token_budget_monthly": 500000,
       "tokens_used": 0,
-      "tasks_completed": 20,
+      "tasks_completed": 21,
       "articles_learned": 0,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T08:05:35Z",
+      "last_heartbeat_at": "2026-11-19T08:45:23Z",
       "last_studied_at": null,
-      "updated_at": "2026-11-19T08:05:35Z"
+      "updated_at": "2026-11-19T08:45:23Z"
     },
     {
       "dept_id": "50",
@@ -1311,19 +1311,19 @@
       "title": "Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
       "goal_prompt": "Khách hàng: Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng). Nỗi đau: Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.. Giải pháp: Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.",
       "category": "MONEY_MAKER",
-      "status": "RUNNING",
+      "status": "WAITING_CHAIRMAN",
       "auto_approve": 0,
-      "current_step_order": 7,
+      "current_step_order": 8,
       "total_steps": 8,
-      "progress_pct": 81,
-      "final_summary": "1. Sản phẩm cuối sẽ code ở GĐ 2: Web App PWA \"Két Thuế Shop\" (3 con số lớn: Tiền về thực nhận - Két cất đóng thuế / Quỹ đòi hoàn - Tiền xài được an toàn; kéo-thả CSV Shopee/TikTok tự lọc đơn bom + ghi nhanh 3 chạm; biểu đồ Radar vạch đỏ 1 tỷ & 3 tỷ; bắt bệnh sàn trừ nhầm 10%; xuất Excel/PDF A4; Local-First riêng tư) + Landing Page bán hàng kèm Máy tính 10 giây 0đ CAC.\n2. Giá & Biên lãi CFO thật: Gói Chuẩn 249.000đ/tháng (biên lãi gộp kịch bản xấu 77,42%, hòa vốn 8-9 khách), Pro 399.000đ/tháng (biên xấu 72,18%, hòa vốn 5-6 khách), Chuỗi 799.000đ/tháng (72,22%); đã VETO gói Unlimited AI và khóa phễu 0đ CAC + gói 6-12 tháng đưa LTV/CAC lên 8,86x (hoàn vốn 1,25 tháng).\n3. Điểm sống sót & khóa rủi ro #46: 82/100 (tăng từ 61/100 trước khóa) & UX mục tiêu 90/100 (5 Persona) — đã vá bẫy phí sàn 20% lệch GMV, tách đúng GTGT 100% vs TNCN phần vượt 1 tỷ (NĐ 141/2026), gắn Miễn trừ Pháp lý 3 lớp và cấm tuyệt đối tư vấn lách thuế.\n4. Bấm Duyệt kèo -> Sản xuất SP để đội kỹ sư (@builder, @ux-tester) code app thật, chạy test khớp số liệu Python/JS và kiểm thử trình duyệt 5 Persona ngay!",
-      "survival_score": 82,
-      "ux_score": 90,
+      "progress_pct": 99,
+      "final_summary": "Bản bàn giao Sản phẩm Cuối Két Thuế Shop hoàn chỉnh (Hồ sơ: step8_final_delivery.md): 1. Ứng dụng Web PWA chạy thật tại /projects/so-thu-chi-thue-hkd/app/; 2. Trang bán hàng có máy tính thử 10 giây tại /projects/so-thu-chi-thue-hkd/go-to-market/landing/ cùng Bộ kịch bản 7 ngày thu 50 khách đầu 0đ quảng cáo; 3. Đạt 10/10 bài kiểm thử lõi thuế, 0 lỗ hổng bảo mật XSS/CSV, đủ Miễn trừ pháp lý 3 lớp, kiểm thử trình duyệt thật 0 lỗi và 0px tràn ngang điện thoại (95/100 điểm trải nghiệm).",
+      "survival_score": 88,
+      "ux_score": 95,
       "expected_margin_pct": 77.42,
-      "version": 26,
+      "version": 29,
       "created_at": "2026-11-19T07:06:41Z",
-      "updated_at": "2026-11-19T08:05:35Z",
-      "dispatch_state": "SWARM_ACTIVE",
+      "updated_at": "2026-11-19T08:45:23Z",
+      "dispatch_state": "WAITING_CHAIRMAN",
       "swarm_title": "Sản xuất Két Thuế Shop — GĐ 2",
       "swarm_workers_json": "[\"@ky-su-san-pham\", \"@doi-ban-hang\", \"@tester-khach-hang\", \"@phan-bien-doc-lap\"]",
       "phase": "PRODUCTION",
@@ -1573,17 +1573,17 @@
           "lead_dept_ids": "48,49,20,23,47",
           "critic_dept_id": "47",
           "ux_tester_dept_id": "48",
-          "status": "RUNNING",
-          "progress_pct": 45,
-          "live_activity_text": "Đang đóng vai 5 nhóm chủ shop thật bấm kiểm tra toàn bộ Két Thuế Shop & Landing Page (Desktop Sáng/Tối + Mobile 390px)...",
-          "output_summary": "",
-          "critique_verdict": "",
-          "ux_verdict": "",
+          "status": "DONE",
+          "progress_pct": 100,
+          "live_activity_text": "Hội đồng Phản biện và Bảo mật đã hoàn tất bước 7 với kết quả kiểm chứng thật.",
+          "output_summary": "Hoàn tất kiểm thử trình duyệt Chrome thật 2 vòng (0 lỗi bảng điều khiển, 0px tràn ngang điện thoại 390px/320px, 95/100 điểm trải nghiệm 5 nhóm khách hàng) và kiểm toán độc lập thuế/bảo mật 0 lỗi (10/10 bài kiểm thử lõi thuế đạt, 0đ sai số 3 chiều, 0 lỗ hổng XSS và chống chèn công thức bảng tính).",
+          "critique_verdict": "ĐẠT CỔNG 2 (#46-#47-#23): Khớp 0đ công thức thuế NĐ 141/2026, NĐ 68/2026, NĐ 117/2025, NĐ 70/2025 giữa bản chuẩn Bước 3, Ứng dụng và Máy tính 10 giây; kiểm thử xâm nhập XSS qua tham số địa chỉ và nhập tệp bảng tính trên Chrome thật đạt 0 lỗ hổng; đủ Miễn trừ pháp lý 3 lớp, 0 nội dung lách luật, giữ đúng 3 bậc giá 249k/399k/799k và hạn mức AI 150/300/600 lượt/tháng (biên lãi gộp xấu 77,42%).",
+          "ux_verdict": "ĐẠT CHUẨN 95/100 (#48): 5/5 nhóm chủ shop thật (Cô Hoa 95, Anh Minh 96, Chị Lan 97, Anh Tuấn 94, Bạn Vy 95) thao tác mượt <= 3 chạm trên máy tính và điện thoại 390px/320px ở cả Sáng và Tối, 100% tương phản đạt chuẩn, đã khắc phục triệt để 10/10 lỗi Vòng 1.",
           "started_at": "2026-11-19T08:05:35Z",
-          "completed_at": null,
-          "updated_at": "2026-11-19T08:05:35Z",
-          "worker_name": "@tester-khach-hang",
-          "artifact_path": "",
+          "completed_at": "2026-11-19T08:45:23Z",
+          "updated_at": "2026-11-19T08:45:23Z",
+          "worker_name": "@phan-bien-doc-lap",
+          "artifact_path": "corporate_hq/projects/so-thu-chi-thue-hkd/step7_ux_persona_qa.md",
           "lead_depts": [
             {
               "dept_id": "48",
@@ -1617,17 +1617,17 @@
           "lead_dept_ids": "00,19,35",
           "critic_dept_id": "46",
           "ux_tester_dept_id": "48",
-          "status": "PENDING",
-          "progress_pct": 0,
-          "live_activity_text": "",
-          "output_summary": "",
-          "critique_verdict": "",
-          "ux_verdict": "",
-          "started_at": null,
+          "status": "WAITING_APPROVAL",
+          "progress_pct": 95,
+          "live_activity_text": "Toàn công ty đã sản xuất xong sản phẩm cuối và kiểm thử đóng vai người dùng thật. Mời Chủ tịch xem sản phẩm và nghiệm thu.",
+          "output_summary": "Bản bàn giao Sản phẩm Cuối Két Thuế Shop hoàn chỉnh (Hồ sơ: step8_final_delivery.md): 1. Ứng dụng Web PWA chạy thật tại /projects/so-thu-chi-thue-hkd/app/; 2. Trang bán hàng có máy tính thử 10 giây tại /projects/so-thu-chi-thue-hkd/go-to-market/landing/ cùng Bộ kịch bản 7 ngày thu 50 khách đầu 0đ quảng cáo; 3. Đạt 10/10 bài kiểm thử lõi thuế, 0 lỗ hổng bảo mật XSS/CSV, đủ Miễn trừ pháp lý 3 lớp, kiểm thử trình duyệt thật 0 lỗi và 0px tràn ngang điện thoại (95/100 điểm trải nghiệm).",
+          "critique_verdict": "Đã qua phản biện và kiểm toán bảo mật độc lập (Phòng #46, #47, #23)",
+          "ux_verdict": "Đã qua kiểm thử trình duyệt đóng vai 5 nhóm khách hàng thật (Phòng #48, #49)",
+          "started_at": "2026-11-19T08:45:23Z",
           "completed_at": null,
-          "updated_at": "2026-11-19T07:06:41Z",
-          "worker_name": "",
-          "artifact_path": "",
+          "updated_at": "2026-11-19T08:45:23Z",
+          "worker_name": "@phan-bien-doc-lap",
+          "artifact_path": "corporate_hq/projects/so-thu-chi-thue-hkd/app/index.html",
           "lead_depts": [
             {
               "dept_id": "00",
@@ -1646,55 +1646,85 @@
           "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
         }
       ],
-      "done_steps_count": 6,
+      "done_steps_count": 7,
       "running_step": {
-        "step_id": "msn-47b19760-s7",
+        "step_id": "msn-47b19760-s8",
         "mission_id": "msn-47b19760",
-        "step_order": 7,
-        "title": "[GĐ 2] Kiểm thử viên đóng vai 5 nhóm khách hàng dùng thử thật và phản biện chốt lỗi",
-        "lead_dept_ids": "48,49,20,23,47",
-        "critic_dept_id": "47",
+        "step_order": 8,
+        "title": "[GĐ 2] Bàn giao Sản phẩm Cuối hoàn chỉnh & Kịch bản thu tiền cho Chủ tịch",
+        "lead_dept_ids": "00,19,35",
+        "critic_dept_id": "46",
         "ux_tester_dept_id": "48",
-        "status": "RUNNING",
-        "progress_pct": 45,
-        "live_activity_text": "Đang đóng vai 5 nhóm chủ shop thật bấm kiểm tra toàn bộ Két Thuế Shop & Landing Page (Desktop Sáng/Tối + Mobile 390px)...",
-        "output_summary": "",
-        "critique_verdict": "",
-        "ux_verdict": "",
-        "started_at": "2026-11-19T08:05:35Z",
+        "status": "WAITING_APPROVAL",
+        "progress_pct": 95,
+        "live_activity_text": "Toàn công ty đã sản xuất xong sản phẩm cuối và kiểm thử đóng vai người dùng thật. Mời Chủ tịch xem sản phẩm và nghiệm thu.",
+        "output_summary": "Bản bàn giao Sản phẩm Cuối Két Thuế Shop hoàn chỉnh (Hồ sơ: step8_final_delivery.md): 1. Ứng dụng Web PWA chạy thật tại /projects/so-thu-chi-thue-hkd/app/; 2. Trang bán hàng có máy tính thử 10 giây tại /projects/so-thu-chi-thue-hkd/go-to-market/landing/ cùng Bộ kịch bản 7 ngày thu 50 khách đầu 0đ quảng cáo; 3. Đạt 10/10 bài kiểm thử lõi thuế, 0 lỗ hổng bảo mật XSS/CSV, đủ Miễn trừ pháp lý 3 lớp, kiểm thử trình duyệt thật 0 lỗi và 0px tràn ngang điện thoại (95/100 điểm trải nghiệm).",
+        "critique_verdict": "Đã qua phản biện và kiểm toán bảo mật độc lập (Phòng #46, #47, #23)",
+        "ux_verdict": "Đã qua kiểm thử trình duyệt đóng vai 5 nhóm khách hàng thật (Phòng #48, #49)",
+        "started_at": "2026-11-19T08:45:23Z",
         "completed_at": null,
-        "updated_at": "2026-11-19T08:05:35Z",
-        "worker_name": "@tester-khach-hang",
-        "artifact_path": "",
+        "updated_at": "2026-11-19T08:45:23Z",
+        "worker_name": "@phan-bien-doc-lap",
+        "artifact_path": "corporate_hq/projects/so-thu-chi-thue-hkd/app/index.html",
         "lead_depts": [
           {
-            "dept_id": "48",
-            "title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
+            "dept_id": "00",
+            "title_vi": "Tổng Giám đốc và Chánh Văn phòng"
           },
           {
-            "dept_id": "49",
-            "title_vi": "Thanh tra Tối giản Thao tác và Diệt Rối mắt"
+            "dept_id": "19",
+            "title_vi": "Hạ tầng Đám mây và Vận hành Hệ thống"
           },
           {
-            "dept_id": "20",
-            "title_vi": "Kiểm thử Phần mềm và Tự động hóa"
-          },
-          {
-            "dept_id": "23",
-            "title_vi": "An ninh Mạng và Chống Xâm nhập"
-          },
-          {
-            "dept_id": "47",
-            "title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban"
+            "dept_id": "35",
+            "title_vi": "Bàn giao và Hướng dẫn Khách hàng 180 giây"
           }
         ],
-        "critic_title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+        "critic_title_vi": "Hội đồng Phản biện Mô hình Kiếm tiền",
         "ux_tester_title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật"
       },
-      "pending_steps_count": 1
+      "pending_steps_count": 0
     }
   ],
   "opportunities": [
+    {
+      "opp_id": "opp-d0bf991f",
+      "title": "Sổ Chấm Tọa Độ Vùng Trồng và Đóng Gói Hồ Sơ Nguồn Gốc Xuất Khẩu Châu Âu cho Vựa Cà Phê, Xưởng Gỗ",
+      "target_customer": "Đại lý thu mua cấp 1, hợp tác xã cà phê, hồ tiêu, cao su và xưởng gỗ xuất khẩu sang châu Âu (599.000đ/tháng)",
+      "pain_point": "Quy định chống phá rừng của Liên minh châu Âu bắt buộc áp dụng từ ngày 30/12/2026 với doanh nghiệp lớn và vừa, đòi hỏi tọa độ định vị từng mảnh rẫy và hồ sơ gỗ hợp pháp không phá rừng sau mốc 31/12/2020. Các vựa thu mua nhỏ lẻ chưa có công cụ gom tọa độ dễ dùng trên rẫy mất sóng nên đối mặt nguy cơ bị nhà xuất khẩu loại khỏi chuỗi cung ứng.",
+      "proposed_solution": "Chạy ngay trên trình duyệt điện thoại kể cả khi lên rẫy không có sóng mạng: cán bộ thu mua đi quanh vườn bấm chấm ranh giới thửa đất, chụp sổ đỏ hoặc bảng kê lâm sản, gán thẳng vào mã từng chuyến hàng rồi xuất trọn bộ tệp tọa độ bản đồ và hồ sơ song ngữ nộp ngay cho nhà máy xuất khẩu.",
+      "price_vnd": 599000.0,
+      "est_margin_pct": 73.5,
+      "breakeven_users": 4,
+      "survival_score": 92,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là độ lệch giữa bản đồ đất canh tác trong nước và ảnh vệ tinh châu Âu khiến lô đất bị báo nhầm là rừng, hoặc nông dân ngại cung cấp sổ đỏ. Phải định vị rõ công cụ chuyên gom sạch tọa độ ranh giới, tự cảnh báo thửa bị hở góc hoặc trùng chéo và lưu bằng chứng hợp pháp ngay từ khâu thu mua, không hứa thay vai trò cơ quan kiểm định.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Chủ vựa thu mua đứng giữa rẫy cà phê bấm đúng 3 chạm: mở tên nông hộ, đi quanh vườn bấm chốt 4 góc ranh giới tự lưu trên máy khi mất sóng, về nhà bấm xuất gói hồ sơ gửi nhà máy.",
+      "source_url": "https://baochinhphu.vn/tu-eudr-den-co-hoi-nang-gia-tri-ca-phe-viet-102260921175443984.htm",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T08:46:23Z",
+      "updated_at": "2026-11-19T08:46:23Z"
+    },
+    {
+      "opp_id": "opp-816d0b3a",
+      "title": "Sổ Giao Nhận Xe 4 Góc, Hợp Đồng Phạt Nguội và Nhắc Soát Cọc cho Tiệm Thuê Xe Tự Lái",
+      "target_customer": "Chủ bãi cho thuê ô tô tự lái, hợp tác xã xe dịch vụ 3 đến 30 xe (349.000đ/tháng)",
+      "pain_point": "Theo Khoản 8 Điều 47 Nghị định 168, lỗi phạt nguội tới 20 triệu thường báo về sau khi khách trả xe nhiều tuần. Thiếu biên bản rõ giờ giao nhận và giấy tờ người lái, chủ xe dễ bị phạt thay hoặc treo đăng kiểm, còn giữ cọc thủ công hay gây cãi vã.",
+      "proposed_solution": "Chụp 4 góc xe, đồng hồ công tơ mét và giấy tờ khách trên điện thoại để khóa giờ giao nhận thành hợp đồng kèm điều khoản phạt nguội chuẩn Nghị định 168 gửi khách xác nhận qua Zalo. Tự đếm ngược hạn giữ cọc 15 đến 30 ngày theo biển số và đóng gói sẵn hồ sơ giải trình công an bằng 1 chạm.",
+      "price_vnd": 349000.0,
+      "est_margin_pct": 78.4,
+      "breakeven_users": 6,
+      "survival_score": 91,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là chủ xe tưởng phần mềm tự vượt mã bảo vệ để tra phạt nguội thay cổng Cục Cảnh sát giao thông. Giải pháp phải chốt rõ giá trị cốt lõi là khóa bằng chứng giờ giao nhận, giữ cọc minh bạch và mở nhanh đúng trang tra cứu chính thức theo từng biển số đến hạn hoàn cọc.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Chủ bãi xe đứng ngoài trời giao xe bấm đúng 3 chạm trên điện thoại: chọn biển số xe, chụp 4 góc cùng giấy tờ khách, bấm xuất biên bản gửi Zalo xác nhận trong 40 giây.",
+      "source_url": "https://thanhnien.vn/cho-thue-o-to-tu-lai-tai-xe-bi-phat-nguoi-chu-xe-chiu-trach-nhiem-185260503111415869.htm",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T08:46:23Z",
+      "updated_at": "2026-11-19T08:46:23Z"
+    },
     {
       "opp_id": "opp-90dda7a4",
       "title": "Bộ Báo Giá Nhanh & Nhắc Lịch Bảo Trì Tự Động Cho Thợ Điện Lạnh / Lọc Nước (#B327)",
@@ -1713,6 +1743,25 @@
       "version": 1,
       "created_at": "2026-11-18T21:19:44Z",
       "updated_at": "2026-11-18T21:19:44Z"
+    },
+    {
+      "opp_id": "opp-45514bad",
+      "title": "Trang Công Khai Chuẩn Thông Tư 29 và 19, Điểm Danh và Phiếu Học Phí Mã QR cho Cơ Sở Dạy Thêm",
+      "target_customer": "Chủ cơ sở dạy thêm văn hóa, lớp luyện thi, trung tâm ngoại ngữ 30 đến 300 học sinh (299.000đ/tháng)",
+      "pain_point": "Thông tư 29 và Thông tư 19 năm 2026 của Bộ Giáo dục bắt buộc cơ sở dạy thêm ngoài nhà trường đăng ký kinh doanh và công khai đầy đủ giáo viên, lịch học, mức thu trước khi tuyển sinh. Nhiều chủ lớp vẫn điểm danh sổ giấy, tính trừ buổi nghỉ bằng tay rồi nhắn đòi học phí thủ công vừa thiếu chuyên nghiệp vừa lo bị kiểm tra xử phạt.",
+      "proposed_solution": "Nhập danh sách lớp, giáo viên và học phí 1 lần để tự tạo trang công khai trực tuyến kèm bảng niêm yết có mã quét dán tại cổng đúng mục Thông tư 29 và 19. Giáo viên điểm danh 1 chạm trên điện thoại, hệ thống tự trừ buổi nghỉ và xuất hàng loạt phiếu báo học phí kèm mã chuyển khoản ngân hàng gửi thẳng Zalo phụ huynh.",
+      "price_vnd": 299000.0,
+      "est_margin_pct": 78.4,
+      "breakeven_users": 7,
+      "survival_score": 89,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là cơ sở mở lớp sai đối tượng bị cấm theo Thông tư 29 và 19 như dạy thêm môn văn hóa bậc tiểu học hoặc dạy chính học sinh trên lớp công lập của giáo viên. Phải gắn bộ lọc kiểm tra điều kiện hợp lệ ngay lúc tạo lớp và chỉ phục vụ cơ sở có đăng ký kinh doanh minh bạch.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Cô giáo ngoài 45 tuổi cuối buổi bấm đúng 3 chạm: chọn lớp học, chạm tên học sinh vắng mặt, bấm chốt tháng xuất ngay phiếu báo học phí có mã chuyển khoản gửi từng phụ huynh.",
+      "source_url": "https://baochinhphu.vn/quy-dinh-moi-ve-day-them-hoc-them-102260408162857714.htm",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T08:46:23Z",
+      "updated_at": "2026-11-19T08:46:23Z"
     },
     {
       "opp_id": "opp-eef0721f",
@@ -1812,6 +1861,21 @@
   ],
   "orders": [
     {
+      "order_id": "ord-a3760ab7",
+      "order_type": "SCAN_OPPORTUNITIES",
+      "mission_id": null,
+      "task_id": null,
+      "title": "Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "instructions": "Đọc tin tức thị trường & dữ liệu kinh tế thực tế mới nhất, săn 2–3 cơ hội sản phẩm/dịch vụ dễ thu tiền tại Việt Nam & toàn cầu (lãi gộp >= 65%, hòa vốn <= 10 khách), phản biện thẳng rủi ro (#46) và kiểm tra độ dễ dùng 3 chạm (#48) trước khi đăng lên bảng Cơ hội.",
+      "source_device": "web-local",
+      "status": "COMPLETED",
+      "claimed_by": "antigravity-coordinator",
+      "swarm_title": "",
+      "result_summary": "Đã săn và thẩm định xong 3 cơ hội kiếm tiền mới từ dữ liệu thị trường thật.",
+      "created_at": "2026-11-19T08:39:01Z",
+      "updated_at": "2026-11-19T08:46:56Z"
+    },
+    {
       "order_id": "ord-3c95400e",
       "order_type": "BUILD_PRODUCT",
       "mission_id": "msn-47b19760",
@@ -1819,12 +1883,12 @@
       "title": "[Sản xuất SP cuối] Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
       "instructions": "Chủ tịch ĐÃ DUYỆT CHỐT KÈO 'Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT' — BẮT ĐẦU GIAI ĐOẠN 2 SẢN XUẤT SẢN PHẨM CUỐI THẬT 100%!\n• Thư mục dự án: corporate_hq/projects/so-thu-chi-thue-hkd (project_id=proj-so-thu-chi-thue-hkd)\n• Phương án đã duyệt: 1. Sản phẩm cuối sẽ code ở GĐ 2: Web App PWA \"Két Thuế Shop\" (3 con số lớn: Tiền về thực nhận - Két cất đóng thuế / Quỹ đòi hoàn - Tiền xài được an toàn; kéo-thả CSV Shopee/TikTok tự lọc đơn bom + ghi nhanh 3 chạm; biểu đồ Radar vạch đỏ 1 tỷ & 3 tỷ; bắt bệnh sàn trừ nhầm 10%; xuất Excel/PDF A4; Local-First riêng tư) + Landing Page bán hàng kèm Máy tính 10 giây 0đ CAC.\n2. Giá & Biên lãi CFO thật: Gói Chuẩn 249.000đ/tháng (biên lãi gộp kịch bản xấu 77,42%, hòa vốn 8-9 khách), Pro 399.000đ/tháng (biên xấu 72,18%, hòa vốn 5-6 khách), Chuỗi 799.000đ/tháng (72,22%); đã VETO gói Unlimited AI và khóa phễu 0đ CAC + gói 6-12 tháng đưa LTV/CAC lên 8,86x (hoàn vốn 1,25 tháng).\n3. Điểm sống sót & khóa rủi ro #46: 82/100 (tăng từ 61/100 trước khóa) & UX mục tiêu 90/100 (5 Persona) — đã vá bẫy phí sàn 20% lệch GMV, tách đúng GTGT 100% vs TNCN phần vượt 1 tỷ (NĐ 141/2026), gắn Miễn trừ Pháp lý 3 lớp và cấm tuyệt đối tư vấn lách thuế.\n4. Bấm Duyệt kèo -> Sản xuất SP để đội kỹ sư (@builder, @ux-tester) code app thật, chạy test khớp số liệu Python/JS và kiểm thử trình duyệt 5 Persona ngay!\n• Chỉ đạo thêm của Chủ tịch: Chủ tịch duyệt chốt kèo — Sản xuất full sản phẩm cuối Két Thuế Shop ngay!",
       "source_device": "web-local",
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "claimed_by": "antigravity-swarm-gd2",
       "swarm_title": "Sản xuất Két Thuế Shop — GĐ 2",
-      "result_summary": "",
+      "result_summary": "Bản bàn giao Sản phẩm Cuối Két Thuế Shop hoàn chỉnh (Hồ sơ: step8_final_delivery.md): 1. Ứng dụng Web PWA chạy thật tại /projects/so-thu-chi-thue-hkd/app/; 2. Trang bán hàng có máy tính thử 10 giây tại /projects/so-thu-chi-thue-hkd/go-to-market/landing/ cùng Bộ kịch bản 7 ngày thu 50 khách đầu 0đ quảng cáo; 3. Đạt 10/10 bài kiểm thử lõi thuế, 0 lỗ hổng bảo mật XSS/CSV, đủ Miễn trừ pháp lý 3 lớp, k",
       "created_at": "2026-11-19T07:36:24Z",
-      "updated_at": "2026-11-19T07:36:24Z"
+      "updated_at": "2026-11-19T08:45:23Z"
     },
     {
       "order_id": "ord-ae54b8b2",
@@ -1974,6 +2038,18 @@
       "content_vi": "Đã hoàn tất kiểm thử trình duyệt Chrome thật 2 vòng cho cả Két Thuế Shop Web App & Landing Page (Desktop 1280/1440 Sáng-Tối + Mobile 390/320). 10/10 lỗi Vòng 1 đã được sửa triệt để và xác minh lại 100%: 0 lỗi Console, 0 lỗi mạng 4xx/5xx, 0px tràn ngang Mobile, 100% tương phản WCAG 2.2 AA (App Sáng >=6,10:1 / Tối >=5,41:1; Landing Sáng >=5,62:1 / Tối >=6,56:1), 0 lỗi vùng chạm <24px, 0 emoji/gạch ngang dài/select gốc/hardcode, 5/5 nhóm khách hàng thao tác mượt <=3 chạm (Cô Hoa 95, Anh Minh 96, Chị Lan 97, Anh Tuấn 94, Bạn Vy 95) -> Điểm Thấu Cảm UX đạt 95/100 (Level 3 Real Chrome Smoke PASS). Đã lưu báo cáo tại step7_ux_persona_qa.md và bàn giao sang Bước 7-8 cho Hội đồng Phản biện & Bảo mật.",
       "artifact_path": "corporate_hq/projects/so-thu-chi-thue-hkd/step7_ux_persona_qa.md",
       "created_at": "2026-11-19T08:33:36Z"
+    },
+    {
+      "msg_id": 12,
+      "mission_id": "msn-47b19760",
+      "sender_slug": "@phan-bien-doc-lap",
+      "sender_name_vi": "Hội đồng Phản biện và Bảo mật",
+      "sender_dept_ids": "48,49,20,23,47",
+      "recipient_name_vi": "Toàn đội & Chủ tịch",
+      "msg_type": "DONE",
+      "content_vi": "Hoàn tất Bước 7: Hoàn tất kiểm thử trình duyệt Chrome thật 2 vòng (0 lỗi bảng điều khiển, 0px tràn ngang điện thoại 390px/320px, 95/100 điểm trải nghiệm 5 nhóm khách hàng) và kiểm toán độc lập thuế/bảo mật 0 lỗi (10/10 bài kiểm thử lõi thuế đạt, 0đ sai số 3 chiều, 0 lỗ hổng XSS và chống chèn công thức bảng tính).\n• Phản biện: ĐẠT CỔNG 2 (#46-#47-#23): Khớp 0đ công thức thuế NĐ 141/2026, NĐ 68/2026, NĐ 117/2025, NĐ 70/2025 giữa bản chuẩn Bước 3, Ứng dụng và Máy tính 10 giây; kiểm thử xâm nhập XSS qua tham số địa chỉ và nhập tệp bảng tính trên Chrome thật đạt 0 lỗ hổng; đủ Miễn trừ pháp lý 3 lớp, 0 nội dung lách luật, giữ đúng 3 bậc giá 249k/399k/799k và hạn mức AI 150/300/600 lượt/tháng (biên lãi gộp xấu 77,42%).\n• Trải nghiệm khách hàng: ĐẠT CHUẨN 95/100 (#48): 5/5 nhóm chủ shop thật (Cô Hoa 95, Anh Minh 96, Chị Lan 97, Anh Tuấn 94, Bạn Vy 95) thao tác mượt <= 3 chạm trên máy tính và điện thoại 390px/320px ở cả Sáng và Tối, 100% tương phản đạt chuẩn, đã khắc phục triệt để 10/10 lỗi Vòng 1.",
+      "artifact_path": "corporate_hq/projects/so-thu-chi-thue-hkd/step7_ux_persona_qa.md",
+      "created_at": "2026-11-19T08:45:23Z"
     }
   ],
   "tombstones": [],
@@ -2030,6 +2106,102 @@
     }
   ],
   "knowledge_atoms": [
+    {
+      "atom_id": 803,
+      "url_hash": "43e1130cb60bf7e83d4d57aa8daeb6c5350b54116fae9852a2369a41688f7bcc",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub ★264596] NousResearch/hermes-agent (Python)",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "published_at": "2026-11-19T08:43:14Z",
+      "fetched_at": "2026-11-19T08:43:33Z",
+      "summary_vi": "The agent that grows with you",
+      "actionable_insight": "Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.",
+      "importance": 8,
+      "tags": "open-source github architecture",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 802,
+      "url_hash": "98d8c8df5da128e2cda3091fcd5e4a6b80f2036cb300e52c31666a7a0fc7facf",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub ★264596] NousResearch/hermes-agent (Python)",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "published_at": "2026-11-19T08:43:14Z",
+      "fetched_at": "2026-11-19T08:43:33Z",
+      "summary_vi": "The agent that grows with you",
+      "actionable_insight": "Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.",
+      "importance": 8,
+      "tags": "open-source github architecture",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 799,
+      "url_hash": "d1a26cab6b6e8b81e6e9e1bede6158a2c9d3361524164b1ce68b6b8808d3224b",
+      "source_connector": "github_repo",
+      "dept_id": "12",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub ★9066] nightly-labs/openbot (TypeScript)",
+      "url": "https://github.com/nightly-labs/openbot",
+      "published_at": "2026-11-19T08:43:09Z",
+      "fetched_at": "2026-11-19T08:43:33Z",
+      "summary_vi": "A local-first desktop workspace for persistent AI teammates. Run Codex, Claude, and Grok with dedicated workspaces, task queues, file sharing, browser control, and agent-to-agent collaboration.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "open-source github architecture",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 798,
+      "url_hash": "a357790d352dcc31c5efe7b41699c2178229d0c8bcdf031577688e3b7dc47fbe",
+      "source_connector": "github_repo",
+      "dept_id": "04",
+      "division_code": "div3-engineering-ai",
+      "title": "[GitHub ★9066] nightly-labs/openbot (TypeScript)",
+      "url": "https://github.com/nightly-labs/openbot",
+      "published_at": "2026-11-19T08:43:09Z",
+      "fetched_at": "2026-11-19T08:43:32Z",
+      "summary_vi": "A local-first desktop workspace for persistent AI teammates. Run Codex, Claude, and Grok with dedicated workspaces, task queues, file sharing, browser control, and agent-to-agent collaboration.",
+      "actionable_insight": "Đánh giá kiến trúc mã nguồn mở này để tái sử dụng module chuẩn (Voyager Library), rút ngắn 50% thời gian code.",
+      "importance": 8,
+      "tags": "open-source github architecture",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 507,
+      "url_hash": "287c2dde4169a766b62c718c8e1eae77af7f03fd3f38f3a6bb661407693f3ccd",
+      "source_connector": "vn_news",
+      "dept_id": "03",
+      "division_code": "div6-sales-commercial",
+      "title": "Việt Nam và “kho vàng trắng - hydrogen\": Từ câu chuyện Mali, nhanh chân để hiện thực hóa cơ hội?",
+      "url": "https://cafef.vn/viet-nam-va-kho-vang-trang-hydrogen-tu-cau-chuyen-mali-nhanh-chan-de-hien-thuc-hoa-co-hoi-188261119145952313.chn",
+      "published_at": "Thu, 19 Nov 26 14:59:00 +0700",
+      "fetched_at": "2026-11-19T08:34:54Z",
+      "summary_vi": "Nếu Việt Nam bắt đầu ngay từ bây giờ, cũng sẽ mất một đến hai thập kỷ để có thể làm chủ nguồn năng lượng sạch gần như tuyệt đối là hydrogen tự nhiên.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
+    {
+      "atom_id": 506,
+      "url_hash": "fe074fd1b4f28eacf1a7f2f654df55318c25c0d476b4f0bf68c48fc65aa65c65",
+      "source_connector": "vn_news",
+      "dept_id": "01",
+      "division_code": "div6-sales-commercial",
+      "title": "Việt Nam và “kho vàng trắng - hydrogen\": Từ câu chuyện Mali, nhanh chân để hiện thực hóa cơ hội?",
+      "url": "https://cafef.vn/viet-nam-va-kho-vang-trang-hydrogen-tu-cau-chuyen-mali-nhanh-chan-de-hien-thuc-hoa-co-hoi-188261119145952313.chn",
+      "published_at": "Thu, 19 Nov 26 14:59:00 +0700",
+      "fetched_at": "2026-11-19T08:34:54Z",
+      "summary_vi": "Nếu Việt Nam bắt đầu ngay từ bây giờ, cũng sẽ mất một đến hai thập kỷ để có thể làm chủ nguồn năng lượng sạch gần như tuyệt đối là hydrogen tự nhiên.",
+      "actionable_insight": "Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.",
+      "importance": 8,
+      "tags": "doanh-nghiep doi-thu ban-hang",
+      "is_starred": 0
+    },
     {
       "atom_id": 481,
       "url_hash": "ea621b301874a8d726eaaec1c299bbac5f868366dd68598fe50a06c8e803743d",
@@ -5488,6 +5660,193 @@
     }
   ],
   "activity_stream": [
+    {
+      "event_id": 211,
+      "event_uid": "c77168a1-65ec-40fe-a5c6-8e828921c876",
+      "timestamp": "2026-11-19T08:46:23Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Sổ Chấm Tọa Độ Vùng Trồng và Đóng Gói Hồ Sơ Nguồn Gốc Xuất Khẩu Châu Âu cho Vựa Cà Phê, Xưởng Gỗ",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 210,
+      "event_uid": "c1d7d353-1013-4a37-b2e5-83151c702b05",
+      "timestamp": "2026-11-19T08:46:23Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Trang Công Khai Chuẩn Thông Tư 29 và 19, Điểm Danh và Phiếu Học Phí Mã QR cho Cơ Sở Dạy Thêm",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 209,
+      "event_uid": "7fd3ec68-d4bf-45ef-ad2e-dc266ec6092e",
+      "timestamp": "2026-11-19T08:46:23Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội kiếm tiền mới: Sổ Giao Nhận Xe 4 Góc, Hợp Đồng Phạt Nguội và Nhắc Soát Cọc cho Tiệm Thuê Xe Tự Lái",
+      "detail_json": "{}"
+    },
+    {
+      "event_id": 208,
+      "event_uid": "a40836d0-ff8b-4e29-ae0f-cbe23c54dbd5",
+      "timestamp": "2026-11-19T08:45:23Z",
+      "actor_dept_id": "00",
+      "event_type": "MISSION_WAITING",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Sản phẩm cuối của 'Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT' đã hoàn thiện và kiểm thử thực tế. Mời Chủ tịch nghiệm thu bàn giao.",
+      "detail_json": "{\"mission_id\": \"msn-47b19760\", \"phase\": \"PRODUCTION\"}"
+    },
+    {
+      "event_id": 207,
+      "event_uid": "5b05b06f-579b-45c4-b687-518c445113e9",
+      "timestamp": "2026-11-19T08:45:23Z",
+      "actor_dept_id": "48",
+      "event_type": "SWARM_MSG",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Hội đồng Phản biện và Bảo mật → Toàn đội & Chủ tịch] Hoàn tất Bước 7: Hoàn tất kiểm thử trình duyệt Chrome thật 2 vòng (0 lỗi bảng điều khiển, 0px tràn ngang điện thoại 390p",
+      "detail_json": "{\"mission_id\": \"msn-47b19760\", \"msg_id\": 12, \"msg_type\": \"DONE\"}"
+    },
+    {
+      "event_id": 206,
+      "event_uid": "49eb0e55-f8f5-4c7f-b3d6-adaf31812a46",
+      "timestamp": "2026-11-19T08:45:23Z",
+      "actor_dept_id": "48",
+      "event_type": "STEP_DONE",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "[Xong Bước 7 · Hội đồng Phản biện và Bảo mật] Hoàn tất kiểm thử trình duyệt Chrome thật 2 vòng (0 lỗi bảng điều khiển, 0px tràn ngang điện thoại 390px/320px, 95/100 đ",
+      "detail_json": "{\"mission_id\": \"msn-47b19760\", \"step\": 7, \"worker\": \"@phan-bien-doc-lap\", \"artifact\": \"corporate_hq/projects/so-thu-chi-thue-hkd/step7_ux_persona_qa.md\"}"
+    },
+    {
+      "event_id": 205,
+      "event_uid": "0b621aef-7f27-4591-8162-ed830c2afabb",
+      "timestamp": "2026-11-19T08:43:33Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_COMPLETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Hoàn tất chu kỳ học tập: Nạp 4 tri thức mới vào 2 phòng ban (Bỏ qua 108 tin trùng)",
+      "detail_json": "{\"run_id\": \"learn-5b1e7f28c2\", \"new_atoms_added\": 4, \"duplicates_skipped\": 108, \"errors_count\": 1}"
+    },
+    {
+      "event_id": 204,
+      "event_uid": "5b4e040d-5bb5-4211-9c70-30705e8cc9fe",
+      "timestamp": "2026-11-19T08:43:33Z",
+      "actor_dept_id": "04",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 04 vừa đọc & đúc kết [github_repo]: [GitHub ★264596] NousResearch/hermes-agent (Python)",
+      "detail_json": "{\"url\": \"https://github.com/NousResearch/hermes-agent\", \"importance\": 8, \"atom_id\": 802}"
+    },
+    {
+      "event_id": 203,
+      "event_uid": "71d8788f-5cd9-46a8-865e-0d6a1d58955f",
+      "timestamp": "2026-11-19T08:43:32Z",
+      "actor_dept_id": "04",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 04 vừa đọc & đúc kết [github_repo]: [GitHub ★9066] nightly-labs/openbot (TypeScript)",
+      "detail_json": "{\"url\": \"https://github.com/nightly-labs/openbot\", \"importance\": 8, \"atom_id\": 798}"
+    },
+    {
+      "event_id": 202,
+      "event_uid": "d57a4692-e20b-4461-b02a-a32fd3528499",
+      "timestamp": "2026-11-19T08:43:31Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Bắt đầu chu kỳ đọc báo, nghiên cứu arXiv & quét thị trường (14 kênh trực tuyến)",
+      "detail_json": "{\"run_id\": \"learn-5b1e7f28c2\", \"scope\": \"all\", \"triggered_by\": \"CHAIRMAN_UI\"}"
+    },
+    {
+      "event_id": 201,
+      "event_uid": "0f22c409-d488-4881-8bf8-09beeb67de20",
+      "timestamp": "2026-11-19T08:39:01Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_CLAIMED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Hệ thống điều phối AI đã tiếp nhận lệnh: Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "detail_json": "{\"order_id\": \"ord-a3760ab7\", \"mission_id\": null, \"claimed_by\": \"antigravity-coordinator\"}"
+    },
+    {
+      "event_id": 200,
+      "event_uid": "f28c0b0d-b233-4550-8f01-07409e24bb24",
+      "timestamp": "2026-11-19T08:39:01Z",
+      "actor_dept_id": "00",
+      "event_type": "ORDER_QUEUED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Đã chuyển lệnh (Săn cơ hội mới) sang hệ thống điều phối AI: Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
+      "detail_json": "{\"order_id\": \"ord-a3760ab7\", \"order_type\": \"SCAN_OPPORTUNITIES\", \"mission_id\": null, \"task_id\": null}"
+    },
+    {
+      "event_id": 199,
+      "event_uid": "ed32d8e2-6712-4753-99da-33fe6d2bf441",
+      "timestamp": "2026-11-19T08:36:04Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_COMPLETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Hoàn tất chu kỳ học tập: Nạp 0 tri thức mới vào 0 phòng ban (Bỏ qua 112 tin trùng)",
+      "detail_json": "{\"run_id\": \"learn-6f6451447f\", \"new_atoms_added\": 0, \"duplicates_skipped\": 112, \"errors_count\": 1}"
+    },
+    {
+      "event_id": 198,
+      "event_uid": "72387cde-610f-4658-a785-53ea8a912e3d",
+      "timestamp": "2026-11-19T08:36:02Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Bắt đầu chu kỳ đọc báo, nghiên cứu arXiv & quét thị trường (14 kênh trực tuyến)",
+      "detail_json": "{\"run_id\": \"learn-6f6451447f\", \"scope\": \"all\", \"triggered_by\": \"CHAIRMAN_UI\"}"
+    },
+    {
+      "event_id": 197,
+      "event_uid": "a6a2cc1f-71b1-4362-b67f-c88bbc672bee",
+      "timestamp": "2026-11-19T08:34:55Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_COMPLETED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Hoàn tất chu kỳ học tập: Nạp 2 tri thức mới vào 2 phòng ban (Bỏ qua 110 tin trùng)",
+      "detail_json": "{\"run_id\": \"learn-5179c03d7c\", \"new_atoms_added\": 2, \"duplicates_skipped\": 110, \"errors_count\": 1}"
+    },
+    {
+      "event_id": 196,
+      "event_uid": "3d636f8e-1c35-4338-b49a-4d6369bf8651",
+      "timestamp": "2026-11-19T08:34:54Z",
+      "actor_dept_id": "01",
+      "event_type": "ARTICLE_LEARNED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng 01 vừa đọc & đúc kết [vn_news]: Việt Nam và “kho vàng trắng - hydrogen\": Từ câu chuyện Mali, nhanh chân để hiện thực hóa c",
+      "detail_json": "{\"url\": \"https://cafef.vn/viet-nam-va-kho-vang-trang-hydrogen-tu-cau-chuyen-mali-nhanh-chan-de-hien-thuc-hoa-co-hoi-188261119145952313.chn\", \"importance\": 8, \"atom_id\": 506}"
+    },
+    {
+      "event_id": 195,
+      "event_uid": "7a13357d-32a5-4193-99b5-f3914f56376e",
+      "timestamp": "2026-11-19T08:34:53Z",
+      "actor_dept_id": "44",
+      "event_type": "LEARNING_CYCLE_STARTED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Bắt đầu chu kỳ đọc báo, nghiên cứu arXiv & quét thị trường (14 kênh trực tuyến)",
+      "detail_json": "{\"run_id\": \"learn-5179c03d7c\", \"scope\": \"all\", \"triggered_by\": \"CHAIRMAN_UI\"}"
+    },
     {
       "event_id": 194,
       "event_uid": "fe113152-1827-40c8-bd8d-7635ba9fd8e4",
