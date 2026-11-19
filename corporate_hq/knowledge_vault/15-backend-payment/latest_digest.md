@@ -1,25 +1,25 @@
 # SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 15: KỸ THUẬT MÁY CHỦ & CỔNG THANH TOÁN
-- **Cập nhật lần cuối:** `2026-11-18T21:58:37Z`
+- **Cập nhật lần cuối:** `2026-11-19T04:46:49Z`
 - **Tổng số tài liệu/bài báo đã nạp:** `4`
 
 ---
 
-### 1. [Giá vàng SJC, vàng nhẫn 9999 sáng ngày 19/11](https://cafef.vn/gia-vang-sjc-vang-nhan-9999-sang-ngay-19-11-188261119020430468.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Giá vàng trong nước sáng 19/11 ghi nhận điều chỉnh giảm tại Bảo Tín Minh Châu và Phú Quý, trong khi các thương hiệu còn lại giữ nguyên giá niêm yết so với đầu giờ chiều 18/11.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 1. [Vì sao VietinBank bán dự án trụ sở chính cho Sun Group dù đã đầu tư hàng nghìn tỷ đồng?](https://cafef.vn/vi-sao-vietinbank-ban-du-an-tru-so-chinh-cho-sun-group-du-da-dau-tu-hang-nghin-ty-dong-188261119105546171.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:42Z`
+- **Tóm tắt cốt lõi:** Sau 16 năm triển khai dang dở, VietinBank đã hoàn tất chuyển nhượng dự án VietinBank Tower tại Ciputra (Hà Nội) cho một doanh nghiệp thuộc hệ sinh thái Sun Group.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 2. [Ngày 19/11, gửi dưới 100 triệu 6 tháng tại MB, VPBank, Techcombank, Sacombank, SHB, HDBank và ACB nhận được bao nhiêu tiền lãi?](https://cafef.vn/ngay-19-11-gui-duoi-100-trieu-6-thang-tai-mb-vpbank-techcombank-sacombank-shb-hdbank-va-acb-nhan-duoc-bao-nhieu-tien-lai-188261118232517873.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Với khoản tiền gửi dưới 100 triệu đồng kỳ hạn 6 tháng, lãi suất tiết kiệm tại 7 ngân hàng lớncó sự chênh lệch đáng kể giữa hình thức gửi tại quầy và online. Vậy gửi tiền tại ngân hàng nào có lợi hơn?
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 2. [Giá vàng SJC, vàng nhẫn 9999 sáng ngày 19/11](https://cafef.vn/gia-vang-sjc-vang-nhan-9999-sang-ngay-19-11-188261119020430468.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:42Z`
+- **Tóm tắt cốt lõi:** Giá vàng trong nước sáng 19/11 tiếp tục điều chỉnh giảm tại nhiều thương hiệu. Đáng chú ý, vàng nhẫn PNJ giảm tới 1,5 triệu đồng/lượng ở cả hai chiều mua vào và bán ra.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 3. [Làm việc với tỉnh Hưng Yên, Phó Thống đốc Phạm Thanh Hà cho biết NHNN sẽ yêu cầu các TCTD trên địa bàn tiếp tục giữ ổn định mặt bằng lãi suất và phấn đấu giảm lãi suất cho vay](https://cafef.vn/lam-viec-voi-tinh-hung-yen-pho-thong-doc-pham-thanh-ha-cho-biet-nhnn-se-yeu-cau-cac-tctd-tren-dia-ban-tiep-tuc-giu-on-dinh-mat-bang-lai-suat-va-phan-dau-giam-lai-suat-cho-vay-188261118233614218.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Phó Thống đốc cũng đề nghị UBND tỉnh Hưng Yên chỉ đạo các sở, ban, ngành phối hợp chặt chẽ với ngành Ngân hàng trên địa bàn để triển khai các chính sách hỗ trợ, tháo gỡ khó khăn cho các doanh nghiệp trong tiếp cận vốn, đẩy mạnh cho vay các dự án có hiệu quả, dự án trọng điểm của tỉnh
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 3. [Giá vàng 9999 Bảo Tín Minh Châu hôm nay 19/11/2026 bao nhiêu 1 chỉ?](https://cafef.vn/gia-vang-9999-bao-tin-minh-chau-hom-nay-19-11-2026-bao-nhieu-1-chi-188261119070946776.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:42Z`
+- **Tóm tắt cốt lõi:** Giá vàng hôm nay 19/11/2026, cập nhật mới nhất giá vàng 9999 tại Bảo Tín Minh Châu và nhiều thương hiệu lớn trên thị trường.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 4. [UOB: Việt Nam tiếp tục là thị trường lạc quan nhất ASEAN](https://cafef.vn/uob-viet-nam-tiep-tuc-la-thi-truong-lac-quan-nhat-asean-18826111820522325.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:38Z`
-- **Tóm tắt cốt lõi:** Khảo sát mới nhất của UOB cho thấy, Việt Nam tiếp tục dẫn đầu ASEAN về mức độ lạc quan của người tiêu dùng trong năm 2026. Đáng chú ý, 92% người Việt tự tin vào khả năng quản lý tài chính cá nhân, 89% tiết kiệm trên 10% thu nhập hằng tháng và 85% sử dụng các công cụ số để quản lý tài sản.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 4. [Mùa khách quốc tế cuối năm: Cơ hội vàng cho các điểm kinh doanh dịch vụ](https://cafef.vn/mua-khach-quoc-te-cuoi-nam-co-hoi-vang-cho-cac-diem-kinh-doanh-dich-vu-188261119084132455.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:42Z`
+- **Tóm tắt cốt lõi:** Trong bối cảnh nhiều địa phương đồng loạt triển khai các chương trình kích cầu du lịch cuối năm để tăng tốc về đích, đây được xem là cơ hội lớn để đón khách quốc tế cho các doanh nghiệp và hộ kinh doanh trong lĩnh vực dịch vụ, du lịch và bán lẻ.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.

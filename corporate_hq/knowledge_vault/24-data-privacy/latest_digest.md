@@ -1,30 +1,25 @@
 # SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY — PHÒNG 24: BẢO VỆ DỮ LIỆU CÁ NHÂN & CÔ LẬP ĐA KHÁCH HÀNG
-- **Cập nhật lần cuối:** `2026-11-18T21:58:37Z`
-- **Tổng số tài liệu/bài báo đã nạp:** `5`
+- **Cập nhật lần cuối:** `2026-11-19T04:46:49Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `4`
 
 ---
 
-### 1. [35 'quái xế' bị đưa đi dọn nghĩa trang liệt sĩ](https://vnexpress.net/35-quai-xe-bi-dua-di-don-nghia-trang-liet-si-5146313.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T21:13:45Z`
-- **Tóm tắt cốt lõi:** Sau khi tụ tập đua xe, cổ vũ trái phép trên đường phố, 35 thanh thiếu niên được cảnh sát đưa đến nghĩa trang liệt sĩ dọn vệ sinh, thắp hương, giáo dục.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 1. [Nguy cơ hộ chiếu 'bị coi là hư hỏng' nếu ký tên sai vị trí](https://vnexpress.net/nguy-co-ho-chieu-bi-coi-la-hu-hong-neu-ky-ten-sai-vi-tri-5146002.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:41Z`
+- **Tóm tắt cốt lõi:** Bạn có nguy cơ bị từ chối cấp visa, xuất nhập cảnh hoặc phải làm lại hộ chiếu nếu ký nhầm vị trí trên chính hộ chiếu của mình.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 2. [Hai người mang lệnh truy nã quốc tế bị bắt ở TP HCM](https://vnexpress.net/hai-nguoi-mang-lenh-truy-na-quoc-te-bi-bat-o-tp-hcm-5146311.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
-- **Tóm tắt cốt lõi:** Cảnh sát phát hiện hai nghi phạm Trung Quốc có lệnh truy nã quốc tế khi kiểm tra hành chính, rà soát người nước ngoài cư trú trên địa bàn.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 2. [Ông Thản được đề nghị 30-36 tháng án treo, bồi thường nhà theo giá thị trường](https://vnexpress.net/ong-than-duoc-de-nghi-30-36-thang-an-treo-boi-thuong-nha-theo-gia-thi-truong-5146437.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:41Z`
+- **Tóm tắt cốt lõi:** VKS đánh giá ông Lê Thanh Thản gây hậu quả đặc biệt nghiêm trọng nhưng tuổi cao, có ý thức chủ động chuẩn bị nguồn lực tài chính bồi thường nên đề nghị án treo.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 3. [Người mua nhà lo ông Lê Thanh Thản không có đủ 2.000 tỷ đồng bồi thường](https://vnexpress.net/nguoi-mua-nha-lo-ong-le-thanh-than-khong-co-du-2-000-ty-dong-boi-thuong-5146263.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
-- **Tóm tắt cốt lõi:** Ông Lê Thanh Thản chấp nhận bồi thường theo giá thị trường cho người mua 519 căn hộ xây trái phép, song cư dân lo ông không đủ tiền chi trả hơn 2.000 tỷ đồng cho khoản này.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 3. [Ôtô Lexus lật ngửa sau khi tông 6 xe chờ đèn đỏ, tài xế khai do 'mệt, buồn ngủ'](https://vnexpress.net/oto-lexus-lat-ngua-sau-khi-tong-6-xe-cho-den-do-tai-xe-khai-do-met-buon-ngu-5146304.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:41Z`
+- **Tóm tắt cốt lõi:** Vũ Quang Chiến bị cáo buộc lái xe khi "mệt và buồn ngủ" không chú ý quan sát, đâm vào ôtô đang dừng đèn đỏ rồi lao sang làn đối diện, gây hư hỏng 5 phương tiện, làm hai người bị thương.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 4. [Giang hồ 'anh Cơ quận 8' và 4 người bị phạt án tử hình](https://vnexpress.net/giang-ho-anh-co-quan-8-va-4-nguoi-bi-phat-an-tu-hinh-5146257.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
-- **Tóm tắt cốt lõi:** Tòa xác định Lê Thanh Tú, còn gọi Tú Cơ, giang hồ quận 8 cũ, phạm tội với vai trò cầm đầu, ngoan cố và thách thức cơ quan pháp luật nên tuyên mức án cao nhất.
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 5. [Vụ 'nam sinh bị bạn thả xuống sông' có dấu hiệu của hai tội danh](https://vnexpress.net/vu-nam-sinh-bi-ban-tha-xuong-song-co-dau-hieu-cua-hai-toi-danh-5146265.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-18T19:28:37Z`
-- **Tóm tắt cốt lõi:** Nhà chức trách nhận định việc nam sinh Hồ Xuân Quân bị bạn thả xuống sông có dấu hiệu vi phạm quy định giao thông đường bộ và xâm phạm thi thể.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu cơ hội sản phẩm, định giá và kịch bản tiếp cận khách hàng.
+### 4. [Ba thiếu niên ngồi tù oan 36 năm vì cảnh sát Mỹ che giấu chứng cứ](https://vnexpress.net/ba-thieu-nien-ngoi-tu-oan-36-nam-vi-canh-sat-my-che-giau-chung-cu-5146256.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T04:46:41Z`
+- **Tóm tắt cốt lõi:** Ba nam sinh bị kết án chung thân vì sát hại bạn học để cướp áo khoác năm 1983, dù nhân chứng không nhận dạng được họ và nhiều lời khai chỉ ra một nghi phạm khác.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
