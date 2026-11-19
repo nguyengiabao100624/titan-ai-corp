@@ -1,5 +1,5 @@
 # KHO KỸ NĂNG THỰC CHIẾN CỦA PHÒNG 35: Bàn giao và Hướng dẫn Khách hàng 180 giây
-- **Cập nhật lần cuối:** `2026-11-19T10:50:31Z`
+- **Cập nhật lần cuối:** `2026-11-19T13:27:39Z`
 - **Tổng số kỹ năng đã nạp:** `3`
 
 ---

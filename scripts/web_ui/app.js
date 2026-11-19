@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TRUNG TAM DIEU HANH TITAN v8.0 (XIAS v3.1.1 ATLAS CONSOLE)
+   TRUNG TAM DIEU HANH TITAN v10.0 (XIAS v3.1.1 ATLAS CONSOLE)
    100% Tieng Viet, 0 emoji, 0 <select> goc, 1 luong truc tuyen duy nhat
    ========================================================================== */
 (() => {
@@ -81,7 +81,7 @@
 
   const DIV_SHORT_NAMES = {
     "exec-board": "Ban Điều hành",
-    "div9-critique-ux-lab": "Khối 9: Phản biện và Kiểm thử khách hàng",
+    "div9-critique-ux-lab": "Khối 9: Kiểm tra Cuối, QA/QC, Chức năng và Phản biện",
     "div1-strategy-intel": "Khối 1: Chiến lược và Thị trường",
     "div2-product-design": "Khối 2: Sản phẩm và Thiết kế",
     "div3-engineering-ai": "Khối 3: Kỹ thuật và Công nghệ",
@@ -143,8 +143,91 @@
     "47": "Thanh tra Phản biện Chéo từng Phòng ban",
     "48": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật",
     "49": "Thanh tra Tối giản Giao diện và Đếm số chạm",
-    "50": "Trinh sát Cơ hội và Thiết kế Sản phẩm Sinh lời"
+    "50": "Trinh sát Cơ hội và Thiết kế Sản phẩm Sinh lời",
+    "51": "Kiểm định Chất lượng Tổng thể QA và QC",
+    "52": "Kiểm tra Hoàn thiện Chức năng và Rà soát Lỗi",
+    "53": "Tổng hợp Lỗi, Thu thập Phản hồi và Điều phối Trả việc"
   };
+
+  const DEFAULT_QUALITY_CELLS = [
+    {
+      code: "USER_TESTER",
+      name_vi: "Tổ Kiểm thử Đóng vai Người dùng Nội bộ",
+      role_vi: "Đóng vai người dùng thật kiểm tra trải nghiệm và độ hoàn thiện chức năng trước khi bàn giao."
+    },
+    {
+      code: "CRITIC",
+      name_vi: "Tổ Phản biện và Tổng hợp Thiếu sót Nội bộ",
+      role_vi: "Soi lỗi logic, tổng hợp điểm thiếu sót và đẩy trả về đúng phòng ban chịu trách nhiệm sửa."
+    }
+  ];
+
+  const REWORK_CATEGORY_LABELS = {
+    MISSING_FEATURE: "Thiếu chức năng",
+    BUG: "Lỗi chức năng",
+    UX_FRICTION: "Rối mắt khó thao tác",
+    QA_QC: "Chưa đạt QA và QC",
+    LOGIC_CRITIQUE: "Lỗi logic phản biện"
+  };
+
+  const REWORK_SEVERITY_LABELS = {
+    CRITICAL: { label: "Nghiêm trọng", cls: "badge-fail" },
+    HIGH: { label: "Cao", cls: "badge-wait" },
+    MEDIUM: { label: "Trung bình", cls: "badge-idle" },
+    LOW: { label: "Thấp", cls: "badge-idle" }
+  };
+
+  const REWORK_STATUS_LABELS = {
+    OPEN: { label: "Đang mở, cần sửa", cls: "badge-fail", icon: "alert-circle" },
+    IN_FIX: { label: "Đang sửa lỗi", cls: "badge-run", icon: "activity" },
+    FIXED_PENDING_RECHECK: { label: "Đã sửa, chờ Khối 9 kiểm lại", cls: "badge-wait", icon: "clock" },
+    VERIFIED_CLOSED: { label: "Đã kiểm lại đạt (0 lỗi)", cls: "badge-done", icon: "shield-check" }
+  };
+
+  const DIV9_TRIO_IDS = new Set(["53", "51", "52", "49"]);
+
+  const PRODUCT_TYPE_VI = {
+    AUTO: "Tự nhận diện theo đề bài",
+    ALL: "Mọi sản phẩm",
+    WEB_APP: "Ứng dụng Web và PWA",
+    MOBILE_APP: "Ứng dụng Di động",
+    B2B_SAAS: "Phần mềm Doanh nghiệp",
+    EMBEDDED_IOT: "Thiết bị Nhúng và Phần cứng",
+    MEDIA_CHANNEL: "Kênh Video và Truyền thông",
+    GENERAL: "Tổng hợp Đa lĩnh vực"
+  };
+
+  const HANDOFF_MODE_VI = {
+    PEER_HANDOFF: { label: "Chuyển việc ngang", cls: "badge-run", icon: "arrow-right" },
+    CEO_ESCALATION: { label: "Đẩy lên Tổng Giám đốc #00", cls: "badge-wait", icon: "flag" },
+    CEO_ASSIGN: { label: "Tổng Giám đốc #00 chỉ định", cls: "badge-sync", icon: "compass" }
+  };
+
+  const HANDOFF_STATUS_VI = {
+    OPEN: { label: "Đang chờ tiếp nhận", cls: "badge-wait", icon: "clock" },
+    ACCEPTED: { label: "Đã tiếp nhận xử lý", cls: "badge-run", icon: "activity" },
+    REROUTED_BY_CEO: { label: "Tổng Giám đốc #00 đã chuyển tuyến", cls: "badge-sync", icon: "git-branch" },
+    COMPLETED: { label: "Đã hoàn tất", cls: "badge-done", icon: "check" }
+  };
+
+  const FALLBACK_SOP_RULES_VI = [
+    {
+      title_vi: "Quy tắc 1: Bắt buộc đủ 9/9 Khối và Ban Điều hành",
+      detail_vi: "Mọi sản phẩm đều có sự tham gia xuyên suốt từ Tổng Giám đốc #00 và đủ Khối 1 đến Khối 9 để bảo đảm toàn diện từ thị trường, sản phẩm, kỹ thuật, kiểm định, tăng trưởng, bán hàng, tài chính, dữ liệu đến chốt cuối 0 lỗi."
+    },
+    {
+      title_vi: "Quy tắc 2: Chọn đúng phòng ban theo loại sản phẩm",
+      detail_vi: "Tổng Giám đốc #00 dựa vào Danh bạ 54 phòng để kích hoạt đúng các phòng cần thiết theo loại sản phẩm và để trống phòng không liên quan tránh loãng, nhưng luôn khóa bắt buộc 2 Tổ Nội bộ ở 9 Khối và Bộ Tứ chốt cuối Khối 9 (#53, #51, #52, #49)."
+    },
+    {
+      title_vi: "Quy tắc 3: Cơ chế 2 tầng giữa Tự chuyển việc ngang và Đẩy lên #00",
+      detail_vi: "Khi rõ chuyên môn phòng nhận trong danh bạ và không đổi ngân sách hay kiến trúc, phòng hiện tại tự chuyển việc ngang và gửi bản sao #00. Khi vượt thẩm quyền, chưa rõ phòng phụ trách hoặc xung đột liên khối, đẩy ngay lên Tổng Giám đốc #00 phân xử."
+    },
+    {
+      title_vi: "Quy tắc 4: Chốt cuối 0 lỗi tập trung qua Trạm #53",
+      detail_vi: "Mọi thiếu sót từ 2 Tổ Nội bộ của 9 Khối và Chủ tịch được gom về Trạm #53, phối hợp #51 (QA và QC), #52 (Kiểm tra Chức năng) và #49 (Diệt Rối mắt) đẩy trả về đúng phòng sửa đến khi còn 0 phiếu lỗi mở."
+    }
+  ];
 
   const WORKER_VI_MAP = {
     "@researcher": "Trinh sát Thị trường và Đối thủ",
@@ -166,6 +249,20 @@
     "hội đồng phản biện độc lập": "Hội đồng Phản biện và An ninh",
     "hội đồng phản biện và an ninh": "Hội đồng Phản biện và An ninh",
     "hội đồng phản biện và bảo mật": "Hội đồng Phản biện và An ninh",
+    "@qa-qc": "Kiểm định Chất lượng QA và QC",
+    "@kiem-dinh-qa-qc": "Kiểm định Chất lượng QA và QC",
+    "kiểm định chất lượng tổng thể qa và qc": "Kiểm định Chất lượng QA và QC",
+    "kiểm định chất lượng qa và qc": "Kiểm định Chất lượng QA và QC",
+    "@kiem-tra-chuc-nang": "Kiểm tra Hoàn thiện Chức năng",
+    "@feature-auditor": "Kiểm tra Hoàn thiện Chức năng",
+    "kiểm tra hoàn thiện chức năng và rà soát lỗi": "Kiểm tra Hoàn thiện Chức năng",
+    "kiểm tra hoàn thiện chức năng": "Kiểm tra Hoàn thiện Chức năng",
+    "53": "Tổng hợp Lỗi và Điều phối Trả việc",
+    "@53": "Tổng hợp Lỗi và Điều phối Trả việc",
+    "@tong-hop-loi": "Tổng hợp Lỗi và Điều phối Trả việc",
+    "@defect-triage": "Tổng hợp Lỗi và Điều phối Trả việc",
+    "tổng hợp lỗi, thu thập phản hồi và điều phối trả việc": "Tổng hợp Lỗi và Điều phối Trả việc",
+    "tổng hợp lỗi và điều phối trả việc": "Tổng hợp Lỗi và Điều phối Trả việc",
     "@ky-su-san-pham": "Kỹ sư Phát triển Sản phẩm",
     "@builder": "Kỹ sư Phát triển Sản phẩm",
     "kỹ sư phát triển sản phẩm": "Kỹ sư Phát triển Sản phẩm",
@@ -193,6 +290,9 @@
     "Đội Đóng gói và Bán hàng": "Thiết kế trang bán hàng và kịch bản thu khách hàng đầu tiên.",
     "Kiểm thử viên Khách hàng thật": "Đóng vai người dùng thật kiểm tra trải nghiệm và bắt lỗi giao diện.",
     "Hội đồng Phản biện và An ninh": "Phản biện rủi ro lỗ vốn, kiểm toán bảo mật và kiểm định độc lập.",
+    "Kiểm định Chất lượng QA và QC": "Tổng kiểm định chất lượng quy trình và thành phẩm chốt cuối Khối 9, đẩy trả mọi sai sót.",
+    "Kiểm tra Hoàn thiện Chức năng": "Đối chiếu 100% chức năng đề bài, rà soát lỗi vận hành và chặn chốt khi chưa đạt 0 lỗi.",
+    "Tổng hợp Lỗi và Điều phối Trả việc": "Gom toàn bộ phản hồi và lỗi từ 9 Khối, phân loại ưu tiên và điều phối đẩy trả về đúng phòng ban chịu trách nhiệm sửa.",
     "Kiến trúc sư Giao diện": "Thiết kế hệ thống giao diện, bố cục đáp ứng và kiểm định trải nghiệm.",
     "Kỹ sư Kết nối Trực tuyến": "Vận hành máy chủ, cơ sở dữ liệu và đồng bộ trực tuyến đa thiết bị.",
     "Chuyên gia Kho Kỹ năng": "Sưu tầm, kiểm duyệt và huấn luyện bộ kỹ năng chuyên môn cho phòng ban."
@@ -203,6 +303,8 @@
     UPDATE: { label: "Đang xử lý", cls: "badge-idle", icon: "clock" },
     CRITIQUE: { label: "Phản biện rủi ro", cls: "badge-wait", icon: "shield-check" },
     QA_REPORT: { label: "Kiểm thử khách hàng", cls: "badge-wait", icon: "check-square" },
+    BOUNCE_BACK: { label: "Đẩy trả sửa lỗi", cls: "badge-fail", icon: "rotate-ccw" },
+    REWORK_VERIFIED: { label: "Chốt đạt 0 lỗi", cls: "badge-done", icon: "shield-check" },
     DONE: { label: "Hoàn tất", cls: "badge-done", icon: "check" },
     APPROVAL: { label: "Duyệt cổng", cls: "badge-done", icon: "flag" }
   };
@@ -230,6 +332,14 @@
     learningProgress: { running: false },
     installedSkills: [],
     projectLedger: [],
+    reworkTickets: [],
+    reworkSummary: {},
+    deptHandoffs: [],
+    corporateDirectorySummary: null,
+    corporateDirectory: null,
+    orgSopTab: "sop",
+    lastRosterPlan: null,
+    activeStaffDrawerDeptId: "",
     financeSummary: null,
     activeProjectFinance: null,
     progressCat: "all",
@@ -358,9 +468,20 @@
       [/Tester đóng vai/gi, "Kiểm thử viên đóng vai"],
       [/\bTester\b/gi, "Kiểm thử khách hàng"],
       [/\bCFO\b/g, "Tài chính và Giá bán"],
-      [/\bQA\b/g, "Kiểm định chất lượng"],
+      [/\bQA\b(?!\s*(?:và|\/)\s*QC\b)/g, "Kiểm định chất lượng"],
       [/\bPAT\b/g, "khóa truy cập"],
       [/\bKPI\b/g, "chỉ số"],
+      [/\(PEER_HANDOFF\)/g, ""],
+      [/\(CEO_ESCALATION\)/g, ""],
+      [/\(CEO_ASSIGN\)/g, ""],
+      [/\bPEER_HANDOFF\b/g, "Chuyển việc ngang"],
+      [/\bCEO_ESCALATION\b/g, "Đẩy lên Tổng Giám đốc #00"],
+      [/\bCEO_ASSIGN\b/g, "Tổng Giám đốc #00 chỉ định"],
+      [/\bWEB_APP\b/g, "Ứng dụng Web"],
+      [/\bMOBILE_APP\b/g, "Ứng dụng Di động"],
+      [/\bB2B_SAAS\b/g, "Phần mềm Doanh nghiệp"],
+      [/\bEMBEDDED_IOT\b/g, "Thiết bị Nhúng"],
+      [/\bMEDIA_CHANNEL\b/g, "Kênh Truyền thông"],
       [/@researcher\b/gi, "Trinh sát Thị trường"],
       [/@cfo\b/gi, "Chuyên gia Tài chính"],
       [/@critic\b/gi, "Hội đồng Phản biện rủi ro"],
@@ -379,6 +500,9 @@
     const idKey = String(deptId || "").padStart(2, "0");
     const raw = String(rawTitle || "").trim();
     if (!raw) return CANONICAL_DEPT_TITLES_VI[idKey] || `Phòng #${deptId}`;
+    if (CANONICAL_DEPT_TITLES_VI[idKey] && raw === CANONICAL_DEPT_TITLES_VI[idKey]) {
+      return CANONICAL_DEPT_TITLES_VI[idKey];
+    }
     const isAllUpper = raw === raw.toUpperCase() && raw.length > 6;
     if (CANONICAL_DEPT_TITLES_VI[idKey] && (isAllUpper || LEGACY_TITLE_RE.test(raw))) {
       return CANONICAL_DEPT_TITLES_VI[idKey];
@@ -402,6 +526,12 @@
     if (!slug) return "";
     const raw = String(slug).trim();
     const k = raw.toLowerCase();
+    if (k === "@ceo" || k === "ceo") return "Tổng Giám đốc #00";
+    const mDept = k.match(/^@?phong[-_\s]?(\d{1,2})$/);
+    if (mDept) {
+      const did = mDept[1].padStart(2, "0");
+      return `Phòng #${did}: ${deptTitle(did)}`;
+    }
     if (WORKER_VI_MAP[k]) return WORKER_VI_MAP[k];
     const atKey = k.startsWith("@") ? k : `@${k}`;
     if (WORKER_VI_MAP[atKey]) return WORKER_VI_MAP[atKey];
@@ -746,8 +876,19 @@
     setListboxValue("inp-task-prio", "HIGH", true);
     setListboxOptions("inp-proj-status", projStatusOptions, false);
     setListboxOptions("filter-staff-div", divFilterOptions, false);
+    setListboxOptions("filter-dir-div", divFilterOptions, false);
     setListboxOptions("filter-news-div", divFilterOptions, false);
     setListboxOptions("filter-skill-div", divFilterOptions, false);
+    setListboxOptions("inp-roster-type", [
+      { value: "AUTO", label: PRODUCT_TYPE_VI.AUTO },
+      { value: "WEB_APP", label: PRODUCT_TYPE_VI.WEB_APP },
+      { value: "MOBILE_APP", label: PRODUCT_TYPE_VI.MOBILE_APP },
+      { value: "B2B_SAAS", label: PRODUCT_TYPE_VI.B2B_SAAS },
+      { value: "EMBEDDED_IOT", label: PRODUCT_TYPE_VI.EMBEDDED_IOT },
+      { value: "MEDIA_CHANNEL", label: PRODUCT_TYPE_VI.MEDIA_CHANNEL },
+      { value: "GENERAL", label: PRODUCT_TYPE_VI.GENERAL }
+    ], false);
+    setListboxValue("inp-roster-type", "AUTO", true);
     setListboxOptions("filter-progress-status", [
       { value: "", label: "Mọi trạng thái" },
       { value: "RUNNING", label: "Đang chạy" },
@@ -764,6 +905,14 @@
       { value: "0", label: "Thực tế phát sinh" },
       { value: "1", label: "Kế hoạch dự toán" }
     ], false);
+    setListboxOptions("inp-rework-cat", Object.entries(REWORK_CATEGORY_LABELS).map(([value, label]) => ({ value, label })), false);
+    setListboxValue("inp-rework-cat", "BUG", true);
+    setListboxOptions("inp-rework-sev", [
+      { value: "CRITICAL", label: "Nghiêm trọng" },
+      { value: "HIGH", label: "Cao" },
+      { value: "MEDIUM", label: "Trung bình" }
+    ], false);
+    setListboxValue("inp-rework-sev", "HIGH", true);
 
     document.addEventListener("click", () => closeAllListboxes());
   }
@@ -1001,6 +1150,10 @@
             state.learningProgress = snap.learning_progress || { running: false };
             state.installedSkills = snap.installed_skills || [];
             state.projectLedger = snap.project_ledger || [];
+            state.reworkTickets = snap.rework_tickets || [];
+            state.reworkSummary = snap.rework_summary || {};
+            state.deptHandoffs = snap.dept_handoffs || [];
+            state.corporateDirectorySummary = snap.corporate_directory_summary || null;
             state.financeSummary = snap.finance_summary || null;
             state.lastSyncAt = snap.exported_at || new Date().toISOString();
             break;
@@ -1125,8 +1278,21 @@
           learning_progress: state.learningProgress,
           installed_skills: state.installedSkills,
           project_ledger: state.projectLedger,
+          rework_tickets: state.reworkTickets,
+          rework_summary: state.reworkSummary,
+          dept_handoffs: state.deptHandoffs,
+          corporate_directory_summary: state.corporateDirectorySummary,
           finance_summary: computeCorporateFinanceFallback()
         };
+      }
+      if (path.startsWith("/api/rework")) {
+        return { rework_tickets: state.reworkTickets, rework_summary: state.reworkSummary };
+      }
+      if (path.startsWith("/api/org/directory")) {
+        return buildFallbackDirectoryPayload();
+      }
+      if (path.startsWith("/api/handoffs")) {
+        return { count: state.deptHandoffs.length, handoffs: state.deptHandoffs };
       }
       if (path === "/api/learning/status") {
         return { learning_in_progress: false, learning_progress: state.learningProgress, recent_runs: state.learningRuns };
@@ -1176,12 +1342,50 @@
           knowledge_atoms: state.articles,
           learning_runs: state.learningRuns,
           installed_skills: state.installedSkills,
-          project_ledger: state.projectLedger
+          project_ledger: state.projectLedger,
+          rework_tickets: state.reworkTickets
         };
       }
     }
 
     // Offline mutations with safe local state update
+    if (method === "POST" && path === "/api/rework/bounce") {
+      const tk = {
+        ticket_id: `rw-${Date.now().toString(36)}`,
+        mission_id: body.mission_id || null,
+        project_id: body.project_id || null,
+        task_id: body.task_id || null,
+        step_order: Number(body.step_order || 0),
+        source_dept_id: String(body.source_dept_id || "51").padStart(2, "0"),
+        target_dept_id: String(body.target_dept_id || "13").padStart(2, "0"),
+        severity: body.severity || "HIGH",
+        defect_category: body.defect_category || "BUG",
+        title: body.title || "Thiếu sót cần sửa",
+        detail_vi: body.detail_vi || "",
+        fix_note_vi: "",
+        reopen_count: 0,
+        status: "OPEN",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      state.reworkTickets.unshift(tk);
+      saveOfflineViewCache();
+      return tk;
+    }
+    if (method === "PATCH" && path.startsWith("/api/rework/")) {
+      const tid = decodeURIComponent(path.split("/")[3] || "");
+      const rec = state.reworkTickets.find((x) => x.ticket_id === tid);
+      if (rec) {
+        if (body.status === "OPEN" && rec.status === "FIXED_PENDING_RECHECK") {
+          rec.reopen_count = Number(rec.reopen_count || 0) + 1;
+        }
+        if (body.status) rec.status = body.status;
+        if (body.fix_note_vi !== undefined) rec.fix_note_vi = body.fix_note_vi;
+        rec.updated_at = new Date().toISOString();
+      }
+      saveOfflineViewCache();
+      return rec || {};
+    }
     const ledgerPost = path.match(/^\/api\/projects\/([^/]+)\/finance\/ledger$/);
     if (method === "POST" && ledgerPost) {
       const pid = decodeURIComponent(ledgerPost[1]);
@@ -1641,9 +1845,23 @@
     const waitT = state.tasks.filter((t) => t.kanban_column === "WAITING_APPROVAL").length;
     const totalWait = waitM + waitT;
     const activeOpps = state.opportunities.filter((o) => o.status === "NEW").length;
-    const staffTotal = state.departments.length || 51;
+    const staffTotal = state.departments.length || 54;
     const uniqueNewsCount = getDeduplicatedArticles().length;
     const skillsCount = state.installedSkills.length;
+
+    const skillsEyebrow = document.getElementById("lbl-skills-depts-eyebrow");
+    if (skillsEyebrow) {
+      skillsEyebrow.textContent = `Kỹ năng chuyên môn đã nạp cho ${staffTotal} phòng ban`;
+    }
+    const footerBrand = document.getElementById("footer-brand-summary");
+    if (footerBrand) {
+      footerBrand.textContent = `Trung tâm Điều hành Titan v10.0: Vận hành trực tuyến tự động ${staffTotal} phòng chuyên gia.`;
+    }
+    const staffSearchEl = document.getElementById("staff-search");
+    if (staffSearchEl) {
+      const maxCode = String(Math.max(53, staffTotal - 1)).padStart(2, "0");
+      staffSearchEl.placeholder = `Tìm theo tên, mã phòng (00 đến ${maxCode}), kỹ năng...`;
+    }
 
     const activeOrders = state.orders.filter((o) => ["PENDING", "RUNNING", "IN_PROGRESS"].includes(String(o.status || "").toUpperCase()));
     const learningRunning = Boolean(state.learningProgress && state.learningProgress.running);
@@ -1928,7 +2146,7 @@
     return `<button type="button" class="artifact-tag" data-read-artifact="${esc(clean)}">${ico("file-text")}<span>Đọc báo cáo: ${esc(clean.split("/").pop())}</span></button>`;
   }
 
-  function renderSwarmGraphSvg(m) {
+  function renderSwarmGraphSvg(m, msnReworks = []) {
     const stepsByOrd = {};
     (m.steps || []).forEach((s) => { stepsByOrd[s.step_order] = s; });
     const nodeMeta = (ord) => {
@@ -1951,31 +2169,52 @@
       `;
     };
     const graphId = `arr-${slugifyVi(m.mission_id)}`;
+    const bounceArrId = `barr-${slugifyVi(m.mission_id)}`;
+    const reworks = Array.isArray(msnReworks) ? msnReworks : [];
+    const openReworks = reworks.filter((tk) => tk.status !== "VERIFIED_CLOSED");
+    const hasBounce = reworks.length > 0;
+    const svgH = hasBounce ? 266 : 220;
+    let bounceSvg = "";
+    if (hasBounce) {
+      const featured = openReworks[0] || reworks[0];
+      const srcId = String(featured.source_dept_id || "53").padStart(2, "0");
+      const tgtId = String(featured.target_dept_id || "13").padStart(2, "0");
+      const extraNote = reworks.length > 1 ? ` (+${reworks.length - 1} phiếu)` : "";
+      const bounceLabel = `Đẩy trả sửa lỗi: #${srcId} -> #${tgtId}${extraNote}`;
+      const edgeCls = openReworks.length > 0 ? "graph-bounce-edge" : "graph-bounce-edge-warn";
+      bounceSvg = `
+        <path class="${edgeCls}" d="M 732 152 C 732 246, 558 246, 558 198" marker-end="url(#${bounceArrId})" />
+        <text class="graph-bounce-label" x="470" y="256" text-anchor="middle">${esc(bounceLabel)}</text>
+      `;
+    }
     return `
       <div class="room-graph-wrap">
-        <p class="row-meta">Sơ đồ phối hợp chuyền việc giữa các nhóm chuyên gia từ Giai đoạn 1 (Nghiên cứu và Chốt kèo) sang Giai đoạn 2 (Sản xuất Sản phẩm Cuối và Kiểm thử khách hàng).</p>
-        <svg class="room-graph-svg" viewBox="0 0 940 220" role="img" aria-label="Sơ đồ chuyền việc 8 bước của nhiệm vụ">
+        <p class="row-meta">Sơ đồ phối hợp chuyền việc giữa 9 Khối chuyên môn và vòng lặp đẩy trả sửa lỗi Khối 9 (#53 Tổng hợp lỗi, #51 QA/QC, #52 Chức năng, #49 Diệt rối mắt).</p>
+        <svg class="room-graph-svg" viewBox="0 0 940 ${svgH}" role="img" aria-label="Sơ đồ chuyền việc 8 bước và vòng đẩy trả sửa lỗi">
           <title>Sơ đồ chuyền việc 8 bước</title>
-          <desc>Giai đoạn 1 gồm nghiên cứu thị trường, tài chính và giá bán, phản biện rủi ro, cổng duyệt 1. Giai đoạn 2 gồm kỹ sư sản phẩm, đóng gói bán hàng, kiểm thử khách hàng và bàn giao.</desc>
+          <desc>Giai đoạn 1 gồm nghiên cứu thị trường, tài chính và giá bán, phản biện rủi ro, cổng duyệt 1. Giai đoạn 2 gồm kỹ sư sản phẩm, đóng gói bán hàng, kiểm định Khối 9 và bàn giao.</desc>
           <defs>
             <marker id="${graphId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path class="graph-arrow-fill" d="M 0 1 L 10 5 L 0 9 z" />
+            </marker>
+            <marker id="${bounceArrId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="graph-bounce-arrow" d="M 0 1 L 10 5 L 0 9 z" />
             </marker>
           </defs>
           <rect class="graph-zone" x="6" y="6" width="454" height="208" rx="12" />
           <text class="graph-zone-title" x="18" y="24">GIAI ĐOẠN 1: NGHIÊN CỨU, TÍNH LÃI VÀ CHỐT KÈO</text>
           <rect class="graph-zone graph-zone-active" x="476" y="6" width="458" height="208" rx="12" />
-          <text class="graph-zone-title graph-zone-title-active" x="488" y="24">GIAI ĐOẠN 2: SẢN XUẤT SẢN PHẨM CUỐI VÀ BÀN GIAO</text>
+          <text class="graph-zone-title graph-zone-title-active" x="488" y="24">GIAI ĐOẠN 2: SẢN XUẤT SẢN PHẨM CUỐI VÀ CHỐT KHỐI 9</text>
 
           ${box(18, 38, 154, 68, 1, "Bước 1: Trinh sát", "#01, #02, #03, #50")}
           ${box(18, 126, 154, 68, 2, "Bước 2: Tài chính", "#38, #39")}
-          ${box(196, 82, 130, 68, 3, "Bước 3: Phản biện", "#46, #47, #06")}
+          ${box(196, 82, 130, 68, 3, "Bước 3: Phản biện", "#46, #47, #52")}
           ${box(348, 82, 100, 68, 4, "Cổng 1", "Duyệt chốt kèo")}
 
-          ${box(488, 38, 154, 68, 5, "Bước 5: Sản phẩm", "#13 đến #19")}
-          ${box(488, 126, 154, 68, 6, "Bước 6: Bán hàng", "Trang bán, 50 khách")}
-          ${box(666, 82, 134, 68, 7, "Bước 7: Kiểm thử", "#48, #49, #20")}
-          ${box(822, 82, 100, 68, 8, "Cổng 2", "Bàn giao cuối")}
+          ${box(488, 38, 154, 68, 5, "Bước 5: Sản phẩm", "#08, #13 đến #23")}
+          ${box(488, 126, 154, 68, 6, "Bước 6: Bán hàng", "Khối 5, 6, 7, 8")}
+          ${box(666, 82, 134, 68, 7, "Bước 7: Chốt Khối 9", "#53, #51, #52, #49")}
+          ${box(822, 82, 100, 68, 8, "Cổng 2", "Bàn giao 0 lỗi")}
 
           <path class="graph-edge" d="M 172 72 L 194 106" marker-end="url(#${graphId})" />
           <path class="graph-edge" d="M 172 160 L 194 126" marker-end="url(#${graphId})" />
@@ -1985,7 +2224,85 @@
           <path class="graph-edge" d="M 642 72 L 664 106" marker-end="url(#${graphId})" />
           <path class="graph-edge" d="M 642 160 L 664 126" marker-end="url(#${graphId})" />
           <path class="graph-edge-active" d="M 800 116 L 820 116" marker-end="url(#${graphId})" />
+          ${bounceSvg}
         </svg>
+      </div>
+    `;
+  }
+
+  function renderReworkTicketCardHtml(tk) {
+    const st = REWORK_STATUS_LABELS[tk.status] || REWORK_STATUS_LABELS.OPEN;
+    const sev = REWORK_SEVERITY_LABELS[tk.severity] || REWORK_SEVERITY_LABELS.HIGH;
+    const catLabel = REWORK_CATEGORY_LABELS[tk.defect_category] || "Lỗi cần sửa";
+    const srcId = String(tk.source_dept_id || "51").padStart(2, "0");
+    const tgtId = String(tk.target_dept_id || "00").padStart(2, "0");
+    const reopenCnt = Number(tk.reopen_count || 0);
+
+    let actionsHtml = "";
+    if (tk.status === "OPEN" || tk.status === "IN_FIX") {
+      actionsHtml = `<button type="button" class="btn btn-xs btn-primary" data-rework-action="${esc(tk.ticket_id)}:FIXED_PENDING_RECHECK">${ico("check")}<span>Báo đã sửa, gửi Khối 9 kiểm lại</span></button>`;
+    } else if (tk.status === "FIXED_PENDING_RECHECK") {
+      actionsHtml = `
+        <button type="button" class="btn btn-xs btn-primary" data-rework-action="${esc(tk.ticket_id)}:VERIFIED_CLOSED">${ico("shield-check")}<span>Khối 9 chốt đạt (0 lỗi)</span></button>
+        <button type="button" class="btn btn-xs btn-destructive" data-rework-action="${esc(tk.ticket_id)}:OPEN">${ico("rotate-ccw")}<span>Vẫn lỗi, đẩy trả sửa tiếp</span></button>
+      `;
+    }
+
+    return `
+      <article class="rework-ticket-card">
+        <div class="rework-ticket-head">
+          <div class="action-group">
+            <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+            <span class="badge ${sev.cls}">${sev.label}</span>
+            <span class="badge badge-idle">${esc(catLabel)}</span>
+            ${reopenCnt > 0 ? `<span class="badge badge-fail">Đẩy trả lại ${reopenCnt} lần</span>` : ""}
+          </div>
+          <span class="mono step-time">${esc(shortDate(tk.updated_at || tk.created_at))} ${esc(shortTime(tk.updated_at || tk.created_at))}</span>
+        </div>
+        <div class="row-title">${esc(sanitizeUiVietnamese(tk.title))}</div>
+        ${tk.detail_vi ? `<p class="step-summary">${esc(sanitizeUiVietnamese(tk.detail_vi))}</p>` : ""}
+        ${tk.fix_note_vi ? `<p class="row-meta">Ghi chú sửa lỗi: ${esc(sanitizeUiVietnamese(tk.fix_note_vi))}</p>` : ""}
+        <div class="rework-route-row">
+          <span>Phát hiện:</span>
+          <button type="button" class="agent-pill" data-open-staff="${esc(srcId)}">#${esc(srcId)} ${esc(deptTitle(srcId))}</button>
+          <span>đẩy trả về:</span>
+          <button type="button" class="agent-pill" data-open-staff="${esc(tgtId)}">#${esc(tgtId)} ${esc(deptTitle(tgtId))}</button>
+        </div>
+        ${actionsHtml ? `<div class="action-group">${actionsHtml}</div>` : ""}
+      </article>
+    `;
+  }
+
+  function renderSwarmReworkPanel(m, msnReworks) {
+    const tickets = Array.isArray(msnReworks) ? msnReworks : [];
+    const openCnt = tickets.filter((tk) => tk.status !== "VERIFIED_CLOSED").length;
+    const isBlocked = openCnt > 0;
+    const gateTitle = isBlocked
+      ? `Đang chặn chốt: còn ${openCnt} phiếu lỗi cần sửa`
+      : "Đạt chốt 0 lỗi";
+    const gateSub = isBlocked
+      ? "Bộ tứ chốt cuối Khối 9 (#53 Tổng hợp lỗi, #51 QA và QC, #52 Chức năng, #49 Diệt rối mắt) đang chặn nghiệm thu đến khi tất cả phiếu được sửa và kiểm lại đạt."
+      : "Bộ tứ chốt cuối Khối 9 (#53 Tổng hợp lỗi, #51 QA và QC, #52 Chức năng, #49 Diệt rối mắt) xác nhận hiện không còn phiếu lỗi mở.";
+
+    return `
+      <div class="rework-panel">
+        <div class="rework-gate-banner ${isBlocked ? "is-blocked" : "is-pass"}">
+          <div class="stack-sm">
+            <div class="rework-gate-title">
+              ${ico(isBlocked ? "alert-circle" : "shield-check")}
+              <span>${esc(gateTitle)}</span>
+            </div>
+            <p class="row-meta">${esc(gateSub)}</p>
+          </div>
+          <button type="button" class="btn btn-xs btn-primary" data-open-rework-modal="${esc(m.mission_id)}">
+            ${ico("plus")}<span>Tạo phiếu đẩy trả sửa lỗi</span>
+          </button>
+        </div>
+
+        ${tickets.length
+          ? tickets.map(renderReworkTicketCardHtml).join("")
+          : `<div class="empty-state"><p>Chưa có phiếu đẩy trả sửa lỗi nào cho nhiệm vụ này. Nếu phát hiện thiếu chức năng, lỗi vận hành hoặc rối mắt, bấm Tạo phiếu đẩy trả sửa lỗi để giao đúng phòng sửa ngay.</p></div>`
+        }
       </div>
     `;
   }
@@ -2128,39 +2445,172 @@
       .sort((a, b) => (a.minOrder - b.minOrder) || a.name_vi.localeCompare(b.name_vi, "vi"));
   }
 
+  function computeMissionDivisionCoverage(m, msgs) {
+    const plan = m && m.division_roster_plan;
+    if (plan && typeof plan === "object") {
+      const divs = Array.isArray(plan.divisions) ? plan.divisions : [];
+      const nonExecCovered = divs.filter((dv) => dv.division_code !== "exec-board" && Array.isArray(dv.active_depts) && dv.active_depts.length > 0).length;
+      const activeCount = Number(plan.active_divisions_count || nonExecCovered || 0);
+      return {
+        coveredCount: Math.min(9, activeCount),
+        totalDivs: 9,
+        productLabel: sanitizeUiVietnamese(plan.product_type_label_vi || PRODUCT_TYPE_VI[plan.product_type] || ""),
+        activeDeptsCount: Number(plan.active_depts_count || 0),
+        skippedDeptsCount: Number(plan.skipped_depts_count || 0),
+        hasPlan: true
+      };
+    }
+
+    const deptToDiv = new Map();
+    state.departments.forEach((d) => {
+      deptToDiv.set(String(d.dept_id).padStart(2, "0"), d.division_code);
+    });
+    const coveredDivs = new Set();
+    const touchedDepts = new Set();
+    const recordIds = (raw) => {
+      if (!raw) return;
+      String(raw).split(",").map((x) => x.trim()).filter(Boolean).forEach((id) => {
+        const norm = id.padStart(2, "0");
+        touchedDepts.add(norm);
+        const dv = deptToDiv.get(norm);
+        if (dv && dv !== "exec-board") coveredDivs.add(dv);
+      });
+    };
+    (m.steps || []).forEach((s) => recordIds(s.lead_dept_ids));
+    (msgs || []).forEach((msg) => recordIds(msg.sender_dept_ids));
+    return {
+      coveredCount: Math.min(9, coveredDivs.size),
+      totalDivs: 9,
+      productLabel: "",
+      activeDeptsCount: touchedDepts.size,
+      skippedDeptsCount: 0,
+      hasPlan: false
+    };
+  }
+
+  function renderHandoffCardHtml(ho, { isCeoDrawer = false, showActions = true } = {}) {
+    const modeKey = String(ho.mode || "PEER_HANDOFF").toUpperCase();
+    const statusKey = String(ho.status || "OPEN").toUpperCase();
+    const mt = HANDOFF_MODE_VI[modeKey] || HANDOFF_MODE_VI.PEER_HANDOFF;
+    const st = HANDOFF_STATUS_VI[statusKey] || HANDOFF_STATUS_VI.OPEN;
+    const fromId = String(ho.from_dept_id || "00").padStart(2, "0");
+    const toId = String(ho.to_dept_id || "00").padStart(2, "0");
+    const resolvedId = ho.resolved_to_dept_id ? String(ho.resolved_to_dept_id).padStart(2, "0") : "";
+
+    let actionBtns = "";
+    if (showActions && statusKey !== "COMPLETED") {
+      if (isCeoDrawer && statusKey === "OPEN") {
+        actionBtns += `
+          <button type="button" class="btn btn-xs btn-primary" data-ceo-reroute-handoff="${esc(ho.handoff_id)}">
+            ${ico("git-branch")}<span>#00 phân công sang phòng khác</span>
+          </button>
+        `;
+      }
+      actionBtns += `
+        <button type="button" class="btn btn-xs" data-handoff-status="${esc(ho.handoff_id)}:COMPLETED">
+          ${ico("check")}<span>Hoàn tất</span>
+        </button>
+      `;
+    }
+
+    return `
+      <article class="handoff-card">
+        <div class="handoff-card-head">
+          <div class="action-group">
+            <span class="badge ${mt.cls}">${ico(mt.icon)}<span>${esc(mt.label)}</span></span>
+            <span class="badge ${st.cls}">${ico(st.icon)}<span>${esc(st.label)}</span></span>
+          </div>
+          <span class="mono step-time">${esc(shortDate(ho.updated_at || ho.created_at))} ${esc(shortTime(ho.updated_at || ho.created_at))}</span>
+        </div>
+        <div class="row-title">${esc(sanitizeUiVietnamese(ho.reason_vi))}</div>
+        ${ho.payload_vi ? `<p class="step-summary">${esc(sanitizeUiVietnamese(ho.payload_vi))}</p>` : ""}
+        ${ho.ceo_note_vi ? `<p class="row-meta">Chỉ đạo của #00: ${esc(sanitizeUiVietnamese(ho.ceo_note_vi))}</p>` : ""}
+        <div class="rework-route-row">
+          <span>Từ:</span>
+          <button type="button" class="agent-pill" data-open-staff="${esc(fromId)}">#${esc(fromId)} ${esc(deptTitle(fromId))}</button>
+          <span>sang:</span>
+          <button type="button" class="agent-pill" data-open-staff="${esc(toId)}">#${esc(toId)} ${esc(deptTitle(toId))}</button>
+          ${resolvedId ? `
+            <span>được #00 phân công tới:</span>
+            <button type="button" class="agent-pill" data-open-staff="${esc(resolvedId)}">#${esc(resolvedId)} ${esc(deptTitle(resolvedId))}</button>
+          ` : ""}
+        </div>
+        ${actionBtns ? `<div class="action-group">${actionBtns}</div>` : ""}
+      </article>
+    `;
+  }
+
   function renderSwarmMembersPanel(m, msgs, prebuiltMembers = null) {
     const members = prebuiltMembers || buildMissionMembersList(m, msgs);
-    if (!members.length) {
-      return `<div class="room-feed"><p class="row-meta">Chưa có thành viên chuyên trách nào được kích hoạt cho nhiệm vụ này.</p></div>`;
-    }
-    return `
-      <div class="room-member-grid">
-        ${members.map((mb) => {
-          const stepPart = mb.stepsSorted.length
-            ? `Đảm nhiệm: Bước ${mb.stepsSorted.join(", ")}`
-            : "Vai trò: Phối hợp và kiểm định";
-          const msgPart = `Đã gửi: ${mb.msgCount} trao đổi`;
-          const deptChipsHtml = mb.deptIds.length
-            ? `<div class="who-chips">${mb.deptIds.map((id) =>
-                `<button type="button" class="agent-pill" data-open-staff="${esc(id)}" title="${esc(deptTitle(id))}">#${esc(id)}</button>`
-              ).join("")}</div>`
-            : "";
-          return `
-            <article class="room-member-card">
-              <div class="member-card-top">
-                <div class="opp-head">
-                  <strong>${esc(mb.name_vi)}</strong>
-                  <span class="badge ${mb.stCls}">${ico(mb.stIcon)}<span>${mb.stTxt}</span></span>
+    const cov = computeMissionDivisionCoverage(m, msgs);
+    const covCls = cov.coveredCount >= 9 ? "badge-done" : "badge-wait";
+    const covText = `Độ phủ quy trình: ${cov.coveredCount}/${cov.totalDivs} Khối tham gia`;
+    const msnHandoffs = (state.deptHandoffs || []).filter((ho) => ho.mission_id === m.mission_id);
+
+    const coverageBarHtml = `
+      <div class="mission-coverage-bar">
+        <div class="action-group">
+          <span class="badge ${covCls}">${ico("layers")}<span>${esc(covText)}</span></span>
+          ${cov.productLabel ? `<span class="badge badge-idle">${esc(cov.productLabel)}</span>` : ""}
+          ${cov.hasPlan && cov.activeDeptsCount ? `<span class="row-meta">${cov.activeDeptsCount} phòng được chọn, ${cov.skippedDeptsCount} phòng để trống tránh loãng</span>` : ""}
+        </div>
+        <button type="button" class="btn btn-xs" data-open-org-sop="sop">
+          ${ico("compass")}<span>Quy trình 9 Khối</span>
+        </button>
+      </div>
+    `;
+
+    const membersGridHtml = members.length
+      ? `
+        <div class="room-member-grid">
+          ${members.map((mb) => {
+            const stepPart = mb.stepsSorted.length
+              ? `Đảm nhiệm: Bước ${mb.stepsSorted.join(", ")}`
+              : "Vai trò: Phối hợp và kiểm định";
+            const msgPart = `Đã gửi: ${mb.msgCount} trao đổi`;
+            const deptChipsHtml = mb.deptIds.length
+              ? `<div class="who-chips">${mb.deptIds.map((id) =>
+                  `<button type="button" class="agent-pill" data-open-staff="${esc(id)}" title="${esc(deptTitle(id))}">#${esc(id)}</button>`
+                ).join("")}</div>`
+              : "";
+            return `
+              <article class="room-member-card">
+                <div class="member-card-top">
+                  <div class="opp-head">
+                    <strong>${esc(mb.name_vi)}</strong>
+                    <span class="badge ${mb.stCls}">${ico(mb.stIcon)}<span>${mb.stTxt}</span></span>
+                  </div>
+                  <p class="member-role-desc">${esc(mb.roleDesc)}</p>
                 </div>
-                <p class="member-role-desc">${esc(mb.roleDesc)}</p>
-              </div>
-              <div class="member-card-foot">
-                <div class="member-contrib-line">${esc(stepPart)} | ${esc(msgPart)}</div>
-                ${deptChipsHtml}
-              </div>
-            </article>
-          `;
-        }).join("")}
+                <div class="member-card-foot">
+                  <div class="member-contrib-line">${esc(stepPart)} | ${esc(msgPart)}</div>
+                  ${deptChipsHtml}
+                </div>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      `
+      : `<p class="row-meta">Chưa có thành viên chuyên trách nào được kích hoạt cho nhiệm vụ này.</p>`;
+
+    const handoffsHtml = msnHandoffs.length
+      ? `
+        <div class="mission-handoff-section">
+          <div class="sec-head">
+            <h4 class="sec-title">Chuyển việc ngang và Đẩy lên Tổng Giám đốc #00 (${msnHandoffs.length})</h4>
+          </div>
+          <div class="stack-sm">
+            ${msnHandoffs.map((ho) => renderHandoffCardHtml(ho, { isCeoDrawer: true, showActions: true })).join("")}
+          </div>
+        </div>
+      `
+      : "";
+
+    return `
+      <div class="room-members-wrap">
+        ${coverageBarHtml}
+        ${membersGridHtml}
+        ${handoffsHtml}
       </div>
     `;
   }
@@ -2231,6 +2681,8 @@
 
     const msnMsgs = state.swarmMessages.filter((x) => x.mission_id === m.mission_id);
     const msnMembers = buildMissionMembersList(m, msnMsgs);
+    const msnReworks = (state.reworkTickets || []).filter((tk) => tk.mission_id === m.mission_id);
+    const openReworkCnt = msnReworks.filter((tk) => tk.status !== "VERIFIED_CLOSED").length;
     const activeSubTab = state.missionViewTabs[m.mission_id] || "steps";
 
     const stepsHtml = (m.steps || []).map((s) => {
@@ -2280,7 +2732,8 @@
     const bodyHtml =
       activeSubTab === "board" ? renderSwarmBoardPanel(m, msnMsgs) :
       activeSubTab === "members" ? renderSwarmMembersPanel(m, msnMsgs, msnMembers) :
-      activeSubTab === "graph" ? renderSwarmGraphSvg(m) :
+      activeSubTab === "rework" ? renderSwarmReworkPanel(m, msnReworks) :
+      activeSubTab === "graph" ? renderSwarmGraphSvg(m, msnReworks) :
       `<div class="stepper-list">${stepsHtml}</div>`;
 
     return `
@@ -2291,6 +2744,7 @@
             <span class="mission-acc-title">${esc(sanitizeUiVietnamese(m.title))}</span>
           </button>
           <div class="mission-acc-meta">
+            ${openReworkCnt > 0 ? `<span class="badge badge-fail">${ico("alert-circle")}<span>${openReworkCnt} lỗi chờ sửa</span></span>` : ""}
             ${stBadge}
             <span class="mission-acc-mini-prog mono">
               <span class="mission-acc-mini-track" aria-hidden="true"><span class="progress-fill" style="display:block;inline-size:${Math.max(4, pct)}%;"></span></span>
@@ -2340,6 +2794,9 @@
                   </button>
                   <button type="button" class="seg-btn ${activeSubTab === "members" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "members" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:members">
                     ${ico("users")}<span>Đội ngũ tham gia (${msnMembers.length})</span>
+                  </button>
+                  <button type="button" class="seg-btn ${activeSubTab === "rework" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "rework" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:rework">
+                    ${ico("rotate-ccw")}<span>Đẩy trả sửa lỗi (${msnReworks.length})</span>
                   </button>
                   <button type="button" class="seg-btn ${activeSubTab === "graph" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "graph" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:graph">
                     ${ico("git-branch")}<span>Sơ đồ chuyền việc</span>
@@ -2428,7 +2885,7 @@
       return `
         <div class="empty-state">
           <h3>Chưa có đợt học tri thức hoặc nạp kỹ năng nào</h3>
-          <p>Nhấn Quét báo mới ngay để 51 phòng chuyên gia tự đọc 24 nguồn tin thị trường và ghi nhận kết quả tại đây.</p>
+          <p>Nhấn Quét báo mới ngay để ${state.departments.length || 53} phòng chuyên gia tự đọc 24 nguồn tin thị trường và ghi nhận kết quả tại đây.</p>
           <button type="button" class="btn btn-primary" data-trigger-learn-all>${ico("refresh-cw")}<span>Quét báo mới ngay</span></button>
         </div>
       `;
@@ -3131,7 +3588,7 @@
       box.innerHTML = `
         <div class="empty-state">
           <h3>Không tìm thấy phòng chuyên gia phù hợp</h3>
-          <p>Thử đổi từ khóa tìm kiếm hoặc bỏ lọc trạng thái để xem đầy đủ 51 phòng ban.</p>
+          <p>Thử đổi từ khóa tìm kiếm hoặc bỏ lọc trạng thái để xem đầy đủ ${state.departments.length || 53} phòng ban.</p>
           <button type="button" class="btn btn-xs" id="btn-reset-staff-filter">Xóa bộ lọc</button>
         </div>
       `;
@@ -3161,6 +3618,10 @@
       const workingCnt = members.filter((d) => normalizeDeptStatus(d.status) === "WORKING").length;
       const studyingCnt = members.filter((d) => normalizeDeptStatus(d.status) === "STUDYING").length;
       const divName = DIV_SHORT_NAMES[code] || sanitizeUiVietnamese(code);
+      const isDiv9 = code === "div9-critique-ux-lab";
+      const qualityStripText = isDiv9
+        ? "Chốt cuối Không Lỗi toàn tập đoàn (8 phòng #46 đến #53): Bộ tứ #53 (Tổng hợp và Điều phối Lỗi), #51 (QA và QC), #52 (Kiểm tra Hoàn thiện Chức năng), #49 (Tối giản Thao tác và Diệt Rối mắt) cùng #46, #47, #48, #50 tổng kiểm và đẩy trả lỗi về đúng phòng phụ trách."
+        : "Tổ Kiểm thử Người dùng nội bộ và Tổ Phản biện nội bộ tự rà lỗi, tổng hợp thiếu sót và đẩy trả đúng phòng sửa trước khi chuyển Phòng #53 và chốt cuối Khối 9.";
 
       return `
         <div class="acc-card">
@@ -3168,6 +3629,7 @@
             <span class="acc-trigger-left">
               <span>${esc(divName)}</span>
               <span class="badge badge-idle">${members.length} phòng</span>
+              <span class="badge badge-cells">2 tổ nội bộ: Kiểm thử và Phản biện</span>
               ${workingCnt > 0 ? `<span class="badge badge-run">${ico("activity")}<span>${workingCnt} đang làm</span></span>` : ""}
               ${studyingCnt > 0 ? `<span class="badge badge-study">${ico("book-open")}<span>${studyingCnt} đang học</span></span>` : ""}
             </span>
@@ -3176,6 +3638,10 @@
           <div class="acc-panel ${isOpen ? "open" : ""}" data-div-panel="${esc(code)}">
             <div class="acc-inner">
               <div class="acc-body">
+                <div class="div-quality-strip">
+                  ${ico("shield-check", "ico-xs")}
+                  <span>${esc(qualityStripText)}</span>
+                </div>
                 <div class="division-staff-grid">
                   ${members.map((d) => {
                     const st = deptStatusMeta(d.status);
@@ -3183,6 +3649,10 @@
                     const skCnt = skillsCountForDept(d.dept_id);
                     const artCnt = Number(d.articles_learned || 0);
                     const isBusy = st.norm === "WORKING" || st.norm === "STUDYING";
+                    const isTrio = isDiv9 && DIV9_TRIO_IDS.has(String(d.dept_id).padStart(2, "0"));
+                    const openReworkForDept = (state.reworkTickets || []).filter(
+                      (tk) => String(tk.target_dept_id).padStart(2, "0") === String(d.dept_id).padStart(2, "0") && tk.status !== "VERIFIED_CLOSED"
+                    ).length;
                     const workTitle = sanitizeUiVietnamese(d.current_work_title || (st.norm === "STUDYING" ? "Đang cập nhật tri thức mới" : ""));
                     let jumpBtnHtml = "";
                     if (d.current_mission_id) {
@@ -3195,13 +3665,15 @@
                       jumpBtnHtml = `<button type="button" class="btn btn-xs" data-jump-progress-cat="all">Xem tiến độ</button>`;
                     }
                     return `
-                      <article class="staff-card" data-open-staff="${esc(d.dept_id)}" role="button" tabindex="0">
+                      <article class="staff-card ${isTrio ? "staff-card-trio" : ""}" data-open-staff="${esc(d.dept_id)}" role="button" tabindex="0">
                         <div class="staff-card-top">
                           <span class="sq-avatar">#${esc(d.dept_id)}</span>
                           <span class="staff-info">
                             <span class="row-title">${esc(cleanName)}</span>
                             <span class="staff-foot">
                               <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+                              ${isTrio ? `<span class="badge badge-sync">Chốt cuối Khối 9</span>` : ""}
+                              ${openReworkForDept > 0 ? `<span class="badge badge-fail">${openReworkForDept} phiếu sửa lỗi</span>` : ""}
                             </span>
                             <span class="mono row-meta">${artCnt} bài đã học, ${skCnt} kỹ năng GitHub</span>
                           </span>
@@ -3238,6 +3710,8 @@
   }
 
   async function openStaffDrawer(deptId) {
+    closeModals();
+    state.activeStaffDrawerDeptId = String(deptId || "").padStart(2, "0");
     document.getElementById("drawer-backdrop").classList.add("open");
     document.getElementById("inspector-drawer").classList.add("open");
     const body = document.getElementById("drawer-body");
@@ -3247,11 +3721,28 @@
       const d = await api(`/api/departments/${encodeURIComponent(deptId)}`);
       const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
       document.getElementById("drawer-heading").textContent = `Phòng #${d.dept_id}: ${cleanName}`;
-      const isCustom = Number(d.dept_id) > 50;
+      const isCustom = Number(d.dept_id) > 53;
       const st = deptStatusMeta(d.status);
       const deptSkills = Array.isArray(d.installed_skills) && d.installed_skills.length
         ? d.installed_skills
         : state.installedSkills.filter((sk) => parseDeptIdsJson(sk.dept_ids_json || sk.dept_ids).includes(d.dept_id));
+      const qualityCells = Array.isArray(d.embedded_quality_cells) && d.embedded_quality_cells.length
+        ? d.embedded_quality_cells
+        : DEFAULT_QUALITY_CELLS;
+      const deptReworks = Array.isArray(d.rework_tickets) && d.rework_tickets.length
+        ? d.rework_tickets
+        : (state.reworkTickets || []).filter((tk) => String(tk.target_dept_id).padStart(2, "0") === String(d.dept_id).padStart(2, "0"));
+      const normDid = String(d.dept_id || "00").padStart(2, "0");
+      const peerDir = d.peer_directory || {};
+      const upPeers = Array.isArray(peerDir.upstream_depts) ? peerDir.upstream_depts : [];
+      const downPeers = Array.isArray(peerDir.downstream_depts) ? peerDir.downstream_depts : [];
+      const coreStrength = sanitizeUiVietnamese(peerDir.core_strength_vi || "");
+      const deptHandoffs = Array.isArray(d.recent_handoffs)
+        ? d.recent_handoffs
+        : (state.deptHandoffs || []).filter((ho) =>
+            [ho.from_dept_id, ho.to_dept_id, ho.resolved_to_dept_id].map((x) => String(x || "").padStart(2, "0")).includes(normDid)
+          );
+      const isCeoDept = normDid === "00";
 
       body.innerHTML = `
         <div class="action-group">
@@ -3271,6 +3762,70 @@
               : ""}
           </div>
         ` : ""}
+
+        <div class="drawer-quality-box">
+          <div class="sec-head">
+            <h3 class="sec-title">Cơ chế chất lượng nội bộ của phòng</h3>
+            <span class="badge badge-cells">2 tổ nội bộ</span>
+          </div>
+          ${qualityCells.map((c) => `
+            <div class="drawer-cell-item">
+              <strong>${esc(sanitizeUiVietnamese(c.name_vi))}</strong>
+              <span class="row-meta">${esc(sanitizeUiVietnamese(c.role_vi))}</span>
+            </div>
+          `).join("")}
+          <p class="row-meta">Quy tắc đẩy trả: Mọi lỗi chức năng, thiếu sót hoặc rối mắt phát hiện sau khi bàn giao đều bị đẩy trả trực tiếp về Phòng #${esc(d.dept_id)} sửa đến khi Khối 9 chốt 0 lỗi.</p>
+        </div>
+
+        <div class="drawer-collab-box">
+          <div class="sec-head">
+            <h3 class="sec-title">Phối hợp đồng đội và Chuyển việc</h3>
+            <button type="button" class="btn btn-xs" data-open-org-sop="directory">
+              ${ico("layers")}<span>Danh bạ 54 phòng</span>
+            </button>
+          </div>
+          ${coreStrength ? `<p class="step-summary"><strong>Chuyên môn lõi:</strong> ${esc(coreStrength)}</p>` : ""}
+          ${upPeers.length ? `
+            <div class="who-chips">
+              <span>Nhận đầu vào từ:</span>
+              ${upPeers.map((p) => `<button type="button" class="agent-pill" data-open-staff="${esc(p.dept_id)}" title="${esc(cleanDeptTitleVi(p.dept_id, p.title_vi))}">#${esc(p.dept_id)} ${esc(cleanDeptTitleVi(p.dept_id, p.title_vi))}</button>`).join("")}
+            </div>
+          ` : ""}
+          ${downPeers.length ? `
+            <div class="who-chips">
+              <span>Thường bàn giao ngang cho:</span>
+              ${downPeers.map((p) => `<button type="button" class="agent-pill" data-open-staff="${esc(p.dept_id)}" title="${esc(cleanDeptTitleVi(p.dept_id, p.title_vi))}">#${esc(p.dept_id)} ${esc(cleanDeptTitleVi(p.dept_id, p.title_vi))}</button>`).join("")}
+            </div>
+          ` : ""}
+          <div class="action-group">
+            <button type="button" class="btn btn-xs btn-primary" data-open-handoff-peer="${esc(normDid)}">
+              ${ico("arrow-right")}<span>Chuyển việc ngang sang phòng khác</span>
+            </button>
+            <button type="button" class="btn btn-xs" data-open-handoff-ceo="${esc(normDid)}">
+              ${ico("flag")}<span>Đẩy lên Tổng Giám đốc #00 xử lý</span>
+            </button>
+          </div>
+          <div class="stack-sm">
+            <div class="row-meta"><strong>Lịch sử chuyển việc và phân xử (${deptHandoffs.length})</strong></div>
+            ${deptHandoffs.length
+              ? deptHandoffs.map((ho) => renderHandoffCardHtml(ho, { isCeoDrawer: isCeoDept, showActions: true })).join("")
+              : `<p class="row-meta">Chưa có lượt chuyển việc ngang hoặc đẩy lên #00 nào liên quan đến phòng này.</p>`
+            }
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="sec-head">
+            <h3 class="sec-title">Phiếu sửa lỗi được đẩy về phòng này (${deptReworks.length})</h3>
+            <button type="button" class="btn btn-xs btn-destructive" data-open-rework-for-dept="${esc(d.dept_id)}">
+              ${ico("rotate-ccw")}<span>Đẩy trả lỗi về phòng này</span>
+            </button>
+          </div>
+          ${deptReworks.length
+            ? deptReworks.map(renderReworkTicketCardHtml).join("")
+            : `<p class="row-meta">Hiện phòng này không có phiếu sửa lỗi nào bị đẩy trả.</p>`
+          }
+        </div>
 
         <button type="button" class="btn btn-primary btn-block" id="btn-dept-learn-more">
           ${ico("download")}<span>Nạp thêm kiến thức và kỹ năng mới cho phòng này</span>
@@ -3420,6 +3975,8 @@
           openStaffDrawer(d.dept_id);
         });
       });
+
+      bindQuickActions(body);
     } catch (e) {
       body.innerHTML = `<p class="text-err">${esc(e.message)}</p>`;
     }
@@ -3465,7 +4022,7 @@
         const added = Number(last.new_atoms_added ?? last.articles_added ?? 0);
         const skipped = Number(last.duplicates_skipped ?? 0);
         const scanned = Number(last.sources_queried ?? last.sources_scanned ?? last.sources_total ?? 24);
-        const deptsCnt = Array.isArray(last.touched_depts) ? last.touched_depts.length : (Number(last.touched_depts_count) || 51);
+        const deptsCnt = Array.isArray(last.touched_depts) ? last.touched_depts.length : (Number(last.touched_depts_count) || state.departments.length || 53);
         titleEl.textContent = at ? `Hoàn tất đợt quét gần nhất lúc ${at}` : "Đợt quét gần nhất đã hoàn tất";
         detailEl.textContent = last.summary_vi
           ? sanitizeUiVietnamese(last.summary_vi)
@@ -4505,6 +5062,103 @@
       };
     });
 
+    root.querySelectorAll("[data-open-rework-modal]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        const mid = el.getAttribute("data-open-rework-modal") || "";
+        const msn = state.missions.find((x) => x.mission_id === mid);
+        openReworkModal({ missionId: mid, projectId: (msn && msn.project_id) || "" });
+      };
+    });
+
+    root.querySelectorAll("[data-open-rework-for-dept]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        const deptId = el.getAttribute("data-open-rework-for-dept") || "13";
+        openReworkModal({ targetDeptId: deptId });
+      };
+    });
+
+    root.querySelectorAll("[data-open-org-sop]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        const sub = el.getAttribute("data-open-org-sop") || "sop";
+        openOrgSopModal(sub);
+      };
+    });
+
+    root.querySelectorAll("[data-open-handoff-peer]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        const fromId = el.getAttribute("data-open-handoff-peer") || "00";
+        openHandoffModal({ actionKind: "CREATE", mode: "PEER_HANDOFF", fromDeptId: fromId });
+      };
+    });
+
+    root.querySelectorAll("[data-open-handoff-ceo]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        const fromId = el.getAttribute("data-open-handoff-ceo") || "00";
+        openHandoffModal({ actionKind: "CREATE", mode: "CEO_ESCALATION", fromDeptId: fromId });
+      };
+    });
+
+    root.querySelectorAll("[data-ceo-reroute-handoff]").forEach((el) => {
+      el.onclick = (e) => {
+        e.stopPropagation();
+        const hoId = el.getAttribute("data-ceo-reroute-handoff") || "";
+        if (!hoId) return;
+        openHandoffModal({ actionKind: "REROUTE", handoffId: hoId });
+      };
+    });
+
+    root.querySelectorAll("[data-handoff-status]").forEach((btn) => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const [hoId, nextStatus] = String(btn.getAttribute("data-handoff-status") || "").split(":");
+        if (!hoId || !nextStatus) return;
+        withLock(btn, async () => {
+          await api(`/api/handoffs/${encodeURIComponent(hoId)}`, "PATCH", {
+            status: nextStatus,
+            ceo_note_vi: nextStatus === "COMPLETED" ? "Đã xác nhận hoàn tất yêu cầu chuyển việc." : ""
+          });
+          await loadEverything();
+          if (document.getElementById("inspector-drawer")?.classList.contains("open") && state.activeStaffDrawerDeptId) {
+            openStaffDrawer(state.activeStaffDrawerDeptId);
+          }
+          toast("Đã đánh dấu hoàn tất phiếu chuyển việc.");
+        });
+      };
+    });
+
+    root.querySelectorAll("[data-rework-action]").forEach((btn) => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const [ticketId, nextStatus] = String(btn.getAttribute("data-rework-action") || "").split(":");
+        if (!ticketId || !nextStatus) return;
+        withLock(btn, async () => {
+          const payload = { status: nextStatus };
+          if (nextStatus === "FIXED_PENDING_RECHECK") {
+            payload.fix_note_vi = "Phòng ban phụ trách đã sửa lỗi và gửi Khối 9 kiểm định lại.";
+          } else if (nextStatus === "VERIFIED_CLOSED") {
+            payload.recheck_note_vi = "Khối 9 đã kiểm định lại đạt chuẩn 0 lỗi.";
+          } else if (nextStatus === "OPEN") {
+            payload.recheck_note_vi = "Kiểm lại vẫn còn thiếu sót, đẩy trả phòng phụ trách tiếp tục sửa.";
+          }
+          await api(`/api/rework/${encodeURIComponent(ticketId)}`, "PATCH", payload);
+          await loadEverything();
+          if (document.getElementById("inspector-drawer")?.classList.contains("open") && state.activeStaffDrawerDeptId) {
+            openStaffDrawer(state.activeStaffDrawerDeptId);
+          }
+          const msg =
+            nextStatus === "FIXED_PENDING_RECHECK" ? "Đã gửi báo sửa xong lên Khối 9 kiểm định lại." :
+            nextStatus === "VERIFIED_CLOSED" ? "Khối 9 đã chốt đạt 0 lỗi cho phiếu này." :
+            "Đã mở lại và đẩy trả phiếu lỗi về phòng phụ trách sửa tiếp.";
+          toast(msg);
+        });
+      };
+    });
+
     root.querySelectorAll("[data-goto-missions]").forEach((el) => {
       el.onclick = () => { state.progressCat = "missions"; switchTab("missions"); };
     });
@@ -4908,6 +5562,368 @@
     openModal("modal-task");
   }
 
+  function openReworkModal({ missionId = "", projectId = "", taskId = "", stepOrder = 0, targetDeptId = "13", sourceDeptId = "" } = {}) {
+    document.getElementById("form-rework").reset();
+    document.getElementById("rework-mission-id").value = missionId;
+    document.getElementById("rework-project-id").value = projectId;
+    document.getElementById("rework-task-id").value = taskId;
+    document.getElementById("rework-step-order").value = String(stepOrder || 0);
+    const has53 = state.departments.some((d) => String(d.dept_id).padStart(2, "0") === "53");
+    const defaultSrc = sourceDeptId || (has53 ? "53" : "51");
+    setListboxValue("inp-rework-source", defaultSrc, true);
+    setListboxValue("inp-rework-target", String(targetDeptId || "13").padStart(2, "0"), true);
+    setListboxValue("inp-rework-cat", "BUG", true);
+    setListboxValue("inp-rework-sev", "HIGH", true);
+    openModal("modal-rework");
+  }
+
+  function buildFallbackDirectoryPayload() {
+    const depts = state.departments.map((d) => ({
+      dept_id: d.dept_id,
+      code: d.code,
+      title_vi: cleanDeptTitleVi(d.dept_id, d.title_vi),
+      division_code: d.division_code,
+      division_name_vi: DIV_SHORT_NAMES[d.division_code] || d.division_name_vi || d.division_code,
+      status: d.status || "IDLE",
+      core_strength_vi: `Chuyên trách nghiệp vụ ${cleanDeptTitleVi(d.dept_id, d.title_vi)} trong chuỗi vận hành 9 Khối.`,
+      upstream_depts: [],
+      downstream_depts: [],
+      product_types: ["ALL"]
+    }));
+    return {
+      total_departments: depts.length,
+      total_divisions: state.divisions.length || 10,
+      sop_rules: FALLBACK_SOP_RULES_VI,
+      divisions: state.divisions,
+      departments: depts
+    };
+  }
+
+  function buildFallbackRosterPlan(goalPrompt, productType) {
+    const pType = productType && productType !== "AUTO" ? productType : "WEB_APP";
+    const divs = DIV_ORDER.map((code, idx) => {
+      const list = state.departments
+        .filter((d) => d.division_code === code)
+        .map((d) => ({ dept_id: d.dept_id, title_vi: cleanDeptTitleVi(d.dept_id, d.title_vi) }));
+      return {
+        division_code: code,
+        division_name_vi: DIV_SHORT_NAMES[code] || code,
+        sort_order: idx,
+        active_depts: list,
+        skipped_depts: [],
+        reason_vi: "Huy động đầy đủ theo chế độ dự phòng ngoại tuyến."
+      };
+    });
+    return {
+      product_type: pType,
+      product_type_label_vi: PRODUCT_TYPE_VI[pType] || PRODUCT_TYPE_VI.GENERAL,
+      goal_prompt: goalPrompt,
+      all_9_divisions_covered: true,
+      active_divisions_count: 9,
+      active_depts_count: state.departments.length,
+      skipped_depts_count: 0,
+      divisions: divs
+    };
+  }
+
+  function switchOrgSopTab(tabName) {
+    state.orgSopTab = tabName === "directory" ? "directory" : "sop";
+    document.querySelectorAll("#org-sop-tabs .seg-btn").forEach((b) => {
+      const active = b.getAttribute("data-org-tab") === state.orgSopTab;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-selected", active ? "true" : "false");
+    });
+    document.getElementById("org-panel-sop")?.classList.toggle("is-hidden", state.orgSopTab !== "sop");
+    document.getElementById("org-panel-directory")?.classList.toggle("is-hidden", state.orgSopTab !== "directory");
+    if (state.orgSopTab === "directory") {
+      renderOrgDirectoryList();
+    } else {
+      renderOrgSopOverview();
+    }
+  }
+
+  function renderOrgSopOverview() {
+    const box = document.getElementById("org-sop-rules-box");
+    if (!box) return;
+    const dir = state.corporateDirectory || buildFallbackDirectoryPayload();
+    const rawRules = Array.isArray(dir.sop_rules) && dir.sop_rules.length ? dir.sop_rules : FALLBACK_SOP_RULES_VI;
+    const normalizedRules = rawRules.map((r, i) => {
+      if (typeof r === "string") {
+        const clean = sanitizeUiVietnamese(r);
+        const parts = clean.split(":");
+        return {
+          title_vi: parts.length > 1 ? parts[0].trim() : `Quy tắc ${i + 1}`,
+          detail_vi: parts.length > 1 ? parts.slice(1).join(":").trim() : clean
+        };
+      }
+      return {
+        title_vi: sanitizeUiVietnamese(r.title_vi || `Quy tắc ${i + 1}`),
+        detail_vi: sanitizeUiVietnamese(r.detail_vi || "")
+      };
+    });
+    box.innerHTML = normalizedRules.map((r) => `
+      <article class="org-rule-card">
+        <div class="org-rule-title">${esc(r.title_vi)}</div>
+        <p class="row-meta">${esc(r.detail_vi)}</p>
+      </article>
+    `).join("");
+
+    if (state.lastRosterPlan) {
+      renderRosterPlanResult(state.lastRosterPlan);
+    }
+  }
+
+  function renderRosterPlanResult(plan) {
+    const box = document.getElementById("roster-plan-result");
+    if (!box || !plan) return;
+    const divs = Array.isArray(plan.divisions) ? plan.divisions : [];
+    const activeDivCount = Number(plan.active_divisions_count || 9);
+    const activeDeptCount = Number(plan.active_depts_count || 0);
+    const skippedDeptCount = Number(plan.skipped_depts_count || 0);
+    const typeLabel = sanitizeUiVietnamese(plan.product_type_label_vi || PRODUCT_TYPE_VI[plan.product_type] || "Tổng hợp");
+
+    box.innerHTML = `
+      <div class="roster-summary-banner">
+        <div class="stack-xs">
+          <div class="action-group">
+            <span class="badge badge-done">${ico("shield-check")}<span>Độ phủ: ${activeDivCount}/9 Khối và Ban Điều hành</span></span>
+            <span class="badge badge-sync">${esc(typeLabel)}</span>
+          </div>
+          <p class="row-meta">Kích hoạt <strong>${activeDeptCount} phòng chuyên trách</strong> phù hợp loại sản phẩm, để trống <strong>${skippedDeptCount} phòng</strong> không liên quan để tránh loãng nguồn lực.</p>
+        </div>
+      </div>
+      <div class="roster-div-list">
+        ${divs.map((dv) => {
+          const activeList = Array.isArray(dv.active_depts) ? dv.active_depts : [];
+          const skipList = Array.isArray(dv.skipped_depts) ? dv.skipped_depts : [];
+          const divName = DIV_SHORT_NAMES[dv.division_code] || sanitizeUiVietnamese(dv.division_name_vi || dv.division_code);
+          return `
+            <article class="roster-div-card">
+              <div class="roster-div-head">
+                <strong>${esc(divName)}</strong>
+                <span class="badge badge-done">Chọn ${activeList.length} phòng</span>
+              </div>
+              ${dv.reason_vi ? `<p class="row-meta">${esc(sanitizeUiVietnamese(dv.reason_vi))}</p>` : ""}
+              <div class="roster-chip-row">
+                <span class="row-meta">Tham gia:</span>
+                ${activeList.map((d) => `<button type="button" class="agent-pill" data-open-staff="${esc(d.dept_id)}" title="${esc(cleanDeptTitleVi(d.dept_id, d.title_vi))}">#${esc(d.dept_id)} ${esc(cleanDeptTitleVi(d.dept_id, d.title_vi))}</button>`).join("")}
+              </div>
+              ${skipList.length ? `
+                <div class="roster-chip-row">
+                  <span class="row-meta">Để trống tránh loãng:</span>
+                  ${skipList.map((d) => `<span class="roster-skip-pill">#${esc(d.dept_id)} ${esc(cleanDeptTitleVi(d.dept_id, d.title_vi))}</span>`).join("")}
+                </div>
+              ` : `<span class="row-meta">Khối cốt lõi bắt buộc: huy động đủ 100%, không bỏ trống.</span>`}
+            </article>
+          `;
+        }).join("")}
+      </div>
+    `;
+    bindQuickActions(box);
+  }
+
+  async function runPlanRoster(goalPrompt, productType, triggerBtn = null) {
+    const exec = async () => {
+      let plan;
+      try {
+        plan = await api("/api/org/plan-roster", "POST", {
+          goal_prompt: goalPrompt || "",
+          product_type: productType || "AUTO"
+        });
+      } catch (_e) {
+        plan = buildFallbackRosterPlan(goalPrompt || "", productType || "AUTO");
+      }
+      state.lastRosterPlan = plan;
+      renderRosterPlanResult(plan);
+    };
+    if (triggerBtn) await withLock(triggerBtn, exec);
+    else await exec();
+  }
+
+  function renderOrgDirectoryList() {
+    const listEl = document.getElementById("org-directory-list");
+    const metaEl = document.getElementById("dir-count-meta");
+    if (!listEl) return;
+    const dir = state.corporateDirectory || buildFallbackDirectoryPayload();
+    const allDepts = Array.isArray(dir.departments) ? dir.departments : [];
+    const q = (document.getElementById("inp-dir-search")?.value || "").trim().toLowerCase();
+    const divF = getListboxValue("filter-dir-div") || "";
+
+    const filtered = allDepts.filter((d) => {
+      if (divF && d.division_code !== divF) return false;
+      if (!q) return true;
+      const hay = [
+        d.dept_id,
+        `#${d.dept_id}`,
+        cleanDeptTitleVi(d.dept_id, d.title_vi),
+        d.core_strength_vi || "",
+        DIV_SHORT_NAMES[d.division_code] || d.division_name_vi || ""
+      ].join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+
+    if (metaEl) metaEl.textContent = `Đang hiển thị ${filtered.length}/${allDepts.length} phòng ban`;
+
+    if (!filtered.length) {
+      listEl.innerHTML = `<div class="empty-state"><p>Không tìm thấy phòng ban nào khớp bộ lọc trong danh bạ.</p></div>`;
+      return;
+    }
+
+    listEl.innerHTML = filtered.map((d) => {
+      const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
+      const divLabel = DIV_SHORT_NAMES[d.division_code] || sanitizeUiVietnamese(d.division_name_vi || d.division_code);
+      const upIds = Array.isArray(d.upstream_depts) ? d.upstream_depts : [];
+      const downIds = Array.isArray(d.downstream_depts) ? d.downstream_depts : [];
+      const pTypes = (Array.isArray(d.product_types) ? d.product_types : ["ALL"])
+        .map((pt) => PRODUCT_TYPE_VI[pt] || sanitizeUiVietnamese(pt));
+      return `
+        <article class="dir-dept-card">
+          <div class="dir-dept-head">
+            <div class="action-group">
+              <span class="dept-code-pill">#${esc(d.dept_id)}</span>
+              <strong>${esc(cleanName)}</strong>
+            </div>
+            <button type="button" class="btn btn-xs" data-open-staff="${esc(d.dept_id)}">Mở hồ sơ</button>
+          </div>
+          <div class="action-group">
+            <span class="row-meta">${esc(divLabel)}</span>
+            ${pTypes.map((lbl) => `<span class="badge badge-idle">${esc(lbl)}</span>`).join("")}
+          </div>
+          ${d.core_strength_vi ? `<p class="step-summary"><strong>Chuyên môn lõi:</strong> ${esc(sanitizeUiVietnamese(d.core_strength_vi))}</p>` : ""}
+          ${upIds.length ? `
+            <div class="who-chips">
+              <span>Nhận đầu vào từ:</span>
+              ${upIds.map((pid) => {
+                const nid = String(pid).padStart(2, "0");
+                return `<button type="button" class="agent-pill" data-open-staff="${esc(nid)}" title="${esc(deptTitle(nid))}">#${esc(nid)}</button>`;
+              }).join("")}
+            </div>
+          ` : ""}
+          ${downIds.length ? `
+            <div class="who-chips">
+              <span>Bàn giao ngang cho:</span>
+              ${downIds.map((pid) => {
+                const nid = String(pid).padStart(2, "0");
+                return `<button type="button" class="agent-pill" data-open-staff="${esc(nid)}" title="${esc(deptTitle(nid))}">#${esc(nid)}</button>`;
+              }).join("")}
+            </div>
+          ` : ""}
+        </article>
+      `;
+    }).join("");
+    bindQuickActions(listEl);
+  }
+
+  async function openOrgSopModal(initialTab = "sop") {
+    const total = state.departments.length || 54;
+    const titleEl = document.getElementById("org-sop-modal-title");
+    const dirTabLbl = document.getElementById("lbl-org-tab-dir");
+    if (titleEl) titleEl.textContent = `Quy trình Chuẩn 9 Khối và Danh bạ ${total} Phòng ban`;
+    if (dirTabLbl) dirTabLbl.textContent = `Danh bạ Năng lực ${total} Phòng`;
+
+    openModal("modal-org-sop");
+    switchOrgSopTab(initialTab);
+
+    if (!state.corporateDirectory) {
+      try {
+        state.corporateDirectory = await api("/api/org/directory");
+      } catch (_e) {
+        state.corporateDirectory = buildFallbackDirectoryPayload();
+      }
+    }
+    renderOrgSopOverview();
+    if (state.orgSopTab === "directory") {
+      renderOrgDirectoryList();
+    }
+    if (!state.lastRosterPlan) {
+      const sampleGoal = document.getElementById("inp-roster-goal")?.value.trim() || "Web tiện ích xử lý CCCD và PDF trực tiếp trên trình duyệt";
+      await runPlanRoster(sampleGoal, getListboxValue("inp-roster-type") || "AUTO");
+    }
+  }
+
+  function openHandoffModal({ actionKind = "CREATE", mode = "PEER_HANDOFF", fromDeptId = "00", handoffId = "" } = {}) {
+    const form = document.getElementById("form-handoff");
+    if (form) form.reset();
+
+    const normFrom = String(fromDeptId || "00").padStart(2, "0");
+    document.getElementById("handoff-action-kind").value = actionKind;
+    document.getElementById("handoff-edit-id").value = handoffId || "";
+    document.getElementById("handoff-mode").value = mode;
+    document.getElementById("handoff-from-dept").value = normFrom;
+
+    const titleEl = document.getElementById("handoff-modal-title");
+    const ctxEl = document.getElementById("handoff-context-box");
+    const wrapTo = document.getElementById("wrap-handoff-to");
+    const wrapLocked = document.getElementById("wrap-handoff-locked-ceo");
+    const wrapMission = document.getElementById("wrap-handoff-mission");
+    const wrapReason = document.getElementById("wrap-handoff-reason");
+    const reasonInp = document.getElementById("inp-handoff-reason");
+    const payloadLbl = document.getElementById("lbl-handoff-payload");
+    const submitBtn = document.getElementById("btn-submit-handoff");
+
+    const allDeptItems = state.departments.map((d) => ({
+      value: d.dept_id,
+      label: `#${d.dept_id}: ${cleanDeptTitleVi(d.dept_id, d.title_vi)}`
+    }));
+
+    if (actionKind === "REROUTE" && handoffId) {
+      const ho = (state.deptHandoffs || []).find((x) => x.handoff_id === handoffId);
+      const fromId = ho ? String(ho.from_dept_id || "00").padStart(2, "0") : "00";
+      titleEl.textContent = "Tổng Giám đốc #00 phân công sang phòng chuyên trách";
+      ctxEl.innerHTML = `
+        <strong>Phiếu leo thang từ Phòng #${esc(fromId)}: ${esc(deptTitle(fromId))}</strong>
+        <span class="row-meta">${esc(sanitizeUiVietnamese((ho && ho.reason_vi) || "Chọn đúng phòng ban để Tổng Giám đốc #00 bàn giao xử lý."))}</span>
+      `;
+      wrapTo.classList.remove("is-hidden");
+      wrapLocked.classList.add("is-hidden");
+      wrapMission.classList.add("is-hidden");
+      wrapReason.classList.add("is-hidden");
+      reasonInp.required = false;
+      payloadLbl.textContent = "Chỉ đạo phân xử của Tổng Giám đốc #00";
+      submitBtn.textContent = "Xác nhận #00 chuyển tuyến ngay";
+
+      const targetItems = allDeptItems.filter((x) => x.value !== "00");
+      setListboxOptions("inp-handoff-to", targetItems.length ? targetItems : allDeptItems, false);
+      setListboxValue("inp-handoff-to", (targetItems[0] && targetItems[0].value) || "13", true);
+    } else if (mode === "CEO_ESCALATION") {
+      titleEl.textContent = "Đẩy lên Tổng Giám đốc #00 xử lý";
+      ctxEl.innerHTML = `
+        <strong>Phòng gửi yêu cầu: #${esc(normFrom)} ${esc(deptTitle(normFrom))}</strong>
+        <span class="row-meta">Dùng khi vấn đề vượt phạm vi chuyên môn, xung đột liên khối hoặc ảnh hưởng ngân sách và kiến trúc.</span>
+      `;
+      wrapTo.classList.add("is-hidden");
+      wrapLocked.classList.remove("is-hidden");
+      wrapMission.classList.remove("is-hidden");
+      wrapReason.classList.remove("is-hidden");
+      reasonInp.required = true;
+      payloadLbl.textContent = "Ngữ cảnh và phương án đề xuất để #00 phân xử";
+      submitBtn.textContent = "Đẩy lên Tổng Giám đốc #00 ngay";
+      setListboxValue("inp-handoff-to", "00", true);
+      setListboxValue("inp-handoff-mission", "", true);
+    } else {
+      titleEl.textContent = "Chuyển việc ngang sang phòng khác";
+      ctxEl.innerHTML = `
+        <strong>Phòng bàn giao: #${esc(normFrom)} ${esc(deptTitle(normFrom))}</strong>
+        <span class="row-meta">Chuyển thẳng sang phòng chuyên trách trong Danh bạ 54 phòng và tự động gửi bản sao nhật ký cho Tổng Giám đốc #00.</span>
+      `;
+      wrapTo.classList.remove("is-hidden");
+      wrapLocked.classList.add("is-hidden");
+      wrapMission.classList.remove("is-hidden");
+      wrapReason.classList.remove("is-hidden");
+      reasonInp.required = true;
+      payloadLbl.textContent = "Chi tiết bàn giao cho phòng tiếp nhận";
+      submitBtn.textContent = "Chuyển việc ngang ngay";
+
+      const peerChoices = allDeptItems.filter((x) => x.value !== normFrom);
+      setListboxOptions("inp-handoff-to", peerChoices.length ? peerChoices : allDeptItems, false);
+      const defaultTarget = (peerChoices.find((x) => x.value !== "00") || peerChoices[0] || { value: "13" }).value;
+      setListboxValue("inp-handoff-to", defaultTarget, true);
+      setListboxValue("inp-handoff-mission", "", true);
+    }
+
+    openModal("modal-handoff");
+  }
+
   function populateDynamicListboxes() {
     const deptItems = state.departments.map((d) => ({
       value: d.dept_id,
@@ -4919,7 +5935,22 @@
       setListboxOptions("filter-task-dept", [{ value: "", label: "Mọi phòng ban" }, ...deptItems], true);
       setListboxOptions("filter-skill-dept", [{ value: "", label: "Tất cả phòng ban" }, ...deptItems], true);
       setListboxOptions("inp-skill-dept", [{ value: "", label: "Tự động chọn phòng phù hợp" }, ...deptItems], true);
+
+      const priorityOrder = ["53", "51", "52", "49", "48", "47", "46"];
+      const sourceItems = [
+        ...priorityOrder.map((id) => deptItems.find((x) => x.value === id)).filter(Boolean),
+        ...deptItems.filter((x) => !priorityOrder.includes(x.value))
+      ];
+      setListboxOptions("inp-rework-source", sourceItems, true, "modal-rework");
+      setListboxOptions("inp-rework-target", deptItems, true, "modal-rework");
+      setListboxOptions("inp-handoff-to", deptItems, true, "modal-handoff");
     }
+
+    const msnHandoffItems = [
+      { value: "", label: "Không gắn nhiệm vụ cụ thể" },
+      ...state.missions.map((m) => ({ value: m.mission_id, label: sanitizeUiVietnamese(m.title) }))
+    ];
+    setListboxOptions("inp-handoff-mission", msnHandoffItems, true, "modal-handoff");
 
     const projTaskItems = [
       { value: "", label: "Không gắn dự án" },
@@ -4978,6 +6009,10 @@
     if (ov && ov.learning_progress) state.learningProgress = ov.learning_progress;
     if (ov && Array.isArray(ov.installed_skills)) state.installedSkills = ov.installed_skills;
     if (ov && Array.isArray(ov.project_ledger)) state.projectLedger = ov.project_ledger;
+    if (ov && Array.isArray(ov.rework_tickets)) state.reworkTickets = ov.rework_tickets;
+    if (ov && ov.rework_summary) state.reworkSummary = ov.rework_summary;
+    if (ov && Array.isArray(ov.dept_handoffs)) state.deptHandoffs = ov.dept_handoffs;
+    if (ov && ov.corporate_directory_summary) state.corporateDirectorySummary = ov.corporate_directory_summary;
     if (ov && ov.finance_summary) state.financeSummary = ov.finance_summary;
     state.departments = (depts && depts.departments) || [];
     state.tasks = (tasks && tasks.tasks) || [];
@@ -5119,6 +6154,7 @@
       state.articles = remoteSnap.knowledge_atoms || state.articles;
       state.installedSkills = remoteSnap.installed_skills || state.installedSkills;
       state.projectLedger = remoteSnap.project_ledger || state.projectLedger;
+      state.reworkTickets = remoteSnap.rework_tickets || state.reworkTickets;
       saveOfflineViewCache();
       renderAllViews();
     }
@@ -5701,6 +6737,126 @@
         toast(eid ? "Đã cập nhật bút toán tài chính." : "Đã ghi nhận bút toán vào sổ thu chi dự án.");
       });
     };
+
+    document.getElementById("form-rework").onsubmit = (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector("button[type='submit']");
+      withLock(btn, async () => {
+        const missionId = document.getElementById("rework-mission-id").value || null;
+        const projectId = document.getElementById("rework-project-id").value || null;
+        const taskId = document.getElementById("rework-task-id").value || null;
+        const stepOrder = Number(document.getElementById("rework-step-order").value || 0);
+        const sourceDeptId = getListboxValue("inp-rework-source") || "53";
+        const targetDeptId = getListboxValue("inp-rework-target") || "13";
+        const sourceRoleType =
+          sourceDeptId === "53" ? "DIV9_DEFECT_TRIAGE" :
+          sourceDeptId === "51" ? "DIV9_QA_QC" :
+          sourceDeptId === "52" ? "DIV9_FEATURE_AUDIT" :
+          sourceDeptId === "49" ? "DIV9_UX_SIMPLICITY" : "DIV_INTERNAL_CRITIC";
+        const payload = {
+          mission_id: missionId,
+          project_id: projectId,
+          task_id: taskId,
+          step_order: stepOrder,
+          source_dept_id: sourceDeptId,
+          source_role_type: sourceRoleType,
+          target_dept_id: targetDeptId,
+          defect_category: getListboxValue("inp-rework-cat") || "BUG",
+          severity: getListboxValue("inp-rework-sev") || "HIGH",
+          title: document.getElementById("inp-rework-title").value.trim(),
+          detail_vi: document.getElementById("inp-rework-detail").value.trim()
+        };
+        await api("/api/rework/bounce", "POST", payload);
+        closeModals();
+        if (missionId) {
+          state.missionViewTabs[missionId] = "rework";
+          state.openMissions.add(missionId);
+        }
+        await loadEverything();
+        if (document.getElementById("inspector-drawer")?.classList.contains("open") && state.activeStaffDrawerDeptId) {
+          openStaffDrawer(state.activeStaffDrawerDeptId);
+        }
+        toast(`Đã đẩy trả phiếu sửa lỗi từ Phòng #${sourceDeptId} về Phòng #${targetDeptId} (${deptTitle(targetDeptId)}).`);
+      });
+    };
+
+    // Modal 12: Quy trình 9 Khối & Danh bạ 54 Phòng ban
+    const btnOpenOrgSop = document.getElementById("btn-open-org-sop");
+    if (btnOpenOrgSop) {
+      btnOpenOrgSop.onclick = () => openOrgSopModal("sop");
+    }
+    document.querySelectorAll("#org-sop-tabs .seg-btn").forEach((b) => {
+      b.onclick = () => switchOrgSopTab(b.getAttribute("data-org-tab"));
+    });
+    const formPlanRoster = document.getElementById("form-plan-roster");
+    if (formPlanRoster) {
+      formPlanRoster.onsubmit = (e) => {
+        e.preventDefault();
+        const goal = document.getElementById("inp-roster-goal")?.value.trim() || "";
+        const ptype = getListboxValue("inp-roster-type") || "AUTO";
+        runPlanRoster(goal, ptype, document.getElementById("btn-plan-roster"));
+      };
+    }
+    const dirSearch = document.getElementById("inp-dir-search");
+    if (dirSearch) dirSearch.oninput = renderOrgDirectoryList;
+    const dirDiv = document.getElementById("filter-dir-div");
+    if (dirDiv) dirDiv.addEventListener("change", renderOrgDirectoryList);
+
+    // Modal 13: Chuyển việc ngang / Đẩy lên Tổng Giám đốc #00 / Phân công lại
+    const formHandoff = document.getElementById("form-handoff");
+    if (formHandoff) {
+      formHandoff.onsubmit = (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("btn-submit-handoff");
+        withLock(btn, async () => {
+          const actionKind = document.getElementById("handoff-action-kind").value || "CREATE";
+          const hoId = document.getElementById("handoff-edit-id").value || "";
+          const mode = document.getElementById("handoff-mode").value || "PEER_HANDOFF";
+          const fromDept = document.getElementById("handoff-from-dept").value || "00";
+          const toDept = mode === "CEO_ESCALATION" ? "00" : (getListboxValue("inp-handoff-to") || "00");
+          const missionId = getListboxValue("inp-handoff-mission") || null;
+          const reasonVi = document.getElementById("inp-handoff-reason").value.trim();
+          const payloadVi = document.getElementById("inp-handoff-payload").value.trim();
+
+          if (actionKind === "REROUTE" && hoId) {
+            const resolvedTo = getListboxValue("inp-handoff-to") || "";
+            if (!resolvedTo) throw new Error("Vui lòng chọn phòng ban cần phân công.");
+            await api(`/api/handoffs/${encodeURIComponent(hoId)}`, "PATCH", {
+              status: "REROUTED_BY_CEO",
+              resolved_to_dept_id: resolvedTo,
+              ceo_note_vi: payloadVi || `Tổng Giám đốc #00 phân công sang Phòng #${resolvedTo}.`
+            });
+            closeModals();
+            await loadEverything();
+            if (document.getElementById("inspector-drawer")?.classList.contains("open") && state.activeStaffDrawerDeptId) {
+              openStaffDrawer(state.activeStaffDrawerDeptId);
+            }
+            toast(`Tổng Giám đốc #00 đã phân công phiếu sang Phòng #${resolvedTo} (${deptTitle(resolvedTo)}).`);
+            return;
+          }
+
+          if (!reasonVi) throw new Error("Vui lòng nhập lý do chuyển việc hoặc nội dung cần hỗ trợ.");
+          await api("/api/handoffs", "POST", {
+            from_dept_id: fromDept,
+            to_dept_id: toDept,
+            mode,
+            reason_vi: reasonVi,
+            payload_vi: payloadVi,
+            mission_id: missionId
+          });
+          closeModals();
+          await loadEverything();
+          if (document.getElementById("inspector-drawer")?.classList.contains("open") && state.activeStaffDrawerDeptId) {
+            openStaffDrawer(state.activeStaffDrawerDeptId);
+          }
+          toast(
+            mode === "CEO_ESCALATION"
+              ? `Đã đẩy yêu cầu từ Phòng #${fromDept} lên Tổng Giám đốc #00 phân xử.`
+              : `Đã chuyển việc ngang từ Phòng #${fromDept} sang Phòng #${toDept} (${deptTitle(toDept)}) và gửi bản sao #00.`
+          );
+        });
+      };
+    }
 
     document.getElementById("inp-doc-title").oninput = (e) => {
       document.getElementById("inp-doc-filename").value = `${slugifyVi(e.target.value)}.md`;

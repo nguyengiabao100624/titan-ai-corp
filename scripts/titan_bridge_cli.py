@@ -37,6 +37,10 @@ WORKER_VI_NAMES: dict[str, str] = {
     "@growth-pack": "Đội Đóng gói và Bán hàng",
     "@ux-tester": "Kiểm thử viên Khách hàng thật",
     "@tester-khach-hang": "Kiểm thử viên Khách hàng thật",
+    "@qa-qc": "Kiểm định Chất lượng Tổng thể QA và QC",
+    "@kiem-tra-chuc-nang": "Kiểm tra Hoàn thiện Chức năng và Rà soát Lỗi",
+    "@tong-hop-loi": "Tổng hợp Lỗi, Thu thập Phản hồi và Điều phối Trả việc",
+    "@dieu-phoi-loi": "Tổng hợp Lỗi, Thu thập Phản hồi và Điều phối Trả việc",
     "@kien-truc-giao-dien": "Kiến trúc sư Giao diện Cao cấp",
     "@ket-noi-truc-tuyen": "Kỹ sư Kết nối Trực tuyến",
     "@coordinator": "Tổng Điều phối Điều hành",
@@ -203,42 +207,80 @@ def cmd_request_proposal_approval(db: TitanDatabase, args: argparse.Namespace) -
 
 
 def cmd_request_approval(db: TitanDatabase, args: argparse.Namespace) -> dict:
-    """Gate 2 (Step 8): Present finished, tested final product & go-to-market pack for Chairman acceptance."""
-    msn_now = db.get_mission(args.mission)
-    step_num = int(args.step) if getattr(args, "step", None) else (int(msn_now["total_steps"]) if msn_now else 8)
-    sid = f"{args.mission}-s{step_num}"
-    db.update_mission_step(
-        sid,
-        status="WAITING_APPROVAL",
-        progress_pct=95,
-        worker_name=args.worker or "@coordinator",
-        live_activity_text="Toàn công ty đã sản xuất xong sản phẩm cuối và kiểm thử đóng vai người dùng thật. Mời Chủ tịch xem sản phẩm và nghiệm thu.",
-        output_summary=args.summary,
-        critique_verdict=args.critique or "Đã qua phản biện và kiểm toán bảo mật độc lập (Phòng #46, #47, #23)",
-        ux_verdict=args.ux or "Đã qua kiểm thử trình duyệt đóng vai 5 nhóm khách hàng thật (Phòng #48, #49)",
-        artifact_path=args.artifact or "",
-        started_at=utc_now_iso(),
-    )
-    msn = db.update_mission(
-        args.mission,
-        status="WAITING_CHAIRMAN",
-        phase="PRODUCTION",
-        dispatch_state="WAITING_CHAIRMAN",
-        final_summary=args.summary,
-        survival_score=int(args.survival),
+    """Gate 2 (Step 8): Present finished, tested final product & go-to-market pack for Chairman acceptance (Zero-Defect Gate)."""
+    res = db.request_mission_approval(
+        mission_id=args.mission,
+        summary=args.summary,
+        order_id=args.order or "",
+        step_num=int(args.step) if getattr(args, "step", None) else 0,
+        worker=args.worker or "@coordinator",
+        critique=args.critique or "",
+        ux=args.ux or "",
+        artifact=args.artifact or "",
+        survival=int(args.survival),
         ux_score=int(args.ux_score),
-        expected_margin_pct=float(args.margin),
-    )
-    if args.order:
-        db.complete_order(args.order, result_summary=args.summary[:400], status="COMPLETED")
-    db.log_event(
-        "00",
-        "MISSION_WAITING",
-        f"Sản phẩm cuối của '{msn['title']}' đã hoàn thiện và kiểm thử thực tế. Mời Chủ tịch nghiệm thu bàn giao.",
-        detail={"mission_id": args.mission, "phase": "PRODUCTION"},
+        margin=float(args.margin),
+        force=bool(getattr(args, "force", False)),
     )
     _sync_snapshot(db)
-    return {"ok": True, "mission_id": args.mission, "phase": "PRODUCTION", "status": "WAITING_CHAIRMAN"}
+    return res
+
+
+def cmd_bounce_back(db: TitanDatabase, args: argparse.Namespace) -> dict:
+    ticket = db.bounce_back_defect(
+        target_dept_id=args.target_dept,
+        title=args.title,
+        detail_vi=args.detail or "",
+        source_dept_id=args.source_dept or "53",
+        source_role_type=args.source_role or "",
+        defect_category=args.category or "BUG",
+        severity=args.severity or "HIGH",
+        mission_id=args.mission_id or None,
+        project_id=args.project_id or None,
+        task_id=args.task_id or None,
+        step_order=int(args.step or 0),
+    )
+    _sync_snapshot(db)
+    return {"ok": True, "ticket": ticket}
+
+
+def cmd_rework_update(db: TitanDatabase, args: argparse.Namespace) -> dict:
+    fix_note = args.fix_note if args.fix_note else (args.note if str(args.status or "").upper() in ("IN_FIX", "FIXED_PENDING_RECHECK") else None)
+    recheck_note = args.recheck_note if args.recheck_note else (args.note if str(args.status or "").upper() in ("VERIFIED_CLOSED", "OPEN") else None)
+    ticket = db.update_rework_ticket(
+        ticket_id=args.ticket_id,
+        status=args.status or None,
+        fix_note_vi=fix_note,
+        recheck_note_vi=recheck_note,
+    )
+    _sync_snapshot(db)
+    return {"ok": True, "ticket": ticket}
+
+
+def cmd_handoff(db: TitanDatabase, args: argparse.Namespace) -> dict:
+    ho = db.create_dept_handoff(
+        from_dept_id=args.from_dept,
+        to_dept_id=args.to_dept or "00",
+        mode=args.mode or "PEER_HANDOFF",
+        reason_vi=args.reason,
+        payload_vi=args.payload or "",
+        mission_id=args.mission_id or None,
+        project_id=args.project_id or None,
+        task_id=args.task_id or None,
+    )
+    _sync_snapshot(db)
+    return {"ok": True, "handoff": ho}
+
+
+def cmd_handoff_update(db: TitanDatabase, args: argparse.Namespace) -> dict:
+    ho = db.update_dept_handoff(
+        handoff_id=args.handoff_id,
+        status=args.status or None,
+        resolved_to_dept_id=args.resolved_to_dept or None,
+        ceo_note_vi=args.ceo_note if args.ceo_note else None,
+    )
+    _sync_snapshot(db)
+    return {"ok": True, "handoff": ho}
 
 
 def cmd_add_opportunity(db: TitanDatabase, args: argparse.Namespace) -> dict:
@@ -372,6 +414,43 @@ def main() -> int:
     p_ra.add_argument("--survival", type=int, default=88)
     p_ra.add_argument("--ux-score", type=int, default=92)
     p_ra.add_argument("--margin", type=float, default=75.0)
+    p_ra.add_argument("--force", action="store_true")
+
+    p_bb = sub.add_parser("bounce-back")
+    p_bb.add_argument("--target-dept", required=True)
+    p_bb.add_argument("--source-dept", default="53")
+    p_bb.add_argument("--source-role", default="")
+    p_bb.add_argument("--category", default="BUG")
+    p_bb.add_argument("--severity", default="HIGH")
+    p_bb.add_argument("--title", required=True)
+    p_bb.add_argument("--detail", default="")
+    p_bb.add_argument("--mission-id", default="")
+    p_bb.add_argument("--project-id", default="")
+    p_bb.add_argument("--task-id", default="")
+    p_bb.add_argument("--step", type=int, default=0)
+
+    p_rw = sub.add_parser("rework-update")
+    p_rw.add_argument("--ticket-id", required=True)
+    p_rw.add_argument("--status", default="")
+    p_rw.add_argument("--note", default="")
+    p_rw.add_argument("--fix-note", default="")
+    p_rw.add_argument("--recheck-note", default="")
+
+    p_ho = sub.add_parser("handoff")
+    p_ho.add_argument("--from-dept", required=True)
+    p_ho.add_argument("--to-dept", default="00")
+    p_ho.add_argument("--mode", default="PEER_HANDOFF", choices=["PEER_HANDOFF", "CEO_ESCALATION", "CEO_ASSIGN"])
+    p_ho.add_argument("--reason", required=True)
+    p_ho.add_argument("--payload", default="")
+    p_ho.add_argument("--mission-id", default="")
+    p_ho.add_argument("--project-id", default="")
+    p_ho.add_argument("--task-id", default="")
+
+    p_hou = sub.add_parser("handoff-update")
+    p_hou.add_argument("--handoff-id", required=True)
+    p_hou.add_argument("--status", default="")
+    p_hou.add_argument("--resolved-to-dept", default="")
+    p_hou.add_argument("--ceo-note", default="")
 
     p_ao = sub.add_parser("add-opportunity")
     p_ao.add_argument("--title", required=True)
@@ -413,6 +492,10 @@ def main() -> int:
             "step-complete": cmd_step_complete,
             "request-proposal-approval": cmd_request_proposal_approval,
             "request-approval": cmd_request_approval,
+            "bounce-back": cmd_bounce_back,
+            "rework-update": cmd_rework_update,
+            "handoff": cmd_handoff,
+            "handoff-update": cmd_handoff_update,
             "add-opportunity": cmd_add_opportunity,
             "post-chat": cmd_post_chat,
             "complete-order": cmd_complete_order,

@@ -1,7 +1,7 @@
 {
   "name": "Trung tâm Điều hành Titan",
   "short_name": "Titan",
-  "description": "Giao việc tự động, săn cơ hội kiếm tiền, theo dõi tiến độ 8 bước, phản biện rủi ro và quản trị 51 phòng chuyên gia trực tuyến.",
+  "description": "Giao việc tự động, săn cơ hội kiếm tiền, theo dõi tiến độ 8 bước, kiểm định QA/QC 0 lỗi và quản trị 54 phòng chuyên gia trực tuyến.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

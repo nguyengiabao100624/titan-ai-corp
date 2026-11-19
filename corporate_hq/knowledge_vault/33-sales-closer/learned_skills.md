@@ -1,5 +1,5 @@
 # KHO KỸ NĂNG THỰC CHIẾN CỦA PHÒNG 33: Chốt đơn Giá trị cao và Gói thuê bao
-- **Cập nhật lần cuối:** `2026-11-19T10:50:31Z`
+- **Cập nhật lần cuối:** `2026-11-19T13:27:39Z`
 - **Tổng số kỹ năng đã nạp:** `6`
 
 ---

@@ -1,7 +1,7 @@
 {
-  "version": "8.0",
-  "updated_at": "2026-11-19T10:24:34Z",
-  "description": "Danh mục 54 kỹ năng mã nguồn mở thực chiến từ 5 kho GitHub hàng đầu, phân bổ phủ đủ 10 Khối và 51 phòng ban của Titan AI Corp.",
+  "version": "10.0",
+  "updated_at": "2026-11-19T12:56:20Z",
+  "description": "Danh mục 54 kỹ năng mã nguồn mở thực chiến từ 5 kho GitHub hàng đầu, phân bổ phủ đủ 10 Khối và 54 phòng ban (#00 đến #53) của Titan AI Corp.",
   "repositories": [
     {
       "repo_name": "plugin87/ux-ui-agent-skills",
@@ -73,7 +73,8 @@
       "dept_ids": [
         "08",
         "09",
-        "13"
+        "13",
+        "52"
       ],
       "category_vi": "Hệ thống Thiết kế Giao diện",
       "summary_vi": "Xây dựng bản thiết kế chuẩn cho từng thành phần giao diện như nút bấm, ô nhập liệu, thẻ chuyển mục, hộp thoại và danh sách chọn; định nghĩa rõ cấu trúc giải phẫu, kích thước, 8 trạng thái tương tác và khả năng truy cập bàn phím.",
@@ -123,7 +124,9 @@
         "20",
         "08",
         "48",
-        "49"
+        "49",
+        "51",
+        "52"
       ],
       "category_vi": "Kiểm định Chất lượng Giao diện",
       "summary_vi": "Đánh giá toàn diện giao diện theo tiêu chuẩn WCAG 2.2 mức AA và AAA, kiểm tra tỷ lệ tương phản chữ nền, điều hướng bằng bàn phím, thuộc tính ARIA và trả về danh sách điểm cần khắc phục theo mức độ ưu tiên.",
@@ -141,7 +144,8 @@
         "13",
         "14",
         "19",
-        "09"
+        "09",
+        "51"
       ],
       "category_vi": "Hiệu năng và Tốc độ",
       "summary_vi": "Tối ưu tốc độ hiển thị nội dung chính, độ mượt phản hồi tương tác và chống xô lệch bố cục cho ứng dụng web trên thiết bị cấu hình thấp, kết hợp chiến lược tách mã và quy chuẩn chuyển động mượt mà.",
@@ -158,7 +162,8 @@
         "07",
         "35",
         "49",
-        "26"
+        "26",
+        "52"
       ],
       "category_vi": "Trải nghiệm Người dùng",
       "summary_vi": "Xây dựng lời dẫn giao diện ngắn gọn, rõ ràng và dễ hiểu cho nút bấm, nhãn biểu mẫu, trạng thái chưa có dữ liệu và thông báo lỗi theo công thức chuyện gì đã xảy ra, nguyên nhân và cách xử lý ngay.",
@@ -192,7 +197,10 @@
         "49",
         "48",
         "47",
-        "07"
+        "07",
+        "51",
+        "52",
+        "53"
       ],
       "category_vi": "Phản biện Trải nghiệm",
       "summary_vi": "Đóng vai hội đồng thẩm định độc lập soi chiếu sản phẩm đã hiển thị thực tế để phát hiện điểm rối mắt, bố cục thừa thãi, thao tác rườm rà và lập luận rõ lý do cần chỉnh sửa trước khi phát hành.",
@@ -209,7 +217,8 @@
         "01",
         "02",
         "07",
-        "50"
+        "50",
+        "53"
       ],
       "category_vi": "Nghiên cứu Thị trường",
       "summary_vi": "Thu thập và phân tích phỏng vấn, đánh giá thực tế và phản hồi của khách hàng mục tiêu nhằm rút ra nỗi đau thật, ngôn ngữ khách hàng tự dùng và động cơ ra quyết định chi tiền.",
@@ -596,7 +605,8 @@
         "00",
         "11",
         "43",
-        "45"
+        "45",
+        "53"
       ],
       "category_vi": "Điều phối Đa Tác tử",
       "summary_vi": "Phân tách bài toán lớn thành nhiều mảng độc lập không xung đột tệp tin, giao rõ phạm vi sở hữu cho từng chuyên gia thực thi đồng thời rồi tổng hợp và kiểm định tích hợp chặt chẽ.",
@@ -615,7 +625,9 @@
         "17",
         "18",
         "14",
-        "20"
+        "20",
+        "51",
+        "52"
       ],
       "category_vi": "Kỹ thuật Phần mềm",
       "summary_vi": "Kỷ luật viết bài kiểm thử thất bại trước khi viết mã thực thi, chỉ viết lượng mã tối giản đủ để vượt qua bài kiểm thử rồi mới tối ưu cấu trúc nhằm ngăn ngừa lỗi hồi quy.",
@@ -633,7 +645,10 @@
         "15",
         "18",
         "19",
-        "20"
+        "20",
+        "51",
+        "52",
+        "53"
       ],
       "category_vi": "Gỡ lỗi và Chẩn đoán",
       "summary_vi": "Cấm đoán mò và vá tạm; buộc tái hiện lỗi ổn định, thu thập nhật ký thực tế, kiểm chứng giả thuyết từng bước để tìm đúng căn nguyên sâu nhất rồi khóa bằng bài kiểm thử tự động.",
@@ -652,7 +667,10 @@
         "22",
         "23",
         "19",
-        "47"
+        "47",
+        "51",
+        "52",
+        "53"
       ],
       "category_vi": "Kiểm định Bằng chứng",
       "summary_vi": "Tuyệt đối không tuyên bố hoàn thành khi chưa chạy lại lệnh kiểm chứng ngay sau chỉnh sửa cuối cùng và đọc tận mắt kết quả đầu ra xác nhận toàn bộ kiểm thử đều đạt.",
@@ -669,7 +687,9 @@
         "20",
         "23",
         "12",
-        "47"
+        "47",
+        "51",
+        "53"
       ],
       "category_vi": "Kiểm duyệt Mã nguồn",
       "summary_vi": "Đối chiếu mã nguồn thay đổi với yêu cầu nghiệp vụ, kiểm tra lỗ hổng bảo mật, điều kiện biên, rò rỉ tài nguyên và chất lượng kiến trúc trước khi gộp vào nhánh chính.",
@@ -702,7 +722,9 @@
         "20",
         "21",
         "13",
-        "48"
+        "48",
+        "51",
+        "52"
       ],
       "category_vi": "Kiểm thử Ứng dụng Web",
       "summary_vi": "Quy trình chạy kiểm thử đầu cuối trên trình duyệt thực bằng Playwright để xác minh luồng thao tác, bắt lỗi bảng điều khiển, chụp ảnh giao diện đa kích thước màn hình và đo ổn định.",
@@ -826,7 +848,8 @@
         "44",
         "45",
         "00",
-        "11"
+        "11",
+        "53"
       ],
       "category_vi": "Truyền thông Nội bộ",
       "summary_vi": "Định dạng báo cáo tiến độ tuần, biên bản tổng kết sự cố và thông báo điều hành súc tích, đi thẳng vào quyết định và số liệu kiểm chứng giúp lãnh đạo nắm bắt nhanh trong 60 giây.",
@@ -845,7 +868,9 @@
         "24",
         "40",
         "46",
-        "47"
+        "47",
+        "51",
+        "53"
       ],
       "category_vi": "Thẩm định và An toàn AI",
       "summary_vi": "Rèn luyện năng lực kiểm tra chéo giả định, nhận diện thiên kiến xác nhận, phát hiện suy luận thiếu căn cứ của AI và yêu cầu bằng chứng đối chứng trước khi chốt quyết định quan trọng.",
@@ -931,7 +956,9 @@
         "46",
         "47",
         "48",
-        "50"
+        "50",
+        "52",
+        "53"
       ],
       "category_vi": "Phản biện Chuyên sâu",
       "summary_vi": "Chất vấn từng nhánh quyết định của kế hoạch kinh doanh và thiết kế sản phẩm tới tận cùng giả định, ép lộ rõ rủi ro ẩn và yêu cầu phương án dự phòng cụ thể trước khi duyệt triển khai.",

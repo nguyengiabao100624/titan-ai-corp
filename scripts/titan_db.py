@@ -29,8 +29,264 @@ DIVISIONS_SEED: list[tuple[str, str, str, str, int]] = [
     ("div6-sales-commercial", "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng", "Giám đốc Kinh doanh", ".agents/skills/div6-sales-commercial/SKILL.md", 6),
     ("div7-finance-tax-legal", "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế", "Giám đốc Tài chính và Pháp chế", ".agents/skills/div7-finance-tax-legal/SKILL.md", 7),
     ("div8-data-ops-hr", "Khối 8: Phân tích Dữ liệu, Vận hành Nội bộ và Nhân sự", "Giám đốc Vận hành và Nhân sự", ".agents/skills/div8-data-ops-hr/SKILL.md", 8),
-    ("div9-critique-ux-lab", "Khối 9: Phản biện Độc lập, Kiểm thử Khách hàng và Săn Cơ hội", "Giám đốc Phản biện và Trải nghiệm", ".agents/skills/div9-critique-ux-lab/SKILL.md", 9),
+    ("div9-critique-ux-lab", "Khối 9: Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện", "Giám đốc Chất lượng, Phản biện và Trải nghiệm", ".agents/skills/div9-critique-ux-lab/SKILL.md", 9),
 ]
+
+EMBEDDED_QUALITY_CELLS: list[dict[str, str]] = [
+    {
+        "code": "USER_TESTER",
+        "name_vi": "Tổ Kiểm thử Đóng vai Người dùng Nội bộ",
+        "role_vi": "Đóng vai người dùng thật kiểm tra trải nghiệm và độ hoàn thiện chức năng trước khi bàn giao",
+    },
+    {
+        "code": "CRITIC",
+        "name_vi": "Tổ Phản biện và Tổng hợp Thiếu sót Nội bộ",
+        "role_vi": "Soi lỗi logic, tổng hợp điểm thiếu sót và đẩy trả về đúng phòng ban chịu trách nhiệm sửa",
+    },
+]
+
+COORDINATION_RULE_VI: str = (
+    "9 Khối chuyên môn phối hợp liên hoàn và đều có 2 tổ nội bộ (Kiểm thử Đóng vai Người dùng + Phản biện) "
+    "tự rà lỗi và gửi về Trạm tổng hợp hoặc đẩy trả đúng phòng sửa ngay khi phát hiện thiếu sót. Khối 9 "
+    "(#46 đến #53, trọng tâm bộ tứ #53 Tổng hợp Lỗi và Điều phối Trả việc, #51 QA/QC, #52 Kiểm tra Hoàn thiện "
+    "Chức năng, #49 Diệt Rối mắt) là chốt kiểm tra cuối: chỉ cho chốt bàn giao khi đạt 0 phiếu lỗi mở."
+)
+
+REWORK_CATEGORY_LABELS_VI: dict[str, str] = {
+    "MISSING_FEATURE": "Thiếu chức năng",
+    "BUG": "Lỗi chức năng",
+    "UX_FRICTION": "Rối mắt khó thao tác",
+    "QA_QC": "Chưa đạt QA/QC",
+    "LOGIC_CRITIQUE": "Lỗi logic phản biện",
+}
+
+REWORK_SEVERITY_LABELS_VI: dict[str, str] = {
+    "CRITICAL": "Nghiêm trọng",
+    "HIGH": "Cao",
+    "MEDIUM": "Trung bình",
+    "LOW": "Thấp",
+}
+
+REWORK_STATUS_LABELS_VI: dict[str, str] = {
+    "OPEN": "Đang mở, chờ sửa",
+    "IN_FIX": "Đang sửa lỗi",
+    "FIXED_PENDING_RECHECK": "Đã sửa, chờ Khối 9 kiểm lại",
+    "VERIFIED_CLOSED": "Đã chốt đạt 0 lỗi",
+}
+
+PRODUCT_TYPE_LABELS_VI: dict[str, str] = {
+    "WEB_APP": "Ứng dụng Web và Tiện ích Trực tuyến",
+    "MOBILE_APP": "Ứng dụng Di động Android và iOS",
+    "EMBEDDED_IOT": "Thiết bị Thông minh và Phần cứng Nhúng",
+    "B2B_SAAS": "Phần mềm Quản trị Doanh nghiệp và Gói Thuê bao",
+    "MEDIA_CHANNEL": "Hệ thống Kênh Truyền thông và Video",
+    "GENERAL": "Sản phẩm Kinh doanh Tổng hợp",
+}
+
+HANDOFF_MODE_LABELS_VI: dict[str, str] = {
+    "PEER_HANDOFF": "Tự chuyển việc ngang giữa phòng ban",
+    "CEO_ESCALATION": "Đẩy lên Tổng Giám đốc #00 phân xử",
+    "CEO_ASSIGN": "Tổng Giám đốc #00 chỉ định trực tiếp",
+}
+
+HANDOFF_STATUS_LABELS_VI: dict[str, str] = {
+    "OPEN": "Đang chờ tiếp nhận",
+    "ACCEPTED": "Đã tiếp nhận xử lý",
+    "COMPLETED": "Đã xử lý xong",
+    "REROUTED_BY_CEO": "Tổng Giám đốc #00 đã chuyển tuyến",
+}
+
+CORPORATE_SOP_RULES_VI: list[dict[str, str]] = [
+    {
+        "code": "RULE_1_ALL_9_DIVISIONS",
+        "title_vi": "Quy tắc 1: Bắt buộc đủ 9/9 Khối cho mọi sản phẩm",
+        "detail_vi": "Bất kỳ sản phẩm nào cũng bắt buộc có sự tham gia xuyên suốt của cả Khối 1 đến Khối 9 cùng Ban Điều hành (#00), không bỏ sót khâu chiến lược, thiết kế, kỹ thuật, an ninh, truyền thông, bán hàng, tài chính pháp chế, dữ liệu vận hành hay chốt kiểm định cuối.",
+    },
+    {
+        "code": "RULE_2_PRODUCT_SCOPED_DEPTS",
+        "title_vi": "Quy tắc 2: Phân bổ đúng phòng ban theo loại sản phẩm",
+        "detail_vi": "Tổng Giám đốc #00 nắm trọn Danh bạ 54 phòng ban, chọn đúng các phòng cần thiết trong mỗi Khối theo loại sản phẩm để tránh loãng (ví dụ Web đại chúng huy động #12,#13,#15,#19 và bỏ qua #18 Nhúng; Thiết bị thông minh huy động #12,#14,#15,#18,#19), nhưng 2 Tổ nội bộ ở cả 9 Khối và Bộ Tứ chốt cuối Khối 9 (#53,#51,#52,#49) là bắt buộc 100%.",
+    },
+    {
+        "code": "RULE_3_HYBRID_HANDOFF_ESCALATION",
+        "title_vi": "Quy tắc 3: Cơ chế 2 tầng Tự chuyển việc ngang và Đẩy lên Tổng Giám đốc #00",
+        "detail_vi": "Nếu đầu việc rõ ràng thuộc chuyên môn phòng khác trong Danh bạ 54 phòng và không đổi chi phí hay mục tiêu, phòng hiện tại tự chuyển ngang (PEER_HANDOFF) và gửi bản sao #00. Nếu vượt kiến thức, chưa rõ phòng phụ trách, xung đột liên khối hoặc đổi kiến trúc/ngân sách, đẩy ngay lên Tổng Giám đốc #00 (CEO_ESCALATION) để phân xử và chuyển tuyến.",
+    },
+    {
+        "code": "RULE_4_ZERO_DEFECT_REWORK_LOOP",
+        "title_vi": "Quy tắc 4: Vòng lặp đẩy trả sửa lỗi khép kín 0 lỗi mở",
+        "detail_vi": "Mọi phản hồi và thiếu sót từ 2 tổ nội bộ 9 Khối đều gom về Trạm #53 (Tổng hợp Lỗi và Điều phối Trả việc), phối hợp #51 (QA/QC), #52 (Kiểm tra Hoàn thiện Chức năng), #49 (Diệt Rối mắt) đẩy trả đúng phòng sửa (kể cả phòng đã báo xong) cho tới khi đạt 0 phiếu lỗi mở.",
+    },
+]
+
+HANDOFF_POLICY_VI: dict[str, dict[str, str]] = {
+    "PEER_HANDOFF": {
+        "title_vi": "Tự chuyển việc ngang giữa các phòng ban",
+        "when_to_use_vi": "Vấn đề rõ ràng thuộc chuyên môn phòng khác trong Danh bạ 54 phòng, cùng phạm vi sản phẩm và không làm đổi chi phí hoặc mục tiêu đã duyệt.",
+        "action_vi": "Gửi thẳng cho phòng chuyên trách trong Danh bạ, tự động tạo thẻ việc trên Bảng việc và gửi bản sao theo dõi về Tổng Giám đốc #00.",
+    },
+    "CEO_ESCALATION": {
+        "title_vi": "Đẩy lên Tổng Giám đốc #00 phân xử",
+        "when_to_use_vi": "Vượt chuyên môn chưa rõ phòng nào phụ trách, có xung đột lợi ích hoặc ưu tiên giữa các Khối, hoặc phát sinh thay đổi kiến trúc/ngân sách.",
+        "action_vi": "Hệ thống tự động khóa đích đến là Tổng Giám đốc #00 để phân xử và chuyển tuyến (REROUTED_BY_CEO) sang đúng phòng chuyên trách.",
+    },
+    "CEO_ASSIGN": {
+        "title_vi": "Tổng Giám đốc #00 chỉ định trực tiếp",
+        "when_to_use_vi": "Tổng Giám đốc #00 điều động tăng cường hoặc phân công trực tiếp một phòng ban tham gia xử lý đầu việc nóng.",
+        "action_vi": "Tự động kích hoạt phòng ban nhận lệnh sang trạng thái Đang thực thi và đồng bộ thẻ việc trực tiếp.",
+    },
+}
+
+PRODUCT_ROSTER_PROFILES: dict[str, dict[str, tuple[tuple[str, ...], str]]] = {
+    "WEB_APP": {
+        "exec-board": (("00",), "Tổng Giám đốc điều phối toàn chu trình 9 Khối và giữ nhịp chốt cổng."),
+        "div1-strategy-intel": (("01", "02", "03"), "Khảo sát nhu cầu thật, tâm lý người dùng web đại chúng và soi đối thủ trực tiếp; bỏ qua R&D phần cứng và mô hình phức tạp thừa."),
+        "div2-product-design": (("06", "07", "08", "10"), "Khóa phạm vi sản phẩm, trải nghiệm 3 chạm, giao diện sắc nét và thương hiệu tin cậy; bỏ qua chuyển động nặng và PMO cồng kềnh."),
+        "div3-engineering-ai": (("12", "13", "15", "19"), "Kiến trúc web nhẹ, lập trình giao diện trực tuyến, cổng thanh toán VietQR và hạ tầng đám mây 0đ; không huy động #14 Di động gốc và #18 Nhúng IoT."),
+        "div4-qa-cybersecurity": (("20", "21", "23", "24"), "Kiểm thử tự động, chịu tải tốc độ, an ninh web và bảo vệ dữ liệu riêng tư; bỏ qua kiểm định mô hình AI khi sản phẩm không dùng AI nặng."),
+        "div5-media-youtube-studio": (("25", "26", "29", "30", "31"), "Kéo lưu lượng 0đ bằng SEO Google, video ngắn 15s, ảnh bìa CTR cao và phễu chuyển đổi; bỏ qua kỹ xảo điện ảnh và lồng tiếng chuyên sâu."),
+        "div6-sales-commercial": (("32", "33", "35"), "Chuyển đổi khách dùng thử, chốt gói trả lẻ/năm và hướng dẫn dùng trong 180 giây; chưa cần mở rộng quốc tế và upsell doanh nghiệp sớm."),
+        "div7-finance-tax-legal": (("37", "38", "39", "40"), "Đối soát dòng tiền, định giá siêu lời, thuế hóa đơn điện tử và điều khoản pháp lý; chưa cần tranh chấp bản quyền nền tảng lớn."),
+        "div8-data-ops-hr": (("42", "43", "44"), "Đo tỷ lệ chuyển đổi, tự động hóa vận hành và lưu tri thức; không cần tuyển mới nhân sự."),
+        "div9-critique-ux-lab": (("46", "47", "48", "49", "50", "51", "52", "53"), "Bắt buộc đủ 8 phòng Khối 9 và Bộ Tứ chốt cuối (#53 Tổng hợp Lỗi, #51 QA/QC, #52 Đủ Chức năng, #49 Diệt Rối mắt) đảm bảo 0 lỗi mở."),
+    },
+    "MOBILE_APP": {
+        "exec-board": (("00",), "Tổng Giám đốc điều phối toàn chu trình 9 Khối và lịch duyệt phát hành kho ứng dụng."),
+        "div1-strategy-intel": (("01", "02", "03", "05"), "Phân tích thói quen dùng điện thoại, đối thủ trên kho ứng dụng và mô hình gói thuê bao di động."),
+        "div2-product-design": (("06", "07", "08", "09", "10"), "Thiết kế trải nghiệm một tay, giao diện di động, chuyển động mượt 60fps và bộ nhận diện biểu tượng."),
+        "div3-engineering-ai": (("12", "14", "15", "17", "19"), "Huy động #14 Ứng dụng Di động cùng kiến trúc, máy chủ thanh toán, cơ sở dữ liệu và đám mây; không gọi #13 Web thuần và #18 Nhúng IoT."),
+        "div4-qa-cybersecurity": (("20", "21", "23", "24"), "Kiểm thử đa màn hình Android/iOS, chịu tải pin/mạng yếu, bảo mật thiết bị và quyền riêng tư."),
+        "div5-media-youtube-studio": (("25", "26", "29", "30", "31"), "Tối ưu tìm kiếm kho ứng dụng, video giới thiệu thao tác thực tế và phễu tải ứng dụng."),
+        "div6-sales-commercial": (("32", "33", "35", "36"), "Kéo người tải đầu tiên, chốt gói nâng cấp, hướng dẫn 180 giây và giữ chân người dùng quay lại."),
+        "div7-finance-tax-legal": (("37", "38", "39", "40", "41"), "Tính phí kho ứng dụng, thuế, chính sách quyền riêng tư và quy định phát hành nền tảng."),
+        "div8-data-ops-hr": (("42", "43", "44"), "Theo dõi tỷ lệ giữ chân D1/D7/D30, tự động hóa phát hành và lưu sổ tay phiên bản."),
+        "div9-critique-ux-lab": (("46", "47", "48", "49", "50", "51", "52", "53"), "Bắt buộc đủ 8 phòng Khối 9 và Bộ Tứ chốt cuối (#53,#51,#52,#49) kiểm thử thực tế trên màn hình nhỏ."),
+    },
+    "EMBEDDED_IOT": {
+        "exec-board": (("00",), "Tổng Giám đốc điều phối đồng bộ phần cứng nhúng, ứng dụng điều khiển và hạ tầng mây."),
+        "div1-strategy-intel": (("01", "02", "03", "04", "05"), "Nghiên cứu thị trường thiết bị thông minh, công nghệ phần cứng mới và mô hình bán thiết bị kèm dịch vụ."),
+        "div2-product-design": (("06", "07", "08", "10", "11"), "Quản trị sản phẩm phần cứng-phần mềm, trải nghiệm ghép nối nhanh, giao diện điều khiển và điều phối tiến độ."),
+        "div3-engineering-ai": (("12", "14", "15", "18", "19"), "Huy động chủ lực #18 Kỹ thuật Nhúng & Thiết bị Thông minh cùng #14 Di động, #12 Kiến trúc, #15 Máy chủ và #19 Đám mây."),
+        "div4-qa-cybersecurity": (("20", "21", "23", "24"), "Kiểm thử phần cứng kết hợp phần mềm, độ ổn định dài ngày, bảo mật truyền dẫn và dữ liệu cảm biến."),
+        "div5-media-youtube-studio": (("25", "26", "27", "29", "30", "31"), "Quay video trình diễn thiết bị thật hoạt động, kịch bản lan truyền và chiến dịch bán hàng."),
+        "div6-sales-commercial": (("32", "33", "35", "36"), "Chốt đơn giá trị cao, hướng dẫn lắp đặt 180 giây và bảo hành giữ chân khách hàng."),
+        "div7-finance-tax-legal": (("37", "38", "39", "40", "41"), "Tính giá vốn linh kiện BOM, biên lợi nhuận, thuế, hợp đồng phân phối và chứng nhận tuân thủ."),
+        "div8-data-ops-hr": (("42", "43", "44"), "Đo dữ liệu vận hành thiết bị, tự động hóa cảnh báo lỗi và lưu trữ hồ sơ kỹ thuật."),
+        "div9-critique-ux-lab": (("46", "47", "48", "49", "50", "51", "52", "53"), "Bắt buộc đủ 8 phòng Khối 9 và Bộ Tứ chốt cuối (#53,#51,#52,#49) kiểm tra chặt phần cứng và giao diện người dùng."),
+    },
+    "B2B_SAAS": {
+        "exec-board": (("00",), "Tổng Giám đốc điều phối toàn chuỗi sản phẩm doanh nghiệp và mục tiêu doanh thu định kỳ."),
+        "div1-strategy-intel": (("01", "02", "03", "04", "05"), "Phân tích nỗi đau doanh nghiệp/hộ kinh doanh, đối thủ SaaS, công nghệ tự động hóa và mô hình gói thuê bao."),
+        "div2-product-design": (("06", "07", "08", "10", "11"), "Quản trị lộ trình tính năng, tối ưu thao tác nghiệp vụ, giao diện quản trị và điều phối tiến độ."),
+        "div3-engineering-ai": (("12", "13", "15", "16", "17", "19"), "Kiến trúc đa khách hàng, giao diện web quản trị, máy chủ thanh toán, tự động hóa AI, cơ sở dữ liệu và vận hành mây; không gọi #14 Di động gốc và #18 Nhúng."),
+        "div4-qa-cybersecurity": (("20", "21", "22", "23", "24"), "Kiểm thử toàn diện, chịu tải đồng thời, an toàn AI, chống xâm nhập và cô lập dữ liệu từng doanh nghiệp."),
+        "div5-media-youtube-studio": (("25", "26", "29", "30", "31"), "Nội dung hướng dẫn nghiệp vụ, SEO tìm kiếm giải pháp và phễu đăng ký dùng thử."),
+        "div6-sales-commercial": (("32", "33", "34", "35", "36"), "Huy động trọn Khối 6 tìm khách B2B, chốt gói thuê bao, liên kết đối tác, bàn giao 180s và upsell mở rộng."),
+        "div7-finance-tax-legal": (("37", "38", "39", "40", "41"), "Huy động trọn Khối 7 đối soát định kỳ, bảng giá nhiều gói, hóa đơn thuế, hợp đồng SLA và chính sách dữ liệu."),
+        "div8-data-ops-hr": (("42", "43", "44"), "Đo MRR/churn, tự động hóa quy trình hỗ trợ và lưu tri thức doanh nghiệp."),
+        "div9-critique-ux-lab": (("46", "47", "48", "49", "50", "51", "52", "53"), "Bắt buộc đủ 8 phòng Khối 9 và Bộ Tứ chốt cuối (#53,#51,#52,#49) chặn mọi lỗi nghiệp vụ trước khi thu tiền."),
+    },
+    "MEDIA_CHANNEL": {
+        "exec-board": (("00",), "Tổng Giám đốc điều phối chiến lược hệ thống kênh và mục tiêu doanh thu nội dung."),
+        "div1-strategy-intel": (("01", "02", "03", "05"), "Tìm ngách chủ đề triệu lượt xem, tâm lý người xem, phân tích kênh đối thủ và mô hình kiếm tiền đa nguồn."),
+        "div2-product-design": (("06", "07", "08", "09", "10"), "Định vị bộ nhận diện kênh, bố cục trực quan và phong cách đồ họa chuyển động nhất quán."),
+        "div3-engineering-ai": (("12", "13", "16", "19"), "Xây công cụ tự động hóa sản xuất nội dung, trang đích gom tệp khán giả và hạ tầng lưu trữ; không gọi #14,#17,#18."),
+        "div4-qa-cybersecurity": (("20", "22", "23"), "Kiểm duyệt công cụ xuất bản, kiểm định tính chính xác nội dung AI và bảo mật tài khoản kênh."),
+        "div5-media-youtube-studio": (("25", "26", "27", "28", "29", "30", "31"), "Huy động trọn bộ 7 phòng Khối 5 từ chiến lược kênh, biên kịch 3 giây, hình ảnh, âm thanh, ảnh bìa CTR đến SEO và tăng trưởng."),
+        "div6-sales-commercial": (("32", "34", "35", "36"), "Khai thác tiếp thị liên kết, tài trợ thương hiệu, chuyển đổi sản phẩm số và nuôi dưỡng cộng đồng."),
+        "div7-finance-tax-legal": (("37", "38", "39", "40", "41"), "Quản trị dòng tiền quảng cáo, thuế thu nhập, hợp đồng tài trợ và bảo vệ bản quyền nền tảng YouTube/TikTok."),
+        "div8-data-ops-hr": (("42", "43", "44"), "Phân tích tỷ lệ giữ chân khán giả, tự động hóa lịch đăng và kho kịch bản thắng."),
+        "div9-critique-ux-lab": (("46", "47", "48", "49", "50", "51", "52", "53"), "Bắt buộc đủ 8 phòng Khối 9 và Bộ Tứ chốt cuối (#53,#51,#52,#49) phản biện sức hút và chất lượng xuất bản."),
+    },
+    "GENERAL": {
+        "exec-board": (("00",), "Tổng Giám đốc điều phối toàn chu trình 9 Khối và giữ kỷ luật bàn giao."),
+        "div1-strategy-intel": (("01", "02", "03", "05"), "Nghiên cứu thị trường, tâm lý khách hàng, đối thủ và kiến trúc mô hình kinh doanh."),
+        "div2-product-design": (("06", "07", "08", "10"), "Quản trị sản phẩm, trải nghiệm người dùng, giao diện cao cấp và thương hiệu."),
+        "div3-engineering-ai": (("12", "13", "15", "16", "19"), "Kiến trúc hệ thống, giao diện trực tuyến, máy chủ thanh toán, tự động hóa AI và vận hành đám mây."),
+        "div4-qa-cybersecurity": (("20", "21", "23", "24"), "Kiểm thử phần mềm, tốc độ ổn định, an ninh mạng và bảo vệ dữ liệu khách hàng."),
+        "div5-media-youtube-studio": (("25", "26", "29", "30", "31"), "Kênh nội dung ngắn, biên kịch 3 giây, ảnh bìa, SEO và phễu chuyển đổi."),
+        "div6-sales-commercial": (("32", "33", "35", "36"), "Tìm khách tiềm năng, chốt đơn, hướng dẫn 180 giây và giữ chân bán thêm."),
+        "div7-finance-tax-legal": (("37", "38", "39", "40"), "Kế toán dòng tiền, định giá lợi nhuận, thuế hóa đơn và pháp chế hợp đồng."),
+        "div8-data-ops-hr": (("42", "43", "44"), "Phân tích dữ liệu kinh doanh, tự động hóa quy trình và lưu trữ tri thức."),
+        "div9-critique-ux-lab": (("46", "47", "48", "49", "50", "51", "52", "53"), "Bắt buộc đủ 8 phòng Khối 9 và Bộ Tứ chốt cuối (#53,#51,#52,#49) đảm bảo 0 lỗi mở."),
+    },
+}
+
+DEFAULT_DEPT_DIRECTORY_META: dict[str, dict[str, Any]] = {
+    "00": {"core_strength_vi": "Điều phối 9 Khối, nắm trọn Danh bạ 54 phòng ban, phân xử xung đột và chốt cổng trình Chủ tịch.", "upstream_depts": ["46", "47", "50", "51", "52", "53"], "downstream_depts": ["01", "06", "12", "20", "25", "32", "38", "42", "53"], "product_types": ["ALL"]},
+    "01": {"core_strength_vi": "Quét xu hướng thị trường toàn cầu và Việt Nam, tìm nhu cầu thật có sức mua.", "upstream_depts": ["00", "50"], "downstream_depts": ["02", "03", "05", "06"], "product_types": ["ALL"]},
+    "02": {"core_strength_vi": "Giải mã tâm lý, nỗi đau và động cơ xuống tiền của khách hàng mục tiêu.", "upstream_depts": ["01", "50"], "downstream_depts": ["05", "06", "07", "26", "32"], "product_types": ["ALL"]},
+    "03": {"core_strength_vi": "Mổ xẻ đối thủ cạnh tranh, điểm yếu giá bán và kẽ hở thị trường chưa ai lấp.", "upstream_depts": ["01", "50"], "downstream_depts": ["05", "06", "30", "38", "46"], "product_types": ["ALL"]},
+    "04": {"core_strength_vi": "Đánh giá công nghệ mới, mô hình AI và phần cứng khả thi để tạo lợi thế vượt trội.", "upstream_depts": ["00", "01"], "downstream_depts": ["05", "12", "16", "18"], "product_types": ["EMBEDDED_IOT", "B2B_SAAS"]},
+    "05": {"core_strength_vi": "Thiết kế kiến trúc mô hình kinh doanh, dòng tiền lặp lại và lợi thế cạnh tranh.", "upstream_depts": ["01", "02", "03", "04"], "downstream_depts": ["06", "38", "46"], "product_types": ["MOBILE_APP", "EMBEDDED_IOT", "B2B_SAAS", "MEDIA_CHANNEL", "GENERAL"]},
+    "06": {"core_strength_vi": "Khóa phạm vi tính năng cốt lõi, ưu tiên giá trị cao nhất và hợp đồng nghiệm thu.", "upstream_depts": ["00", "02", "03", "05"], "downstream_depts": ["07", "08", "11", "12", "52"], "product_types": ["ALL"]},
+    "07": {"core_strength_vi": "Thiết kế hành trình người dùng mượt mà, rút gọn số bước chạm xuống mức tối thiểu.", "upstream_depts": ["02", "06"], "downstream_depts": ["08", "09", "48", "49"], "product_types": ["ALL"]},
+    "08": {"core_strength_vi": "Thiết kế giao diện cao cấp, phân cấp thị giác rõ ràng và tương thích đa thiết bị.", "upstream_depts": ["06", "07", "10"], "downstream_depts": ["09", "13", "14", "49"], "product_types": ["ALL"]},
+    "09": {"core_strength_vi": "Thiết kế chuyển động phản hồi tự nhiên và hiệu ứng tương tác mượt mà.", "upstream_depts": ["07", "08"], "downstream_depts": ["13", "14", "27"], "product_types": ["MOBILE_APP", "MEDIA_CHANNEL"]},
+    "10": {"core_strength_vi": "Định hình tên gọi, bản sắc thương hiệu và hệ thống thông điệp đáng tin cậy.", "upstream_depts": ["02", "06"], "downstream_depts": ["08", "25", "29", "31"], "product_types": ["ALL"]},
+    "11": {"core_strength_vi": "Điều phối tiến độ liên phòng, kiểm soát mốc bàn giao và phát hiện sớm điểm nghẽn.", "upstream_depts": ["00", "06"], "downstream_depts": ["12", "19", "20", "43"], "product_types": ["EMBEDDED_IOT", "B2B_SAAS"]},
+    "12": {"core_strength_vi": "Thiết kế kiến trúc hệ thống bền vững, tối ưu chi phí 0đ hạ tầng và khả năng mở rộng.", "upstream_depts": ["04", "06", "08"], "downstream_depts": ["13", "14", "15", "16", "17", "18", "19"], "product_types": ["ALL"]},
+    "13": {"core_strength_vi": "Lập trình giao diện web, PWA xử lý ngay trên trình duyệt, nhanh và chuẩn di động.", "upstream_depts": ["08", "12", "15"], "downstream_depts": ["19", "20", "49", "52"], "product_types": ["WEB_APP", "B2B_SAAS", "MEDIA_CHANNEL", "GENERAL"]},
+    "14": {"core_strength_vi": "Phát triển ứng dụng di động Android/iOS mượt mà, tối ưu kết nối ngoại tuyến.", "upstream_depts": ["08", "09", "12", "15"], "downstream_depts": ["19", "20", "21", "52"], "product_types": ["MOBILE_APP", "EMBEDDED_IOT"]},
+    "15": {"core_strength_vi": "Xây dựng API máy chủ, đối soát cổng thanh toán VietQR và luồng dữ liệu tin cậy.", "upstream_depts": ["12", "17", "38"], "downstream_depts": ["13", "14", "19", "20", "23"], "product_types": ["WEB_APP", "MOBILE_APP", "EMBEDDED_IOT", "B2B_SAAS", "GENERAL"]},
+    "16": {"core_strength_vi": "Tích hợp trí tuệ nhân tạo, tác nhân tự động và tối ưu chi phí suy luận.", "upstream_depts": ["04", "12"], "downstream_depts": ["13", "15", "22", "43"], "product_types": ["B2B_SAAS", "MEDIA_CHANNEL", "GENERAL"]},
+    "17": {"core_strength_vi": "Thiết kế lược đồ cơ sở dữ liệu, chỉ mục tốc độ cao và sao lưu chống mất dữ liệu.", "upstream_depts": ["12"], "downstream_depts": ["15", "19", "21", "24", "42"], "product_types": ["MOBILE_APP", "B2B_SAAS"]},
+    "18": {"core_strength_vi": "Phát triển vi điều khiển nhúng, cảm biến, kết nối phần cứng và firmware ổn định.", "upstream_depts": ["04", "12"], "downstream_depts": ["14", "15", "20", "21", "23"], "product_types": ["EMBEDDED_IOT"]},
+    "19": {"core_strength_vi": "Triển khai hạ tầng đám mây chi phí tối thiểu, tự động phát hành và giám sát hoạt động.", "upstream_depts": ["12", "13", "14", "15"], "downstream_depts": ["21", "23", "35", "51"], "product_types": ["ALL"]},
+    "20": {"core_strength_vi": "Viết kiểm thử tự động, hồi quy chức năng và xác minh luồng nghiệp vụ không gãy.", "upstream_depts": ["13", "14", "15", "18"], "downstream_depts": ["21", "51", "52", "53"], "product_types": ["ALL"]},
+    "21": {"core_strength_vi": "Đo tải đồng thời, tốc độ phản hồi, độ bền bộ nhớ và chống treo trên máy cấu hình thấp.", "upstream_depts": ["13", "15", "19", "20"], "downstream_depts": ["19", "51", "53"], "product_types": ["WEB_APP", "MOBILE_APP", "EMBEDDED_IOT", "B2B_SAAS", "GENERAL"]},
+    "22": {"core_strength_vi": "Kiểm định độ chuẩn xác đầu ra AI, chặn ảo giác và khóa an toàn prompt.", "upstream_depts": ["16"], "downstream_depts": ["20", "23", "51", "53"], "product_types": ["B2B_SAAS", "MEDIA_CHANNEL"]},
+    "23": {"core_strength_vi": "Kiểm toán an ninh mạng, chống XSS/CSRF/SQLi, rà soát lỗ hổng và bảo vệ bí mật.", "upstream_depts": ["13", "15", "18", "19"], "downstream_depts": ["19", "24", "51", "53"], "product_types": ["ALL"]},
+    "24": {"core_strength_vi": "Bảo vệ dữ liệu cá nhân, tuân thủ Nghị định 13 và cô lập dữ liệu từng khách hàng.", "upstream_depts": ["15", "17", "23"], "downstream_depts": ["40", "51", "53"], "product_types": ["WEB_APP", "MOBILE_APP", "EMBEDDED_IOT", "B2B_SAAS", "GENERAL"]},
+    "25": {"core_strength_vi": "Hoạch định chiến lược hệ thống kênh video ngắn và kế hoạch phủ nội dung tự nhiên.", "upstream_depts": ["02", "10"], "downstream_depts": ["26", "27", "29", "30", "31"], "product_types": ["ALL"]},
+    "26": {"core_strength_vi": "Viết kịch bản lan truyền đánh thẳng nỗi đau và câu mở đầu giữ chân trong 3 giây.", "upstream_depts": ["02", "25"], "downstream_depts": ["27", "28", "29", "31"], "product_types": ["ALL"]},
+    "27": {"core_strength_vi": "Dàn dựng hình ảnh, nhịp cắt video và trình diễn sản phẩm trực quan dễ hiểu.", "upstream_depts": ["09", "25", "26"], "downstream_depts": ["28", "29", "31"], "product_types": ["EMBEDDED_IOT", "MEDIA_CHANNEL"]},
+    "28": {"core_strength_vi": "Xử lý âm thanh sạch, lời đọc truyền cảm và nhịp nhạc tăng giữ chân người xem.", "upstream_depts": ["26", "27"], "downstream_depts": ["25", "31"], "product_types": ["MEDIA_CHANNEL"]},
+    "29": {"core_strength_vi": "Thiết kế ảnh bìa và tiêu đề tương phản cao giúp tăng tỷ lệ bấm tự nhiên.", "upstream_depts": ["10", "25", "26"], "downstream_depts": ["30", "31", "42"], "product_types": ["ALL"]},
+    "30": {"core_strength_vi": "Tối ưu tìm kiếm Google, từ khóa đuôi dài và khả năng khám phá không cần chạy quảng cáo.", "upstream_depts": ["03", "25", "29"], "downstream_depts": ["13", "31", "32", "42"], "product_types": ["ALL"]},
+    "31": {"core_strength_vi": "Tối ưu trang bán hàng, phễu chuyển đổi và kiểm soát chi phí kéo khách.", "upstream_depts": ["10", "26", "29", "30"], "downstream_depts": ["32", "33", "38", "42"], "product_types": ["ALL"]},
+    "32": {"core_strength_vi": "Tìm và tiếp cận nhóm 50 đến 500 khách hàng đầu tiên theo kịch bản không đốt tiền.", "upstream_depts": ["02", "30", "31"], "downstream_depts": ["33", "34", "35"], "product_types": ["ALL"]},
+    "33": {"core_strength_vi": "Thiết kế ưu đãi chốt đơn nhanh, nâng tỷ lệ thanh toán lẻ và gói thuê bao.", "upstream_depts": ["31", "32", "38"], "downstream_depts": ["35", "36", "37"], "product_types": ["WEB_APP", "MOBILE_APP", "EMBEDDED_IOT", "B2B_SAAS", "GENERAL"]},
+    "34": {"core_strength_vi": "Mở rộng thị trường quốc tế bản tiếng Anh và mạng lưới tiếp thị liên kết.", "upstream_depts": ["30", "32"], "downstream_depts": ["33", "37", "40"], "product_types": ["B2B_SAAS", "MEDIA_CHANNEL"]},
+    "35": {"core_strength_vi": "Đóng gói hướng dẫn sử dụng trong 180 giây để người mới dùng thành công ngay lần đầu.", "upstream_depts": ["06", "19", "33"], "downstream_depts": ["36", "48", "49"], "product_types": ["ALL"]},
+    "36": {"core_strength_vi": "Chăm sóc giữ chân khách quay lại, giảm rời bỏ và mở rộng bán thêm gói nâng cao.", "upstream_depts": ["33", "35", "42"], "downstream_depts": ["06", "38", "53"], "product_types": ["MOBILE_APP", "EMBEDDED_IOT", "B2B_SAAS", "MEDIA_CHANNEL", "GENERAL"]},
+    "37": {"core_strength_vi": "Ghi sổ thu chi, đối soát dòng tiền thực tế và theo dõi quỹ dự phòng vận hành.", "upstream_depts": ["33", "34", "38"], "downstream_depts": ["39", "42", "00"], "product_types": ["ALL"]},
+    "38": {"core_strength_vi": "Tính kinh tế đơn vị, điểm hòa vốn, ngưỡng nâng cấp hạ tầng và khóa biên lãi an toàn.", "upstream_depts": ["03", "05", "31"], "downstream_depts": ["33", "37", "39", "46"], "product_types": ["ALL"]},
+    "39": {"core_strength_vi": "Tư vấn nghĩa vụ thuế, tỷ lệ dự phòng thuế và quy trình hóa đơn điện tử hợp lệ.", "upstream_depts": ["37", "38"], "downstream_depts": ["40", "00"], "product_types": ["ALL"]},
+    "40": {"core_strength_vi": "Soạn điều khoản sử dụng, chính sách bảo mật, hợp đồng thương mại và miễn trừ rủi ro.", "upstream_depts": ["24", "39"], "downstream_depts": ["35", "41", "51"], "product_types": ["ALL"]},
+    "41": {"core_strength_vi": "Kiểm soát bản quyền nội dung, mã nguồn mở và chính sách các kho nền tảng lớn.", "upstream_depts": ["25", "40"], "downstream_depts": ["19", "25", "51"], "product_types": ["MOBILE_APP", "EMBEDDED_IOT", "B2B_SAAS", "MEDIA_CHANNEL"]},
+    "42": {"core_strength_vi": "Đo lường phễu lưu lượng, tỷ lệ chuyển đổi và lập báo cáo chỉ số kinh doanh thực tế.", "upstream_depts": ["17", "30", "31", "37"], "downstream_depts": ["00", "06", "36", "44"], "product_types": ["ALL"]},
+    "43": {"core_strength_vi": "Tự động hóa quy trình lặp lại, cầu nối dữ liệu và giảm thao tác thủ công nội bộ.", "upstream_depts": ["11", "16", "42"], "downstream_depts": ["19", "44", "53"], "product_types": ["ALL"]},
+    "44": {"core_strength_vi": "Lưu trữ tri thức tập đoàn, tổng kết bài học thực chiến và đồng bộ sổ tay vận hành.", "upstream_depts": ["00", "42", "43", "51"], "downstream_depts": ["00", "45"], "product_types": ["ALL"]},
+    "45": {"core_strength_vi": "Đào tạo nâng cấp kỹ năng, kiểm định năng lực nhân sự và tuyển bổ sung khi quá tải.", "upstream_depts": ["00", "44"], "downstream_depts": ["00", "47"], "product_types": ["GENERAL"]},
+    "46": {"core_strength_vi": "Phản biện sắc bén mô hình kiếm tiền, chặn lỗ và kiểm chứng giả định doanh thu.", "upstream_depts": ["03", "05", "38"], "downstream_depts": ["00", "47", "53"], "product_types": ["ALL"]},
+    "47": {"core_strength_vi": "Thanh tra chéo quy trình giữa các phòng ban, soi kẽ hở bàn giao và lỗi logic.", "upstream_depts": ["06", "12", "46"], "downstream_depts": ["51", "52", "53"], "product_types": ["ALL"]},
+    "48": {"core_strength_vi": "Đóng vai 5 nhóm khách hàng thật dùng thử sản phẩm để bắt lỗi thực tế ngoài đời.", "upstream_depts": ["07", "35", "13", "14"], "downstream_depts": ["49", "52", "53"], "product_types": ["ALL"]},
+    "49": {"core_strength_vi": "Diệt rối mắt, tối giản thao tác tối đa 3 chạm và khóa tính dễ dùng trên điện thoại.", "upstream_depts": ["07", "08", "48"], "downstream_depts": ["08", "13", "51", "53"], "product_types": ["ALL"]},
+    "50": {"core_strength_vi": "Trinh sát săn cơ hội ngách sinh lời nhanh, kiểm chứng nỗi đau và đề xuất sản phẩm.", "upstream_depts": ["00", "42"], "downstream_depts": ["01", "02", "03", "46"], "product_types": ["ALL"]},
+    "51": {"core_strength_vi": "Chốt kiểm định QA/QC tổng thể, xác minh bằng chứng thực thi và đóng cổng 0 lỗi.", "upstream_depts": ["19", "20", "21", "23", "52", "53"], "downstream_depts": ["00", "44", "53"], "product_types": ["ALL"]},
+    "52": {"core_strength_vi": "Đối chiếu 100% danh sách chức năng yêu cầu, rà lỗi hổng luồng và chặn bàn giao thiếu.", "upstream_depts": ["06", "13", "14", "20", "48"], "downstream_depts": ["51", "53"], "product_types": ["ALL"]},
+    "53": {"core_strength_vi": "Trạm trung chuyển tập trung gom lỗi từ 9 Khối, gộp trùng và đẩy trả đúng phòng sửa.", "upstream_depts": ["46", "47", "48", "49", "51", "52", "20", "23"], "downstream_depts": ["00", "08", "13", "14", "15", "18", "19", "51", "52"], "product_types": ["ALL"]},
+}
+
+
+def classify_product_type(goal_prompt: str = "", product_type: str = "AUTO") -> str:
+    """Phân loại loại sản phẩm chuẩn từ từ khóa tiếng Việt/Anh để lập đội hình 9 Khối tối ưu."""
+    explicit = str(product_type or "AUTO").upper().strip()
+    if explicit in PRODUCT_ROSTER_PROFILES:
+        return explicit
+    hay = str(goal_prompt or "").lower()
+    if any(k in hay for k in ("esp32", "iot", "nhúng", "phần cứng", "cảm biến", "thiết bị thông minh", "firmware", "mạch điện", "ống nghe", "hardware", "stm32", "arduino", "bluetooth", "ble")):
+        return "EMBEDDED_IOT"
+    if any(k in hay for k in ("app di động", "ứng dụng di động", "android", "ios", "flutter", "react native", "ch play", "app store")):
+        return "MOBILE_APP"
+    if any(k in hay for k in ("kênh youtube", "kênh tiktok", "video ngắn", "podcast", "studio video", "kênh truyền thông", "xây kênh")):
+        return "MEDIA_CHANNEL"
+    if any(k in hay for k in ("b2b", "saas", "doanh nghiệp", "crm", "erp", "phòng khám", "quản lý cửa hàng", "hộ kinh doanh", "gói thuê bao", "đa chi nhánh")):
+        return "B2B_SAAS"
+    if any(k in hay for k in ("web", "pwa", "trình duyệt", "website", "tiện ích đại chúng", "cccd", "pdf", "công cụ trực tuyến", "chia tiền", "quỹ lớp", "landing")):
+        return "WEB_APP"
+    return "GENERAL"
 
 CANONICAL_DEPT_TITLES_VI: dict[str, str] = {
     "00": "Tổng Giám đốc và Chánh Văn phòng",
@@ -84,6 +340,9 @@ CANONICAL_DEPT_TITLES_VI: dict[str, str] = {
     "48": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật",
     "49": "Thanh tra Tối giản Thao tác và Diệt Rối mắt",
     "50": "Trinh sát Săn Cơ hội và Thiết kế Sản phẩm Sinh lời",
+    "51": "Kiểm định Chất lượng Tổng thể QA và QC",
+    "52": "Kiểm tra Hoàn thiện Chức năng và Rà soát Lỗi",
+    "53": "Tổng hợp Lỗi, Thu thập Phản hồi và Điều phối Trả việc",
 }
 
 KANBAN_LABELS_VI: dict[str, str] = {
@@ -139,6 +398,9 @@ SMART_ROUTE_RULES: list[tuple[tuple[str, ...], str]] = [
     (("thuế", "hóa đơn", "kê khai", "quyết toán", "nghị định"), "39"),
     (("tài chính", "định giá", "bảng giá", "giá bán", "mức giá", "gói giá", "lãi", "lợi nhuận", "hòa vốn", "dòng tiền", "kế toán", "chi phí"), "38"),
     (("bảo mật", "hack", "lỗ hổng", "xss", "an ninh", "xâm nhập", "mã hóa"), "23"),
+    (("tổng hợp lỗi", "thu thập phản hồi", "điều phối trả việc", "đẩy trả lỗi", "phiếu lỗi", "phản hồi lỗi"), "53"),
+    (("qa/qc", "chất lượng tổng thể", "nghiệm thu cuối"), "51"),
+    (("thiếu chức năng", "đủ chức năng", "hoàn thiện chức năng", "rà soát lỗi"), "52"),
     (("kiểm thử", "test", "dùng thử", "đóng vai khách", "qa"), "20"),
     (("giao diện", "ui", "ux", "thiết kế", "màu sắc", "bố cục", "trải nghiệm"), "08"),
     (("server", "api", "thanh toán", "vietqr", "webhook", "backend", "cơ sở dữ liệu", "database", "máy chủ"), "15"),
@@ -470,7 +732,7 @@ CREATE TABLE IF NOT EXISTS swarm_messages (
     sender_dept_ids TEXT NOT NULL DEFAULT '',
     recipient_name_vi TEXT NOT NULL DEFAULT 'Toàn đội',
     msg_type TEXT NOT NULL DEFAULT 'UPDATE'
-        CHECK(msg_type IN ('HANDOFF','UPDATE','CRITIQUE','QA_REPORT','DONE','APPROVAL')),
+        CHECK(msg_type IN ('HANDOFF','UPDATE','CRITIQUE','QA_REPORT','DONE','APPROVAL','BOUNCE_BACK','REWORK_VERIFIED')),
     content_vi TEXT NOT NULL,
     artifact_path TEXT NOT NULL DEFAULT '',
     created_at TEXT NOT NULL
@@ -503,12 +765,61 @@ CREATE TABLE IF NOT EXISTS installed_skills (
     installed_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS rework_tickets (
+    ticket_id TEXT PRIMARY KEY,
+    mission_id TEXT,
+    project_id TEXT,
+    task_id TEXT,
+    step_order INTEGER NOT NULL DEFAULT 0,
+    source_division_code TEXT NOT NULL DEFAULT 'div9-critique-ux-lab',
+    source_dept_id TEXT NOT NULL DEFAULT '53',
+    source_role_type TEXT NOT NULL DEFAULT 'DIV9_DEFECT_TRIAGE',
+    target_division_code TEXT NOT NULL DEFAULT 'div3-engineering-ai',
+    target_dept_id TEXT NOT NULL DEFAULT '13',
+    severity TEXT NOT NULL DEFAULT 'HIGH'
+        CHECK(severity IN ('CRITICAL','HIGH','MEDIUM','LOW')),
+    defect_category TEXT NOT NULL DEFAULT 'BUG'
+        CHECK(defect_category IN ('MISSING_FEATURE','BUG','UX_FRICTION','QA_QC','LOGIC_CRITIQUE')),
+    title TEXT NOT NULL,
+    detail_vi TEXT NOT NULL DEFAULT '',
+    fix_note_vi TEXT NOT NULL DEFAULT '',
+    reopen_count INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'OPEN'
+        CHECK(status IN ('OPEN','IN_FIX','FIXED_PENDING_RECHECK','VERIFIED_CLOSED')),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    resolved_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS dept_handoffs (
+    handoff_id TEXT PRIMARY KEY,
+    mission_id TEXT,
+    project_id TEXT,
+    task_id TEXT,
+    from_dept_id TEXT NOT NULL,
+    to_dept_id TEXT NOT NULL,
+    mode TEXT NOT NULL CHECK(mode IN ('PEER_HANDOFF','CEO_ESCALATION','CEO_ASSIGN')),
+    reason_vi TEXT NOT NULL,
+    payload_vi TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'OPEN'
+        CHECK(status IN ('OPEN','ACCEPTED','COMPLETED','REROUTED_BY_CEO')),
+    resolved_to_dept_id TEXT,
+    ceo_note_vi TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_mission_steps_order ON mission_steps(mission_id, step_order ASC);
 CREATE INDEX IF NOT EXISTS idx_opps_status ON opportunities(status, updated_at DESC);
 CREATE INDEX IF NOT EXISTS idx_ag_orders_status ON antigravity_orders(status, created_at ASC);
 CREATE INDEX IF NOT EXISTS idx_swarm_msgs_msn ON swarm_messages(mission_id, msg_id DESC);
 CREATE INDEX IF NOT EXISTS idx_ledger_proj_date ON project_ledger(project_id, entry_date DESC);
 CREATE INDEX IF NOT EXISTS idx_skills_div ON installed_skills(division_code, installed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_rework_mission_status ON rework_tickets(mission_id, status, updated_at DESC);
+CREATE INDEX IF NOT EXISTS idx_rework_target_dept ON rework_tickets(target_dept_id, status);
+CREATE INDEX IF NOT EXISTS idx_handoffs_status ON dept_handoffs(status, updated_at DESC);
+CREATE INDEX IF NOT EXISTS idx_handoffs_mission ON dept_handoffs(mission_id, updated_at DESC);
+CREATE INDEX IF NOT EXISTS idx_handoffs_to_dept ON dept_handoffs(to_dept_id, status);
 """
 
 
@@ -523,6 +834,8 @@ class TitanDatabase:
         self._write_lock = threading.RLock()
         self._subscribers_lock = threading.Lock()
         self._event_listeners: list[Any] = []
+        self._dir_cache_sig: tuple[int, int] | None = None
+        self._dir_cache_data: dict[str, Any] | None = None
         self.initialize()
 
     def _get_conn(self) -> sqlite3.Connection:
@@ -587,6 +900,8 @@ class TitanDatabase:
                 "ALTER TABLE missions ADD COLUMN swarm_workers_json TEXT NOT NULL DEFAULT '[]';",
                 "ALTER TABLE missions ADD COLUMN phase TEXT NOT NULL DEFAULT 'PROPOSAL';",
                 "ALTER TABLE missions ADD COLUMN project_id TEXT NOT NULL DEFAULT '';",
+                "ALTER TABLE missions ADD COLUMN product_type TEXT NOT NULL DEFAULT 'GENERAL';",
+                "ALTER TABLE missions ADD COLUMN roster_plan_json TEXT NOT NULL DEFAULT '';",
                 "ALTER TABLE mission_steps ADD COLUMN worker_name TEXT NOT NULL DEFAULT '';",
                 "ALTER TABLE mission_steps ADD COLUMN artifact_path TEXT NOT NULL DEFAULT '';",
             ]
@@ -637,6 +952,46 @@ class TitanDatabase:
                             r["title"], r.get("instructions", ""), r.get("source_device", "web-local"),
                             r.get("status", "PENDING"), r.get("claimed_by", ""), r.get("swarm_title", ""),
                             r.get("result_summary", ""), r["created_at"], r["updated_at"],
+                        ),
+                    )
+            # Upgrade swarm_messages CHECK constraint if created before BOUNCE_BACK / REWORK_VERIFIED
+            swm_ddl = conn.execute(
+                "SELECT sql FROM sqlite_master WHERE type='table' AND name='swarm_messages'"
+            ).fetchone()
+            if swm_ddl and "BOUNCE_BACK" not in (swm_ddl["sql"] or ""):
+                old_msgs = [dict(r) for r in conn.execute("SELECT * FROM swarm_messages ORDER BY msg_id ASC").fetchall()]
+                conn.execute("DROP TABLE swarm_messages;")
+                conn.execute(
+                    """
+                    CREATE TABLE swarm_messages (
+                        msg_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        mission_id TEXT NOT NULL,
+                        sender_slug TEXT NOT NULL,
+                        sender_name_vi TEXT NOT NULL,
+                        sender_dept_ids TEXT NOT NULL DEFAULT '',
+                        recipient_name_vi TEXT NOT NULL DEFAULT 'Toàn đội',
+                        msg_type TEXT NOT NULL DEFAULT 'UPDATE'
+                            CHECK(msg_type IN ('HANDOFF','UPDATE','CRITIQUE','QA_REPORT','DONE','APPROVAL','BOUNCE_BACK','REWORK_VERIFIED')),
+                        content_vi TEXT NOT NULL,
+                        artifact_path TEXT NOT NULL DEFAULT '',
+                        created_at TEXT NOT NULL
+                    );
+                    """
+                )
+                conn.execute("CREATE INDEX IF NOT EXISTS idx_swarm_msgs_msn ON swarm_messages(mission_id, msg_id DESC);")
+                for rm in old_msgs:
+                    conn.execute(
+                        """
+                        INSERT INTO swarm_messages(
+                            msg_id, mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                            recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            rm["msg_id"], rm["mission_id"], rm["sender_slug"], rm["sender_name_vi"],
+                            rm.get("sender_dept_ids", ""), rm.get("recipient_name_vi", "Toàn đội"),
+                            rm.get("msg_type", "UPDATE"), rm["content_vi"], rm.get("artifact_path", ""),
+                            rm["created_at"],
                         ),
                     )
         self.sync_divisions_and_roster()
@@ -695,13 +1050,19 @@ class TitanDatabase:
             )
             count += 1
 
-            # Sync all specialist files 01..N
+            # Sync all specialist files 01..N (hỗ trợ cả thư mục specialists/ lẫn departments/)
+            synced_ids: set[str] = {"00"}
             if self.skills_dir.is_dir():
-                for spec in sorted(self.skills_dir.glob("div*/specialists/*.md")):
+                spec_candidates = list(self.skills_dir.glob("div*/specialists/*.md")) + list(
+                    self.skills_dir.glob("div*/departments/*.md")
+                )
+                for spec in sorted(spec_candidates, key=lambda p: (p.name, str(p))):
                     m = re.match(r"^(\d{2,3})-([a-z0-9-]+)\.md$", spec.name)
                     if not m:
                         continue
                     dept_id, role_code = m.group(1), m.group(2)
+                    if dept_id in synced_ids:
+                        continue
                     div_code = spec.parents[1].name
                     raw_text = spec.read_text(encoding="utf-8")
                     first_line = raw_text.splitlines()[0].lstrip("# ").strip() if raw_text else spec.stem
@@ -732,12 +1093,79 @@ class TitanDatabase:
                             clean_title,
                             "ceo",
                             rel_path,
-                            "4.0",
+                            "5.0",
                             json.dumps(books, ensure_ascii=False),
                             now,
                         ),
                     )
+                    synced_ids.add(dept_id)
                     count += 1
+
+            # Bảo đảm luôn đăng ký an toàn 3 phòng cốt lõi mới của Khối 9 (#51 QA/QC, #52 Kiểm tra Chức năng, #53 Tổng hợp & Điều phối Lỗi) ngay cả khi chưa có tệp .md
+            core_div9_fallbacks = [
+                (
+                    "51",
+                    "qa-qc-master",
+                    "div9-critique-ux-lab",
+                    CANONICAL_DEPT_TITLES_VI["51"],
+                    ".agents/skills/div9-critique-ux-lab/specialists/51-qa-qc-master.md",
+                    [
+                        "Continuous Delivery & Quality Engineering (Jez Humble)",
+                        "Google Testing on the Toilet & Release Engineering",
+                    ],
+                ),
+                (
+                    "52",
+                    "feature-completeness-auditor",
+                    "div9-critique-ux-lab",
+                    CANONICAL_DEPT_TITLES_VI["52"],
+                    ".agents/skills/div9-critique-ux-lab/specialists/52-feature-completeness-auditor.md",
+                    [
+                        "Specification by Example (Gojko Adzic)",
+                        "Don't Make Me Think & End-to-End Acceptance Verification",
+                    ],
+                ),
+                (
+                    "53",
+                    "defect-triage-dispatcher",
+                    "div9-critique-ux-lab",
+                    CANONICAL_DEPT_TITLES_VI["53"],
+                    ".agents/skills/div9-critique-ux-lab/specialists/53-defect-triage-dispatcher.md",
+                    [
+                        "Zero Defect Software Triage & Closed-Loop CAPA",
+                        "Toyota Andon Cord & Root-Cause Dispatching",
+                    ],
+                ),
+            ]
+            for fb_id, fb_code, fb_div, fb_title, fb_path, fb_books in core_div9_fallbacks:
+                if fb_id in synced_ids:
+                    continue
+                conn.execute(
+                    """
+                    INSERT INTO departments(
+                        dept_id, code, division_code, title_vi, manager_code,
+                        handbook_path, handbook_version, canonical_books, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(dept_id) DO UPDATE SET
+                        code=excluded.code,
+                        division_code=excluded.division_code,
+                        title_vi=excluded.title_vi,
+                        handbook_path=excluded.handbook_path
+                    """,
+                    (
+                        fb_id,
+                        fb_code,
+                        fb_div,
+                        fb_title,
+                        "ceo",
+                        fb_path,
+                        "5.0",
+                        json.dumps(fb_books, ensure_ascii=False),
+                        now,
+                    ),
+                )
+                synced_ids.add(fb_id)
+                count += 1
 
             # Chuẩn hóa tên bước nhiệm vụ cũ và ghi chú cơ hội sang 100% tiếng Việt chuẩn
             step_title_by_order = {order: stitle for order, stitle, _, _, _ in self.DEFAULT_8_STEPS_TEMPLATE}
@@ -771,6 +1199,8 @@ class TitanDatabase:
                 """
             )
         return count
+
+    sync_departments_from_skills = sync_divisions_and_roster
 
     @staticmethod
     def _extract_books_from_markdown(md_text: str) -> list[str]:
@@ -1635,6 +2065,17 @@ class TitanDatabase:
     # =========================================================================
     # DEPARTMENTS, OVERVIEW TELEMETRY & CFO SIMULATOR
     # =========================================================================
+    def list_divisions(self) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        rows = conn.execute("SELECT * FROM divisions ORDER BY sort_order ASC").fetchall()
+        out: list[dict[str, Any]] = []
+        for r in rows:
+            item = dict(r)
+            item["embedded_quality_cells"] = [dict(c) for c in EMBEDDED_QUALITY_CELLS]
+            item["coordination_rule_vi"] = COORDINATION_RULE_VI
+            out.append(item)
+        return out
+
     def list_departments(
         self,
         division_code: str | None = None,
@@ -1691,6 +2132,8 @@ class TitanDatabase:
             item["current_work_type"] = str(live.get("current_work_type") or "")
             item["current_mission_id"] = live.get("current_mission_id")
             item["current_task_id"] = live.get("current_task_id") if live.get("current_task_id") is not None else item.get("current_task_id")
+            item["embedded_quality_cells"] = [dict(c) for c in EMBEDDED_QUALITY_CELLS]
+            item["coordination_rule_vi"] = COORDINATION_RULE_VI
             result.append(item)
         return result
 
@@ -1727,6 +2170,11 @@ class TitanDatabase:
         dept["installed_skills"] = self.list_installed_skills(dept_id=actual_id)
         dept["skills_count"] = len(dept["installed_skills"])
         dept["tasks"] = self.list_tasks(dept_id=actual_id, _skip_reconcile=True)
+        dept["embedded_quality_cells"] = [dict(c) for c in EMBEDDED_QUALITY_CELLS]
+        dept["coordination_rule_vi"] = COORDINATION_RULE_VI
+        dept["rework_tickets"] = self.list_rework_tickets(target_dept_id=actual_id)
+        dept["peer_directory"] = self.get_department_peer_directory(actual_id)
+        dept["recent_handoffs"] = self.list_dept_handoffs(dept_id=actual_id)[:20]
         dept["reflexions"] = [
             dict(rf)
             for rf in conn.execute(
@@ -1827,7 +2275,7 @@ class TitanDatabase:
             """
         ).fetchone()
 
-        divisions = [dict(r) for r in conn.execute("SELECT * FROM divisions ORDER BY sort_order ASC").fetchall()]
+        divisions = self.list_divisions()
         events_raw = conn.execute(
             """
             SELECT e.*, d.title_vi AS actor_title_vi, d.code AS actor_code
@@ -1852,6 +2300,11 @@ class TitanDatabase:
         installed_skills = self.list_installed_skills()
         project_ledger = self.list_project_ledger()
         finance_summary = self.get_corporate_finance_summary()
+        rework_tickets = self.list_rework_tickets()
+        rework_summary = self.get_rework_summary()
+        dept_handoffs = self.list_dept_handoffs()
+        handoff_summary = self.get_handoff_summary()
+        corporate_directory_summary = self.get_corporate_directory_summary()
         latest_stamp_row = conn.execute(
             """
             SELECT MAX(ts) AS max_ts FROM (
@@ -1868,6 +2321,8 @@ class TitanDatabase:
                 UNION ALL SELECT MAX(created_at) AS ts FROM project_ledger
                 UNION ALL SELECT MAX(installed_at) AS ts FROM installed_skills
                 UNION ALL SELECT MAX(COALESCE(finished_at, started_at)) AS ts FROM learning_runs
+                UNION ALL SELECT MAX(updated_at) AS ts FROM rework_tickets
+                UNION ALL SELECT MAX(updated_at) AS ts FROM dept_handoffs
             )
             """
         ).fetchone()
@@ -1921,6 +2376,11 @@ class TitanDatabase:
             "installed_skills": installed_skills,
             "project_ledger": project_ledger,
             "finance_summary": finance_summary,
+            "rework_tickets": rework_tickets,
+            "rework_summary": rework_summary,
+            "dept_handoffs": dept_handoffs,
+            "handoff_summary": handoff_summary,
+            "corporate_directory_summary": corporate_directory_summary,
         }
 
     def get_events_since(self, last_event_id: int) -> list[dict[str, Any]]:
@@ -2028,12 +2488,12 @@ class TitanDatabase:
     DEFAULT_8_STEPS_TEMPLATE: list[tuple[int, str, str, str, str]] = [
         (1, "[GĐ 1] Săn nhu cầu thật, đối thủ và tâm lý khách trả tiền", "01,02,03,50", "47", "49"),
         (2, "[GĐ 1] Tính vốn, giá bán, thuế và khóa biên lãi gộp >= 65%", "38,39", "46", "49"),
-        (3, "[GĐ 1] Hội đồng phản biện rủi ro trước triển khai và chốt kiến trúc sản phẩm", "46,47,06,12", "47", "48"),
+        (3, "[GĐ 1] Hội đồng phản biện rủi ro, khóa đủ chức năng và kiến trúc sản phẩm", "06,07,08,12,42,46,47,52", "47", "52"),
         (4, "[GĐ 1] Trình Chủ tịch duyệt chốt phương án để bắt đầu sản xuất", "00", "46", "48"),
-        (5, "[GĐ 2] Lập trình và xây dựng sản phẩm cuối hoàn chỉnh", "13,14,15,16,17,19", "47", "49"),
-        (6, "[GĐ 2] Đóng gói trang bán hàng, bảng giá, video và kịch bản kiếm 50 khách đầu", "25,26,29,32,33,40", "47", "48"),
-        (7, "[GĐ 2] Kiểm thử viên đóng vai 5 nhóm khách hàng dùng thử thật và phản biện chốt lỗi", "48,49,20,23,47", "47", "48"),
-        (8, "[GĐ 2] Bàn giao sản phẩm cuối hoàn chỉnh và kịch bản thu tiền cho Chủ tịch", "00,19,35", "46", "48"),
+        (5, "[GĐ 2] Lập trình, xây dựng sản phẩm cuối và kiểm thử nội bộ liên khối", "08,13,14,15,16,17,19,20,23", "47", "49"),
+        (6, "[GĐ 2] Đóng gói trang bán hàng, bảng giá, video, pháp lý và kịch bản 50 khách đầu", "25,26,29,30,32,33,35,40,42", "47", "48"),
+        (7, "[GĐ 2] Chốt cuối Khối 9: Tổng hợp lỗi, QA/QC, kiểm tra đủ chức năng, diệt rối mắt và đẩy trả sửa", "53,51,52,49,48,47,20,23", "53", "52"),
+        (8, "[GĐ 2] Bàn giao sản phẩm cuối đạt 0 lỗi và kịch bản thu tiền cho Chủ tịch", "00,19,35,44,53,51,52", "51", "49"),
     ]
     DEFAULT_7_STEPS_TEMPLATE = DEFAULT_8_STEPS_TEMPLATE
 
@@ -2211,6 +2671,28 @@ class TitanDatabase:
             out.append(s)
         return out
 
+    def _attach_mission_roster_plan(self, m: dict[str, Any]) -> dict[str, Any]:
+        raw_plan = str(m.get("roster_plan_json") or "").strip()
+        parsed_plan: dict[str, Any] | None = None
+        if raw_plan:
+            try:
+                loaded = json.loads(raw_plan)
+                if isinstance(loaded, dict) and loaded.get("divisions"):
+                    parsed_plan = loaded
+            except Exception:
+                parsed_plan = None
+        if parsed_plan is None:
+            inferred_pt = str(m.get("product_type") or "AUTO")
+            if not raw_plan and inferred_pt.upper() == "GENERAL":
+                inferred_pt = "AUTO"
+            parsed_plan = self.plan_9_division_roster(
+                goal_prompt=str(m.get("goal_prompt") or m.get("title") or ""),
+                product_type=inferred_pt,
+            )
+        m["product_type"] = parsed_plan.get("product_type", m.get("product_type") or "GENERAL")
+        m["division_roster_plan"] = parsed_plan
+        return m
+
     def list_missions(self, status: str | None = None) -> list[dict[str, Any]]:
         conn = self._get_conn()
         dept_map = self._dept_short_map()
@@ -2230,6 +2712,7 @@ class TitanDatabase:
             m["done_steps_count"] = sum(1 for s in steps if s["status"] == "DONE")
             m["running_step"] = next((s for s in steps if s["status"] in ("RUNNING", "WAITING_APPROVAL")), None)
             m["pending_steps_count"] = sum(1 for s in steps if s["status"] == "PENDING")
+            self._attach_mission_roster_plan(m)
             missions.append(m)
         return missions
 
@@ -2246,6 +2729,7 @@ class TitanDatabase:
         m["done_steps_count"] = sum(1 for s in steps if s["status"] == "DONE")
         m["running_step"] = next((s for s in steps if s["status"] in ("RUNNING", "WAITING_APPROVAL")), None)
         m["pending_steps_count"] = sum(1 for s in steps if s["status"] == "PENDING")
+        self._attach_mission_roster_plan(m)
         return m
 
     def create_mission(
@@ -2257,10 +2741,15 @@ class TitanDatabase:
         mission_id: str | None = None,
         enqueue_order: bool = True,
         source_device: str = "web-local",
+        product_type: str = "AUTO",
     ) -> dict[str, Any]:
         now = utc_now_iso()
         mid = mission_id or f"msn-{uuid.uuid4().hex[:8]}"
         order_id: str | None = None
+        effective_prompt = goal_prompt or title
+        roster_plan = self.plan_9_division_roster(goal_prompt=effective_prompt, product_type=product_type)
+        step_overrides = roster_plan.get("step_lead_overrides", {})
+        roster_plan_json = json.dumps(roster_plan, ensure_ascii=False)
         with self.immediate_tx() as conn:
             self._clear_tombstone(conn, "mission", mid)
             conn.execute(
@@ -2268,13 +2757,26 @@ class TitanDatabase:
                 INSERT INTO missions(
                     mission_id, title, goal_prompt, category, status, auto_approve,
                     current_step_order, total_steps, progress_pct, dispatch_state,
-                    swarm_title, swarm_workers_json, phase, project_id, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, 'QUEUED_FOR_ANTIGRAVITY', '', '[]', 'PROPOSAL', '', ?, ?)
+                    swarm_title, swarm_workers_json, phase, project_id,
+                    product_type, roster_plan_json, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, 'QUEUED_FOR_ANTIGRAVITY', '', '[]', 'PROPOSAL', '', ?, ?, ?, ?)
                 """,
-                (mid, title, goal_prompt or title, category, 1 if auto_approve else 0, len(self.DEFAULT_8_STEPS_TEMPLATE), now, now),
+                (
+                    mid,
+                    title,
+                    effective_prompt,
+                    category,
+                    1 if auto_approve else 0,
+                    len(self.DEFAULT_8_STEPS_TEMPLATE),
+                    roster_plan["product_type"],
+                    roster_plan_json,
+                    now,
+                    now,
+                ),
             )
             for order, stitle, leads, critic, ux_tester in self.DEFAULT_8_STEPS_TEMPLATE:
                 sid = f"{mid}-s{order}"
+                effective_leads = str(step_overrides.get(order) or step_overrides.get(str(order)) or leads)
                 init_note = (
                     "Đã gửi đề bài sang hệ thống điều phối AI, chờ đội ngũ chuyên gia nhận việc..."
                     if order == 1
@@ -2288,7 +2790,7 @@ class TitanDatabase:
                         live_activity_text, worker_name, artifact_path, updated_at
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', 0, ?, '', '', ?)
                     """,
-                    (sid, mid, order, stitle, leads, critic, ux_tester, init_note, now),
+                    (sid, mid, order, stitle, effective_leads, critic, ux_tester, init_note, now),
                 )
             if enqueue_order:
                 order_id = f"ord-{uuid.uuid4().hex[:8]}"
@@ -2783,7 +3285,7 @@ class TitanDatabase:
         artifact_path: str = "",
     ) -> dict[str, Any]:
         mtype = msg_type.upper().strip()
-        if mtype not in ("HANDOFF", "UPDATE", "CRITIQUE", "QA_REPORT", "DONE", "APPROVAL"):
+        if mtype not in ("HANDOFF", "UPDATE", "CRITIQUE", "QA_REPORT", "DONE", "APPROVAL", "BOUNCE_BACK", "REWORK_VERIFIED"):
             mtype = "UPDATE"
         now = utc_now_iso()
         with self.immediate_tx() as conn:
@@ -3024,8 +3526,8 @@ class TitanDatabase:
 
     def delete_department_custom(self, dept_id: str) -> dict[str, Any]:
         num = int(dept_id) if dept_id.isdigit() else 0
-        if 0 <= num <= 50:
-            raise ValueError("51 vị trí cốt lõi (00..50) được bảo vệ không thể xóa; chỉ có thể giải thể phòng tuyển thêm (#51+).")
+        if 0 <= num <= 53:
+            raise ValueError("54 vị trí cốt lõi (00..53) được bảo vệ không thể xóa; chỉ có thể giải thể phòng tuyển thêm (#54+).")
         detail = self.get_department_detail(dept_id)
         if not detail:
             raise KeyError(f"Phòng '{dept_id}' không tồn tại.")
@@ -3952,6 +4454,14 @@ class TitanDatabase:
         existing_orders = {
             r["order_id"] for r in conn.execute("SELECT order_id FROM antigravity_orders").fetchall()
         }
+        rework_to_mission = {
+            r["ticket_id"]: r["mission_id"]
+            for r in conn.execute("SELECT ticket_id, mission_id FROM rework_tickets").fetchall()
+        }
+        handoff_to_mission = {
+            r["handoff_id"]: r["mission_id"]
+            for r in conn.execute("SELECT handoff_id, mission_id FROM dept_handoffs").fetchall()
+        }
 
         for item in rows:
             tid = str(item.get("task_id") or "")
@@ -3959,9 +4469,19 @@ class TitanDatabase:
             item["auto_synced"] = is_auto
             linked_mission_id: str | None = None
             linked_order_id: str | None = task_to_order.get(tid)
+            linked_rework_ticket_id: str | None = None
+            linked_handoff_id: str | None = None
             if is_auto:
                 raw_ref = tid[5:]
-                if raw_ref in step_to_mission:
+                if raw_ref.startswith("rw-"):
+                    rw_id = raw_ref[3:]
+                    linked_rework_ticket_id = rw_id
+                    linked_mission_id = rework_to_mission.get(rw_id)
+                elif raw_ref.startswith("ho-"):
+                    ho_id = raw_ref[3:]
+                    linked_handoff_id = ho_id
+                    linked_mission_id = handoff_to_mission.get(ho_id)
+                elif raw_ref in step_to_mission:
                     linked_mission_id = step_to_mission[raw_ref]
                 elif raw_ref in existing_orders:
                     linked_order_id = raw_ref
@@ -3971,6 +4491,8 @@ class TitanDatabase:
                         linked_mission_id = m_step.group(1)
             item["linked_mission_id"] = linked_mission_id
             item["linked_order_id"] = linked_order_id
+            item["linked_rework_ticket_id"] = linked_rework_ticket_id
+            item["linked_handoff_id"] = linked_handoff_id
         return rows
 
     def reconcile_live_system_state(self, emit_event: bool = False) -> dict[str, Any]:
@@ -4003,6 +4525,10 @@ class TitanDatabase:
         all_orders = [
             dict(r)
             for r in conn.execute("SELECT * FROM antigravity_orders ORDER BY created_at DESC").fetchall()
+        ]
+        all_rework = [
+            dict(r)
+            for r in conn.execute("SELECT * FROM rework_tickets ORDER BY updated_at DESC").fetchall()
         ]
 
         # ---------------------------------------------------------------------
@@ -4098,6 +4624,83 @@ class TitanDatabase:
                 "kanban_column": col,
             }
 
+        for rw in all_rework:
+            rw_tid = f"auto-rw-{rw['ticket_id']}"
+            if rw_tid in deleted_task_ids:
+                continue
+            rw_st = str(rw.get("status") or "OPEN").upper()
+            if rw_st == "VERIFIED_CLOSED":
+                col = "DONE"
+            elif rw_st == "FIXED_PENDING_RECHECK":
+                col = "QA_SECURITY_REVIEW"
+            else:
+                col = "IN_PROGRESS"
+            target_d = str(rw.get("target_dept_id") or "00").strip()
+            if target_d not in valid_depts:
+                target_d = "00"
+            source_d = str(rw.get("source_dept_id") or "53").strip()
+            if source_d not in valid_depts:
+                source_d = "53" if "53" in valid_depts else ("51" if "51" in valid_depts else "00")
+            rw_proj = str(rw.get("project_id") or "").strip()
+            linked_proj = rw_proj if (rw_proj and rw_proj in valid_projects) else None
+            cat_vi = REWORK_CATEGORY_LABELS_VI.get(str(rw.get("defect_category") or "BUG").upper(), "Sửa lỗi")
+            rw_title = f"[Đẩy trả #{source_d} -> #{target_d} · {cat_vi}] {str(rw.get('title') or '').strip()}"
+            rw_desc = str(rw.get("detail_vi") or "").strip()
+            if rw.get("fix_note_vi"):
+                rw_desc = f"{rw_desc}\nGhi chú sửa: {rw['fix_note_vi']}".strip()
+            desired_auto_tasks[rw_tid] = {
+                "task_id": rw_tid,
+                "project_id": linked_proj,
+                "title": rw_title[:180],
+                "description": rw_desc or rw_title,
+                "assigned_dept_id": target_d,
+                "reviewer_dept_id": source_d,
+                "gate_number": 2 if int(rw.get("step_order") or 0) >= 5 else 1,
+                "stage_number": max(1, int(rw.get("step_order") or 7)),
+                "priority": str(rw.get("severity") or "HIGH").upper(),
+                "kanban_column": col,
+            }
+
+        # 1c. Chuyển việc ngang / Đẩy lên Tổng Giám đốc #00 (dept_handoffs -> auto-ho-*)
+        all_handoffs = [
+            dict(r)
+            for r in conn.execute("SELECT * FROM dept_handoffs ORDER BY updated_at DESC").fetchall()
+        ]
+        for ho in all_handoffs:
+            ho_tid = f"auto-ho-{ho['handoff_id']}"
+            if ho_tid in deleted_task_ids:
+                continue
+            ho_st = str(ho.get("status") or "OPEN").upper()
+            col = "DONE" if ho_st == "COMPLETED" else "IN_PROGRESS"
+            from_d = str(ho.get("from_dept_id") or "00").strip()
+            if from_d not in valid_depts:
+                from_d = "00"
+            resolved_d = str(ho.get("resolved_to_dept_id") or "").strip()
+            base_to_d = str(ho.get("to_dept_id") or "00").strip()
+            owner_d = resolved_d if (ho_st in ("REROUTED_BY_CEO", "COMPLETED") and resolved_d in valid_depts) else base_to_d
+            if owner_d not in valid_depts:
+                owner_d = "00"
+            ho_proj = str(ho.get("project_id") or "").strip()
+            linked_proj = ho_proj if (ho_proj and ho_proj in valid_projects) else None
+            mode_code = str(ho.get("mode") or "PEER_HANDOFF").upper()
+            mode_tag = "Đẩy lên #00" if mode_code == "CEO_ESCALATION" else ("#00 chỉ định" if mode_code == "CEO_ASSIGN" else "Chuyển ngang")
+            ho_title = f"[{mode_tag} #{from_d} -> #{owner_d}] {str(ho.get('reason_vi') or '').strip()}"
+            ho_desc = str(ho.get("payload_vi") or "").strip()
+            if ho.get("ceo_note_vi"):
+                ho_desc = f"{ho_desc}\nChỉ đạo #00: {ho['ceo_note_vi']}".strip()
+            desired_auto_tasks[ho_tid] = {
+                "task_id": ho_tid,
+                "project_id": linked_proj,
+                "title": ho_title[:180],
+                "description": ho_desc or ho_title,
+                "assigned_dept_id": owner_d,
+                "reviewer_dept_id": "00",
+                "gate_number": 1,
+                "stage_number": 5,
+                "priority": "CRITICAL" if mode_code == "CEO_ESCALATION" else "HIGH",
+                "kanban_column": col,
+            }
+
         existing_tasks_all = [dict(r) for r in conn.execute("SELECT * FROM tasks").fetchall()]
         existing_auto = {t["task_id"]: t for t in existing_tasks_all if str(t["task_id"]).startswith("auto-")}
         existing_manual = [t for t in existing_tasks_all if not str(t["task_id"]).startswith("auto-")]
@@ -4169,6 +4772,64 @@ class TitanDatabase:
                     "current_mission_id": mission_id,
                     "current_task_id": task_id,
                 },
+            )
+
+        # Mức 0: Phiếu đẩy trả sửa lỗi Khối 9 / Tổ nội bộ đang mở hoặc chờ kiểm lại (ưu tiên tối cao!)
+        for rw in all_rework:
+            rw_st = str(rw.get("status") or "OPEN").upper()
+            if rw_st == "VERIFIED_CLOSED":
+                continue
+            rw_tid = f"auto-rw-{rw['ticket_id']}"
+            linked_tid = rw_tid if rw_tid in effective_tasks else None
+            rw_mid = rw.get("mission_id") or None
+            short_rw = str(rw.get("title") or "").strip()[:76]
+            if rw_st in ("OPEN", "IN_FIX"):
+                _assign(
+                    str(rw.get("target_dept_id") or "00"),
+                    0,
+                    "EXECUTING",
+                    f"Sửa lỗi đẩy trả từ Phòng #{rw.get('source_dept_id', '53')}: {short_rw}",
+                    "mission" if rw_mid else "task",
+                    mission_id=rw_mid,
+                    task_id=linked_tid,
+                )
+            elif rw_st == "FIXED_PENDING_RECHECK":
+                _assign(
+                    str(rw.get("source_dept_id") or "53"),
+                    0,
+                    "IN_QA_REVIEW",
+                    f"Kiểm lại lỗi đã sửa từ Phòng #{rw.get('target_dept_id', '00')}: {short_rw}",
+                    "mission" if rw_mid else "task",
+                    mission_id=rw_mid,
+                    task_id=linked_tid,
+                )
+
+        # Mức 0b: Chuyển việc ngang / Đẩy lên #00 đang hoạt động (dept_handoffs)
+        for ho in all_handoffs:
+            ho_st = str(ho.get("status") or "OPEN").upper()
+            if ho_st == "COMPLETED":
+                continue
+            ho_tid = f"auto-ho-{ho['handoff_id']}"
+            linked_tid = ho_tid if ho_tid in effective_tasks else None
+            ho_mid = ho.get("mission_id") or None
+            resolved_d = str(ho.get("resolved_to_dept_id") or "").strip()
+            owner_d = resolved_d if (ho_st == "REROUTED_BY_CEO" and resolved_d in valid_depts) else str(ho.get("to_dept_id") or "00").strip()
+            short_reason = str(ho.get("reason_vi") or "").strip()[:72]
+            mode_code = str(ho.get("mode") or "PEER_HANDOFF").upper()
+            if ho_st == "REROUTED_BY_CEO":
+                w_label = f"Nhận chuyển tuyến từ #00 (nguồn #{ho.get('from_dept_id', '00')}): {short_reason}"
+            elif mode_code == "CEO_ESCALATION":
+                w_label = f"Phân xử yêu cầu đẩy lên từ Phòng #{ho.get('from_dept_id', '00')}: {short_reason}"
+            else:
+                w_label = f"Xử lý chuyển việc ngang từ Phòng #{ho.get('from_dept_id', '00')}: {short_reason}"
+            _assign(
+                owner_d,
+                0,
+                "EXECUTING",
+                w_label,
+                "mission" if ho_mid else "task",
+                mission_id=ho_mid,
+                task_id=linked_tid,
             )
 
         # Mức 1: Bước mission_steps đang RUNNING thuộc mission đang RUNNING
@@ -4468,3 +5129,1237 @@ class TitanDatabase:
             "depts_updated": len(dept_diffs),
             "work_map": work_map,
         }
+
+    # =========================================================================
+    # V10.0: CLOSED-LOOP REWORK BOUNCE-BACK TICKETS & DIV 9 ZERO-DEFECT GATE
+    # =========================================================================
+    def _normalize_dept_code(self, dept_id: str) -> str:
+        raw = str(dept_id or "").strip()
+        if raw.isdigit() and len(raw) < 2:
+            return raw.zfill(2)
+        return raw
+
+    def _enrich_rework_rows(self, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        if not rows:
+            return rows
+        conn = self._get_conn()
+        dept_info = {
+            r["dept_id"]: (r["title_vi"], r["division_code"])
+            for r in conn.execute("SELECT dept_id, title_vi, division_code FROM departments").fetchall()
+        }
+        div_names = {
+            r["code"]: r["name_vi"]
+            for r in conn.execute("SELECT code, name_vi FROM divisions").fetchall()
+        }
+        out: list[dict[str, Any]] = []
+        for r in rows:
+            item = dict(r)
+            s_id = str(item.get("source_dept_id") or "53")
+            t_id = str(item.get("target_dept_id") or "00")
+            s_title, s_div = dept_info.get(s_id, (f"Phòng #{s_id}", item.get("source_division_code", "")))
+            t_title, t_div = dept_info.get(t_id, (f"Phòng #{t_id}", item.get("target_division_code", "")))
+            item["source_dept_title_vi"] = s_title
+            item["source_division_code"] = item.get("source_division_code") or s_div
+            item["source_division_name_vi"] = div_names.get(item["source_division_code"], item["source_division_code"])
+            item["target_dept_title_vi"] = t_title
+            item["target_division_code"] = item.get("target_division_code") or t_div
+            item["target_division_name_vi"] = div_names.get(item["target_division_code"], item["target_division_code"])
+            item["defect_category_vi"] = REWORK_CATEGORY_LABELS_VI.get(str(item.get("defect_category") or "BUG").upper(), "Lỗi chức năng")
+            item["severity_vi"] = REWORK_SEVERITY_LABELS_VI.get(str(item.get("severity") or "HIGH").upper(), "Cao")
+            item["status_vi"] = REWORK_STATUS_LABELS_VI.get(str(item.get("status") or "OPEN").upper(), "Đang mở, chờ sửa")
+            item["auto_task_id"] = f"auto-rw-{item['ticket_id']}"
+            out.append(item)
+        return out
+
+    def list_rework_tickets(
+        self,
+        mission_id: str | None = None,
+        project_id: str | None = None,
+        target_dept_id: str | None = None,
+        status: str | None = None,
+    ) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        clauses = ["1=1"]
+        params: list[Any] = []
+        if mission_id:
+            clauses.append("mission_id = ?")
+            params.append(mission_id)
+        if project_id:
+            clauses.append("project_id = ?")
+            params.append(project_id)
+        if target_dept_id:
+            clauses.append("target_dept_id = ?")
+            params.append(self._normalize_dept_code(target_dept_id))
+        if status:
+            st_up = status.upper().strip()
+            if st_up == "UNRESOLVED":
+                clauses.append("status != 'VERIFIED_CLOSED'")
+            else:
+                clauses.append("status = ?")
+                params.append(st_up)
+        rows = conn.execute(
+            f"""
+            SELECT * FROM rework_tickets
+            WHERE {' AND '.join(clauses)}
+            ORDER BY
+                CASE status WHEN 'OPEN' THEN 0 WHEN 'IN_FIX' THEN 1 WHEN 'FIXED_PENDING_RECHECK' THEN 2 ELSE 3 END,
+                CASE severity WHEN 'CRITICAL' THEN 0 WHEN 'HIGH' THEN 1 WHEN 'MEDIUM' THEN 2 ELSE 3 END,
+                updated_at DESC
+            """,
+            params,
+        ).fetchall()
+        return self._enrich_rework_rows([dict(r) for r in rows])
+
+    def get_rework_summary(self) -> dict[str, Any]:
+        conn = self._get_conn()
+        rows = conn.execute("SELECT mission_id, status FROM rework_tickets").fetchall()
+        open_count = 0
+        recheck_count = 0
+        closed_count = 0
+        by_mission: dict[str, dict[str, Any]] = {}
+
+        for r in rows:
+            st = str(r["status"] or "OPEN").upper()
+            mid = r["mission_id"]
+            if st in ("OPEN", "IN_FIX"):
+                open_count += 1
+            elif st == "FIXED_PENDING_RECHECK":
+                recheck_count += 1
+            elif st == "VERIFIED_CLOSED":
+                closed_count += 1
+
+            if mid:
+                bm = by_mission.setdefault(
+                    mid,
+                    {"open_count": 0, "recheck_count": 0, "closed_count": 0, "unresolved_count": 0, "zero_defect_ready": True},
+                )
+                if st in ("OPEN", "IN_FIX"):
+                    bm["open_count"] += 1
+                    bm["unresolved_count"] += 1
+                elif st == "FIXED_PENDING_RECHECK":
+                    bm["recheck_count"] += 1
+                    bm["unresolved_count"] += 1
+                elif st == "VERIFIED_CLOSED":
+                    bm["closed_count"] += 1
+                bm["zero_defect_ready"] = bm["unresolved_count"] == 0
+
+        unresolved_count = open_count + recheck_count
+        return {
+            "open_count": open_count,
+            "recheck_count": recheck_count,
+            "closed_count": closed_count,
+            "unresolved_count": unresolved_count,
+            "total_count": len(rows),
+            "by_mission": by_mission,
+        }
+
+    def bounce_back_defect(
+        self,
+        target_dept_id: str,
+        title: str,
+        detail_vi: str = "",
+        source_dept_id: str = "53",
+        source_role_type: str = "",
+        defect_category: str = "BUG",
+        severity: str = "HIGH",
+        mission_id: str | None = None,
+        project_id: str | None = None,
+        task_id: str | None = None,
+        step_order: int = 0,
+    ) -> dict[str, Any]:
+        """
+        Tạo phiếu đẩy trả sửa lỗi (`bounce-back`) từ Trạm Tổng hợp & Điều phối Lỗi Khối 9 (#53),
+        các phòng kiểm định Khối 9 (#51/#52/#49/#48/#47/#46) hoặc Tổ Kiểm thử/Phản biện nội bộ của 9 Khối
+        về đúng Phòng ban phụ trách — tự động mở lại bước đã DONE nếu có lỗi, tạo việc `auto-rw-*`,
+        bật phòng đích sang EXECUTING, ghi tin nhắn phòng họp và phát SSE tức thì.
+        """
+        clean_title = str(title or "").strip()
+        if not clean_title:
+            raise ValueError("Tiêu đề phiếu đẩy trả sửa lỗi không được để trống.")
+        src_dept = self._normalize_dept_code(source_dept_id or "53")
+        tgt_dept = self._normalize_dept_code(target_dept_id)
+        if not tgt_dept:
+            raise ValueError("Vui lòng chọn phòng ban cần nhận sửa lỗi.")
+
+        cat = str(defect_category or "BUG").upper().strip()
+        if cat not in ("MISSING_FEATURE", "BUG", "UX_FRICTION", "QA_QC", "LOGIC_CRITIQUE"):
+            cat = "BUG"
+        sev = str(severity or "HIGH").upper().strip()
+        if sev not in ("CRITICAL", "HIGH", "MEDIUM", "LOW"):
+            sev = "HIGH"
+        inferred_roles = {
+            "53": "DIV9_DEFECT_TRIAGE",
+            "51": "DIV9_QA_QC",
+            "52": "DIV9_FEATURE_AUDIT",
+            "49": "DIV9_UX_FRICTION",
+            "48": "DIV9_USER_TESTER",
+            "47": "DIV9_CRITIC",
+            "46": "DIV9_CRITIC",
+        }
+        role_type = str(source_role_type or "").strip() or inferred_roles.get(src_dept, "INTERNAL_QUALITY_CELL")
+        clean_detail = str(detail_vi or "").strip()
+
+        now = utc_now_iso()
+        ticket_id = f"rw-{uuid.uuid4().hex[:8]}"
+        reopened_step_order = int(step_order or 0)
+
+        with self.immediate_tx() as conn:
+            src_row = conn.execute("SELECT dept_id, division_code, title_vi FROM departments WHERE dept_id = ?", (src_dept,)).fetchone()
+            tgt_row = conn.execute("SELECT dept_id, division_code, title_vi FROM departments WHERE dept_id = ?", (tgt_dept,)).fetchone()
+            if not tgt_row:
+                raise KeyError(f"Phòng ban nhận sửa '{tgt_dept}' không tồn tại.")
+            src_div = src_row["division_code"] if src_row else "div9-critique-ux-lab"
+            src_title = src_row["title_vi"] if src_row else f"Phòng #{src_dept}"
+            tgt_div = tgt_row["division_code"]
+            tgt_title = tgt_row["title_vi"]
+
+            resolved_proj = str(project_id or "").strip() or None
+            resolved_msn = str(mission_id or "").strip() or None
+            if resolved_msn:
+                m_row = conn.execute("SELECT * FROM missions WHERE mission_id = ?", (resolved_msn,)).fetchone()
+                if not m_row:
+                    raise KeyError(f"Nhiệm vụ '{resolved_msn}' không tồn tại.")
+                if not resolved_proj and m_row["project_id"]:
+                    resolved_proj = str(m_row["project_id"]).strip() or None
+
+                # Tìm bước cần mở lại (theo step_order chỉ định hoặc tự dò bước có target_dept_id)
+                target_step = None
+                if reopened_step_order > 0:
+                    target_step = conn.execute(
+                        "SELECT * FROM mission_steps WHERE mission_id = ? AND step_order = ?",
+                        (resolved_msn, reopened_step_order),
+                    ).fetchone()
+                if target_step is None:
+                    cand_steps = conn.execute(
+                        "SELECT * FROM mission_steps WHERE mission_id = ? ORDER BY step_order DESC",
+                        (resolved_msn,),
+                    ).fetchall()
+                    for st in cand_steps:
+                        leads = [x.strip() for x in str(st["lead_dept_ids"] or "").split(",") if x.strip()]
+                        if tgt_dept in leads:
+                            target_step = st
+                            reopened_step_order = int(st["step_order"])
+                            break
+
+                cat_vi = REWORK_CATEGORY_LABELS_VI.get(cat, "Lỗi")
+                if target_step is not None:
+                    reopened_step_order = int(target_step["step_order"])
+                    bounce_note = (
+                        f"[Đẩy trả từ Phòng #{src_dept} - {src_title}] "
+                        f"Cần sửa ({cat_vi}): {clean_title}"
+                    )
+                    if clean_detail:
+                        bounce_note = f"{bounce_note}. {clean_detail}"
+                    conn.execute(
+                        """
+                        UPDATE mission_steps
+                        SET status = 'RUNNING',
+                            progress_pct = 50,
+                            live_activity_text = ?,
+                            completed_at = NULL,
+                            updated_at = ?
+                        WHERE step_id = ?
+                        """,
+                        (bounce_note[:400], now, target_step["step_id"]),
+                    )
+                    all_st = conn.execute(
+                        "SELECT status, progress_pct, step_order FROM mission_steps WHERE mission_id = ? ORDER BY step_order ASC",
+                        (resolved_msn,),
+                    ).fetchall()
+                    total_st = max(1, len(all_st))
+                    total_prog = sum(100 if r["status"] == "DONE" else int(r["progress_pct"] or 0) for r in all_st)
+                    overall_pct = min(99, int(round(total_prog / total_st)))
+                    active_order = next((int(r["step_order"]) for r in all_st if r["status"] != "DONE"), reopened_step_order)
+                    conn.execute(
+                        """
+                        UPDATE missions
+                        SET status = 'RUNNING',
+                            dispatch_state = 'SWARM_ACTIVE',
+                            current_step_order = ?,
+                            progress_pct = ?,
+                            version = version + 1,
+                            updated_at = ?
+                        WHERE mission_id = ?
+                        """,
+                        (active_order, overall_pct, now, resolved_msn),
+                    )
+                elif str(m_row["status"] or "").upper() in ("WAITING_CHAIRMAN", "COMPLETED"):
+                    conn.execute(
+                        """
+                        UPDATE missions
+                        SET status = 'RUNNING',
+                            dispatch_state = 'SWARM_ACTIVE',
+                            version = version + 1,
+                            updated_at = ?
+                        WHERE mission_id = ?
+                        """,
+                        (now, resolved_msn),
+                    )
+
+            resolved_task = str(task_id or "").strip() or None
+            if resolved_task:
+                t_row = conn.execute("SELECT task_id FROM tasks WHERE task_id = ?", (resolved_task,)).fetchone()
+                if t_row:
+                    conn.execute(
+                        """
+                        UPDATE tasks
+                        SET kanban_column = 'IN_PROGRESS',
+                            approval_note = ?,
+                            version = version + 1,
+                            updated_at = ?
+                        WHERE task_id = ?
+                        """,
+                        (f"[Đẩy trả từ Phòng #{src_dept}] {clean_title}", now, resolved_task),
+                    )
+
+            conn.execute(
+                """
+                INSERT INTO rework_tickets(
+                    ticket_id, mission_id, project_id, task_id, step_order,
+                    source_division_code, source_dept_id, source_role_type,
+                    target_division_code, target_dept_id, severity, defect_category,
+                    title, detail_vi, fix_note_vi, reopen_count, status,
+                    created_at, updated_at, resolved_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', 0, 'OPEN', ?, ?, NULL)
+                """,
+                (
+                    ticket_id,
+                    resolved_msn,
+                    resolved_proj,
+                    resolved_task,
+                    reopened_step_order,
+                    src_div,
+                    src_dept,
+                    role_type,
+                    tgt_div,
+                    tgt_dept,
+                    sev,
+                    cat,
+                    clean_title,
+                    clean_detail,
+                    now,
+                    now,
+                ),
+            )
+
+            cat_vi = REWORK_CATEGORY_LABELS_VI.get(cat, "Lỗi")
+            if resolved_msn:
+                msg_body = f"Đẩy trả sửa lỗi ({cat_vi}): {clean_title}"
+                if clean_detail:
+                    msg_body += f"\nChi tiết cần khắc phục: {clean_detail}"
+                if reopened_step_order > 0:
+                    msg_body += f"\nĐã tự động mở lại Bước {reopened_step_order} để Phòng #{tgt_dept} ({tgt_title}) xử lý triệt để."
+                conn.execute(
+                    """
+                    INSERT INTO swarm_messages(
+                        mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                        recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                    ) VALUES (?, ?, ?, ?, ?, 'BOUNCE_BACK', ?, '', ?)
+                    """,
+                    (
+                        resolved_msn,
+                        f"@phong-{src_dept}",
+                        f"Phòng #{src_dept}: {src_title}",
+                        src_dept,
+                        f"Phòng #{tgt_dept}: {tgt_title}",
+                        msg_body,
+                        now,
+                    ),
+                )
+
+            self.log_event(
+                actor_dept_id=src_dept,
+                event_type="REWORK_BOUNCED",
+                headline_vi=f"Đẩy trả sửa lỗi ({cat_vi}) từ Phòng #{src_dept} về Phòng #{tgt_dept}: {clean_title}",
+                project_id=resolved_proj,
+                task_id=f"auto-rw-{ticket_id}",
+                detail={
+                    "ticket_id": ticket_id,
+                    "mission_id": resolved_msn,
+                    "source_dept_id": src_dept,
+                    "target_dept_id": tgt_dept,
+                    "severity": sev,
+                    "defect_category": cat,
+                    "step_order": reopened_step_order,
+                },
+                conn=conn,
+            )
+
+        self.reconcile_live_system_state()
+        row = self._get_conn().execute("SELECT * FROM rework_tickets WHERE ticket_id = ?", (ticket_id,)).fetchone()
+        return self._enrich_rework_rows([dict(row)])[0]
+
+    def update_rework_ticket(
+        self,
+        ticket_id: str,
+        status: str | None = None,
+        fix_note_vi: str | None = None,
+        recheck_note_vi: str | None = None,
+    ) -> dict[str, Any]:
+        now = utc_now_iso()
+        new_status = str(status or "").upper().strip() if status else None
+        if new_status and new_status not in ("OPEN", "IN_FIX", "FIXED_PENDING_RECHECK", "VERIFIED_CLOSED"):
+            raise ValueError("Trạng thái phiếu sửa lỗi phải là OPEN, IN_FIX, FIXED_PENDING_RECHECK hoặc VERIFIED_CLOSED.")
+
+        with self.immediate_tx() as conn:
+            cur = conn.execute("SELECT * FROM rework_tickets WHERE ticket_id = ?", (ticket_id,)).fetchone()
+            if not cur:
+                raise KeyError(f"Phiếu sửa lỗi '{ticket_id}' không tồn tại.")
+            cur_d = dict(cur)
+            final_status = new_status or cur_d["status"]
+            reopen_count = int(cur_d.get("reopen_count") or 0)
+            resolved_at = cur_d.get("resolved_at")
+            next_fix_note = str(fix_note_vi).strip() if fix_note_vi is not None else cur_d.get("fix_note_vi", "")
+            next_detail = cur_d.get("detail_vi", "")
+            recheck_clean = str(recheck_note_vi or "").strip()
+
+            if final_status == "VERIFIED_CLOSED":
+                resolved_at = now
+                if recheck_clean:
+                    next_fix_note = f"{next_fix_note}\n[Khối 9 chốt đạt]: {recheck_clean}".strip()
+            elif final_status == "OPEN" and cur_d["status"] in ("FIXED_PENDING_RECHECK", "VERIFIED_CLOSED", "IN_FIX"):
+                reopen_count += 1
+                resolved_at = None
+                if recheck_clean:
+                    next_detail = f"{next_detail}\n[Đẩy trả lần {reopen_count}]: {recheck_clean}".strip()
+            elif final_status in ("IN_FIX", "FIXED_PENDING_RECHECK"):
+                resolved_at = None
+
+            conn.execute(
+                """
+                UPDATE rework_tickets
+                SET status = ?,
+                    fix_note_vi = ?,
+                    detail_vi = ?,
+                    reopen_count = ?,
+                    resolved_at = ?,
+                    updated_at = ?
+                WHERE ticket_id = ?
+                """,
+                (final_status, next_fix_note, next_detail, reopen_count, resolved_at, now, ticket_id),
+            )
+
+            mid = cur_d.get("mission_id")
+            src_d = str(cur_d.get("source_dept_id") or "53")
+            tgt_d = str(cur_d.get("target_dept_id") or "00")
+            if final_status == "OPEN" and mid and int(cur_d.get("step_order") or 0) > 0:
+                conn.execute(
+                    "UPDATE mission_steps SET status = 'RUNNING', progress_pct = 50, completed_at = NULL, updated_at = ? WHERE mission_id = ? AND step_order = ?",
+                    (now, mid, int(cur_d["step_order"])),
+                )
+                conn.execute(
+                    "UPDATE missions SET status = 'RUNNING', dispatch_state = 'SWARM_ACTIVE', updated_at = ? WHERE mission_id = ?",
+                    (now, mid),
+                )
+
+            if final_status == "VERIFIED_CLOSED":
+                if mid:
+                    conn.execute(
+                        """
+                        INSERT INTO swarm_messages(
+                            mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                            recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                        ) VALUES (?, ?, ?, ?, ?, 'REWORK_VERIFIED', ?, '', ?)
+                        """,
+                        (
+                            mid,
+                            f"@phong-{src_d}",
+                            f"Phòng #{src_d}",
+                            src_d,
+                            f"Phòng #{tgt_d} và Toàn đội",
+                            f"Đã kiểm lại và chốt đạt 0 lỗi cho phiếu '{cur_d['title']}'. {recheck_clean}".strip(),
+                            now,
+                        ),
+                    )
+                self.log_event(
+                    actor_dept_id=src_d,
+                    event_type="REWORK_VERIFIED",
+                    headline_vi=f"Khối 9 (Phòng #{src_d}) đã kiểm lại và chốt đạt 0 lỗi cho phiếu '{cur_d['title']}'",
+                    project_id=cur_d.get("project_id"),
+                    task_id=f"auto-rw-{ticket_id}",
+                    detail={"ticket_id": ticket_id, "mission_id": mid, "status": final_status},
+                    conn=conn,
+                )
+            elif final_status == "FIXED_PENDING_RECHECK":
+                if mid:
+                    conn.execute(
+                        """
+                        INSERT INTO swarm_messages(
+                            mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                            recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                        ) VALUES (?, ?, ?, ?, ?, 'QA_REPORT', ?, '', ?)
+                        """,
+                        (
+                            mid,
+                            f"@phong-{tgt_d}",
+                            f"Phòng #{tgt_d}",
+                            tgt_d,
+                            f"Phòng #{src_d} (Kiểm định lại)",
+                            f"Đã sửa xong phiếu '{cur_d['title']}', gửi Phòng #{src_d} kiểm lại. {next_fix_note}".strip(),
+                            now,
+                        ),
+                    )
+                self.log_event(
+                    actor_dept_id=tgt_d,
+                    event_type="REWORK_RECHECK_REQUESTED",
+                    headline_vi=f"Phòng #{tgt_d} báo đã sửa xong '{cur_d['title']}', chờ Phòng #{src_d} kiểm lại",
+                    project_id=cur_d.get("project_id"),
+                    task_id=f"auto-rw-{ticket_id}",
+                    detail={"ticket_id": ticket_id, "mission_id": mid, "status": final_status},
+                    conn=conn,
+                )
+            elif final_status == "OPEN":
+                if mid:
+                    conn.execute(
+                        """
+                        INSERT INTO swarm_messages(
+                            mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                            recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                        ) VALUES (?, ?, ?, ?, ?, 'BOUNCE_BACK', ?, '', ?)
+                        """,
+                        (
+                            mid,
+                            f"@phong-{src_d}",
+                            f"Phòng #{src_d}",
+                            src_d,
+                            f"Phòng #{tgt_d}",
+                            f"Kiểm lại vẫn còn lỗi (lần {reopen_count}), đẩy trả Phòng #{tgt_d} sửa tiếp: {cur_d['title']}. {recheck_clean}".strip(),
+                            now,
+                        ),
+                    )
+                self.log_event(
+                    actor_dept_id=src_d,
+                    event_type="REWORK_BOUNCED",
+                    headline_vi=f"Đẩy trả sửa tiếp lần {reopen_count} về Phòng #{tgt_d}: {cur_d['title']}",
+                    project_id=cur_d.get("project_id"),
+                    task_id=f"auto-rw-{ticket_id}",
+                    detail={"ticket_id": ticket_id, "mission_id": mid, "reopen_count": reopen_count},
+                    conn=conn,
+                )
+
+        self.reconcile_live_system_state()
+        row = self._get_conn().execute("SELECT * FROM rework_tickets WHERE ticket_id = ?", (ticket_id,)).fetchone()
+        return self._enrich_rework_rows([dict(row)])[0]
+
+    def request_mission_approval(
+        self,
+        mission_id: str,
+        summary: str,
+        order_id: str = "",
+        step_num: int = 0,
+        worker: str = "@coordinator",
+        critique: str = "",
+        ux: str = "",
+        artifact: str = "",
+        survival: int = 88,
+        ux_score: int = 92,
+        margin: float = 75.0,
+        force: bool = False,
+    ) -> dict[str, Any]:
+        """
+        Cổng Khóa 0 Lỗi Khối 9 (Bước 8 / Cổng 2):
+        Chặn tuyệt đối không cho chốt nghiệm thu nếu mission vẫn còn bất kỳ phiếu rework_tickets nào
+        chưa ở trạng thái VERIFIED_CLOSED (trừ khi Chủ tịch/điều phối truyền tường minh force=True).
+        """
+        msn_now = self.get_mission(mission_id)
+        if not msn_now:
+            raise KeyError(f"Nhiệm vụ '{mission_id}' không tồn tại.")
+
+        conn = self._get_conn()
+        unresolved_rows = conn.execute(
+            "SELECT ticket_id, target_dept_id, status, title FROM rework_tickets WHERE mission_id = ? AND status != 'VERIFIED_CLOSED'",
+            (mission_id,),
+        ).fetchall()
+        unresolved_count = len(unresolved_rows)
+        if unresolved_count > 0 and not force:
+            depts_list = sorted({f"#{r['target_dept_id']}" for r in unresolved_rows})
+            raise ValueError(
+                f"Chặn chốt Cổng 2 (Khối 9): Còn {unresolved_count} phiếu lỗi chưa đóng tại các phòng "
+                f"{', '.join(depts_list)}. Vui lòng sửa triệt để và xác nhận 0 lỗi trước khi trình nghiệm thu!"
+            )
+
+        target_step = int(step_num) if step_num else int(msn_now.get("total_steps") or 8)
+        sid = f"{mission_id}-s{target_step}"
+        self.update_mission_step(
+            sid,
+            status="WAITING_APPROVAL",
+            progress_pct=95,
+            worker_name=worker or "@coordinator",
+            live_activity_text="Toàn công ty đã sản xuất xong sản phẩm cuối và Khối 9 xác nhận 0 lỗi mở. Mời Chủ tịch xem sản phẩm và nghiệm thu.",
+            output_summary=summary,
+            critique_verdict=critique or "Đã qua chốt tổng hợp lỗi, QA/QC và kiểm tra chức năng 0 lỗi của Khối 9 (Phòng #53, #51, #52, #49, #46, #47)",
+            ux_verdict=ux or "Đã qua kiểm thử trình duyệt đóng vai 5 nhóm khách hàng thật (Phòng #48, #49)",
+            artifact_path=artifact or "",
+            started_at=utc_now_iso(),
+        )
+        msn = self.update_mission(
+            mission_id,
+            status="WAITING_CHAIRMAN",
+            phase="PRODUCTION",
+            dispatch_state="WAITING_CHAIRMAN",
+            final_summary=summary,
+            survival_score=int(survival),
+            ux_score=int(ux_score),
+            expected_margin_pct=float(margin),
+        )
+        if order_id:
+            self.complete_order(order_id, result_summary=summary[:400], status="COMPLETED")
+        self.log_event(
+            "00",
+            "MISSION_WAITING",
+            f"Sản phẩm cuối của '{msn['title']}' đã đạt chốt 0 lỗi Khối 9. Mời Chủ tịch nghiệm thu bàn giao.",
+            detail={"mission_id": mission_id, "phase": "PRODUCTION", "zero_defect_verified": unresolved_count == 0},
+        )
+        self.reconcile_live_system_state()
+        return {
+            "ok": True,
+            "mission_id": mission_id,
+            "phase": "PRODUCTION",
+            "status": "WAITING_CHAIRMAN",
+            "zero_defect_verified": unresolved_count == 0,
+        }
+
+    # =========================================================================
+    # V10.0+: 9-DIVISION ROSTER PLANNER, 54-DEPT DIRECTORY & 2-TIER HANDOFFS
+    # =========================================================================
+    def _load_directory_json_cached(self) -> dict[str, Any] | None:
+        dir_file = ROOT_DIR / "corporate_hq" / "intel_sources" / "corporate_directory_54.json"
+        if not dir_file.is_file():
+            self._dir_cache_sig = None
+            self._dir_cache_data = None
+            return None
+        try:
+            st = dir_file.stat()
+            sig = (int(st.st_mtime_ns), int(st.st_size))
+            if self._dir_cache_sig == sig and self._dir_cache_data is not None:
+                return self._dir_cache_data
+            loaded = json.loads(dir_file.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                self._dir_cache_sig = sig
+                self._dir_cache_data = loaded
+                return loaded
+        except Exception:
+            pass
+        return None
+
+    def _extract_directory_dept_meta(self) -> dict[str, dict[str, Any]]:
+        meta: dict[str, dict[str, Any]] = {
+            k: {
+                "core_strength_vi": str(v.get("core_strength_vi", "")),
+                "upstream_depts": list(v.get("upstream_depts", [])),
+                "downstream_depts": list(v.get("downstream_depts", [])),
+                "product_types": list(v.get("product_types", ["ALL"])),
+            }
+            for k, v in DEFAULT_DEPT_DIRECTORY_META.items()
+        }
+        raw = self._load_directory_json_cached()
+        if not raw:
+            return meta
+        entries: list[dict[str, Any]] = []
+        if isinstance(raw.get("departments"), list):
+            entries.extend(x for x in raw["departments"] if isinstance(x, dict))
+        elif isinstance(raw.get("departments"), dict):
+            for k, v in raw["departments"].items():
+                if isinstance(v, dict):
+                    item = dict(v)
+                    item.setdefault("dept_id", str(k))
+                    entries.append(item)
+        if isinstance(raw.get("divisions"), list):
+            for dv in raw["divisions"]:
+                if isinstance(dv, dict) and isinstance(dv.get("departments"), list):
+                    entries.extend(x for x in dv["departments"] if isinstance(x, dict))
+
+        for entry in entries:
+            raw_id = entry.get("dept_id") or entry.get("id") or ""
+            did = self._normalize_dept_code(str(raw_id))
+            if not did:
+                continue
+            base = meta.get(did, {"core_strength_vi": "", "upstream_depts": [], "downstream_depts": [], "product_types": ["ALL"]})
+            if entry.get("core_strength_vi"):
+                base["core_strength_vi"] = str(entry["core_strength_vi"]).strip()
+            if isinstance(entry.get("upstream_depts"), list):
+                base["upstream_depts"] = [self._normalize_dept_code(str(x)) for x in entry["upstream_depts"] if str(x).strip()]
+            if isinstance(entry.get("downstream_depts"), list):
+                base["downstream_depts"] = [self._normalize_dept_code(str(x)) for x in entry["downstream_depts"] if str(x).strip()]
+            if isinstance(entry.get("product_types"), list) and entry["product_types"]:
+                base["product_types"] = [str(x).upper().strip() for x in entry["product_types"] if str(x).strip()]
+            meta[did] = base
+        return meta
+
+    def plan_9_division_roster(self, goal_prompt: str = "", product_type: str = "AUTO") -> dict[str, Any]:
+        """
+        Động cơ lập đội hình chuẩn 9 Khối + Ban Điều hành (#00) theo đúng loại sản phẩm:
+        - Bắt buộc phủ đủ 9/9 Khối chuyên môn (div1..div9) + Ban Điều hành (#00) và đủ Bộ Tứ chốt cuối Khối 9.
+        - Chọn chính xác các phòng ban cần thiết trong từng Khối và chỉ rõ phòng không cần huy động để tránh loãng.
+        """
+        resolved_type = classify_product_type(goal_prompt=goal_prompt, product_type=product_type)
+        profile = PRODUCT_ROSTER_PROFILES.get(resolved_type, PRODUCT_ROSTER_PROFILES["GENERAL"])
+        conn = self._get_conn()
+        div_rows = [dict(r) for r in conn.execute("SELECT * FROM divisions ORDER BY sort_order ASC").fetchall()]
+        dept_rows = [
+            dict(r)
+            for r in conn.execute(
+                "SELECT dept_id, code, division_code, title_vi, status FROM departments ORDER BY CAST(dept_id AS INTEGER) ASC, dept_id ASC"
+            ).fetchall()
+        ]
+        depts_by_div: dict[str, list[dict[str, Any]]] = {}
+        for d in dept_rows:
+            depts_by_div.setdefault(d["division_code"], []).append(d)
+
+        planned_divisions: list[dict[str, Any]] = []
+        active_dept_ids: list[str] = []
+        skipped_dept_ids: list[str] = []
+        active_by_div: dict[str, list[str]] = {}
+
+        for dv in div_rows:
+            dcode = dv["code"]
+            all_div_depts = depts_by_div.get(dcode, [])
+            want_tuple, reason_vi = profile.get(dcode, (tuple(d["dept_id"] for d in all_div_depts), "Huy động theo yêu cầu chuyên môn của Khối."))
+            want_set = set(want_tuple)
+            # Khối 9 và Ban Điều hành luôn bắt buộc đầy đủ 100%
+            if dcode in ("exec-board", "div9-critique-ux-lab"):
+                want_set = {d["dept_id"] for d in all_div_depts}
+
+            active_list: list[dict[str, Any]] = []
+            skipped_list: list[dict[str, Any]] = []
+            for d in all_div_depts:
+                entry = {"dept_id": d["dept_id"], "title_vi": d["title_vi"], "code": d["code"]}
+                if d["dept_id"] in want_set:
+                    active_list.append(entry)
+                    active_dept_ids.append(d["dept_id"])
+                else:
+                    skipped_list.append(entry)
+                    skipped_dept_ids.append(d["dept_id"])
+            # Bảo đảm không bao giờ có Khối nào trống
+            if not active_list and all_div_depts:
+                first_d = all_div_depts[0]
+                active_list.append({"dept_id": first_d["dept_id"], "title_vi": first_d["title_vi"], "code": first_d["code"]})
+                active_dept_ids.append(first_d["dept_id"])
+                skipped_list = [x for x in skipped_list if x["dept_id"] != first_d["dept_id"]]
+                skipped_dept_ids = [x for x in skipped_dept_ids if x != first_d["dept_id"]]
+
+            active_by_div[dcode] = [x["dept_id"] for x in active_list]
+            planned_divisions.append(
+                {
+                    "division_code": dcode,
+                    "division_name_vi": dv["name_vi"],
+                    "c_level_title": dv["c_level_title"],
+                    "sort_order": dv["sort_order"],
+                    "active_dept_ids": [x["dept_id"] for x in active_list],
+                    "skipped_dept_ids": [x["dept_id"] for x in skipped_list],
+                    "active_depts": active_list,
+                    "skipped_depts": skipped_list,
+                    "reason_vi": reason_vi,
+                    "embedded_quality_cells": [dict(c) for c in EMBEDDED_QUALITY_CELLS],
+                }
+            )
+
+        # Sinh lead_dept_ids động cho Bước 5 (Sản xuất + Kiểm thử nội bộ) và Bước 6 (Đóng gói + Bán hàng + Pháp lý + Dữ liệu)
+        def _ordered_unique(items: list[str]) -> list[str]:
+            seen: set[str] = set()
+            out_u: list[str] = []
+            for x in items:
+                if x and x not in seen:
+                    seen.add(x)
+                    out_u.append(x)
+            return out_u
+
+        step5_ids = _ordered_unique(
+            (["08"] if "08" in active_by_div.get("div2-product-design", []) else [])
+            + active_by_div.get("div3-engineering-ai", [])
+            + [d for d in active_by_div.get("div4-qa-cybersecurity", []) if d in ("20", "21", "22", "23", "24")]
+        )
+        step6_ids = _ordered_unique(
+            active_by_div.get("div5-media-youtube-studio", [])
+            + active_by_div.get("div6-sales-commercial", [])
+            + [d for d in active_by_div.get("div7-finance-tax-legal", []) if d in ("40", "41")]
+            + [d for d in active_by_div.get("div8-data-ops-hr", []) if d in ("42", "43")]
+        )
+        step_lead_overrides = {
+            5: ",".join(step5_ids) if step5_ids else self.DEFAULT_8_STEPS_TEMPLATE[4][2],
+            6: ",".join(step6_ids) if step6_ids else self.DEFAULT_8_STEPS_TEMPLATE[5][2],
+        }
+
+        div_codes_covered = [d["division_code"] for d in planned_divisions if d["division_code"] != "exec-board" and d["active_depts"]]
+        return {
+            "product_type": resolved_type,
+            "product_type_label_vi": PRODUCT_TYPE_LABELS_VI.get(resolved_type, PRODUCT_TYPE_LABELS_VI["GENERAL"]),
+            "goal_prompt": str(goal_prompt or "").strip(),
+            "all_9_divisions_covered": len(div_codes_covered) == 9,
+            "active_divisions_count": len(div_codes_covered),
+            "total_groups_count": len(planned_divisions),
+            "active_depts_count": len(active_dept_ids),
+            "skipped_depts_count": len(skipped_dept_ids),
+            "active_dept_ids": active_dept_ids,
+            "skipped_dept_ids": skipped_dept_ids,
+            "mandatory_div9_quartet": ["53", "51", "52", "49"],
+            "step_lead_overrides": step_lead_overrides,
+            "divisions": planned_divisions,
+            "coordination_rule_vi": COORDINATION_RULE_VI,
+        }
+
+    def get_department_peer_directory(self, dept_id: str) -> dict[str, Any]:
+        did = self._normalize_dept_code(dept_id)
+        conn = self._get_conn()
+        all_depts = {
+            r["dept_id"]: dict(r)
+            for r in conn.execute(
+                """
+                SELECT d.dept_id, d.code, d.division_code, d.title_vi, d.status, div.name_vi AS division_name_vi
+                FROM departments d
+                JOIN divisions div ON div.code = d.division_code
+                ORDER BY CAST(d.dept_id AS INTEGER) ASC, d.dept_id ASC
+                """
+            ).fetchall()
+        }
+        meta_map = self._extract_directory_dept_meta()
+        cur_dept = all_depts.get(did)
+        cur_meta = meta_map.get(did, {"core_strength_vi": "", "upstream_depts": [], "downstream_depts": [], "product_types": ["ALL"]})
+
+        def _resolve_peer_list(id_list: list[str]) -> list[dict[str, Any]]:
+            out_p: list[dict[str, Any]] = []
+            seen: set[str] = set()
+            for pid in id_list:
+                norm_p = self._normalize_dept_code(pid)
+                if not norm_p or norm_p == did or norm_p in seen or norm_p not in all_depts:
+                    continue
+                seen.add(norm_p)
+                d_row = all_depts[norm_p]
+                p_meta = meta_map.get(norm_p, {})
+                out_p.append(
+                    {
+                        "dept_id": norm_p,
+                        "code": d_row["code"],
+                        "title_vi": d_row["title_vi"],
+                        "division_code": d_row["division_code"],
+                        "division_name_vi": d_row["division_name_vi"],
+                        "status": d_row["status"],
+                        "core_strength_vi": p_meta.get("core_strength_vi", ""),
+                    }
+                )
+            return out_p
+
+        same_div_peers = []
+        if cur_dept:
+            same_div_peers = _resolve_peer_list(
+                [k for k, v in all_depts.items() if v["division_code"] == cur_dept["division_code"] and k != did]
+            )
+
+        return {
+            "dept_id": did,
+            "core_strength_vi": cur_meta.get("core_strength_vi", ""),
+            "product_types": list(cur_meta.get("product_types", ["ALL"])),
+            "upstream_depts": _resolve_peer_list(cur_meta.get("upstream_depts", [])),
+            "downstream_depts": _resolve_peer_list(cur_meta.get("downstream_depts", [])),
+            "same_division_peers": same_div_peers,
+            "handoff_policy": HANDOFF_POLICY_VI,
+        }
+
+    def get_corporate_directory_summary(self) -> dict[str, Any]:
+        conn = self._get_conn()
+        total_depts = conn.execute("SELECT COUNT(*) AS c FROM departments").fetchone()["c"]
+        total_divs = conn.execute("SELECT COUNT(*) AS c FROM divisions").fetchone()["c"]
+        has_json_file = (ROOT_DIR / "corporate_hq" / "intel_sources" / "corporate_directory_54.json").is_file()
+        return {
+            "total_departments": int(total_depts or 0),
+            "total_divisions": int(total_divs or 0),
+            "mandatory_divisions_count": 9,
+            "mandatory_div9_quartet": ["53", "51", "52", "49"],
+            "directory_source": "corporate_directory_54.json" if has_json_file else "sqlite_synthesized",
+            "sop_rules": CORPORATE_SOP_RULES_VI,
+            "handoff_policy": HANDOFF_POLICY_VI,
+            "product_types": [
+                {"code": k, "label_vi": v} for k, v in PRODUCT_TYPE_LABELS_VI.items()
+            ],
+            "handoff_summary": self.get_handoff_summary(),
+        }
+
+    def get_corporate_directory_payload(self) -> dict[str, Any]:
+        divisions = self.list_divisions()
+        depts = self.list_departments(_skip_reconcile=True)
+        meta_map = self._extract_directory_dept_meta()
+        enriched_depts: list[dict[str, Any]] = []
+        for d in depts:
+            did = d["dept_id"]
+            m = meta_map.get(did, {"core_strength_vi": "", "upstream_depts": [], "downstream_depts": [], "product_types": ["ALL"]})
+            enriched_depts.append(
+                {
+                    "dept_id": did,
+                    "code": d["code"],
+                    "title_vi": d["title_vi"],
+                    "division_code": d["division_code"],
+                    "division_name_vi": d["division_name_vi"],
+                    "status": d["status"],
+                    "core_strength_vi": m.get("core_strength_vi", ""),
+                    "upstream_depts": list(m.get("upstream_depts", [])),
+                    "downstream_depts": list(m.get("downstream_depts", [])),
+                    "product_types": list(m.get("product_types", ["ALL"])),
+                    "embedded_quality_cells": [dict(c) for c in EMBEDDED_QUALITY_CELLS],
+                }
+            )
+        templates = {
+            ptype: self.plan_9_division_roster(goal_prompt="", product_type=ptype)
+            for ptype in PRODUCT_ROSTER_PROFILES
+        }
+        has_json_file = (ROOT_DIR / "corporate_hq" / "intel_sources" / "corporate_directory_54.json").is_file()
+        return {
+            "schema_version": "10.0",
+            "directory_source": "corporate_directory_54.json" if has_json_file else "sqlite_synthesized",
+            "total_departments": len(enriched_depts),
+            "total_divisions": len(divisions),
+            "coordination_rule_vi": COORDINATION_RULE_VI,
+            "sop_rules": CORPORATE_SOP_RULES_VI,
+            "handoff_policy": HANDOFF_POLICY_VI,
+            "divisions": divisions,
+            "departments": enriched_depts,
+            "product_roster_templates": templates,
+            "handoff_summary": self.get_handoff_summary(),
+        }
+
+    def _enrich_handoff_rows(self, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        if not rows:
+            return []
+        conn = self._get_conn()
+        dept_info = {
+            r["dept_id"]: (r["title_vi"], r["division_code"])
+            for r in conn.execute("SELECT dept_id, title_vi, division_code FROM departments").fetchall()
+        }
+        div_names = {
+            r["code"]: r["name_vi"]
+            for r in conn.execute("SELECT code, name_vi FROM divisions").fetchall()
+        }
+        out: list[dict[str, Any]] = []
+        for r in rows:
+            item = dict(r)
+            f_id = str(item.get("from_dept_id") or "00")
+            t_id = str(item.get("to_dept_id") or "00")
+            res_id = str(item.get("resolved_to_dept_id") or "").strip() or None
+            f_title, f_div = dept_info.get(f_id, (f"Phòng #{f_id}", ""))
+            t_title, t_div = dept_info.get(t_id, (f"Phòng #{t_id}", ""))
+            st_up = str(item.get("status") or "OPEN").upper()
+            eff_id = res_id if (res_id and st_up in ("REROUTED_BY_CEO", "COMPLETED")) else t_id
+            eff_title, eff_div = dept_info.get(eff_id, (f"Phòng #{eff_id}", ""))
+
+            item["from_dept_title_vi"] = f_title
+            item["from_division_code"] = f_div
+            item["from_division_name_vi"] = div_names.get(f_div, f_div)
+            item["to_dept_title_vi"] = t_title
+            item["to_division_code"] = t_div
+            item["to_division_name_vi"] = div_names.get(t_div, t_div)
+            item["resolved_to_dept_title_vi"] = dept_info.get(res_id, (f"Phòng #{res_id}", ""))[0] if res_id else ""
+            item["effective_owner_dept_id"] = eff_id
+            item["effective_owner_title_vi"] = eff_title
+            item["effective_owner_division_code"] = eff_div
+            item["mode_vi"] = HANDOFF_MODE_LABELS_VI.get(str(item.get("mode") or "PEER_HANDOFF").upper(), "Chuyển việc")
+            item["status_vi"] = HANDOFF_STATUS_LABELS_VI.get(st_up, "Đang chờ tiếp nhận")
+            item["auto_task_id"] = f"auto-ho-{item['handoff_id']}"
+            out.append(item)
+        return out
+
+    def list_dept_handoffs(
+        self,
+        mission_id: str | None = None,
+        dept_id: str | None = None,
+        status: str | None = None,
+    ) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        clauses = ["1=1"]
+        params: list[Any] = []
+        if mission_id:
+            clauses.append("mission_id = ?")
+            params.append(mission_id)
+        if dept_id:
+            norm_d = self._normalize_dept_code(dept_id)
+            clauses.append("(from_dept_id = ? OR to_dept_id = ? OR resolved_to_dept_id = ?)")
+            params.extend([norm_d, norm_d, norm_d])
+        if status:
+            st_up = status.upper().strip()
+            if st_up == "ACTIVE":
+                clauses.append("status != 'COMPLETED'")
+            else:
+                clauses.append("status = ?")
+                params.append(st_up)
+        rows = conn.execute(
+            f"""
+            SELECT * FROM dept_handoffs
+            WHERE {' AND '.join(clauses)}
+            ORDER BY
+                CASE status WHEN 'OPEN' THEN 0 WHEN 'REROUTED_BY_CEO' THEN 1 WHEN 'ACCEPTED' THEN 2 ELSE 3 END,
+                updated_at DESC
+            """,
+            params,
+        ).fetchall()
+        return self._enrich_handoff_rows([dict(r) for r in rows])
+
+    def get_handoff_summary(self) -> dict[str, Any]:
+        conn = self._get_conn()
+        rows = conn.execute("SELECT mode, status FROM dept_handoffs").fetchall()
+        open_c = accepted_c = rerouted_c = completed_c = 0
+        peer_c = escalation_c = assign_c = 0
+        for r in rows:
+            st = str(r["status"] or "OPEN").upper()
+            md = str(r["mode"] or "PEER_HANDOFF").upper()
+            if st == "OPEN":
+                open_c += 1
+            elif st == "ACCEPTED":
+                accepted_c += 1
+            elif st == "REROUTED_BY_CEO":
+                rerouted_c += 1
+            elif st == "COMPLETED":
+                completed_c += 1
+            if md == "PEER_HANDOFF":
+                peer_c += 1
+            elif md == "CEO_ESCALATION":
+                escalation_c += 1
+            elif md == "CEO_ASSIGN":
+                assign_c += 1
+        return {
+            "open_count": open_c,
+            "accepted_count": accepted_c,
+            "rerouted_count": rerouted_c,
+            "completed_count": completed_c,
+            "active_count": open_c + accepted_c + rerouted_c,
+            "total_count": len(rows),
+            "peer_handoff_count": peer_c,
+            "ceo_escalation_count": escalation_c,
+            "ceo_assign_count": assign_c,
+        }
+
+    def create_dept_handoff(
+        self,
+        from_dept_id: str,
+        to_dept_id: str,
+        mode: str,
+        reason_vi: str,
+        payload_vi: str = "",
+        mission_id: str | None = None,
+        project_id: str | None = None,
+        task_id: str | None = None,
+    ) -> dict[str, Any]:
+        """
+        Tạo yêu cầu Chuyển việc Ngang (`PEER_HANDOFF`), Đẩy lên Tổng Giám đốc #00 (`CEO_ESCALATION`),
+        hoặc Tổng Giám đốc #00 chỉ định (`CEO_ASSIGN`):
+        - Nếu `mode == 'CEO_ESCALATION'`: ép `to_dept_id = '00'`.
+        - Tự tạo việc `auto-ho-<handoff_id>` (IN_PROGRESS), bật phòng nhận sang EXECUTING,
+          ghi tin nhắn phòng họp (nếu có mission_id) và phát SSE `DEPT_HANDOFF_CREATED`.
+        """
+        clean_reason = str(reason_vi or "").strip()
+        if not clean_reason:
+            raise ValueError("Lý do chuyển việc hoặc đẩy lên Tổng Giám đốc không được để trống.")
+        mode_up = str(mode or "PEER_HANDOFF").upper().strip()
+        if mode_up not in ("PEER_HANDOFF", "CEO_ESCALATION", "CEO_ASSIGN"):
+            raise ValueError("Chế độ chuyển việc phải là PEER_HANDOFF, CEO_ESCALATION hoặc CEO_ASSIGN.")
+
+        from_d = self._normalize_dept_code(from_dept_id or "00")
+        to_d = "00" if mode_up == "CEO_ESCALATION" else self._normalize_dept_code(to_dept_id or "00")
+        if not from_d or not to_d:
+            raise ValueError("Vui lòng chọn đầy đủ phòng gửi và phòng nhận.")
+
+        now = utc_now_iso()
+        handoff_id = f"ho-{uuid.uuid4().hex[:8]}"
+        clean_payload = str(payload_vi or "").strip()
+
+        with self.immediate_tx() as conn:
+            from_row = conn.execute("SELECT dept_id, title_vi FROM departments WHERE dept_id = ?", (from_d,)).fetchone()
+            to_row = conn.execute("SELECT dept_id, title_vi FROM departments WHERE dept_id = ?", (to_d,)).fetchone()
+            if not from_row:
+                raise KeyError(f"Phòng ban gửi '{from_d}' không tồn tại.")
+            if not to_row:
+                raise KeyError(f"Phòng ban nhận '{to_d}' không tồn tại.")
+
+            resolved_msn = str(mission_id or "").strip() or None
+            resolved_proj = str(project_id or "").strip() or None
+            resolved_task = str(task_id or "").strip() or None
+            if resolved_msn:
+                m_row = conn.execute("SELECT mission_id, project_id FROM missions WHERE mission_id = ?", (resolved_msn,)).fetchone()
+                if not m_row:
+                    raise KeyError(f"Nhiệm vụ '{resolved_msn}' không tồn tại.")
+                if not resolved_proj and m_row["project_id"]:
+                    resolved_proj = str(m_row["project_id"]).strip() or None
+
+            conn.execute(
+                """
+                INSERT INTO dept_handoffs(
+                    handoff_id, mission_id, project_id, task_id,
+                    from_dept_id, to_dept_id, mode, reason_vi, payload_vi,
+                    status, resolved_to_dept_id, ceo_note_vi, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'OPEN', NULL, '', ?, ?)
+                """,
+                (
+                    handoff_id,
+                    resolved_msn,
+                    resolved_proj,
+                    resolved_task,
+                    from_d,
+                    to_d,
+                    mode_up,
+                    clean_reason,
+                    clean_payload,
+                    now,
+                    now,
+                ),
+            )
+
+            mode_vi = HANDOFF_MODE_LABELS_VI.get(mode_up, "Chuyển việc")
+            if resolved_msn:
+                recipient_str = (
+                    "Phòng #00 (Tổng Giám đốc phân xử)"
+                    if mode_up == "CEO_ESCALATION"
+                    else f"Phòng #{to_d}: {to_row['title_vi']} (Bản sao #00)"
+                )
+                msg_text = f"[{mode_vi}] {clean_reason}"
+                if clean_payload:
+                    msg_text += f"\nChi tiết bàn giao: {clean_payload}"
+                conn.execute(
+                    """
+                    INSERT INTO swarm_messages(
+                        mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                        recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                    ) VALUES (?, ?, ?, ?, ?, 'HANDOFF', ?, '', ?)
+                    """,
+                    (
+                        resolved_msn,
+                        f"@phong-{from_d}",
+                        f"Phòng #{from_d}: {from_row['title_vi']}",
+                        from_d,
+                        recipient_str,
+                        msg_text,
+                        now,
+                    ),
+                )
+
+            self.log_event(
+                actor_dept_id=from_d,
+                event_type="DEPT_HANDOFF_CREATED",
+                headline_vi=f"{mode_vi}: Phòng #{from_d} -> Phòng #{to_d} ({clean_reason})",
+                project_id=resolved_proj,
+                task_id=f"auto-ho-{handoff_id}",
+                detail={
+                    "handoff_id": handoff_id,
+                    "mission_id": resolved_msn,
+                    "from_dept_id": from_d,
+                    "to_dept_id": to_d,
+                    "mode": mode_up,
+                },
+                conn=conn,
+            )
+
+        self.reconcile_live_system_state()
+        row = self._get_conn().execute("SELECT * FROM dept_handoffs WHERE handoff_id = ?", (handoff_id,)).fetchone()
+        return self._enrich_handoff_rows([dict(row)])[0]
+
+    def update_dept_handoff(
+        self,
+        handoff_id: str,
+        status: str | None = None,
+        resolved_to_dept_id: str | None = None,
+        ceo_note_vi: str | None = None,
+    ) -> dict[str, Any]:
+        """
+        Cập nhật trạng thái chuyển việc / phân xử của Tổng Giám đốc #00:
+        - `REROUTED_BY_CEO`: chuyển tuyến `auto-ho-*` sang `resolved_to_dept_id`, bật phòng mới sang EXECUTING và giải phóng `#00`.
+        - `COMPLETED`: chốt `auto-ho-*` sang DONE và chạy `reconcile_live_system_state()`.
+        """
+        now = utc_now_iso()
+        new_status = str(status or "").upper().strip() if status else None
+        if new_status and new_status not in ("OPEN", "ACCEPTED", "COMPLETED", "REROUTED_BY_CEO"):
+            raise ValueError("Trạng thái chuyển việc phải là OPEN, ACCEPTED, COMPLETED hoặc REROUTED_BY_CEO.")
+
+        with self.immediate_tx() as conn:
+            cur = conn.execute("SELECT * FROM dept_handoffs WHERE handoff_id = ?", (handoff_id,)).fetchone()
+            if not cur:
+                raise KeyError(f"Phiếu chuyển việc '{handoff_id}' không tồn tại.")
+            cur_d = dict(cur)
+            final_status = new_status or str(cur_d["status"])
+            next_resolved = cur_d.get("resolved_to_dept_id")
+            if resolved_to_dept_id is not None and str(resolved_to_dept_id).strip():
+                norm_res = self._normalize_dept_code(str(resolved_to_dept_id))
+                res_row = conn.execute("SELECT dept_id, title_vi FROM departments WHERE dept_id = ?", (norm_res,)).fetchone()
+                if not res_row:
+                    raise KeyError(f"Phòng ban chuyển tuyến '{norm_res}' không tồn tại.")
+                next_resolved = norm_res
+            if final_status == "REROUTED_BY_CEO" and not next_resolved:
+                raise ValueError("Khi Tổng Giám đốc #00 chuyển tuyến (REROUTED_BY_CEO) bắt buộc chỉ định resolved_to_dept_id.")
+
+            next_ceo_note = str(ceo_note_vi).strip() if ceo_note_vi is not None else str(cur_d.get("ceo_note_vi") or "")
+            conn.execute(
+                """
+                UPDATE dept_handoffs
+                SET status = ?,
+                    resolved_to_dept_id = ?,
+                    ceo_note_vi = ?,
+                    updated_at = ?
+                WHERE handoff_id = ?
+                """,
+                (final_status, next_resolved, next_ceo_note, now, handoff_id),
+            )
+
+            mid = cur_d.get("mission_id")
+            eff_target = next_resolved or cur_d.get("to_dept_id") or "00"
+            if final_status == "REROUTED_BY_CEO":
+                if mid:
+                    conn.execute(
+                        """
+                        INSERT INTO swarm_messages(
+                            mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                            recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                        ) VALUES (?, '@ceo', 'Tổng Giám đốc #00', '00', ?, 'HANDOFF', ?, '', ?)
+                        """,
+                        (
+                            mid,
+                            f"Phòng #{eff_target}",
+                            f"Tổng Giám đốc #00 đã phân xử và chuyển tuyến phiếu '{cur_d['reason_vi']}' sang Phòng #{eff_target}. {next_ceo_note}".strip(),
+                            now,
+                        ),
+                    )
+                self.log_event(
+                    actor_dept_id="00",
+                    event_type="DEPT_HANDOFF_REROUTED",
+                    headline_vi=f"Tổng Giám đốc #00 chuyển tuyến việc từ Phòng #{cur_d['from_dept_id']} sang Phòng #{eff_target}: {cur_d['reason_vi']}",
+                    project_id=cur_d.get("project_id"),
+                    task_id=f"auto-ho-{handoff_id}",
+                    detail={"handoff_id": handoff_id, "resolved_to_dept_id": eff_target, "status": final_status},
+                    conn=conn,
+                )
+            elif final_status == "COMPLETED":
+                if mid:
+                    conn.execute(
+                        """
+                        INSERT INTO swarm_messages(
+                            mission_id, sender_slug, sender_name_vi, sender_dept_ids,
+                            recipient_name_vi, msg_type, content_vi, artifact_path, created_at
+                        ) VALUES (?, ?, ?, ?, ?, 'DONE', ?, '', ?)
+                        """,
+                        (
+                            mid,
+                            f"@phong-{eff_target}",
+                            f"Phòng #{eff_target}",
+                            eff_target,
+                            f"Phòng #{cur_d['from_dept_id']} và #00",
+                            f"Đã hoàn tất yêu cầu chuyển việc '{cur_d['reason_vi']}'. {next_ceo_note}".strip(),
+                            now,
+                        ),
+                    )
+                self.log_event(
+                    actor_dept_id=eff_target,
+                    event_type="DEPT_HANDOFF_COMPLETED",
+                    headline_vi=f"Phòng #{eff_target} đã hoàn tất phiếu chuyển việc: {cur_d['reason_vi']}",
+                    project_id=cur_d.get("project_id"),
+                    task_id=f"auto-ho-{handoff_id}",
+                    detail={"handoff_id": handoff_id, "owner_dept_id": eff_target, "status": final_status},
+                    conn=conn,
+                )
+            else:
+                self.log_event(
+                    actor_dept_id=eff_target,
+                    event_type="DEPT_HANDOFF_UPDATED",
+                    headline_vi=f"Cập nhật phiếu chuyển việc '{cur_d['reason_vi']}' -> {HANDOFF_STATUS_LABELS_VI.get(final_status, final_status)}",
+                    project_id=cur_d.get("project_id"),
+                    task_id=f"auto-ho-{handoff_id}",
+                    detail={"handoff_id": handoff_id, "status": final_status},
+                    conn=conn,
+                )
+
+        self.reconcile_live_system_state()
+        row = self._get_conn().execute("SELECT * FROM dept_handoffs WHERE handoff_id = ?", (handoff_id,)).fetchone()
+        return self._enrich_handoff_rows([dict(row)])[0]

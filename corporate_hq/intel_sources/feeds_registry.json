@@ -1,6 +1,6 @@
 {
-  "version": "8.0",
-  "description": "Danh mục 24 kênh thu thập báo chí kinh tế, công nghệ, pháp luật Việt Nam, nghiên cứu khoa học arXiv, mã nguồn mở GitHub và tín hiệu thị trường quốc tế cho 51 phòng ban Titan AI Corp.",
+  "version": "10.0",
+  "description": "Danh mục 24 kênh thu thập báo chí kinh tế, công nghệ, pháp luật Việt Nam, nghiên cứu khoa học arXiv, mã nguồn mở GitHub và tín hiệu thị trường quốc tế cho 54 phòng ban Titan AI Corp.",
   "rss_feeds": [
     {
       "id": "vnexpress-kinh-doanh",
@@ -8,7 +8,13 @@
       "name": "VnExpress Kinh doanh",
       "url": "https://vnexpress.net/rss/kinh-doanh.rss",
       "division_code": "div1-strategy-intel",
-      "target_depts": ["00", "01", "05", "32", "37"],
+      "target_depts": [
+        "00",
+        "01",
+        "05",
+        "32",
+        "37"
+      ],
       "importance": 8,
       "max_items": 6,
       "tags": "kinh-doanh thi-truong viet-nam"
@@ -19,7 +25,16 @@
       "name": "VnExpress Số hóa và Công nghệ",
       "url": "https://vnexpress.net/rss/so-hoa.rss",
       "division_code": "div1-strategy-intel",
-      "target_depts": ["04", "06", "14", "16", "27"],
+      "target_depts": [
+        "04",
+        "06",
+        "14",
+        "16",
+        "27",
+        "51",
+        "52",
+        "53"
+      ],
       "importance": 7,
       "max_items": 5,
       "tags": "cong-nghe ai san-pham"
@@ -30,7 +45,12 @@
       "name": "VnExpress Pháp luật",
       "url": "https://vnexpress.net/rss/phap-luat.rss",
       "division_code": "div7-finance-tax-legal",
-      "target_depts": ["23", "24", "39", "40"],
+      "target_depts": [
+        "23",
+        "24",
+        "39",
+        "40"
+      ],
       "importance": 8,
       "max_items": 4,
       "tags": "phap-luat an-ninh tuan-thu"
@@ -41,7 +61,13 @@
       "name": "CafeF Doanh nghiệp và Thị trường",
       "url": "https://cafef.vn/doanh-nghiep.rss",
       "division_code": "div6-sales-commercial",
-      "target_depts": ["01", "03", "32", "33", "38"],
+      "target_depts": [
+        "01",
+        "03",
+        "32",
+        "33",
+        "38"
+      ],
       "importance": 8,
       "max_items": 5,
       "tags": "doanh-nghiep doi-thu ban-hang"
@@ -52,7 +78,12 @@
       "name": "CafeF Tài chính Ngân hàng",
       "url": "https://cafef.vn/tai-chinh-ngan-hang.rss",
       "division_code": "div7-finance-tax-legal",
-      "target_depts": ["15", "37", "38", "39"],
+      "target_depts": [
+        "15",
+        "37",
+        "38",
+        "39"
+      ],
       "importance": 8,
       "max_items": 4,
       "tags": "tai-chinh thanh-toan ke-toan"
@@ -63,7 +94,13 @@
       "name": "Tuổi Trẻ Kinh doanh",
       "url": "https://tuoitre.vn/rss/kinh-doanh.rss",
       "division_code": "div1-strategy-intel",
-      "target_depts": ["01", "02", "05", "32", "35"],
+      "target_depts": [
+        "01",
+        "02",
+        "05",
+        "32",
+        "35"
+      ],
       "importance": 8,
       "max_items": 5,
       "tags": "kinh-doanh tieu-dung thi-truong"
@@ -74,7 +111,15 @@
       "name": "Tuổi Trẻ Nhịp sống số và Công nghệ",
       "url": "https://tuoitre.vn/rss/nhip-song-so.rss",
       "division_code": "div3-engineering-ai",
-      "target_depts": ["04", "13", "14", "16", "18"],
+      "target_depts": [
+        "04",
+        "13",
+        "14",
+        "16",
+        "18",
+        "51",
+        "52"
+      ],
       "importance": 7,
       "max_items": 5,
       "tags": "cong-nghe chuyen-doi-so ung-dung"
@@ -85,7 +130,13 @@
       "name": "Thanh Niên Kinh tế",
       "url": "https://thanhnien.vn/rss/kinh-te.rss",
       "division_code": "div6-sales-commercial",
-      "target_depts": ["01", "03", "33", "36", "38"],
+      "target_depts": [
+        "01",
+        "03",
+        "33",
+        "36",
+        "38"
+      ],
       "importance": 8,
       "max_items": 5,
       "tags": "kinh-te ban-hang gia-ca"
@@ -96,7 +147,16 @@
       "name": "Thanh Niên Công nghệ",
       "url": "https://thanhnien.vn/rss/cong-nghe.rss",
       "division_code": "div3-engineering-ai",
-      "target_depts": ["04", "06", "14", "16", "19"],
+      "target_depts": [
+        "04",
+        "06",
+        "14",
+        "16",
+        "19",
+        "51",
+        "52",
+        "53"
+      ],
       "importance": 7,
       "max_items": 5,
       "tags": "cong-nghe phan-mem ai"
@@ -107,7 +167,13 @@
       "name": "Dân Trí Kinh doanh",
       "url": "https://dantri.com.vn/rss/kinh-doanh.rss",
       "division_code": "div7-finance-tax-legal",
-      "target_depts": ["01", "37", "38", "39", "40"],
+      "target_depts": [
+        "01",
+        "37",
+        "38",
+        "39",
+        "40"
+      ],
       "importance": 8,
       "max_items": 5,
       "tags": "kinh-doanh tai-chinh doanh-nghiep"
@@ -118,7 +184,13 @@
       "name": "VnEconomy Kinh tế và Thị trường",
       "url": "https://vneconomy.vn/tin-moi.rss",
       "division_code": "div7-finance-tax-legal",
-      "target_depts": ["05", "37", "38", "42", "46"],
+      "target_depts": [
+        "05",
+        "37",
+        "38",
+        "42",
+        "46"
+      ],
       "importance": 8,
       "max_items": 5,
       "tags": "kinh-te vi-mo dau-tu tai-chinh"
@@ -129,7 +201,12 @@
       "name": "Báo Điện tử Chính phủ (Chính sách mới)",
       "url": "https://baochinhphu.vn/rss/home.rss",
       "division_code": "div7-finance-tax-legal",
-      "target_depts": ["39", "40", "41", "24"],
+      "target_depts": [
+        "39",
+        "40",
+        "41",
+        "24"
+      ],
       "importance": 9,
       "max_items": 5,
       "tags": "chinh-sach nghi-dinh phap-ly thue"
@@ -140,7 +217,11 @@
       "name": "Google News VN: Thuế Hộ kinh doanh và Hóa đơn điện tử",
       "url": "https://news.google.com/rss/search?q=thu%E1%BA%BF+h%E1%BB%99+kinh+doanh+OR+h%C3%B3a+%C4%91%C6%A1n+%C4%91i%E1%BB%87n+t%E1%BB%AD&hl=vi&gl=VN&ceid=VN:vi",
       "division_code": "div7-finance-tax-legal",
-      "target_depts": ["39", "37", "01"],
+      "target_depts": [
+        "39",
+        "37",
+        "01"
+      ],
       "importance": 9,
       "max_items": 5,
       "tags": "thue hoa-don-dien-tu ho-kinh-doanh"
@@ -151,7 +232,13 @@
       "name": "Google News VN: Thương mại điện tử và Nhà bán hàng",
       "url": "https://news.google.com/rss/search?q=th%C6%B0%C6%A1ng+m%E1%BA%A1i+%C4%91i%E1%BB%87n+t%E1%BB%AD+Shopee+TikTok+Shop&hl=vi&gl=VN&ceid=VN:vi",
       "division_code": "div1-strategy-intel",
-      "target_depts": ["02", "03", "31", "41", "50"],
+      "target_depts": [
+        "02",
+        "03",
+        "31",
+        "41",
+        "50"
+      ],
       "importance": 8,
       "max_items": 4,
       "tags": "tmdt tam-ly-khach-hang chinh-sach-san"
@@ -162,7 +249,13 @@
       "name": "Google Search Central: Cập nhật Tìm kiếm và Nội dung",
       "url": "https://feeds.feedburner.com/blogspot/amDG",
       "division_code": "div5-media-youtube-studio",
-      "target_depts": ["25", "26", "29", "30", "31"],
+      "target_depts": [
+        "25",
+        "26",
+        "29",
+        "30",
+        "31"
+      ],
       "importance": 8,
       "max_items": 4,
       "tags": "seo geo tim-kiem noi-dung"
@@ -173,7 +266,14 @@
       "name": "CISA Cảnh báo An ninh mạng Quốc tế",
       "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
       "division_code": "div4-qa-cybersecurity",
-      "target_depts": ["20", "22", "23", "24"],
+      "target_depts": [
+        "20",
+        "22",
+        "23",
+        "24",
+        "51",
+        "53"
+      ],
       "importance": 9,
       "max_items": 4,
       "tags": "bao-mat an-ninh-mang kiem-thu"
@@ -184,7 +284,14 @@
       "name": "TechCrunch Khởi nghiệp và Trí tuệ nhân tạo",
       "url": "https://techcrunch.com/feed/",
       "division_code": "div2-product-design",
-      "target_depts": ["04", "05", "06", "10", "50"],
+      "target_depts": [
+        "04",
+        "05",
+        "06",
+        "10",
+        "50",
+        "52"
+      ],
       "importance": 8,
       "max_items": 5,
       "tags": "khoi-nghiep san-pham-so tri-tue-nhan-tao"
@@ -195,7 +302,19 @@
       "name": "Product Hunt Sản phẩm Mới Hàng ngày",
       "url": "https://www.producthunt.com/feed",
       "division_code": "div2-product-design",
-      "target_depts": ["03", "06", "07", "08", "09", "48", "49", "50"],
+      "target_depts": [
+        "03",
+        "06",
+        "07",
+        "08",
+        "09",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53"
+      ],
       "importance": 8,
       "max_items": 5,
       "tags": "san-pham-moi giao-dien trai-nghiem co-hoi"
@@ -208,7 +327,14 @@
       "name": "arXiv Trí tuệ nhân tạo và Hệ đa tác tử",
       "query": "cat:cs.AI+AND+all:agent",
       "division_code": "div3-engineering-ai",
-      "target_depts": ["04", "12", "16", "44", "45"],
+      "target_depts": [
+        "04",
+        "12",
+        "16",
+        "44",
+        "45",
+        "53"
+      ],
       "importance": 8,
       "max_results": 4,
       "tags": "arxiv tac-tu-ai bo-nho"
@@ -219,7 +345,11 @@
       "name": "arXiv Thị giác máy tính và Tổng hợp Video",
       "query": "cat:cs.CV+AND+(all:diffusion+OR+all:video)",
       "division_code": "div5-media-youtube-studio",
-      "target_depts": ["16", "27", "28"],
+      "target_depts": [
+        "16",
+        "27",
+        "28"
+      ],
       "importance": 8,
       "max_results": 3,
       "tags": "arxiv thi-giac-may-tinh video"
@@ -230,7 +360,12 @@
       "name": "arXiv An toàn Mô hình và Chống tấn công câu lệnh",
       "query": "cat:cs.CR+AND+all:LLM",
       "division_code": "div4-qa-cybersecurity",
-      "target_depts": ["21", "22", "23"],
+      "target_depts": [
+        "21",
+        "22",
+        "23",
+        "51"
+      ],
       "importance": 9,
       "max_results": 3,
       "tags": "arxiv an-toan-ai bao-mat"
@@ -243,7 +378,18 @@
       "name": "GitHub Xu hướng Công cụ Tác tử AI Mã nguồn mở",
       "query": "topic:ai-agents stars:>200",
       "division_code": "div3-engineering-ai",
-      "target_depts": ["04", "12", "13", "15", "17", "19", "43"],
+      "target_depts": [
+        "04",
+        "12",
+        "13",
+        "15",
+        "17",
+        "19",
+        "43",
+        "51",
+        "52",
+        "53"
+      ],
       "importance": 8,
       "max_results": 4,
       "tags": "ma-nguon-mo github kien-truc"
@@ -254,7 +400,18 @@
       "name": "GitHub Bộ Kỹ năng Tác tử AI thịnh hành",
       "query": "\"SKILL.md\" OR topic:agent-skills stars:>30",
       "division_code": "div8-data-ops-hr",
-      "target_depts": ["00", "04", "11", "16", "43", "44", "45"],
+      "target_depts": [
+        "00",
+        "04",
+        "11",
+        "16",
+        "43",
+        "44",
+        "45",
+        "51",
+        "52",
+        "53"
+      ],
       "importance": 8,
       "max_results": 4,
       "tags": "ky-nang-ai ma-nguon-mo tu-dong-hoa"
@@ -267,7 +424,23 @@
       "name": "Hacker News Thảo luận Sản phẩm, Định giá và Tăng trưởng",
       "query": "Show HN SaaS",
       "division_code": "div2-product-design",
-      "target_depts": ["05", "06", "07", "08", "10", "34", "42", "46", "47", "48", "49", "50"],
+      "target_depts": [
+        "05",
+        "06",
+        "07",
+        "08",
+        "10",
+        "34",
+        "42",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53"
+      ],
       "importance": 7,
       "max_results": 5,
       "tags": "san-pham dinh-gia tang-truong"

@@ -275,7 +275,7 @@ class TestTitanSystemV8(unittest.TestCase):
 
         # Cloud snapshot round-trip preserves installed_skills & project_ledger
         snap = export_snapshot(self.db)
-        self.assertEqual(snap["schema_version"], "8.0")
+        self.assertEqual(snap["schema_version"], "10.0")
         self.assertEqual(len(snap["installed_skills"]), 2)
 
         other_db = TitanDatabase(db_path=self.tmp_path / "sync_target.db")
@@ -604,6 +604,400 @@ class TestTitanSystemV8(unittest.TestCase):
         self.assertTrue(disp_res["dispatched"])
         self.assertEqual(disp_res["task"]["kanban_column"], "IN_PROGRESS")
         self.assertEqual(self.db.get_department_detail("08")["status"], "EXECUTING")
+
+    def test_08_v10_54_departments_embedded_quality_cells_and_9_div_template(self) -> None:
+        depts = self.db.list_departments()
+        self.assertEqual(len(depts), 54, f"Expected 54 core departments (00..53), got {len(depts)}")
+        by_id = {d["dept_id"]: d for d in depts}
+        for did in ("51", "52", "53"):
+            self.assertIn(did, by_id)
+            self.assertEqual(by_id[did]["division_code"], "div9-critique-ux-lab")
+        self.assertEqual(by_id["51"]["title_vi"], "Kiểm định Chất lượng Tổng thể QA và QC")
+        self.assertEqual(by_id["52"]["title_vi"], "Kiểm tra Hoàn thiện Chức năng và Rà soát Lỗi")
+        self.assertEqual(by_id["53"]["title_vi"], "Tổng hợp Lỗi, Thu thập Phản hồi và Điều phối Trả việc")
+        div9_ids = sorted(d["dept_id"] for d in depts if d["division_code"] == "div9-critique-ux-lab")
+        self.assertEqual(div9_ids, ["46", "47", "48", "49", "50", "51", "52", "53"])
+        self.assertEqual(smart_route_department("Tổng hợp lỗi và điều phối trả việc cho phòng 13"), "53")
+
+        # Every division & department carries 2 embedded quality cells (USER_TESTER & CRITIC)
+        divs = self.db.list_divisions()
+        self.assertEqual(len(divs), 10)
+        for dv in divs:
+            codes = {c["code"] for c in dv["embedded_quality_cells"]}
+            self.assertEqual(codes, {"USER_TESTER", "CRITIC"})
+            self.assertTrue(dv["coordination_rule_vi"])
+        for dp in depts:
+            codes = {c["code"] for c in dp["embedded_quality_cells"]}
+            self.assertEqual(codes, {"USER_TESTER", "CRITIC"})
+
+        # Step 7 & Step 8 include Div 9 quartet (#53, #51, #52, #49)
+        steps_by_order = {o: leads for o, _t, leads, _c, _u in TitanDatabase.DEFAULT_8_STEPS_TEMPLATE}
+        for did in ("53", "51", "52", "49", "48", "47", "20", "23"):
+            self.assertIn(did, steps_by_order[7].split(","))
+        for did in ("00", "19", "35", "44", "53", "51", "52"):
+            self.assertIn(did, steps_by_order[8].split(","))
+
+        # Core protection for #51, #52 & #53
+        for protected_id in ("51", "52", "53"):
+            with self.assertRaises(ValueError):
+                self.db.delete_department_custom(protected_id)
+
+    def test_09_v10_rework_bounce_back_reopens_done_step_and_zero_defect_gate(self) -> None:
+        st_m, _, raw_m = self._req("/api/missions", method="POST", body={"title": "Ứng dụng kiểm định 0 lỗi v10"})
+        self.assertEqual(st_m, 201)
+        mid = json.loads(raw_m.decode("utf-8"))["mission_id"]
+
+        # Mark Step 5 DONE first to prove bounce-back reopens ALREADY-DONE steps!
+        self.db.update_mission_step(f"{mid}-s5", status="DONE", progress_pct=100)
+        self.assertEqual(self.db.get_mission(mid)["steps"][4]["status"], "DONE")
+
+        # Bounce defect from #52 -> #13 via HTTP API
+        st_bb, _, raw_bb = self._req(
+            "/api/rework/bounce",
+            method="POST",
+            body={
+                "mission_id": mid,
+                "step_order": 5,
+                "source_dept_id": "52",
+                "source_role_type": "DIV9_FEATURE_AUDIT",
+                "target_dept_id": "13",
+                "defect_category": "MISSING_FEATURE",
+                "severity": "CRITICAL",
+                "title": "Thiếu nút xuất CSV sạch ở màn hình báo cáo",
+                "detail_vi": "Đề bài yêu cầu xuất CSV chống công thức nhưng màn hình chưa gắn nút.",
+            },
+        )
+        self.assertEqual(st_bb, 201)
+        ticket = json.loads(raw_bb.decode("utf-8"))
+        tid = ticket["ticket_id"]
+        self.assertEqual(ticket["status"], "OPEN")
+        self.assertEqual(ticket["target_dept_id"], "13")
+        self.assertEqual(ticket["source_dept_id"], "52")
+
+        # Step 5 must be reopened to RUNNING, auto-rw-* task created in IN_PROGRESS, dept #13 EXECUTING!
+        msn_reopened = self.db.get_mission(mid)
+        self.assertEqual(msn_reopened["steps"][4]["status"], "RUNNING")
+        self.assertEqual(msn_reopened["status"], "RUNNING")
+
+        rw_task = self.db.get_task(f"auto-rw-{tid}")
+        self.assertIsNotNone(rw_task)
+        self.assertEqual(rw_task["kanban_column"], "IN_PROGRESS")
+        self.assertEqual(rw_task["assigned_dept_id"], "13")
+        self.assertEqual(rw_task["linked_mission_id"], mid)
+
+        d13 = self.db.get_department_detail("13")
+        self.assertEqual(d13["status"], "EXECUTING")
+        self.assertEqual(len(d13["rework_tickets"]), 1)
+
+        # Gate 2 MUST BE BLOCKED while ticket is unresolved!
+        with self.assertRaises(ValueError) as ctx:
+            self.db.request_mission_approval(mid, summary="Cố tình chốt khi còn lỗi")
+        self.assertIn("#13", str(ctx.exception))
+
+        # Target dept fixes & requests Div 9 recheck -> auto task QA_SECURITY_REVIEW, #52 IN_QA_REVIEW
+        st_rc, _, raw_rc = self._req(
+            f"/api/rework/{tid}",
+            method="PATCH",
+            body={"status": "FIXED_PENDING_RECHECK", "fix_note_vi": "Đã bổ sung nút Xuất CSV an toàn"},
+        )
+        self.assertEqual(st_rc, 200)
+        self.assertEqual(json.loads(raw_rc.decode("utf-8"))["status"], "FIXED_PENDING_RECHECK")
+        self.assertEqual(self.db.get_task(f"auto-rw-{tid}")["kanban_column"], "QA_SECURITY_REVIEW")
+        self.assertEqual(self.db.get_department_detail("52")["status"], "IN_QA_REVIEW")
+
+        # Still blocked before Div 9 closes ticket!
+        with self.assertRaises(ValueError):
+            self.db.request_mission_approval(mid, summary="Vẫn chưa kiểm lại xong")
+
+        # Div 9 bounces a second time -> reopen_count == 1
+        st_reopen, _, raw_reopen = self._req(
+            f"/api/rework/{tid}",
+            method="PATCH",
+            body={"status": "OPEN", "recheck_note_vi": "Cột ngày bị lệch múi giờ, sửa tiếp"},
+        )
+        self.assertEqual(st_reopen, 200)
+        self.assertEqual(json.loads(raw_reopen.decode("utf-8"))["reopen_count"], 1)
+
+        # Target fixes again -> Div 9 verifies 0 defects (VERIFIED_CLOSED)
+        self._req(f"/api/rework/{tid}", method="PATCH", body={"status": "FIXED_PENDING_RECHECK", "fix_note_vi": "Đã sửa múi giờ UTC+7"})
+        st_close, _, raw_close = self._req(
+            f"/api/rework/{tid}",
+            method="PATCH",
+            body={"status": "VERIFIED_CLOSED", "recheck_note_vi": "Xác nhận đạt 0 lỗi"},
+        )
+        self.assertEqual(st_close, 200)
+        closed_t = json.loads(raw_close.decode("utf-8"))
+        self.assertEqual(closed_t["status"], "VERIFIED_CLOSED")
+        self.assertTrue(bool(closed_t["resolved_at"]))
+        self.assertEqual(self.db.get_task(f"auto-rw-{tid}")["kanban_column"], "DONE")
+
+        # GET /api/rework + /api/overview show 0 unresolved tickets -> Gate 2 NOW SUCCEEDS!
+        st_list, _, raw_list = self._req(f"/api/rework?mission_id={mid}")
+        self.assertEqual(st_list, 200)
+        rw_payload = json.loads(raw_list.decode("utf-8"))
+        self.assertEqual(rw_payload["summary"]["unresolved_count"], 0)
+        self.assertTrue(rw_payload["summary"]["by_mission"][mid]["zero_defect_ready"])
+
+        gate_res = self.db.request_mission_approval(mid, summary="Sản phẩm đã đạt chốt 0 lỗi Khối 9")
+        self.assertTrue(gate_res["ok"])
+        self.assertTrue(gate_res["zero_defect_verified"])
+        self.assertEqual(gate_res["status"], "WAITING_CHAIRMAN")
+
+        # Snapshot sync preserves rework_tickets
+        snap = export_snapshot(self.db)
+        self.assertEqual(len(snap["rework_tickets"]), 1)
+        other_db = TitanDatabase(db_path=self.tmp_path / "sync_v10.db")
+        try:
+            merge_snapshot_into_db(other_db, snap)
+            self.assertEqual(len(other_db.list_rework_tickets(mission_id=mid)), 1)
+        finally:
+            other_db.close_thread_conn()
+
+    def test_10_v10_bridge_cli_bounce_back_and_rework_update(self) -> None:
+        import subprocess
+        cli = [sys.executable, str(SCRIPTS_DIR / "titan_bridge_cli.py"), "--db", str(self.db_path)]
+        # Default source_dept should be #53 (DIV9_DEFECT_TRIAGE)
+        bb_proc = subprocess.run(
+            cli
+            + [
+                "bounce-back",
+                "--target-dept", "08",
+                "--category", "UX_FRICTION",
+                "--severity", "HIGH",
+                "--title", "Nút thanh toán trên màn hình 390px hơi nhỏ",
+                "--detail", "Tăng vùng chạm tối thiểu lên 44px",
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            check=True,
+        )
+        bb_res = json.loads(bb_proc.stdout)
+        self.assertTrue(bb_res["ok"])
+        self.assertEqual(bb_res["ticket"]["source_dept_id"], "53")
+        self.assertEqual(bb_res["ticket"]["source_role_type"], "DIV9_DEFECT_TRIAGE")
+        rw_id = bb_res["ticket"]["ticket_id"]
+
+        upd_proc = subprocess.run(
+            cli
+            + [
+                "rework-update",
+                "--ticket-id", rw_id,
+                "--status", "VERIFIED_CLOSED",
+                "--note", "Đã tăng nút lên 48px, đạt chuẩn di động",
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            check=True,
+        )
+        upd_res = json.loads(upd_proc.stdout)
+        self.assertTrue(upd_res["ok"])
+        self.assertEqual(upd_res["ticket"]["status"], "VERIFIED_CLOSED")
+
+    def test_11_v10_plan_9_division_roster_and_org_directory(self) -> None:
+        # 1. WEB_APP plan: all 9/9 divisions covered, Div 3 has 12,13,15,19 and SKIPS 14 & 18; Div 9 has all 8 (#46..#53)
+        st_web, _, raw_web = self._req(
+            "/api/org/plan-roster",
+            method="POST",
+            body={"goal_prompt": "Xây dựng ứng dụng Web PWA xử lý ảnh CCCD và PDF 100% trên trình duyệt", "product_type": "AUTO"},
+        )
+        self.assertEqual(st_web, 200)
+        web_plan = json.loads(raw_web.decode("utf-8"))
+        self.assertEqual(web_plan["product_type"], "WEB_APP")
+        self.assertTrue(web_plan["all_9_divisions_covered"])
+        self.assertEqual(web_plan["active_divisions_count"], 9)
+        web_by_div = {d["division_code"]: d for d in web_plan["divisions"]}
+        self.assertEqual(web_by_div["div3-engineering-ai"]["active_dept_ids"], ["12", "13", "15", "19"])
+        self.assertIn("14", web_by_div["div3-engineering-ai"]["skipped_dept_ids"])
+        self.assertIn("18", web_by_div["div3-engineering-ai"]["skipped_dept_ids"])
+        self.assertEqual(
+            web_by_div["div9-critique-ux-lab"]["active_dept_ids"],
+            ["46", "47", "48", "49", "50", "51", "52", "53"],
+        )
+
+        # 2. EMBEDDED_IOT plan: all 9/9 divisions covered, Div 3 activates 12,14,15,18,19!
+        st_iot, _, raw_iot = self._req(
+            "/api/org/plan-roster",
+            method="POST",
+            body={"goal_prompt": "Ống nghe thông minh ESP32 phần cứng nhúng IoT kết nối app Android"},
+        )
+        self.assertEqual(st_iot, 200)
+        iot_plan = json.loads(raw_iot.decode("utf-8"))
+        self.assertEqual(iot_plan["product_type"], "EMBEDDED_IOT")
+        self.assertTrue(iot_plan["all_9_divisions_covered"])
+        iot_by_div = {d["division_code"]: d for d in iot_plan["divisions"]}
+        self.assertEqual(iot_by_div["div3-engineering-ai"]["active_dept_ids"], ["12", "14", "15", "18", "19"])
+
+        # 3. MEDIA_CHANNEL plan: Div 5 activates all 7 departments (25..31)
+        media_plan = self.db.plan_9_division_roster("Xây hệ thống kênh YouTube và video ngắn TikTok tự động")
+        self.assertEqual(media_plan["product_type"], "MEDIA_CHANNEL")
+        media_by_div = {d["division_code"]: d for d in media_plan["divisions"]}
+        self.assertEqual(
+            media_by_div["div5-media-youtube-studio"]["active_dept_ids"],
+            ["25", "26", "27", "28", "29", "30", "31"],
+        )
+
+        # 4. create_mission dynamically tailors Step 5 & Step 6 leads and returns division_roster_plan
+        st_m, _, raw_m = self._req(
+            "/api/missions",
+            method="POST",
+            body={"title": "Trạm hồ sơ công dân Web PWA", "goal_prompt": "Công cụ web xử lý PDF CCCD trên trình duyệt"},
+        )
+        self.assertEqual(st_m, 201)
+        msn = json.loads(raw_m.decode("utf-8"))
+        self.assertEqual(msn["product_type"], "WEB_APP")
+        self.assertTrue(msn["division_roster_plan"]["all_9_divisions_covered"])
+        step5_leads = msn["steps"][4]["lead_dept_ids"].split(",")
+        self.assertIn("13", step5_leads)
+        self.assertIn("15", step5_leads)
+        self.assertNotIn("18", step5_leads)
+        self.assertNotIn("14", step5_leads)
+
+        # 5. GET /api/org/directory returns full 54 departments + SOP rules + handoff policy + templates
+        st_dir, _, raw_dir = self._req("/api/org/directory")
+        self.assertEqual(st_dir, 200)
+        org_dir = json.loads(raw_dir.decode("utf-8"))
+        self.assertEqual(org_dir["total_departments"], 54)
+        self.assertEqual(org_dir["total_divisions"], 10)
+        self.assertEqual(len(org_dir["departments"]), 54)
+        self.assertGreaterEqual(len(org_dir["sop_rules"]), 4)
+        self.assertIn("PEER_HANDOFF", org_dir["handoff_policy"])
+        self.assertIn("CEO_ESCALATION", org_dir["handoff_policy"])
+        self.assertIn("WEB_APP", org_dir["product_roster_templates"])
+        self.assertIn("EMBEDDED_IOT", org_dir["product_roster_templates"])
+
+        # 6. Department detail includes peer_directory & recent_handoffs
+        st_d13, _, raw_d13 = self._req("/api/departments/13")
+        self.assertEqual(st_d13, 200)
+        d13 = json.loads(raw_d13.decode("utf-8"))
+        self.assertIn("peer_directory", d13)
+        self.assertTrue(d13["peer_directory"]["core_strength_vi"])
+        self.assertTrue(len(d13["peer_directory"]["downstream_depts"]) > 0)
+        self.assertIn("recent_handoffs", d13)
+
+    def test_12_v10_dept_handoffs_peer_ceo_escalation_reroute_and_cli(self) -> None:
+        import subprocess
+        # 1. PEER_HANDOFF (#13 -> #08): auto-ho-* created in IN_PROGRESS, #08 becomes EXECUTING
+        st_ph, _, raw_ph = self._req(
+            "/api/handoffs",
+            method="POST",
+            body={
+                "from_dept_id": "13",
+                "to_dept_id": "08",
+                "mode": "PEER_HANDOFF",
+                "reason_vi": "Cần chỉnh bộ token màu nút chính trên màn hình di động",
+                "payload_vi": "Đang thiếu biến màu cho trạng thái hover nút xuất PDF",
+            },
+        )
+        self.assertEqual(st_ph, 201)
+        ph = json.loads(raw_ph.decode("utf-8"))
+        ph_id = ph["handoff_id"]
+        self.assertEqual(ph["to_dept_id"], "08")
+        self.assertEqual(ph["status"], "OPEN")
+        self.assertEqual(self.db.get_task(f"auto-ho-{ph_id}")["kanban_column"], "IN_PROGRESS")
+        self.assertEqual(self.db.get_task(f"auto-ho-{ph_id}")["assigned_dept_id"], "08")
+        self.assertEqual(self.db.get_department_detail("08")["status"], "EXECUTING")
+
+        # Complete peer handoff -> auto-ho-* moves to DONE, #08 returns to IDLE
+        st_ph_done, _, raw_ph_done = self._req(
+            f"/api/handoffs/{ph_id}",
+            method="PATCH",
+            body={"status": "COMPLETED", "ceo_note_vi": "Đã bổ sung token màu đạt chuẩn AA"},
+        )
+        self.assertEqual(st_ph_done, 200)
+        self.assertEqual(json.loads(raw_ph_done.decode("utf-8"))["status"], "COMPLETED")
+        self.assertEqual(self.db.get_task(f"auto-ho-{ph_id}")["kanban_column"], "DONE")
+        self.assertEqual(self.db.get_department_detail("08")["status"], "IDLE")
+
+        # 2. CEO_ESCALATION from #13 (even if another to_dept_id is sent, backend FORCES to_dept_id = '00'!)
+        st_esc, _, raw_esc = self._req(
+            "/api/handoffs",
+            method="POST",
+            body={
+                "from_dept_id": "13",
+                "to_dept_id": "15",
+                "mode": "CEO_ESCALATION",
+                "reason_vi": "Phát sinh đổi kiến trúc lưu trữ thanh toán, vượt thẩm quyền tự quyết",
+                "payload_vi": "Cần #00 quyết định giữa cổng VietQR tĩnh và webhook tự động",
+            },
+        )
+        self.assertEqual(st_esc, 201)
+        esc = json.loads(raw_esc.decode("utf-8"))
+        esc_id = esc["handoff_id"]
+        self.assertEqual(esc["to_dept_id"], "00", "CEO_ESCALATION must force to_dept_id to #00")
+        self.assertEqual(self.db.get_task(f"auto-ho-{esc_id}")["assigned_dept_id"], "00")
+        self.assertEqual(self.db.get_department_detail("00")["status"], "EXECUTING")
+
+        # 3. #00 reroutes (REROUTED_BY_CEO) -> #15: auto-ho-* reassigns to #15, #15 EXECUTING, #00 released to IDLE!
+        st_rr, _, raw_rr = self._req(
+            f"/api/handoffs/{esc_id}",
+            method="PATCH",
+            body={
+                "status": "REROUTED_BY_CEO",
+                "resolved_to_dept_id": "15",
+                "ceo_note_vi": "Giao Phòng #15 chủ trì cổng VietQR và giữ chi phí 0đ hạ tầng",
+            },
+        )
+        self.assertEqual(st_rr, 200)
+        rr = json.loads(raw_rr.decode("utf-8"))
+        self.assertEqual(rr["status"], "REROUTED_BY_CEO")
+        self.assertEqual(rr["resolved_to_dept_id"], "15")
+        self.assertEqual(rr["effective_owner_dept_id"], "15")
+        self.assertEqual(self.db.get_task(f"auto-ho-{esc_id}")["assigned_dept_id"], "15")
+        self.assertEqual(self.db.get_task(f"auto-ho-{esc_id}")["kanban_column"], "IN_PROGRESS")
+        self.assertEqual(self.db.get_department_detail("15")["status"], "EXECUTING")
+        self.assertEqual(self.db.get_department_detail("00")["status"], "IDLE")
+
+        # 4. #15 completes rerouted handoff -> DONE & #15 IDLE
+        st_fin, _, _ = self._req(f"/api/handoffs/{esc_id}", method="PATCH", body={"status": "COMPLETED"})
+        self.assertEqual(st_fin, 200)
+        self.assertEqual(self.db.get_task(f"auto-ho-{esc_id}")["kanban_column"], "DONE")
+        self.assertEqual(self.db.get_department_detail("15")["status"], "IDLE")
+
+        # 5. GET /api/handoffs & /api/overview & snapshot merge include dept_handoffs + corporate_directory_summary
+        st_hl, _, raw_hl = self._req("/api/handoffs?dept_id=15")
+        self.assertEqual(st_hl, 200)
+        hl = json.loads(raw_hl.decode("utf-8"))
+        self.assertEqual(hl["count"], 1)
+        self.assertEqual(hl["summary"]["completed_count"], 2)
+
+        st_ov, _, raw_ov = self._req("/api/overview")
+        self.assertEqual(st_ov, 200)
+        ov = json.loads(raw_ov.decode("utf-8"))
+        self.assertIn("dept_handoffs", ov)
+        self.assertIn("corporate_directory_summary", ov)
+        self.assertEqual(ov["corporate_directory_summary"]["total_departments"], 54)
+
+        snap = export_snapshot(self.db)
+        self.assertEqual(len(snap["dept_handoffs"]), 2)
+        other_db = TitanDatabase(db_path=self.tmp_path / "sync_handoffs.db")
+        try:
+            merge_snapshot_into_db(other_db, snap)
+            self.assertEqual(len(other_db.list_dept_handoffs()), 2)
+        finally:
+            other_db.close_thread_conn()
+
+        # 6. Bridge CLI handoff subcommand works end-to-end
+        cli = [sys.executable, str(SCRIPTS_DIR / "titan_bridge_cli.py"), "--db", str(self.db_path)]
+        cli_proc = subprocess.run(
+            cli
+            + [
+                "handoff",
+                "--from-dept", "20",
+                "--to-dept", "23",
+                "--mode", "PEER_HANDOFF",
+                "--reason", "Chuyển kiểm tra cấu hình CSP sang phòng An ninh mạng",
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            check=True,
+        )
+        cli_res = json.loads(cli_proc.stdout)
+        self.assertTrue(cli_res["ok"])
+        self.assertEqual(cli_res["handoff"]["from_dept_id"], "20")
+        self.assertEqual(cli_res["handoff"]["to_dept_id"], "23")
 
 
 if __name__ == "__main__":

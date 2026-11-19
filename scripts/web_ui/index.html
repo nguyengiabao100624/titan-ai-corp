@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#006a6b" id="meta-theme-color" /><!-- ds-allow-hardcode -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="description" content="Trung tâm Điều hành Titan v8.0: Giao việc tự động, tiến độ toàn tập đoàn, bảng việc tinh gọn, kho kỹ năng GitHub và báo cáo tài chính theo từng dự án." />
+  <meta name="description" content="Trung tâm Điều hành Titan v10.0: Giao việc tự động 1 chạm, 54 phòng chuyên gia với 2 tổ chất lượng nội bộ, chốt cuối 0 lỗi Khối 9, kho kỹ năng GitHub và báo cáo tài chính theo từng dự án." />
   <title>Trung tâm Điều hành Titan</title>
   <link rel="icon" type="image/svg+xml" href="./icon.svg" />
   <link rel="apple-touch-icon" href="./icon.svg" />
@@ -104,7 +104,7 @@
             <svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>
             <span>Nhân sự</span>
           </span>
-          <span class="nav-count" id="nav-cnt-staff">51</span>
+          <span class="nav-count" id="nav-cnt-staff">54</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="news">
@@ -127,7 +127,7 @@
 
       <div class="sidebar-card">
         <strong>Trạng thái đội ngũ</strong>
-        <span id="sidebar-staff-summary">51 phòng chuyên gia sẵn sàng nhận đề bài</span>
+        <span id="sidebar-staff-summary">54 phòng chuyên gia sẵn sàng nhận đề bài</span>
         <div class="progress-track" role="img" aria-label="Mức độ sẵn sàng của đội ngũ chuyên gia">
           <div class="progress-fill" id="sidebar-readiness-fill"></div>
         </div>
@@ -194,7 +194,7 @@
                 <div class="hero-figure-wrap">
                   <p class="eyebrow">Điều hành nhiệm vụ trực tuyến</p>
                   <p class="hero-figure" id="stat-running-missions">0</p>
-                  <p class="hero-caption" id="hero-status-note">Nhiệm vụ đang triển khai trên toàn hệ thống 51 phòng chuyên gia.</p>
+                  <p class="hero-caption" id="hero-status-note">Nhiệm vụ đang triển khai trên toàn hệ thống 54 phòng chuyên gia.</p>
                 </div>
 
                 <div class="hero-sparkbar">
@@ -254,7 +254,7 @@
               <div class="card hero-aside-card-grow">
                 <div>
                   <p class="eyebrow">Nhân sự chuyên trách</p>
-                  <p class="stat-value-md" id="stat-staff-ready">51</p>
+                  <p class="stat-value-md" id="stat-staff-ready">54</p>
                   <p class="row-meta" id="lbl-staff-total">Phòng ban trực chiến sẵn sàng</p>
                 </div>
                 <div class="rule"></div>
@@ -462,7 +462,7 @@
           <div class="toolbar-row">
             <div class="toolbar-group url-input-grow">
               <label class="sr-only" for="staff-search">Tìm nhân sự theo tên, mã phòng hoặc kỹ năng</label>
-              <input type="search" class="input staff-search-input" id="staff-search" placeholder="Tìm theo tên, mã phòng (00 đến 50), kỹ năng..." />
+              <input type="search" class="input staff-search-input" id="staff-search" placeholder="Tìm theo tên, mã phòng (00 đến 53), kỹ năng..." />
 
               <div class="listbox-field listbox-inline" data-listbox="filter-staff-div">
                 <input type="hidden" id="filter-staff-div" value="" />
@@ -475,6 +475,10 @@
             </div>
 
             <div class="action-group">
+              <button type="button" class="btn btn-xs" id="btn-open-org-sop">
+                <svg class="ico ico-xs" aria-hidden="true"><use href="#i-layers"/></svg>
+                <span>Quy trình 9 Khối và Danh bạ</span>
+              </button>
               <button type="button" class="btn btn-xs" id="btn-toggle-all-divs">Mở tất cả</button>
               <button type="button" class="btn btn-xs btn-primary" id="btn-open-hire">
                 <svg class="ico ico-xs" aria-hidden="true"><use href="#i-plus"/></svg>
@@ -484,10 +488,10 @@
           </div>
 
           <div class="segmented" id="staff-status-filter" role="tablist" aria-label="Lọc theo trạng thái nhân sự">
-            <button type="button" class="seg-btn active" role="tab" aria-selected="true" data-sstatus="">Tất cả (51)</button>
+            <button type="button" class="seg-btn active" role="tab" aria-selected="true" data-sstatus="">Tất cả (54)</button>
             <button type="button" class="seg-btn" role="tab" aria-selected="false" data-sstatus="WORKING">Đang làm việc (0)</button>
             <button type="button" class="seg-btn" role="tab" aria-selected="false" data-sstatus="STUDYING">Đang học (0)</button>
-            <button type="button" class="seg-btn" role="tab" aria-selected="false" data-sstatus="IDLE">Sẵn sàng (51)</button>
+            <button type="button" class="seg-btn" role="tab" aria-selected="false" data-sstatus="IDLE">Sẵn sàng (54)</button>
             <button type="button" class="seg-btn" role="tab" aria-selected="false" data-sstatus="BLOCKED">Đang bị chặn (0)</button>
           </div>
 
@@ -584,7 +588,7 @@
             <div class="hero-band">
               <div class="card card-lift hero-lead">
                 <div class="hero-figure-wrap">
-                  <p class="eyebrow">Kỹ năng chuyên môn đã nạp cho 51 phòng ban</p>
+                  <p class="eyebrow" id="lbl-skills-depts-eyebrow">Kỹ năng chuyên môn đã nạp cho 54 phòng ban</p>
                   <p class="hero-figure" id="skills-hero-count">0</p>
                   <p class="hero-caption">Chắt lọc từ các kho kỹ năng mã nguồn mở uy tín, chia đúng chuyên môn cho từng khối.</p>
                 </div>
@@ -690,7 +694,7 @@
       </main>
 
       <footer class="app-footer">
-        <span>Trung tâm Điều hành Titan v9.0: Vận hành trực tuyến tự động 51 phòng chuyên gia.</span>
+        <span id="footer-brand-summary">Trung tâm Điều hành Titan v10.0: Vận hành trực tuyến tự động 54 phòng chuyên gia.</span>
         <div class="footer-meta">
           <span id="footer-last-sync">Cập nhật gần nhất: Đang nạp dữ liệu</span>
           <span id="footer-conn-summary">Kênh trực tuyến bảo mật</span>
@@ -1129,6 +1133,231 @@
       <div class="form-grid-2">
         <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
         <button type="submit" class="btn btn-primary">Lưu bút toán</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 11: BOUNCE-BACK DEFECT REWORK TICKET (KHỐI 9 & 2 TỔ NỘI BỘ) -->
+  <div class="modal" id="modal-rework" role="dialog" aria-modal="true" aria-labelledby="rework-modal-title">
+    <div class="modal-head">
+      <h2 class="sec-title" id="rework-modal-title">Tạo phiếu đẩy trả sửa lỗi</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">
+        <svg class="ico ico-xs" aria-hidden="true"><use href="#i-x"/></svg>
+        <span>Đóng</span>
+      </button>
+    </div>
+    <form class="form-stack" id="form-rework">
+      <input type="hidden" id="rework-mission-id" />
+      <input type="hidden" id="rework-project-id" />
+      <input type="hidden" id="rework-task-id" />
+      <input type="hidden" id="rework-step-order" value="0" />
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label id="lbl-rework-source">Phòng gom lỗi và điều phối trả việc</label>
+          <div class="listbox-field" data-listbox="inp-rework-source">
+            <input type="hidden" id="inp-rework-source" value="53" />
+            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-rework-source" aria-labelledby="lbl-rework-source">
+              <span class="listbox-value">#53: Tổng hợp Lỗi, Thu thập Phản hồi và Điều phối Trả việc</span>
+              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </button>
+            <ul class="listbox-menu" id="lb-inp-rework-source" role="listbox" tabindex="-1" hidden></ul>
+          </div>
+        </div>
+        <div class="form-field">
+          <label id="lbl-rework-target">Phòng ban phải nhận sửa</label>
+          <div class="listbox-field" data-listbox="inp-rework-target">
+            <input type="hidden" id="inp-rework-target" value="13" />
+            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-rework-target" aria-labelledby="lbl-rework-target">
+              <span class="listbox-value">#13: Kỹ thuật Giao diện Web</span>
+              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </button>
+            <ul class="listbox-menu" id="lb-inp-rework-target" role="listbox" tabindex="-1" hidden></ul>
+          </div>
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label id="lbl-rework-cat">Loại thiếu sót</label>
+          <div class="listbox-field" data-listbox="inp-rework-cat">
+            <input type="hidden" id="inp-rework-cat" value="BUG" />
+            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-rework-cat" aria-labelledby="lbl-rework-cat">
+              <span class="listbox-value">Lỗi chức năng</span>
+              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </button>
+            <ul class="listbox-menu" id="lb-inp-rework-cat" role="listbox" tabindex="-1" hidden></ul>
+          </div>
+        </div>
+        <div class="form-field">
+          <label id="lbl-rework-sev">Mức độ ưu tiên sửa</label>
+          <div class="listbox-field" data-listbox="inp-rework-sev">
+            <input type="hidden" id="inp-rework-sev" value="HIGH" />
+            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-rework-sev" aria-labelledby="lbl-rework-sev">
+              <span class="listbox-value">Cao</span>
+              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </button>
+            <ul class="listbox-menu" id="lb-inp-rework-sev" role="listbox" tabindex="-1" hidden></ul>
+          </div>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="inp-rework-title">Tiêu đề lỗi hoặc thiếu sót cần sửa</label>
+        <input type="text" class="input" id="inp-rework-title" placeholder="Ví dụ: Nút xuất báo cáo bị thiếu kiểm tra dữ liệu rỗng" required />
+      </div>
+      <div class="form-field">
+        <label for="inp-rework-detail">Chi tiết thiếu sót và tiêu chí đạt chốt 0 lỗi</label>
+        <textarea class="textarea" id="inp-rework-detail" placeholder="Mô tả rõ bước tái hiện lỗi, chức năng còn thiếu và điều kiện để Khối 9 nghiệm thu đạt..."></textarea>
+      </div>
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-destructive" id="btn-submit-rework">Đẩy trả sửa lỗi ngay</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 12: QUY TRÌNH CHUẨN 9 KHỐI & DANH BẠ NĂNG LỰC 54 PHÒNG BAN -->
+  <div class="modal modal-wide" id="modal-org-sop" role="dialog" aria-modal="true" aria-labelledby="org-sop-modal-title">
+    <div class="modal-head">
+      <div class="stack-xs">
+        <h2 class="sec-title" id="org-sop-modal-title">Quy trình Chuẩn 9 Khối và Danh bạ 54 Phòng ban</h2>
+        <p class="row-meta" id="org-sop-modal-sub">Mô hình 2 tầng: Tổng Giám đốc #00 điều phối đủ 9/9 Khối theo loại sản phẩm, kết hợp Tự chuyển việc ngang và Đẩy lên #00 khi vượt thẩm quyền.</p>
+      </div>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">
+        <svg class="ico ico-xs" aria-hidden="true"><use href="#i-x"/></svg>
+        <span>Đóng</span>
+      </button>
+    </div>
+
+    <div class="stack-md">
+      <div class="segmented" id="org-sop-tabs" role="tablist" aria-label="Chọn mục quy trình hoặc danh bạ">
+        <button type="button" class="seg-btn active" role="tab" aria-selected="true" data-org-tab="sop">
+          <svg class="ico ico-xs" aria-hidden="true"><use href="#i-layers"/></svg>
+          <span>Quy trình 9 Khối và Mô phỏng</span>
+        </button>
+        <button type="button" class="seg-btn" role="tab" aria-selected="false" data-org-tab="directory">
+          <svg class="ico ico-xs" aria-hidden="true"><use href="#i-users"/></svg>
+          <span id="lbl-org-tab-dir">Danh bạ Năng lực 54 Phòng</span>
+        </button>
+      </div>
+
+      <!-- Sub-panel 1: Quy trình 9 Khối & Mô phỏng phân công -->
+      <div class="stack-md" id="org-panel-sop">
+        <div class="org-rules-grid" id="org-sop-rules-box"></div>
+
+        <form class="org-sim-box form-stack" id="form-plan-roster">
+          <div class="sec-head">
+            <h3 class="sec-title">Mô phỏng phân công đội hình 9 Khối theo loại sản phẩm</h3>
+            <span class="badge badge-done">Bắt buộc đủ 9/9 Khối</span>
+          </div>
+          <div class="form-field">
+            <label for="inp-roster-goal">Đề bài sản phẩm muốn mô phỏng</label>
+            <input type="text" class="input" id="inp-roster-goal" placeholder="Ví dụ: Web tiện ích xử lý CCCD và PDF trực tiếp trên trình duyệt, hoặc thiết bị nhúng đo nhịp tim..." />
+          </div>
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label id="lbl-roster-type">Loại sản phẩm</label>
+              <div class="listbox-field" data-listbox="inp-roster-type">
+                <input type="hidden" id="inp-roster-type" value="AUTO" />
+                <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-roster-type" aria-labelledby="lbl-roster-type">
+                  <span class="listbox-value">Tự nhận diện theo đề bài</span>
+                  <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+                </button>
+                <ul class="listbox-menu" id="lb-inp-roster-type" role="listbox" tabindex="-1" hidden></ul>
+              </div>
+            </div>
+            <div class="form-field roster-submit-align">
+              <button type="submit" class="btn btn-primary btn-block" id="btn-plan-roster">
+                <svg class="ico ico-xs" aria-hidden="true"><use href="#i-compass"/></svg>
+                <span>Xem đội hình 9 Khối đề xuất</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="stack-sm" id="roster-plan-result"></div>
+      </div>
+
+      <!-- Sub-panel 2: Danh bạ Năng lực 54 Phòng ban -->
+      <div class="stack-md is-hidden" id="org-panel-directory">
+        <div class="dir-filter-bar">
+          <label class="sr-only" for="inp-dir-search">Tìm kiếm phòng ban trong danh bạ năng lực</label>
+          <input type="search" class="input" id="inp-dir-search" placeholder="Tìm theo mã phòng (00 đến 53), tên phòng, chuyên môn lõi..." />
+          <div class="listbox-field listbox-inline" data-listbox="filter-dir-div">
+            <input type="hidden" id="filter-dir-div" value="" />
+            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-filter-dir-div" aria-label="Lọc danh bạ theo khối chuyên môn">
+              <span class="listbox-value">Tất cả 10 khối chuyên môn</span>
+              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </button>
+            <ul class="listbox-menu" id="lb-filter-dir-div" role="listbox" tabindex="-1" hidden></ul>
+          </div>
+          <span class="mono row-meta" id="dir-count-meta">54 phòng ban</span>
+        </div>
+        <div class="dir-list" id="org-directory-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 13: CHUYỂN VIỆC NGANG / ĐẨY LÊN TỔNG GIÁM ĐỐC #00 / PHÂN CÔNG LẠI -->
+  <div class="modal" id="modal-handoff" role="dialog" aria-modal="true" aria-labelledby="handoff-modal-title">
+    <div class="modal-head">
+      <h2 class="sec-title" id="handoff-modal-title">Chuyển việc ngang sang phòng khác</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">
+        <svg class="ico ico-xs" aria-hidden="true"><use href="#i-x"/></svg>
+        <span>Đóng</span>
+      </button>
+    </div>
+    <form class="form-stack" id="form-handoff">
+      <input type="hidden" id="handoff-edit-id" value="" />
+      <input type="hidden" id="handoff-action-kind" value="CREATE" />
+      <input type="hidden" id="handoff-mode" value="PEER_HANDOFF" />
+      <input type="hidden" id="handoff-from-dept" value="00" />
+
+      <div class="handoff-context-box" id="handoff-context-box"></div>
+
+      <div class="form-field" id="wrap-handoff-to">
+        <label id="lbl-handoff-to">Chọn phòng ban tiếp nhận</label>
+        <div class="listbox-field" data-listbox="inp-handoff-to">
+          <input type="hidden" id="inp-handoff-to" value="13" />
+          <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-handoff-to" aria-labelledby="lbl-handoff-to">
+            <span class="listbox-value">#13: Kỹ thuật Giao diện Web</span>
+            <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </button>
+          <ul class="listbox-menu" id="lb-inp-handoff-to" role="listbox" tabindex="-1" hidden></ul>
+        </div>
+      </div>
+
+      <div class="handoff-locked-box is-hidden" id="wrap-handoff-locked-ceo">
+        <div class="action-group">
+          <span class="badge badge-wait">Đích cố định</span>
+          <strong>Phòng #00: Tổng Giám đốc và Chánh Văn phòng</strong>
+        </div>
+        <p class="row-meta">Khi đẩy lên Tổng Giám đốc #00, hệ thống tự động khóa đích nhận là #00 để phân xử và chỉ định lại đúng phòng chuyên môn.</p>
+      </div>
+
+      <div class="form-field" id="wrap-handoff-mission">
+        <label id="lbl-handoff-mission">Gắn với nhiệm vụ đang chạy (tùy chọn)</label>
+        <div class="listbox-field" data-listbox="inp-handoff-mission">
+          <input type="hidden" id="inp-handoff-mission" value="" />
+          <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-handoff-mission" aria-labelledby="lbl-handoff-mission">
+            <span class="listbox-value">Không gắn nhiệm vụ cụ thể</span>
+            <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </button>
+          <ul class="listbox-menu" id="lb-inp-handoff-mission" role="listbox" tabindex="-1" hidden></ul>
+        </div>
+      </div>
+
+      <div class="form-field" id="wrap-handoff-reason">
+        <label for="inp-handoff-reason" id="lbl-handoff-reason">Lý do chuyển việc hoặc nội dung cần hỗ trợ</label>
+        <input type="text" class="input" id="inp-handoff-reason" placeholder="Ví dụ: Cần rà soát chính sách thuế gói thuê bao hoặc cần phân xử phạm vi thiết kế..." required />
+      </div>
+
+      <div class="form-field">
+        <label for="inp-handoff-payload" id="lbl-handoff-payload">Chi tiết bàn giao hoặc ghi chú điều phối</label>
+        <textarea class="textarea" id="inp-handoff-payload" placeholder="Ghi rõ ngữ cảnh, kết quả hiện tại và đầu ra mong muốn..."></textarea>
+      </div>
+
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary" id="btn-submit-handoff">Gửi yêu cầu chuyển việc</button>
       </div>
     </form>
   </div>

@@ -36,8 +36,8 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
         dict(r)
         for r in conn.execute("SELECT * FROM activity_stream ORDER BY event_id DESC LIMIT 250").fetchall()
     ]
-    departments = [dict(r) for r in conn.execute("SELECT * FROM departments ORDER BY dept_id").fetchall()]
-    divisions = [dict(r) for r in conn.execute("SELECT * FROM divisions ORDER BY sort_order").fetchall()]
+    departments = db.list_departments()
+    divisions = db.list_divisions()
     missions = db.list_missions()
     opportunities = db.list_opportunities()
     orders = db.list_orders(limit=40)
@@ -48,9 +48,14 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
     installed_skills = db.list_installed_skills()
     project_ledger = db.list_project_ledger()
     finance_summary = db.get_corporate_finance_summary()
+    rework_tickets = db.list_rework_tickets()
+    rework_summary = db.get_rework_summary()
+    dept_handoffs = db.list_dept_handoffs()
+    handoff_summary = db.get_handoff_summary()
+    corporate_directory_summary = db.get_corporate_directory_summary()
 
     return {
-        "schema_version": "8.0",
+        "schema_version": "10.0",
         "exported_at": utc_now_iso(),
         "bridge": bridge,
         "divisions": divisions,
@@ -71,6 +76,11 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
         "installed_skills": installed_skills,
         "project_ledger": project_ledger,
         "finance_summary": finance_summary,
+        "rework_tickets": rework_tickets,
+        "rework_summary": rework_summary,
+        "dept_handoffs": dept_handoffs,
+        "handoff_summary": handoff_summary,
+        "corporate_directory_summary": corporate_directory_summary,
     }
 
 
@@ -632,6 +642,86 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     lg.get("entry_date") or utc_now_iso()[:10],
                     lg.get("note", ""),
                     lg.get("created_at") or utc_now_iso(),
+                ),
+            )
+
+        for rw in remote_snapshot.get("rework_tickets", []):
+            rw_id = rw.get("ticket_id")
+            if not rw_id:
+                continue
+            conn.execute(
+                """
+                INSERT INTO rework_tickets(
+                    ticket_id, mission_id, project_id, task_id, step_order,
+                    source_division_code, source_dept_id, source_role_type,
+                    target_division_code, target_dept_id, severity, defect_category,
+                    title, detail_vi, fix_note_vi, reopen_count, status,
+                    created_at, updated_at, resolved_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(ticket_id) DO UPDATE SET
+                    status = CASE WHEN excluded.updated_at >= rework_tickets.updated_at THEN excluded.status ELSE rework_tickets.status END,
+                    fix_note_vi = CASE WHEN excluded.updated_at >= rework_tickets.updated_at THEN excluded.fix_note_vi ELSE rework_tickets.fix_note_vi END,
+                    detail_vi = CASE WHEN excluded.updated_at >= rework_tickets.updated_at THEN excluded.detail_vi ELSE rework_tickets.detail_vi END,
+                    reopen_count = MAX(rework_tickets.reopen_count, excluded.reopen_count),
+                    resolved_at = COALESCE(excluded.resolved_at, rework_tickets.resolved_at),
+                    updated_at = MAX(rework_tickets.updated_at, excluded.updated_at)
+                """,
+                (
+                    rw_id,
+                    rw.get("mission_id"),
+                    rw.get("project_id"),
+                    rw.get("task_id"),
+                    int(rw.get("step_order", 0)),
+                    rw.get("source_division_code", "div9-critique-ux-lab"),
+                    rw.get("source_dept_id", "53"),
+                    rw.get("source_role_type", "DIV9_DEFECT_TRIAGE"),
+                    rw.get("target_division_code", "div3-engineering-ai"),
+                    rw.get("target_dept_id", "13"),
+                    rw.get("severity", "HIGH"),
+                    rw.get("defect_category", "BUG"),
+                    rw.get("title", ""),
+                    rw.get("detail_vi", ""),
+                    rw.get("fix_note_vi", ""),
+                    int(rw.get("reopen_count", 0)),
+                    rw.get("status", "OPEN"),
+                    rw.get("created_at") or utc_now_iso(),
+                    rw.get("updated_at") or utc_now_iso(),
+                    rw.get("resolved_at"),
+                ),
+            )
+
+        for ho in remote_snapshot.get("dept_handoffs", []):
+            ho_id = ho.get("handoff_id")
+            if not ho_id:
+                continue
+            conn.execute(
+                """
+                INSERT INTO dept_handoffs(
+                    handoff_id, mission_id, project_id, task_id,
+                    from_dept_id, to_dept_id, mode, reason_vi, payload_vi,
+                    status, resolved_to_dept_id, ceo_note_vi, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(handoff_id) DO UPDATE SET
+                    status = CASE WHEN excluded.updated_at >= dept_handoffs.updated_at THEN excluded.status ELSE dept_handoffs.status END,
+                    resolved_to_dept_id = CASE WHEN excluded.updated_at >= dept_handoffs.updated_at THEN excluded.resolved_to_dept_id ELSE dept_handoffs.resolved_to_dept_id END,
+                    ceo_note_vi = CASE WHEN excluded.updated_at >= dept_handoffs.updated_at THEN excluded.ceo_note_vi ELSE dept_handoffs.ceo_note_vi END,
+                    updated_at = MAX(dept_handoffs.updated_at, excluded.updated_at)
+                """,
+                (
+                    ho_id,
+                    ho.get("mission_id"),
+                    ho.get("project_id"),
+                    ho.get("task_id"),
+                    ho.get("from_dept_id", "00"),
+                    ho.get("to_dept_id", "00"),
+                    ho.get("mode", "PEER_HANDOFF"),
+                    ho.get("reason_vi", ""),
+                    ho.get("payload_vi", ""),
+                    ho.get("status", "OPEN"),
+                    ho.get("resolved_to_dept_id"),
+                    ho.get("ceo_note_vi", ""),
+                    ho.get("created_at") or utc_now_iso(),
+                    ho.get("updated_at") or utc_now_iso(),
                 ),
             )
 

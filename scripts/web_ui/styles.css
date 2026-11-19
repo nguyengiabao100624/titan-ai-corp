@@ -1,4 +1,4 @@
-/* Titan Command Center v8.0: XIAS v3.1.1 Mobile-First Atlas Console Stylesheet */
+/* Titan Command Center v10.0: XIAS v3.1.1 Mobile-First Atlas Console Stylesheet */
 
 *,
 *::before,
@@ -1747,6 +1747,100 @@ ol {
   fill: var(--color-border-strong);
 }
 
+.graph-bounce-edge {
+  stroke: var(--color-action-destructive);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  fill: none;
+}
+
+.graph-bounce-edge-warn {
+  stroke: var(--color-feedback-warning-icon);
+  stroke-width: 1.8;
+  stroke-dasharray: 5 4;
+  fill: none;
+}
+
+.graph-bounce-arrow {
+  fill: var(--color-action-destructive);
+}
+
+.graph-bounce-label {
+  fill: var(--color-feedback-error-text);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  font-family: var(--font-sans);
+}
+
+/* v10.0 Rework Bounce-Back & Div 9 Zero-Defect Gate Panel */
+.rework-panel {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.rework-gate-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2-5);
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-page);
+}
+
+.rework-gate-banner.is-pass {
+  background: var(--color-feedback-success-bg);
+  border-color: var(--color-feedback-success-icon);
+}
+
+.rework-gate-banner.is-blocked {
+  background: var(--color-feedback-error-bg);
+  border-color: var(--color-action-destructive);
+}
+
+.rework-gate-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.rework-gate-banner.is-pass .rework-gate-title {
+  color: var(--color-feedback-success-icon);
+}
+
+.rework-gate-banner.is-blocked .rework-gate-title {
+  color: var(--color-feedback-error-text);
+}
+
+.rework-ticket-card {
+  display: grid;
+  gap: var(--space-2-5);
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-page);
+}
+
+.rework-ticket-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.rework-route-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
 .graph-node-rect {
   fill: var(--color-surface-page);
   stroke: var(--color-border-strong);
@@ -1909,6 +2003,7 @@ ol {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
+  min-inline-size: 0;
   padding: var(--space-2) var(--space-2-5);
   border: var(--border-width-thin) solid var(--color-border-default);
   border-radius: var(--radius-sm);
@@ -1953,6 +2048,45 @@ ol {
   justify-content: space-between;
   gap: var(--space-2);
   flex-wrap: wrap;
+}
+
+.badge-cells {
+  background: var(--color-surface-brand);
+  color: var(--color-text-link);
+  border-color: var(--color-border-default);
+  font-weight: 600;
+}
+
+.div-quality-strip {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2-5) var(--space-4);
+  border-block-end: var(--border-width-thin) solid var(--color-border-default);
+  background: var(--color-surface-page);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+.staff-card-trio {
+  border-color: var(--color-action-primary);
+  background: var(--color-surface-card);
+}
+
+.drawer-quality-box {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-page);
+}
+
+.drawer-cell-item {
+  display: grid;
+  gap: var(--space-0-5);
+  font-size: var(--text-xs);
 }
 
 /* ==========================================================================
@@ -2339,8 +2473,10 @@ ol {
 .drawer-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--space-5);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   align-content: start;
 }
@@ -2623,6 +2759,178 @@ ol {
 }
 
 /* ==========================================================================
+   V10.1: QUY TRINH 9 KHOI, DANH BA 54 PHONG & CHUYEN VIEC NGANG / #00
+   ========================================================================== */
+.modal-wide {
+  inline-size: min(var(--size-table-min), calc(100vw - var(--space-6)));
+}
+
+.stack-xs {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.org-rules-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.org-rule-card {
+  display: grid;
+  gap: var(--space-1-5);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-page);
+}
+
+.org-rule-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.org-sim-box {
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-page);
+}
+
+.roster-submit-align {
+  justify-content: flex-end;
+}
+
+.roster-summary-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--color-action-primary);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-brand);
+}
+
+.roster-div-list,
+.dir-list {
+  display: grid;
+  gap: var(--space-2-5);
+}
+
+.dir-list {
+  max-block-size: var(--size-doc-max);
+  overflow-y: auto;
+  padding-inline-end: var(--space-1);
+}
+
+.roster-div-card,
+.dir-dept-card,
+.handoff-card {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-card);
+}
+
+.roster-div-head,
+.dir-dept-head,
+.handoff-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.roster-chip-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  flex-wrap: wrap;
+}
+
+.roster-skip-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-0-5) var(--space-2);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  font-weight: 500;
+}
+
+.drawer-collab-box {
+  display: grid;
+  gap: var(--space-3);
+  min-inline-size: 0;
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-page);
+}
+
+.dir-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2-5);
+  align-items: center;
+}
+
+.handoff-context-box {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-page);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.handoff-locked-box {
+  display: grid;
+  gap: var(--space-1-5);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--color-feedback-warning-icon);
+  border-radius: var(--radius-button);
+  background: var(--color-feedback-warning-bg);
+}
+
+.mission-coverage-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-page);
+}
+
+.mission-handoff-section {
+  display: grid;
+  gap: var(--space-2-5);
+  padding-block-start: var(--space-3);
+  border-block-start: var(--border-width-thin) solid var(--color-border-default);
+}
+
+.room-members-wrap {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.room-members-wrap .room-member-grid {
+  padding: 0;
+}
+
+/* ==========================================================================
    TABLET BREAKPOINT (min-width: 48rem / 768px)
    ========================================================================== */
 @media (min-width: 48rem) {
@@ -2721,6 +3029,21 @@ ol {
   .mission-acc-meta {
     flex-shrink: 0;
     flex-wrap: nowrap;
+  }
+
+  .rework-gate-banner,
+  .roster-summary-banner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .org-rules-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dir-filter-bar {
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 }
 

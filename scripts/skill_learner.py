@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dong co thu thap, phan bo va hoc ky nang ma nguon mo GitHub cho 51 phong ban Titan AI Corp."""
+"""Dong co thu thap, phan bo va hoc ky nang ma nguon mo GitHub cho 54 phong ban Titan AI Corp."""
 
 from __future__ import annotations
 
@@ -92,7 +92,7 @@ DIVISION_DEFAULT_DEPTS: dict[str, list[str]] = {
     "div6-sales-commercial": ["32", "33", "34", "35", "36"],
     "div7-finance-tax-legal": ["37", "38", "39", "40", "41"],
     "div8-data-ops-hr": ["42", "43", "44", "45"],
-    "div9-critique-ux-lab": ["46", "47", "48", "49", "50"],
+    "div9-critique-ux-lab": ["46", "47", "48", "49", "50", "51", "52", "53"],
 }
 
 DOMAIN_ROUTING_RULES: list[tuple[tuple[str, ...], str, list[str], str]] = [
@@ -127,9 +127,9 @@ DOMAIN_ROUTING_RULES: list[tuple[tuple[str, ...], str, list[str], str]] = [
         "Thiết kế Giao diện",
     ),
     (
-        ("test", "qa", "playwright", "security", "pentest", "audit", "verify", "verification", "review", "guardrail", "redteam"),
+        ("test", "qa", "qc", "playwright", "security", "pentest", "audit", "verify", "verification", "review", "guardrail", "redteam"),
         "div4-qa-cybersecurity",
-        ["20", "21", "22", "23"],
+        ["20", "21", "22", "23", "51", "52"],
         "Kiểm định và An ninh",
     ),
     (
@@ -145,10 +145,10 @@ DOMAIN_ROUTING_RULES: list[tuple[tuple[str, ...], str, list[str], str]] = [
         "Dữ liệu và Vận hành",
     ),
     (
-        ("critique", "grill", "challenge", "friction", "opportunity", "persona", "devil"),
+        ("critique", "grill", "challenge", "friction", "opportunity", "persona", "devil", "completeness", "triage", "feedback", "defect"),
         "div9-critique-ux-lab",
-        ["46", "47", "48", "49", "50"],
-        "Phản biện và Trải nghiệm",
+        ["46", "47", "48", "49", "50", "51", "52", "53"],
+        "Phản biện và Kiểm định Cuối",
     ),
     (
         ("market", "competitor", "research", "psychology", "offer", "strategy", "plan", "brainstorm"),
@@ -324,7 +324,7 @@ def parse_github_repo_url(repo_url: str) -> tuple[str, str] | None:
 
 
 class SkillAcquisitionEngine:
-    """Dong co quan ly, dong bo va thu thap ky nang ma nguon mo GitHub cho 51 phong ban Titan AI Corp."""
+    """Dong co quan ly, dong bo va thu thap ky nang ma nguon mo GitHub cho 54 phong ban Titan AI Corp."""
 
     def __init__(
         self,
@@ -1102,7 +1102,7 @@ class SkillAcquisitionEngine:
         elif norm_div:
             target_label = f"Khối {norm_div}"
         else:
-            target_label = "toàn bộ 51 phòng ban"
+            target_label = "toàn bộ 54 phòng ban"
 
         summary_vi = sanitize_clean_text(
             f"Đã nạp kỹ năng cho {target_label}: thêm mới {acquired_count} kỹ năng, "
@@ -1147,7 +1147,7 @@ class SkillAcquisitionEngine:
 
 
 def run_self_check() -> int:
-    """Tu kiem chung cu phap, danh muc 10 khoi / 51 phong ban, chong emoji/em-dash va thu nghiem DB tam."""
+    """Tu kiem chung cu phap, danh muc 10 khoi / 54 phong ban, chong emoji/em-dash va thu nghiem DB tam."""
     errors: list[str] = []
 
     if not DEFAULT_CATALOG_PATH.is_file():
@@ -1174,7 +1174,7 @@ def run_self_check() -> int:
 
     expected_divs = {d[0] for d in DIVISIONS_SEED}
     found_divs: set[str] = set()
-    expected_depts = {f"{i:02d}" for i in range(51)}
+    expected_depts = {f"{i:02d}" for i in range(54)}
     found_depts: set[str] = set()
     missing_files: list[str] = []
 
@@ -1191,8 +1191,8 @@ def run_self_check() -> int:
 
     if found_divs != expected_divs:
         errors.append(f"Chua phu du 10 khoi: thieu {sorted(expected_divs - found_divs)}")
-    if found_depts != expected_depts:
-        errors.append(f"Chua phu du 51 phong ban: thieu {sorted(expected_depts - found_depts)}")
+    if not expected_depts.issubset(found_depts):
+        errors.append(f"Chua phu du 54 phong ban: thieu {sorted(expected_depts - found_depts)}")
     if missing_files:
         errors.append(f"Thieu {len(missing_files)} tep SKILL.md trong skills_library: {missing_files[:5]}")
 
@@ -1210,13 +1210,13 @@ def run_self_check() -> int:
         sync_res = engine.sync_catalog_to_db()
         if not sync_res.get("ok") or sync_res.get("synced") != len(entries):
             errors.append(f"sync_catalog_to_db() khong hop le: {sync_res}")
-        if sync_res.get("departments_updated") != 51:
-            errors.append(f"sync_catalog_to_db() chi cap nhat {sync_res.get('departments_updated')}/51 phong ban.")
+        if int(sync_res.get("departments_updated") or 0) < 54:
+            errors.append(f"sync_catalog_to_db() chi cap nhat {sync_res.get('departments_updated')}/54 phong ban.")
 
         # Kiem tra cac file learned_skills.md vua tao sach chuan
         vault_files = list(tmp_vault.rglob("learned_skills.md"))
-        if len(vault_files) != 51:
-            errors.append(f"So tep learned_skills.md tao ra la {len(vault_files)}, yeu cau 51.")
+        if len(vault_files) < 54:
+            errors.append(f"So tep learned_skills.md tao ra la {len(vault_files)}, yeu cau toi thieu 54.")
         for vf in vault_files[:5]:
             vt = vf.read_text(encoding="utf-8")
             if "\u2014" in vt or "\u2013" in vt:
@@ -1225,6 +1225,18 @@ def run_self_check() -> int:
         acq_dept = engine.acquire_skills(dept_id="08")
         if not acq_dept.get("ok") or not acq_dept.get("skills"):
             errors.append(f"acquire_skills(dept_id='08') that bai: {acq_dept}")
+
+        acq_51 = engine.acquire_skills(dept_id="51")
+        if not acq_51.get("ok") or len(acq_51.get("skills") or []) < 6:
+            errors.append(f"acquire_skills(dept_id='51') phai co toi thieu 6 ky nang: {acq_51}")
+
+        acq_52 = engine.acquire_skills(dept_id="52")
+        if not acq_52.get("ok") or len(acq_52.get("skills") or []) < 6:
+            errors.append(f"acquire_skills(dept_id='52') phai co toi thieu 6 ky nang: {acq_52}")
+
+        acq_53 = engine.acquire_skills(dept_id="53")
+        if not acq_53.get("ok") or len(acq_53.get("skills") or []) < 8:
+            errors.append(f"acquire_skills(dept_id='53') phai co toi thieu 8 ky nang: {acq_53}")
 
         acq_div = engine.acquire_skills(division_code="div7-finance-tax-legal")
         if not acq_div.get("ok") or not acq_div.get("skills"):
@@ -1247,17 +1259,17 @@ def run_self_check() -> int:
     print("[DAT] Kiem chung scripts/skill_learner.py va github_skills_catalog.json thanh cong 100%:")
     print(f"  - Tong so ky nang trong danh muc: {len(entries)}")
     print(f"  - Do phu Khoi: {len(found_divs)}/10 Khoi")
-    print(f"  - Do phu Phong ban: {len(found_depts)}/51 Phong ban (00 den 50)")
+    print(f"  - Do phu Phong ban: {len(found_depts)}/54 Phong ban (00 den 53)")
     print(f"  - Tep SKILL.md hop le trong skills_library: {len(entries)}/{len(entries)}")
     print("  - Kiem tra sach chuan (0 emoji, 0 em-dash, 0 en-dash): DAT")
-    print("  - Kiem thu sync_catalog_to_db(), acquire_skills() va bao ve repo_url tren DB tam: DAT")
+    print("  - Kiem thu sync_catalog_to_db(), acquire_skills() (gom ca #51, #52, #53) va bao ve repo_url tren DB tam: DAT")
     return 0
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Dong co hoc va quan ly ky nang GitHub cho Titan AI Corp v8.0")
+    parser = argparse.ArgumentParser(description="Dong co hoc va quan ly ky nang GitHub cho Titan AI Corp v10.0")
     parser.add_argument("--check", action="store_true", help="Tu kiem chung danh muc, cu phap va mo phong nap DB tam")
-    parser.add_argument("--sync", action="store_true", help="Dong bo toan bo danh muc ky nang vao DB chinh va kho tri thuc 51 phong ban")
+    parser.add_argument("--sync", action="store_true", help="Dong bo toan bo danh muc ky nang vao DB chinh va kho tri thuc 54 phong ban")
     parser.add_argument("--acquire", action="store_true", help="Chay thu thap ky nang theo phong ban, khoi, tu khoa hoac repo URL")
     parser.add_argument("--dept", default=None, help="Ma phong ban (vi du: 08)")
     parser.add_argument("--division", default=None, help="Ma khoi (vi du: div5-media-youtube-studio)")

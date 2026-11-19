@@ -429,6 +429,41 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     self._send_json(db.get_corporate_finance_summary(), enable_etag=False)
                 return
 
+            # 05e: Closed-Loop Rework Bounce-Back Tickets (v10.0 Div 9 Zero-Defect Gate)
+            if path == "/api/rework":
+                mid = qs.get("mission_id", [None])[0]
+                pid = qs.get("project_id", [None])[0]
+                tgt = qs.get("target_dept_id", [None])[0]
+                st_f = qs.get("status", [None])[0]
+                tickets = db.list_rework_tickets(
+                    mission_id=mid,
+                    project_id=pid,
+                    target_dept_id=tgt,
+                    status=st_f,
+                )
+                self._send_json(
+                    {"count": len(tickets), "tickets": tickets, "summary": db.get_rework_summary()},
+                    enable_etag=False,
+                )
+                return
+
+            # 05f: 54-Department Corporate Directory & 9-Division SOP (v10.0)
+            if path == "/api/org/directory":
+                self._send_json(db.get_corporate_directory_payload(), enable_etag=False)
+                return
+
+            # 05g: Department Peer Handoffs & CEO Escalations (v10.0)
+            if path == "/api/handoffs":
+                mid = qs.get("mission_id", [None])[0]
+                did = qs.get("dept_id", [None])[0]
+                st_f = qs.get("status", [None])[0]
+                handoffs = db.list_dept_handoffs(mission_id=mid, dept_id=did, status=st_f)
+                self._send_json(
+                    {"count": len(handoffs), "handoffs": handoffs, "summary": db.get_handoff_summary()},
+                    enable_etag=False,
+                )
+                return
+
             # 06: Server-Sent Events (SSE) Stream with Last-Event-ID & Keep-Alive
             if path == "/api/events/stream":
                 self._handle_sse_stream(qs)
@@ -870,6 +905,50 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(entry, status=201)
                 return
 
+            # 21d: Create Rework Bounce-Back Ticket (v10.0)
+            if path == "/api/rework/bounce":
+                ticket = db.bounce_back_defect(
+                    target_dept_id=str(body.get("target_dept_id", "")),
+                    title=str(body.get("title", "")),
+                    detail_vi=str(body.get("detail_vi", "")),
+                    source_dept_id=str(body.get("source_dept_id", "53") or "53"),
+                    source_role_type=str(body.get("source_role_type", "") or ""),
+                    defect_category=str(body.get("defect_category", "BUG")),
+                    severity=str(body.get("severity", "HIGH")),
+                    mission_id=body.get("mission_id") or None,
+                    project_id=body.get("project_id") or None,
+                    task_id=body.get("task_id") or None,
+                    step_order=int(body.get("step_order", 0) or 0),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(ticket, status=201)
+                return
+
+            # 21e: Simulate 9-Division Roster Plan by Product Type (v10.0)
+            if path == "/api/org/plan-roster":
+                plan = db.plan_9_division_roster(
+                    goal_prompt=str(body.get("goal_prompt") or body.get("title") or ""),
+                    product_type=str(body.get("product_type") or "AUTO"),
+                )
+                self._send_json(plan, status=200)
+                return
+
+            # 21f: Create Department Peer Handoff / CEO Escalation (v10.0)
+            if path == "/api/handoffs":
+                ho = db.create_dept_handoff(
+                    from_dept_id=str(body.get("from_dept_id", "")),
+                    to_dept_id=str(body.get("to_dept_id", "00")),
+                    mode=str(body.get("mode", "PEER_HANDOFF")),
+                    reason_vi=str(body.get("reason_vi") or body.get("reason") or ""),
+                    payload_vi=str(body.get("payload_vi") or body.get("payload") or ""),
+                    mission_id=body.get("mission_id") or None,
+                    project_id=body.get("project_id") or None,
+                    task_id=body.get("task_id") or None,
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(ho, status=201)
+                return
+
             # 22: Deep URL Wisdom Ingestion
             if path == "/api/learning/ingest-url":
                 url = str(body.get("url", "")).strip()
@@ -932,6 +1011,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     auto_approve=bool(body.get("auto_approve", False)),
                     enqueue_order=True,
                     source_device=str(body.get("source_device") or "web-local"),
+                    product_type=str(body.get("product_type") or "AUTO"),
                 )
                 msn["bridge_online"] = db.get_bridge_status().get("online", False)
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
@@ -1187,6 +1267,30 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 updated_l = db.update_project_ledger_entry(m_pled_upd.group(1), **body)
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(updated_l, status=200)
+                return
+
+            m_rw_upd = re.match(r"^/api/rework/([a-zA-Z0-9_-]+)$", path)
+            if m_rw_upd:
+                updated_rw = db.update_rework_ticket(
+                    m_rw_upd.group(1),
+                    status=body.get("status"),
+                    fix_note_vi=body.get("fix_note_vi"),
+                    recheck_note_vi=body.get("recheck_note_vi") or body.get("note"),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_rw, status=200)
+                return
+
+            m_ho_upd = re.match(r"^/api/handoffs/([a-zA-Z0-9_-]+)$", path)
+            if m_ho_upd:
+                updated_ho = db.update_dept_handoff(
+                    m_ho_upd.group(1),
+                    status=body.get("status"),
+                    resolved_to_dept_id=body.get("resolved_to_dept_id"),
+                    ceo_note_vi=body.get("ceo_note_vi") if "ceo_note_vi" in body else body.get("note"),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_ho, status=200)
                 return
 
             self._send_json({"error": f"Đường dẫn cập nhật không tồn tại: {path}"}, status=404)

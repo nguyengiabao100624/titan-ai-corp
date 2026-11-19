@@ -1,0 +1,1877 @@
+{
+  "version": "10.1",
+  "updated_at": "2026-11-19T13:06:44Z",
+  "title_vi": "Danh bạ Nhận thức Chung 54 Phòng ban và Quy chế Phối hợp 9 Khối Titan AI Corp",
+  "description_vi": "Bản đồ năng lực, chuỗi bàn giao đầu vào/đầu ra và phạm vi kích hoạt theo loại sản phẩm của toàn bộ 54 phòng ban (#00 đến #53) thuộc 10 Khối Titan AI Corp.",
+  "total_divisions": 10,
+  "total_departments": 54,
+  "coordination_model": {
+    "name_vi": "Mô hình Kết hợp 2 Tầng: Tổng Giám đốc #00 Điều phối Chuẩn 9 Khối và Tự Chuyển việc Ngang",
+    "rules": [
+      {
+        "rule_id": "RULE_1_ALL_9_DIVISIONS",
+        "title_vi": "Quy tắc 1: Bắt buộc đủ 9/9 Khối và Ban Điều hành cho mọi sản phẩm",
+        "detail_vi": "Mọi sản phẩm hoặc dự án đều có sự tham gia xuyên suốt từ Ban Điều hành (#00) và đủ Khối 1 đến Khối 9 để bảo đảm tính toàn diện về thị trường, sản phẩm, kỹ thuật, chất lượng, tăng trưởng, doanh thu, tài chính, dữ liệu và chốt cuối 0 lỗi."
+      },
+      {
+        "rule_id": "RULE_2_PRODUCT_SCOPED_ROSTER",
+        "title_vi": "Quy tắc 2: Phân công linh hoạt đúng phòng ban theo loại sản phẩm",
+        "detail_vi": "Tổng Giám đốc #00 căn cứ Danh bạ 54 phòng ban để kích hoạt đúng các phòng chuyên môn cần thiết theo loại sản phẩm (WEB_APP, MOBILE_APP, B2B_SAAS, EMBEDDED_IOT, MEDIA_CHANNEL), tránh gọi thừa gây loãng, nhưng 2 Tổ Chất lượng Nội bộ ở cả 9 Khối và Bộ Tứ chốt cuối Khối 9 (#53, #51, #52, #49) là bắt buộc 100%."
+      },
+      {
+        "rule_id": "RULE_3_HYBRID_HANDOFF",
+        "title_vi": "Quy tắc 3: Cơ chế phối hợp 2 tầng giữa Tự chuyển việc ngang và Đẩy lên #00",
+        "detail_vi": "Khi vấn đề thuộc rõ chuyên môn một phòng khác trong Danh bạ 54 phòng, cùng phạm vi sản phẩm và không đổi chi phí/mục tiêu, phòng hiện tại tự chuyển việc ngang (PEER_HANDOFF) và gửi bản sao cho #00. Khi vượt kiến thức, chưa rõ người phụ trách, xung đột liên khối hoặc ảnh hưởng ngân sách/kiến trúc, đẩy ngay lên Tổng Giám đốc #00 (CEO_ESCALATION) phân xử và chỉ định."
+      },
+      {
+        "rule_id": "RULE_4_ZERO_DEFECT_LOOP",
+        "title_vi": "Quy tắc 4: Vòng lặp đẩy trả 0 lỗi tập trung qua Trạm #53",
+        "detail_vi": "Toàn bộ lỗi và góp ý từ 2 Tổ nội bộ của 9 Khối, các phòng ban và Chủ tịch được gom về Trạm #53, phối hợp #51 (QA và QC), #52 (Kiểm tra Hoàn thiện Chức năng) và #49 (Diệt Rối mắt) đẩy trả chính xác về đúng phòng sửa (kể cả đã báo xong) đến khi còn 0 phiếu lỗi mở (0 OPEN) mới cho chốt."
+      }
+    ],
+    "handoff_modes": [
+      {
+        "mode": "PEER_HANDOFF",
+        "name_vi": "Tự chuyển việc ngang giữa các phòng ban",
+        "when_vi": "Rõ chuyên môn phòng nhận trong Danh bạ 54 phòng, cùng phạm vi sản phẩm, không làm thay đổi ngân sách hay kiến trúc tổng thể.",
+        "action_vi": "Chuyển thẳng yêu cầu kèm ngữ cảnh cho phòng đích và đồng gửi bản sao nhật ký cho Tổng Giám đốc #00."
+      },
+      {
+        "mode": "CEO_ESCALATION",
+        "name_vi": "Đẩy lên Tổng Giám đốc #00 phân xử",
+        "when_vi": "Vượt phạm vi chuyên môn chưa rõ phòng nào đảm nhận, xảy ra xung đột liên khối hoặc phát sinh thay đổi ảnh hưởng chi phí, tiến độ và kiến trúc cốt lõi.",
+        "action_vi": "Chuyển thẳng lên Phòng #00 để Tổng Giám đốc quyết định phương án và tái phân tuyến chính xác."
+      },
+      {
+        "mode": "CEO_ASSIGN",
+        "name_vi": "Tổng Giám đốc #00 chủ động giao việc và định tuyến",
+        "when_vi": "Khi khởi tạo nhiệm vụ 9 Khối mới hoặc khi #00 phân tuyến lại các yêu cầu leo thang sang đúng phòng chuyên trách.",
+        "action_vi": "Tổng Giám đốc #00 tạo đầu việc rõ mục tiêu và bàn giao trực tiếp cho phòng được chỉ định."
+      }
+    ]
+  },
+  "product_roster_templates": {
+    "WEB_APP": {
+      "name_vi": "Ứng dụng Web và PWA Đại chúng (0 đồng hạ tầng)",
+      "summary_vi": "Huy động đủ 9/9 Khối và Ban Điều hành; tập trung Web/PWA, xử lý trực tiếp trên trình duyệt, SEO, lan truyền Zalo/TikTok và Bộ Tứ chốt cuối Khối 9; không huy động thừa Mobile gốc (#14) hay Nhúng IoT (#18).",
+      "divisions": {
+        "exec-board": [
+          "00"
+        ],
+        "div1-strategy-intel": [
+          "01",
+          "02",
+          "03",
+          "05"
+        ],
+        "div2-product-design": [
+          "06",
+          "07",
+          "08",
+          "10"
+        ],
+        "div3-engineering-ai": [
+          "12",
+          "13",
+          "15",
+          "19"
+        ],
+        "div4-qa-cybersecurity": [
+          "20",
+          "21",
+          "23",
+          "24"
+        ],
+        "div5-media-youtube-studio": [
+          "25",
+          "26",
+          "29",
+          "30",
+          "31"
+        ],
+        "div6-sales-commercial": [
+          "32",
+          "33",
+          "35"
+        ],
+        "div7-finance-tax-legal": [
+          "37",
+          "38",
+          "39",
+          "40"
+        ],
+        "div8-data-ops-hr": [
+          "42",
+          "43",
+          "44"
+        ],
+        "div9-critique-ux-lab": [
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53"
+        ]
+      },
+      "skipped_depts": [
+        "14",
+        "18",
+        "28"
+      ]
+    },
+    "B2B_SAAS": {
+      "name_vi": "Phần mềm Quản trị Thuê bao Doanh nghiệp và Hộ kinh doanh (SaaS)",
+      "summary_vi": "Huy động đủ 9/9 Khối và Ban Điều hành; nhấn mạnh kiến trúc đa khách hàng, cơ sở dữ liệu, thanh toán VietQR/thuê bao, bảo vệ dữ liệu, giữ chân khách hàng và pháp lý thuế.",
+      "divisions": {
+        "exec-board": [
+          "00"
+        ],
+        "div1-strategy-intel": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05"
+        ],
+        "div2-product-design": [
+          "06",
+          "07",
+          "08",
+          "10",
+          "11"
+        ],
+        "div3-engineering-ai": [
+          "12",
+          "13",
+          "15",
+          "16",
+          "17",
+          "19"
+        ],
+        "div4-qa-cybersecurity": [
+          "20",
+          "21",
+          "22",
+          "23",
+          "24"
+        ],
+        "div5-media-youtube-studio": [
+          "25",
+          "26",
+          "29",
+          "30",
+          "31"
+        ],
+        "div6-sales-commercial": [
+          "32",
+          "33",
+          "35",
+          "36"
+        ],
+        "div7-finance-tax-legal": [
+          "37",
+          "38",
+          "39",
+          "40"
+        ],
+        "div8-data-ops-hr": [
+          "42",
+          "43",
+          "44"
+        ],
+        "div9-critique-ux-lab": [
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53"
+        ]
+      },
+      "skipped_depts": [
+        "14",
+        "18",
+        "28"
+      ]
+    },
+    "MOBILE_APP": {
+      "name_vi": "Ứng dụng Di động Android và iOS",
+      "summary_vi": "Huy động đủ 9/9 Khối và Ban Điều hành; kích hoạt chủ lực Phát triển Di động (#14), trải nghiệm 3 chạm (#07, #08, #09), kiểm thử chịu tải di động (#21) và chính sách kho ứng dụng (#41).",
+      "divisions": {
+        "exec-board": [
+          "00"
+        ],
+        "div1-strategy-intel": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05"
+        ],
+        "div2-product-design": [
+          "06",
+          "07",
+          "08",
+          "09",
+          "10",
+          "11"
+        ],
+        "div3-engineering-ai": [
+          "12",
+          "14",
+          "15",
+          "17",
+          "19"
+        ],
+        "div4-qa-cybersecurity": [
+          "20",
+          "21",
+          "23",
+          "24"
+        ],
+        "div5-media-youtube-studio": [
+          "25",
+          "26",
+          "27",
+          "29",
+          "30",
+          "31"
+        ],
+        "div6-sales-commercial": [
+          "32",
+          "33",
+          "35",
+          "36"
+        ],
+        "div7-finance-tax-legal": [
+          "37",
+          "38",
+          "39",
+          "40",
+          "41"
+        ],
+        "div8-data-ops-hr": [
+          "42",
+          "43",
+          "44"
+        ],
+        "div9-critique-ux-lab": [
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53"
+        ]
+      },
+      "skipped_depts": [
+        "18",
+        "28"
+      ]
+    },
+    "EMBEDDED_IOT": {
+      "name_vi": "Thiết bị Thông minh, Phần cứng Nhúng và IoT",
+      "summary_vi": "Huy động đủ 9/9 Khối và Ban Điều hành; kích hoạt lõi Nhúng IoT (#18), Ứng dụng Di động (#14), Máy chủ thời gian thực (#15), AI tín hiệu (#16) và an ninh thiết bị (#23).",
+      "divisions": {
+        "exec-board": [
+          "00"
+        ],
+        "div1-strategy-intel": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05"
+        ],
+        "div2-product-design": [
+          "06",
+          "07",
+          "08",
+          "10",
+          "11"
+        ],
+        "div3-engineering-ai": [
+          "12",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19"
+        ],
+        "div4-qa-cybersecurity": [
+          "20",
+          "21",
+          "22",
+          "23",
+          "24"
+        ],
+        "div5-media-youtube-studio": [
+          "25",
+          "26",
+          "29",
+          "30",
+          "31"
+        ],
+        "div6-sales-commercial": [
+          "32",
+          "33",
+          "35",
+          "36"
+        ],
+        "div7-finance-tax-legal": [
+          "37",
+          "38",
+          "39",
+          "40"
+        ],
+        "div8-data-ops-hr": [
+          "42",
+          "43",
+          "44"
+        ],
+        "div9-critique-ux-lab": [
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53"
+        ]
+      },
+      "skipped_depts": [
+        "28",
+        "34"
+      ]
+    },
+    "MEDIA_CHANNEL": {
+      "name_vi": "Hệ thống Kênh Video YouTube, TikTok và Truyền thông Tăng trưởng",
+      "summary_vi": "Huy động đủ 9/9 Khối và Ban Điều hành; huy động toàn lực 7 phòng Khối 5 (#25..#31), bản quyền chính sách nền tảng (#41), tiếp thị liên kết (#34) và tối ưu giao diện trang đích (#13).",
+      "divisions": {
+        "exec-board": [
+          "00"
+        ],
+        "div1-strategy-intel": [
+          "01",
+          "02",
+          "03",
+          "05"
+        ],
+        "div2-product-design": [
+          "06",
+          "07",
+          "09",
+          "10"
+        ],
+        "div3-engineering-ai": [
+          "13",
+          "16",
+          "19"
+        ],
+        "div4-qa-cybersecurity": [
+          "20",
+          "22",
+          "24"
+        ],
+        "div5-media-youtube-studio": [
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31"
+        ],
+        "div6-sales-commercial": [
+          "32",
+          "33",
+          "34",
+          "35"
+        ],
+        "div7-finance-tax-legal": [
+          "37",
+          "38",
+          "39",
+          "40",
+          "41"
+        ],
+        "div8-data-ops-hr": [
+          "42",
+          "43",
+          "44"
+        ],
+        "div9-critique-ux-lab": [
+          "46",
+          "47",
+          "48",
+          "49",
+          "50",
+          "51",
+          "52",
+          "53"
+        ]
+      },
+      "skipped_depts": [
+        "14",
+        "17",
+        "18"
+      ]
+    }
+  },
+  "divisions": [
+    {
+      "code": "exec-board",
+      "name_vi": "Ban Tổng Giám đốc Điều hành",
+      "c_level_title": "Tổng Giám đốc",
+      "skill_path": ".agents/skills/titan-ceo-orchestrator/SKILL.md",
+      "sort_order": 0,
+      "dept_ids": [
+        "00"
+      ]
+    },
+    {
+      "code": "div1-strategy-intel",
+      "name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
+      "c_level_title": "Giám đốc Chiến lược",
+      "skill_path": ".agents/skills/div1-strategy-intel/SKILL.md",
+      "sort_order": 1,
+      "dept_ids": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05"
+      ]
+    },
+    {
+      "code": "div2-product-design",
+      "name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
+      "c_level_title": "Giám đốc Sản phẩm",
+      "skill_path": ".agents/skills/div2-product-design/SKILL.md",
+      "sort_order": 2,
+      "dept_ids": [
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11"
+      ]
+    },
+    {
+      "code": "div3-engineering-ai",
+      "name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "c_level_title": "Giám đốc Công nghệ",
+      "skill_path": ".agents/skills/div3-engineering-ai/SKILL.md",
+      "sort_order": 3,
+      "dept_ids": [
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ]
+    },
+    {
+      "code": "div4-qa-cybersecurity",
+      "name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
+      "c_level_title": "Giám đốc Chất lượng và Bảo mật",
+      "skill_path": ".agents/skills/div4-qa-cybersecurity/SKILL.md",
+      "sort_order": 4,
+      "dept_ids": [
+        "20",
+        "21",
+        "22",
+        "23",
+        "24"
+      ]
+    },
+    {
+      "code": "div5-media-youtube-studio",
+      "name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "c_level_title": "Giám đốc Truyền thông",
+      "skill_path": ".agents/skills/div5-media-youtube-studio/SKILL.md",
+      "sort_order": 5,
+      "dept_ids": [
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31"
+      ]
+    },
+    {
+      "code": "div6-sales-commercial",
+      "name_vi": "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng",
+      "c_level_title": "Giám đốc Kinh doanh",
+      "skill_path": ".agents/skills/div6-sales-commercial/SKILL.md",
+      "sort_order": 6,
+      "dept_ids": [
+        "32",
+        "33",
+        "34",
+        "35",
+        "36"
+      ]
+    },
+    {
+      "code": "div7-finance-tax-legal",
+      "name_vi": "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế",
+      "c_level_title": "Giám đốc Tài chính và Pháp chế",
+      "skill_path": ".agents/skills/div7-finance-tax-legal/SKILL.md",
+      "sort_order": 7,
+      "dept_ids": [
+        "37",
+        "38",
+        "39",
+        "40",
+        "41"
+      ]
+    },
+    {
+      "code": "div8-data-ops-hr",
+      "name_vi": "Khối 8: Phân tích Dữ liệu, Vận hành Nội bộ và Nhân sự",
+      "c_level_title": "Giám đốc Vận hành và Nhân sự",
+      "skill_path": ".agents/skills/div8-data-ops-hr/SKILL.md",
+      "sort_order": 8,
+      "dept_ids": [
+        "42",
+        "43",
+        "44",
+        "45"
+      ]
+    },
+    {
+      "code": "div9-critique-ux-lab",
+      "name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "c_level_title": "Giám đốc Phản biện và Trải nghiệm",
+      "skill_path": ".agents/skills/div9-critique-ux-lab/SKILL.md",
+      "sort_order": 9,
+      "dept_ids": [
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53"
+      ]
+    }
+  ],
+  "departments": [
+    {
+      "dept_id": "00",
+      "code": "ceo",
+      "title_vi": "Tổng Giám đốc và Chánh Văn phòng",
+      "division_code": "exec-board",
+      "division_name_vi": "Ban Tổng Giám đốc Điều hành",
+      "core_strength_vi": "Nắm trọn Danh bạ 54 phòng ban, điều phối chuẩn đủ 9 Khối theo đúng loại sản phẩm, phân xử khi có đẩy việc vượt thẩm quyền và trình Chủ tịch nghiệm thu tại Cổng 1 và Cổng 2.",
+      "upstream_depts": [
+        "01",
+        "05",
+        "38",
+        "46",
+        "51",
+        "52",
+        "53"
+      ],
+      "downstream_depts": [
+        "01",
+        "06",
+        "11",
+        "12",
+        "20",
+        "25",
+        "32",
+        "38",
+        "42",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "01",
+      "code": "market-intel",
+      "title_vi": "Tình báo Thị trường Toàn cầu",
+      "division_code": "div1-strategy-intel",
+      "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
+      "core_strength_vi": "Quét dữ liệu thị trường thật, xác định nhu cầu cấp bách, biến động chính sách và quy mô người sẵn sàng trả tiền tại Việt Nam và quốc tế.",
+      "upstream_depts": [
+        "00",
+        "50"
+      ],
+      "downstream_depts": [
+        "02",
+        "03",
+        "05",
+        "06",
+        "38"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "02",
+      "code": "consumer-psychology",
+      "title_vi": "Nghiên cứu Tâm lý và Hành vi Khách hàng",
+      "division_code": "div1-strategy-intel",
+      "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
+      "core_strength_vi": "Phân tích nỗi đau thật, ngôn ngữ đời thường, rào cản tâm lý và động lực kích hoạt hành vi dùng thử hoặc trả tiền của từng nhóm người dùng.",
+      "upstream_depts": [
+        "01",
+        "50"
+      ],
+      "downstream_depts": [
+        "05",
+        "06",
+        "07",
+        "26",
+        "31",
+        "32"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "03",
+      "code": "competitor-intel",
+      "title_vi": "Phân tích Đối thủ Cạnh tranh",
+      "division_code": "div1-strategy-intel",
+      "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
+      "core_strength_vi": "Giải phẫu sản phẩm đối thủ thật, thu thập phàn nàn 1 đến 2 sao của người dùng và tìm góc đánh ngách tránh đụng trực diện tập đoàn lớn.",
+      "upstream_depts": [
+        "01",
+        "50"
+      ],
+      "downstream_depts": [
+        "05",
+        "06",
+        "30",
+        "33",
+        "46"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "04",
+      "code": "ai-tech-rnd",
+      "title_vi": "Nghiên cứu Công nghệ mới và Trí tuệ nhân tạo",
+      "division_code": "div1-strategy-intel",
+      "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
+      "core_strength_vi": "Đánh giá tính khả thi kỹ thuật, chi phí API mô hình AI, công nghệ xử lý cục bộ trên trình duyệt và xu hướng công nghệ mới để tối ưu giá vốn.",
+      "upstream_depts": [
+        "00",
+        "01",
+        "05"
+      ],
+      "downstream_depts": [
+        "06",
+        "12",
+        "16",
+        "18",
+        "38"
+      ],
+      "product_types": [
+        "B2B_SAAS",
+        "EMBEDDED_IOT",
+        "MOBILE_APP",
+        "WEB_APP"
+      ]
+    },
+    {
+      "dept_id": "05",
+      "code": "biz-model-architect",
+      "title_vi": "Kiến trúc Mô hình Kinh doanh",
+      "division_code": "div1-strategy-intel",
+      "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
+      "core_strength_vi": "Thiết kế mô hình kiếm tiền thực tế (thuê bao, trả lẻ VietQR, freemium, quảng cáo, tiếp thị liên kết) gắn chặt với biên lợi nhuận và khả năng lan truyền.",
+      "upstream_depts": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "downstream_depts": [
+        "06",
+        "34",
+        "38",
+        "46",
+        "50"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "06",
+      "code": "product-manager",
+      "title_vi": "Quản trị Sản phẩm",
+      "division_code": "div2-product-design",
+      "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
+      "core_strength_vi": "Chốt đặc tả tính năng cốt lõi, ưu tiên phạm vi ra mắt nhanh gọn nhưng trọn vẹn giá trị và bảo đảm sản phẩm giải quyết đúng yêu cầu đề bài.",
+      "upstream_depts": [
+        "00",
+        "01",
+        "02",
+        "03",
+        "05"
+      ],
+      "downstream_depts": [
+        "07",
+        "08",
+        "11",
+        "12",
+        "52"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "07",
+      "code": "ux-researcher",
+      "title_vi": "Nghiên cứu Trải nghiệm Người dùng",
+      "division_code": "div2-product-design",
+      "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
+      "core_strength_vi": "Thiết kế hành trình người dùng tối đa 3 chạm, trực quan ngay trong 5 giây đầu tiên trên cả điện thoại lẫn máy tính cho mọi đối tượng phổ thông.",
+      "upstream_depts": [
+        "02",
+        "06"
+      ],
+      "downstream_depts": [
+        "08",
+        "09",
+        "13",
+        "14",
+        "48",
+        "49"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "08",
+      "code": "ui-design-system",
+      "title_vi": "Thiết kế Giao diện Cao cấp",
+      "division_code": "div2-product-design",
+      "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
+      "core_strength_vi": "Xây dựng hệ thống biến thiết kế OKLCH Sáng/Tối đạt chuẩn tương phản WCAG AA, bố cục rõ nét, không biểu tượng thừa và dễ thao tác.",
+      "upstream_depts": [
+        "06",
+        "07",
+        "10"
+      ],
+      "downstream_depts": [
+        "09",
+        "13",
+        "14",
+        "20",
+        "49"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "MOBILE_APP",
+        "B2B_SAAS",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "09",
+      "code": "motion-designer",
+      "title_vi": "Thiết kế Chuyển động và Tương tác",
+      "division_code": "div2-product-design",
+      "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
+      "core_strength_vi": "Thiết kế hiệu ứng chuyển trạng thái mượt mà, trạng thái chờ phản hồi rõ ràng và vi tương tác giúp cảm giác dùng sản phẩm nhẹ nhàng, tinh tế.",
+      "upstream_depts": [
+        "07",
+        "08"
+      ],
+      "downstream_depts": [
+        "13",
+        "14",
+        "21",
+        "49"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "MOBILE_APP",
+        "B2B_SAAS",
+        "MEDIA_CHANNEL"
+      ]
+    },
+    {
+      "dept_id": "10",
+      "code": "brand-director",
+      "title_vi": "Xây dựng Thương hiệu",
+      "division_code": "div2-product-design",
+      "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
+      "core_strength_vi": "Định vị tên gọi dễ nhớ, khẩu hiệu sắc bén, bộ nhận diện màu sắc, kiểu chữ và giọng văn nhất quán trên sản phẩm lẫn trang bán hàng.",
+      "upstream_depts": [
+        "02",
+        "05",
+        "06"
+      ],
+      "downstream_depts": [
+        "08",
+        "25",
+        "27",
+        "29",
+        "31"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "11",
+      "code": "pmo-scrum",
+      "title_vi": "Điều phối Tiến độ Dự án",
+      "division_code": "div2-product-design",
+      "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
+      "core_strength_vi": "Phân chia ranh giới tệp tin không xung đột, lập lịch bàn giao giữa các phòng kỹ thuật và theo dõi mốc tiến độ xuyên suốt 8 bước.",
+      "upstream_depts": [
+        "00",
+        "06",
+        "12"
+      ],
+      "downstream_depts": [
+        "12",
+        "13",
+        "14",
+        "15",
+        "19",
+        "43"
+      ],
+      "product_types": [
+        "B2B_SAAS",
+        "MOBILE_APP",
+        "EMBEDDED_IOT",
+        "WEB_APP"
+      ]
+    },
+    {
+      "dept_id": "12",
+      "code": "system-architect",
+      "title_vi": "Kiến trúc Hệ thống Trưởng",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Thiết kế kiến trúc mô-đun sâu, hợp đồng API, kiến trúc 0 đồng hạ tầng hoặc cô lập dữ liệu đa khách hàng, bảo đảm hệ thống ổn định và dễ mở rộng.",
+      "upstream_depts": [
+        "04",
+        "06",
+        "11"
+      ],
+      "downstream_depts": [
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "MOBILE_APP",
+        "B2B_SAAS",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "13",
+      "code": "frontend-web",
+      "title_vi": "Kỹ thuật Giao diện Trực tuyến",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Lập trình ứng dụng Web và PWA chạy mượt trên trình duyệt di động lẫn máy tính, xử lý dữ liệu trực tiếp trên máy người dùng và chuẩn SEO kỹ thuật.",
+      "upstream_depts": [
+        "07",
+        "08",
+        "09",
+        "12"
+      ],
+      "downstream_depts": [
+        "15",
+        "19",
+        "20",
+        "21",
+        "49",
+        "52"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "B2B_SAAS",
+        "MEDIA_CHANNEL"
+      ]
+    },
+    {
+      "dept_id": "14",
+      "code": "mobile-app",
+      "title_vi": "Phát triển Ứng dụng Di động",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Phát triển ứng dụng Android và iOS gốc hoặc đa nền tảng tích hợp camera, ghi âm, Bluetooth, thông báo đẩy và lưu trữ ngoại tuyến.",
+      "upstream_depts": [
+        "07",
+        "08",
+        "09",
+        "12"
+      ],
+      "downstream_depts": [
+        "15",
+        "18",
+        "20",
+        "21",
+        "48"
+      ],
+      "product_types": [
+        "MOBILE_APP",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "15",
+      "code": "backend-payment",
+      "title_vi": "Kỹ thuật Máy chủ và Cổng Thanh toán",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Xây dựng API máy chủ, xử lý nghiệp vụ bảo mật và tích hợp thanh toán tự động VietQR, SePay, payOS hoặc cổng quốc tế.",
+      "upstream_depts": [
+        "12",
+        "17",
+        "38"
+      ],
+      "downstream_depts": [
+        "13",
+        "14",
+        "19",
+        "20",
+        "23",
+        "37"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "MOBILE_APP",
+        "B2B_SAAS",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "16",
+      "code": "ai-ml-engineer",
+      "title_vi": "Kỹ sư Trí tuệ nhân tạo và Tự động hóa",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Xây dựng luồng xử lý AI, mô hình ngôn ngữ lớn, nhận diện ảnh/âm thanh, tìm kiếm tri thức chính xác và tối ưu chi phí vận hành AI.",
+      "upstream_depts": [
+        "04",
+        "12",
+        "17"
+      ],
+      "downstream_depts": [
+        "15",
+        "20",
+        "22",
+        "27",
+        "43"
+      ],
+      "product_types": [
+        "B2B_SAAS",
+        "MOBILE_APP",
+        "EMBEDDED_IOT",
+        "MEDIA_CHANNEL"
+      ]
+    },
+    {
+      "dept_id": "17",
+      "code": "database-engineer",
+      "title_vi": "Quản trị Cơ sở Dữ liệu",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Thiết kế lược đồ dữ liệu chuẩn hóa, đánh chỉ mục tìm kiếm nhanh, viết kịch bản nâng cấp an toàn không mất dữ liệu và cơ chế sao lưu khôi phục.",
+      "upstream_depts": [
+        "12",
+        "15"
+      ],
+      "downstream_depts": [
+        "15",
+        "16",
+        "19",
+        "21",
+        "24",
+        "42"
+      ],
+      "product_types": [
+        "B2B_SAAS",
+        "MOBILE_APP",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "18",
+      "code": "embedded-iot",
+      "title_vi": "Kỹ thuật Nhúng và Thiết bị Thông minh",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Thiết kế mạch điện tử, lập trình vi điều khiển ESP32/C++, đọc cảm biến thời gian thực và truyền dữ liệu tin cậy với ứng dụng di động và máy chủ.",
+      "upstream_depts": [
+        "04",
+        "12"
+      ],
+      "downstream_depts": [
+        "14",
+        "15",
+        "20",
+        "21",
+        "23"
+      ],
+      "product_types": [
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "19",
+      "code": "cloud-devops",
+      "title_vi": "Hạ tầng Đám mây và Vận hành Hệ thống",
+      "division_code": "div3-engineering-ai",
+      "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
+      "core_strength_vi": "Đóng gói triển khai lên Cloudflare Pages, Render hoặc máy chủ đám mây với chi phí tối ưu từ 0 đồng, cấu hình CI/CD, HTTPS và giám sát sự cố.",
+      "upstream_depts": [
+        "12",
+        "13",
+        "15",
+        "17"
+      ],
+      "downstream_depts": [
+        "20",
+        "21",
+        "23",
+        "43",
+        "51"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "20",
+      "code": "qa-functional-tester",
+      "title_vi": "Kiểm thử Phần mềm và Tự động hóa",
+      "division_code": "div4-qa-cybersecurity",
+      "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
+      "core_strength_vi": "Viết và chạy kiểm thử đơn vị, kiểm thử tích hợp và kiểm thử trình duyệt tự động để phát hiện sớm lỗi logic, lỗi giao diện và lỗi hồi quy.",
+      "upstream_depts": [
+        "13",
+        "14",
+        "15",
+        "16",
+        "18",
+        "19"
+      ],
+      "downstream_depts": [
+        "13",
+        "15",
+        "21",
+        "51",
+        "52",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "21",
+      "code": "performance-tester",
+      "title_vi": "Kiểm thử Chịu tải, Tốc độ và Ổn định",
+      "division_code": "div4-qa-cybersecurity",
+      "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
+      "core_strength_vi": "Đo tốc độ tải trang, giới hạn bộ nhớ trên điện thoại cấu hình thấp, độ trễ API và khả năng chịu tải khi hàng nghìn người truy cập đồng thời.",
+      "upstream_depts": [
+        "13",
+        "14",
+        "15",
+        "17",
+        "19"
+      ],
+      "downstream_depts": [
+        "13",
+        "15",
+        "19",
+        "51",
+        "53"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "MOBILE_APP",
+        "B2B_SAAS",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "22",
+      "code": "ai-redteam-auditor",
+      "title_vi": "Kiểm định Độ chuẩn xác và An toàn Trí tuệ nhân tạo",
+      "division_code": "div4-qa-cybersecurity",
+      "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
+      "core_strength_vi": "Kiểm thử tấn công câu lệnh, phát hiện AI bịa đặt số liệu hoặc sai lệch đầu ra và khóa chặt giới hạn an toàn cho các tính năng dùng AI.",
+      "upstream_depts": [
+        "16",
+        "20"
+      ],
+      "downstream_depts": [
+        "16",
+        "23",
+        "51",
+        "53"
+      ],
+      "product_types": [
+        "B2B_SAAS",
+        "MOBILE_APP",
+        "EMBEDDED_IOT",
+        "MEDIA_CHANNEL"
+      ]
+    },
+    {
+      "dept_id": "23",
+      "code": "cybersecurity-pentest",
+      "title_vi": "An ninh Mạng và Chống Xâm nhập",
+      "division_code": "div4-qa-cybersecurity",
+      "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
+      "core_strength_vi": "Rà soát lỗ hổng bảo mật web, gian lận thanh toán, lộ khóa bí mật, tấn công chèn mã độc và bảo vệ hạ tầng triển khai.",
+      "upstream_depts": [
+        "15",
+        "18",
+        "19",
+        "20"
+      ],
+      "downstream_depts": [
+        "15",
+        "19",
+        "24",
+        "51",
+        "53"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "MOBILE_APP",
+        "B2B_SAAS",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "24",
+      "code": "data-privacy",
+      "title_vi": "Bảo vệ Dữ liệu Cá nhân và Cô lập Khách hàng",
+      "division_code": "div4-qa-cybersecurity",
+      "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
+      "core_strength_vi": "Bảo đảm tuân thủ quy định bảo vệ dữ liệu cá nhân, kiểm tra cơ chế không tải dữ liệu nhạy cảm lên mạng hoặc cô lập tuyệt đối giữa các khách hàng.",
+      "upstream_depts": [
+        "17",
+        "23",
+        "40"
+      ],
+      "downstream_depts": [
+        "15",
+        "17",
+        "40",
+        "51",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "25",
+      "code": "channel-strategist",
+      "title_vi": "Chiến lược Hệ thống Kênh Video và Nội dung Ngắn",
+      "division_code": "div5-media-youtube-studio",
+      "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "core_strength_vi": "Quy hoạch hệ thống kênh YouTube, TikTok, Facebook và Zalo để kéo người dùng tự nhiên với chi phí quảng cáo 0 đồng và chuyển đổi sang sản phẩm.",
+      "upstream_depts": [
+        "02",
+        "10",
+        "30"
+      ],
+      "downstream_depts": [
+        "26",
+        "27",
+        "29",
+        "30",
+        "31"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "26",
+      "code": "viral-scriptwriter",
+      "title_vi": "Biên kịch Lan truyền và Câu Mở đầu 3 giây",
+      "division_code": "div5-media-youtube-studio",
+      "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "core_strength_vi": "Viết kịch bản video ngắn, câu mở đầu 3 giây giữ chân người xem và nội dung chia sẻ tự nhiên đánh đúng nỗi đau thực tế của người dùng.",
+      "upstream_depts": [
+        "02",
+        "25"
+      ],
+      "downstream_depts": [
+        "27",
+        "28",
+        "29",
+        "31"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "27",
+      "code": "ai-visual-director",
+      "title_vi": "Đạo diễn Hình ảnh và Kỹ xảo Video",
+      "division_code": "div5-media-youtube-studio",
+      "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "core_strength_vi": "Sản xuất hình ảnh minh họa, khung hình trước sau và tài nguyên thị giác sắc nét cho kênh video, bài đăng mạng xã hội và tài liệu giới thiệu.",
+      "upstream_depts": [
+        "10",
+        "26"
+      ],
+      "downstream_depts": [
+        "28",
+        "29",
+        "31"
+      ],
+      "product_types": [
+        "MEDIA_CHANNEL",
+        "WEB_APP",
+        "MOBILE_APP"
+      ]
+    },
+    {
+      "dept_id": "28",
+      "code": "ai-audio-producer",
+      "title_vi": "Đạo diễn Âm thanh và Lồng tiếng",
+      "division_code": "div5-media-youtube-studio",
+      "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "core_strength_vi": "Xử lý giọng đọc tự nhiên, nhịp điệu truyền cảm và hiệu ứng âm thanh chuẩn cho video dài, video ngắn và hướng dẫn sản phẩm.",
+      "upstream_depts": [
+        "26",
+        "27"
+      ],
+      "downstream_depts": [
+        "25",
+        "29"
+      ],
+      "product_types": [
+        "MEDIA_CHANNEL"
+      ]
+    },
+    {
+      "dept_id": "29",
+      "code": "thumbnail-packaging",
+      "title_vi": "Thiết kế Ảnh bìa và Tối ưu Tỷ lệ Bấm",
+      "division_code": "div5-media-youtube-studio",
+      "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "core_strength_vi": "Thiết kế ảnh bìa, thẻ chia sẻ mạng xã hội và cặp tiêu đề hình ảnh đạt tỷ lệ bấm cao trên YouTube, TikTok, Facebook và Zalo.",
+      "upstream_depts": [
+        "10",
+        "26",
+        "27"
+      ],
+      "downstream_depts": [
+        "25",
+        "30",
+        "31"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "30",
+      "code": "seo-geo-specialist",
+      "title_vi": "Tối ưu Tìm kiếm Trực tuyến và Khám phá Nội dung",
+      "division_code": "div5-media-youtube-studio",
+      "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "core_strength_vi": "Đưa sản phẩm và bài viết lên đầu kết quả tìm kiếm Google, YouTube và các công cụ trả lời AI bằng từ khóa thực tế có nhu cầu cao quanh năm.",
+      "upstream_depts": [
+        "01",
+        "03",
+        "25"
+      ],
+      "downstream_depts": [
+        "13",
+        "25",
+        "26",
+        "31",
+        "42"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "31",
+      "code": "growth-funnel-ads",
+      "title_vi": "Quảng cáo và Tối ưu Phễu Chuyển đổi",
+      "division_code": "div5-media-youtube-studio",
+      "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
+      "core_strength_vi": "Xây dựng trang đích chuyển đổi cao, vòng lặp lan truyền tự nhiên qua chia sẻ link và tối ưu từng điểm rơi từ lượt xem sang hành động trả phí.",
+      "upstream_depts": [
+        "02",
+        "25",
+        "26",
+        "29",
+        "30"
+      ],
+      "downstream_depts": [
+        "13",
+        "32",
+        "33",
+        "42",
+        "49"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "32",
+      "code": "lead-gen-sdr",
+      "title_vi": "Tìm kiếm Khách hàng Tiềm năng",
+      "division_code": "div6-sales-commercial",
+      "division_name_vi": "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng",
+      "core_strength_vi": "Xác định nhóm người dùng tiên phong, cộng đồng mục tiêu và kịch bản tiếp cận trực tiếp để có những khách hàng trả tiền đầu tiên nhanh nhất.",
+      "upstream_depts": [
+        "02",
+        "03",
+        "31"
+      ],
+      "downstream_depts": [
+        "33",
+        "35",
+        "42"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "33",
+      "code": "sales-closer",
+      "title_vi": "Chốt đơn Giá trị cao và Gói thuê bao",
+      "division_code": "div6-sales-commercial",
+      "division_name_vi": "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng",
+      "core_strength_vi": "Xây dựng lời chào giá rõ ràng, kịch bản trình diễn nhanh, xử lý băn khoăn phổ biến và tối ưu chốt đơn VietQR hoặc gói năm.",
+      "upstream_depts": [
+        "05",
+        "31",
+        "32",
+        "38"
+      ],
+      "downstream_depts": [
+        "35",
+        "36",
+        "37"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "34",
+      "code": "global-affiliate-monetizer",
+      "title_vi": "Kinh doanh Quốc tế và Tiếp thị Liên kết",
+      "division_code": "div6-sales-commercial",
+      "division_name_vi": "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng",
+      "core_strength_vi": "Mở rộng bản tiếng Anh toàn cầu, xây dựng cơ chế giới thiệu bạn bè và tích hợp nguồn thu tiếp thị liên kết bền vững.",
+      "upstream_depts": [
+        "05",
+        "30",
+        "31"
+      ],
+      "downstream_depts": [
+        "31",
+        "37",
+        "38",
+        "42"
+      ],
+      "product_types": [
+        "WEB_APP",
+        "B2B_SAAS",
+        "MEDIA_CHANNEL",
+        "MOBILE_APP"
+      ]
+    },
+    {
+      "dept_id": "35",
+      "code": "customer-onboarding",
+      "title_vi": "Bàn giao và Hướng dẫn Khách hàng 180 giây",
+      "division_code": "div6-sales-commercial",
+      "division_name_vi": "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng",
+      "core_strength_vi": "Giúp người mới vào sử dụng đạt kết quả đầu tiên trong chưa đầy 3 phút với dữ liệu mẫu sẵn và hướng dẫn ngắn gọn không cần đọc tài liệu dài.",
+      "upstream_depts": [
+        "07",
+        "33"
+      ],
+      "downstream_depts": [
+        "36",
+        "48",
+        "49",
+        "52"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "36",
+      "code": "customer-success",
+      "title_vi": "Giữ chân Khách hàng và Bán thêm",
+      "division_code": "div6-sales-commercial",
+      "division_name_vi": "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng",
+      "core_strength_vi": "Theo dõi tần suất quay lại, giảm tỷ lệ rời bỏ, thu thập góp ý khách hàng thực tế chuyển về Trạm #53 và đề xuất gói nâng cấp phù hợp.",
+      "upstream_depts": [
+        "33",
+        "35",
+        "42"
+      ],
+      "downstream_depts": [
+        "06",
+        "33",
+        "42",
+        "53"
+      ],
+      "product_types": [
+        "B2B_SAAS",
+        "MOBILE_APP",
+        "WEB_APP",
+        "EMBEDDED_IOT"
+      ]
+    },
+    {
+      "dept_id": "37",
+      "code": "chief-accountant",
+      "title_vi": "Kế toán Tổng hợp và Đối soát Dòng tiền",
+      "division_code": "div7-finance-tax-legal",
+      "division_name_vi": "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế",
+      "core_strength_vi": "Quản lý sổ thu chi theo từng dự án, tách bạch tuyệt đối tiền thực thu với dự toán kế hoạch và đối soát chính xác từng khoản chi hạ tầng.",
+      "upstream_depts": [
+        "15",
+        "33",
+        "34",
+        "38"
+      ],
+      "downstream_depts": [
+        "00",
+        "39",
+        "42"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "38",
+      "code": "pricing-fpa",
+      "title_vi": "Định giá và Phân tích Lợi nhuận",
+      "division_code": "div7-finance-tax-legal",
+      "division_name_vi": "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế",
+      "core_strength_vi": "Mô phỏng bài toán kinh tế đơn vị, tính biên lãi gộp kịch bản xấu, điểm hòa vốn và ngưỡng doanh thu an toàn để quyết định thời điểm nâng cấp hạ tầng.",
+      "upstream_depts": [
+        "01",
+        "04",
+        "05"
+      ],
+      "downstream_depts": [
+        "00",
+        "33",
+        "37",
+        "39",
+        "46"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "39",
+      "code": "tax-specialist",
+      "title_vi": "Chuyên gia Thuế và Hóa đơn Điện tử",
+      "division_code": "div7-finance-tax-legal",
+      "division_name_vi": "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế",
+      "core_strength_vi": "Tính đúng nghĩa vụ thuế GTGT, TNCN, hóa đơn điện tử theo quy định Việt Nam 2025 đến 2026 và khoanh quỹ dự phòng thuế riêng cho từng dự án.",
+      "upstream_depts": [
+        "37",
+        "38"
+      ],
+      "downstream_depts": [
+        "00",
+        "37",
+        "40"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "40",
+      "code": "legal-counsel",
+      "title_vi": "Pháp chế và Hợp đồng Thương mại",
+      "division_code": "div7-finance-tax-legal",
+      "division_name_vi": "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế",
+      "core_strength_vi": "Soạn điều khoản sử dụng, chính sách quyền riêng tư, miễn trừ trách nhiệm rõ ràng và kiểm tra rủi ro pháp lý trước khi công bố sản phẩm.",
+      "upstream_depts": [
+        "06",
+        "24",
+        "39"
+      ],
+      "downstream_depts": [
+        "24",
+        "33",
+        "41",
+        "51"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "41",
+      "code": "ip-policy-guardian",
+      "title_vi": "Bản quyền và Chính sách Nền tảng",
+      "division_code": "div7-finance-tax-legal",
+      "division_name_vi": "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế",
+      "core_strength_vi": "Kiểm tra tuân thủ chính sách Google AdSense, YouTube, TikTok, App Store và bản quyền hình ảnh, mã nguồn mở, phông chữ.",
+      "upstream_depts": [
+        "25",
+        "27",
+        "28",
+        "40"
+      ],
+      "downstream_depts": [
+        "25",
+        "29",
+        "34",
+        "51"
+      ],
+      "product_types": [
+        "MEDIA_CHANNEL",
+        "WEB_APP",
+        "MOBILE_APP"
+      ]
+    },
+    {
+      "dept_id": "42",
+      "code": "bi-data-analyst",
+      "title_vi": "Phân tích Dữ liệu Kinh doanh",
+      "division_code": "div8-data-ops-hr",
+      "division_name_vi": "Khối 8: Phân tích Dữ liệu, Vận hành Nội bộ và Nhân sự",
+      "core_strength_vi": "Đo lường lưu lượng, tỷ lệ chuyển đổi, tỷ lệ quay lại, doanh thu thực và chỉ ra chính xác điểm nghẽn để các khối tối ưu liên tục.",
+      "upstream_depts": [
+        "17",
+        "30",
+        "31",
+        "36",
+        "37"
+      ],
+      "downstream_depts": [
+        "00",
+        "05",
+        "31",
+        "38",
+        "50"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "43",
+      "code": "ops-automation",
+      "title_vi": "Tự động hóa Quy trình Nội bộ",
+      "division_code": "div8-data-ops-hr",
+      "division_name_vi": "Khối 8: Phân tích Dữ liệu, Vận hành Nội bộ và Nhân sự",
+      "core_strength_vi": "Kết nối tự động hóa giữa các khối, đồng bộ trạng thái bảng việc, lịch học tin tức và quy trình triển khai nhằm giảm thao tác thủ công.",
+      "upstream_depts": [
+        "00",
+        "11",
+        "16",
+        "19"
+      ],
+      "downstream_depts": [
+        "19",
+        "44",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "44",
+      "code": "knowledge-librarian",
+      "title_vi": "Lưu trữ Tri thức và Bộ nhớ Tập đoàn",
+      "division_code": "div8-data-ops-hr",
+      "division_name_vi": "Khối 8: Phân tích Dữ liệu, Vận hành Nội bộ và Nhân sự",
+      "core_strength_vi": "Quản lý kho tri thức, bài học kinh nghiệm, nhật ký quyết định của Chủ tịch và kho kỹ năng mã nguồn mở cho toàn bộ 54 phòng ban.",
+      "upstream_depts": [
+        "00",
+        "43",
+        "53"
+      ],
+      "downstream_depts": [
+        "00",
+        "45",
+        "47"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "45",
+      "code": "ai-hr-trainer",
+      "title_vi": "Tuyển dụng, Đào tạo và Kiểm định Nhân sự",
+      "division_code": "div8-data-ops-hr",
+      "division_name_vi": "Khối 8: Phân tích Dữ liệu, Vận hành Nội bộ và Nhân sự",
+      "core_strength_vi": "Cập nhật cẩm nang chuyên môn, huấn luyện kỹ năng GitHub mới và tổ chức rút kinh nghiệm khi một phòng ban lặp lại lỗi nhiều lần.",
+      "upstream_depts": [
+        "44",
+        "47",
+        "51",
+        "53"
+      ],
+      "downstream_depts": [
+        "00",
+        "44"
+      ],
+      "product_types": [
+        "B2B_SAAS",
+        "WEB_APP",
+        "MOBILE_APP",
+        "EMBEDDED_IOT",
+        "MEDIA_CHANNEL"
+      ]
+    },
+    {
+      "dept_id": "46",
+      "code": "devils-advocate-biz",
+      "title_vi": "Hội đồng Phản biện Mô hình Kiếm tiền",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Phản biện độc lập mô hình kinh doanh, chỉ rõ rủi ro chết người trước khi làm sản phẩm và buộc phải có khóa phòng vệ thực tế.",
+      "upstream_depts": [
+        "03",
+        "05",
+        "38"
+      ],
+      "downstream_depts": [
+        "00",
+        "05",
+        "06",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "47",
+      "code": "process-challenger",
+      "title_vi": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Kiểm tra chéo chất lượng bàn giao giữa 9 Khối, phát hiện lỗ hổng phối hợp và chuyển báo cáo sai sót về Trạm #53.",
+      "upstream_depts": [
+        "06",
+        "11",
+        "44",
+        "51"
+      ],
+      "downstream_depts": [
+        "00",
+        "45",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "48",
+      "code": "persona-customer-tester",
+      "title_vi": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Hóa thân thành 5 mẫu người dùng đời thực (kể cả người không rành công nghệ dùng điện thoại 4G) để trải nghiệm thực tế và gửi lỗi về Trạm #53.",
+      "upstream_depts": [
+        "07",
+        "13",
+        "14",
+        "35"
+      ],
+      "downstream_depts": [
+        "07",
+        "49",
+        "52",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "49",
+      "code": "ux-friction-destroyer",
+      "title_vi": "Thanh tra Tối giản Thao tác và Diệt Rối mắt",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Cắt sạch chữ thừa, loại bỏ rối mắt, bảo đảm thao tác chính tối đa 3 chạm và phối hợp bộ tứ chốt cuối #53, #51, #52 trước khi bàn giao.",
+      "upstream_depts": [
+        "07",
+        "08",
+        "13",
+        "35",
+        "48"
+      ],
+      "downstream_depts": [
+        "08",
+        "13",
+        "51",
+        "52",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "50",
+      "code": "opportunity-hunter",
+      "title_vi": "Trinh sát Săn Cơ hội và Thiết kế Sản phẩm Sinh lời",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Chủ động săn tìm cơ hội sản phẩm thực tế, nhu cầu đại chúng lớn, chi phí hạ tầng 0 đồng và khả năng lan truyền tự nhiên mạnh.",
+      "upstream_depts": [
+        "01",
+        "03",
+        "42"
+      ],
+      "downstream_depts": [
+        "00",
+        "01",
+        "02",
+        "05"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "51",
+      "code": "qa-qc-master",
+      "title_vi": "Kiểm định Chất lượng Tổng thể QA và QC",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Bảo đảm chất lượng quy trình (QA) và kiểm định chất lượng thành phẩm (QC), xác minh bằng chứng kiểm thử và tái kiểm định mọi phiếu sửa lỗi.",
+      "upstream_depts": [
+        "19",
+        "20",
+        "21",
+        "23",
+        "24",
+        "53"
+      ],
+      "downstream_depts": [
+        "00",
+        "52",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "52",
+      "code": "feature-completeness-auditor",
+      "title_vi": "Kiểm tra Hoàn thiện Chức năng và Rà soát Lỗi",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Đối chiếu 100% yêu cầu đề bài với sản phẩm thực tế, xác minh đủ mọi chức năng, không lỗi nút bấm/liên kết chéo và phối hợp #51, #49, #53 chốt 0 lỗi.",
+      "upstream_depts": [
+        "06",
+        "13",
+        "14",
+        "15",
+        "20",
+        "53"
+      ],
+      "downstream_depts": [
+        "00",
+        "49",
+        "51",
+        "53"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    },
+    {
+      "dept_id": "53",
+      "code": "defect-triage-dispatcher",
+      "title_vi": "Tổng hợp Lỗi, Thu thập Phản hồi và Điều phối Trả việc",
+      "division_code": "div9-critique-ux-lab",
+      "division_name_vi": "Khối 9: Kiểm tra Cuối 0 Lỗi, Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
+      "core_strength_vi": "Trạm trung chuyển tập trung gom mọi lỗi và góp ý từ 2 Tổ nội bộ của 9 Khối, #46..#52 và Chủ tịch; phân loại, đẩy trả chính xác về đúng phòng sửa và khóa chốt khi 0 OPEN.",
+      "upstream_depts": [
+        "20",
+        "36",
+        "46",
+        "47",
+        "48",
+        "49",
+        "51",
+        "52"
+      ],
+      "downstream_depts": [
+        "00",
+        "06",
+        "08",
+        "13",
+        "15",
+        "20",
+        "31",
+        "38",
+        "51",
+        "52"
+      ],
+      "product_types": [
+        "ALL"
+      ]
+    }
+  ]
+}
