@@ -370,6 +370,7 @@ ORDER_TYPE_LABELS_VI: dict[str, str] = {
     "MISSION_APPROVED": "Phê duyệt nhiệm vụ",
     "SCAN_OPPORTUNITIES": "Săn cơ hội mới",
     "EXECUTE_TASK": "Thực thi đầu việc",
+    "RENDER_GOOGLE_FLOW_VIDEO": "Tạo video AI trên Google Flow",
 }
 
 ENTITY_TYPE_LABELS_VI: dict[str, str] = {
@@ -716,7 +717,7 @@ CREATE TABLE IF NOT EXISTS deleted_tombstones (
 CREATE TABLE IF NOT EXISTS antigravity_orders (
     order_id TEXT PRIMARY KEY,
     order_type TEXT NOT NULL
-        CHECK(order_type IN ('NEW_MISSION','BUILD_PRODUCT','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK')),
+        CHECK(order_type IN ('NEW_MISSION','BUILD_PRODUCT','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK','RENDER_GOOGLE_FLOW_VIDEO')),
     mission_id TEXT,
     task_id TEXT,
     title TEXT NOT NULL,
@@ -928,11 +929,11 @@ class TitanDatabase:
                     conn.execute(stmt)
                 except sqlite3.OperationalError:
                     pass
-            # Upgrade antigravity_orders CHECK constraint if created before BUILD_PRODUCT existed
+            # Upgrade antigravity_orders CHECK constraint if created before BUILD_PRODUCT / RENDER_GOOGLE_FLOW_VIDEO existed
             ord_ddl = conn.execute(
                 "SELECT sql FROM sqlite_master WHERE type='table' AND name='antigravity_orders'"
             ).fetchone()
-            if ord_ddl and "BUILD_PRODUCT" not in (ord_ddl["sql"] or ""):
+            if ord_ddl and ("BUILD_PRODUCT" not in (ord_ddl["sql"] or "") or "RENDER_GOOGLE_FLOW_VIDEO" not in (ord_ddl["sql"] or "")):
                 old_rows = [dict(r) for r in conn.execute("SELECT * FROM antigravity_orders").fetchall()]
                 conn.execute("DROP TABLE antigravity_orders;")
                 conn.execute(
@@ -940,7 +941,7 @@ class TitanDatabase:
                     CREATE TABLE antigravity_orders (
                         order_id TEXT PRIMARY KEY,
                         order_type TEXT NOT NULL
-                            CHECK(order_type IN ('NEW_MISSION','BUILD_PRODUCT','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK')),
+                            CHECK(order_type IN ('NEW_MISSION','BUILD_PRODUCT','MISSION_REWORK','MISSION_APPROVED','SCAN_OPPORTUNITIES','EXECUTE_TASK','RENDER_GOOGLE_FLOW_VIDEO')),
                         mission_id TEXT,
                         task_id TEXT,
                         title TEXT NOT NULL,
@@ -3628,7 +3629,7 @@ class TitanDatabase:
         order_id: str | None = None,
     ) -> dict[str, Any]:
         otype = order_type.upper().strip()
-        if otype not in ("NEW_MISSION", "BUILD_PRODUCT", "MISSION_REWORK", "MISSION_APPROVED", "SCAN_OPPORTUNITIES", "EXECUTE_TASK"):
+        if otype not in ("NEW_MISSION", "BUILD_PRODUCT", "MISSION_REWORK", "MISSION_APPROVED", "SCAN_OPPORTUNITIES", "EXECUTE_TASK", "RENDER_GOOGLE_FLOW_VIDEO"):
             raise ValueError(f"Loại lệnh không hợp lệ: {otype}")
         now = utc_now_iso()
         oid = order_id or f"ord-{uuid.uuid4().hex[:8]}"
@@ -5149,7 +5150,8 @@ class TitanDatabase:
                 }
 
         for ord_row in all_orders:
-            if str(ord_row.get("order_type") or "").upper() != "SCAN_OPPORTUNITIES":
+            o_type_up = str(ord_row.get("order_type") or "").upper()
+            if o_type_up not in ("SCAN_OPPORTUNITIES", "RENDER_GOOGLE_FLOW_VIDEO"):
                 continue
             o_status = str(ord_row.get("status") or "PENDING").upper()
             if o_status == "CANCELLED":
@@ -5158,16 +5160,25 @@ class TitanDatabase:
             if tid in deleted_task_ids:
                 continue
             col = "DONE" if o_status == "COMPLETED" else "IN_PROGRESS"
-            assigned = "50" if "50" in valid_depts else "00"
+            if o_type_up == "RENDER_GOOGLE_FLOW_VIDEO":
+                assigned = "27" if "27" in valid_depts else "00"
+                reviewer = "25" if "25" in valid_depts else "00"
+                default_title = "Tạo video AI trên Google Flow (Phòng #27)"
+                stage_n = 6
+            else:
+                assigned = "50" if "50" in valid_depts else "00"
+                reviewer = "46" if "46" in valid_depts else "00"
+                default_title = "Săn cơ hội đẻ ra tiền mới (Phòng #50)"
+                stage_n = 1
             desired_auto_tasks[tid] = {
                 "task_id": tid,
                 "project_id": None,
-                "title": str(ord_row.get("title") or "Săn cơ hội đẻ ra tiền mới (Phòng #50)").strip(),
+                "title": str(ord_row.get("title") or default_title).strip(),
                 "description": str(ord_row.get("result_summary") or ord_row.get("instructions") or "").strip(),
                 "assigned_dept_id": assigned,
-                "reviewer_dept_id": "46" if "46" in valid_depts else "00",
+                "reviewer_dept_id": reviewer,
                 "gate_number": 1,
-                "stage_number": 1,
+                "stage_number": stage_n,
                 "priority": "HIGH",
                 "kanban_column": col,
             }
@@ -5418,6 +5429,19 @@ class TitanDatabase:
                         2,
                         "RESEARCHING_TASK",
                         f"Săn cơ hội mới: {o_title}",
+                        "order",
+                        mission_id=None,
+                        task_id=linked_tid,
+                    )
+            elif o_type == "RENDER_GOOGLE_FLOW_VIDEO":
+                auto_tid = f"auto-{ord_row['order_id']}"
+                linked_tid = auto_tid if auto_tid in effective_tasks else None
+                for did in ("27", "25"):
+                    _assign(
+                        did,
+                        2,
+                        "EXECUTING",
+                        f"Tạo video AI Google Flow: {o_title}",
                         "order",
                         mission_id=None,
                         task_id=linked_tid,
@@ -6957,8 +6981,49 @@ class TitanDatabase:
                 c.execute(create_tbl)
                 c.execute(create_idx)
 
-    @staticmethod
-    def _enrich_media_campaign_row(row: dict[str, Any]) -> dict[str, Any]:
+    def _discover_campaign_videos(
+        self,
+        campaign_id: str,
+        project_slug: str,
+        publish_url: str = "",
+    ) -> list[dict[str, Any]]:
+        videos: list[dict[str, Any]] = []
+        seen_urls: set[str] = set()
+        cid_low = str(campaign_id or "").strip().lower()
+        slug = re.sub(r"[^a-z0-9-]+", "-", str(project_slug or "chung-tap-doan").lower()).strip("-") or "chung-tap-doan"
+
+        # Resolve projects base consistently with MediaStudioEngine (isolated temp DB vs production)
+        try:
+            is_default_db = self.db_path.resolve() == DEFAULT_DB_PATH.resolve()
+        except Exception:
+            is_default_db = False
+        candidate_roots = [ROOT_DIR / "corporate_hq" / "projects"] if is_default_db else [self.db_path.resolve().parent / "projects", ROOT_DIR / "corporate_hq" / "projects"]
+        for base in candidate_roots:
+            vdir = base / slug / "media_studio" / "videos"
+            if not vdir.is_dir():
+                continue
+            for p in sorted(vdir.iterdir()):
+                if not p.is_file() or p.suffix.lower() not in (".mp4", ".webm"):
+                    continue
+                if cid_low and cid_low not in p.name.lower():
+                    continue
+                rel_url = f"./projects/{slug}/media_studio/videos/{p.name}"
+                if rel_url in seen_urls:
+                    continue
+                seen_urls.add(rel_url)
+                try:
+                    sz_kb = round(p.stat().st_size / 1024.0, 2)
+                except OSError:
+                    sz_kb = 0.0
+                videos.append({"name": p.name, "url": rel_url, "size_kb": sz_kb})
+
+        pub = str(publish_url or "").strip()
+        if pub.lower().endswith((".mp4", ".webm")) and pub not in seen_urls:
+            seen_urls.add(pub)
+            videos.append({"name": Path(pub).name, "url": pub, "size_kb": 0.0})
+        return videos
+
+    def _enrich_media_campaign_row(self, row: dict[str, Any], slug_map: dict[str, str] | None = None) -> dict[str, Any]:
         item = dict(row)
         raw_scenes = item.get("google_flow_scenes_json")
         if isinstance(raw_scenes, list):
@@ -6969,6 +7034,19 @@ class TitanDatabase:
                 item["google_flow_scenes"] = parsed if isinstance(parsed, list) else []
             except Exception:
                 item["google_flow_scenes"] = []
+        svg_rel = str(item.get("thumbnail_svg_path") or "").strip()
+        if svg_rel.startswith("corporate_hq/projects/"):
+            item["thumbnail_web_url"] = "./projects/" + svg_rel[len("corporate_hq/projects/"):]
+        else:
+            item["thumbnail_web_url"] = svg_rel
+        pid = str(item.get("project_id") or "").strip()
+        slug = (slug_map or {}).get(pid) or (pid[5:] if pid.startswith("proj-") else (pid or "chung-tap-doan"))
+        item["google_flow_url"] = "https://flow.google.com/"
+        item["video_files"] = self._discover_campaign_videos(
+            str(item.get("campaign_id") or ""),
+            slug,
+            str(item.get("publish_url") or ""),
+        )
         return item
 
     def list_media_campaigns(
@@ -6995,7 +7073,11 @@ class TitanDatabase:
             f"SELECT * FROM media_campaigns WHERE {' AND '.join(clauses)} ORDER BY updated_at DESC, created_at DESC",
             params,
         ).fetchall()
-        return [self._enrich_media_campaign_row(dict(r)) for r in rows]
+        slug_map = {
+            str(r["project_id"]): str(r["slug"])
+            for r in conn.execute("SELECT project_id, slug FROM projects").fetchall()
+        }
+        return [self._enrich_media_campaign_row(dict(r), slug_map=slug_map) for r in rows]
 
     def fallback_create_media_campaign(self, data: dict[str, Any]) -> dict[str, Any]:
         title = str(data.get("title") or "").strip()
@@ -7008,7 +7090,7 @@ class TitanDatabase:
         if platform not in ("TIKTOK", "YOUTUBE_SHORTS", "YOUTUBE_LONG", "FACEBOOK_REELS", "CROSS_PLATFORM"):
             platform = "TIKTOK"
         status = str(data.get("status") or "FLOW_READY").upper().strip()
-        if status not in ("DRAFT", "SCRIPTED", "FLOW_READY", "RENDERED", "PUBLISHED"):
+        if status not in ("DRAFT", "SCRIPTED", "FLOW_READY", "FLOW_QUEUED", "RENDERED", "PUBLISHED"):
             status = "FLOW_READY"
         angle = str(data.get("angle_vi") or "").strip()
         hook = str(data.get("hook_3s_vi") or "").strip() or f"3 giây mở đầu đánh thẳng nỗi đau: {title}"

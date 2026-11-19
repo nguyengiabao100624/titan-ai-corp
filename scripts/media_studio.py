@@ -47,9 +47,12 @@ VALID_STATUSES: tuple[str, ...] = (
     "DRAFT",
     "SCRIPTED",
     "FLOW_READY",
+    "FLOW_QUEUED",
     "RENDERED",
     "PUBLISHED",
 )
+
+GOOGLE_FLOW_URL = "https://flow.google.com/"
 
 PLATFORM_ALIASES: dict[str, str] = {
     "TIKTOK": "TIKTOK",
@@ -121,6 +124,7 @@ STATUS_LABELS_VI: dict[str, str] = {
     "DRAFT": "Bản nháp",
     "SCRIPTED": "Đã xong kịch bản",
     "FLOW_READY": "Sẵn sàng Google Flow",
+    "FLOW_QUEUED": "Đang tạo trên Google Flow",
     "RENDERED": "Đã dựng Video AI",
     "PUBLISHED": "Đã đăng YTB/TikTok",
 }
@@ -1646,7 +1650,9 @@ class MediaStudioEngine:
 
     def ensure_table(self) -> None:
         with self.db._write_lock:
-            self.db._get_conn().executescript(MEDIA_CAMPAIGNS_DDL)
+            conn = self.db._get_conn()
+            for stmt in [s.strip() for s in MEDIA_CAMPAIGNS_DDL.split(";") if s.strip()]:
+                conn.execute(stmt + ";")
 
     def _resolve_project_info(self, project_id: str | None) -> tuple[str, str]:
         """Return (project_slug, project_title) safely for any project_id."""
@@ -1714,6 +1720,43 @@ class MediaStudioEngine:
         svg_disk.write_text(svg_xml, encoding="utf-8")
         return self._logical_svg_path(project_slug, cid)
 
+    def _discover_campaign_videos(
+        self,
+        campaign_id: str,
+        project_slug: str,
+        publish_url: str = "",
+    ) -> list[dict[str, Any]]:
+        """Scan project media_studio/videos/ for rendered .mp4 / .webm clips matching campaign_id."""
+        videos: list[dict[str, Any]] = []
+        seen_urls: set[str] = set()
+        cid_low = str(campaign_id or "").strip().lower()
+        slug = _sanitize_slug(project_slug)
+        try:
+            vdir = self._safe_media_dir(slug) / "videos"
+        except ValueError:
+            vdir = None
+        if vdir is not None and vdir.is_dir():
+            for p in sorted(vdir.iterdir()):
+                if not p.is_file() or p.suffix.lower() not in (".mp4", ".webm"):
+                    continue
+                if cid_low and cid_low not in p.name.lower():
+                    continue
+                rel_url = f"./projects/{slug}/media_studio/videos/{p.name}"
+                if rel_url in seen_urls:
+                    continue
+                seen_urls.add(rel_url)
+                try:
+                    sz_kb = round(p.stat().st_size / 1024.0, 2)
+                except OSError:
+                    sz_kb = 0.0
+                videos.append({"name": p.name, "url": rel_url, "size_kb": sz_kb})
+
+        pub = str(publish_url or "").strip()
+        if pub.lower().endswith((".mp4", ".webm")) and pub not in seen_urls:
+            seen_urls.add(pub)
+            videos.append({"name": Path(pub).name, "url": pub, "size_kb": 0.0})
+        return videos
+
     def _enrich_row(self, row: dict[str, Any]) -> dict[str, Any]:
         item = dict(row)
         scenes = _normalize_scenes(item.get("google_flow_scenes_json"))
@@ -1733,6 +1776,14 @@ class MediaStudioEngine:
             item["thumbnail_web_url"] = "./projects/" + svg_rel[len("corporate_hq/projects/"):]
         else:
             item["thumbnail_web_url"] = svg_rel
+        slug, _ = self._resolve_project_info(item.get("project_id"))
+        item["project_slug"] = slug
+        item["video_files"] = self._discover_campaign_videos(
+            str(item.get("campaign_id") or ""),
+            slug,
+            str(item.get("publish_url") or ""),
+        )
+        item["google_flow_url"] = GOOGLE_FLOW_URL
         return item
 
     def export_project_media_pack(self, project_id: str | None) -> dict[str, Any]:

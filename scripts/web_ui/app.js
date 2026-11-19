@@ -58,6 +58,7 @@
     DRAFT: "Bản nháp",
     SCRIPTED: "Đã có kịch bản",
     FLOW_READY: "Sẵn sàng Google Flow",
+    FLOW_QUEUED: "Đang tạo trên Google Flow",
     RENDERED: "Đã dựng Video AI",
     PUBLISHED: "Đã đăng YouTube và TikTok"
   };
@@ -1911,7 +1912,7 @@
     }
     const footerBrand = document.getElementById("footer-brand-summary");
     if (footerBrand) {
-      footerBrand.textContent = `Trung tâm Điều hành Titan v11.0: Vận hành trực tuyến tự động ${staffTotal} phòng chuyên gia.`;
+      footerBrand.textContent = `Trung tâm Điều hành Titan v11.1: Vận hành trực tuyến tự động ${staffTotal} phòng chuyên gia.`;
     }
     const navProj = document.getElementById("nav-cnt-projects");
     if (navProj) navProj.textContent = state.projects.length;
@@ -1971,12 +1972,17 @@
     const actBtn = document.getElementById("btn-live-activity-jump");
     if (actBanner && actText && actBtn) {
       const scanOrd = activeOrders.find((o) => o.order_type === "SCAN_OPPORTUNITIES");
+      const flowOrd = activeOrders.find((o) => o.order_type === "RENDER_GOOGLE_FLOW_VIDEO");
       const taskOrd = activeOrders.find((o) => o.order_type === "EXECUTE_TASK");
       if (learningRunning) {
         const lp = state.learningProgress;
         actBanner.classList.remove("is-hidden");
         actText.textContent = `Đang quét báo mới (${lp.sources_done || 0}/${lp.sources_total || 24}): ${sanitizeUiVietnamese(lp.current_source_vi || "Đang xử lý nguồn tin...")}`;
         actBtn.setAttribute("data-jump-pcat", "learning");
+      } else if (flowOrd) {
+        actBanner.classList.remove("is-hidden");
+        actText.textContent = `Đang tạo video AI Google Flow: ${sanitizeUiVietnamese(flowOrd.title || "Chiến dịch Video AI")}`;
+        actBtn.setAttribute("data-jump-pcat", "tasks");
       } else if (scanOrd) {
         actBanner.classList.remove("is-hidden");
         actText.textContent = `Đang chạy đợt săn cơ hội kiếm tiền: ${sanitizeUiVietnamese(scanOrd.title || "Săn cơ hội mới")}`;
@@ -3053,12 +3059,25 @@
       <div class="hairline-list">
         ${visible.map((o) => {
           const st = ORDER_STATUS_VI[String(o.status || "PENDING").toUpperCase()] || ORDER_STATUS_VI.PENDING;
-          const detail = sanitizeUiVietnamese(o.result_summary || o.instructions || "");
+          const isFlowOrder = o.order_type === "RENDER_GOOGLE_FLOW_VIDEO";
+          let rawDetail = o.result_summary || o.instructions || "";
+          if (isFlowOrder && !o.result_summary && String(rawDetail).trim().startsWith("{")) {
+            try {
+              const parsed = JSON.parse(rawDetail);
+              const scCnt = Array.isArray(parsed.google_flow_scenes) ? parsed.google_flow_scenes.length : (parsed.scenes_count || 0);
+              const ratio = parsed.aspect_ratio || "9:16";
+              rawDetail = `Trình duyệt AI điều khiển Google Flow (${ratio}${scCnt ? `, ${scCnt} cảnh` : ""}) cho Phòng #27 và #25.`;
+            } catch (_e) {
+              rawDetail = "Đã gửi lệnh dựng video AI trên Google Flow cho Phòng #27 và #25.";
+            }
+          }
+          const detail = sanitizeUiVietnamese(rawDetail);
           return `
             <div class="list-row">
               <div class="row-main">
                 <div class="action-group">
                   <span class="badge ${st.cls}">${ico(st.icon)}<span>${st.label}</span></span>
+                  ${isFlowOrder ? `<span class="badge badge-sync">${ico("video")}<span>Tạo video AI Google Flow</span></span>` : ""}
                   <span class="mono row-meta">${esc(shortDate(o.created_at))} ${esc(shortTime(o.created_at))}</span>
                 </div>
                 <div class="row-title">${esc(sanitizeUiVietnamese(o.title || o.order_id))}</div>
@@ -3067,9 +3086,11 @@
               <div class="row-actions">
                 ${orderType === "SCAN_OPPORTUNITIES"
                   ? `<button type="button" class="btn btn-xs" data-goto-tab="command">Xem cơ hội</button>`
-                  : (o.task_id
-                    ? `<button type="button" class="btn btn-xs" data-open-task-jump="${esc(o.task_id)}">Mở chi tiết</button>`
-                    : `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Mở bảng việc</button>`)
+                  : (isFlowOrder
+                    ? `<button type="button" class="btn btn-xs" data-goto-tab="projects">Mở Studio Dự án</button>`
+                    : (o.task_id
+                      ? `<button type="button" class="btn btn-xs" data-open-task-jump="${esc(o.task_id)}">Mở chi tiết</button>`
+                      : `<button type="button" class="btn btn-xs" data-goto-tab="tasks">Mở bảng việc</button>`))
                 }
               </div>
             </div>
@@ -3098,7 +3119,7 @@
     syncOpenMissionsDefaults();
 
     const oppOrdersAll = (state.orders || []).filter((o) => o.order_type === "SCAN_OPPORTUNITIES");
-    const taskOrdersAll = (state.orders || []).filter((o) => o.order_type === "EXECUTE_TASK");
+    const taskOrdersAll = (state.orders || []).filter((o) => o.order_type === "EXECUTE_TASK" || o.order_type === "RENDER_GOOGLE_FLOW_VIDEO");
     const runningM = state.missions.filter((m) => m.status === "RUNNING").length;
     const activeOrdersCnt = (state.orders || []).filter((o) => ["PENDING", "CLAIMED", "RUNNING", "IN_PROGRESS"].includes(String(o.status || "").toUpperCase())).length;
     const learningRunning = Boolean(state.learningProgress && state.learningProgress.running);
@@ -4643,9 +4664,14 @@
             <h3 class="sec-title">Studio Truyền thông và Video AI Google Flow (${list.length} chiến dịch)</h3>
             <p class="row-meta">Sản xuất bởi Khối 5 (#25 Chiến lược Kênh, #26 Biên kịch mở đầu 3 giây, #27 Đạo diễn Google Flow và Veo 3.1, #29 Ảnh bìa, #30 SEO).</p>
           </div>
-          <button type="button" class="btn btn-xs btn-primary" id="btn-proj-add-media">
-            ${ico("video")}<span>Tạo chiến dịch Video AI (Google Flow / YTB / TikTok)</span>
-          </button>
+          <div class="action-group">
+            <a class="btn btn-xs" id="btn-open-google-flow-top" href="https://flow.google.com/" target="_blank" rel="noopener noreferrer">
+              ${ico("external-link")}<span>Mở Google Flow</span>
+            </a>
+            <button type="button" class="btn btn-xs btn-primary" id="btn-proj-add-media">
+              ${ico("video")}<span>Tạo chiến dịch Video AI (Google Flow / YTB / TikTok)</span>
+            </button>
+          </div>
         </div>
         ${list.length ? `
           <div class="media-campaign-list">
@@ -4663,6 +4689,8 @@
               const stLbId = `media-st-${c.campaign_id}`;
               const rawThumb = c.thumbnail_web_url || c.thumbnail_svg_path || "";
               const thumbHref = rawThumb ? resolveProjectPreviewHref(rawThumb) : "";
+              const flowUrl = c.google_flow_url || "https://flow.google.com/";
+              const videoFiles = Array.isArray(c.video_files) ? c.video_files : [];
               const allPromptsText = scenes.map((sc, idx) =>
                 `Scene ${sc.scene_no || (idx + 1)} (${sc.duration_sec || 5}s, ${sc.shot_type || "Medium"}): ${sc.visual_prompt_flow || ""}`
               ).join("\n\n");
@@ -4686,6 +4714,7 @@
                         <div class="stack-xs">
                           <div class="action-group">
                             <span class="badge badge-sync">${ico("video")}<span>${esc(platLbl)}</span></span>
+                            ${stKey === "FLOW_QUEUED" ? `<span class="badge badge-run">${ico("activity")}<span>Đang chờ Trình duyệt AI</span></span>` : ""}
                             ${c.publish_schedule_vi ? `<span class="badge badge-idle">${ico("clock")}<span>${esc(sanitizeUiVietnamese(c.publish_schedule_vi))}</span></span>` : ""}
                           </div>
                           <h4 class="project-card-title">${esc(sanitizeUiVietnamese(c.title))}</h4>
@@ -4700,6 +4729,18 @@
                             <ul class="listbox-menu" id="lb-${esc(stLbId)}" role="listbox" tabindex="-1" hidden></ul>
                           </div>
                           <button type="button" class="btn btn-xs btn-destructive" data-del-media="${esc(c.campaign_id)}">${ico("trash")}<span>Xóa</span></button>
+                        </div>
+                      </div>
+
+                      <div class="media-flow-bar">
+                        <span class="row-meta">Dựng Video AI trực tiếp trên Google Flow:</span>
+                        <div class="action-group">
+                          <button type="button" class="btn btn-xs" data-copy-open-flow="${esc(c.campaign_id)}" data-flow-url="${esc(flowUrl)}" data-scene-count="${scenes.length}" data-flow-prompt="${esc(allPromptsText || c.title || "")}">
+                            ${ico("external-link")}<span>Sao chép và Mở Google Flow</span>
+                          </button>
+                          <button type="button" class="btn btn-xs btn-primary" data-render-flow="${esc(c.campaign_id)}">
+                            ${ico("zap")}<span>Tạo Video bằng Trình duyệt AI</span>
+                          </button>
                         </div>
                       </div>
 
@@ -4719,6 +4760,31 @@
                       ` : ""}
                     </div>
                   </div>
+
+                  ${videoFiles.length ? `
+                    <div class="media-video-section">
+                      <div class="sec-head">
+                        <strong class="row-title">Video đã dựng xong (${videoFiles.length})</strong>
+                      </div>
+                      <div class="media-video-grid">
+                        ${videoFiles.map((vf) => {
+                          const vUrl = resolveProjectPreviewHref(vf.url || "");
+                          return `
+                            <div class="media-video-card">
+                              <div class="sec-head">
+                                <span class="mono row-title">${esc(vf.name || "video.mp4")}</span>
+                                <div class="action-group">
+                                  ${vf.size_kb ? `<span class="mono row-meta">${esc(String(vf.size_kb))} KB</span>` : ""}
+                                  <a class="btn btn-xs" href="${esc(vUrl)}" download="${esc(vf.name || "video.mp4")}">${ico("download")}<span>Tải tệp MP4</span></a>
+                                </div>
+                              </div>
+                              <video class="media-video-player" controls preload="metadata" src="${esc(vUrl)}"></video>
+                            </div>
+                          `;
+                        }).join("")}
+                      </div>
+                    </div>
+                  ` : ""}
 
                   ${scenes.length ? `
                     <div class="stack-sm">
@@ -5313,6 +5379,40 @@
           ctrl.setOptions(Object.entries(MEDIA_STATUS_LABELS).map(([value, label]) => ({ value, label })), false);
           ctrl.setValue(curVal, true);
         }
+      });
+
+      root.querySelectorAll("[data-copy-open-flow]").forEach((fb) => {
+        fb.onclick = () => {
+          const promptTxt = fb.getAttribute("data-flow-prompt") || "";
+          const sceneCnt = Number(fb.getAttribute("data-scene-count") || 0);
+          const flowUrl = fb.getAttribute("data-flow-url") || "https://flow.google.com/";
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(promptTxt).catch(() => {});
+          }
+          window.open(flowUrl, "_blank", "noopener,noreferrer");
+          toast(
+            sceneCnt > 0
+              ? `Đã sao chép đủ ${sceneCnt} cảnh Google Flow và mở flow.google.com!`
+              : "Đã sao chép kịch bản Google Flow và mở flow.google.com!"
+          );
+        };
+      });
+
+      root.querySelectorAll("[data-render-flow]").forEach((rb) => {
+        rb.onclick = () => withLock(rb, async () => {
+          const cid = rb.getAttribute("data-render-flow");
+          if (!cid) return;
+          const res = await api(`/api/media/campaigns/${encodeURIComponent(cid)}/render-flow`, "POST", {});
+          await loadEverything();
+          await loadProjectDetail(p.project_id);
+          const msg = sanitizeUiVietnamese(
+            (res && res.message) ||
+            (res && res.bridge_online
+              ? "Đã gửi lệnh mở Google Flow sang Trình duyệt AI trực tuyến để dựng video."
+              : "Đã xếp lệnh dựng Video AI Google Flow vào hàng đợi trực tuyến cho Phòng #27 và #25.")
+          );
+          toast(msg);
+        });
       });
 
       root.querySelectorAll("[data-copy-text]").forEach((cb) => {

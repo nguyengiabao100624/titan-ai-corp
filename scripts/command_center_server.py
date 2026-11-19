@@ -364,6 +364,8 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     ".csv": "text/csv; charset=utf-8",
                     ".md": "text/markdown; charset=utf-8",
                     ".txt": "text/plain; charset=utf-8",
+                    ".mp4": "video/mp4",
+                    ".webm": "video/webm",
                 }
                 self._serve_static_file(target, mime_map.get(ext, "application/octet-stream"), cache_control="no-cache")
                 return
@@ -1005,6 +1007,104 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     camp = db.fallback_create_media_campaign(body)
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(camp, status=201)
+                return
+
+            # 21h: Queue Direct Google Flow Browser AI Video Render Order (v11.1)
+            m_mc_flow = re.match(r"^/api/media/campaigns/([a-zA-Z0-9_-]+)/render-flow$", path)
+            if m_mc_flow:
+                cid = m_mc_flow.group(1)
+                studio = self.app_server.get_media_studio()
+                camp = None
+                if studio is not None and hasattr(studio, "get_campaign"):
+                    camp = studio.get_campaign(cid)
+                else:
+                    all_mc = db.list_media_campaigns()
+                    camp = next((c for c in all_mc if c.get("campaign_id") == cid), None)
+                if not camp:
+                    self._send_json({"error": f"Chiến dịch Video AI '{cid}' không tồn tại."}, status=404)
+                    return
+
+                proj_id = str(camp.get("project_id") or "").strip() or None
+                slug = str(camp.get("project_slug") or "").strip()
+                if not slug:
+                    if proj_id:
+                        proj_obj = db.get_project(proj_id)
+                        slug = str(proj_obj["slug"]) if proj_obj else (proj_id[5:] if proj_id.startswith("proj-") else proj_id)
+                    else:
+                        slug = "chung-tap-doan"
+
+                platform = str(camp.get("platform") or "TIKTOK").upper().strip()
+                aspect_ratio = "16:9" if platform in ("YOUTUBE_LONG", "CROSS_PLATFORM") else "9:16"
+                scenes = camp.get("google_flow_scenes") if isinstance(camp.get("google_flow_scenes"), list) else []
+                output_dir_rel = f"corporate_hq/projects/{slug}/media_studio/videos/"
+                scenes_block_lines = []
+                for idx, sc in enumerate(scenes, 1):
+                    scenes_block_lines.append(
+                        f"Canh {sc.get('scene_no', idx)} ({sc.get('duration_sec', 5)}s - {sc.get('shot_type', 'Shot')}):\n"
+                        f"  Visual Prompt (Google Flow / Veo 3.1): {sc.get('visual_prompt_flow', '')}\n"
+                        f"  Loi thoai VI: {sc.get('voiceover_vi', '')}\n"
+                        f"  Chu tren man hinh: {sc.get('on_screen_text_vi', '')}"
+                    )
+                instructions = (
+                    f"LENH TAO VIDEO AI TREN GOOGLE FLOW (https://flow.google.com/)\n"
+                    f"- Ma chien dich: {cid}\n"
+                    f"- Tieu de: {camp.get('title', '')}\n"
+                    f"- Nen tang: {platform} | Ty le khung hinh: {aspect_ratio}\n"
+                    f"- Thu muc luu video dau ra: {output_dir_rel}\n"
+                    f"- Quy uoc ten tep: {cid}_scene01.mp4 ... hoac {cid}_final.mp4\n"
+                    f"- Thumbnail Prompt: {camp.get('thumbnail_prompt_flow', '')}\n"
+                    f"- Tong so canh: {len(scenes)}\n\n"
+                    + "\n\n".join(scenes_block_lines)
+                )
+
+                order = db.enqueue_order(
+                    order_type="RENDER_GOOGLE_FLOW_VIDEO",
+                    title=f"Tạo video Google Flow ({aspect_ratio}): {camp.get('title', cid)}",
+                    instructions=instructions,
+                    source_device=str(body.get("source_device") or "web-local"),
+                )
+
+                cur_st = str(camp.get("status") or "FLOW_READY").upper()
+                updated_camp = camp
+                if cur_st in ("DRAFT", "SCRIPTED", "FLOW_READY"):
+                    if studio is not None and hasattr(studio, "update_campaign"):
+                        updated_camp = studio.update_campaign(cid, {"status": "FLOW_QUEUED"})
+                    else:
+                        updated_camp = db.fallback_update_media_campaign(cid, {"status": "FLOW_QUEUED"})
+
+                db.reconcile_live_system_state()
+                db.log_event(
+                    actor_dept_id="27",
+                    event_type="MEDIA_FLOW_QUEUED",
+                    headline_vi=f"Đã gửi lệnh mở Google Flow tạo video ({aspect_ratio}) cho chiến dịch '{camp.get('title', cid)}'",
+                    project_id=proj_id,
+                    task_id=f"auto-{order['order_id']}",
+                    detail={
+                        "campaign_id": cid,
+                        "order_id": order["order_id"],
+                        "aspect_ratio": aspect_ratio,
+                        "scenes_count": len(scenes),
+                        "output_dir": output_dir_rel,
+                    },
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                bridge_online = db.get_bridge_status().get("online", False)
+                self._send_json(
+                    {
+                        "queued": True,
+                        "campaign_id": cid,
+                        "campaign": updated_camp,
+                        "order": order,
+                        "bridge_online": bridge_online,
+                        "google_flow_url": "https://flow.google.com/",
+                        "aspect_ratio": aspect_ratio,
+                        "output_dir": output_dir_rel,
+                        "message": (
+                            f"Đã gửi lệnh mở Google Flow sang Trình duyệt AI Antigravity cho chiến dịch '{camp.get('title', cid)}' ({len(scenes)} cảnh, tỷ lệ {aspect_ratio})."
+                        ),
+                    },
+                    status=202,
+                )
                 return
 
             # 22: Deep URL Wisdom Ingestion

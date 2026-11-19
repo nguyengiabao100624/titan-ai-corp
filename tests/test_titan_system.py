@@ -1290,6 +1290,104 @@ class TestTitanSystemV8(unittest.TestCase):
         self.assertTrue(json.loads(raw_d.decode("utf-8"))["deleted"])
         self.assertEqual(len(self.db.list_media_campaigns(project_id=pid)), 0)
 
+    def test_16_v111_render_google_flow_video_bridge_order_and_video_files(self) -> None:
+        pid = "proj-flow-demo"
+        slug = "flow-demo-studio"
+        with self.db.immediate_tx() as conn:
+            conn.execute(
+                """
+                INSERT INTO projects(
+                    project_id, slug, title, objective, target_market,
+                    status, expected_price_vnd, unit_cost_vnd, fixed_cost_monthly_vnd,
+                    workspace_path, version, created_at, updated_at
+                ) VALUES (
+                    ?, ?, 'Flow Demo Studio',
+                    'Ứng dụng minh họa tạo video AI Google Flow', 'Việt Nam',
+                    'ACTIVE', 299000, 35000, 0, ?,
+                    1, '2026-11-20T00:00:00Z', '2026-11-20T00:00:00Z'
+                )
+                """,
+                (pid, slug, f"corporate_hq/projects/{slug}"),
+            )
+
+        # 1. Create campaign via POST /api/media/campaigns
+        st_c, _, raw_c = self._req(
+            "/api/media/campaigns",
+            method="POST",
+            body={
+                "project_id": pid,
+                "title": "Dựng video 60fps trên trình duyệt trong 5 giây",
+                "platform": "TIKTOK",
+                "angle_vi": "So sánh tốc độ xử lý ngay trên máy không cần upload",
+            },
+        )
+        self.assertEqual(st_c, 201)
+        camp = json.loads(raw_c.decode("utf-8"))
+        cid = camp["campaign_id"]
+        self.assertEqual(camp["google_flow_url"], "https://flow.google.com/")
+        self.assertIsInstance(camp["video_files"], list)
+
+        # 2. Trigger POST /api/media/campaigns/<id>/render-flow -> HTTP 202 + RENDER_GOOGLE_FLOW_VIDEO order
+        st_rf, _, raw_rf = self._req(
+            f"/api/media/campaigns/{cid}/render-flow",
+            method="POST",
+            body={"source_device": "test-suite"},
+        )
+        self.assertEqual(st_rf, 202)
+        rf = json.loads(raw_rf.decode("utf-8"))
+        self.assertTrue(rf["queued"])
+        self.assertEqual(rf["campaign_id"], cid)
+        self.assertEqual(rf["google_flow_url"], "https://flow.google.com/")
+        self.assertEqual(rf["aspect_ratio"], "9:16")
+        self.assertEqual(rf["order"]["order_type"], "RENDER_GOOGLE_FLOW_VIDEO")
+        self.assertIn(f"corporate_hq/projects/{slug}/media_studio/videos/", rf["order"]["instructions"])
+        self.assertEqual(rf["campaign"]["status"], "FLOW_QUEUED")
+
+        # 3. Verify Dept #27 & #25 are EXECUTING + auto-<order_id> task synced to Kanban for #27
+        oid = rf["order"]["order_id"]
+        auto_tid = f"auto-{oid}"
+        t_obj = self.db.get_task(auto_tid)
+        self.assertIsNotNone(t_obj)
+        self.assertEqual(t_obj["assigned_dept_id"], "27")
+        self.assertEqual(t_obj["kanban_column"], "IN_PROGRESS")
+
+        d27 = self.db.get_department_detail("27")
+        d25 = self.db.get_department_detail("25")
+        self.assertEqual(d27["status"], "EXECUTING")
+        self.assertEqual(d25["status"], "EXECUTING")
+        self.assertEqual(d27["current_task_id"], auto_tid)
+        self.assertIn("Google Flow", d27["current_work_title"])
+
+        # 4. Drop a sample .mp4 clip in isolated temp media_studio/videos/ -> GET /api/media/campaigns detects it!
+        vdir = self.tmp_path / "projects" / slug / "media_studio" / "videos"
+        vdir.mkdir(parents=True, exist_ok=True)
+        clip_path = vdir / f"{cid}_scene01.mp4"
+        clip_path.write_bytes(b"\x00\x00\x00\x18ftypmp42" + b"0" * 2048)
+
+        st_l, _, raw_l = self._req(f"/api/media/campaigns?project_id={pid}")
+        self.assertEqual(st_l, 200)
+        listed = json.loads(raw_l.decode("utf-8"))["campaigns"]
+        self.assertEqual(len(listed), 1)
+        self.assertEqual(listed[0]["google_flow_url"], "https://flow.google.com/")
+        self.assertEqual(len(listed[0]["video_files"]), 1)
+        self.assertEqual(listed[0]["video_files"][0]["name"], f"{cid}_scene01.mp4")
+        self.assertEqual(listed[0]["video_files"][0]["url"], f"./projects/{slug}/media_studio/videos/{cid}_scene01.mp4")
+        self.assertGreater(listed[0]["video_files"][0]["size_kb"], 0.0)
+
+        # Also verify /api/overview reflects video_files & google_flow_url
+        st_ov, _, raw_ov = self._req("/api/overview")
+        self.assertEqual(st_ov, 200)
+        ov_camps = json.loads(raw_ov.decode("utf-8"))["media_campaigns"]
+        ov_c = next(c for c in ov_camps if c["campaign_id"] == cid)
+        self.assertEqual(ov_c["google_flow_url"], "https://flow.google.com/")
+        self.assertEqual(len(ov_c["video_files"]), 1)
+
+        # 5. Complete order -> auto task DONE & #27/#25 return to IDLE
+        self.db.complete_order(oid, result_summary="Đã dựng xong video Google Flow", status="COMPLETED")
+        self.assertEqual(self.db.get_task(auto_tid)["kanban_column"], "DONE")
+        self.assertEqual(self.db.get_department_detail("27")["status"], "IDLE")
+        self.assertEqual(self.db.get_department_detail("25")["status"], "IDLE")
+
 
 if __name__ == "__main__":
     unittest.main()
