@@ -20,17 +20,112 @@ DEFAULT_DB_PATH = ROOT_DIR / "corporate_hq" / "titan_state.db"
 SKILLS_DIR = ROOT_DIR / ".agents" / "skills"
 
 DIVISIONS_SEED: list[tuple[str, str, str, str, int]] = [
-    ("exec-board", "Ban Tổng Giám Đốc Điều Hành", "CEO & Chief of Staff", ".agents/skills/titan-ceo-orchestrator/SKILL.md", 0),
-    ("div1-strategy-intel", "Khối 1: Chiến lược, Tình báo Thị trường & R&D", "CSO", ".agents/skills/div1-strategy-intel/SKILL.md", 1),
-    ("div2-product-design", "Khối 2: Quản trị Sản phẩm & Thiết kế Thương hiệu", "CPO", ".agents/skills/div2-product-design/SKILL.md", 2),
-    ("div3-engineering-ai", "Khối 3: Kỹ thuật, Phần mềm, AI & Phần cứng", "CTO", ".agents/skills/div3-engineering-ai/SKILL.md", 3),
-    ("div4-qa-cybersecurity", "Khối 4: Kiểm định Chất lượng & An ninh mạng", "CISO & QA", ".agents/skills/div4-qa-cybersecurity/SKILL.md", 4),
-    ("div5-media-youtube-studio", "Khối 5: Studio Video AI, YouTube & Tăng trưởng", "CMO", ".agents/skills/div5-media-youtube-studio/SKILL.md", 5),
-    ("div6-sales-commercial", "Khối 6: Kinh doanh, Bán hàng & Thành công Khách hàng", "CRO", ".agents/skills/div6-sales-commercial/SKILL.md", 6),
-    ("div7-finance-tax-legal", "Khối 7: Tài chính, Kế toán, Thuế & Pháp chế", "CFO & CLO", ".agents/skills/div7-finance-tax-legal/SKILL.md", 7),
-    ("div8-data-ops-hr", "Khối 8: Phân tích Số liệu, Quản trị Nội bộ & Nhân sự AI", "COO & CHRO", ".agents/skills/div8-data-ops-hr/SKILL.md", 8),
-    ("div9-critique-ux-lab", "Khối 9: Phản biện Độc lập, Tester Người dùng & Săn Mỏ Vàng", "CIA & CXO", ".agents/skills/div9-critique-ux-lab/SKILL.md", 9),
+    ("exec-board", "Ban Tổng Giám đốc Điều hành", "Tổng Giám đốc", ".agents/skills/titan-ceo-orchestrator/SKILL.md", 0),
+    ("div1-strategy-intel", "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ", "Giám đốc Chiến lược", ".agents/skills/div1-strategy-intel/SKILL.md", 1),
+    ("div2-product-design", "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu", "Giám đốc Sản phẩm", ".agents/skills/div2-product-design/SKILL.md", 2),
+    ("div3-engineering-ai", "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng", "Giám đốc Công nghệ", ".agents/skills/div3-engineering-ai/SKILL.md", 3),
+    ("div4-qa-cybersecurity", "Khối 4: Kiểm định Chất lượng và An ninh mạng", "Giám đốc Chất lượng và Bảo mật", ".agents/skills/div4-qa-cybersecurity/SKILL.md", 4),
+    ("div5-media-youtube-studio", "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng", "Giám đốc Truyền thông", ".agents/skills/div5-media-youtube-studio/SKILL.md", 5),
+    ("div6-sales-commercial", "Khối 6: Kinh doanh, Bán hàng và Chăm sóc Khách hàng", "Giám đốc Kinh doanh", ".agents/skills/div6-sales-commercial/SKILL.md", 6),
+    ("div7-finance-tax-legal", "Khối 7: Tài chính, Kế toán, Thuế và Pháp chế", "Giám đốc Tài chính và Pháp chế", ".agents/skills/div7-finance-tax-legal/SKILL.md", 7),
+    ("div8-data-ops-hr", "Khối 8: Phân tích Dữ liệu, Vận hành Nội bộ và Nhân sự", "Giám đốc Vận hành và Nhân sự", ".agents/skills/div8-data-ops-hr/SKILL.md", 8),
+    ("div9-critique-ux-lab", "Khối 9: Phản biện Độc lập, Kiểm thử Khách hàng và Săn Cơ hội", "Giám đốc Phản biện và Trải nghiệm", ".agents/skills/div9-critique-ux-lab/SKILL.md", 9),
 ]
+
+CANONICAL_DEPT_TITLES_VI: dict[str, str] = {
+    "00": "Tổng Giám đốc và Chánh Văn phòng",
+    "01": "Tình báo Thị trường Toàn cầu",
+    "02": "Nghiên cứu Tâm lý và Hành vi Khách hàng",
+    "03": "Phân tích Đối thủ Cạnh tranh",
+    "04": "Nghiên cứu Công nghệ mới và Trí tuệ nhân tạo",
+    "05": "Kiến trúc Mô hình Kinh doanh",
+    "06": "Quản trị Sản phẩm",
+    "07": "Nghiên cứu Trải nghiệm Người dùng",
+    "08": "Thiết kế Giao diện Cao cấp",
+    "09": "Thiết kế Chuyển động và Tương tác",
+    "10": "Xây dựng Thương hiệu",
+    "11": "Điều phối Tiến độ Dự án",
+    "12": "Kiến trúc Hệ thống Trưởng",
+    "13": "Kỹ thuật Giao diện Trực tuyến",
+    "14": "Phát triển Ứng dụng Di động",
+    "15": "Kỹ thuật Máy chủ và Cổng Thanh toán",
+    "16": "Kỹ sư Trí tuệ nhân tạo và Tự động hóa",
+    "17": "Quản trị Cơ sở Dữ liệu",
+    "18": "Kỹ thuật Nhúng và Thiết bị Thông minh",
+    "19": "Hạ tầng Đám mây và Vận hành Hệ thống",
+    "20": "Kiểm thử Phần mềm và Tự động hóa",
+    "21": "Kiểm thử Chịu tải, Tốc độ và Ổn định",
+    "22": "Kiểm định Độ chuẩn xác và An toàn Trí tuệ nhân tạo",
+    "23": "An ninh Mạng và Chống Xâm nhập",
+    "24": "Bảo vệ Dữ liệu Cá nhân và Cô lập Khách hàng",
+    "25": "Chiến lược Hệ thống Kênh Video và Nội dung Ngắn",
+    "26": "Biên kịch Lan truyền và Câu Mở đầu 3 giây",
+    "27": "Đạo diễn Hình ảnh và Kỹ xảo Video",
+    "28": "Đạo diễn Âm thanh và Lồng tiếng",
+    "29": "Thiết kế Ảnh bìa và Tối ưu Tỷ lệ Bấm",
+    "30": "Tối ưu Tìm kiếm Trực tuyến và Khám phá Nội dung",
+    "31": "Quảng cáo và Tối ưu Phễu Chuyển đổi",
+    "32": "Tìm kiếm Khách hàng Tiềm năng",
+    "33": "Chốt đơn Giá trị cao và Gói thuê bao",
+    "34": "Kinh doanh Quốc tế và Tiếp thị Liên kết",
+    "35": "Bàn giao và Hướng dẫn Khách hàng 180 giây",
+    "36": "Giữ chân Khách hàng và Bán thêm",
+    "37": "Kế toán Tổng hợp và Đối soát Dòng tiền",
+    "38": "Định giá và Phân tích Lợi nhuận",
+    "39": "Chuyên gia Thuế và Hóa đơn Điện tử",
+    "40": "Pháp chế và Hợp đồng Thương mại",
+    "41": "Bản quyền và Chính sách Nền tảng",
+    "42": "Phân tích Dữ liệu Kinh doanh",
+    "43": "Tự động hóa Quy trình Nội bộ",
+    "44": "Lưu trữ Tri thức và Bộ nhớ Tập đoàn",
+    "45": "Tuyển dụng, Đào tạo và Kiểm định Nhân sự",
+    "46": "Hội đồng Phản biện Mô hình Kiếm tiền",
+    "47": "Thanh tra Phản biện Chéo Quy trình và Phòng ban",
+    "48": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật",
+    "49": "Thanh tra Tối giản Thao tác và Diệt Rối mắt",
+    "50": "Trinh sát Săn Cơ hội và Thiết kế Sản phẩm Sinh lời",
+}
+
+KANBAN_LABELS_VI: dict[str, str] = {
+    "BACKLOG": "Chờ triển khai",
+    "IN_PROGRESS": "Đang thực hiện",
+    "QA_SECURITY_REVIEW": "Kiểm định chất lượng",
+    "WAITING_APPROVAL": "Chờ Chủ tịch duyệt",
+    "DONE": "Hoàn thành",
+    "REJECTED": "Cần chỉnh sửa",
+}
+
+ORDER_TYPE_LABELS_VI: dict[str, str] = {
+    "NEW_MISSION": "Nhiệm vụ mới",
+    "BUILD_PRODUCT": "Sản xuất sản phẩm",
+    "MISSION_REWORK": "Chỉnh sửa theo góp ý",
+    "MISSION_APPROVED": "Phê duyệt nhiệm vụ",
+    "SCAN_OPPORTUNITIES": "Săn cơ hội mới",
+    "EXECUTE_TASK": "Thực thi đầu việc",
+}
+
+ENTITY_TYPE_LABELS_VI: dict[str, str] = {
+    "task": "đầu việc",
+    "mission": "nhiệm vụ",
+    "opportunity": "cơ hội",
+    "project": "dự án",
+    "article": "bài viết",
+    "doc": "tài liệu",
+}
+
+
+def clean_department_title_vi(raw_title: str) -> str:
+    """Chuẩn hóa tên phòng ban tiếng Việt sạch, loại bỏ mã vai trò và cụm tiếng Anh thừa trong ngoặc."""
+    text = re.sub(r"^PHÒNG\s+#?\d+\s*:\s*", "", raw_title.strip(), flags=re.IGNORECASE)
+    text = re.sub(r"\s*\(`?@[a-z0-9-]+`?\)\s*$", "", text, flags=re.IGNORECASE)
+    text = re.sub(
+        r"\s*\((?:PM|UX|UI|PMO|CTR|CRO|BI|FP&A|SEO\s*/\s*GEO\s*/\s*AEO|OUTBOUND\s+SDR|HIGH-TICKET\s*&\s*SAAS\s+CLOSER|RETENTION\s*&\s*UPSELL|YOUTUBE\s*/\s*TIKTOK\s*/\s*OPEN-SOURCE)\)\s*",
+        " ",
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
 
 
 def utc_now_iso() -> str:
@@ -500,7 +595,7 @@ class TitanDatabase:
                     (code, name_vi, c_title, s_path, order),
                 )
 
-            # Seed Position 00 (@ceo)
+            # Seed Position 00 (Tổng Giám đốc)
             ceo_md = self.skills_dir / "titan-ceo-orchestrator" / "SKILL.md"
             ceo_rel = ".agents/skills/titan-ceo-orchestrator/SKILL.md"
             conn.execute(
@@ -517,7 +612,7 @@ class TitanDatabase:
                     "00",
                     "ceo",
                     "exec-board",
-                    "Tổng Giám Đốc & Chánh Văn Phòng (@ceo)",
+                    CANONICAL_DEPT_TITLES_VI["00"],
                     "chairman",
                     ceo_rel if ceo_md.exists() else ceo_rel,
                     "4.0",
@@ -544,8 +639,7 @@ class TitanDatabase:
                     div_code = spec.parents[1].name
                     raw_text = spec.read_text(encoding="utf-8")
                     first_line = raw_text.splitlines()[0].lstrip("# ").strip() if raw_text else spec.stem
-                    clean_title = re.sub(r"^PHÒNG\s+\d+\s*:\s*", "", first_line, flags=re.IGNORECASE)
-                    clean_title = re.sub(r"\s*\(`@[a-z0-9-]+`\)\s*$", "", clean_title).strip()
+                    clean_title = CANONICAL_DEPT_TITLES_VI.get(dept_id) or clean_department_title_vi(first_line)
                     books = self._extract_books_from_markdown(raw_text)
                     try:
                         rel_path = str(spec.relative_to(ROOT_DIR)).replace("\\", "/")
@@ -578,6 +672,28 @@ class TitanDatabase:
                         ),
                     )
                     count += 1
+
+            # Chuẩn hóa tên bước nhiệm vụ cũ và ghi chú cơ hội sang 100% tiếng Việt chuẩn
+            step_title_by_order = {order: stitle for order, stitle, _, _, _ in self.DEFAULT_8_STEPS_TEMPLATE}
+            legacy_step_markers = ("Pre-Mortem", "Code / Web / App", "Landing Page", "Tester đóng vai")
+            for s_order, clean_stitle in step_title_by_order.items():
+                for marker in legacy_step_markers:
+                    conn.execute(
+                        "UPDATE mission_steps SET title = ? WHERE step_order = ? AND title LIKE ?",
+                        (clean_stitle, s_order, f"%{marker}%"),
+                    )
+            conn.execute(
+                "UPDATE opportunities SET ux_note = REPLACE(ux_note, 'Tester Người dùng', 'Kiểm thử Khách hàng') WHERE ux_note LIKE '%Tester Người dùng%'"
+            )
+            conn.execute(
+                "UPDATE swarm_messages SET sender_name_vi = 'Tổng Điều phối Điều hành' WHERE sender_name_vi = 'Tổng Điều Phối (CEO)'"
+            )
+            conn.execute(
+                "UPDATE swarm_messages SET sender_name_vi = 'Kỹ sư Xây dựng Sản phẩm' WHERE sender_name_vi LIKE '%Code Web/App%'"
+            )
+            conn.execute(
+                "UPDATE swarm_messages SET sender_name_vi = 'Kiểm thử viên Khách hàng thật' WHERE sender_name_vi LIKE 'Tester %'"
+            )
 
             # Recompute articles_learned counters accurately
             conn.execute(
@@ -746,10 +862,10 @@ class TitanDatabase:
 
         if seed_gate1_tasks:
             starter_tasks = [
-                ("01", "38", 1, 2, "CRITICAL", f"[{title}] Điều tra thị trường, độ khát & quy mô khách sẵn tiền"),
-                ("02", "06", 1, 2, "HIGH", f"[{title}] Giải mã tử huyệt tâm lý sợ mất tiền & từ điển khách hàng"),
-                ("38", "39", 1, 3, "CRITICAL", f"[{title}] Thẩm định Unit Economics, điểm hòa vốn & kịch bản xấu nhất"),
-                ("06", "00", 2, 4, "HIGH", f"[{title}] Chốt đặc tả PRD tinh gọn & luồng UX 3 chạm trình Chủ tịch"),
+                ("01", "38", 1, 2, "CRITICAL", f"[{title}] Điều tra thị trường, độ khát và quy mô khách sẵn tiền"),
+                ("02", "06", 1, 2, "HIGH", f"[{title}] Giải mã tâm lý sợ mất tiền và từ điển khách hàng"),
+                ("38", "39", 1, 3, "CRITICAL", f"[{title}] Thẩm định hiệu quả kinh tế đơn vị, điểm hòa vốn và kịch bản xấu nhất"),
+                ("06", "00", 2, 4, "HIGH", f"[{title}] Chốt đặc tả sản phẩm tinh gọn và luồng trải nghiệm 3 chạm trình Chủ tịch"),
             ]
             for dept_id, rev_id, gate_no, stage_no, prio, t_title in starter_tasks:
                 self.create_task(
@@ -966,10 +1082,11 @@ class TitanDatabase:
                 (next_dept_state, now, now, dept_id),
             )
             evt_type = "GATE_WAITING_CHAIRMAN" if require_chairman_gate else "DELIVERABLE_SUBMITTED"
+            next_col_vi = KANBAN_LABELS_VI.get(next_col, next_col)
             self.log_event(
                 actor_dept_id=dept_id,
                 event_type=evt_type,
-                headline_vi=f"Phòng {dept_id} nộp bàn giao '{title}' (Bằng chứng Cấp {evidence_level}) -> {next_col}",
+                headline_vi=f"Phòng {dept_id} nộp bàn giao '{title}' (Bằng chứng Cấp {evidence_level}) -> {next_col_vi}",
                 project_id=task_row["project_id"],
                 task_id=task_id,
                 detail={"deliverable_id": did, "file_path": file_path, "evidence_level": evidence_level},
@@ -1083,7 +1200,7 @@ class TitanDatabase:
                 self.log_event(
                     actor_dept_id=dept_id,
                     event_type="CHAIRMAN_REJECTED",
-                    headline_vi=f"Yêu cầu sửa lại '{task_row['title']}' -> Đã ghi Sổ Tự Kiểm Điểm Reflexion cho Phòng {dept_id}",
+                    headline_vi=f"Yêu cầu sửa lại '{task_row['title']}' -> Đã ghi Sổ Tự Kiểm điểm rút kinh nghiệm cho Phòng {dept_id}",
                     project_id=task_row["project_id"],
                     task_id=task_id,
                     detail={"note": symptom, "reflexion_id": ref_id, "preventive_rule": rule},
@@ -1115,10 +1232,11 @@ class TitanDatabase:
                 """,
                 (col, note, note, now, task_id),
             )
+            col_vi = KANBAN_LABELS_VI.get(col, col)
             self.log_event(
                 actor_dept_id=row["assigned_dept_id"],
                 event_type="TASK_TRANSITION",
-                headline_vi=f"Chuyển trạng thái '{row['title']}' sang cột {col}",
+                headline_vi=f"Chuyển trạng thái '{row['title']}' sang cột {col_vi}",
                 project_id=row["project_id"],
                 task_id=task_id,
                 detail={"column": col, "note": note},
@@ -1731,14 +1849,14 @@ class TitanDatabase:
     # V6.1: 2-PHASE FULL-LIFECYCLE PIPELINE (GĐ 1: CHỐT KÈO → GĐ 2: SẢN XUẤT RA SẢN PHẨM CUỐI)
     # =========================================================================
     DEFAULT_8_STEPS_TEMPLATE: list[tuple[int, str, str, str, str]] = [
-        (1, "[GĐ 1] Săn nhu cầu thật, đối thủ & tâm lý khách trả tiền", "01,02,03,50", "47", "49"),
-        (2, "[GĐ 1] Tính vốn, giá bán, thuế & khóa biên lãi gộp >= 65%", "38,39", "46", "49"),
-        (3, "[GĐ 1] Hội đồng phản biện Pre-Mortem & chốt kiến trúc sản phẩm", "46,47,06,12", "47", "48"),
-        (4, "[GĐ 1] Trình Chủ tịch DUYỆT CHỐT KÈO để bắt đầu sản xuất", "00", "46", "48"),
-        (5, "[GĐ 2] Lập trình & Xây dựng Sản phẩm Cuối hoàn chỉnh (Code / Web / App)", "13,14,15,16,17,19", "47", "49"),
-        (6, "[GĐ 2] Đóng gói Landing Page, Bảng giá, Video & Kịch bản kiếm 50 khách đầu", "25,26,29,32,33,40", "47", "48"),
-        (7, "[GĐ 2] Tester đóng vai 5 nhóm khách hàng dùng thử thật & Phản biện chốt lỗi", "48,49,20,23,47", "47", "48"),
-        (8, "[GĐ 2] Bàn giao Sản phẩm Cuối hoàn chỉnh & Kịch bản thu tiền cho Chủ tịch", "00,19,35", "46", "48"),
+        (1, "[GĐ 1] Săn nhu cầu thật, đối thủ và tâm lý khách trả tiền", "01,02,03,50", "47", "49"),
+        (2, "[GĐ 1] Tính vốn, giá bán, thuế và khóa biên lãi gộp >= 65%", "38,39", "46", "49"),
+        (3, "[GĐ 1] Hội đồng phản biện rủi ro trước triển khai và chốt kiến trúc sản phẩm", "46,47,06,12", "47", "48"),
+        (4, "[GĐ 1] Trình Chủ tịch duyệt chốt phương án để bắt đầu sản xuất", "00", "46", "48"),
+        (5, "[GĐ 2] Lập trình và xây dựng sản phẩm cuối hoàn chỉnh", "13,14,15,16,17,19", "47", "49"),
+        (6, "[GĐ 2] Đóng gói trang bán hàng, bảng giá, video và kịch bản kiếm 50 khách đầu", "25,26,29,32,33,40", "47", "48"),
+        (7, "[GĐ 2] Kiểm thử viên đóng vai 5 nhóm khách hàng dùng thử thật và phản biện chốt lỗi", "48,49,20,23,47", "47", "48"),
+        (8, "[GĐ 2] Bàn giao sản phẩm cuối hoàn chỉnh và kịch bản thu tiền cho Chủ tịch", "00,19,35", "46", "48"),
     ]
     DEFAULT_7_STEPS_TEMPLATE = DEFAULT_8_STEPS_TEMPLATE
 
@@ -1778,30 +1896,30 @@ class TitanDatabase:
                 "Mang quyển mẫu vải nặng tới nhà khách vẫn khó hình dung, khách lưỡng lự về hỏi ý kiến gia đình rồi im luôn.",
                 "Chụp ảnh cửa sổ trên Zalo/Web -> chạm chọn mã vải thật trong kho -> xuất ảnh phòng đã lắp rèm kèm báo giá chuẩn kích thước.",
                 399000, 74.7, 5, 88,
-                "Phòng #46 Phản biện: Không bán cho khách lẻ mua 1 lần; bán thuê bao tháng cho chủ tiệm để chốt 10–30 đơn/tháng.",
-                "Phòng #48 Tester Người dùng: Chủ tiệm 48 tuổi thao tác đúng 3 chạm trên điện thoại, không cần gõ chữ phức tạp.",
+                "Phòng #46 Phản biện: Không bán cho khách lẻ mua 1 lần; bán thuê bao tháng cho chủ tiệm để chốt 10-30 đơn/tháng.",
+                "Phòng #48 Kiểm thử Khách hàng: Chủ tiệm 48 tuổi thao tác đúng 3 chạm trên điện thoại, không cần gõ chữ phức tạp.",
                 "https://vnexpress.net/kinh-doanh",
             ),
             (
                 "opp-tro-ly-thue-hkd",
-                "Sổ thu chi & Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh / Chủ shop TMĐT",
-                "Chủ shop Shopee/TikTok Shop & Hộ kinh doanh cá thể (249.000đ/tháng)",
-                "Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn TMĐT mới thay đổi liên tục.",
-                "Đồng bộ đơn hàng & sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.",
+                "Sổ thu chi và Cảnh báo ngưỡng thuế tự động cho Hộ kinh doanh và Chủ cửa hàng trực tuyến",
+                "Chủ cửa hàng trực tuyến và Hộ kinh doanh cá thể (249.000đ/tháng)",
+                "Sợ bị truy thu, phạt chậm nộp do quy định hóa đơn điện tử và khấu trừ thuế sàn thương mại điện tử mới thay đổi liên tục.",
+                "Đồng bộ đơn hàng và sao kê -> tự bóc tách phần trăm dự phòng thuế vào két riêng, cảnh báo trước khi chạm ngưỡng.",
                 249000, 82.5, 8, 91,
-                "Phòng #46 Phản biện: Tuyệt đối không tư vấn lách luật; định vị là công cụ tính đúng & khoanh quỹ an toàn ngủ ngon.",
-                "Phòng #48 Tester Người dùng: Giao diện chỉ hiện 3 con số bằng tiếng Việt bình dân (Tiền về - Tiền cất đóng thuế - Tiền xài được).",
+                "Phòng #46 Phản biện: Tuyệt đối không tư vấn lách luật; định vị là công cụ tính đúng và khoanh quỹ an toàn ngủ ngon.",
+                "Phòng #48 Kiểm thử Khách hàng: Giao diện chỉ hiện 3 con số bằng tiếng Việt bình dân (Tiền về - Tiền cất đóng thuế - Tiền xài được).",
                 "https://cafef.vn",
             ),
             (
                 "opp-anh-menu-quan-an",
-                "Biến ảnh chụp món ăn bằng điện thoại thành Bộ Menu & Video ngắn kéo khách địa phương",
+                "Biến ảnh chụp món ăn bằng điện thoại thành Bộ thực đơn và Video ngắn kéo khách địa phương",
                 "Chủ quán ăn, tiệm bánh, quán cà phê mở mới (299.000đ/gói hoặc thuê bao)",
-                "Thuê thợ chụp ảnh món ăn tốn 3–5 triệu/lần, tự chụp bằng điện thoại thì tối và kém hấp dẫn trên GrabFood/ShopeeFood.",
-                "Tải ảnh món thật -> làm sáng chuẩn studio giữ nguyên 100% kết cấu món thật (không bịa sai món) + ghép khung giá in ấn ngay.",
+                "Thuê thợ chụp ảnh món ăn tốn 3-5 triệu/lần, tự chụp bằng điện thoại thì tối và kém hấp dẫn trên ứng dụng giao đồ ăn.",
+                "Tải ảnh món thật -> làm sáng chuẩn phòng chụp giữ nguyên 100% kết cấu món thật (không bịa sai món) và ghép khung giá in ấn ngay.",
                 299000, 78.2, 6, 84,
-                "Phòng #46 Phản biện: Bắt buộc giữ nguyên hình dáng món ăn thật của quán để khách nhận đồ không khiếu nại treo đầu dê.",
-                "Phòng #48 Tester Người dùng: Có nút so sánh Trước/Sau và tải file nét cao gửi nhà in chỉ bằng 1 chạm.",
+                "Phòng #46 Phản biện: Bắt buộc giữ nguyên hình dáng món ăn thật của quán để khách nhận đồ không khiếu nại sai thực tế.",
+                "Phòng #48 Kiểm thử Khách hàng: Có nút so sánh Trước/Sau và tải tệp nét cao gửi nhà in chỉ bằng 1 chạm.",
                 "https://vneconomy.vn",
             ),
         ]
@@ -1912,7 +2030,7 @@ class TitanDatabase:
             ids = [x.strip() for x in str(s.get("lead_dept_ids", "")).split(",") if x.strip()]
             s["lead_depts"] = [{"dept_id": i, "title_vi": dept_map.get(i, f"Phòng {i}")} for i in ids]
             s["critic_title_vi"] = dept_map.get(s.get("critic_dept_id", "47"), "Thanh tra Phản biện")
-            s["ux_tester_title_vi"] = dept_map.get(s.get("ux_tester_dept_id", "48"), "Tester Người dùng")
+            s["ux_tester_title_vi"] = dept_map.get(s.get("ux_tester_dept_id", "48"), "Kiểm thử viên Khách hàng")
             out.append(s)
         return out
 
@@ -1981,7 +2099,7 @@ class TitanDatabase:
             for order, stitle, leads, critic, ux_tester in self.DEFAULT_8_STEPS_TEMPLATE:
                 sid = f"{mid}-s{order}"
                 init_note = (
-                    "Đã gửi đề bài sang cầu nối Antigravity Swarm — chờ đội AI nhận việc..."
+                    "Đã gửi đề bài sang hệ thống điều phối AI, chờ đội ngũ chuyên gia nhận việc..."
                     if order == 1
                     else ""
                 )
@@ -2009,7 +2127,7 @@ class TitanDatabase:
             self.log_event(
                 "00",
                 "ORDER_QUEUED",
-                f"Đã gửi nhiệm vụ sang Antigravity Swarm: {title}",
+                f"Đã gửi nhiệm vụ sang hệ thống điều phối AI: {title}",
                 detail={"mission_id": mid, "order_id": order_id},
                 conn=conn,
             )
@@ -2154,7 +2272,7 @@ class TitanDatabase:
                 )
                 conn.execute(
                     "UPDATE mission_steps SET status = 'PENDING', progress_pct = 0, live_activity_text = ? WHERE mission_id = ? AND step_order = 5",
-                    (f"Chủ tịch đã DUYỆT CHỐT KÈO! Đang chuyển sang Antigravity Swarm để sản xuất sản phẩm thật tại `{linked_workspace}`...", mission_id),
+                    (f"Chủ tịch đã duyệt chốt phương án. Đang chuyển sang đội ngũ sản xuất sản phẩm thật tại `{linked_workspace}`...", mission_id),
                 )
                 conn.execute(
                     """
@@ -2185,7 +2303,7 @@ class TitanDatabase:
                 self.log_event(
                     "00",
                     "PRODUCTION_LAUNCHED",
-                    f"Chủ tịch DUYỆT CHỐT KÈO '{mrow['title']}' → Đã phát lệnh BUILD_PRODUCT sang Antigravity Swarm sản xuất sản phẩm cuối!",
+                    f"Chủ tịch duyệt chốt phương án '{mrow['title']}' -> Đã phát lệnh sản xuất sản phẩm cuối!",
                     detail={"mission_id": mission_id, "project_id": linked_project_id, "order_id": emitted_order_id},
                     conn=conn,
                 )
@@ -2220,7 +2338,7 @@ class TitanDatabase:
                 reset_pct = 15 if is_proposal_gate else 50
                 conn.execute(
                     "UPDATE mission_steps SET status = 'PENDING', progress_pct = 0, live_activity_text = ? WHERE mission_id = ? AND step_order >= ?",
-                    (f"Đã gửi yêu cầu làm lại sang Antigravity: {reason}", mission_id, reset_from),
+                    (f"Đã gửi yêu cầu làm lại cho đội ngũ thực thi: {reason}", mission_id, reset_from),
                 )
                 conn.execute(
                     "UPDATE missions SET status = 'RUNNING', dispatch_state = 'QUEUED_FOR_ANTIGRAVITY', current_step_order = ?, progress_pct = ?, version = version + 1, updated_at = ? WHERE mission_id = ?",
@@ -2239,7 +2357,7 @@ class TitanDatabase:
                 self.log_event(
                     "47",
                     "MISSION_REJECTED",
-                    f"Đã gửi yêu cầu sửa lại (từ Bước {reset_from}) sang Antigravity Swarm cho: {mrow['title']}",
+                    f"Đã gửi yêu cầu sửa lại (từ Bước {reset_from}) cho đội ngũ thực thi: {mrow['title']}",
                     detail={"mission_id": mission_id, "order_id": emitted_order_id, "reason": reason},
                     conn=conn,
                 )
@@ -2292,10 +2410,11 @@ class TitanDatabase:
                 """,
                 (oid, otype, mission_id, task_id, title.strip(), instructions.strip() or title.strip(), source_device, now, now),
             )
+            otype_vi = ORDER_TYPE_LABELS_VI.get(otype, otype)
             self.log_event(
                 "00",
                 "ORDER_QUEUED",
-                f"Đã chuyển lệnh ({otype}) sang cầu nối Antigravity Swarm: {title.strip()}",
+                f"Đã chuyển lệnh ({otype_vi}) sang hệ thống điều phối AI: {title.strip()}",
                 detail={"order_id": oid, "order_type": otype, "mission_id": mission_id, "task_id": task_id},
                 conn=conn,
             )
@@ -2341,7 +2460,7 @@ class TitanDatabase:
             self.log_event(
                 "00",
                 "ORDER_CLAIMED",
-                f"Antigravity Swarm đã tiếp nhận lệnh thật: {row['title']}",
+                f"Hệ thống điều phối AI đã tiếp nhận lệnh: {row['title']}",
                 detail={"order_id": oid, "mission_id": row["mission_id"], "claimed_by": claimed_by},
                 conn=conn,
             )
@@ -2409,7 +2528,7 @@ class TitanDatabase:
                 "pid": None,
                 "swarm_title": "",
                 "active_workers": [],
-                "note": "Chưa bật cầu nối Antigravity",
+                "note": "Chưa bật cầu nối điều phối trực tuyến",
                 "last_heartbeat_at": "",
                 "pending_orders_count": int(pending_cnt),
                 "active_orders_count": int(active_cnt),
@@ -2884,7 +3003,8 @@ class TitanDatabase:
                     doc_path.parent.mkdir(parents=True, exist_ok=True)
                     doc_path.write_text(data.get("content", ""), encoding="utf-8")
             self._clear_tombstone(wconn, entity_type, entity_id)
-            self.log_event("00", "ITEM_RESTORED", f"Đã hoàn tác khôi phục mục vừa xóa ({entity_type})", conn=wconn)
+            etype_vi = ENTITY_TYPE_LABELS_VI.get(entity_type, entity_type)
+            self.log_event("00", "ITEM_RESTORED", f"Đã hoàn tác khôi phục {etype_vi} vừa xóa", conn=wconn)
         return {"restored": True, "entity_type": entity_type, "entity_id": entity_id}
 
     def restore_batch_from_trash(self, items: list[dict[str, str]]) -> dict[str, Any]:

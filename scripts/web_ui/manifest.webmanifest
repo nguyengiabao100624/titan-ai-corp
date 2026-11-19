@@ -1,13 +1,13 @@
 {
-  "name": "Titan AI Corp — Điều Hành Tự Động 51 AI",
-  "short_name": "Titan Corp",
-  "description": "Giao việc tự động, săn cơ hội kiếm tiền, theo dõi tiến độ 7 bước, phản biện chéo và quản trị 51 nhân sự AI 24/7.",
+  "name": "Trung tâm Điều hành Titan",
+  "short_name": "Titan",
+  "description": "Giao việc tự động, săn cơ hội kiếm tiền, theo dõi tiến độ 8 bước, phản biện rủi ro và quản trị 51 phòng chuyên gia trực tuyến.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#FFFFFF",
-  "theme_color": "#0F766E",
+  "background_color": "#f3f5f7",
+  "theme_color": "#006a6b",
   "lang": "vi",
   "icons": [
     {
@@ -19,7 +19,7 @@
   ],
   "shortcuts": [
     {
-      "name": "Giao việc & Kiếm tiền",
+      "name": "Trung tâm Giao việc",
       "short_name": "Giao việc",
       "url": "./index.html#command"
     },
@@ -29,12 +29,12 @@
       "url": "./index.html#missions"
     },
     {
-      "name": "Bảng việc chi tiết",
+      "name": "Bảng việc Chi tiết",
       "short_name": "Bảng việc",
       "url": "./index.html#tasks"
     },
     {
-      "name": "Báo mới thị trường",
+      "name": "Báo mới Thị trường",
       "short_name": "Báo mới",
       "url": "./index.html#news"
     }

@@ -31,6 +31,10 @@ from titan_cli import add_department, run_audit
 from titan_db import DEFAULT_DB_PATH, ROOT_DIR, TitanDatabase, utc_now_iso
 
 WEB_UI_DIR = SCRIPT_DIR / "web_ui"
+DEFAULT_ONLINE_ENDPOINT_PATH = ROOT_DIR / "corporate_hq" / "cloud_state" / "online_endpoint.json"
+ALLOWED_CORS_ORIGINS = {
+    "https://nguyengiabao100624.github.io",
+}
 
 
 class ThreadingCommandServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
@@ -128,10 +132,20 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
-        self.send_header("Access-Control-Allow-Origin", "*")
+        origin = (self.headers.get("Origin") or "").strip()
+        if origin in ALLOWED_CORS_ORIGINS:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Access-Control-Allow-Credentials", "true")
+            self.send_header("Vary", "Origin")
+        else:
+            self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Private-Network", "true")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization, If-None-Match")
+        self.send_header(
+            "Access-Control-Allow-Headers",
+            "Content-Type, Authorization, If-None-Match, Last-Event-ID, Cache-Control, Pragma, Accept, X-Requested-With",
+        )
+        self.send_header("Access-Control-Expose-Headers", "ETag, Content-Type, Cache-Control")
 
     def _check_auth_for_mutation(self) -> bool:
         expected = self.app_server.admin_token
@@ -140,7 +154,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
         auth = self.headers.get("Authorization", "")
         if auth == f"Bearer {expected}":
             return True
-        self._send_json({"error": "Unauthorized: Invalid or missing Bearer admin token."}, status=401)
+        self._send_json({"error": "Không có quyền truy cập: Thiếu hoặc sai mã xác thực quản trị."}, status=401)
         return False
 
     def _read_json_body(self) -> dict[str, Any]:
@@ -148,11 +162,11 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
         if length <= 0:
             return {}
         if length > 5_000_000:
-            raise ValueError("Payload vượt quá giới hạn 5MB.")
+            raise ValueError("Dữ liệu gửi lên vượt quá giới hạn 5MB.")
         raw = self.rfile.read(length).decode("utf-8")
         data = json.loads(raw)
         if not isinstance(data, dict):
-            raise ValueError("JSON body phải là một Object.")
+            raise ValueError("Dữ liệu gửi lên phải là một đối tượng JSON hợp lệ.")
         return data
 
     def _send_bytes(
@@ -220,6 +234,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
     def do_OPTIONS(self) -> None:
         self.send_response(204)
         self._set_common_security_headers()
+        self.send_header("Access-Control-Max-Age", "600")
         self.send_header("Content-Length", "0")
         self.end_headers()
 
@@ -233,6 +248,9 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
             # 01-03: Static UI & PWA Assets
             if path in ("/", "/index.html"):
                 self._serve_static_file(WEB_UI_DIR / "index.html", "text/html; charset=utf-8", cache_control="no-cache")
+                return
+            if path == "/theme.css":
+                self._serve_static_file(WEB_UI_DIR / "theme.css", "text/css; charset=utf-8")
                 return
             if path == "/styles.css":
                 self._serve_static_file(WEB_UI_DIR / "styles.css", "text/css; charset=utf-8")
@@ -258,6 +276,20 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 if not DEFAULT_SNAPSHOT_PATH.is_file():
                     save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._serve_static_file(DEFAULT_SNAPSHOT_PATH, "application/json; charset=utf-8", cache_control="no-cache")
+                return
+            if path == "/cloud_state/online_endpoint.json":
+                if DEFAULT_ONLINE_ENDPOINT_PATH.is_file():
+                    self._serve_static_file(
+                        DEFAULT_ONLINE_ENDPOINT_PATH,
+                        "application/json; charset=utf-8",
+                        cache_control="no-cache",
+                    )
+                else:
+                    self._send_json(
+                        {"online_api_url": "", "updated_at": utc_now_iso(), "status": "OFFLINE"},
+                        status=200,
+                        enable_etag=False,
+                    )
                 return
             if path.startswith("/projects/"):
                 rel = urllib.parse.unquote(path[len("/projects/"):]).lstrip("/")
@@ -358,7 +390,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 if tid:
                     single = db.get_task(tid)
                     if not single:
-                        self._send_json({"error": "Task không tồn tại."}, status=404)
+                        self._send_json({"error": "Đầu việc không tồn tại."}, status=404)
                         return
                     self._send_json(single)
                     return
@@ -457,7 +489,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json({"path": req_path, "name": candidate.name, "content": candidate.read_text(encoding="utf-8", errors="replace")})
                 return
 
-            self._send_json({"error": f"Endpoint không tồn tại: {path}"}, status=404)
+            self._send_json({"error": f"Đường dẫn không tồn tại: {path}"}, status=404)
         except Exception as exc:
             self._send_json({"error": str(exc)}, status=500)
         finally:
@@ -757,9 +789,9 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                         "order": order,
                         "opportunities": db.list_opportunities(),
                         "message": (
-                            "Đã gửi lệnh săn cơ hội kiếm tiền thật sang Antigravity Swarm!"
+                            "Đã gửi lệnh săn cơ hội kiếm tiền thật sang hệ thống điều phối AI."
                             if bridge_online
-                            else "Đã đưa lệnh săn cơ hội vào hàng đợi Antigravity (sẽ tự chạy ngay khi bật Trực chiến)."
+                            else "Đã đưa lệnh săn cơ hội vào hàng đợi (sẽ tự chạy ngay khi bật chế độ trực chiến)."
                         ),
                     },
                     status=202,
@@ -859,7 +891,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(res, status=200)
                 return
 
-            self._send_json({"error": f"Endpoint POST không tồn tại: {path}"}, status=404)
+            self._send_json({"error": f"Đường dẫn gửi dữ liệu không tồn tại: {path}"}, status=404)
         except KeyError as ke:
             self._send_json({"error": str(ke)}, status=404)
         except ValueError as ve:
@@ -937,7 +969,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(updated_k, status=200)
                 return
 
-            self._send_json({"error": f"Endpoint PATCH không tồn tại: {path}"}, status=404)
+            self._send_json({"error": f"Đường dẫn cập nhật không tồn tại: {path}"}, status=404)
         except KeyError as ke:
             self._send_json({"error": str(ke)}, status=404)
         except ValueError as ve:
@@ -1034,7 +1066,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(res, status=200)
                 return
 
-            self._send_json({"error": f"Endpoint DELETE không tồn tại: {path}"}, status=404)
+            self._send_json({"error": f"Đường dẫn xóa dữ liệu không tồn tại: {path}"}, status=404)
         except KeyError as ke:
             self._send_json({"error": str(ke)}, status=404)
         except ValueError as ve:
@@ -1112,7 +1144,8 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)
         self._set_common_security_headers()
         self.send_header("Content-Type", "text/event-stream; charset=utf-8")
-        self.send_header("Cache-Control", "no-cache")
+        self.send_header("Cache-Control", "no-cache, no-transform")
+        self.send_header("X-Accel-Buffering", "no")
         self.send_header("Connection", "keep-alive")
         self.end_headers()
 

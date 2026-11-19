@@ -236,7 +236,7 @@ def wait_for_next_order(
                 db.set_bridge_heartbeat(
                     online=True,
                     pid=pid,
-                    note="Antigravity Coordinator đang trực chiến — nhận việc tức thì từ Web & Điện thoại",
+                    note="Hệ thống điều phối đang trực chiến, sẵn sàng nhận việc tức thì từ máy tính và điện thoại",
                 )
                 last_hb = now_mono
 
@@ -249,7 +249,7 @@ def wait_for_next_order(
                 db.set_bridge_heartbeat(
                     online=True,
                     pid=pid,
-                    note=f"Đang tiếp nhận đơn {claimed['order_id']}: {claimed['title']}",
+                    note=f"Đang tiếp nhận lệnh {claimed['order_id']}: {claimed['title']}",
                 )
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 return format_order_handoff(db, claimed)

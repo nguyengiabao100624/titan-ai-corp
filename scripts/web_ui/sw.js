@@ -1,8 +1,9 @@
-/* Titan AI Corp v5.0 — Stale-While-Revalidate + Offline Snapshot PWA Service Worker */
-const CACHE_NAME = "titan-command-center-v6.3";
+/* Trung tam Dieu hanh Titan v7.0: Service Worker cap nhat truc tuyen uu tien mang moi nhat */
+const CACHE_NAME = "titan-command-center-v7.0";
 const CORE_ASSETS = [
   "./",
   "./index.html",
+  "./theme.css",
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
@@ -29,33 +30,16 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   if (url.pathname.endsWith("/api/events/stream")) return;
 
-  if (url.pathname.includes("/api/") || url.pathname.endsWith("/snapshot.json")) {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          if (res && res.status === 200) {
-            const clone = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
-          }
-          return res;
-        })
-        .catch(() => caches.match(req))
-    );
-    return;
-  }
-
+  // Network-first for live API, online_endpoint, snapshot, and core assets so updates appear immediately
   event.respondWith(
-    caches.match(req).then((cached) => {
-      const fetchPromise = fetch(req)
-        .then((networkRes) => {
-          if (networkRes && networkRes.status === 200) {
-            const copy = networkRes.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          }
-          return networkRes;
-        })
-        .catch(() => cached);
-      return cached || fetchPromise;
-    })
+    fetch(req)
+      .then((res) => {
+        if (res && res.status === 200) {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
+        }
+        return res;
+      })
+      .catch(() => caches.match(req))
   );
 });

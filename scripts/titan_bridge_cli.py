@@ -25,17 +25,22 @@ from titan_db import DEFAULT_DB_PATH, ROOT_DIR, TitanDatabase, utc_now_iso
 
 
 WORKER_VI_NAMES: dict[str, str] = {
-    "@researcher": "Trinh sát Thị trường & Đối thủ",
-    "@trinh-sat-thi-truong": "Trinh sát Thị trường & Đối thủ",
-    "@cfo": "Giám đốc Tài chính & Thuế",
-    "@tai-chinh-thue": "Giám đốc Tài chính & Thuế",
+    "@researcher": "Trinh sát Thị trường và Đối thủ",
+    "@trinh-sat-thi-truong": "Trinh sát Thị trường và Đối thủ",
+    "@cfo": "Giám đốc Tài chính và Thuế",
+    "@tai-chinh-thue": "Giám đốc Tài chính và Thuế",
     "@critic": "Hội đồng Phản biện Độc lập",
-    "@phan-bien-doc-lap": "Hội đồng Phản biện & Bảo mật",
-    "@ky-su-san-pham": "Kỹ sư Sản phẩm (Code Web/App)",
-    "@doi-ban-hang": "Đội Đóng gói & Bán hàng",
-    "@tester-khach-hang": "Tester Đóng vai Khách hàng Thật",
-    "@coordinator": "Tổng Điều Phối (CEO)",
-    "@dieu-phoi": "Tổng Điều Phối (CEO)",
+    "@phan-bien-doc-lap": "Hội đồng Phản biện và Bảo mật",
+    "@builder": "Kỹ sư Xây dựng Sản phẩm",
+    "@ky-su-san-pham": "Kỹ sư Xây dựng Sản phẩm",
+    "@doi-ban-hang": "Đội Đóng gói và Bán hàng",
+    "@growth-pack": "Đội Đóng gói và Bán hàng",
+    "@ux-tester": "Kiểm thử viên Khách hàng thật",
+    "@tester-khach-hang": "Kiểm thử viên Khách hàng thật",
+    "@kien-truc-giao-dien": "Kiến trúc sư Giao diện Cao cấp",
+    "@ket-noi-truc-tuyen": "Kỹ sư Kết nối Trực tuyến",
+    "@coordinator": "Tổng Điều phối Điều hành",
+    "@dieu-phoi": "Tổng Điều phối Điều hành",
 }
 
 
@@ -66,12 +71,13 @@ def cmd_mission_claimed(db: TitanDatabase, args: argparse.Namespace) -> dict:
         pid=os.getpid(),
         swarm_title=args.swarm_title or msn["title"],
         active_workers=workers,
-        note=f"Antigravity Swarm đang chạy thật: {msn['title']}",
+        note=f"Đội ngũ điều phối AI đang thực thi thật: {msn['title']}",
     )
+    workers_vi = ", ".join(_vi_worker_name(w) for w in workers)
     db.log_event(
         "00",
         "SWARM_STARTED",
-        f"Antigravity Swarm đã khởi động {len(workers)} AI độc lập ({', '.join(workers)}) cho: {msn['title']}",
+        f"Hệ thống điều phối đã khởi động {len(workers)} chuyên gia độc lập ({workers_vi}) cho: {msn['title']}",
         detail={"mission_id": args.mission, "workers": workers, "swarm_title": args.swarm_title},
     )
     _sync_snapshot(db)
@@ -95,7 +101,7 @@ def cmd_step_start(db: TitanDatabase, args: argparse.Namespace) -> dict:
     db.set_bridge_heartbeat(
         online=True,
         pid=os.getpid(),
-        note=f"[{args.worker}] Bước {args.step}/7: {args.activity[:90]}",
+        note=f"[{_vi_worker_name(args.worker)}] Bước {args.step}/8: {args.activity[:90]}",
     )
     db.log_event(
         depts[0] if depts else "00",
@@ -166,10 +172,10 @@ def cmd_request_proposal_approval(db: TitanDatabase, args: argparse.Namespace) -
         status="WAITING_APPROVAL",
         progress_pct=90,
         worker_name=args.worker or "@coordinator",
-        live_activity_text="Đã xong Giai đoạn 1 (Nghiên cứu, tính lãi & phản biện) — Chờ Chủ tịch bấm Duyệt chốt kèo để toàn công ty bắt đầu sản xuất sản phẩm thật!",
+        live_activity_text="Đã xong Giai đoạn 1 (Nghiên cứu, tính lãi và phản biện). Chờ Chủ tịch bấm duyệt chốt phương án để toàn công ty bắt đầu sản xuất sản phẩm thật.",
         output_summary=args.summary,
-        critique_verdict=args.critique or "Đã qua phản biện Pre-Mortem bởi @critic (#46-#47)",
-        ux_verdict=args.ux or "Đã chốt thiết kế tối giản <= 3 chạm bởi #48-#49",
+        critique_verdict=args.critique or "Đã qua phản biện rủi ro độc lập bởi Phòng #46 và #47",
+        ux_verdict=args.ux or "Đã chốt thiết kế tối giản không quá 3 chạm bởi Phòng #48 và #49",
         artifact_path=args.artifact or "",
         started_at=utc_now_iso(),
     )
@@ -188,7 +194,7 @@ def cmd_request_proposal_approval(db: TitanDatabase, args: argparse.Namespace) -
     db.log_event(
         "00",
         "PROPOSAL_WAITING",
-        f"GĐ 1 hoàn tất cho '{msn['title']}' — Mời Chủ tịch duyệt chốt kèo để phát lệnh sản xuất sản phẩm cuối!",
+        f"Giai đoạn 1 hoàn tất cho '{msn['title']}'. Mời Chủ tịch duyệt chốt phương án để bắt đầu sản xuất sản phẩm cuối.",
         detail={"mission_id": args.mission, "phase": "PROPOSAL"},
     )
     _sync_snapshot(db)
@@ -205,10 +211,10 @@ def cmd_request_approval(db: TitanDatabase, args: argparse.Namespace) -> dict:
         status="WAITING_APPROVAL",
         progress_pct=95,
         worker_name=args.worker or "@coordinator",
-        live_activity_text="Toàn công ty đã sản xuất xong SẢN PHẨM CUỐI & kiểm thử đóng vai người dùng thật — Mời Chủ tịch xem sản phẩm và nghiệm thu!",
+        live_activity_text="Toàn công ty đã sản xuất xong sản phẩm cuối và kiểm thử đóng vai người dùng thật. Mời Chủ tịch xem sản phẩm và nghiệm thu.",
         output_summary=args.summary,
-        critique_verdict=args.critique or "Đã qua phản biện & kiểm toán bảo mật độc lập (#46-#47-#23)",
-        ux_verdict=args.ux or "Đã qua kiểm thử trình duyệt đóng vai 5 nhóm khách hàng thật (#48-#49)",
+        critique_verdict=args.critique or "Đã qua phản biện và kiểm toán bảo mật độc lập (Phòng #46, #47, #23)",
+        ux_verdict=args.ux or "Đã qua kiểm thử trình duyệt đóng vai 5 nhóm khách hàng thật (Phòng #48, #49)",
         artifact_path=args.artifact or "",
         started_at=utc_now_iso(),
     )
@@ -227,7 +233,7 @@ def cmd_request_approval(db: TitanDatabase, args: argparse.Namespace) -> dict:
     db.log_event(
         "00",
         "MISSION_WAITING",
-        f"SẢN PHẨM CUỐI của '{msn['title']}' đã hoàn thiện & test thật — Mời Chủ tịch nghiệm thu bàn giao!",
+        f"Sản phẩm cuối của '{msn['title']}' đã hoàn thiện và kiểm thử thực tế. Mời Chủ tịch nghiệm thu bàn giao.",
         detail={"mission_id": args.mission, "phase": "PRODUCTION"},
     )
     _sync_snapshot(db)

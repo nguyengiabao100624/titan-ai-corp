@@ -1,22 +1,23 @@
 /* ==========================================================================
-   TITAN COMMAND CENTER v5.1 — ZERO-DEFECT AUTONOMOUS ENTERPRISE SPA
+   TRUNG TAM DIEU HANH TITAN v7.0 (XIAS v3.1.1 ATLAS CONSOLE)
+   100% Tieng Viet, 0 emoji, 0 <select> mac dinh, 1 luong truc tuyen duy nhat
    ========================================================================== */
 (() => {
   "use strict";
 
   const VIEW_TITLES = {
-    command: "Giao việc & Kiếm tiền",
-    missions: "Tiến độ Nhiệm vụ",
-    tasks: "Bảng việc chi tiết",
-    staff: "Nhân sự chuyên gia",
-    news: "Báo mới thị trường",
-    finance: "Tài chính & Dự án"
+    command: "Giao việc",
+    missions: "Tiến độ",
+    tasks: "Bảng việc",
+    staff: "Nhân sự",
+    news: "Báo mới",
+    finance: "Tài chính và Giá bán"
   };
 
   const COL_LABELS = {
     BACKLOG: "Hàng đợi",
     IN_PROGRESS: "Đang làm",
-    QA_SECURITY_REVIEW: "Kiểm định QA",
+    QA_SECURITY_REVIEW: "Kiểm định chất lượng",
     WAITING_APPROVAL: "Chờ bạn duyệt",
     REJECTED: "Cần sửa lại",
     DONE: "Hoàn tất"
@@ -38,49 +39,119 @@
   };
 
   const CONNECTOR_LABELS = {
-    vn_news: "Báo kinh tế VN",
-    google_news: "Google Tin tức",
-    creator_seo_pulse: "Tăng trưởng & SEO",
-    security_advisory: "Cảnh báo An ninh",
-    arxiv: "Nghiên cứu arXiv",
-    github_repo: "Mã nguồn mở GitHub",
-    hackernews: "Hacker News",
-    deep_url: "Bài đọc từ link",
-    cloud_sync: "Đồng bộ Đám mây",
+    vn_news: "Báo kinh tế Việt Nam",
+    google_news: "Tin tức tổng hợp",
+    creator_seo_pulse: "Xu hướng tăng trưởng",
+    security_advisory: "Cảnh báo an ninh",
+    arxiv: "Nghiên cứu công nghệ",
+    github_repo: "Mã nguồn mở",
+    hackernews: "Diễn đàn công nghệ",
+    deep_url: "Bài đọc từ liên kết",
+    cloud_sync: "Đồng bộ đám mây",
     bench_rss: "Bản tin tổng hợp"
   };
 
   const DIV_SHORT_NAMES = {
-    "exec-board": "Điều hành",
-    "div9-critique-ux-lab": "Khối 9: Phản biện & Tester",
-    "div1-strategy-intel": "Khối 1: Chiến lược",
-    "div2-product-design": "Khối 2: Sản phẩm & UX",
-    "div3-engineering-ai": "Khối 3: Kỹ thuật & AI",
-    "div4-qa-cybersecurity": "Khối 4: An ninh & QA",
-    "div5-media-youtube-studio": "Khối 5: Video & Kênh",
-    "div6-sales-commercial": "Khối 6: Bán hàng",
-    "div7-finance-tax-legal": "Khối 7: Tài chính & Thuế",
-    "div8-data-ops-hr": "Khối 8: Vận hành & HR"
+    "exec-board": "Ban Điều hành",
+    "div9-critique-ux-lab": "Khối 9: Phản biện và Kiểm thử khách hàng",
+    "div1-strategy-intel": "Khối 1: Chiến lược và Thị trường",
+    "div2-product-design": "Khối 2: Sản phẩm và Thiết kế",
+    "div3-engineering-ai": "Khối 3: Kỹ thuật và Công nghệ",
+    "div4-qa-cybersecurity": "Khối 4: Kiểm định và An ninh",
+    "div5-media-youtube-studio": "Khối 5: Nội dung và Truyền thông",
+    "div6-sales-commercial": "Khối 6: Kinh doanh và Bán hàng",
+    "div7-finance-tax-legal": "Khối 7: Tài chính và Pháp chế",
+    "div8-data-ops-hr": "Khối 8: Dữ liệu và Vận hành"
   };
 
-  const EXACT_WORD_CASING = {
-    "ai": "AI", "ux": "UX", "ui": "UI", "qa": "QA", "cfo": "CFO", "ceo": "CEO",
-    "bi": "BI", "hr": "HR", "pm": "PM", "pmo": "PMO", "pr": "PR", "it": "IT",
-    "seo": "SEO", "geo": "GEO", "aeo": "AEO", "cro": "CRO", "ctr": "CTR",
-    "sdr": "SDR", "fp&a": "FP&A", "r&d": "R&D", "pwa": "PWA", "usd": "USD",
-    "vnđ": "VNĐ", "tmđt": "TMĐT", "sme": "SME", "api": "API", "sql": "SQL",
-    "pdf": "PDF", "kpi": "KPI", "okr": "OKR", "roi": "ROI", "sla": "SLA",
-    "mvp": "MVP", "prd": "PRD", "vip": "VIP", "b2b": "B2B", "b2c": "B2C",
-    "iot": "IoT", "saas": "SaaS", "youtube": "YouTube", "tiktok": "TikTok",
-    "github": "GitHub", "google": "Google", "zalo": "Zalo", "shopee": "Shopee",
-    "facebook": "Facebook", "pre-mortem": "Pre-Mortem"
+  const CANONICAL_DEPT_TITLES_VI = {
+    "00": "Tổng Giám đốc và Chánh Văn phòng",
+    "01": "Tình báo Thị trường Toàn cầu",
+    "02": "Nghiên cứu Tâm lý và Hành vi Khách hàng",
+    "03": "Phân tích Đối thủ Cạnh tranh",
+    "04": "Nghiên cứu Công nghệ mới và Trí tuệ nhân tạo",
+    "05": "Kiến trúc Mô hình Kinh doanh",
+    "06": "Quản trị Sản phẩm",
+    "07": "Nghiên cứu Trải nghiệm Người dùng",
+    "08": "Thiết kế Giao diện Cao cấp",
+    "09": "Thiết kế Chuyển động và Tương tác",
+    "10": "Xây dựng Thương hiệu",
+    "11": "Điều phối Tiến độ Dự án",
+    "12": "Kiến trúc Hệ thống Trưởng",
+    "13": "Kỹ thuật Giao diện Web",
+    "14": "Phát triển Ứng dụng Di động",
+    "15": "Kỹ thuật Máy chủ và Cổng Thanh toán",
+    "16": "Kỹ sư Trí tuệ nhân tạo và Tự động hóa",
+    "17": "Quản trị Cơ sở Dữ liệu",
+    "18": "Kỹ thuật Nhúng và Thiết bị Thông minh",
+    "19": "Hạ tầng Đám mây và Vận hành Hệ thống",
+    "20": "Kiểm thử Phần mềm và Tự động hóa",
+    "21": "Kiểm thử Chịu tải và Tốc độ Hệ thống",
+    "22": "Kiểm định Độ chuẩn xác và An toàn Trí tuệ nhân tạo",
+    "23": "An ninh mạng và Chống xâm nhập",
+    "24": "Bảo vệ Dữ liệu Cá nhân và Cô lập Khách hàng",
+    "25": "Chiến lược Hệ thống Kênh Video ngắn",
+    "26": "Biên kịch Thu hút và Câu mở đầu 3 giây",
+    "27": "Đạo diễn Hình ảnh và Kỹ xảo Video",
+    "28": "Đạo diễn Âm thanh và Lồng tiếng",
+    "29": "Thiết kế Ảnh bìa và Tối ưu Tỷ lệ bấm",
+    "30": "Tối ưu Tìm kiếm Đa nền tảng",
+    "31": "Quảng cáo và Tối ưu Phễu Chuyển đổi",
+    "32": "Tìm kiếm Khách hàng Tiềm năng",
+    "33": "Chốt đơn Giá trị cao và Gói thuê bao",
+    "34": "Kinh doanh Quốc tế và Tiếp thị Liên kết",
+    "35": "Bàn giao và Hướng dẫn Khách hàng 180 giây",
+    "36": "Giữ chân Khách hàng và Bán thêm",
+    "37": "Kế toán Tổng hợp và Đối soát Dòng tiền",
+    "38": "Định giá và Phân tích Lợi nhuận",
+    "39": "Chuyên gia Thuế và Hóa đơn Điện tử",
+    "40": "Pháp chế và Hợp đồng Thương mại",
+    "41": "Bản quyền và Chính sách Nền tảng",
+    "42": "Phân tích Dữ liệu Kinh doanh",
+    "43": "Tự động hóa Quy trình Nội bộ",
+    "44": "Lưu trữ Tri thức và Bộ nhớ Tập đoàn",
+    "45": "Tuyển dụng, Đào tạo và Kiểm định Chuyên gia",
+    "46": "Hội đồng Phản biện Mô hình Kiếm tiền và Rủi ro",
+    "47": "Thanh tra Phản biện Chéo từng Phòng ban",
+    "48": "Kiểm thử viên đóng vai 5 nhóm Khách hàng thật",
+    "49": "Thanh tra Tối giản Giao diện và Đếm số chạm",
+    "50": "Trinh sát Cơ hội và Thiết kế Sản phẩm Sinh lời"
   };
+
+  const WORKER_VI_MAP = {
+    "@researcher": "Trinh sát Thị trường và Đối thủ",
+    "@trinh-sat-thi-truong": "Trinh sát Thị trường và Đối thủ",
+    "@cfo": "Chuyên gia Tài chính và Giá bán",
+    "@tai-chinh-thue": "Chuyên gia Tài chính và Thuế",
+    "@critic": "Hội đồng Phản biện Rủi ro",
+    "@phan-bien-doc-lap": "Hội đồng Phản biện và An ninh",
+    "@ky-su-san-pham": "Kỹ sư Phát triển Sản phẩm",
+    "@doi-ban-hang": "Đội Đóng gói và Bán hàng",
+    "@tester-khach-hang": "Kiểm thử viên Khách hàng thật",
+    "@kien-truc-giao-dien": "Kiến trúc sư Giao diện",
+    "@ket-noi-truc-tuyen": "Kỹ sư Kết nối Trực tuyến",
+    "@coordinator": "Tổng Điều phối",
+    "@dieu-phoi": "Tổng Điều phối"
+  };
+
+  const MSG_TYPE_VI = {
+    HANDOFF: { label: "Chuyền việc", cls: "badge-run", icon: "arrow-right" },
+    UPDATE: { label: "Đang xử lý", cls: "badge-idle", icon: "clock" },
+    CRITIQUE: { label: "Phản biện rủi ro", cls: "badge-wait", icon: "shield-check" },
+    QA_REPORT: { label: "Kiểm thử khách hàng", cls: "badge-wait", icon: "check-square" },
+    DONE: { label: "Hoàn tất", cls: "badge-done", icon: "check" },
+    APPROVAL: { label: "Duyệt cổng", cls: "badge-done", icon: "flag" }
+  };
+
+  const LEGACY_TITLE_RE = /\(@[a-z0-9_-]+\)|\((?:pm|ux|ui|pmo|ctr|cro|fp&a|bi|outbound sdr|high-ticket[^)]*|retention[^)]*|seo[^)]*|youtube[^)]*)\)|\b(?:r&d|pwa|iot|server|pre-mortem|tester|triệu view)\b/i;
 
   const state = {
     tab: "command",
     staticMode: false,
+    onlineSource: "CONNECTING",
+    lastSyncAt: "",
     overview: null,
-    bridge: { online: false, mode: "ANTIGRAVITY_SWARM", active_workers: [], pending_orders_count: 0 },
+    bridge: { online: false, active_workers: [], pending_orders_count: 0 },
     orders: [],
     swarmMessages: [],
     missionViewTabs: {},
@@ -97,18 +168,21 @@
     newsStarFilter: "all",
     selectedTaskIds: new Set(),
     expandedNewsIds: new Set(),
-    expandedStepIds: new Set(),
     selectedProjectId: "",
     currentDocFile: "",
     docEditMode: false,
     cmdIndex: 0,
     cmdItems: [],
     sse: null,
-    bridgeTimer: null
+    bridgeTimer: null,
+    reconnectTimer: null
   };
 
+  let API_BASE = "";
+  let sessionUnlockedCloud = null;
+
   // -------------------------------------------------------------------------
-  // 1. SAFE FORMATTING, VIETNAMESE TYPOGRAPHY & MARKDOWN ENGINE
+  // 1. SAFE HTML, ICON HELPER, VIETNAMESE SANITIZER & MARKDOWN RENDERER
   // -------------------------------------------------------------------------
   function esc(val) {
     if (val === null || val === undefined) return "";
@@ -120,12 +194,16 @@
       .replace(/'/g, "&#39;");
   }
 
+  function ico(name, extra = "ico-xs") {
+    return `<svg class="ico ${extra}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
+  }
+
   function vnd(n) {
     return (Number(n) || 0).toLocaleString("vi-VN") + " đ";
   }
 
   function formatDotNumber(n) {
-    return (Math.round(Number(n) || 0)).toLocaleString("vi-VN");
+    return Math.round(Number(n) || 0).toLocaleString("vi-VN");
   }
 
   function parseMoneyInput(val, fallback = 0) {
@@ -138,7 +216,8 @@
     return String(str || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
-      .replace(/đ/g, "d").replace(/Đ/g, "D")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "") || "tai-lieu-moi";
@@ -151,33 +230,75 @@
     return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
   }
 
-  function calmTitle(raw) {
+  function sanitizeUiVietnamese(raw) {
     if (!raw) return "";
-    let s = String(raw).replace(/\s*\(@[a-z0-9_-]+\)/gi, "").trim();
-    if (!s) return "";
-    const lower = s.toLowerCase();
-    const base = lower.charAt(0).toUpperCase() + lower.slice(1);
-    return base.replace(/(?<![a-zA-ZÀ-ỹ0-9&])([a-zA-ZÀ-ỹ0-9&-]+)(?![a-zA-ZÀ-ỹ0-9&])/g, (match) => {
-      const k = match.toLowerCase();
-      return EXACT_WORD_CASING[k] || match;
-    });
+    let s = String(raw);
+    s = s.replace(/[\u2014\u2013]/g, ": ");
+    s = s.replace(/\s*\(@[a-z0-9_-]+\)/gi, "");
+    s = s.replace(/\s*\((?:PM|UX|UI|PMO|CRO|FP&A|BI|CTR|SEO\s*\/\s*GEO\s*\/\s*AEO|OUTBOUND SDR|HIGH-TICKET[^)]*|RETENTION[^)]*)\)/gi, "");
+    const replacements = [
+      [/Antigravity Swarm/gi, "Đội ngũ Chuyên gia Titan"],
+      [/Antigravity/gi, "Hệ thống Titan"],
+      [/Pre-Mortem/gi, "Phản biện rủi ro"],
+      [/BUILD_PRODUCT/g, "Sản xuất sản phẩm cuối"],
+      [/Code\s*\/\s*Web\s*\/\s*App/gi, "Ứng dụng Web và Di động"],
+      [/Landing Page/gi, "Trang giới thiệu bán hàng"],
+      [/Tester đóng vai/gi, "Kiểm thử viên đóng vai"],
+      [/\bTester\b/gi, "Kiểm thử khách hàng"],
+      [/\bCFO\b/g, "Tài chính và Giá bán"],
+      [/\bQA\b/g, "Kiểm định chất lượng"],
+      [/\bPAT\b/g, "khóa truy cập"],
+      [/\bKPI\b/g, "chỉ số"],
+      [/\bCSV\b/g, "bảng dữ liệu"],
+      [/@researcher\b/gi, "Trinh sát Thị trường"],
+      [/@cfo\b/gi, "Chuyên gia Tài chính"],
+      [/@critic\b/gi, "Hội đồng Phản biện rủi ro"],
+      [/@coordinator\b/gi, "Tổng Điều phối"],
+      [/@ky-su-san-pham\b/gi, "Kỹ sư Sản phẩm"],
+      [/@doi-ban-hang\b/gi, "Đội Đóng gói và Bán hàng"],
+      [/@tester-khach-hang\b/gi, "Kiểm thử khách hàng"]
+    ];
+    for (const [pattern, target] of replacements) {
+      s = s.replace(pattern, target);
+    }
+    return s.replace(/\s{2,}/g, " ").trim();
+  }
+
+  function cleanDeptTitleVi(deptId, rawTitle) {
+    const idKey = String(deptId || "").padStart(2, "0");
+    const raw = String(rawTitle || "").trim();
+    if (!raw) return CANONICAL_DEPT_TITLES_VI[idKey] || `Phòng #${deptId}`;
+    const isAllUpper = raw === raw.toUpperCase() && raw.length > 6;
+    if (CANONICAL_DEPT_TITLES_VI[idKey] && (isAllUpper || LEGACY_TITLE_RE.test(raw))) {
+      return CANONICAL_DEPT_TITLES_VI[idKey];
+    }
+    return sanitizeUiVietnamese(raw);
   }
 
   function deptTitle(deptId) {
     const found = state.departments.find((d) => d.dept_id === deptId);
-    return found ? calmTitle(found.title_vi) : `Phòng #${deptId}`;
+    if (found) return cleanDeptTitleVi(found.dept_id, found.title_vi);
+    return CANONICAL_DEPT_TITLES_VI[String(deptId || "").padStart(2, "0")] || `Phòng #${deptId}`;
+  }
+
+  function viWorkerLabel(slug) {
+    if (!slug) return "";
+    const k = String(slug).trim().toLowerCase();
+    const key = k.startsWith("@") ? k : `@${k}`;
+    if (WORKER_VI_MAP[key]) return WORKER_VI_MAP[key];
+    return sanitizeUiVietnamese(String(slug).replace(/^@/, "").replace(/-/g, " "));
   }
 
   function formatInlineMd(rawText) {
     const codeTokens = [];
     const withPlaceholders = String(rawText || "").replace(/`([^`]+)`/g, (_m, inner) => {
       const idx = codeTokens.length;
-      codeTokens.push(`<code class="mono" style="background:var(--bg-subtle);padding:1px 5px;border-radius:4px;">${esc(inner)}</code>`);
+      codeTokens.push(`<code class="mono">${esc(inner)}</code>`);
       return `\u0000CODE${idx}\u0000`;
     });
 
     let safe = esc(withPlaceholders)
-      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1 ↗</a>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, "<em>$1</em>");
 
@@ -190,12 +311,9 @@
   function renderCleanMarkdown(mdText) {
     if (!mdText) return "<p>Chưa có nội dung.</p>";
     let body = String(mdText);
-    // Strip YAML frontmatter block --- ... ---
     if (body.startsWith("---")) {
       const endFm = body.indexOf("\n---", 3);
-      if (endFm !== -1) {
-        body = body.slice(endFm + 4);
-      }
+      if (endFm !== -1) body = body.slice(endFm + 4);
     }
     const lines = body.split(/\r?\n/);
     let html = "";
@@ -209,16 +327,16 @@
       if (line === "---") continue;
       if (line.startsWith("# ")) {
         if (inList) { html += "</ul>"; inList = false; }
-        html += `<h2>${formatInlineMd(calmTitle(line.slice(2)))}</h2>`;
+        html += `<h2>${formatInlineMd(sanitizeUiVietnamese(line.slice(2)))}</h2>`;
       } else if (line.startsWith("## ") || line.startsWith("### ")) {
         if (inList) { html += "</ul>"; inList = false; }
-        html += `<h3>${formatInlineMd(line.replace(/^#+\s*/, ""))}</h3>`;
+        html += `<h3>${formatInlineMd(sanitizeUiVietnamese(line.replace(/^#+\s*/, "")))}</h3>`;
       } else if (line.startsWith("- ") || line.startsWith("* ") || /^\d+\.\s/.test(line)) {
         if (!inList) { html += "<ul>"; inList = true; }
-        html += `<li>${formatInlineMd(line.replace(/^([-*]|\d+\.)\s*/, ""))}</li>`;
+        html += `<li>${formatInlineMd(sanitizeUiVietnamese(line.replace(/^([-*]|\d+\.)\s*/, "")))}</li>`;
       } else {
         if (inList) { html += "</ul>"; inList = false; }
-        html += `<p style="margin:6px 0;">${formatInlineMd(line)}</p>`;
+        html += `<p>${formatInlineMd(sanitizeUiVietnamese(line))}</p>`;
       }
     }
     if (inList) html += "</ul>";
@@ -230,7 +348,9 @@
     if (!stack) return;
     const el = document.createElement("div");
     el.className = "toast-item";
-    el.innerHTML = `<span>${esc(message)}</span>`;
+    const span = document.createElement("span");
+    span.textContent = sanitizeUiVietnamese(message);
+    el.appendChild(span);
     if (undoPayload) {
       const btn = document.createElement("button");
       btn.type = "button";
@@ -245,24 +365,245 @@
     stack.appendChild(el);
     setTimeout(() => {
       el.style.opacity = "0";
-      setTimeout(() => el.remove(), 200);
-    }, undoPayload ? 6000 : 3200);
+      setTimeout(() => el.remove(), 220);
+    }, undoPayload ? 5500 : 3400);
   }
 
+  // Non-dimming Loading State with accessible spinner
   async function withLock(btnEl, asyncFn) {
     if (btnEl && btnEl.disabled) return;
-    if (btnEl) btnEl.disabled = true;
+    let spinner = null;
+    if (btnEl) {
+      btnEl.disabled = true;
+      btnEl.classList.add("is-loading");
+      btnEl.setAttribute("aria-busy", "true");
+      spinner = document.createElement("span");
+      spinner.className = "btn-spinner";
+      spinner.setAttribute("aria-hidden", "true");
+      btnEl.insertBefore(spinner, btnEl.firstChild);
+    }
     try {
       await asyncFn();
     } catch (err) {
-      toast(err.message || "Đã xảy ra lỗi khi xử lý.");
+      toast((err && err.message) || "Đã xảy ra lỗi khi xử lý yêu cầu.");
     } finally {
-      if (btnEl) btnEl.disabled = false;
+      if (btnEl) {
+        if (spinner && spinner.parentNode === btnEl) spinner.remove();
+        btnEl.classList.remove("is-loading");
+        btnEl.removeAttribute("aria-busy");
+        btnEl.disabled = false;
+      }
     }
   }
 
   // -------------------------------------------------------------------------
-  // 2. WEBCRYPTO AES-256-GCM VAULT FOR GITHUB 2-WAY CLOUD SYNC
+  // 2. CUSTOM ACCESSIBLE LISTBOX ENGINE (ZERO NATIVE <select>)
+  // -------------------------------------------------------------------------
+  const listboxRegistry = new Map();
+
+  function closeAllListboxes(exceptId = "") {
+    listboxRegistry.forEach((ctrl, id) => {
+      if (id !== exceptId) ctrl.close(false);
+    });
+    document.querySelectorAll(".listbox-field[data-dynamic-listbox]").forEach((wrap) => {
+      const trig = wrap.querySelector(".listbox-trigger");
+      const menu = wrap.querySelector(".listbox-menu");
+      if (trig && menu && wrap.getAttribute("data-dynamic-listbox") !== exceptId) {
+        trig.setAttribute("aria-expanded", "false");
+        menu.hidden = true;
+      }
+    });
+  }
+
+  function setupListboxElement(wrapEl, id, onChangeCb = null) {
+    const input = wrapEl.querySelector("input[type='hidden']");
+    const trigger = wrapEl.querySelector(".listbox-trigger");
+    const valSpan = wrapEl.querySelector(".listbox-value");
+    const menu = wrapEl.querySelector(".listbox-menu");
+    if (!input || !trigger || !valSpan || !menu) return null;
+
+    let options = [];
+    let activeIdx = 0;
+
+    const getOptionEls = () => Array.from(menu.querySelectorAll(".listbox-option"));
+
+    const highlight = (idx) => {
+      const els = getOptionEls();
+      if (!els.length) return;
+      activeIdx = Math.max(0, Math.min(els.length - 1, idx));
+      els.forEach((el, i) => {
+        el.classList.toggle("is-active", i === activeIdx);
+      });
+      els[activeIdx].scrollIntoView({ block: "nearest" });
+    };
+
+    const setValue = (val, silent = true) => {
+      const strVal = val === null || val === undefined ? "" : String(val);
+      const idx = options.findIndex((o) => String(o.value) === strVal);
+      const chosen = idx >= 0 ? options[idx] : options[0];
+      if (!chosen) {
+        input.value = strVal;
+        return;
+      }
+      const changed = input.value !== String(chosen.value);
+      input.value = String(chosen.value);
+      valSpan.textContent = chosen.label;
+      activeIdx = idx >= 0 ? idx : 0;
+      getOptionEls().forEach((el, i) => {
+        el.setAttribute("aria-selected", i === activeIdx ? "true" : "false");
+      });
+      if (!silent && changed) {
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+        if (onChangeCb) onChangeCb(input.value);
+      }
+    };
+
+    const open = () => {
+      closeAllListboxes(id);
+      menu.hidden = false;
+      trigger.setAttribute("aria-expanded", "true");
+      const curIdx = Math.max(0, options.findIndex((o) => String(o.value) === input.value));
+      highlight(curIdx);
+      menu.focus({ preventScroll: true });
+    };
+
+    const close = (returnFocus = false) => {
+      if (menu.hidden) return;
+      menu.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+      if (returnFocus) trigger.focus({ preventScroll: true });
+    };
+
+    const setOptions = (items, preserve = true) => {
+      const prev = preserve ? input.value : "";
+      options = items.map((it) => ({ value: String(it.value), label: String(it.label) }));
+      menu.innerHTML = options.map((o, i) => `
+        <li class="listbox-option" role="option" data-value="${esc(o.value)}" data-idx="${i}" aria-selected="false">
+          <span>${esc(o.label)}</span>
+          ${ico("check", "ico-xs ico-check")}
+        </li>
+      `).join("");
+      getOptionEls().forEach((el) => {
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setValue(el.getAttribute("data-value"), false);
+          close(true);
+        });
+      });
+      const hasPrev = preserve && options.some((o) => o.value === prev);
+      setValue(hasPrev ? prev : (options[0] ? options[0].value : ""), true);
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (menu.hidden) open();
+      else close(true);
+    });
+
+    trigger.addEventListener("keydown", (e) => {
+      if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(e.key)) {
+        e.preventDefault();
+        open();
+      }
+    });
+
+    menu.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        highlight((activeIdx + 1) % Math.max(1, options.length));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        highlight((activeIdx - 1 + options.length) % Math.max(1, options.length));
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        highlight(0);
+      } else if (e.key === "End") {
+        e.preventDefault();
+        highlight(options.length - 1);
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (options[activeIdx]) setValue(options[activeIdx].value, false);
+        close(true);
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        close(true);
+      } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const ch = e.key.toLowerCase();
+        const found = options.findIndex((o, idx) => idx > activeIdx && o.label.toLowerCase().startsWith(ch));
+        const fallback = found >= 0 ? found : options.findIndex((o) => o.label.toLowerCase().startsWith(ch));
+        if (fallback >= 0) highlight(fallback);
+      }
+    });
+
+    return { open, close, setOptions, setValue, getValue: () => input.value, hasOptions: () => options.length > 0 };
+  }
+
+  function initStaticListboxes() {
+    document.querySelectorAll(".listbox-field[data-listbox]").forEach((wrap) => {
+      const id = wrap.getAttribute("data-listbox");
+      const ctrl = setupListboxElement(wrap, id);
+      if (ctrl) listboxRegistry.set(id, ctrl);
+    });
+
+    const colOptionsAll = [
+      { value: "", label: "Mọi trạng thái" },
+      { value: "BACKLOG", label: COL_LABELS.BACKLOG },
+      { value: "IN_PROGRESS", label: COL_LABELS.IN_PROGRESS },
+      { value: "QA_SECURITY_REVIEW", label: COL_LABELS.QA_SECURITY_REVIEW },
+      { value: "WAITING_APPROVAL", label: COL_LABELS.WAITING_APPROVAL },
+      { value: "REJECTED", label: COL_LABELS.REJECTED },
+      { value: "DONE", label: COL_LABELS.DONE }
+    ];
+    const colOptionsTask = colOptionsAll.slice(1);
+
+    const prioOptionsAll = [
+      { value: "", label: "Mọi độ ưu tiên" },
+      { value: "CRITICAL", label: PRIO_LABELS.CRITICAL },
+      { value: "HIGH", label: PRIO_LABELS.HIGH },
+      { value: "MEDIUM", label: PRIO_LABELS.MEDIUM },
+      { value: "LOW", label: PRIO_LABELS.LOW }
+    ];
+    const prioOptionsTask = prioOptionsAll.slice(1);
+
+    const projStatusOptions = Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ value, label }));
+
+    setListboxOptions("filter-task-col", colOptionsAll, false);
+    setListboxOptions("inp-task-col", colOptionsTask, false);
+    setListboxOptions("filter-task-prio", prioOptionsAll, false);
+    setListboxOptions("inp-task-prio", prioOptionsTask, false);
+    setListboxValue("inp-task-prio", "HIGH", true);
+    setListboxOptions("inp-proj-status", projStatusOptions, false);
+
+    document.addEventListener("click", () => closeAllListboxes());
+  }
+
+  function setListboxOptions(id, items, preserve = true, skipIfModalId = "") {
+    const ctrl = listboxRegistry.get(id);
+    if (!ctrl) return;
+    if (skipIfModalId) {
+      const modalEl = document.getElementById(skipIfModalId);
+      if (modalEl && modalEl.classList.contains("open") && ctrl.hasOptions()) return;
+    }
+    ctrl.setOptions(items, preserve);
+  }
+
+  function setListboxValue(id, value, silent = true) {
+    const ctrl = listboxRegistry.get(id);
+    if (ctrl) ctrl.setValue(value, silent);
+    else {
+      const inp = document.getElementById(id);
+      if (inp) inp.value = value;
+    }
+  }
+
+  function getListboxValue(id) {
+    const inp = document.getElementById(id);
+    return inp ? inp.value : "";
+  }
+
+  // -------------------------------------------------------------------------
+  // 3. WEBCRYPTO AES-256-GCM ENCRYPTED CLOUD SYNC VAULT
   // -------------------------------------------------------------------------
   const cryptoVault = {
     toB64(bytes) {
@@ -312,7 +653,7 @@
     },
     async unlock(pin) {
       const raw = localStorage.getItem("titan_vault_v5");
-      if (!raw) throw new Error("Chưa lưu khóa GitHub trên thiết bị này. Hãy nhập Token và bấm 'Mã hóa & Lưu két' trước.");
+      if (!raw) throw new Error("Chưa lưu khóa kết nối đám mây trên thiết bị này. Hãy mã hóa và lưu két trước.");
       const rec = JSON.parse(raw);
       try {
         const key = await this.deriveKey(pin, this.fromB64(rec.salt));
@@ -323,27 +664,18 @@
         );
         return JSON.parse(new TextDecoder().decode(plain));
       } catch (_e) {
-        throw new Error("Mã PIN mở két không đúng.");
+        throw new Error("Mã bảo vệ két không chính xác.");
       }
     }
   };
 
   // -------------------------------------------------------------------------
-  // 3. STRICT API LAYER (Separates HTTP 4xx/5xx from Network Static Fallback!)
+  // 4. SINGLE ONLINE FLOW (online_endpoint.json -> DIRECT -> SNAPSHOT FALLBACK)
   // -------------------------------------------------------------------------
-  function getLocalFallbackStore() {
-    try {
-      const raw = localStorage.getItem("titan_v5_cloud_local_store");
-      return raw ? JSON.parse(raw) : null;
-    } catch (_e) {
-      return null;
-    }
-  }
-
-  function saveLocalFallbackStore() {
+  function saveOfflineViewCache() {
     if (!state.staticMode) return;
     try {
-      localStorage.setItem("titan_v5_cloud_local_store", JSON.stringify({
+      localStorage.setItem("titan_v7_offline_cache", JSON.stringify({
         missions: state.missions,
         opportunities: state.opportunities,
         tasks: state.tasks,
@@ -353,34 +685,69 @@
     } catch (_e) {}
   }
 
-  let API_BASE = "";
+  async function probeHealthEndpoint(baseUrl, timeoutMs = 3200) {
+    const cleanBase = String(baseUrl || "").replace(/\/+$/, "");
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      const res = await fetch(`${cleanBase}/api/health`, {
+        signal: ctrl.signal,
+        cache: "no-store"
+      });
+      clearTimeout(timer);
+      const ct = res.headers.get("content-type") || "";
+      if (res.ok && ct.includes("application/json")) {
+        const data = await res.json();
+        if (data && data.status === "ok") return true;
+      }
+    } catch (_e) {
+      clearTimeout(timer);
+    }
+    return false;
+  }
 
-  async function detectLocalBridgeHost() {
-    if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
+  async function detectOnlineEndpoint() {
+    // 1. Auto-discover public HTTPS bridge from cloud_state/online_endpoint.json
+    const epCandidates = [
+      `./cloud_state/online_endpoint.json?t=${Date.now()}`,
+      `../corporate_hq/cloud_state/online_endpoint.json?t=${Date.now()}`
+    ];
+    for (const epUrl of epCandidates) {
+      try {
+        const r = await fetch(epUrl, { cache: "no-store" });
+        const ct = r.headers.get("content-type") || "";
+        if (!r.ok || !ct.includes("application/json")) continue;
+        const meta = await r.json();
+        const candidateUrl = String((meta && meta.online_api_url) || "").trim().replace(/\/+$/, "");
+        if (candidateUrl && /^https?:\/\//i.test(candidateUrl) && String(meta.status || "").toUpperCase() !== "OFFLINE") {
+          const alive = await probeHealthEndpoint(candidateUrl, 3600);
+          if (alive) {
+            API_BASE = candidateUrl;
+            state.staticMode = false;
+            state.onlineSource = "TUNNEL";
+            return true;
+          }
+        }
+        break;
+      } catch (_e) {}
+    }
+
+    // 2. Check same-origin online API (when opened directly via live backend address)
+    if (await probeHealthEndpoint("", 2000)) {
       API_BASE = "";
+      state.staticMode = false;
+      state.onlineSource = "DIRECT";
       return true;
     }
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 1400);
-      const r = await fetch("http://127.0.0.1:8765/api/health", { signal: ctrl.signal, cache: "no-store" });
-      clearTimeout(timer);
-      if (r.ok) {
-        const j = await r.json();
-        if (j && j.status === "ok") {
-          API_BASE = "http://127.0.0.1:8765";
-          state.staticMode = false;
-          try { localStorage.removeItem("titan_v5_cloud_local_store"); } catch (_e) {}
-          return true;
-        }
-      }
-    } catch (_e) {}
+
+    // 3. Fallback to latest published snapshot (read/queue mode until online bridge resumes)
+    state.onlineSource = "OFFLINE";
     return false;
   }
 
   async function api(path, method = "GET", body = null) {
     if (state.staticMode && path.startsWith("/api/")) {
-      return handleStaticFallback(path, method, body);
+      return handleOfflineFallback(path, method, body);
     }
 
     const fullUrl = path.startsWith("/api/") ? `${API_BASE}${path}` : path;
@@ -392,42 +759,40 @@
         body: body ? JSON.stringify(body) : null
       });
     } catch (networkErr) {
-      // Pure network failure (e.g. serverless GitHub Pages on Phone without PC localhost)
       if (path.startsWith("/api/")) {
-        return activateAndHandleStaticFallback(path, method, body, networkErr);
+        return activateOfflineFallback(path, method, body, networkErr);
       }
       throw networkErr;
     }
 
     const ct = res.headers.get("content-type") || "";
-    // On GitHub Pages, /api/* returns an HTML 404 page instead of JSON API!
     if (res.status === 404 && !ct.includes("application/json") && path.startsWith("/api/")) {
-      return activateAndHandleStaticFallback(path, method, body, new Error("Static host"));
+      return activateOfflineFallback(path, method, body, new Error("Chế độ ngoại tuyến"));
     }
 
     if (!res.ok) {
-      let msg = `Lỗi HTTP ${res.status}`;
+      let msg = `Lỗi kết nối mã ${res.status}`;
       try {
         const j = await res.json();
         msg = j.error || msg;
       } catch (_e) {}
-      throw new Error(msg);
+      throw new Error(sanitizeUiVietnamese(msg));
     }
     return await res.json();
   }
 
-  async function activateAndHandleStaticFallback(path, method, body, origErr) {
+  async function activateOfflineFallback(path, method, body, origErr) {
     if (!state.staticMode) {
-      for (const snapUrl of ["./cloud_state/snapshot.json", "../corporate_hq/cloud_state/snapshot.json"]) {
+      for (const snapUrl of [`./cloud_state/snapshot.json?t=${Date.now()}`, `../corporate_hq/cloud_state/snapshot.json?t=${Date.now()}`]) {
         try {
           const sr = await fetch(snapUrl, { cache: "no-cache" });
           if (sr.ok) {
             const snap = await sr.json();
             state.staticMode = true;
-            state.bridge = snap.bridge || { online: false, mode: "ANTIGRAVITY_SWARM", active_workers: [], pending_orders_count: 0 };
+            state.onlineSource = "OFFLINE";
+            state.bridge = snap.bridge || { online: false, active_workers: [], pending_orders_count: 0 };
             state.orders = snap.orders || [];
             state.swarmMessages = snap.swarm_messages || [];
-            // Always prefer fresh cloud snapshot from Antigravity Swarm over stale localStorage!
             state.divisions = snap.divisions || [];
             state.departments = snap.departments || [];
             state.missions = snap.missions || [];
@@ -435,16 +800,17 @@
             state.tasks = snap.tasks || [];
             state.projects = snap.projects || [];
             state.articles = snap.knowledge_atoms || [];
+            state.lastSyncAt = snap.exported_at || new Date().toISOString();
             break;
           }
         } catch (_e) {}
       }
     }
     if (!state.staticMode) throw origErr;
-    return handleStaticFallback(path, method, body);
+    return handleOfflineFallback(path, method, body);
   }
 
-  function handleStaticFallback(path, method, body) {
+  function handleOfflineFallback(path, method, body) {
     if (method === "GET") {
       if (path.startsWith("/api/overview")) {
         return {
@@ -464,10 +830,11 @@
       const md = path.match(/^\/api\/departments\/(.+)$/);
       if (md) {
         const d = state.departments.find((x) => x.dept_id === md[1]);
+        if (!d) return {};
         const divLabel = DIV_SHORT_NAMES[d.division_code] || d.division_code;
         return {
           ...d,
-          handbook_markdown: d.handbook_markdown || `# ${d.title_vi}\n- Đơn vị: **${divLabel}**`,
+          handbook_markdown: d.handbook_markdown || `# ${cleanDeptTitleVi(d.dept_id, d.title_vi)}\n- Đơn vị: **${divLabel}**`,
           learned_articles: state.articles.filter((a) => a.dept_id === d.dept_id),
           reflexions: []
         };
@@ -479,7 +846,7 @@
       if (path.startsWith("/api/projects")) return { projects: state.projects, files: [] };
       if (path.startsWith("/api/sync/snapshot")) {
         return {
-          schema_version: "6.0",
+          schema_version: "7.0",
           bridge: state.bridge,
           divisions: state.divisions,
           departments: state.departments,
@@ -493,7 +860,6 @@
       }
     }
 
-    // Static / Mobile Mode (GitHub Pages): Queue real Antigravity orders (NEVER fake simulated steps!)
     if (method === "POST" && path === "/api/missions") {
       const msn = buildClientMission(body.title || body.goal_prompt, body.auto_approve);
       state.missions.unshift(msn);
@@ -503,13 +869,13 @@
         mission_id: msn.mission_id,
         title: msn.title,
         instructions: msn.goal_prompt,
-        source_device: "mobile-github-pages",
+        source_device: "web-online",
         status: "PENDING",
         created_at: new Date().toISOString()
       };
       state.orders.unshift(ord);
-      saveLocalFallbackStore();
-      pushRemoteOrderToGitHub(ord).catch(() => {});
+      saveOfflineViewCache();
+      pushRemoteOrderToCloud(ord).catch(() => {});
       return { ...msn, order_id: ord.order_id, bridge_online: false };
     }
     if (method === "PATCH" && path.startsWith("/api/missions/")) {
@@ -519,44 +885,44 @@
         Object.assign(m, body);
         if (body.status === "RUNNING") m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
       }
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return m || {};
     }
     if (method === "POST" && path === "/api/missions/bulk") {
       if (body.action === "clear_completed") {
         const before = state.missions.length;
         state.missions = state.missions.filter((m) => m.status !== "COMPLETED");
-        saveLocalFallbackStore();
+        saveOfflineViewCache();
         return { affected: before - state.missions.length, deleted_ids: [] };
       }
     }
     if (method === "POST" && path === "/api/opportunities") {
       const no = { opp_id: `opp-${Date.now()}`, status: "NEW", breakeven_users: 5, survival_score: 86, ...body };
       state.opportunities.unshift(no);
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return no;
     }
     if (method === "PATCH" && path.startsWith("/api/opportunities/")) {
       const oid = path.split("/")[3];
       const o = state.opportunities.find((x) => x.opp_id === oid);
       if (o) Object.assign(o, body);
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return o || {};
     }
     if (method === "POST" && path === "/api/opportunities/scan") {
       const ord = {
         order_id: `ord-${Date.now().toString(36)}`,
         order_type: "SCAN_OPPORTUNITIES",
-        title: "Săn cơ hội đẻ ra tiền mới (Phòng #50 + #46 + #38)",
-        instructions: "Săn 2–3 cơ hội sản phẩm/dịch vụ dễ thu tiền mới nhất cho Chủ tịch.",
-        source_device: "mobile-github-pages",
+        title: "Săn cơ hội sinh lời mới (Phòng #50, #46, #38)",
+        instructions: "Tìm 3 cơ hội sản phẩm hoặc dịch vụ khả thi cao nhất hiện tại.",
+        source_device: "web-online",
         status: "PENDING",
         created_at: new Date().toISOString()
       };
       state.orders.unshift(ord);
-      saveLocalFallbackStore();
-      pushRemoteOrderToGitHub(ord).catch(() => {});
-      return { queued: true, order: ord, opportunities: state.opportunities, message: "Đã đưa lệnh săn cơ hội thật vào hàng đợi Antigravity!" };
+      saveOfflineViewCache();
+      pushRemoteOrderToCloud(ord).catch(() => {});
+      return { queued: true, order: ord, opportunities: state.opportunities, message: "Đã đưa yêu cầu săn cơ hội mới vào hàng đợi trực tuyến." };
     }
     if (method === "POST" && path.endsWith("/accept")) {
       const oid = path.split("/")[3];
@@ -571,13 +937,13 @@
           mission_id: msn.mission_id,
           title: opp.title,
           instructions: `Khách hàng: ${opp.target_customer}. Nỗi đau: ${opp.pain_point}`,
-          source_device: "mobile-github-pages",
+          source_device: "web-online",
           status: "PENDING",
           created_at: new Date().toISOString()
         };
         state.orders.unshift(ord);
-        saveLocalFallbackStore();
-        pushRemoteOrderToGitHub(ord).catch(() => {});
+        saveOfflineViewCache();
+        pushRemoteOrderToCloud(ord).catch(() => {});
         return { ...msn, order_id: ord.order_id, bridge_online: false };
       }
     }
@@ -590,19 +956,19 @@
         task_id: tid,
         title: t ? t.title : tid,
         instructions: t ? t.description || t.title : tid,
-        source_device: "mobile-github-pages",
+        source_device: "web-online",
         status: "PENDING",
         created_at: new Date().toISOString()
       };
       state.orders.unshift(ord);
-      saveLocalFallbackStore();
-      pushRemoteOrderToGitHub(ord).catch(() => {});
+      saveOfflineViewCache();
+      pushRemoteOrderToCloud(ord).catch(() => {});
       return { queued: true, order: ord };
     }
     if (method === "POST" && path === "/api/tasks") {
       const nt = { task_id: `task-${Date.now()}`, kanban_column: body.kanban_column || "BACKLOG", priority: body.priority || "HIGH", ...body };
       state.tasks.unshift(nt);
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return nt;
     }
     if (method === "POST" && path.endsWith("/duplicate")) {
@@ -611,7 +977,7 @@
       if (orig) {
         const copy = { ...orig, task_id: `task-${Date.now()}`, title: `${orig.title} (Bản sao)` };
         state.tasks.unshift(copy);
-        saveLocalFallbackStore();
+        saveOfflineViewCache();
         return copy;
       }
     }
@@ -619,7 +985,7 @@
       const tid = path.split("/")[3];
       const t = state.tasks.find((x) => x.task_id === tid);
       if (t) Object.assign(t, body);
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return t || {};
     }
     if (method === "POST" && path === "/api/tasks/bulk") {
@@ -634,29 +1000,34 @@
         state.tasks = state.tasks.filter((t) => !ids.has(t.task_id));
         affected = b - state.tasks.length;
       } else if (body.action === "move_column") {
-        state.tasks.forEach((t) => { if (ids.has(t.task_id)) { t.kanban_column = body.column; affected += 1; } });
+        state.tasks.forEach((t) => {
+          if (ids.has(t.task_id)) {
+            t.kanban_column = body.column;
+            affected += 1;
+          }
+        });
       }
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return { affected, deleted_ids: [] };
     }
     if (method === "POST" && path === "/api/projects") {
       const np = { project_id: `proj-${slugifyVi(body.slug || body.title)}`, status: body.status || "ACTIVE", ...body };
       state.projects.unshift(np);
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return np;
     }
     if (method === "PATCH" && path.startsWith("/api/projects/")) {
       const pid = path.split("/")[3];
       const p = state.projects.find((x) => x.project_id === pid);
       if (p) Object.assign(p, body);
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return p || {};
     }
     if (method === "PATCH" && path.startsWith("/api/knowledge/")) {
       const aid = Number(path.split("/")[3]);
       const a = state.articles.find((x) => Number(x.atom_id) === aid);
       if (a) a.is_starred = a.is_starred ? 0 : 1;
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return a || {};
     }
     if (method === "DELETE") {
@@ -666,7 +1037,7 @@
       if (parts[2] === "opportunities") state.opportunities = state.opportunities.filter((x) => x.opp_id !== parts[3]);
       if (parts[2] === "projects") state.projects = state.projects.filter((x) => x.project_id !== parts[3]);
       if (parts[2] === "knowledge") state.articles = state.articles.filter((x) => Number(x.atom_id) !== Number(parts[3]));
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       return { deleted: true };
     }
     if (method === "POST" && path.endsWith("/decision")) {
@@ -674,7 +1045,7 @@
       if (parts[2] === "missions") {
         const m = state.missions.find((x) => x.mission_id === parts[3]);
         if (m) {
-          const isProposalGate = (m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8);
+          const isProposalGate = m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8;
           if (body.decision === "APPROVE" && isProposalGate) {
             m.phase = "PRODUCTION";
             m.status = "RUNNING";
@@ -683,15 +1054,15 @@
             m.progress_pct = 50;
             m.steps.forEach((s) => {
               if (s.step_order <= 4) s.status = "DONE";
-              if (s.step_order === 5) s.live_activity_text = "Đã duyệt chốt kèo! Chờ Antigravity Swarm sản xuất sản phẩm thật...";
+              if (s.step_order === 5) s.live_activity_text = "Đã duyệt kèo. Đang chờ đội ngũ chuyên gia bắt đầu sản xuất sản phẩm.";
             });
-            pushRemoteOrderToGitHub({
+            pushRemoteOrderToCloud({
               order_id: `ord-${Date.now().toString(36)}`,
               order_type: "BUILD_PRODUCT",
               mission_id: m.mission_id,
-              title: `[Sản xuất SP cuối] ${m.title}`,
+              title: `[Sản xuất sản phẩm cuối] ${m.title}`,
               instructions: body.note || m.goal_prompt || m.title,
-              source_device: "mobile-github-pages",
+              source_device: "web-online",
               status: "PENDING",
               created_at: new Date().toISOString()
             }).catch(() => {});
@@ -701,13 +1072,13 @@
             m.dispatch_state = "COMPLETED";
             m.progress_pct = 100;
             m.steps.forEach((s) => { s.status = "DONE"; });
-            pushRemoteOrderToGitHub({
+            pushRemoteOrderToCloud({
               order_id: `ord-${Date.now().toString(36)}`,
               order_type: "MISSION_APPROVED",
               mission_id: m.mission_id,
               title: m.title,
-              instructions: body.note || "Chủ tịch nghiệm thu sản phẩm cuối từ điện thoại",
-              source_device: "mobile-github-pages",
+              instructions: body.note || "Đã nghiệm thu sản phẩm cuối.",
+              source_device: "web-online",
               status: "PENDING",
               created_at: new Date().toISOString()
             }).catch(() => {});
@@ -716,26 +1087,31 @@
             m.status = "RUNNING";
             m.dispatch_state = "QUEUED_FOR_ANTIGRAVITY";
             m.progress_pct = isProposalGate ? 15 : 50;
-            m.steps.forEach((s) => { if (s.step_order >= resetFrom) { s.status = "PENDING"; s.live_activity_text = `Đã gửi yêu cầu làm lại sang Antigravity: ${body.note || ""}`; } });
-            pushRemoteOrderToGitHub({
+            m.steps.forEach((s) => {
+              if (s.step_order >= resetFrom) {
+                s.status = "PENDING";
+                s.live_activity_text = `Đã gửi yêu cầu chỉnh sửa lại: ${body.note || ""}`;
+              }
+            });
+            pushRemoteOrderToCloud({
               order_id: `ord-${Date.now().toString(36)}`,
               order_type: "MISSION_REWORK",
               mission_id: m.mission_id,
               title: `[Làm lại] ${m.title}`,
-              instructions: body.note || "Chủ tịch yêu cầu làm lại kỹ hơn",
-              source_device: "mobile-github-pages",
+              instructions: body.note || "Yêu cầu bổ sung và hoàn thiện kỹ hơn",
+              source_device: "web-online",
               status: "PENDING",
               created_at: new Date().toISOString()
             }).catch(() => {});
           }
         }
-        saveLocalFallbackStore();
+        saveOfflineViewCache();
         return m || {};
       }
       if (parts[2] === "tasks") {
         const t = state.tasks.find((x) => x.task_id === parts[3]);
         if (t) t.kanban_column = body.decision === "APPROVE" ? "DONE" : "IN_PROGRESS";
-        saveLocalFallbackStore();
+        saveOfflineViewCache();
         return t || {};
       }
     }
@@ -745,14 +1121,14 @@
   function buildClientMission(title, autoApprove) {
     const mid = `msn-${Date.now().toString(36)}`;
     const tpl = [
-      [1, "[GĐ 1] Săn nhu cầu thật, đối thủ & tâm lý khách trả tiền", "01,02,03,50"],
-      [2, "[GĐ 1] Tính vốn, giá bán, thuế & khóa biên lãi gộp >= 65%", "38,39"],
-      [3, "[GĐ 1] Hội đồng phản biện Pre-Mortem & chốt kiến trúc sản phẩm", "46,47,06,12"],
-      [4, "[GĐ 1] Trình Chủ tịch DUYỆT CHỐT KÈO để bắt đầu sản xuất", "00"],
-      [5, "[GĐ 2] Lập trình & Xây dựng Sản phẩm Cuối hoàn chỉnh (Code / Web / App)", "13,14,15,16,17,19"],
-      [6, "[GĐ 2] Đóng gói Landing Page, Bảng giá, Video & Kịch bản kiếm 50 khách đầu", "25,26,29,32,33,40"],
-      [7, "[GĐ 2] Tester đóng vai 5 nhóm khách hàng dùng thử thật & Phản biện chốt lỗi", "48,49,20,23,47"],
-      [8, "[GĐ 2] Bàn giao Sản phẩm Cuối hoàn chỉnh & Kịch bản thu tiền cho Chủ tịch", "00,19,35"]
+      [1, "Giai đoạn 1: Săn nhu cầu thật, đối thủ và tâm lý khách trả tiền", "01,02,03,50"],
+      [2, "Giai đoạn 1: Tính vốn, giá bán, thuế và khóa biên lãi gộp tối thiểu 65%", "38,39"],
+      [3, "Giai đoạn 1: Phản biện rủi ro và chốt kiến trúc sản phẩm", "46,47,06,12"],
+      [4, "Giai đoạn 1: Trình duyệt chốt kèo để bắt đầu sản xuất sản phẩm", "00"],
+      [5, "Giai đoạn 2: Xây dựng Sản phẩm Cuối hoàn chỉnh (Web và Di động)", "13,14,15,16,17,19"],
+      [6, "Giai đoạn 2: Đóng gói Trang bán hàng, Bảng giá, Video và Kịch bản 50 khách đầu", "25,26,29,32,33,40"],
+      [7, "Giai đoạn 2: Kiểm thử khách hàng thật trên 5 nhóm và phản biện chốt lỗi", "48,49,20,23,47"],
+      [8, "Giai đoạn 2: Bàn giao Sản phẩm Cuối hoàn chỉnh và kịch bản thu tiền", "00,19,35"]
     ];
     return {
       mission_id: mid,
@@ -777,7 +1153,7 @@
         status: "PENDING",
         worker_name: "",
         artifact_path: "",
-        live_activity_text: ord === 1 ? "Đã xếp hàng chờ cầu nối Antigravity Swarm trên máy tính nhận việc thật..." : "",
+        live_activity_text: ord === 1 ? "Đã xếp hàng chờ đội ngũ trực tuyến tiếp nhận và triển khai." : "",
         output_summary: "",
         critique_verdict: "",
         ux_verdict: ""
@@ -785,11 +1161,9 @@
     };
   }
 
-  // Push remote order from Mobile (GitHub Pages) -> corporate_hq/cloud_state/remote_inbox.json
-  let sessionUnlockedGitHub = null;
-  async function pushRemoteOrderToGitHub(orderObj) {
-    if (!sessionUnlockedGitHub) return false;
-    const { repo, token } = sessionUnlockedGitHub;
+  async function pushRemoteOrderToCloud(orderObj) {
+    if (!sessionUnlockedCloud) return false;
+    const { repo, token } = sessionUnlockedCloud;
     const apiUrl = `https://api.github.com/repos/${repo}/contents/corporate_hq/cloud_state/remote_inbox.json`;
     const headers = { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}` };
     let sha = null;
@@ -806,7 +1180,7 @@
     inbox.orders.push(orderObj);
     inbox.updated_at = new Date().toISOString();
     const putBody = {
-      message: `chore(mobile-order): ${orderObj.title.slice(0, 60)}`,
+      message: `chore(remote-order): ${orderObj.title.slice(0, 60)}`,
       content: cryptoVault.utf8ToB64(JSON.stringify(inbox, null, 2))
     };
     if (sha) putBody.sha = sha;
@@ -816,14 +1190,14 @@
       body: JSON.stringify(putBody)
     });
     if (pr.ok) {
-      toast("Đã bắn thẳng đơn từ Điện thoại lên GitHub → Antigravity máy tính sẽ bắt lệnh sau ~15 giây!");
+      toast("Đã gửi lệnh lên kênh đồng bộ đám mây thành công.");
       return true;
     }
     return false;
   }
 
-  function buildAntigravityHandoffCommand(mission) {
-    return `/teamwork Thực thi thật nhiệm vụ "${mission.title}" (Mã: ${mission.mission_id}) theo đúng 7 bước Titan AI Corp, phản biện #46-#47 & test người dùng #48-#49, cập nhật tiến độ về Web qua scripts/titan_bridge_cli.py.`;
+  function buildHandoffCommand(mission) {
+    return `/teamwork Thực thi nhiệm vụ "${mission.title}" (Mã: ${mission.mission_id}) theo đúng quy trình 8 bước của Trung tâm Điều hành Titan, kèm Phản biện rủi ro (#46, #47) và Kiểm thử khách hàng (#48, #49).`;
   }
 
   async function restoreDeleted(undoPayload) {
@@ -837,7 +1211,7 @@
         if (it.entity_type === "project") state.projects.unshift(it.backup);
         if (it.entity_type === "article") state.articles.unshift(it.backup);
       });
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       renderAllViews();
       toast("Đã khôi phục lại mục vừa xóa.");
       return;
@@ -858,7 +1232,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 4. DEDUPLICATED NEWS HELPER & COUNTERS
+  // 5. DEDUPLICATED NEWS HELPER & HEADER COUNTS
   // -------------------------------------------------------------------------
   function getDeduplicatedArticles() {
     const map = new Map();
@@ -884,10 +1258,43 @@
     const staffTotal = state.departments.length || 51;
     const uniqueNewsCount = getDeduplicatedArticles().length;
 
+    const avgPct = state.missions.length
+      ? Math.round(state.missions.reduce((acc, m) => acc + Number(m.progress_pct || 0), 0) / state.missions.length)
+      : 0;
+
     document.getElementById("stat-running-missions").textContent = runningM;
     document.getElementById("stat-waiting-approvals").textContent = totalWait;
     document.getElementById("stat-staff-ready").textContent = staffTotal;
     document.getElementById("stat-news-count").textContent = uniqueNewsCount;
+
+    const heroNote = document.getElementById("hero-status-note");
+    if (heroNote) {
+      heroNote.textContent = runningM > 0
+        ? `Có ${runningM} nhiệm vụ đang được ${staffTotal} phòng chuyên gia triển khai song song.`
+        : `Hệ thống ${staffTotal} phòng chuyên gia đang sẵn sàng tiếp nhận đề bài mới của bạn.`;
+    }
+    const heroProgLbl = document.getElementById("hero-progress-label");
+    const heroProgBar = document.getElementById("hero-progress-bar");
+    if (heroProgLbl) heroProgLbl.textContent = `${avgPct}%`;
+    if (heroProgBar) heroProgBar.style.inlineSize = `${Math.max(4, avgPct)}%`;
+
+    const waitCap = document.getElementById("stat-waiting-caption");
+    if (waitCap) {
+      waitCap.textContent = totalWait > 0
+        ? `${totalWait} hạng mục đã phản biện xong, chờ bạn quyết định ngay bên dưới.`
+        : "Hiện chưa có mục nào chờ duyệt cổng.";
+    }
+
+    const busyStaff = state.departments.filter((d) => d.status !== "IDLE").length;
+    const readyPct = Math.round(((staffTotal - busyStaff) / Math.max(1, staffTotal)) * 100);
+    const sideSummary = document.getElementById("sidebar-staff-summary");
+    const sideFill = document.getElementById("sidebar-readiness-fill");
+    if (sideSummary) {
+      sideSummary.textContent = busyStaff > 0
+        ? `${busyStaff} phòng đang xử lý, ${staffTotal - busyStaff} phòng sẵn sàng`
+        : `${staffTotal} phòng chuyên gia sẵn sàng nhận đề bài`;
+    }
+    if (sideFill) sideFill.style.inlineSize = `${Math.max(10, readyPct)}%`;
 
     const navOpps = document.getElementById("nav-cnt-opps");
     navOpps.textContent = totalWait > 0 ? totalWait : activeOpps;
@@ -903,37 +1310,49 @@
     document.getElementById("nav-cnt-news").textContent = uniqueNewsCount;
 
     if (state.tab === "staff") {
-      document.getElementById("view-heading").textContent = `Nhân sự AI (${staffTotal})`;
+      document.getElementById("view-heading").textContent = `Nhân sự (${staffTotal})`;
     }
 
-    const dot = document.getElementById("live-dot");
+    const chip = document.getElementById("live-indicator");
     const lbl = document.getElementById("live-label");
+    const footerConn = document.getElementById("footer-conn-summary");
+    const footerSync = document.getElementById("footer-last-sync");
     const b = state.bridge || {};
+    const workers = Array.isArray(b.active_workers) ? b.active_workers : [];
     const pendingOrd = Number(b.pending_orders_count || 0);
+
     if (state.staticMode) {
-      if (sessionUnlockedGitHub) {
-        dot.className = "pulse-dot pulse-cloud";
-        lbl.textContent = "Đám mây 2 chiều → Antigravity";
+      if (sessionUnlockedCloud) {
+        chip.setAttribute("data-state", "online");
+        lbl.textContent = "Trực tuyến: Đang kết nối";
+        if (footerConn) footerConn.textContent = "Kênh đồng bộ đám mây 2 chiều đang bật";
       } else {
-        dot.className = "pulse-dot pulse-warn";
-        lbl.textContent = "Đám mây 24/7 · Chưa nối PAT";
+        chip.setAttribute("data-state", "offline");
+        lbl.textContent = "Đang ngoại tuyến (Chế độ xem)";
+        if (footerConn) footerConn.textContent = "Đang dùng bản lưu trực tuyến mới nhất";
       }
     } else if (b.online) {
-      dot.className = "pulse-dot pulse-active";
-      const workers = Array.isArray(b.active_workers) ? b.active_workers : [];
+      chip.setAttribute("data-state", "online");
       lbl.textContent = workers.length
-        ? `Antigravity Swarm (${workers.length} AI đang chạy)`
-        : "Antigravity: Đang trực chiến";
+        ? `Trực tuyến: Đang hoạt động (${workers.length} chuyên gia)`
+        : "Trực tuyến: Đang hoạt động";
+      if (footerConn) footerConn.textContent = "Kết nối trực tuyến ổn định";
     } else {
-      dot.className = "pulse-dot pulse-warn";
+      chip.setAttribute("data-state", "online");
       lbl.textContent = pendingOrd > 0
-        ? `Chờ bật Antigravity (${pendingOrd} lệnh chờ)`
-        : "Antigravity: Chờ bật trực chiến";
+        ? `Trực tuyến: Đang kết nối (${pendingOrd} lệnh chờ)`
+        : "Trực tuyến: Đang kết nối";
+      if (footerConn) footerConn.textContent = "Cầu nối trực tuyến đang hoạt động";
+    }
+
+    if (footerSync) {
+      const t = shortTime(state.lastSyncAt || new Date().toISOString());
+      footerSync.textContent = t ? `Cập nhật gần nhất: ${t}` : "Cập nhật gần nhất: Vừa xong";
     }
   }
 
   // -------------------------------------------------------------------------
-  // 5. RENDERERS FOR ALL 6 TABS
+  // 6. TAB 1: GIAO VIEC (DECISION QUEUE + ASYMMETRIC OPPORTUNITIES)
   // -------------------------------------------------------------------------
   function renderCommandTab() {
     const waitMissions = state.missions.filter((m) => m.status === "WAITING_CHAIRMAN");
@@ -942,43 +1361,45 @@
     const list = document.getElementById("pending-approvals-list");
 
     if (!waitMissions.length && !waitTasks.length) {
-      wrap.style.display = "none";
+      wrap.classList.add("is-hidden");
     } else {
-      wrap.style.display = "block";
+      wrap.classList.remove("is-hidden");
       let html = "";
       waitMissions.forEach((m) => {
-        const isProposalGate = (m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8);
+        const isProposalGate = m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8;
         const gateSubtitle = isProposalGate
-          ? "Cổng 1 · Chờ duyệt chốt kèo để toàn công ty bắt đầu sản xuất sản phẩm thật (Bước 5 → 8)"
-          : "Cổng 2 · Sản phẩm cuối đã làm xong & test người dùng thật — Chờ nghiệm thu bàn giao";
-        const approveLabel = isProposalGate ? "✓ Duyệt kèo → Sản xuất SP" : "✓ Nghiệm thu Hoàn tất";
+          ? "Cổng 1: Chờ duyệt kèo để đội ngũ bắt đầu sản xuất sản phẩm thật (Bước 5 đến 8)"
+          : "Cổng 2: Sản phẩm cuối đã hoàn thiện và kiểm thử khách hàng thật, chờ nghiệm thu";
+        const approveLabel = isProposalGate
+          ? `${ico("check")}<span>Duyệt kèo -> Sản xuất sản phẩm</span>`
+          : `${ico("check")}<span>Nghiệm thu Sản phẩm Cuối</span>`;
         html += `
-          <div class="list-row" style="grid-template-columns:minmax(0,1fr) auto;">
-            <div style="min-width:0;">
-              <div style="font-weight:700;color:var(--text-primary);">${esc(m.title)}</div>
-              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${gateSubtitle}</div>
-              ${m.final_summary ? `<div class="step-summary" style="font-size:12px;margin-top:4px;">${esc(m.final_summary.split("\n")[0])}</div>` : ""}
+          <div class="list-row">
+            <div class="row-main">
+              <div class="row-title">${esc(sanitizeUiVietnamese(m.title))}</div>
+              <div class="row-meta">${gateSubtitle}</div>
+              ${m.final_summary ? `<div class="step-summary">${esc(sanitizeUiVietnamese(m.final_summary.split("\n")[0]))}</div>` : ""}
             </div>
             <div class="row-actions">
               <button type="button" class="btn btn-xs" data-goto-missions>Xem chi tiết</button>
-              <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">${approveLabel}</button>
-              <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Sửa lại</button>
-              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-msn="${esc(m.mission_id)}">Xóa</button>
+              <button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${approveLabel}</button>
+              <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">${ico("rotate-ccw")}<span>Sửa lại</span></button>
+              <button type="button" class="btn btn-xs btn-destructive" data-del-msn="${esc(m.mission_id)}">${ico("trash")}<span>Xóa</span></button>
             </div>
           </div>
         `;
       });
       waitTasks.forEach((t) => {
         html += `
-          <div class="list-row" style="grid-template-columns:minmax(0,1fr) auto;">
-            <div style="min-width:0;">
-              <div style="font-weight:600;color:var(--text-primary);">${esc(t.title)}</div>
-              <div style="font-size:12px;color:var(--text-muted);">Việc lẻ · #${esc(t.assigned_dept_id)} ${esc(deptTitle(t.assigned_dept_id))} trình duyệt</div>
+          <div class="list-row">
+            <div class="row-main">
+              <div class="row-title">${esc(sanitizeUiVietnamese(t.title))}</div>
+              <div class="row-meta">Việc lẻ: Phòng #${esc(t.assigned_dept_id)} (${esc(deptTitle(t.assigned_dept_id))}) trình duyệt</div>
             </div>
             <div class="row-actions">
-              <button type="button" class="btn btn-xs btn-ok" data-approve-task="${esc(t.task_id)}">✓ Chấp nhận</button>
-              <button type="button" class="btn btn-xs" data-reject-task="${esc(t.task_id)}">↺ Làm lại</button>
-              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-task="${esc(t.task_id)}">Xóa</button>
+              <button type="button" class="btn btn-xs btn-primary" data-approve-task="${esc(t.task_id)}">${ico("check")}<span>Chấp nhận</span></button>
+              <button type="button" class="btn btn-xs" data-reject-task="${esc(t.task_id)}">${ico("rotate-ccw")}<span>Làm lại</span></button>
+              <button type="button" class="btn btn-xs btn-destructive" data-del-task="${esc(t.task_id)}">${ico("trash")}<span>Xóa</span></button>
             </div>
           </div>
         `;
@@ -990,38 +1411,50 @@
     const oppGrid = document.getElementById("opportunities-grid");
     const visibleOpps = state.opportunities.filter((o) => o.status !== "DISMISSED");
     if (!visibleOpps.length) {
-      oppGrid.innerHTML = `<div class="panel-box"><p style="color:var(--text-muted);">Chưa có đề xuất nào. Nhấn <strong>Tìm thêm cơ hội mới</strong> để Phòng #50 săn kèo kiếm tiền cho bạn.</p></div>`;
+      oppGrid.innerHTML = `
+        <div class="empty-state opp-card-lead">
+          <p>Chưa có đề xuất cơ hội nào. Nhấn <strong>Săn cơ hội mới</strong> để Phòng #50 tìm kiếm và phân tích cho bạn.</p>
+        </div>
+      `;
       return;
     }
 
-    oppGrid.innerHTML = visibleOpps.map((o) => {
+    oppGrid.innerHTML = visibleOpps.map((o, idx) => {
       const isAccepted = o.status === "ACCEPTED";
-      const descText = o.pain_point || o.critique_note || "";
+      const isLead = idx === 0 && visibleOpps.length >= 2;
+      const descText = sanitizeUiVietnamese(o.pain_point || o.critique_note || "");
       return `
-        <article class="opp-card">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-            <h3 class="opp-title">${esc(o.title)}</h3>
-            ${isAccepted ? `<span class="badge badge-done">Đã triển khai</span>` : `<span class="badge badge-run">Sẵn sàng</span>`}
+        <article class="opp-card ${isLead ? "opp-card-lead" : ""}">
+          <div class="opp-head">
+            <div>
+              ${isLead ? `<p class="eyebrow">Cơ hội nổi bật nhất</p>` : ""}
+              <h3 class="opp-title">${esc(sanitizeUiVietnamese(o.title))}</h3>
+            </div>
+            ${isAccepted
+              ? `<span class="badge badge-done">${ico("check")}<span>Đã triển khai</span></span>`
+              : `<span class="badge badge-run">${ico("compass")}<span>Sẵn sàng</span></span>`
+            }
           </div>
-          <div class="opp-customer">Khách trả tiền: <strong>${esc(o.target_customer)}</strong></div>
+
+          <p class="row-meta">Khách trả tiền: <strong>${esc(sanitizeUiVietnamese(o.target_customer))}</strong></p>
 
           <div class="opp-metrics mono">
-            <span>Lãi gộp: <strong style="color:var(--ok-text);">${Number(o.est_margin_pct || 75).toFixed(0)}%</strong></span>
+            <span>Biên lãi gộp: <strong class="opp-metric-ok">${Number(o.est_margin_pct || 75).toFixed(0)}%</strong></span>
             <span>Hòa vốn: <strong>${o.breakeven_users || 5} khách</strong></span>
-            <span>Phản biện: <strong>${o.survival_score || 86}/100</strong></span>
+            <span>Điểm phản biện: <strong>${o.survival_score || 86}/100</strong></span>
           </div>
 
-          <div class="opp-critique">${esc(descText)}</div>
+          <p class="opp-critique">${esc(descText)}</p>
 
           <div class="opp-actions">
-            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <div class="action-group">
               ${isAccepted
-                ? `<button type="button" class="btn btn-xs" data-goto-missions>Xem tiến độ →</button>`
-                : `<button type="button" class="btn btn-xs btn-primary" data-accept-opp="${esc(o.opp_id)}">✓ Gửi Antigravity làm</button>`
+                ? `<button type="button" class="btn btn-xs" data-goto-missions><span>Xem tiến độ</span>${ico("arrow-right")}</button>`
+                : `<button type="button" class="btn btn-xs btn-primary" data-accept-opp="${esc(o.opp_id)}">${ico("send")}<span>Triển khai ngay</span></button>`
               }
-              <button type="button" class="btn btn-xs" data-edit-opp="${esc(o.opp_id)}">Sửa</button>
+              <button type="button" class="btn btn-xs" data-edit-opp="${esc(o.opp_id)}">${ico("pencil")}<span>Sửa</span></button>
             </div>
-            <button type="button" class="btn btn-xs btn-danger-ghost" data-del-opp="${esc(o.opp_id)}">Xóa</button>
+            <button type="button" class="btn btn-xs btn-destructive" data-del-opp="${esc(o.opp_id)}">${ico("trash")}<span>Xóa</span></button>
           </div>
         </article>
       `;
@@ -1030,27 +1463,9 @@
     bindQuickActions(oppGrid);
   }
 
-  const WORKER_VI_MAP = {
-    "@researcher": "Trinh sát Thị trường & Đối thủ",
-    "@trinh-sat-thi-truong": "Trinh sát Thị trường & Đối thủ",
-    "@cfo": "Giám đốc Tài chính & Thuế",
-    "@tai-chinh-thue": "Giám đốc Tài chính & Thuế",
-    "@critic": "Hội đồng Phản biện Độc lập",
-    "@phan-bien-doc-lap": "Hội đồng Phản biện & Bảo mật",
-    "@ky-su-san-pham": "Kỹ sư Sản phẩm (Code Web/App)",
-    "@doi-ban-hang": "Đội Đóng gói & Bán hàng",
-    "@tester-khach-hang": "Tester Đóng vai Khách hàng Thật",
-    "@coordinator": "Tổng Điều Phối (CEO)",
-    "@dieu-phoi": "Tổng Điều Phối (CEO)"
-  };
-
-  function viWorkerLabel(slug) {
-    if (!slug) return "";
-    const k = String(slug).trim().toLowerCase();
-    const key = k.startsWith("@") ? k : `@${k}`;
-    return WORKER_VI_MAP[key] || slug;
-  }
-
+  // -------------------------------------------------------------------------
+  // 7. TAB 2: TIEN DO & PHONG HOP TRUC TIEP (4 CHE DO 100% TIENG VIET)
+  // -------------------------------------------------------------------------
   function artifactHref(relPath) {
     const clean = String(relPath || "").replace(/^\/+/, "");
     if (clean.startsWith("corporate_hq/projects/")) {
@@ -1060,103 +1475,103 @@
     return "";
   }
 
-  const MSG_TYPE_VI = {
-    HANDOFF: { label: "Chuyền việc", cls: "badge-run" },
-    UPDATE: { label: "Đang xử lý", cls: "badge-idle" },
-    CRITIQUE: { label: "Phản biện", cls: "badge-wait" },
-    QA_REPORT: { label: "Kiểm thử khách", cls: "badge-wait" },
-    DONE: { label: "Hoàn tất", cls: "badge-done" },
-    APPROVAL: { label: "Duyệt cổng", cls: "badge-done" }
-  };
+  function renderArtifactChip(relPath) {
+    const clean = String(relPath || "").trim();
+    if (!clean) return "";
+    const lower = clean.toLowerCase();
+    const liveUrl = artifactHref(clean);
+    if (lower.endsWith(".html") || lower.endsWith("/app/") || lower.endsWith("/landing/")) {
+      return `<a class="artifact-tag" href="${esc(liveUrl)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở dùng thử trực tiếp: ${esc(clean.split("/").slice(-2).join("/"))}</span></a>`;
+    }
+    return `<button type="button" class="artifact-tag" data-read-artifact="${esc(clean)}">${ico("file-text")}<span>Đọc báo cáo: ${esc(clean.split("/").pop())}</span></button>`;
+  }
 
   function renderSwarmGraphSvg(m) {
     const stepsByOrd = {};
     (m.steps || []).forEach((s) => { stepsByOrd[s.step_order] = s; });
-    const colorOf = (ord) => {
+    const nodeMeta = (ord) => {
       const s = stepsByOrd[ord];
-      if (!s) return { fill: "#F1F5F9", stroke: "#CBD5E1", text: "#475569", dot: "#94A3B8", state: "Chờ" };
-      if (s.status === "DONE") return { fill: "#ECFDF5", stroke: "#059669", text: "#065F46", dot: "#059669", state: "✓ Xong" };
-      if (s.status === "RUNNING") return { fill: "#EFF6FF", stroke: "#2563EB", text: "#1E40AF", dot: "#2563EB", state: "● Đang làm" };
-      if (s.status === "WAITING_APPROVAL") return { fill: "#FFFBEB", stroke: "#D97706", text: "#92400E", dot: "#D97706", state: "⚑ Chờ duyệt" };
-      return { fill: "#F8FAFC", stroke: "#CBD5E1", text: "#475569", dot: "#94A3B8", state: "○ Chưa tới" };
+      if (!s) return { cls: "", label: "Chờ lượt" };
+      if (s.status === "DONE") return { cls: "graph-node-done", label: "Hoàn tất" };
+      if (s.status === "RUNNING") return { cls: "graph-node-run", label: "Đang làm" };
+      if (s.status === "WAITING_APPROVAL") return { cls: "graph-node-wait", label: "Chờ duyệt" };
+      return { cls: "", label: "Chưa tới" };
     };
     const box = (x, y, w, h, ord, line1, line2) => {
-      const c = colorOf(ord);
+      const info = nodeMeta(ord);
       return `
-        <g>
-          <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${c.fill}" stroke="${c.stroke}" stroke-width="1.6"/>
-          <circle cx="${x + 14}" cy="${y + 18}" r="4.5" fill="${c.dot}"/>
-          <text x="${x + 24}" y="${y + 22}" font-size="11.5" font-weight="700" fill="${c.text}">${esc(line1)}</text>
-          <text x="${x + 12}" y="${y + 40}" font-size="10.5" fill="#475569">${esc(line2)}</text>
-          <text x="${x + 12}" y="${y + 56}" font-size="10" font-weight="600" fill="${c.text}">${c.state}</text>
+        <g class="${info.cls}">
+          <rect class="graph-node-rect" x="${x}" y="${y}" width="${w}" height="${h}" rx="10" />
+          <text class="graph-node-title" x="${x + 12}" y="${y + 22}">${esc(line1)}</text>
+          <text class="graph-node-sub" x="${x + 12}" y="${y + 40}">${esc(line2)}</text>
+          <text class="graph-node-state" x="${x + 12}" y="${y + 56}">${esc(info.label)}</text>
         </g>
       `;
     };
+    const graphId = `arr-${slugifyVi(m.mission_id)}`;
     return `
-      <div class="swarm-graph-wrap">
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">
-          Sơ đồ phối hợp trực tiếp giữa các AI chuyên trách — từ <strong>Giai đoạn 1 (Săn kèo &amp; Phản biện)</strong> sang <strong>Giai đoạn 2 (Sản xuất Sản phẩm Cuối &amp; Kiểm thử thật)</strong>:
-        </div>
-        <svg class="swarm-graph-svg" viewBox="0 0 920 220" xmlns="http://www.w3.org/2000/svg">
+      <div class="room-graph-wrap">
+        <p class="row-meta">Sơ đồ phối hợp chuyền việc giữa các nhóm chuyên gia từ Giai đoạn 1 (Nghiên cứu và Chốt kèo) sang Giai đoạn 2 (Sản xuất Sản phẩm Cuối và Kiểm thử khách hàng).</p>
+        <svg class="room-graph-svg" viewBox="0 0 940 220" role="img" aria-label="Sơ đồ chuyền việc 8 bước của nhiệm vụ">
+          <title>Sơ đồ chuyền việc 8 bước</title>
+          <desc>Giai đoạn 1 gồm nghiên cứu thị trường, tài chính và giá bán, phản biện rủi ro, cổng duyệt 1. Giai đoạn 2 gồm kỹ sư sản phẩm, đóng gói bán hàng, kiểm thử khách hàng và bàn giao.</desc>
           <defs>
-            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#94A3B8"/>
+            <marker id="${graphId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="graph-arrow-fill" d="M 0 1 L 10 5 L 0 9 z" />
             </marker>
           </defs>
-          <!-- Phase 1 & Phase 2 background regions -->
-          <rect x="6" y="6" width="444" height="208" rx="12" fill="none" stroke="#CBD5E1" stroke-dasharray="4 4"/>
-          <text x="18" y="24" font-size="11" font-weight="700" fill="#64748B">GIAI ĐOẠN 1 · NGHIÊN CỨU, TÍNH LÃI &amp; CHỐT KÈO</text>
-          <rect x="466" y="6" width="448" height="208" rx="12" fill="none" stroke="#0F766E" stroke-dasharray="4 4"/>
-          <text x="478" y="24" font-size="11" font-weight="700" fill="#0F766E">GIAI ĐOẠN 2 · SẢN XUẤT SẢN PHẨM CUỐI &amp; BÀN GIAO</text>
+          <rect class="graph-zone" x="6" y="6" width="454" height="208" rx="12" />
+          <text class="graph-zone-title" x="18" y="24">GIAI ĐOẠN 1: NGHIÊN CỨU, TÍNH LÃI VÀ CHỐT KÈO</text>
+          <rect class="graph-zone graph-zone-active" x="476" y="6" width="458" height="208" rx="12" />
+          <text class="graph-zone-title graph-zone-title-active" x="488" y="24">GIAI ĐOẠN 2: SẢN XUẤT SẢN PHẨM CUỐI VÀ BÀN GIAO</text>
 
-          <!-- Phase 1 Nodes -->
-          ${box(18, 38, 152, 68, 1, "B1 · Trinh sát Thị trường", "#01, #02, #03, #50")}
-          ${box(18, 126, 152, 68, 2, "B2 · Tài chính & Thuế", "#38, #39 (CFO)")}
-          ${box(196, 82, 122, 68, 3, "B3 · Phản biện", "#46, #47, #06, #12")}
-          ${box(340, 82, 100, 68, 4, "CỔNG 1", "Chủ tịch duyệt")}
+          ${box(18, 38, 154, 68, 1, "Bước 1: Trinh sát", "#01, #02, #03, #50")}
+          ${box(18, 126, 154, 68, 2, "Bước 2: Tài chính", "#38, #39")}
+          ${box(196, 82, 130, 68, 3, "Bước 3: Phản biện", "#46, #47, #06")}
+          ${box(348, 82, 100, 68, 4, "Cổng 1", "Duyệt chốt kèo")}
 
-          <!-- Phase 2 Nodes -->
-          ${box(478, 38, 152, 68, 5, "B5 · Kỹ sư Sản phẩm", "Code App thật (#13-#19)")}
-          ${box(478, 126, 152, 68, 6, "B6 · Đội Bán hàng", "Landing & 50 khách đầu")}
-          ${box(656, 82, 134, 68, 7, "B7 · Tester & Bảo mật", "#48, #49, #20, #23")}
-          ${box(812, 82, 92, 68, 8, "CỔNG 2", "Bàn giao SP")}
+          ${box(488, 38, 154, 68, 5, "Bước 5: Sản phẩm", "#13 đến #19")}
+          ${box(488, 126, 154, 68, 6, "Bước 6: Bán hàng", "Trang bán, 50 khách")}
+          ${box(666, 82, 134, 68, 7, "Bước 7: Kiểm thử", "#48, #49, #20")}
+          ${box(822, 82, 100, 68, 8, "Cổng 2", "Bàn giao cuối")}
 
-          <!-- Arrows -->
-          <path d="M 170 72 L 194 106" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
-          <path d="M 170 160 L 194 126" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
-          <path d="M 318 116 L 338 116" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
-          <path d="M 440 116 L 476 72" stroke="#0F766E" stroke-width="1.8" fill="none" marker-end="url(#arr)"/>
-          <path d="M 440 116 L 476 160" stroke="#0F766E" stroke-width="1.8" fill="none" marker-end="url(#arr)"/>
-          <path d="M 630 72 L 654 106" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
-          <path d="M 630 160 L 654 126" stroke="#94A3B8" stroke-width="1.6" fill="none" marker-end="url(#arr)"/>
-          <path d="M 790 116 L 810 116" stroke="#0F766E" stroke-width="1.8" fill="none" marker-end="url(#arr)"/>
+          <path class="graph-edge" d="M 172 72 L 194 106" marker-end="url(#${graphId})" />
+          <path class="graph-edge" d="M 172 160 L 194 126" marker-end="url(#${graphId})" />
+          <path class="graph-edge" d="M 326 116 L 346 116" marker-end="url(#${graphId})" />
+          <path class="graph-edge-active" d="M 448 116 L 486 72" marker-end="url(#${graphId})" />
+          <path class="graph-edge-active" d="M 448 116 L 486 160" marker-end="url(#${graphId})" />
+          <path class="graph-edge" d="M 642 72 L 664 106" marker-end="url(#${graphId})" />
+          <path class="graph-edge" d="M 642 160 L 664 126" marker-end="url(#${graphId})" />
+          <path class="graph-edge-active" d="M 800 116 L 820 116" marker-end="url(#${graphId})" />
         </svg>
       </div>
     `;
   }
 
-  function renderSwarmBoardPanel(m, msgs) {
+  function renderSwarmBoardPanel(_m, msgs) {
     if (!msgs.length) {
-      return `<div style="padding:20px;color:var(--text-muted);font-size:13px;">Chưa có trao đổi nào trong phòng họp cho nhiệm vụ này. Khi đội ngũ AI Antigravity chạy, toàn bộ quá trình báo cáo và phản biện chéo bằng tiếng Việt sẽ hiện trực tiếp tại đây.</div>`;
+      return `<div class="room-feed"><p class="row-meta">Chưa có trao đổi nào trong phòng họp cho nhiệm vụ này. Toàn bộ quá trình báo cáo và phản biện chéo bằng tiếng Việt sẽ hiển thị trực tiếp tại đây.</p></div>`;
     }
     return `
-      <div class="swarm-feed">
+      <div class="room-feed">
         ${msgs.map((msg) => {
           const mt = MSG_TYPE_VI[msg.msg_type] || MSG_TYPE_VI.UPDATE;
           const artBtn = msg.artifact_path ? renderArtifactChip(msg.artifact_path) : "";
+          const sender = sanitizeUiVietnamese(msg.sender_name_vi || viWorkerLabel(msg.sender_slug));
+          const recipient = sanitizeUiVietnamese(msg.recipient_name_vi || "Toàn đội");
           return `
-            <div class="swarm-msg-card type-${esc(msg.msg_type)}">
-              <div class="swarm-msg-head">
-                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                  <strong style="color:var(--text-primary);font-size:13px;">${esc(msg.sender_name_vi || viWorkerLabel(msg.sender_slug))}</strong>
-                  <span style="font-size:11.5px;color:var(--text-muted);">→ ${esc(msg.recipient_name_vi || "Toàn đội")}</span>
-                  <span class="badge ${mt.cls}">${mt.label}</span>
+            <article class="room-msg-card">
+              <div class="room-msg-head">
+                <div class="action-group">
+                  <strong>${esc(sender)}</strong>
+                  <span class="row-meta">gửi ${esc(recipient)}</span>
+                  <span class="badge ${mt.cls}">${ico(mt.icon)}<span>${mt.label}</span></span>
                 </div>
-                <span class="mono" style="font-size:11px;color:var(--text-muted);">${esc(shortTime(msg.created_at))}</span>
+                <span class="mono step-time">${esc(shortTime(msg.created_at))}</span>
               </div>
-              <div class="swarm-msg-body">${esc(msg.content_vi)}</div>
+              <div class="room-msg-body">${esc(sanitizeUiVietnamese(msg.content_vi))}</div>
               ${artBtn}
-            </div>
+            </article>
           `;
         }).join("")}
       </div>
@@ -1185,55 +1600,45 @@
         rec.stepOrder = Math.min(rec.stepOrder, s.step_order);
         if (s.status === "RUNNING") {
           rec.status = "RUNNING";
-          rec.lastNote = s.live_activity_text || `Đang thực thi Bước ${s.step_order}`;
+          rec.lastNote = sanitizeUiVietnamese(s.live_activity_text || `Đang thực thi Bước ${s.step_order}`);
         } else if (s.status === "DONE" && rec.status !== "RUNNING") {
           rec.status = "DONE";
-          rec.lastNote = (s.output_summary || `Đã hoàn tất Bước ${s.step_order}`).slice(0, 140);
+          rec.lastNote = sanitizeUiVietnamese(s.output_summary || `Đã hoàn tất Bước ${s.step_order}`).slice(0, 140);
         }
       }
     });
     msgs.forEach((msg) => {
       const rec = ensure(msg.sender_slug, msg.sender_dept_ids);
-      if (rec) rec.lastNote = msg.content_vi.slice(0, 140);
+      if (rec) rec.lastNote = sanitizeUiVietnamese(msg.content_vi || "").slice(0, 140);
     });
     const members = Array.from(memberMap.values()).sort((a, b) => a.stepOrder - b.stepOrder);
     if (!members.length) {
-      return `<div style="padding:20px;color:var(--text-muted);font-size:13px;">Chưa có thành viên AI nào được kích hoạt cho nhiệm vụ này.</div>`;
+      return `<div class="room-feed"><p class="row-meta">Chưa có thành viên chuyên trách nào được kích hoạt cho nhiệm vụ này.</p></div>`;
     }
     return `
-      <div class="swarm-member-grid">
+      <div class="room-member-grid">
         ${members.map((mb) => {
           const stCls = mb.status === "RUNNING" ? "badge-run" : mb.status === "DONE" ? "badge-done" : "badge-idle";
-          const stTxt = mb.status === "RUNNING" ? "● Đang làm thật" : mb.status === "DONE" ? "✓ Đã hoàn tất" : "○ Đang trực chờ";
+          const stIcon = mb.status === "RUNNING" ? "activity" : mb.status === "DONE" ? "check" : "clock";
+          const stTxt = mb.status === "RUNNING" ? "Đang xử lý" : mb.status === "DONE" ? "Đã hoàn tất" : "Đang trực chờ";
           return `
-            <div class="swarm-member-card">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-                <strong style="color:var(--text-primary);font-size:13.5px;">${esc(mb.name_vi)}</strong>
-                <span class="badge ${stCls}">${stTxt}</span>
+            <article class="room-member-card">
+              <div class="opp-head">
+                <strong>${esc(mb.name_vi)}</strong>
+                <span class="badge ${stCls}">${ico(stIcon)}<span>${stTxt}</span></span>
               </div>
-              ${mb.depts ? `<div class="mono" style="font-size:11px;color:var(--text-muted);">Phòng chuyên trách: #${esc(mb.depts.split(",").join(", #"))}</div>` : ""}
-              <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.45;">${esc(mb.lastNote)}</div>
-            </div>
+              ${mb.depts ? `<div class="mono row-meta">Phòng chuyên trách: #${esc(mb.depts.split(",").join(", #"))}</div>` : ""}
+              <p class="row-meta">${esc(mb.lastNote)}</p>
+            </article>
           `;
         }).join("")}
       </div>
     `;
   }
 
-  function renderArtifactChip(relPath) {
-    const clean = String(relPath || "").trim();
-    if (!clean) return "";
-    const lower = clean.toLowerCase();
-    const liveUrl = artifactHref(clean);
-    if (lower.endsWith(".html") || lower.endsWith("/app/") || lower.endsWith("/landing/")) {
-      return `<a class="artifact-tag" href="${esc(liveUrl)}" target="_blank" rel="noopener">Mở dùng thử trực tiếp: ${esc(clean.split("/").slice(-2).join("/"))} ↗</a>`;
-    }
-    return `<button type="button" class="artifact-tag" data-read-artifact="${esc(clean)}">Đọc báo cáo: ${esc(clean.split("/").pop())}</button>`;
-  }
-
   async function openArtifactDrawer(relPath) {
     document.getElementById("drawer-heading").textContent = relPath.split("/").pop() || "Báo cáo chuyên môn";
-    document.getElementById("drawer-body").innerHTML = `<div style="color:var(--text-muted);">Đang tải nội dung báo cáo...</div>`;
+    document.getElementById("drawer-body").innerHTML = `<p class="row-meta">Đang tải nội dung báo cáo...</p>`;
     document.getElementById("drawer-backdrop").classList.add("open");
     document.getElementById("inspector-drawer").classList.add("open");
     try {
@@ -1241,18 +1646,18 @@
       if (state.staticMode) {
         const liveUrl = artifactHref(relPath);
         const r = await fetch(liveUrl, { cache: "no-cache" });
-        if (!r.ok) throw new Error("Báo cáo đang đồng bộ lên đám mây — mở lại sau vài giây.");
+        if (!r.ok) throw new Error("Báo cáo đang đồng bộ lên đám mây, vui lòng mở lại sau vài giây.");
         content = await r.text();
       } else {
         const res = await api(`/api/workspace/file?path=${encodeURIComponent(relPath)}`);
         content = res.content || "";
       }
       document.getElementById("drawer-body").innerHTML = `
-        <div class="mono" style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">Đường dẫn: ${esc(relPath)}</div>
+        <div class="mono row-meta">Đường dẫn tệp: ${esc(relPath)}</div>
         <div class="rendered-md">${renderCleanMarkdown(content)}</div>
       `;
     } catch (err) {
-      document.getElementById("drawer-body").innerHTML = `<div style="color:var(--danger);">${esc(err.message)}</div>`;
+      document.getElementById("drawer-body").innerHTML = `<p class="text-err">${esc(err.message)}</p>`;
     }
   }
 
@@ -1262,10 +1667,10 @@
 
     if (!list.length) {
       box.innerHTML = `
-        <div class="panel-box" style="text-align:center;padding:36px 20px;">
-          <h3 style="margin-bottom:6px;">Chưa có nhiệm vụ nào ở mục này</h3>
-          <p style="color:var(--text-muted);margin-bottom:14px;">Giao một đề bài mới để xem toàn bộ 7 bước nhân viên tự động thực hiện, phản biện và kiểm thử trực tiếp tại đây.</p>
-          <button type="button" class="btn btn-primary" id="btn-empty-start-msn">+ Giao nhiệm vụ tự động ngay</button>
+        <div class="empty-state">
+          <h3>Chưa có nhiệm vụ nào ở mục này</h3>
+          <p>Giao một đề bài mới để theo dõi toàn bộ 8 bước thực thi, phản biện rủi ro và kiểm thử khách hàng trực tiếp tại đây.</p>
+          <button type="button" class="btn btn-primary" id="btn-empty-start-msn">${ico("plus")}<span>Giao nhiệm vụ mới ngay</span></button>
         </div>
       `;
       const b = document.getElementById("btn-empty-start-msn");
@@ -1279,25 +1684,25 @@
       const isQueued = m.status === "RUNNING" && m.dispatch_state === "QUEUED_FOR_ANTIGRAVITY";
       const isSwarm = m.status === "RUNNING" && m.dispatch_state === "SWARM_ACTIVE";
 
-      const isProposalGate = (m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8);
-      const isProductionPhase = (m.phase === "PRODUCTION");
+      const isProposalGate = m.phase === "PROPOSAL" && (m.total_steps || 8) >= 8;
+      const isProductionPhase = m.phase === "PRODUCTION";
       const phaseBadge = isProductionPhase
-        ? `<span class="badge badge-run">Giai đoạn 2 · Sản xuất Sản phẩm Cuối</span>`
+        ? `<span class="badge badge-run">${ico("layers")}<span>Giai đoạn 2: Sản xuất Sản phẩm Cuối</span></span>`
         : m.phase === "DELIVERED"
-        ? `<span class="badge badge-done">Đã bàn giao Sản phẩm Cuối</span>`
-        : `<span class="badge badge-idle">Giai đoạn 1 · Nghiên cứu &amp; Chốt kèo</span>`;
+        ? `<span class="badge badge-done">${ico("check")}<span>Đã bàn giao Sản phẩm Cuối</span></span>`
+        : `<span class="badge badge-idle">${ico("compass")}<span>Giai đoạn 1: Nghiên cứu và Chốt kèo</span></span>`;
 
       const stBadge =
-        m.status === "COMPLETED" ? `<span class="badge badge-done">✓ Đã nghiệm thu 100%</span>` :
-        (m.status === "WAITING_CHAIRMAN" && isProposalGate) ? `<span class="badge badge-wait">⚑ Chờ duyệt kèo → Sản xuất SP</span>` :
-        m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">⚑ Chờ nghiệm thu Sản phẩm Cuối</span>` :
-        m.status === "PAUSED" ? `<span class="badge badge-idle">⏸ Đang tạm dừng</span>` :
-        isSwarm ? `<span class="badge badge-run">⚡ Antigravity Swarm · Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span>` :
-        isQueued ? `<span class="badge badge-wait">⏳ Đã gửi sang Antigravity</span>` :
-        `<span class="badge badge-run">● Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span>`;
+        m.status === "COMPLETED" ? `<span class="badge badge-done">${ico("check")}<span>Đã nghiệm thu hoàn tất</span></span>` :
+        (m.status === "WAITING_CHAIRMAN" && isProposalGate) ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ duyệt kèo -> Sản xuất sản phẩm</span></span>` :
+        m.status === "WAITING_CHAIRMAN" ? `<span class="badge badge-wait">${ico("flag")}<span>Chờ nghiệm thu Sản phẩm Cuối</span></span>` :
+        m.status === "PAUSED" ? `<span class="badge badge-idle">${ico("pause")}<span>Đang tạm dừng</span></span>` :
+        isSwarm ? `<span class="badge badge-run">${ico("activity")}<span>Đang thực thi: Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>` :
+        isQueued ? `<span class="badge badge-wait">${ico("clock")}<span>Đã đưa vào hàng đợi trực tuyến</span></span>` :
+        `<span class="badge badge-run">${ico("activity")}<span>Bước ${m.current_step_order || 1}/${m.total_steps || 8}</span></span>`;
 
       const workerChipsHtml = swarmWorkers.length
-        ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(viWorkerLabel(w))}</span>`).join("")}</div>`
+        ? `<div class="chip-row">${swarmWorkers.map((w) => `<span class="worker-tag">${esc(viWorkerLabel(w))}</span>`).join("")}</div>`
         : "";
 
       const msnMsgs = state.swarmMessages.filter((x) => x.mission_id === m.mission_id);
@@ -1308,45 +1713,45 @@
         const isRun = s.status === "RUNNING";
         const isWait = s.status === "WAITING_APPROVAL";
         const nodeCls = isDone ? "done" : isRun ? "running" : isWait ? "waiting" : "pending";
-        const nodeSym = isDone ? "✓" : isRun ? "●" : isWait ? "⚑" : s.step_order;
+        const nodeInner = isDone ? ico("check") : isRun ? ico("activity") : isWait ? ico("flag") : String(s.step_order);
 
         const whoStateLabel = isDone
-          ? `<strong style="color:var(--ok-text);">Đã làm xong:</strong>`
+          ? `<strong class="text-ok">Đã hoàn tất:</strong>`
           : isRun
-          ? `<strong style="color:var(--run-text);">Đang làm thật ngay lúc này:</strong>`
+          ? `<strong>Đang triển khai:</strong>`
           : isWait
-          ? `<strong style="color:var(--warn-text);">Chờ bạn duyệt:</strong>`
+          ? `<strong>Chờ bạn duyệt:</strong>`
           : `<span>Chờ tới lượt:</span>`;
 
         const deptChips = (s.lead_depts || []).map((d) =>
-          `<span class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(calmTitle(d.title_vi))}</span>`
+          `<button type="button" class="agent-pill" data-open-staff="${esc(d.dept_id)}">#${esc(d.dept_id)} ${esc(cleanDeptTitleVi(d.dept_id, d.title_vi))}</button>`
         ).join("");
         const workerPill = s.worker_name ? `<span class="worker-tag">${esc(viWorkerLabel(s.worker_name))}</span>` : "";
 
         return `
           <div class="step-row ${isRun ? "is-running" : ""} ${isWait ? "is-waiting" : ""}">
-            <span class="step-node ${nodeCls}">${nodeSym}</span>
+            <span class="step-node ${nodeCls}">${nodeInner}</span>
             <div class="step-main">
-              <div class="step-title-line">
-                <span class="step-name">Bước ${s.step_order}. ${esc(s.title)}</span>
-                ${workerPill}
+              <div class="step-head-line">
+                <div class="action-group">
+                  <span class="step-name">Bước ${s.step_order}. ${esc(sanitizeUiVietnamese(s.title))}</span>
+                  ${workerPill}
+                </div>
+                <span class="mono step-time">${esc(shortTime(s.completed_at || s.started_at))}</span>
               </div>
               <div class="who-chips">
                 ${whoStateLabel}
                 ${deptChips}
               </div>
-              ${(s.live_activity_text && !isDone) ? `<div class="step-summary" style="color:${isRun ? "var(--run-text)" : "var(--text-muted)"};">${esc(s.live_activity_text)}</div>` : ""}
-              ${(s.output_summary && (isDone || isWait)) ? `<div class="step-summary">${esc(s.output_summary)}</div>` : ""}
+              ${(s.live_activity_text && !isDone) ? `<p class="step-summary ${isRun ? "is-active" : ""}">${esc(sanitizeUiVietnamese(s.live_activity_text))}</p>` : ""}
+              ${(s.output_summary && (isDone || isWait)) ? `<p class="step-summary">${esc(sanitizeUiVietnamese(s.output_summary))}</p>` : ""}
               ${s.artifact_path ? renderArtifactChip(s.artifact_path) : ""}
-              ${isDone ? `
+              ${isDone && (s.critique_verdict || s.ux_verdict) ? `
                 <div class="step-checks">
-                  ${s.critique_verdict ? `<span>✓ ${esc(s.critique_verdict)}</span>` : ""}
-                  ${s.ux_verdict ? `<span>✓ ${esc(s.ux_verdict)}</span>` : ""}
+                  ${s.critique_verdict ? `<span>${ico("shield-check")} ${esc(sanitizeUiVietnamese(s.critique_verdict))}</span>` : ""}
+                  ${s.ux_verdict ? `<span>${ico("check")} ${esc(sanitizeUiVietnamese(s.ux_verdict))}</span>` : ""}
                 </div>
               ` : ""}
-            </div>
-            <div class="step-time-col mono" style="font-size:11.5px;color:var(--text-muted);">
-              ${esc(shortTime(s.completed_at || s.started_at))}
             </div>
           </div>
         `;
@@ -1362,39 +1767,53 @@
         <article class="mission-card">
           <div class="mission-header">
             <div class="mission-title-group">
-              <h3 class="mission-title">${esc(m.title)}</h3>
-              ${phaseBadge}
-              ${stBadge}
+              <h3 class="mission-title">${esc(sanitizeUiVietnamese(m.title))}</h3>
+              <div class="mission-badges">
+                ${phaseBadge}
+                ${stBadge}
+              </div>
               ${workerChipsHtml}
             </div>
 
-            <div class="progress-wrap">
-              <span class="mono" style="font-size:12.5px;font-weight:700;color:var(--text-primary);">${m.progress_pct || 0}%</span>
+            <div class="progress-row">
+              <span class="mono doc-name-label">${m.progress_pct || 0}%</span>
               <div class="progress-track">
-                <div class="progress-fill" style="width:${m.progress_pct || 0}%;"></div>
+                <div class="progress-fill" style="inline-size:${m.progress_pct || 0}%;"></div>
               </div>
 
-              ${m.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}">Mở SP &amp; Mã nguồn →</button>` : ""}
-              ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-ag-cmd="${esc(m.mission_id)}" title="Sao chép lệnh gửi nhanh vào khung chat Antigravity">Copy lệnh</button>` : ""}
-              ${m.status === "WAITING_CHAIRMAN" ? `
-                <button type="button" class="btn btn-xs btn-ok" data-approve-msn="${esc(m.mission_id)}">${isProposalGate ? "✓ Duyệt kèo → Sản xuất SP" : "✓ Nghiệm thu Hoàn tất"}</button>
-                <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">↺ Gửi lại sửa</button>
-              ` : ""}
-              ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">⏸ Tạm dừng</button>` : ""}
-              ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">▶ Gửi chạy tiếp</button>` : ""}
-              <button type="button" class="btn btn-xs" data-edit-msn="${esc(m.mission_id)}">Sửa</button>
-              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-msn="${esc(m.mission_id)}">Xóa</button>
+              <div class="action-group">
+                ${m.project_id ? `<button type="button" class="btn btn-xs" data-open-proj="${esc(m.project_id)}"><span>Mở sản phẩm và tài liệu</span>${ico("arrow-right")}</button>` : ""}
+                ${(isQueued && !(state.bridge && state.bridge.online)) ? `<button type="button" class="btn btn-xs" data-copy-handoff="${esc(m.mission_id)}">${ico("copy")}<span>Sao chép lệnh</span></button>` : ""}
+                ${m.status === "WAITING_CHAIRMAN" ? `
+                  <button type="button" class="btn btn-xs btn-primary" data-approve-msn="${esc(m.mission_id)}">${ico("check")}<span>${isProposalGate ? "Duyệt kèo -> Sản xuất sản phẩm" : "Nghiệm thu Sản phẩm Cuối"}</span></button>
+                  <button type="button" class="btn btn-xs" data-reject-msn="${esc(m.mission_id)}">${ico("rotate-ccw")}<span>Gửi lại sửa</span></button>
+                ` : ""}
+                ${m.status === "RUNNING" ? `<button type="button" class="btn btn-xs" data-pause-msn="${esc(m.mission_id)}">${ico("pause")}<span>Tạm dừng</span></button>` : ""}
+                ${m.status === "PAUSED" ? `<button type="button" class="btn btn-xs btn-primary" data-resume-msn="${esc(m.mission_id)}">${ico("play")}<span>Chạy tiếp</span></button>` : ""}
+                <button type="button" class="btn btn-xs" data-edit-msn="${esc(m.mission_id)}">${ico("pencil")}<span>Sửa</span></button>
+                <button type="button" class="btn btn-xs btn-destructive" data-del-msn="${esc(m.mission_id)}">${ico("trash")}<span>Xóa</span></button>
+              </div>
             </div>
           </div>
-          <div class="swarm-subnav">
-            <div class="swarm-tabs">
-              <button type="button" class="swarm-tab-btn ${activeSubTab === "steps" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:steps">Tiến độ ${m.total_steps || 8} bước</button>
-              <button type="button" class="swarm-tab-btn ${activeSubTab === "board" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:board">Bảng trao đổi (${msnMsgs.length})</button>
-              <button type="button" class="swarm-tab-btn ${activeSubTab === "members" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:members">Thành viên</button>
-              <button type="button" class="swarm-tab-btn ${activeSubTab === "graph" ? "active" : ""}" data-msn-subtab="${esc(m.mission_id)}:graph">Sơ đồ chuyền việc</button>
+
+          <div class="room-subnav">
+            <div class="segmented" role="tablist" aria-label="Chế độ phòng họp trực tiếp">
+              <button type="button" class="seg-btn ${activeSubTab === "steps" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "steps" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:steps">
+                ${ico("layers")}<span>Tiến độ ${m.total_steps || 8} bước</span>
+              </button>
+              <button type="button" class="seg-btn ${activeSubTab === "board" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "board" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:board">
+                ${ico("message-square")}<span>Bảng trao đổi (${msnMsgs.length})</span>
+              </button>
+              <button type="button" class="seg-btn ${activeSubTab === "members" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "members" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:members">
+                ${ico("users")}<span>Thành viên</span>
+              </button>
+              <button type="button" class="seg-btn ${activeSubTab === "graph" ? "active" : ""}" role="tab" aria-selected="${activeSubTab === "graph" ? "true" : "false"}" data-msn-subtab="${esc(m.mission_id)}:graph">
+                ${ico("git-branch")}<span>Sơ đồ chuyền việc</span>
+              </button>
             </div>
-            <span style="font-size:11.5px;color:var(--text-muted);">Phòng họp trực tiếp · 100% Tiếng Việt</span>
+            <span class="room-caption">Phòng họp trực tiếp: 100% Tiếng Việt</span>
           </div>
+
           ${bodyHtml}
         </article>
       `;
@@ -1403,11 +1822,14 @@
     bindQuickActions(box);
   }
 
+  // -------------------------------------------------------------------------
+  // 8. TAB 3: BANG VIEC (DANH SACH + BANG 5 COT + CUSTOM LISTBOX)
+  // -------------------------------------------------------------------------
   function getFilteredTasks() {
     const q = (document.getElementById("filter-task-q").value || "").trim().toLowerCase();
-    const projF = document.getElementById("filter-task-project").value;
-    const colF = document.getElementById("filter-task-col").value;
-    const prioF = document.getElementById("filter-task-prio").value;
+    const projF = getListboxValue("filter-task-project");
+    const colF = getListboxValue("filter-task-col");
+    const prioF = getListboxValue("filter-task-prio");
     return state.tasks.filter((t) => {
       if (projF && t.project_id !== projF) return false;
       if (colF && t.kanban_column !== colF) return false;
@@ -1419,7 +1841,9 @@
 
   function renderTasksTab() {
     document.querySelectorAll("#task-view-mode .seg-btn").forEach((b) => {
-      b.classList.toggle("active", b.getAttribute("data-tview") === state.taskViewMode);
+      const on = b.getAttribute("data-tview") === state.taskViewMode;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
     });
 
     const filtered = getFilteredTasks();
@@ -1427,21 +1851,21 @@
     const boardWrap = document.getElementById("tasks-board-wrapper");
 
     if (state.taskViewMode === "list") {
-      listWrap.style.display = "block";
-      boardWrap.style.display = "none";
+      listWrap.classList.remove("is-hidden");
+      boardWrap.classList.add("is-hidden");
       if (!filtered.length) {
-        listWrap.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text-muted);">Không có công việc nào khớp bộ lọc. Nhấn <strong>+ Thêm việc lẻ</strong> để tạo mới.</div>`;
+        listWrap.innerHTML = `<div class="empty-state"><p>Không có công việc nào khớp bộ lọc. Nhấn <strong>Thêm việc lẻ</strong> để tạo mới.</p></div>`;
         updateBulkBar();
         return;
       }
 
       const allSelected = filtered.every((t) => state.selectedTaskIds.has(t.task_id));
       const headRow = `
-        <div class="list-row" style="background:var(--bg-subtle);padding:8px 16px;font-size:12px;color:var(--text-muted);">
-          <input type="checkbox" id="chk-select-all-tasks" ${allSelected ? "checked" : ""} aria-label="Chọn tất cả việc" />
-          <span style="font-weight:600;">Chọn tất cả (${filtered.length} việc)</span>
-          <span></span>
-          <span></span>
+        <div class="list-row list-row-task list-row-head">
+          <input type="checkbox" id="chk-select-all-tasks" ${allSelected ? "checked" : ""} aria-label="Chọn tất cả công việc" />
+          <span>Chọn tất cả (${filtered.length} việc)</span>
+          <span class="hide-sm">Trạng thái</span>
+          <span class="hide-sm">Thao tác</span>
         </div>
       `;
 
@@ -1452,23 +1876,21 @@
           t.kanban_column === "WAITING_APPROVAL" ? "badge-wait" :
           t.kanban_column === "REJECTED" ? "badge-fail" :
           t.kanban_column === "IN_PROGRESS" ? "badge-run" : "badge-idle";
-        const dName = calmTitle(t.assigned_dept_title || deptTitle(t.assigned_dept_id));
+        const dName = cleanDeptTitleVi(t.assigned_dept_id, t.assigned_dept_title || deptTitle(t.assigned_dept_id));
         return `
-          <div class="list-row">
+          <div class="list-row list-row-task ${checked ? "is-selected" : ""}">
             <input type="checkbox" data-sel-task="${esc(t.task_id)}" ${checked} aria-label="Chọn ${esc(t.title)}" />
-            <div style="min-width:0;cursor:pointer;" data-edit-task="${esc(t.task_id)}">
-              <div style="font-weight:600;color:var(--text-primary);overflow-wrap:anywhere;${t.kanban_column === "DONE" ? "text-decoration:line-through;opacity:0.65;" : ""}">${esc(t.title)}</div>
-              <div style="font-size:12px;color:var(--text-muted);">
-                #${esc(t.assigned_dept_id)} ${esc(dName)} · Ưu tiên: ${esc(PRIO_LABELS[t.priority] || "Cao")}
-              </div>
+            <div class="row-main clickable" data-edit-task="${esc(t.task_id)}">
+              <div class="row-title ${t.kanban_column === "DONE" ? "is-done" : ""}">${esc(sanitizeUiVietnamese(t.title))}</div>
+              <div class="row-meta">Phòng #${esc(t.assigned_dept_id)} (${esc(dName)}), Ưu tiên: ${esc(PRIO_LABELS[t.priority] || "Cao")}</div>
             </div>
             <span class="badge ${colCls}">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
             <div class="row-actions">
-              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs" data-dispatch-task="${esc(t.task_id)}" title="Gửi đầu việc này sang Antigravity Swarm làm thật">⚡ Giao AI</button>` : ""}
-              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs btn-ok" data-approve-task="${esc(t.task_id)}" title="Đánh dấu hoàn tất">✓ Xong</button>` : ""}
+              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs" data-dispatch-task="${esc(t.task_id)}" title="Giao đội ngũ chuyên gia xử lý">${ico("cpu")}<span>Giao AI</span></button>` : ""}
+              ${t.kanban_column !== "DONE" ? `<button type="button" class="btn btn-xs btn-primary" data-approve-task="${esc(t.task_id)}" title="Đánh dấu hoàn tất">${ico("check")}<span>Xong</span></button>` : ""}
               <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
               <button type="button" class="btn btn-xs hide-sm" data-dup-task="${esc(t.task_id)}">Sao chép</button>
-              <button type="button" class="btn btn-xs btn-danger-ghost" data-del-task="${esc(t.task_id)}">Xóa</button>
+              <button type="button" class="btn btn-xs btn-destructive" data-del-task="${esc(t.task_id)}">${ico("trash")}<span>Xóa</span></button>
             </div>
           </div>
         `;
@@ -1486,37 +1908,67 @@
       }
       bindQuickActions(listWrap);
     } else {
-      listWrap.style.display = "none";
-      boardWrap.style.display = "grid";
+      listWrap.classList.add("is-hidden");
+      boardWrap.classList.remove("is-hidden");
       const cols = ["BACKLOG", "IN_PROGRESS", "QA_SECURITY_REVIEW", "WAITING_APPROVAL", "DONE"];
+      const colOpts = cols.map((opt) => ({ value: opt, label: COL_LABELS[opt] }));
+
       boardWrap.innerHTML = cols.map((c) => {
-        const colTasks = filtered.filter((t) => c === "IN_PROGRESS" ? (t.kanban_column === "IN_PROGRESS" || t.kanban_column === "REJECTED") : t.kanban_column === c);
+        const colTasks = filtered.filter((t) =>
+          c === "IN_PROGRESS"
+            ? (t.kanban_column === "IN_PROGRESS" || t.kanban_column === "REJECTED")
+            : t.kanban_column === c
+        );
         return `
           <div class="k-col" data-drop-col="${c}">
             <div class="k-head">
               <span>${esc(COL_LABELS[c])} (${colTasks.length})</span>
-              <button type="button" class="btn btn-xs" data-quick-col-add="${c}" title="Thêm việc vào cột này">+</button>
+              <button type="button" class="btn btn-xs" data-quick-col-add="${c}" aria-label="Thêm việc vào cột ${esc(COL_LABELS[c])}">${ico("plus")}</button>
             </div>
-            ${colTasks.map((t) => `
-              <div class="k-card" draggable="true" data-drag-task="${esc(t.task_id)}">
-                <div style="font-weight:600;color:var(--text-primary);cursor:pointer;overflow-wrap:anywhere;" data-edit-task="${esc(t.task_id)}">
-                  ${t.kanban_column === "REJECTED" ? `<span class="badge badge-fail" style="margin-right:4px;">Cần sửa</span>` : ""}${esc(t.title)}
-                </div>
-                <select class="select" data-move-col-select="${esc(t.task_id)}" style="height:28px;font-size:11.5px;padding:2px 6px;" aria-label="Chuyển cột">
-                  ${cols.map((opt) => `<option value="${opt}" ${(t.kanban_column === opt || (t.kanban_column === "REJECTED" && opt === "IN_PROGRESS")) ? "selected" : ""}>${esc(COL_LABELS[opt])}</option>`).join("")}
-                </select>
-                <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--text-muted);">
-                  <span>#${esc(t.assigned_dept_id)}</span>
-                  <div style="display:flex;gap:4px;">
-                    <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
-                    <button type="button" class="btn btn-xs btn-danger-ghost" data-del-task="${esc(t.task_id)}">Xóa</button>
+            ${colTasks.map((t) => {
+              const curCol = t.kanban_column === "REJECTED" ? "IN_PROGRESS" : t.kanban_column;
+              const dynId = `kcol-${t.task_id}`;
+              return `
+                <div class="k-card" draggable="true" data-drag-task="${esc(t.task_id)}">
+                  <div class="row-title clickable" data-edit-task="${esc(t.task_id)}">
+                    ${t.kanban_column === "REJECTED" ? `<span class="badge badge-fail">Cần sửa</span> ` : ""}${esc(sanitizeUiVietnamese(t.title))}
+                  </div>
+                  <div class="listbox-field listbox-compact" data-dynamic-listbox="${esc(dynId)}" data-move-task="${esc(t.task_id)}" data-current-col="${esc(curCol)}">
+                    <input type="hidden" value="${esc(curCol)}" />
+                    <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-${esc(dynId)}" aria-label="Chuyển cột trạng thái">
+                      <span class="listbox-value">${esc(COL_LABELS[curCol] || curCol)}</span>
+                      ${ico("chevron-down", "ico-xs listbox-chevron")}
+                    </button>
+                    <ul class="listbox-menu" id="lb-${esc(dynId)}" role="listbox" tabindex="-1" hidden></ul>
+                  </div>
+                  <div class="k-card-foot">
+                    <span class="mono">Phòng #${esc(t.assigned_dept_id)}</span>
+                    <div class="action-group">
+                      <button type="button" class="btn btn-xs" data-edit-task="${esc(t.task_id)}">Sửa</button>
+                      <button type="button" class="btn btn-xs btn-destructive" data-del-task="${esc(t.task_id)}">Xóa</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            `).join("")}
+              `;
+            }).join("")}
           </div>
         `;
       }).join("");
+
+      boardWrap.querySelectorAll("[data-dynamic-listbox]").forEach((wrap) => {
+        const dynId = wrap.getAttribute("data-dynamic-listbox");
+        const tid = wrap.getAttribute("data-move-task");
+        const curCol = wrap.getAttribute("data-current-col");
+        const ctrl = setupListboxElement(wrap, dynId, async (newCol) => {
+          await api(`/api/tasks/${encodeURIComponent(tid)}`, "PATCH", { kanban_column: newCol });
+          await loadEverything();
+        });
+        if (ctrl) {
+          ctrl.setOptions(colOpts, false);
+          ctrl.setValue(curCol, true);
+        }
+      });
+
       bindQuickActions(boardWrap);
       bindKanbanDragDrop(boardWrap);
     }
@@ -1540,15 +1992,11 @@
         await loadEverything();
       });
     });
-    boardWrap.querySelectorAll("[data-move-col-select]").forEach((sel) => {
-      sel.onchange = async () => {
-        const tid = sel.getAttribute("data-move-col-select");
-        await api(`/api/tasks/${encodeURIComponent(tid)}`, "PATCH", { kanban_column: sel.value });
-        await loadEverything();
-      };
-    });
   }
 
+  // -------------------------------------------------------------------------
+  // 9. TAB 4: NHAN SU (51 PHONG BAN + INSPECTOR DRAWER)
+  // -------------------------------------------------------------------------
   function renderStaffTab() {
     const pillBar = document.getElementById("staff-div-pills");
     const divOrder = [
@@ -1557,9 +2005,9 @@
       "div6-sales-commercial", "div7-finance-tax-legal", "div8-data-ops-hr"
     ];
     pillBar.innerHTML = divOrder.map((code) => {
-      const active = state.staffDivFilter === code ? "active" : "";
+      const on = state.staffDivFilter === code;
       const label = code === "" ? `Tất cả (${state.departments.length})` : (DIV_SHORT_NAMES[code] || code);
-      return `<button type="button" class="chip-btn ${active}" data-sdiv="${code}">${esc(label)}</button>`;
+      return `<button type="button" class="chip-btn ${on ? "active" : ""}" aria-pressed="${on ? "true" : "false"}" data-sdiv="${code}">${esc(label)}</button>`;
     }).join("");
 
     pillBar.querySelectorAll("[data-sdiv]").forEach((b) => {
@@ -1569,15 +2017,16 @@
     const q = (document.getElementById("staff-search").value || "").trim().toLowerCase();
     const filtered = state.departments.filter((d) => {
       if (state.staffDivFilter && d.division_code !== state.staffDivFilter) return false;
-      if (q && !`${d.dept_id} ${d.code} ${d.title_vi} ${calmTitle(d.title_vi)}`.toLowerCase().includes(q)) return false;
+      const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
+      if (q && !`${d.dept_id} ${d.code} ${d.title_vi} ${cleanName}`.toLowerCase().includes(q)) return false;
       return true;
     });
 
     const grid = document.getElementById("staff-grid");
     if (!filtered.length) {
       grid.innerHTML = `
-        <div class="panel-box" style="grid-column:1/-1;text-align:center;padding:28px;">
-          <p style="color:var(--text-muted);margin-bottom:10px;">Không tìm thấy chuyên gia nào phù hợp từ khóa.</p>
+        <div class="empty-state opp-card-lead">
+          <p>Không tìm thấy phòng chuyên gia nào phù hợp từ khóa tìm kiếm.</p>
           <button type="button" class="btn btn-xs" id="btn-reset-staff-filter">Xóa bộ lọc</button>
         </div>
       `;
@@ -1591,30 +2040,183 @@
 
     grid.innerHTML = filtered.map((d) => {
       const busy = d.status !== "IDLE";
+      const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
+      const divName = DIV_SHORT_NAMES[d.division_code] || sanitizeUiVietnamese(d.division_name_vi || "");
       return `
-        <article class="staff-card" data-open-staff="${esc(d.dept_id)}">
+        <button type="button" class="staff-card" data-open-staff="${esc(d.dept_id)}">
           <span class="sq-avatar">#${esc(d.dept_id)}</span>
-          <div style="min-width:0;flex:1;">
-            <div style="font-weight:700;color:var(--text-primary);font-size:13.5px;">${esc(calmTitle(d.title_vi))}</div>
-            <div style="font-size:12px;color:var(--text-muted);margin:2px 0 6px;">${esc(DIV_SHORT_NAMES[d.division_code] || d.division_name_vi || "")}</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-              ${busy ? `<span class="badge badge-run">● Đang làm việc</span>` : `<span class="badge badge-idle">○ Sẵn sàng</span>`}
-              <span class="mono" style="font-size:11.5px;color:var(--text-muted);">✓ ${d.tasks_completed || 0} việc</span>
-            </div>
-          </div>
-        </article>
+          <span class="staff-info">
+            <span class="row-title">${esc(cleanName)}</span>
+            <span class="row-meta">${esc(divName)}</span>
+            <span class="staff-foot">
+              ${busy
+                ? `<span class="badge badge-run">${ico("activity")}<span>Đang xử lý</span></span>`
+                : `<span class="badge badge-idle">${ico("check")}<span>Sẵn sàng</span></span>`
+              }
+              <span class="mono row-meta">${d.tasks_completed || 0} việc xong</span>
+            </span>
+          </span>
+        </button>
       `;
     }).join("");
 
     bindQuickActions(grid);
   }
 
+  async function openStaffDrawer(deptId) {
+    document.getElementById("drawer-backdrop").classList.add("open");
+    document.getElementById("inspector-drawer").classList.add("open");
+    const body = document.getElementById("drawer-body");
+    body.innerHTML = `<p class="row-meta">Đang tải hồ sơ phòng chuyên gia...</p>`;
+
+    try {
+      const d = await api(`/api/departments/${encodeURIComponent(deptId)}`);
+      const cleanName = cleanDeptTitleVi(d.dept_id, d.title_vi);
+      document.getElementById("drawer-heading").textContent = `Phòng #${d.dept_id}: ${cleanName}`;
+      const isCustom = Number(d.dept_id) > 50;
+
+      body.innerHTML = `
+        <div class="drawer-stats mono">
+          <span>Đã hoàn tất: <strong>${d.tasks_completed || 0} việc</strong></span>
+          <span>Bài báo đã học: <strong>${(d.learned_articles || []).length}</strong></span>
+          <span>Hạn mức xử lý tháng: <strong>${formatDotNumber(d.token_budget_monthly || 500000)}</strong></span>
+        </div>
+
+        <form id="form-staff-quick-task" class="drawer-quick-form">
+          <label for="inp-direct-task" class="doc-name-label">Giao việc riêng cho Phòng #${esc(d.dept_id)}</label>
+          <div class="drawer-quick-row">
+            <input type="text" class="input" id="inp-direct-task" placeholder="Nhập việc cần phòng chuyên gia này xử lý..." required />
+            <button type="submit" class="btn btn-primary">${ico("send")}<span>Giao ngay</span></button>
+          </div>
+        </form>
+
+        <details class="details-box">
+          <summary>Cập nhật chức danh và hạn mức xử lý hàng tháng</summary>
+          <form id="form-staff-meta" class="form-stack">
+            <div class="form-field">
+              <label for="inp-staff-title">Chức danh hiển thị</label>
+              <input type="text" class="input" id="inp-staff-title" value="${esc(cleanName)}" required />
+            </div>
+            <div class="form-field">
+              <label for="inp-staff-budget">Hạn mức xử lý mỗi tháng</label>
+              <input type="number" class="input mono" id="inp-staff-budget" value="${d.token_budget_monthly || 500000}" min="1000" step="50000" />
+            </div>
+            <button type="submit" class="btn btn-xs btn-primary">Lưu thông tin</button>
+          </form>
+        </details>
+
+        ${(d.reflexions && d.reflexions.length) ? `
+          <div class="section-block">
+            <div class="sec-head"><h3 class="sec-title">Sổ rút kinh nghiệm (${d.reflexions.length})</h3></div>
+            <div class="hairline-list">
+              ${d.reflexions.map((r) => `
+                <div class="list-row list-row-pair">
+                  <div class="row-main">
+                    <div class="row-title text-err">${esc(sanitizeUiVietnamese(r.failure_symptom))}</div>
+                    <div class="row-meta">Quy tắc phòng ngừa: ${esc(sanitizeUiVietnamese(r.preventive_rule))}</div>
+                  </div>
+                  <button type="button" class="btn btn-xs btn-destructive" data-del-refl="${esc(r.reflexion_id)}">Xóa</button>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        ` : ""}
+
+        <div class="section-block">
+          <div class="sec-head">
+            <h3 class="sec-title">Sổ tay chuyên môn</h3>
+            <div class="action-group">
+              <button type="button" class="btn btn-xs" id="btn-edit-hb">${ico("pencil")}<span>Sửa sổ tay</span></button>
+              ${isCustom ? `<button type="button" class="btn btn-xs btn-destructive" id="btn-retire-dept">${ico("trash")}<span>Giải thể phòng này</span></button>` : ""}
+            </div>
+          </div>
+          <div id="hb-pretty" class="rendered-md">${renderCleanMarkdown(d.handbook_markdown)}</div>
+          <div id="hb-edit-wrap" class="stack-sm is-hidden">
+            <textarea class="textarea mono doc-editor" id="hb-textarea" aria-label="Nội dung sổ tay chuyên môn">${esc(d.handbook_markdown || "")}</textarea>
+            <button type="button" class="btn btn-primary" id="btn-save-hb">Lưu sổ tay</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("form-staff-quick-task").onsubmit = async (e) => {
+        e.preventDefault();
+        const tval = document.getElementById("inp-direct-task").value.trim();
+        if (!tval) return;
+        const btn = e.target.querySelector("button[type='submit']");
+        await withLock(btn, async () => {
+          await api("/api/tasks", "POST", { title: tval, assigned_dept_id: d.dept_id, priority: "HIGH" });
+          closeDrawer();
+          await loadEverything();
+          switchTab("tasks");
+          toast(`Đã giao việc cho Phòng #${d.dept_id}.`);
+        });
+      };
+
+      document.getElementById("form-staff-meta").onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector("button[type='submit']");
+        await withLock(btn, async () => {
+          await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "PATCH", {
+            title_vi: document.getElementById("inp-staff-title").value.trim(),
+            token_budget_monthly: Number(document.getElementById("inp-staff-budget").value || 500000)
+          });
+          await loadEverything();
+          toast("Đã cập nhật thông tin phòng ban.");
+          openStaffDrawer(d.dept_id);
+        });
+      };
+
+      document.getElementById("btn-edit-hb").onclick = () => {
+        const w = document.getElementById("hb-edit-wrap");
+        const p = document.getElementById("hb-pretty");
+        const open = w.classList.contains("is-hidden");
+        w.classList.toggle("is-hidden", !open);
+        p.classList.toggle("is-hidden", open);
+      };
+
+      document.getElementById("btn-save-hb").onclick = (e) => withLock(e.currentTarget, async () => {
+        const md = document.getElementById("hb-textarea").value;
+        await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "PATCH", { handbook_markdown: md });
+        toast("Đã lưu sổ tay chuyên môn.");
+        openStaffDrawer(d.dept_id);
+      });
+
+      const retireBtn = document.getElementById("btn-retire-dept");
+      if (retireBtn) {
+        retireBtn.onclick = () => withLock(retireBtn, async () => {
+          await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "DELETE");
+          closeDrawer();
+          await loadEverything();
+          toast(`Đã giải thể Phòng #${d.dept_id}.`);
+        });
+      }
+
+      body.querySelectorAll("[data-del-refl]").forEach((rb) => {
+        rb.onclick = () => withLock(rb, async () => {
+          await api(`/api/reflexions/${encodeURIComponent(rb.getAttribute("data-del-refl"))}`, "DELETE");
+          openStaffDrawer(d.dept_id);
+        });
+      });
+    } catch (e) {
+      body.innerHTML = `<p class="text-err">${esc(e.message)}</p>`;
+    }
+  }
+
+  function closeDrawer() {
+    document.getElementById("drawer-backdrop").classList.remove("open");
+    document.getElementById("inspector-drawer").classList.remove("open");
+    document.getElementById("drawer-body").innerHTML = "";
+  }
+
+  // -------------------------------------------------------------------------
+  // 10. TAB 5: BAO MOI THI TRUONG
+  // -------------------------------------------------------------------------
   function renderNewsTab() {
     const box = document.getElementById("news-list-box");
     const uniqueList = getDeduplicatedArticles().filter((a) => state.newsStarFilter !== "starred" || Boolean(a.is_starred));
 
     if (!uniqueList.length) {
-      box.innerHTML = `<div style="padding:28px;text-align:center;color:var(--text-muted);">Không có bài báo nào trong mục này.</div>`;
+      box.innerHTML = `<div class="empty-state"><p>Không có bài báo nào trong mục này.</p></div>`;
       return;
     }
 
@@ -1624,28 +2226,27 @@
       const link = a.url || a.source_url || "#";
       const srcLabel = CONNECTOR_LABELS[a.source_connector] || "Bản tin thị trường";
       const deptsText = (a.dept_list || [a.dept_id]).map((d) => `#${d}`).join(", ");
+      const starred = Boolean(a.is_starred);
       return `
-        <div class="news-row">
+        <article class="news-row">
           <div class="news-top">
-            <div style="min-width:0;flex:1 1 240px;cursor:pointer;" data-toggle-news="${esc(aid)}">
-              <div style="font-weight:600;color:var(--text-primary);font-size:14px;">${esc(a.title)}</div>
-              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">
-                ${esc(srcLabel)} · Phòng ${esc(deptsText)} · ${esc(shortTime(a.fetched_at))}
-              </div>
+            <div class="row-main clickable" data-toggle-news="${esc(aid)}">
+              <div class="row-title">${esc(sanitizeUiVietnamese(a.title))}</div>
+              <div class="row-meta">${esc(srcLabel)}, Phòng ${esc(deptsText)}, ${esc(shortTime(a.fetched_at))}</div>
             </div>
-            <div style="display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0;">
-              ${a.atom_id ? `<button type="button" class="btn btn-xs" data-star-news="${a.atom_id}" style="${a.is_starred ? "color:var(--warn-text);" : ""}">${a.is_starred ? "★ Đã ghim" : "☆ Ghim"}</button>` : ""}
-              <a class="btn btn-xs" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Mở gốc ↗</a>
-              ${a.atom_id ? `<button type="button" class="btn btn-xs btn-danger-ghost" data-del-news="${a.atom_id}">Xóa</button>` : ""}
+            <div class="action-group">
+              ${a.atom_id ? `<button type="button" class="btn btn-xs ${starred ? "btn-star-active" : ""}" aria-pressed="${starred ? "true" : "false"}" data-star-news="${a.atom_id}">${ico(starred ? "star-fill" : "star")}<span>${starred ? "Đã đánh dấu" : "Đánh dấu"}</span></button>` : ""}
+              <a class="btn btn-xs" href="${esc(link)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở bài gốc</span></a>
+              ${a.atom_id ? `<button type="button" class="btn btn-xs btn-destructive" data-del-news="${a.atom_id}">${ico("trash")}<span>Xóa</span></button>` : ""}
             </div>
           </div>
           ${expanded ? `
-            <div style="margin-top:8px;padding:10px 12px;background:var(--bg-subtle);border-radius:8px;font-size:13px;">
-              <div>${esc(a.summary_vi || "")}</div>
-              ${a.actionable_insight ? `<div style="margin-top:6px;color:var(--accent);font-weight:600;">Ứng dụng kiếm tiền: ${esc(a.actionable_insight)}</div>` : ""}
+            <div class="news-summary-box">
+              <div>${esc(sanitizeUiVietnamese(a.summary_vi || ""))}</div>
+              ${a.actionable_insight ? `<div class="news-insight">Ứng dụng thực tế: ${esc(sanitizeUiVietnamese(a.actionable_insight))}</div>` : ""}
             </div>
           ` : ""}
-        </div>
+        </article>
       `;
     }).join("");
 
@@ -1660,7 +2261,10 @@
     bindQuickActions(box);
   }
 
-  function updateCfoSliders() {
+  // -------------------------------------------------------------------------
+  // 11. TAB 6: TAI CHINH VA GIA BAN + DU AN & TRINH SOAN TAI LIEU
+  // -------------------------------------------------------------------------
+  function updateFinanceSliders() {
     const price = Number(document.getElementById("rng-price").value);
     const quota = Number(document.getElementById("rng-quota").value);
     const unit = Number(document.getElementById("rng-unit").value);
@@ -1686,20 +2290,20 @@
     const cogsPct = Math.min(93, Math.max(2, (worstCogs / Math.max(1, price)) * 100));
     const taxPct = 7;
     const profPct = Math.max(0, 100 - cogsPct - taxPct);
-    document.getElementById("bar-cogs").style.width = `${cogsPct}%`;
-    document.getElementById("bar-tax").style.width = `${taxPct}%`;
-    document.getElementById("bar-profit").style.width = `${profPct}%`;
+    document.getElementById("bar-cogs").style.inlineSize = `${cogsPct}%`;
+    document.getElementById("bar-tax").style.inlineSize = `${taxPct}%`;
+    document.getElementById("bar-profit").style.inlineSize = `${profPct}%`;
 
     const pill = document.getElementById("cfo-status-pill");
     if (worstMargin >= 65) {
       pill.className = "badge badge-done";
-      pill.textContent = `An toàn · Biên lãi xấu nhất ${worstMargin.toFixed(0)}%`;
+      pill.textContent = `An toàn: Biên lãi xấu nhất ${worstMargin.toFixed(0)}%`;
     } else if (worstMargin < 0) {
       pill.className = "badge badge-fail";
-      pill.textContent = "Cảnh báo lỗ · Chi phí vượt giá bán";
+      pill.textContent = "Cảnh báo lỗ: Chi phí vượt giá bán";
     } else {
       pill.className = "badge badge-fail";
-      pill.textContent = `Cảnh báo · Biên lãi mỏng ${worstMargin.toFixed(0)}% (<65%)`;
+      pill.textContent = `Cảnh báo: Biên lãi mỏng ${worstMargin.toFixed(0)}% (dưới 65%)`;
     }
     document.getElementById("lbl-breakeven").textContent = breakeven > 0 ? `Hòa vốn: ${breakeven} khách` : "Đang lỗ trên mỗi khách";
 
@@ -1707,9 +2311,9 @@
     tiersBox.innerHTML = [10, 50, 200, 500].map((n) => {
       const net = Math.round(netPerUser * n - fixed);
       return `
-        <div class="list-row" style="grid-template-columns:1fr auto;">
+        <div class="list-row list-row-pair">
           <span>Khi có <strong>${n} khách trả phí</strong></span>
-          <span class="mono" style="font-weight:700;color:${net >= 0 ? "var(--ok-text)" : "var(--danger-text)"};">${vnd(net)} / tháng</span>
+          <span class="mono ${net >= 0 ? "text-ok" : "text-err"}"><strong>${vnd(net)} / tháng</strong></span>
         </div>
       `;
     }).join("");
@@ -1718,7 +2322,7 @@
   async function renderProjectsSection(preserveDocEditor = true) {
     const pList = document.getElementById("projects-crud-list");
     if (!state.projects.length) {
-      pList.innerHTML = `<div style="padding:14px;color:var(--text-muted);">Chưa có dự án. Nhấn "+ Tạo dự án mới".</div>`;
+      pList.innerHTML = `<div class="list-row"><span class="row-meta">Chưa có dự án. Nhấn Tạo dự án mới để khởi tạo.</span></div>`;
       document.getElementById("project-docs-list").innerHTML = "";
       resetDocViewer();
       return;
@@ -1728,14 +2332,14 @@
       preserveDocEditor = false;
     }
     pList.innerHTML = state.projects.map((p) => `
-      <div class="list-row" style="grid-template-columns:minmax(0,1fr) auto;${p.project_id === state.selectedProjectId ? "background:var(--accent-soft);" : ""}">
-        <div style="cursor:pointer;min-width:0;" data-sel-proj="${esc(p.project_id)}">
-          <div style="font-weight:700;color:var(--text-primary);overflow-wrap:anywhere;">${esc(p.title)}</div>
-          <div class="mono" style="font-size:11.5px;color:var(--text-muted);">${vnd(p.expected_price_vnd)} · ${esc(PROJECT_STATUS_LABELS[p.status] || "Đang chạy")}</div>
+      <div class="list-row list-row-pair ${p.project_id === state.selectedProjectId ? "is-selected" : ""}">
+        <div class="row-main clickable" data-sel-proj="${esc(p.project_id)}">
+          <div class="row-title">${esc(sanitizeUiVietnamese(p.title))}</div>
+          <div class="mono row-meta">${vnd(p.expected_price_vnd)}, ${esc(PROJECT_STATUS_LABELS[p.status] || "Đang chạy")}</div>
         </div>
         <div class="row-actions">
           <button type="button" class="btn btn-xs" data-edit-proj="${esc(p.project_id)}">Sửa</button>
-          <button type="button" class="btn btn-xs btn-danger-ghost" data-del-proj="${esc(p.project_id)}">Xóa</button>
+          <button type="button" class="btn btn-xs btn-destructive" data-del-proj="${esc(p.project_id)}">Xóa</button>
         </div>
       </div>
     `).join("");
@@ -1760,35 +2364,35 @@
     state.docEditMode = false;
     document.getElementById("doc-current-name").textContent = "Chưa chọn tài liệu";
     document.getElementById("doc-editor-actions").hidden = true;
-    document.getElementById("doc-pretty-view").innerHTML = "Chọn hoặc tạo một tài liệu (.md) để xem nội dung tại đây.";
-    document.getElementById("doc-pretty-view").style.display = "block";
-    document.getElementById("doc-raw-editor").style.display = "none";
+    document.getElementById("doc-pretty-view").innerHTML = "Chọn hoặc tạo một tài liệu mới để xem nội dung tại đây.";
+    document.getElementById("doc-pretty-view").classList.remove("is-hidden");
+    document.getElementById("doc-raw-editor").classList.add("is-hidden");
   }
 
   async function loadProjectDocs(pid, keepCurrentFile = true) {
     const dBox = document.getElementById("project-docs-list");
     if (!pid || state.staticMode) {
-      dBox.innerHTML = `<div style="padding:12px;color:var(--text-muted);font-size:12.5px;">Tài liệu dự án sẵn sàng trên máy chủ.</div>`;
+      dBox.innerHTML = `<div class="list-row"><span class="row-meta">Tài liệu dự án sẽ tải tự động khi kênh trực tuyến đang mở.</span></div>`;
       return;
     }
     try {
       const res = await api(`/api/projects/${encodeURIComponent(pid)}/files`);
       const files = res.files || [];
       if (!files.length) {
-        dBox.innerHTML = `<div style="padding:12px;color:var(--text-muted);">Chưa có tệp nào. Nhấn "+ Tạo tài liệu (.md)".</div>`;
+        dBox.innerHTML = `<div class="list-row"><span class="row-meta">Chưa có tệp tài liệu nào. Nhấn Tạo tài liệu mới.</span></div>`;
         resetDocViewer();
         return;
       }
       dBox.innerHTML = files.map((f) => `
-        <div class="list-row" style="grid-template-columns:1fr auto;cursor:pointer;${f.path === state.currentDocFile ? "background:var(--bg-subtle);" : ""}" data-open-doc="${esc(f.path)}">
-          <span class="mono" style="font-size:12.5px;overflow-wrap:anywhere;">${esc(f.path)}</span>
-          <span class="mono" style="font-size:11px;color:var(--text-muted);">${Math.max(1, Math.round((f.size_bytes || 0) / 1024))} KB</span>
+        <div class="list-row list-row-pair clickable ${f.path === state.currentDocFile ? "is-selected" : ""}" data-open-doc="${esc(f.path)}">
+          <span class="mono row-title">${esc(f.path)}</span>
+          <span class="mono row-meta">${Math.max(1, Math.round((f.size_bytes || 0) / 1024))} KB</span>
         </div>
       `).join("");
       dBox.querySelectorAll("[data-open-doc]").forEach((r) => {
         r.onclick = () => openDocFile(pid, r.getAttribute("data-open-doc"));
       });
-      const targetPath = (keepCurrentFile && files.some((x) => x.path === state.currentDocFile))
+      const targetPath = keepCurrentFile && files.some((x) => x.path === state.currentDocFile)
         ? state.currentDocFile
         : files[0].path;
       await openDocFile(pid, targetPath);
@@ -1804,154 +2408,15 @@
       document.getElementById("doc-editor-actions").hidden = false;
       document.getElementById("doc-raw-editor").value = doc.content || "";
       document.getElementById("doc-pretty-view").innerHTML = renderCleanMarkdown(doc.content || "");
-      document.getElementById("doc-pretty-view").style.display = "block";
-      document.getElementById("doc-raw-editor").style.display = "none";
-      document.getElementById("btn-save-doc").style.display = "none";
+      document.getElementById("doc-pretty-view").classList.remove("is-hidden");
+      document.getElementById("doc-raw-editor").classList.add("is-hidden");
+      document.getElementById("btn-save-doc").classList.add("is-hidden");
       document.getElementById("btn-toggle-doc-edit").textContent = "Sửa nội dung";
     } catch (_e) {}
   }
 
   // -------------------------------------------------------------------------
-  // 6. STAFF DRAWER (CLEAN CALM TITLE, SETTINGS EDIT, DISPATCH & RETIRE)
-  // -------------------------------------------------------------------------
-  async function openStaffDrawer(deptId) {
-    document.getElementById("drawer-backdrop").classList.add("open");
-    document.getElementById("inspector-drawer").classList.add("open");
-    const body = document.getElementById("drawer-body");
-    body.innerHTML = `<p style="color:var(--text-muted);">Đang tải hồ sơ...</p>`;
-
-    try {
-      const d = await api(`/api/departments/${encodeURIComponent(deptId)}`);
-      document.getElementById("drawer-heading").textContent = `#${d.dept_id} · ${calmTitle(d.title_vi)}`;
-      const isCustom = Number(d.dept_id) > 50;
-
-      body.innerHTML = `
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;font-size:12px;color:var(--text-muted);" class="mono">
-          <span>Đã hoàn tất: <strong>${d.tasks_completed || 0} việc</strong></span>
-          <span>Bài báo đã học: <strong>${(d.learned_articles || []).length}</strong></span>
-          <span>Hạn mức Token: <strong>${formatDotNumber(d.token_budget_monthly || 500000)}</strong></span>
-        </div>
-
-        <form id="form-staff-quick-task" style="padding:14px;background:var(--bg-subtle);border-radius:10px;margin-bottom:16px;">
-          <div style="font-weight:700;color:var(--text-primary);margin-bottom:8px;">Giao việc riêng cho #${esc(d.dept_id)}</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <input type="text" class="input" id="inp-direct-task" placeholder="Nhập việc cần nhân viên này làm..." style="flex:1 1 200px;" required />
-            <button type="submit" class="btn btn-primary">Giao ngay</button>
-          </div>
-        </form>
-
-        <details style="margin-bottom:16px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;">
-          <summary style="cursor:pointer;font-weight:600;color:var(--text-primary);">Cập nhật chức danh &amp; hạn mức Token tháng</summary>
-          <form id="form-staff-meta" style="margin-top:10px;">
-            <div class="form-field">
-              <label>Chức danh hiển thị</label>
-              <input type="text" class="input" id="inp-staff-title" value="${esc(calmTitle(d.title_vi))}" required />
-            </div>
-            <div class="form-field">
-              <label>Hạn mức Token / tháng</label>
-              <input type="number" class="input mono" id="inp-staff-budget" value="${d.token_budget_monthly || 500000}" min="1000" step="50000" />
-            </div>
-            <button type="submit" class="btn btn-xs btn-primary">Lưu thông tin</button>
-          </form>
-        </details>
-
-        ${(d.reflexions && d.reflexions.length) ? `
-          <div style="margin-bottom:18px;">
-            <div class="sec-head"><h3 class="sec-title">Sổ rút kinh nghiệm (${d.reflexions.length})</h3></div>
-            <div class="hairline-table">
-              ${d.reflexions.map((r) => `
-                <div class="list-row" style="grid-template-columns:1fr auto;">
-                  <div>
-                    <div style="font-weight:600;color:var(--danger-text);">${esc(r.failure_symptom)}</div>
-                    <div style="font-size:12px;">Quy tắc tránh lặp lại: ${esc(r.preventive_rule)}</div>
-                  </div>
-                  <button type="button" class="btn btn-xs btn-danger-ghost" data-del-refl="${esc(r.reflexion_id)}">Xóa</button>
-                </div>
-              `).join("")}
-            </div>
-          </div>
-        ` : ""}
-
-        <div class="sec-head">
-          <h3 class="sec-title">Cẩm nang chuyên môn</h3>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            <button type="button" class="btn btn-xs" id="btn-edit-hb">Chỉnh sửa cẩm nang</button>
-            ${isCustom ? `<button type="button" class="btn btn-xs btn-danger-ghost" id="btn-retire-dept">Giải thể phòng này</button>` : ""}
-          </div>
-        </div>
-        <div id="hb-pretty" class="rendered-md">${renderCleanMarkdown(d.handbook_markdown)}</div>
-        <div id="hb-edit-wrap" style="display:none;">
-          <textarea class="textarea mono" id="hb-textarea" style="min-height:280px;font-size:12.5px;margin-bottom:8px;">${esc(d.handbook_markdown || "")}</textarea>
-          <button type="button" class="btn btn-primary" id="btn-save-hb">Lưu cẩm nang</button>
-        </div>
-      `;
-
-      document.getElementById("form-staff-quick-task").onsubmit = async (e) => {
-        e.preventDefault();
-        const tval = document.getElementById("inp-direct-task").value.trim();
-        if (!tval) return;
-        await api("/api/tasks", "POST", { title: tval, assigned_dept_id: d.dept_id, priority: "HIGH" });
-        closeDrawer();
-        await loadEverything();
-        switchTab("tasks");
-        toast(`Đã giao việc cho Phòng #${d.dept_id}.`);
-      };
-
-      document.getElementById("form-staff-meta").onsubmit = async (e) => {
-        e.preventDefault();
-        await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "PATCH", {
-          title_vi: document.getElementById("inp-staff-title").value.trim(),
-          token_budget_monthly: Number(document.getElementById("inp-staff-budget").value || 500000)
-        });
-        await loadEverything();
-        toast("Đã cập nhật thông tin phòng ban.");
-        openStaffDrawer(d.dept_id);
-      };
-
-      document.getElementById("btn-edit-hb").onclick = () => {
-        const w = document.getElementById("hb-edit-wrap");
-        const p = document.getElementById("hb-pretty");
-        const open = w.style.display === "none";
-        w.style.display = open ? "block" : "none";
-        p.style.display = open ? "none" : "block";
-      };
-
-      document.getElementById("btn-save-hb").onclick = async () => {
-        const md = document.getElementById("hb-textarea").value;
-        await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "PATCH", { handbook_markdown: md });
-        toast("Đã lưu cẩm nang chuyên môn.");
-        openStaffDrawer(d.dept_id);
-      };
-
-      const retireBtn = document.getElementById("btn-retire-dept");
-      if (retireBtn) {
-        retireBtn.onclick = () => withLock(retireBtn, async () => {
-          await api(`/api/departments/${encodeURIComponent(d.dept_id)}`, "DELETE");
-          closeDrawer();
-          await loadEverything();
-          toast(`Đã giải thể phòng #${d.dept_id}.`);
-        });
-      }
-
-      body.querySelectorAll("[data-del-refl]").forEach((rb) => {
-        rb.onclick = async () => {
-          await api(`/api/reflexions/${encodeURIComponent(rb.getAttribute("data-del-refl"))}`, "DELETE");
-          openStaffDrawer(d.dept_id);
-        };
-      });
-    } catch (e) {
-      body.innerHTML = `<p>${esc(e.message)}</p>`;
-    }
-  }
-
-  function closeDrawer() {
-    document.getElementById("drawer-backdrop").classList.remove("open");
-    document.getElementById("inspector-drawer").classList.remove("open");
-    document.getElementById("drawer-body").innerHTML = "";
-  }
-
-  // -------------------------------------------------------------------------
-  // 7. UNIFIED QUICK ACTIONS (ZERO window.prompt, FULL UNDO & BATCH UNDO)
+  // 12. QUICK ACTIONS, BULK BAR & MODALS
   // -------------------------------------------------------------------------
   function bindQuickActions(root) {
     root.querySelectorAll("[data-open-staff]").forEach((el) => {
@@ -1969,20 +2434,20 @@
         switchTab("missions");
         toast(
           res && res.bridge_online
-            ? "Đã chuyển cơ hội sang Antigravity Swarm — Đang khởi động AI làm thật!"
-            : "Đã xếp cơ hội vào hàng đợi Antigravity (sẽ tự chạy ngay khi bật Trực chiến)."
+            ? "Đã chuyển cơ hội sang đội ngũ chuyên gia để triển khai ngay."
+            : "Đã xếp cơ hội vào hàng đợi trực tuyến."
         );
       });
     });
 
-    root.querySelectorAll("[data-copy-ag-cmd]").forEach((b) => {
+    root.querySelectorAll("[data-copy-handoff]").forEach((b) => {
       b.onclick = async () => {
-        const m = state.missions.find((x) => x.mission_id === b.getAttribute("data-copy-ag-cmd"));
+        const m = state.missions.find((x) => x.mission_id === b.getAttribute("data-copy-handoff"));
         if (!m) return;
-        const cmd = buildAntigravityHandoffCommand(m);
+        const cmd = buildHandoffCommand(m);
         try {
           await navigator.clipboard.writeText(cmd);
-          toast("Đã sao chép lệnh! Dán vào khung chat Antigravity nếu chưa bật cầu nối trực chiến.");
+          toast("Đã sao chép lệnh điều phối vào bộ nhớ tạm.");
         } catch (_e) {
           toast(cmd);
         }
@@ -1998,8 +2463,8 @@
           await loadEverything();
           toast(
             res && res.bridge_online
-              ? "Đã bắn công việc sang Antigravity Swarm để làm thật!"
-              : "Đã đưa công việc vào hàng đợi Antigravity (tự chạy khi bật Trực chiến)."
+              ? "Đã giao đầu việc cho đội ngũ chuyên gia xử lý ngay."
+              : "Đã đưa đầu việc vào hàng đợi trực tuyến."
           );
         });
       };
@@ -2057,18 +2522,13 @@
         await loadEverything();
         if (res && res.phase === "PRODUCTION") {
           switchTab("missions");
-          toast(
-            res.bridge_online
-              ? "Đã duyệt chốt kèo! Đã phát lệnh BUILD_PRODUCT sang Antigravity Swarm sản xuất sản phẩm cuối (Bước 5 → 8)!"
-              : "Đã duyệt chốt kèo & tạo thư mục dự án! Bật trực chiến Antigravity để đội ngũ sản xuất sản phẩm thật ngay."
-          );
+          toast("Đã duyệt chốt kèo. Đội ngũ đã nhận lệnh bắt đầu sản xuất sản phẩm cuối (Bước 5 đến 8).");
         } else {
-          toast("Đã nghiệm thu sản phẩm cuối hoàn tất 100%! Xem lưu trữ ở Tab Tiến độ → Đã xong & Tab Tài chính.");
+          toast("Đã nghiệm thu Sản phẩm Cuối hoàn tất 100%.");
         }
       });
     });
 
-    // Clean Modal instead of window.prompt for Reject!
     root.querySelectorAll("[data-reject-msn]").forEach((b) => {
       b.onclick = () => {
         document.getElementById("reject-modal-title").textContent = "Yêu cầu nhân viên làm lại nhiệm vụ";
@@ -2093,7 +2553,6 @@
       });
     });
 
-    // Clean Modal instead of window.prompt for Edit Mission!
     root.querySelectorAll("[data-edit-msn]").forEach((b) => {
       b.onclick = () => {
         const m = state.missions.find((x) => x.mission_id === b.getAttribute("data-edit-msn"));
@@ -2116,13 +2575,12 @@
       });
     });
 
-    // Tasks Actions
     root.querySelectorAll("[data-sel-task]").forEach((chk) => {
       chk.onchange = () => {
         const tid = chk.getAttribute("data-sel-task");
         if (chk.checked) state.selectedTaskIds.add(tid);
         else state.selectedTaskIds.delete(tid);
-        updateBulkBar();
+        renderTasksTab();
       };
     });
 
@@ -2156,10 +2614,10 @@
         document.getElementById("task-modal-title").textContent = "Chỉnh sửa công việc";
         document.getElementById("edit-task-id").value = t.task_id;
         document.getElementById("inp-task-title").value = t.title;
-        document.getElementById("inp-task-dept").value = t.assigned_dept_id || "00";
-        document.getElementById("inp-task-col").value = t.kanban_column || "BACKLOG";
-        document.getElementById("inp-task-proj").value = t.project_id || "";
-        document.getElementById("inp-task-prio").value = t.priority || "HIGH";
+        setListboxValue("inp-task-dept", t.assigned_dept_id || "00", true);
+        setListboxValue("inp-task-col", t.kanban_column || "BACKLOG", true);
+        setListboxValue("inp-task-proj", t.project_id || "", true);
+        setListboxValue("inp-task-prio", t.priority || "HIGH", true);
         document.getElementById("inp-task-desc").value = t.description || "";
         openModal("modal-task");
       };
@@ -2194,7 +2652,6 @@
       b.onclick = () => openNewTaskModal(b.getAttribute("data-quick-col-add"));
     });
 
-    // News Star & Delete + Undo
     root.querySelectorAll("[data-star-news]").forEach((b) => {
       b.onclick = () => withLock(b, async () => {
         await api(`/api/knowledge/${b.getAttribute("data-star-news")}`, "PATCH", {});
@@ -2212,17 +2669,16 @@
       });
     });
 
-    // Projects Edit & Delete + Undo
     root.querySelectorAll("[data-edit-proj]").forEach((b) => {
       b.onclick = () => {
         const p = state.projects.find((x) => x.project_id === b.getAttribute("data-edit-proj"));
         if (!p) return;
         document.getElementById("proj-modal-title").textContent = "Chỉnh sửa dự án";
         document.getElementById("edit-proj-id").value = p.project_id;
-        document.getElementById("wrap-proj-slug").style.display = "none";
+        document.getElementById("wrap-proj-slug").classList.add("is-hidden");
         document.getElementById("inp-proj-title").value = p.title;
         document.getElementById("inp-proj-price").value = formatDotNumber(p.expected_price_vnd || 399000);
-        document.getElementById("inp-proj-status").value = p.status || "ACTIVE";
+        setListboxValue("inp-proj-status", p.status || "ACTIVE", true);
         document.getElementById("inp-proj-obj").value = p.objective || "";
         openModal("modal-proj");
       };
@@ -2243,15 +2699,11 @@
     const bar = document.getElementById("bulk-bar");
     const cnt = state.selectedTaskIds.size;
     document.getElementById("bulk-count-lbl").textContent = `Đã chọn ${cnt} việc`;
-    if (cnt > 0 && state.tab === "tasks") {
-      bar.classList.add("visible");
-    } else {
-      bar.classList.remove("visible");
-    }
+    bar.classList.toggle("visible", cnt > 0 && state.tab === "tasks");
   }
 
   // -------------------------------------------------------------------------
-  // 8. NAVIGATION, NON-CLOBBERING DROPDOWNS, COMMAND PALETTE & SYNC
+  // 13. NAVIGATION, LISTBOX SYNC, THEME, COMMAND PALETTE & LIVE STREAM
   // -------------------------------------------------------------------------
   function switchTab(tab) {
     if (!VIEW_TITLES[tab]) return;
@@ -2261,11 +2713,10 @@
     document.querySelectorAll(".view-panel").forEach((p) => {
       p.classList.toggle("active", p.id === `view-${tab}`);
     });
-    document.querySelectorAll("#side-nav .nav-item").forEach((b) => {
-      b.classList.toggle("active", b.getAttribute("data-tab") === tab);
-    });
-    document.querySelectorAll("#mobile-nav .mob-btn").forEach((b) => {
-      b.classList.toggle("active", b.getAttribute("data-tab") === tab);
+    document.querySelectorAll("#side-nav .nav-item, #mobile-nav .mob-btn").forEach((b) => {
+      const on = b.getAttribute("data-tab") === tab;
+      if (on) b.setAttribute("aria-current", "page");
+      else b.removeAttribute("aria-current");
     });
 
     if (window.location.hash !== `#${tab}`) {
@@ -2277,6 +2728,7 @@
 
   function openModal(id) {
     closeModals();
+    closeAllListboxes();
     document.getElementById("modal-backdrop").classList.add("open");
     const m = document.getElementById(id);
     if (m) {
@@ -2287,6 +2739,7 @@
   }
 
   function closeModals() {
+    closeAllListboxes();
     document.getElementById("modal-backdrop").classList.remove("open");
     document.querySelectorAll(".modal.open").forEach((m) => m.classList.remove("open"));
   }
@@ -2295,42 +2748,40 @@
     document.getElementById("task-modal-title").textContent = "Thêm công việc mới";
     document.getElementById("edit-task-id").value = "";
     document.getElementById("form-task").reset();
-    document.getElementById("inp-task-col").value = defaultCol;
+    setListboxValue("inp-task-col", defaultCol, true);
+    setListboxValue("inp-task-prio", "HIGH", true);
+    setListboxValue("inp-task-proj", "", true);
     openModal("modal-task");
   }
 
-  function setSelectOptionsPreservingValue(selectEl, optionsHtml, skipIfModalId = "") {
-    if (!selectEl) return;
-    if (skipIfModalId) {
-      const modalEl = document.getElementById(skipIfModalId);
-      if (modalEl && modalEl.classList.contains("open") && selectEl.options.length > 0) return;
+  function populateDynamicListboxes() {
+    const deptItems = state.departments.map((d) => ({
+      value: d.dept_id,
+      label: `#${d.dept_id}: ${cleanDeptTitleVi(d.dept_id, d.title_vi)}`
+    }));
+    if (deptItems.length) {
+      setListboxOptions("inp-task-dept", deptItems, true, "modal-task");
+      setListboxOptions("url-dept-select", deptItems, true);
     }
-    const prev = selectEl.value;
-    selectEl.innerHTML = optionsHtml;
-    if (prev && Array.from(selectEl.options).some((o) => o.value === prev)) {
-      selectEl.value = prev;
-    }
-  }
 
-  function populateDropdowns() {
-    const deptOpts = state.departments
-      .map((d) => `<option value="${esc(d.dept_id)}">#${esc(d.dept_id)} · ${esc(calmTitle(d.title_vi))}</option>`)
-      .join("");
-    setSelectOptionsPreservingValue(document.getElementById("inp-task-dept"), deptOpts, "modal-task");
-    setSelectOptionsPreservingValue(document.getElementById("url-dept-select"), deptOpts);
+    const projTaskItems = [
+      { value: "", label: "Không gắn dự án" },
+      ...state.projects.map((p) => ({ value: p.project_id, label: sanitizeUiVietnamese(p.title) }))
+    ];
+    setListboxOptions("inp-task-proj", projTaskItems, true, "modal-task");
 
-    const projOpts = `<option value="">-- Không gắn dự án --</option>` +
-      state.projects.map((p) => `<option value="${esc(p.project_id)}">${esc(p.title)}</option>`).join("");
-    setSelectOptionsPreservingValue(document.getElementById("inp-task-proj"), projOpts, "modal-task");
+    const projFilterItems = [
+      { value: "", label: "Tất cả dự án" },
+      ...state.projects.map((p) => ({ value: p.project_id, label: sanitizeUiVietnamese(p.title) }))
+    ];
+    setListboxOptions("filter-task-project", projFilterItems, true);
 
-    const filterProjOpts = `<option value="">Tất cả dự án</option>` +
-      state.projects.map((p) => `<option value="${esc(p.project_id)}">${esc(p.title)}</option>`).join("");
-    setSelectOptionsPreservingValue(document.getElementById("filter-task-project"), filterProjOpts);
-
-    const divOpts = state.divisions
+    const divItems = state.divisions
       .filter((dv) => dv.code !== "exec-board")
-      .map((dv) => `<option value="${esc(dv.code)}">${esc(dv.name_vi)}</option>`).join("");
-    setSelectOptionsPreservingValue(document.getElementById("inp-hire-div"), divOpts, "modal-hire");
+      .map((dv) => ({ value: dv.code, label: DIV_SHORT_NAMES[dv.code] || sanitizeUiVietnamese(dv.name_vi) }));
+    if (divItems.length) {
+      setListboxOptions("inp-hire-div", divItems, true, "modal-hire");
+    }
   }
 
   function renderAllViews() {
@@ -2341,7 +2792,7 @@
     if (state.tab === "staff") renderStaffTab();
     if (state.tab === "news") renderNewsTab();
     if (state.tab === "finance") {
-      updateCfoSliders();
+      updateFinanceSliders();
       renderProjectsSection(true);
     }
   }
@@ -2371,7 +2822,8 @@
     state.opportunities = ov.opportunities || [];
     state.departments = depts.departments || [];
     state.tasks = tasks.tasks || [];
-    populateDropdowns();
+    state.lastSyncAt = new Date().toISOString();
+    populateDynamicListboxes();
     renderAllViews();
   }
 
@@ -2406,38 +2858,60 @@
     });
     es.onerror = () => {
       es.close();
-      if (!state.staticMode) setTimeout(startLiveStream, 3000);
+      if (!state.staticMode) setTimeout(startLiveStream, 3500);
     };
+  }
+
+  function scheduleOnlineReconnect() {
+    if (state.reconnectTimer) clearInterval(state.reconnectTimer);
+    state.reconnectTimer = setInterval(async () => {
+      if (!state.staticMode) return;
+      const connected = await detectOnlineEndpoint();
+      if (connected) {
+        await Promise.all([loadEverything(), loadNews(document.getElementById("news-search-input").value || "")]);
+        startLiveStream();
+        if (!state.bridgeTimer) state.bridgeTimer = setInterval(pollBridgeStatus, 5000);
+        toast("Đã khôi phục kết nối trực tuyến.");
+      }
+    }, 20000);
   }
 
   function applyTheme(t) {
     const mode = t === "dark" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", mode);
     localStorage.setItem("titan_theme", mode);
-    document.getElementById("meta-theme-color").setAttribute("content", mode === "dark" ? "#10141F" : "#0F766E");
-    const svg = document.getElementById("theme-icon-svg");
-    if (svg) {
-      svg.innerHTML = mode === "dark"
-        ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>'
-        : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+    const btn = document.getElementById("btn-theme");
+    const useEl = document.getElementById("theme-icon-use");
+    if (btn) {
+      btn.setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
+      btn.setAttribute("aria-label", mode === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối");
+    }
+    if (useEl) {
+      useEl.setAttribute("href", mode === "dark" ? "#i-sun" : "#i-moon");
+    }
+    const meta = document.getElementById("meta-theme-color");
+    if (meta) {
+      const styles = getComputedStyle(document.documentElement);
+      const tokenVal = styles.getPropertyValue(mode === "dark" ? "--color-surface-page" : "--color-action-primary").trim();
+      if (tokenVal) meta.setAttribute("content", tokenVal);
     }
   }
 
-  // Real GitHub REST API 2-Way Cloud Sync
-  async function syncWithGitHubCloud() {
+  async function syncWithCloudVault() {
     const pin = document.getElementById("inp-cloud-pin").value;
     if (!pin || pin.length < 4) {
-      throw new Error("Vui lòng nhập Mã PIN mở két (tối thiểu 4 ký tự).");
+      throw new Error("Vui lòng nhập mã bảo vệ két tối thiểu 4 ký tự.");
     }
     const creds = await cryptoVault.unlock(pin);
-    sessionUnlockedGitHub = creds;
+    sessionUnlockedCloud = creds;
     const apiUrl = `https://api.github.com/repos/${creds.repo}/contents/corporate_hq/cloud_state/snapshot.json`;
     const headers = {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${creds.token}`
     };
     const r = await fetch(apiUrl, { headers });
-    if (!r.ok) throw new Error(`GitHub API trả mã lỗi ${r.status}. Kiểm tra lại quyền Token.`);
+    if (!r.ok) throw new Error(`Kênh đám mây báo mã lỗi ${r.status}. Vui lòng kiểm tra lại khóa truy cập.`);
     const meta = await r.json();
     const remoteSnap = JSON.parse(cryptoVault.b64ToUtf8(meta.content || ""));
 
@@ -2447,7 +2921,7 @@
         method: "PUT",
         headers: { ...headers, "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: `chore(sync): Command Center multi-device sync ${new Date().toISOString()}`,
+          message: `chore(sync): dong bo da thiet bi ${new Date().toISOString()}`,
           content: cryptoVault.utf8ToB64(JSON.stringify(merged.snapshot, null, 2)),
           sha: meta.sha
         })
@@ -2459,37 +2933,46 @@
       state.tasks = remoteSnap.tasks || state.tasks;
       state.projects = remoteSnap.projects || state.projects;
       state.articles = remoteSnap.knowledge_atoms || state.articles;
-      saveLocalFallbackStore();
+      saveOfflineViewCache();
       renderAllViews();
     }
     closeModals();
-    toast("Đồng bộ 2 chiều với kho GitHub thành công!");
+    toast("Đồng bộ đám mây 2 chiều thành công.");
   }
 
-  // Command Palette (All 6 Entities + Arrow/Enter Navigation)
   function renderCmd(q) {
     const term = (q || "").trim().toLowerCase();
     const rows = [];
     state.missions.forEach((m) => {
-      if (!term || m.title.toLowerCase().includes(term)) rows.push({ kind: "msn", label: `Nhiệm vụ: ${m.title}`, sub: "Tiến độ 7 bước" });
+      if (!term || m.title.toLowerCase().includes(term)) {
+        rows.push({ kind: "msn", label: `Nhiệm vụ: ${sanitizeUiVietnamese(m.title)}`, sub: "Tiến độ 8 bước" });
+      }
     });
     state.opportunities.forEach((o) => {
-      if (term && o.title.toLowerCase().includes(term)) rows.push({ kind: "opp", label: `Cơ hội: ${o.title}`, sub: o.target_customer });
+      if (term && o.title.toLowerCase().includes(term)) {
+        rows.push({ kind: "opp", label: `Cơ hội: ${sanitizeUiVietnamese(o.title)}`, sub: sanitizeUiVietnamese(o.target_customer) });
+      }
     });
     state.tasks.forEach((t) => {
-      if (term && t.title.toLowerCase().includes(term)) rows.push({ kind: "task", id: t.task_id, label: `Công việc: ${t.title}`, sub: COL_LABELS[t.kanban_column] || "" });
+      if (term && t.title.toLowerCase().includes(term)) {
+        rows.push({ kind: "task", id: t.task_id, label: `Công việc: ${sanitizeUiVietnamese(t.title)}`, sub: COL_LABELS[t.kanban_column] || "" });
+      }
     });
     state.projects.forEach((p) => {
-      if (term && p.title.toLowerCase().includes(term)) rows.push({ kind: "proj", id: p.project_id, label: `Dự án: ${p.title}`, sub: PROJECT_STATUS_LABELS[p.status] || "" });
+      if (term && p.title.toLowerCase().includes(term)) {
+        rows.push({ kind: "proj", id: p.project_id, label: `Dự án: ${sanitizeUiVietnamese(p.title)}`, sub: PROJECT_STATUS_LABELS[p.status] || "" });
+      }
     });
     state.departments.forEach((d) => {
-      const cTitle = calmTitle(d.title_vi);
+      const cTitle = cleanDeptTitleVi(d.dept_id, d.title_vi);
       if (!term || `${d.dept_id} ${d.code} ${cTitle}`.toLowerCase().includes(term)) {
-        rows.push({ kind: "dept", id: d.dept_id, label: `#${d.dept_id} · ${cTitle}`, sub: DIV_SHORT_NAMES[d.division_code] || "" });
+        rows.push({ kind: "dept", id: d.dept_id, label: `Phòng #${d.dept_id}: ${cTitle}`, sub: DIV_SHORT_NAMES[d.division_code] || "" });
       }
     });
     getDeduplicatedArticles().forEach((a) => {
-      if (term && a.title.toLowerCase().includes(term)) rows.push({ kind: "news", label: `Báo mới: ${a.title}`, sub: CONNECTOR_LABELS[a.source_connector] || "" });
+      if (term && a.title.toLowerCase().includes(term)) {
+        rows.push({ kind: "news", label: `Báo mới: ${sanitizeUiVietnamese(a.title)}`, sub: CONNECTOR_LABELS[a.source_connector] || "" });
+      }
     });
 
     state.cmdItems = rows.slice(0, 14);
@@ -2500,16 +2983,16 @@
   function paintCmdList() {
     const box = document.getElementById("cmd-results");
     if (!state.cmdItems.length) {
-      box.innerHTML = `<div style="padding:14px;color:var(--text-muted);">Không tìm thấy kết quả phù hợp.</div>`;
+      box.innerHTML = `<div class="list-row"><span class="row-meta">Không tìm thấy kết quả phù hợp.</span></div>`;
       return;
     }
     box.innerHTML = state.cmdItems.map((r, idx) => `
-      <div class="list-row ${idx === state.cmdIndex ? "cmd-active" : ""}" style="grid-template-columns:1fr auto;cursor:pointer;" data-cmd-idx="${idx}">
-        <div style="min-width:0;">
-          <div style="font-weight:600;color:var(--text-primary);overflow-wrap:anywhere;">${esc(r.label)}</div>
-          ${r.sub ? `<div style="font-size:11.5px;color:var(--text-muted);">${esc(r.sub)}</div>` : ""}
+      <div class="list-row list-row-pair clickable ${idx === state.cmdIndex ? "cmd-active" : ""}" data-cmd-idx="${idx}">
+        <div class="row-main">
+          <div class="row-title">${esc(r.label)}</div>
+          ${r.sub ? `<div class="row-meta">${esc(r.sub)}</div>` : ""}
         </div>
-        <span style="font-size:12px;color:var(--text-muted);">Mở ↵</span>
+        <span class="row-meta">Mở</span>
       </div>
     `).join("");
 
@@ -2524,7 +3007,11 @@
     closeModals();
     if (item.kind === "msn") {
       state.missionFilter = "";
-      document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((x) => x.classList.toggle("active", x.getAttribute("data-mfilter") === ""));
+      document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((x) => {
+        const on = x.getAttribute("data-mfilter") === "";
+        x.classList.toggle("active", on);
+        x.setAttribute("aria-selected", on ? "true" : "false");
+      });
       switchTab("missions");
     } else if (item.kind === "opp") {
       switchTab("command");
@@ -2541,7 +3028,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 9. EVENT BINDINGS & INITIALIZATION
+  // 14. GLOBAL EVENT BINDINGS & INIT
   // -------------------------------------------------------------------------
   function bindGlobalEvents() {
     document.querySelectorAll("#side-nav .nav-item, #mobile-nav .mob-btn").forEach((b) => {
@@ -2552,16 +3039,27 @@
       applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
     };
 
-    // Tab 1: Mission Composer + Ctrl+Enter
+    // Tab 1: Mission Composer + inline validation
+    const promptEl = document.getElementById("mission-prompt-input");
+    const errPrompt = document.getElementById("err-mission-prompt");
+
     document.querySelectorAll("[data-preset]").forEach((chip) => {
       chip.onclick = () => {
-        const inp = document.getElementById("mission-prompt-input");
-        inp.value = chip.getAttribute("data-preset");
-        inp.focus();
+        promptEl.value = chip.getAttribute("data-preset");
+        promptEl.removeAttribute("aria-invalid");
+        errPrompt.textContent = "";
+        promptEl.focus();
       };
     });
 
-    document.getElementById("mission-prompt-input").addEventListener("keydown", (e) => {
+    promptEl.addEventListener("input", () => {
+      if (promptEl.value.trim()) {
+        promptEl.removeAttribute("aria-invalid");
+        errPrompt.textContent = "";
+      }
+    });
+
+    promptEl.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
         e.preventDefault();
         document.getElementById("form-mission-composer").requestSubmit();
@@ -2570,12 +3068,15 @@
 
     document.getElementById("form-mission-composer").onsubmit = (e) => {
       e.preventDefault();
-      const promptEl = document.getElementById("mission-prompt-input");
       const text = promptEl.value.trim();
       if (!text) {
+        promptEl.setAttribute("aria-invalid", "true");
+        errPrompt.textContent = "Vui lòng nhập mô tả đề bài hoặc chọn một gợi ý nhanh bên dưới.";
         promptEl.focus();
         return;
       }
+      promptEl.removeAttribute("aria-invalid");
+      errPrompt.textContent = "";
       const btn = document.getElementById("btn-submit-mission");
       withLock(btn, async () => {
         const autoApp = document.getElementById("chk-auto-approve").checked;
@@ -2585,8 +3086,8 @@
         switchTab("missions");
         toast(
           res && res.bridge_online
-            ? "Đã gửi đề bài thẳng sang Antigravity Swarm — Đội AI thật đang tiếp nhận!"
-            : "Đã xếp đơn vào hàng đợi Antigravity — Sẽ tự động chạy thật ngay khi bật Trực chiến."
+            ? "Đã gửi đề bài cho đội ngũ chuyên gia trực tuyến tiếp nhận ngay."
+            : "Đã xếp đơn nhiệm vụ vào hàng đợi trực tuyến."
         );
       });
     };
@@ -2594,7 +3095,7 @@
     document.getElementById("btn-scan-opps").onclick = (e) => withLock(e.currentTarget, async () => {
       const res = await api("/api/opportunities/scan", "POST", {});
       await loadEverything();
-      toast((res && res.message) || "Đã gửi lệnh săn cơ hội kiếm tiền thật sang Antigravity Swarm!");
+      toast(sanitizeUiVietnamese((res && res.message) || "Đã gửi yêu cầu săn cơ hội kiếm tiền mới."));
     });
 
     document.getElementById("btn-add-opp").onclick = () => {
@@ -2627,7 +3128,6 @@
       });
     };
 
-    // Edit Mission Modal Submit
     document.getElementById("form-edit-mission").onsubmit = (e) => {
       e.preventDefault();
       const btn = e.target.querySelector("button[type='submit']");
@@ -2644,7 +3144,6 @@
       });
     };
 
-    // Reject Modal Submit (for both Mission & Task)
     document.getElementById("form-reject").onsubmit = (e) => {
       e.preventDefault();
       const btn = e.target.querySelector("button[type='submit']");
@@ -2659,15 +3158,19 @@
         }
         closeModals();
         await loadEverything();
-        toast("Đã gửi yêu cầu làm lại cho nhân viên.");
+        toast("Đã gửi yêu cầu làm lại cho nhân sự phụ trách.");
       });
     };
 
-    // Tab 2: Missions Filter & Clear Completed + Batch Undo
+    // Tab 2: Missions filters & cleanup
     document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((b) => {
       b.onclick = () => {
-        document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((x) => x.classList.remove("active"));
+        document.querySelectorAll("#mission-filter-tabs .seg-btn").forEach((x) => {
+          x.classList.remove("active");
+          x.setAttribute("aria-selected", "false");
+        });
         b.classList.add("active");
+        b.setAttribute("aria-selected", "true");
         state.missionFilter = b.getAttribute("data-mfilter");
         renderMissionsTab();
       };
@@ -2687,10 +3190,10 @@
 
     document.getElementById("btn-new-mission-tab2").onclick = () => {
       switchTab("command");
-      document.getElementById("mission-prompt-input").focus();
+      promptEl.focus();
     };
 
-    // Tab 3: Tasks Filters, View Toggle, Add/Edit, Clear Done & Bulk Delete + Batch Undo
+    // Tab 3: Tasks filters, view switch, CRUD, bulk actions
     document.querySelectorAll("#task-view-mode .seg-btn").forEach((b) => {
       b.onclick = () => {
         state.taskViewMode = b.getAttribute("data-tview");
@@ -2699,9 +3202,9 @@
     });
 
     document.getElementById("filter-task-q").oninput = renderTasksTab;
-    document.getElementById("filter-task-project").onchange = renderTasksTab;
-    document.getElementById("filter-task-col").onchange = renderTasksTab;
-    document.getElementById("filter-task-prio").onchange = renderTasksTab;
+    document.getElementById("filter-task-project").addEventListener("change", renderTasksTab);
+    document.getElementById("filter-task-col").addEventListener("change", renderTasksTab);
+    document.getElementById("filter-task-prio").addEventListener("change", renderTasksTab);
     document.getElementById("btn-quick-task").onclick = () => openNewTaskModal("BACKLOG");
     document.getElementById("btn-add-task-tab3").onclick = () => openNewTaskModal("BACKLOG");
 
@@ -2712,10 +3215,10 @@
         const tid = document.getElementById("edit-task-id").value;
         const payload = {
           title: document.getElementById("inp-task-title").value.trim(),
-          assigned_dept_id: document.getElementById("inp-task-dept").value,
-          kanban_column: document.getElementById("inp-task-col").value,
-          project_id: document.getElementById("inp-task-proj").value || null,
-          priority: document.getElementById("inp-task-prio").value,
+          assigned_dept_id: getListboxValue("inp-task-dept") || "00",
+          kanban_column: getListboxValue("inp-task-col") || "BACKLOG",
+          project_id: getListboxValue("inp-task-proj") || null,
+          priority: getListboxValue("inp-task-prio") || "HIGH",
           description: document.getElementById("inp-task-desc").value.trim()
         };
         if (tid) await api(`/api/tasks/${encodeURIComponent(tid)}`, "PATCH", payload);
@@ -2734,7 +3237,7 @@
       }
       const res = await api("/api/tasks/bulk", "POST", { action: "clear_done" });
       await loadEverything();
-      toast(`Đã dọn ${res.affected || backups.length} việc đã xong.`, {
+      toast(`Đã dọn ${res.affected || backups.length} công việc đã xong.`, {
         items: backups.map((t) => ({ entity_type: "task", entity_id: t.task_id, backup: t }))
       });
     });
@@ -2771,7 +3274,7 @@
       const btn = e.target.querySelector("button[type='submit']");
       withLock(btn, async () => {
         const res = await api("/api/departments", "POST", {
-          division: document.getElementById("inp-hire-div").value,
+          division: getListboxValue("inp-hire-div") || "div1-strategy-intel",
           title: document.getElementById("inp-hire-title").value.trim(),
           code: document.getElementById("inp-hire-code").value.trim(),
           mission: document.getElementById("inp-hire-mission").value.trim()
@@ -2784,31 +3287,35 @@
       });
     };
 
-    // Tab 5: News Poll, Read URL & Fast Search
+    // Tab 5: News Poll, Read URL, Star filter & Search
     const pollNews = (e) => withLock(e.currentTarget, async () => {
       const r = await api("/api/learning/run", "POST", { scope: "all" });
-      toast(r.message || "Đang cập nhật tin tức thị trường mới...");
+      toast(sanitizeUiVietnamese(r.message || "Đang cập nhật tin tức thị trường mới."));
     });
     document.getElementById("btn-scan-news").onclick = pollNews;
     document.getElementById("btn-poll-feeds-tab5").onclick = pollNews;
 
     document.getElementById("form-read-url").onsubmit = (e) => {
       e.preventDefault();
-      const btn = e.target.querySelector("button[type='submit']");
+      const btn = document.getElementById("btn-submit-read-url");
       withLock(btn, async () => {
         const url = document.getElementById("url-to-read").value.trim();
-        const dept = document.getElementById("url-dept-select").value;
+        const dept = getListboxValue("url-dept-select") || "01";
         await api("/api/learning/ingest-url", "POST", { url, dept_id: dept });
         document.getElementById("url-to-read").value = "";
         await Promise.all([loadNews(""), loadEverything()]);
-        toast("Nhân viên đã đọc sạch nội dung và lưu bài báo.");
+        toast("Chuyên gia đã đọc sạch nội dung và lưu bài báo.");
       });
     };
 
     document.querySelectorAll("#news-star-filter .seg-btn").forEach((b) => {
       b.onclick = () => {
-        document.querySelectorAll("#news-star-filter .seg-btn").forEach((x) => x.classList.remove("active"));
+        document.querySelectorAll("#news-star-filter .seg-btn").forEach((x) => {
+          x.classList.remove("active");
+          x.setAttribute("aria-selected", "false");
+        });
         b.classList.add("active");
+        b.setAttribute("aria-selected", "true");
         state.newsStarFilter = b.getAttribute("data-nfilter");
         renderNewsTab();
       };
@@ -2817,20 +3324,21 @@
     let searchT = null;
     document.getElementById("news-search-input").oninput = (e) => {
       clearTimeout(searchT);
-      searchT = setTimeout(() => loadNews(e.target.value), 90);
+      searchT = setTimeout(() => loadNews(e.target.value), 120);
     };
 
-    // Tab 6: CFO Sliders, Projects, Document Modal & Encrypted Cloud Vault
+    // Tab 6: Finance Sliders, Projects, Document Editor & Cloud Vault
     ["rng-price", "rng-quota", "rng-unit", "rng-fixed"].forEach((id) => {
-      document.getElementById(id).oninput = updateCfoSliders;
+      document.getElementById(id).oninput = updateFinanceSliders;
     });
 
     document.getElementById("btn-new-proj").onclick = () => {
       document.getElementById("proj-modal-title").textContent = "Tạo dự án mới";
       document.getElementById("edit-proj-id").value = "";
-      document.getElementById("wrap-proj-slug").style.display = "flex";
+      document.getElementById("wrap-proj-slug").classList.remove("is-hidden");
       document.getElementById("form-proj").reset();
       document.getElementById("inp-proj-price").value = "399.000";
+      setListboxValue("inp-proj-status", "ACTIVE", true);
       openModal("modal-proj");
     };
 
@@ -2843,7 +3351,7 @@
           title: document.getElementById("inp-proj-title").value.trim(),
           slug: document.getElementById("inp-proj-slug").value.trim(),
           expected_price_vnd: parseMoneyInput(document.getElementById("inp-proj-price").value, 399000),
-          status: document.getElementById("inp-proj-status").value,
+          status: getListboxValue("inp-proj-status") || "ACTIVE",
           objective: document.getElementById("inp-proj-obj").value.trim()
         };
         if (pid) await api(`/api/projects/${encodeURIComponent(pid)}`, "PATCH", payload);
@@ -2857,7 +3365,6 @@
       });
     };
 
-    // Clean Document Modal (Zero window.prompt!)
     document.getElementById("inp-doc-title").oninput = (e) => {
       document.getElementById("inp-doc-filename").value = `${slugifyVi(e.target.value)}.md`;
     };
@@ -2891,10 +3398,10 @@
 
     document.getElementById("btn-toggle-doc-edit").onclick = () => {
       state.docEditMode = !state.docEditMode;
-      document.getElementById("doc-pretty-view").style.display = state.docEditMode ? "none" : "block";
-      document.getElementById("doc-raw-editor").style.display = state.docEditMode ? "block" : "none";
-      document.getElementById("btn-save-doc").style.display = state.docEditMode ? "inline-flex" : "none";
-      document.getElementById("btn-toggle-doc-edit").textContent = state.docEditMode ? "Xem bản đẹp" : "Sửa nội dung";
+      document.getElementById("doc-pretty-view").classList.toggle("is-hidden", state.docEditMode);
+      document.getElementById("doc-raw-editor").classList.toggle("is-hidden", !state.docEditMode);
+      document.getElementById("btn-save-doc").classList.toggle("is-hidden", !state.docEditMode);
+      document.getElementById("btn-toggle-doc-edit").textContent = state.docEditMode ? "Xem bản trình bày" : "Sửa nội dung";
     };
 
     document.getElementById("btn-save-doc").onclick = (e) => withLock(e.currentTarget, async () => {
@@ -2926,7 +3433,7 @@
       const snap = await api("/api/sync/snapshot");
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(snap, null, 2)], { type: "application/json" }));
-      a.download = `titan-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.download = `titan-sao-luu-${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
     });
 
@@ -2946,17 +3453,17 @@
         const token = document.getElementById("inp-cloud-token").value.trim();
         const pin = document.getElementById("inp-cloud-pin").value;
         if (!repo || !token || pin.length < 4) {
-          throw new Error("Vui lòng nhập đủ Kho GitHub, Token và Mã PIN tối thiểu 4 ký tự.");
+          throw new Error("Vui lòng nhập đủ tên kho lưu trữ, khóa truy cập và mã bảo vệ tối thiểu 4 ký tự.");
         }
         await cryptoVault.save(repo, token, pin);
         document.getElementById("inp-cloud-token").value = "";
-        toast("Đã mã hóa AES-256-GCM và cất khóa an toàn trên thiết bị.");
+        toast("Đã mã hóa AES-256 và cất khóa an toàn trên thiết bị.");
       });
     };
 
-    document.getElementById("btn-cloud-sync-now").onclick = (e) => withLock(e.currentTarget, syncWithGitHubCloud);
+    document.getElementById("btn-cloud-sync-now").onclick = (e) => withLock(e.currentTarget, syncWithCloudVault);
 
-    // Command Palette (Ctrl+K) + Arrow/Enter Navigation
+    // Command Palette
     document.getElementById("btn-cmd-palette").onclick = () => { openModal("modal-cmd"); renderCmd(""); };
     const cmdInp = document.getElementById("cmd-input");
     cmdInp.oninput = (e) => renderCmd(e.target.value);
@@ -2980,9 +3487,15 @@
     document.getElementById("modal-backdrop").onclick = closeModals;
     document.querySelectorAll("[data-close-modal]").forEach((b) => { b.onclick = closeModals; });
 
-    // Capture-phase Keyboard Handler so Escape ALWAYS closes Modals/Drawers reliably!
+    // Keyboard shortcuts (Escape, Ctrl+K, Ctrl+B, 1-6, N, D)
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
+        const openMenu = document.querySelector(".listbox-menu:not([hidden])");
+        if (openMenu) {
+          e.preventDefault();
+          closeAllListboxes();
+          return;
+        }
         const hasOpen = document.querySelector(".modal.open, .drawer.open");
         if (hasOpen) {
           e.preventDefault();
@@ -3008,7 +3521,7 @@
       }
 
       const tag = (e.target && e.target.tagName) || "";
-      if (["INPUT", "TEXTAREA", "SELECT"].includes(tag) || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (["INPUT", "TEXTAREA"].includes(tag) || e.ctrlKey || e.metaKey || e.altKey) return;
 
       const order = ["command", "missions", "tasks", "staff", "news", "finance"];
       if (e.key >= "1" && e.key <= "6") {
@@ -3026,6 +3539,7 @@
 
   async function init() {
     applyTheme(localStorage.getItem("titan_theme") || "light");
+    initStaticListboxes();
     try {
       const savedSliders = JSON.parse(localStorage.getItem("titan_cfo_sliders") || "null");
       if (savedSliders) {
@@ -3039,12 +3553,22 @@
     bindGlobalEvents();
     const hash = (window.location.hash || "").replace("#", "");
     if (VIEW_TITLES[hash]) state.tab = hash;
-    await detectLocalBridgeHost();
-    await Promise.all([loadEverything(), loadNews("")]);
+
+    await detectOnlineEndpoint();
+    try {
+      await Promise.all([loadEverything(), loadNews("")]);
+    } catch (_e) {
+      await activateOfflineFallback("/api/overview", "GET", null, new Error("Ngoại tuyến")).catch(() => {});
+      populateDynamicListboxes();
+      renderAllViews();
+    }
+
     switchTab(state.tab);
     startLiveStream();
     if (!state.staticMode) {
       state.bridgeTimer = setInterval(pollBridgeStatus, 5000);
+    } else {
+      scheduleOnlineReconnect();
     }
 
     if ("serviceWorker" in navigator && window.location.protocol.startsWith("http")) {

@@ -1,0 +1,11 @@
+{
+  "name": "Két Thuế Shop - Sổ thu chi và Cảnh báo ngưỡng thuế HKD",
+  "short_name": "Két Thuế Shop",
+  "description": "Sổ thu chi, bóc tách phí sàn và cảnh báo ngưỡng thuế 1 tỷ / 3 tỷ tự động cho hộ kinh doanh và chủ shop TMĐT Việt Nam.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F6F5F0",
+  "theme_color": "#0F6B52",
+  "lang": "vi",
+  "orientation": "portrait-primary"
+}
