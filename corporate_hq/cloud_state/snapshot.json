@@ -1,6 +1,6 @@
 {
   "schema_version": "11.0",
-  "exported_at": "2026-11-19T18:35:14Z",
+  "exported_at": "2026-11-19T18:40:07Z",
   "bridge": {
     "online": true,
     "mode": "ANTIGRAVITY_SWARM",
@@ -8,9 +8,9 @@
     "swarm_title": "",
     "active_workers": [],
     "note": "Hệ thống điều phối đang trực chiến, sẵn sàng nhận việc tức thì từ máy tính và điện thoại",
-    "last_heartbeat_at": "2026-11-19T18:35:12Z",
+    "last_heartbeat_at": "2026-11-19T18:40:06Z",
     "pending_orders_count": 0,
-    "active_orders_count": 1
+    "active_orders_count": 0
   },
   "divisions": [
     {
@@ -1393,8 +1393,8 @@
       "division_code": "div5-media-youtube-studio",
       "title_vi": "Chiến lược Hệ thống Kênh Video và Nội dung Ngắn",
       "manager_code": "ceo",
-      "status": "EXECUTING",
-      "current_task_id": "auto-ord-a0cac073",
+      "status": "IDLE",
+      "current_task_id": null,
       "handbook_path": ".agents/skills/div5-media-youtube-studio/specialists/25-channel-strategist.md",
       "handbook_version": "4.0",
       "canonical_books": [
@@ -1410,15 +1410,15 @@
       "tasks_completed": 8,
       "articles_learned": 4,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T17:49:18Z",
+      "last_heartbeat_at": "2026-11-19T18:40:07Z",
       "last_studied_at": "2026-11-19T17:19:39Z",
-      "updated_at": "2026-11-19T17:49:18Z",
+      "updated_at": "2026-11-19T18:40:07Z",
       "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
       "c_level_title": "Giám đốc Truyền thông",
-      "current_task_title": "Tạo video Google Flow (9:16): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
+      "current_task_title": null,
       "skills_count": 6,
-      "current_work_title": "Tạo video AI Google Flow: Tạo video Google Flow (9:16): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế...",
-      "current_work_type": "order",
+      "current_work_title": "",
+      "current_work_type": "",
       "current_mission_id": null,
       "embedded_quality_cells": [
         {
@@ -1487,8 +1487,8 @@
       "division_code": "div5-media-youtube-studio",
       "title_vi": "Đạo diễn Hình ảnh và Kỹ xảo Video",
       "manager_code": "ceo",
-      "status": "EXECUTING",
-      "current_task_id": "auto-ord-a0cac073",
+      "status": "IDLE",
+      "current_task_id": null,
       "handbook_path": ".agents/skills/div5-media-youtube-studio/specialists/27-ai-visual-director.md",
       "handbook_version": "4.0",
       "canonical_books": [
@@ -1504,15 +1504,15 @@
       "tasks_completed": 0,
       "articles_learned": 6,
       "version": 1,
-      "last_heartbeat_at": "2026-11-19T17:49:18Z",
+      "last_heartbeat_at": "2026-11-19T18:40:07Z",
       "last_studied_at": "2026-11-19T17:19:39Z",
-      "updated_at": "2026-11-19T17:49:18Z",
+      "updated_at": "2026-11-19T18:40:07Z",
       "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
       "c_level_title": "Giám đốc Truyền thông",
-      "current_task_title": "Tạo video Google Flow (9:16): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
+      "current_task_title": null,
       "skills_count": 4,
-      "current_work_title": "Tạo video AI Google Flow: Tạo video Google Flow (9:16): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế...",
-      "current_work_type": "order",
+      "current_work_title": "",
+      "current_work_type": "",
       "current_mission_id": null,
       "embedded_quality_cells": [
         {
@@ -2866,10 +2866,10 @@
         ]
       },
       "files_summary": {
-        "total_files": 21,
+        "total_files": 26,
         "app_files": 13,
         "doc_files": 8,
-        "total_size_kb": 579.09
+        "total_size_kb": 22574.41
       },
       "total_tasks": 8,
       "done_tasks": 8,
@@ -3308,23 +3308,23 @@
       "project_id": null,
       "parent_task_id": null,
       "title": "Tạo video Google Flow (9:16): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
-      "description": "LENH TAO VIDEO AI TREN GOOGLE FLOW (https://flow.google.com/)\n- Ma chien dich: camp-kts-tiktok-bayphisan\n- Tieu de: Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT\n- Nen tang: TIKTOK | Ty le khung hinh: 9:16\n- Thu muc luu video dau ra: corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/videos/\n- Quy uoc ten tep: camp-kts-tiktok-bayphisan_scene01.mp4 ... hoac camp-kts-tiktok-bayphisan_final.mp4\n- Thumbnail Prompt: 9:16 vertical high-urgency cover frame. Vietnamese e-commerce shop owner holding smartphone showing a glowing red semicircular 1.02B tax radar gauge over a dimly lit parcel warehouse backdrop, crisp crimson and amber accent lighting, clean upper zone reserved for bold Vietnamese headline.\n- Tong so canh: 5\n\nCanh 1 (6s - Close-Up Warehouse Hook):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical cinematic close-up. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Looking sharply into the camera while holding a smartphone displaying a banking alert in a busy Vietnamese e-commerce packing room with neatly stacked parcel boxes behind. Punchy quick zoom-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.\n  Loi thoai VI: Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!\n  Chu tren man hinh: Ví về 800tr nhưng thuế đã 1,02 tỷ!\n\nCanh 2 (8s - Editorial Split Graphic - GMV vs Bank Net):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical clean editorial motion visual over a dark charcoal desk. A stacked glowing bar splits cleanly into three layered segments: red top slice for 20 percent marketplace fees, amber sliver for withheld tax, and muted bottom block for net bank payout. Crisp architectural depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\n  Loi thoai VI: Nghị định 117/2025 quy định doanh thu tính thuế là tổng đơn khách trả, không trừ 20% phí sàn. Ví về 800,7 triệu thì doanh thu tính thuế đã là 1,02 tỷ rồi.\n  Chu tren man hinh: GMV tính thuế KHÔNG trừ 20% phí sàn\n\nCanh 3 (10s - Macro Tablet Radar 1B Demo):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical over-the-shoulder macro shot of hands operating a sleek dark-mode tax dashboard on a tablet. A semicircular red progress radar sweeps past the 100 percent threshold marker with a crisp 30-day e-invoice alert banner appearing below. Razor-sharp UI focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\n  Loi thoai VI: Nhìn trên Két Thuế Shop nè: nhập 1,02 tỷ, phí sàn 20%, Radar lập tức báo đỏ quá mốc 1 tỷ và đếm ngược hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền.\n  Chu tren man hinh: Radar 1 tỷ báo hạn 30 ngày HĐĐT\n\nCanh 4 (8s - Desk Privacy & Compliance Reassurance):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical medium close-up of the shop owner reviewing clean printed summary sheets beside a laptop showing a green Local-First lock icon, calm relieved posture under warm practical lighting. Smooth slow slide, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.\n  Loi thoai VI: Toàn bộ số liệu kiểm tra lưu riêng tư ngay trên máy bạn, tính đúng nộp đủ để buôn bán an tâm quanh năm.\n  Chu tren man hinh: Lưu cục bộ trên máy | Tính đúng nộp đủ\n\nCanh 5 (6s - Medium Shot Direct CTA):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Pointing clearly toward the lower bio link space with a focused reassuring expression, neatly organized e-commerce studio softly lit behind. High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\n  Loi thoai VI: Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập để kiểm tra khoảng cách tới vạch đỏ 1 tỷ ngay tối nay!\n  Chu tren man hinh: Kiểm tra miễn phí 10 giây ở đầu trang",
+      "description": "Đã dựng và tải đủ 5/5 phân cảnh Video AI 1080p 9:16 từ Google Flow (Veo 3.1) vào dự án Két Thuế Shop (tổng 22,52 MB, còn lại 24.930 tín dụng Google Flow).",
       "assigned_dept_id": "27",
       "reviewer_dept_id": "25",
       "gate_number": 1,
       "stage_number": 6,
       "priority": "HIGH",
-      "kanban_column": "IN_PROGRESS",
+      "kanban_column": "DONE",
       "checkout_lock_owner": null,
       "checkout_locked_at": null,
       "evidence_level": 0,
       "approval_note": "",
       "actor_priority": 1,
-      "version": 1,
+      "version": 2,
       "created_at": "2026-11-19T17:49:18Z",
-      "updated_at": "2026-11-19T17:49:18Z",
+      "updated_at": "2026-11-19T18:40:07Z",
       "started_at": "2026-11-19T17:49:18Z",
-      "completed_at": null
+      "completed_at": "2026-11-19T18:40:07Z"
     },
     {
       "task_id": "auto-ord-a3760ab7",
@@ -6087,12 +6087,12 @@
       "title": "Tạo video Google Flow (9:16): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
       "instructions": "LENH TAO VIDEO AI TREN GOOGLE FLOW (https://flow.google.com/)\n- Ma chien dich: camp-kts-tiktok-bayphisan\n- Tieu de: Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT\n- Nen tang: TIKTOK | Ty le khung hinh: 9:16\n- Thu muc luu video dau ra: corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/videos/\n- Quy uoc ten tep: camp-kts-tiktok-bayphisan_scene01.mp4 ... hoac camp-kts-tiktok-bayphisan_final.mp4\n- Thumbnail Prompt: 9:16 vertical high-urgency cover frame. Vietnamese e-commerce shop owner holding smartphone showing a glowing red semicircular 1.02B tax radar gauge over a dimly lit parcel warehouse backdrop, crisp crimson and amber accent lighting, clean upper zone reserved for bold Vietnamese headline.\n- Tong so canh: 5\n\nCanh 1 (6s - Close-Up Warehouse Hook):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical cinematic close-up. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Looking sharply into the camera while holding a smartphone displaying a banking alert in a busy Vietnamese e-commerce packing room with neatly stacked parcel boxes behind. Punchy quick zoom-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.\n  Loi thoai VI: Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!\n  Chu tren man hinh: Ví về 800tr nhưng thuế đã 1,02 tỷ!\n\nCanh 2 (8s - Editorial Split Graphic - GMV vs Bank Net):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical clean editorial motion visual over a dark charcoal desk. A stacked glowing bar splits cleanly into three layered segments: red top slice for 20 percent marketplace fees, amber sliver for withheld tax, and muted bottom block for net bank payout. Crisp architectural depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\n  Loi thoai VI: Nghị định 117/2025 quy định doanh thu tính thuế là tổng đơn khách trả, không trừ 20% phí sàn. Ví về 800,7 triệu thì doanh thu tính thuế đã là 1,02 tỷ rồi.\n  Chu tren man hinh: GMV tính thuế KHÔNG trừ 20% phí sàn\n\nCanh 3 (10s - Macro Tablet Radar 1B Demo):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical over-the-shoulder macro shot of hands operating a sleek dark-mode tax dashboard on a tablet. A semicircular red progress radar sweeps past the 100 percent threshold marker with a crisp 30-day e-invoice alert banner appearing below. Razor-sharp UI focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\n  Loi thoai VI: Nhìn trên Két Thuế Shop nè: nhập 1,02 tỷ, phí sàn 20%, Radar lập tức báo đỏ quá mốc 1 tỷ và đếm ngược hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền.\n  Chu tren man hinh: Radar 1 tỷ báo hạn 30 ngày HĐĐT\n\nCanh 4 (8s - Desk Privacy & Compliance Reassurance):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical medium close-up of the shop owner reviewing clean printed summary sheets beside a laptop showing a green Local-First lock icon, calm relieved posture under warm practical lighting. Smooth slow slide, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.\n  Loi thoai VI: Toàn bộ số liệu kiểm tra lưu riêng tư ngay trên máy bạn, tính đúng nộp đủ để buôn bán an tâm quanh năm.\n  Chu tren man hinh: Lưu cục bộ trên máy | Tính đúng nộp đủ\n\nCanh 5 (6s - Medium Shot Direct CTA):\n  Visual Prompt (Google Flow / Veo 3.1): 9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Pointing clearly toward the lower bio link space with a focused reassuring expression, neatly organized e-commerce studio softly lit behind. High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\n  Loi thoai VI: Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập để kiểm tra khoảng cách tới vạch đỏ 1 tỷ ngay tối nay!\n  Chu tren man hinh: Kiểm tra miễn phí 10 giây ở đầu trang",
       "source_device": "web-local",
-      "status": "CLAIMED",
+      "status": "COMPLETED",
       "claimed_by": "antigravity-coordinator",
       "swarm_title": "",
-      "result_summary": "",
+      "result_summary": "Đã dựng và tải đủ 5/5 phân cảnh Video AI 1080p 9:16 từ Google Flow (Veo 3.1) vào dự án Két Thuế Shop (tổng 22,52 MB, còn lại 24.930 tín dụng Google Flow).",
       "created_at": "2026-11-19T17:49:17Z",
-      "updated_at": "2026-11-19T17:49:18Z"
+      "updated_at": "2026-11-19T18:40:07Z"
     },
     {
       "order_id": "ord-bc7eee01",
@@ -14864,6 +14864,17 @@
   ],
   "activity_stream": [
     {
+      "event_id": 374,
+      "event_uid": "97bf4e6b-d73e-4358-b2ef-4bfdf48a392b",
+      "timestamp": "2026-11-19T18:40:07Z",
+      "actor_dept_id": "27",
+      "event_type": "MEDIA_CAMPAIGN_UPDATED",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "task_id": null,
+      "headline_vi": "Khối 5 Studio cập nhật chiến dịch (RENDERED): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
+      "detail_json": "{\"campaign_id\": \"camp-kts-tiktok-bayphisan\", \"fields\": [\"status\"]}"
+    },
+    {
       "event_id": 373,
       "event_uid": "4c8f0f78-6022-400f-a3c9-d1c0f993fd8b",
       "timestamp": "2026-11-19T18:35:13Z",
@@ -19508,10 +19519,10 @@
       "hashtags": "#KetThueShop #ThueShopee #ThueTikTokShop #HoKinhDoanh2026 #HoaDonDienTu #TitanAICorp",
       "cta_vi": "Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập!",
       "publish_schedule_vi": "11:30 và 19:30 Thứ 3, Thứ 5, Chủ Nhật (TikTok + Ghim bình luận link Máy tính 10s)",
-      "status": "FLOW_QUEUED",
+      "status": "RENDERED",
       "publish_url": "",
       "created_at": "2026-11-19T17:04:26Z",
-      "updated_at": "2026-11-19T17:49:17Z",
+      "updated_at": "2026-11-19T18:40:07Z",
       "google_flow_scenes": [
         {
           "scene_no": 1,
@@ -19561,7 +19572,33 @@
       ],
       "thumbnail_web_url": "./projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-tiktok-bayphisan.svg",
       "google_flow_url": "https://flow.google.com/",
-      "video_files": []
+      "video_files": [
+        {
+          "name": "camp-kts-tiktok-bayphisan_scene01.mp4",
+          "url": "./projects/so-thu-chi-thue-hkd/media_studio/videos/camp-kts-tiktok-bayphisan_scene01.mp4",
+          "size_kb": 4988.01
+        },
+        {
+          "name": "camp-kts-tiktok-bayphisan_scene02.mp4",
+          "url": "./projects/so-thu-chi-thue-hkd/media_studio/videos/camp-kts-tiktok-bayphisan_scene02.mp4",
+          "size_kb": 3149.66
+        },
+        {
+          "name": "camp-kts-tiktok-bayphisan_scene03.mp4",
+          "url": "./projects/so-thu-chi-thue-hkd/media_studio/videos/camp-kts-tiktok-bayphisan_scene03.mp4",
+          "size_kb": 3241.78
+        },
+        {
+          "name": "camp-kts-tiktok-bayphisan_scene04.mp4",
+          "url": "./projects/so-thu-chi-thue-hkd/media_studio/videos/camp-kts-tiktok-bayphisan_scene04.mp4",
+          "size_kb": 4006.84
+        },
+        {
+          "name": "camp-kts-tiktok-bayphisan_scene05.mp4",
+          "url": "./projects/so-thu-chi-thue-hkd/media_studio/videos/camp-kts-tiktok-bayphisan_scene05.mp4",
+          "size_kb": 6609.04
+        }
+      ]
     },
     {
       "campaign_id": "camp-hsrt-shorts-anhthe",
