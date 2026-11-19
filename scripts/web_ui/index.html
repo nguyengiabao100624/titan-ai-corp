@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#006a6b" id="meta-theme-color" /><!-- ds-allow-hardcode -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="description" content="Trung tâm Điều hành Titan v10.0: Giao việc tự động 1 chạm, 54 phòng chuyên gia với 2 tổ chất lượng nội bộ, chốt cuối 0 lỗi Khối 9, kho kỹ năng GitHub và báo cáo tài chính theo từng dự án." />
+  <meta name="description" content="Trung tâm Điều hành Titan v11.0: 7 mục điều hành trực tuyến gồm Giao việc, Quản lý Dự án chuyên sâu, Tiến độ 9 Khối, Bảng việc, 54 phòng chuyên gia, Báo mới và Tài chính." />
   <title>Trung tâm Điều hành Titan</title>
   <link rel="icon" type="image/svg+xml" href="./icon.svg" />
   <link rel="apple-touch-icon" href="./icon.svg" />
@@ -61,6 +61,9 @@
     <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
     <symbol id="i-alert-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
     <symbol id="i-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
   </svg>
 
   <div class="app-shell">
@@ -81,6 +84,14 @@
             <span>Giao việc</span>
           </span>
           <span class="nav-count" id="nav-cnt-opps">0</span>
+        </button>
+
+        <button type="button" class="nav-item" data-tab="projects">
+          <span class="nav-item-left">
+            <svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span>Dự án</span>
+          </span>
+          <span class="nav-count" id="nav-cnt-projects">0</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="missions">
@@ -131,7 +142,7 @@
         <div class="progress-track" role="img" aria-label="Mức độ sẵn sàng của đội ngũ chuyên gia">
           <div class="progress-fill" id="sidebar-readiness-fill"></div>
         </div>
-        <span>Phím nhanh: số 1 đến 6 đổi mục, phím N thêm việc, phím D đổi giao diện.</span>
+        <span>Phím nhanh: số 1 đến 7 đổi mục, phím N thêm việc, phím D đổi giao diện.</span>
       </div>
     </aside>
 
@@ -279,9 +290,13 @@
             <div class="sec-head">
               <div>
                 <h2 class="sec-title">Cơ hội kiếm tiền khả thi</h2>
-                <p class="sec-sub">Tổng hợp bởi Phòng #50 Trinh sát cơ hội và Phòng #46 Phản biện rủi ro.</p>
+                <p class="sec-sub">Tổng hợp bởi Phòng #50 Trinh sát cơ hội và Phòng #46 Phản biện rủi ro theo chuẩn quy mô thương mại.</p>
               </div>
               <div class="action-group">
+                <div class="segmented" id="opp-tier-filter" role="tablist" aria-label="Lọc hạng cơ hội kiếm tiền">
+                  <button type="button" class="seg-btn active" role="tab" aria-selected="true" data-opp-filter="all">Tất cả cơ hội</button>
+                  <button type="button" class="seg-btn" role="tab" aria-selected="false" data-opp-filter="strategic">Hạng Chiến lược >= 85đ</button>
+                </div>
                 <button type="button" class="btn btn-xs" id="btn-add-opp">
                   <svg class="ico ico-xs" aria-hidden="true"><use href="#i-plus"/></svg>
                   <span>Tự thêm ý tưởng</span>
@@ -294,6 +309,13 @@
             </div>
             <div class="opp-grid" id="opportunities-grid"></div>
           </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 2: QUẢN LÝ DỰ ÁN (2 TẦNG: DANH MỤC DỰ ÁN -> CHI TIẾT 5 PHÂN MỤC)
+             ================================================================ -->
+        <section class="view-panel" id="view-projects" aria-label="Quản lý Dự án">
+          <div class="stack-md" id="projects-workspace-root"></div>
         </section>
 
         <!-- ================================================================
@@ -694,7 +716,7 @@
       </main>
 
       <footer class="app-footer">
-        <span id="footer-brand-summary">Trung tâm Điều hành Titan v10.0: Vận hành trực tuyến tự động 54 phòng chuyên gia.</span>
+        <span id="footer-brand-summary">Trung tâm Điều hành Titan v11.0: Vận hành trực tuyến tự động 54 phòng chuyên gia.</span>
         <div class="footer-meta">
           <span id="footer-last-sync">Cập nhật gần nhất: Đang nạp dữ liệu</span>
           <span id="footer-conn-summary">Kênh trực tuyến bảo mật</span>
@@ -703,11 +725,15 @@
     </div>
   </div>
 
-  <!-- MOBILE 6-TAB BOTTOM NAVIGATION -->
+  <!-- MOBILE 7-TAB BOTTOM NAVIGATION -->
   <nav class="mobile-nav" id="mobile-nav" aria-label="Điều hướng di động">
     <button type="button" class="mob-btn" data-tab="command" aria-current="page">
       <svg class="ico" aria-hidden="true"><use href="#i-compass"/></svg>
       <span>Giao việc</span>
+    </button>
+    <button type="button" class="mob-btn" data-tab="projects">
+      <svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg>
+      <span>Dự án</span>
     </button>
     <button type="button" class="mob-btn" data-tab="missions">
       <svg class="ico" aria-hidden="true"><use href="#i-activity"/></svg>
@@ -1358,6 +1384,83 @@
       <div class="form-grid-2">
         <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
         <button type="submit" class="btn btn-primary" id="btn-submit-handoff">Gửi yêu cầu chuyển việc</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 14: GIAO 9 KHỐI NÂNG CẤP DỰ ÁN -->
+  <div class="modal" id="modal-project-upgrade" role="dialog" aria-modal="true" aria-labelledby="upgrade-modal-title">
+    <div class="modal-head">
+      <h2 class="sec-title" id="upgrade-modal-title">Giao 9 Khối nâng cấp dự án</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">
+        <svg class="ico ico-xs" aria-hidden="true"><use href="#i-x"/></svg>
+        <span>Đóng</span>
+      </button>
+    </div>
+    <form class="form-stack" id="form-project-upgrade">
+      <input type="hidden" id="upgrade-project-id" value="" />
+      <div class="handoff-context-box" id="upgrade-project-context"></div>
+      <div class="form-field">
+        <label for="inp-upgrade-goal">Yêu cầu nâng cấp cụ thể cho 9 Khối triển khai</label>
+        <textarea class="textarea" id="inp-upgrade-goal" rows="4" placeholder="Ví dụ: Bổ sung quản lý lịch sử hồ sơ, phím tắt nhanh, nâng cấp giao diện tối giản chuẩn thương mại và kiểm thử lại 0 lỗi trên di động..." required></textarea>
+      </div>
+      <label class="check-label">
+        <input type="checkbox" id="chk-upgrade-auto" />
+        <span>Tự chốt hoàn tất 8 bước và kiểm định cuối Khối 9</span>
+      </label>
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary" id="btn-submit-upgrade">
+          <svg class="ico ico-xs" aria-hidden="true"><use href="#i-zap"/></svg>
+          <span>Giao 9 Khối nâng cấp ngay</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MODAL 15: TẠO CHIẾN DỊCH VIDEO AI GOOGLE FLOW / YOUTUBE / TIKTOK (KHỐI 5) -->
+  <div class="modal" id="modal-media-campaign" role="dialog" aria-modal="true" aria-labelledby="media-modal-title">
+    <div class="modal-head">
+      <h2 class="sec-title" id="media-modal-title">Tạo chiến dịch Video AI (Google Flow, YouTube, TikTok)</h2>
+      <button type="button" class="btn btn-xs" data-close-modal aria-label="Đóng">
+        <svg class="ico ico-xs" aria-hidden="true"><use href="#i-x"/></svg>
+        <span>Đóng</span>
+      </button>
+    </div>
+    <form class="form-stack" id="form-media-campaign">
+      <input type="hidden" id="media-project-id" value="" />
+      <div class="handoff-context-box" id="media-project-context"></div>
+      <div class="form-field">
+        <label for="inp-media-title">Tiêu đề chiến dịch Video AI</label>
+        <input type="text" class="input" id="inp-media-title" placeholder="Ví dụ: Ghép 2 mặt CCCD chuẩn A4 tắt Wi-Fi trong 5 giây không lộ dữ liệu" required />
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label id="lbl-media-platform">Nền tảng phát hành</label>
+          <div class="listbox-field" data-listbox="inp-media-platform">
+            <input type="hidden" id="inp-media-platform" value="TIKTOK" />
+            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-inp-media-platform" aria-labelledby="lbl-media-platform">
+              <span class="listbox-value">TikTok dọc 9:16</span>
+              <svg class="ico ico-xs listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </button>
+            <ul class="listbox-menu" id="lb-inp-media-platform" role="listbox" tabindex="-1" hidden></ul>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="inp-media-schedule">Lịch đăng dự kiến</label>
+          <input type="text" class="input" id="inp-media-schedule" placeholder="Ví dụ: Thứ 3 và Thứ 6 lúc 20:00" value="Thứ 3 và Thứ 6 lúc 20:00" />
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="inp-media-angle">Góc đánh truyền thông và nỗi đau khách hàng</label>
+        <textarea class="textarea" id="inp-media-angle" rows="3" placeholder="Mô tả nỗi đau đánh mạnh 3 giây đầu, điểm khác biệt sản phẩm và lời kêu gọi dùng thử..." required></textarea>
+      </div>
+      <div class="form-grid-2">
+        <button type="button" class="btn" data-close-modal>Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary" id="btn-submit-media-campaign">
+          <svg class="ico ico-xs" aria-hidden="true"><use href="#i-video"/></svg>
+          <span>Sinh kịch bản và câu lệnh Google Flow</span>
+        </button>
       </div>
     </form>
   </div>

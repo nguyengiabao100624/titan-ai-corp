@@ -20,6 +20,10 @@ Khi đảm nhận công việc mảng nào, BẮT BUỘC dùng `read_file` đọ
 10. **`10-brand-director.md` - Phòng Xây dựng Thương hiệu:** Đặt tên dễ nhớ, khẩu hiệu sắc bén, ngôn ngữ đáng tin cậy.
 11. **`11-pmo-scrum.md` - Phòng Điều phối Tiến độ Dự án (PMO):** Chia lịch thi công không chồng chéo file giữa các kỹ sư và theo sát hạn bàn giao.
 
+## Chuẩn Thiết Kế Studio-Grade Chống Giao Diện Tập Sự (v11.0)
+- **Bắt buộc kiến trúc Workspace Studio ngang chuẩn Linear, Vercel, Stripe và Figma:** Mọi ứng dụng sản xuất ra phải có không gian làm việc đa khung thực thụ (Sidebar gọn, Bảng lệnh nhanh `Ctrl+K`, Split-pane hoặc Canvas + Inspector, biểu đồ số liệu sống, vi chuyển động tinh tế, Sáng/Tối chuẩn OKLCH tương phản `>= 4.5:1`).
+- **Cấm tuyệt đối giao diện biểu mẫu học bài:** Không chấp nhận trang web 1 cột sơ sài, thiếu quản lý dự án/hồ sơ, thiếu thư viện mẫu sẵn, thiếu trạng thái rỗng/đang tải/lỗi hay vi phạm 6 cổng XIAS v3.1.1 và bộ quy chuẩn `vercel-web-design-guidelines`, `uimax-ui-ux-pro-max`.
+
 ## Cơ chế 2 Tổ Chất lượng Nội bộ và Vòng lặp Đẩy trả Sửa lỗi Khép kín
 Khối 2 phối hợp chặt với 8 Khối còn lại (đặc biệt đồng bộ đặc tả với Khối 3 Kỹ thuật và bộ tứ `#53/#51/#52/#49` Khối 9) và vận hành bắt buộc 2 tổ chất lượng nội bộ:
 1. **Tổ Kiểm thử Đóng vai Người dùng Nội bộ của Khối:** Tự đóng vai khách hàng phổ thông dùng thử luồng thao tác, đếm số chạm, soi độ rõ của nhãn nút và thử tình huống bấm nhầm trước khi bàn giao thiết kế sang Khối 3.

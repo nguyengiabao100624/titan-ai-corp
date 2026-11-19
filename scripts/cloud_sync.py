@@ -21,7 +21,7 @@ _SNAPSHOT_FILE_LOCK = threading.Lock()
 def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
     """Export deterministic, portable state snapshot for GitHub Pages CDN & Multi-Device Sync."""
     conn = db._get_conn()
-    projects = [dict(r) for r in conn.execute("SELECT * FROM projects ORDER BY project_id").fetchall()]
+    projects = db.list_projects()
     tasks = [dict(r) for r in conn.execute("SELECT * FROM tasks ORDER BY task_id").fetchall()]
     deliverables = [dict(r) for r in conn.execute("SELECT * FROM deliverables ORDER BY deliverable_id").fetchall()]
     citations = [dict(r) for r in conn.execute("SELECT * FROM task_citations ORDER BY citation_id").fetchall()]
@@ -53,9 +53,10 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
     dept_handoffs = db.list_dept_handoffs()
     handoff_summary = db.get_handoff_summary()
     corporate_directory_summary = db.get_corporate_directory_summary()
+    media_campaigns = db.list_media_campaigns()
 
     return {
-        "schema_version": "10.0",
+        "schema_version": "11.0",
         "exported_at": utc_now_iso(),
         "bridge": bridge,
         "divisions": divisions,
@@ -81,6 +82,7 @@ def export_snapshot(db: TitanDatabase) -> dict[str, Any]:
         "dept_handoffs": dept_handoffs,
         "handoff_summary": handoff_summary,
         "corporate_directory_summary": corporate_directory_summary,
+        "media_campaigns": media_campaigns,
     }
 
 
@@ -428,8 +430,10 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                 INSERT INTO opportunities(
                     opp_id, title, target_customer, pain_point, proposed_solution,
                     price_vnd, est_margin_pct, breakeven_users, survival_score,
-                    critique_note, ux_note, source_url, status, mission_id, version, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    critique_note, ux_note, source_url,
+                    opportunity_tier, product_scale_score, big_corp_moat_vi, zero_cost_stack_vi,
+                    status, mission_id, version, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(opp_id) DO UPDATE SET
                     title = CASE WHEN excluded.version >= opportunities.version THEN excluded.title ELSE opportunities.title END,
                     target_customer = CASE WHEN excluded.version >= opportunities.version THEN excluded.target_customer ELSE opportunities.target_customer END,
@@ -437,6 +441,10 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     proposed_solution = CASE WHEN excluded.version >= opportunities.version THEN excluded.proposed_solution ELSE opportunities.proposed_solution END,
                     price_vnd = CASE WHEN excluded.version >= opportunities.version THEN excluded.price_vnd ELSE opportunities.price_vnd END,
                     est_margin_pct = CASE WHEN excluded.version >= opportunities.version THEN excluded.est_margin_pct ELSE opportunities.est_margin_pct END,
+                    opportunity_tier = CASE WHEN excluded.version >= opportunities.version THEN excluded.opportunity_tier ELSE opportunities.opportunity_tier END,
+                    product_scale_score = CASE WHEN excluded.version >= opportunities.version THEN excluded.product_scale_score ELSE opportunities.product_scale_score END,
+                    big_corp_moat_vi = CASE WHEN excluded.version >= opportunities.version THEN excluded.big_corp_moat_vi ELSE opportunities.big_corp_moat_vi END,
+                    zero_cost_stack_vi = CASE WHEN excluded.version >= opportunities.version THEN excluded.zero_cost_stack_vi ELSE opportunities.zero_cost_stack_vi END,
                     status = CASE WHEN excluded.version >= opportunities.version THEN excluded.status ELSE opportunities.status END,
                     mission_id = COALESCE(excluded.mission_id, opportunities.mission_id),
                     version = MAX(opportunities.version, excluded.version),
@@ -447,7 +455,12 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     opp.get("proposed_solution", ""), float(opp.get("price_vnd", 399000)),
                     float(opp.get("est_margin_pct", 75.0)), int(opp.get("breakeven_users", 5)),
                     int(opp.get("survival_score", 85)), opp.get("critique_note", ""),
-                    opp.get("ux_note", ""), opp.get("source_url", ""), opp.get("status", "NEW"),
+                    opp.get("ux_note", ""), opp.get("source_url", ""),
+                    str(opp.get("opportunity_tier", "STANDARD") or "STANDARD"),
+                    int(opp.get("product_scale_score", 75) if opp.get("product_scale_score") is not None else 75),
+                    str(opp.get("big_corp_moat_vi", "") or ""),
+                    str(opp.get("zero_cost_stack_vi", "") or ""),
+                    opp.get("status", "NEW"),
                     opp.get("mission_id"), int(opp.get("version", 1)),
                     opp.get("created_at") or utc_now_iso(), opp.get("updated_at") or utc_now_iso(),
                 ),
@@ -457,14 +470,18 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
             mid = msn.get("mission_id")
             if not mid or f"mission:{mid}" in tomb_keys:
                 continue
+            rp_json = str(msn.get("roster_plan_json") or "")
+            if not rp_json and isinstance(msn.get("division_roster_plan"), dict):
+                rp_json = json.dumps(msn["division_roster_plan"], ensure_ascii=False)
             conn.execute(
                 """
                 INSERT OR REPLACE INTO missions(
                     mission_id, title, goal_prompt, category, status, auto_approve,
                     current_step_order, total_steps, progress_pct, final_summary,
                     survival_score, ux_score, expected_margin_pct, dispatch_state,
-                    swarm_title, swarm_workers_json, phase, project_id, version, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    swarm_title, swarm_workers_json, phase, project_id,
+                    product_type, roster_plan_json, version, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     mid, msn.get("title", ""), msn.get("goal_prompt", ""), msn.get("category", "MONEY_MAKER"),
@@ -478,6 +495,8 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     msn.get("swarm_workers_json", "[]"),
                     msn.get("phase", "PROPOSAL"),
                     msn.get("project_id", ""),
+                    str(msn.get("product_type", "GENERAL") or "GENERAL"),
+                    rp_json,
                     int(msn.get("version", 1)),
                     msn.get("created_at") or utc_now_iso(), msn.get("updated_at") or utc_now_iso(),
                 ),
@@ -724,6 +743,53 @@ def merge_snapshot_into_db(db: TitanDatabase, remote_snapshot: dict[str, Any]) -
                     ho.get("updated_at") or utc_now_iso(),
                 ),
             )
+
+        remote_campaigns = remote_snapshot.get("media_campaigns", [])
+        if remote_campaigns:
+            db.ensure_media_campaigns_table(conn=conn)
+            for mc in remote_campaigns:
+                cid = mc.get("campaign_id")
+                if not cid:
+                    continue
+                scenes_val = mc.get("google_flow_scenes_json")
+                if not scenes_val and isinstance(mc.get("google_flow_scenes"), list):
+                    scenes_val = json.dumps(mc["google_flow_scenes"], ensure_ascii=False)
+                conn.execute(
+                    """
+                    INSERT INTO media_campaigns(
+                        campaign_id, project_id, title, platform, angle_vi, hook_3s_vi, script_vi,
+                        google_flow_scenes_json, thumbnail_prompt_flow, thumbnail_svg_path,
+                        seo_title_vi, seo_description_vi, hashtags, cta_vi, publish_schedule_vi,
+                        status, publish_url, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(campaign_id) DO UPDATE SET
+                        status = CASE WHEN excluded.updated_at >= media_campaigns.updated_at THEN excluded.status ELSE media_campaigns.status END,
+                        publish_url = CASE WHEN excluded.updated_at >= media_campaigns.updated_at THEN excluded.publish_url ELSE media_campaigns.publish_url END,
+                        title = CASE WHEN excluded.updated_at >= media_campaigns.updated_at THEN excluded.title ELSE media_campaigns.title END,
+                        updated_at = MAX(media_campaigns.updated_at, excluded.updated_at)
+                    """,
+                    (
+                        cid,
+                        mc.get("project_id"),
+                        mc.get("title", ""),
+                        mc.get("platform", "TIKTOK"),
+                        mc.get("angle_vi", ""),
+                        mc.get("hook_3s_vi", ""),
+                        mc.get("script_vi", ""),
+                        str(scenes_val or "[]"),
+                        mc.get("thumbnail_prompt_flow", ""),
+                        mc.get("thumbnail_svg_path", ""),
+                        mc.get("seo_title_vi", ""),
+                        mc.get("seo_description_vi", ""),
+                        mc.get("hashtags", ""),
+                        mc.get("cta_vi", ""),
+                        mc.get("publish_schedule_vi", ""),
+                        mc.get("status", "FLOW_READY"),
+                        mc.get("publish_url", ""),
+                        mc.get("created_at") or utc_now_iso(),
+                        mc.get("updated_at") or utc_now_iso(),
+                    ),
+                )
 
         conn.execute(
             """

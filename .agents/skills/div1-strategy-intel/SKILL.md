@@ -19,9 +19,9 @@ Khi thực hiện nhiệm vụ thuộc mảng nào, BẮT BUỘC dùng `read_fil
 4. **`04-ai-tech-rnd.md` - Phòng Nghiên cứu Công nghệ Mới (AI và R&D):** Thử nghiệm tính khả thi và đơn giá gốc của các API AI mới nhất (LLM, tạo ghép ảnh, video, giọng nói, tự động hóa).
 5. **`05-biz-model-architect.md` - Phòng Kiến trúc Mô hình Kinh doanh:** Thiết kế cỗ máy kiếm tiền đa tầng (SaaS thuê bao, trả theo lượt, đóng gói dịch vụ giá cao, Affiliate lặp lại).
 
-## Quy Tắc Cổng Kiểm Duyệt Khối 1
-- Cấm đề xuất các ý tưởng chung chung đã bão hòa thị trường nếu không chỉ ra được **vũ khí khác biệt gấp 5 lần** về tốc độ, sự đơn giản hoặc chi phí.
-- Mọi kết luận thị trường bắt buộc phải kiểm chứng bằng tìm kiếm dữ liệu thực tế (`search_web`), không suy đoán cảm tính.
+## Quy Tắc Cổng Kiểm Duyệt Khối 1 và Chuẩn Săn Cơ Hội Cấp Venture (v11.0)
+- **Hiến pháp Chống Sản phẩm Đồ chơi (`Anti-Toy Gate`):** Cấm đề xuất các công cụ 1 trang form tĩnh, máy tính 3 ô, tool cắt ghép ảnh sơ sài sinh viên làm 2 tiếng xong hay tiện ích dùng 1 lần rồi quên. Mọi ý tưởng gửi lên Tổng Giám đốc `#00` BẮT BUỘC đạt **Bộ lọc 7 Chiều Cấp Venture** và **`Product_Scale_Score >= 85/100`** (quy mô lớn VN + Toàn cầu USD, tần suất dùng hàng ngày/tuần, hào kỹ thuật thực thụ, đầy đủ tính năng thương mại, giao diện chuẩn Studio và lợi thế đánh thắng tập đoàn lớn kiểu Linear/Cursor/Tally).
+- **Đối chiếu sản phẩm thành công thật 2026:** Mọi đề xuất bắt buộc kiểm chứng qua tìm kiếm thực tế (`search_web`) trên Product Hunt, IndieHackers, Y Combinator và thị trường VN-Quốc tế, chỉ rõ phàn nàn thật của khách hàng về đối thủ lớn và con đường kiếm tiền Pro/Team bền vững.
 
 ## Cơ chế 2 Tổ Chất lượng Nội bộ và Vòng lặp Đẩy trả Sửa lỗi Khép kín
 Khối 1 phối hợp chặt với 8 Khối còn lại và vận hành bắt buộc 2 tổ chất lượng ngay trong nội bộ Khối trước khi bàn giao:

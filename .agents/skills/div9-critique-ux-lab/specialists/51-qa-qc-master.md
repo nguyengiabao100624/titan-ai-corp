@@ -39,7 +39,9 @@
   2. `# DANH MỤC KIỂM ĐỊNH KỸ THUẬT, DỮ LIỆU, HIỆU NĂNG VÀ BÀN GIAO`
   3. `# NHẬT KÝ PHIẾU ĐẨY TRẢ SỬA LỖI (BOUNCE-BACK) VÀ KẾT QUẢ TÁI KIỂM`
   4. `# CẤP ĐỘ BẰNG CHỨNG ĐẠT ĐƯỢC (LEVEL 1..5) VÀ XÁC NHẬN PHỐI HỢP VỚI PHÒNG 52 VÀ PHÒNG 49`
-- **Điều kiện chặn cổng cứng (`Hard Gate`):** Còn dù chỉ 1 phiếu lỗi chưa đóng (`OPEN`, `IN_FIX` hoặc `FIXED_PENDING_RECHECK`) hoặc chưa có bằng chứng chạy lệnh kiểm thử thực tế ngay sau lần sửa cuối thì chặn chốt nghiệm thu 100%.
+- **Điều kiện chặn cổng cứng (`Hard Gate` và `Anti-Amateur Gate` v11.0):**
+  1. Còn dù chỉ 1 phiếu lỗi chưa đóng (`OPEN`, `IN_FIX` hoặc `FIXED_PENDING_RECHECK`) hoặc chưa có bằng chứng chạy kiểm thử thực tế ngay sau lần sửa cuối (áp dụng vòng lặp xác minh 6 chặng `ecc-verification-loop` và kiểm toán `ecc-production-audit`) thì chặn chốt 100%.
+  2. **Cổng Chống Web Tập Sự (`Anti-Amateur Gate`):** Phối hợp cùng `#52`, `#49`, `#53` chấm thẩm định chất lượng thương mại thực tế (hiệu năng, kiến trúc Workspace Studio, lưu trữ bền vững, xử lý tình huống biên, độ sắc sảo hiển thị đa màn hình). Nếu sản phẩm đạt chuẩn thấp kiểu web tập sự hoặc `Product_Scale_Score < 85/100`, lập tức phát phiếu đẩy trả (`bounce-back`) chặn xuất xưởng.
 
 ## 5. Tầng 5 - Dòng Chảy Tự Học Hàng Ngày và Theo Dõi Thị Trường (`Daily Continual Learning`)
 - **Kênh báo chí, kỹ thuật và mã nguồn mở theo dõi mỗi ngày:** CISA Security Advisories, Playwright Testing Releases, Google Web Vitals Changelog, Product Hunt và các bộ kỹ năng kiểm định nguồn mở trên GitHub.

@@ -43,7 +43,9 @@
   2. `# MA TRẬN TRUY VẾT TỪNG YÊU CẦU ĐỀ BÀI VÀ KẾT QUẢ BẤM THỬ THỰC TẾ`
   3. `# DANH SÁCH LỖI CHỨC NĂNG, LIÊN KẾT CHÉO VÀ PHIẾU ĐẨY TRẢ ĐÃ XỬ LÝ`
   4. `# XÁC NHẬN PHỐI HỢP BỘ BA KHỐI 9 (PHÒNG 51 QA/QC, PHÒNG 52 CHỨC NĂNG, PHÒNG 49 DIỆT RỐI MẮT)`
-- **Điều kiện chặn cổng cứng (`Hard Gate`):** Còn thiếu 1 chức năng trong đề bài, còn 1 nút bấm không hoạt động, còn 1 liên kết chéo sai hoặc còn 1 lỗi chạy thực tế thì chặn chốt ngay lập tức và đẩy trả sửa đến khi đạt 0 lỗi.
+- **Điều kiện chặn cổng cứng (`Hard Gate` và Cổng "Chống Web Tập Sự" `Anti-Amateur Gate` v11.0):**
+  1. Còn thiếu 1 chức năng trong đề bài, còn 1 nút bấm giả/không hoạt động, còn 1 liên kết chéo sai hoặc còn 1 lỗi chạy thực tế thì chặn chốt ngay lập tức và đẩy trả sửa đến khi đạt 0 lỗi.
+  2. **Cổng Kiểm định "Chống Web Tập Sự" (`Anti-Amateur Gate` - BẮT BUỘC):** Đối chiếu sản phẩm chạy thật với chuẩn phần mềm thương mại bán được tiền (Linear, Vercel, Stripe, Figma): có đủ không gian làm việc Workspace Studio, quản lý dự án/hồ sơ, lịch sử phiên bản hoặc lưu trữ bền vững, thư viện mẫu sẵn, phím tắt, Hoàn tác/Làm lại (`Undo/Redo`), xử lý hàng loạt và trạng thái rỗng/lỗi chuyên nghiệp chưa? Nếu sản phẩm nhìn như người mới học web làm hoặc thiếu bất kỳ tính năng thương mại cốt lõi nào, `#52` BẮT BUỘC lập phiếu `bounce-back` gửi qua Trạm `#53` chặn xuất xưởng ngay lập tức!
 
 ## 5. Tầng 5 - Dòng Chảy Tự Học Hàng Ngày và Theo Dõi Thị Trường (`Daily Continual Learning`)
 - **Kênh báo chí, công nghệ và sản phẩm theo dõi mỗi ngày:** Product Hunt, Hacker News Show HN, TechCrunch, GitHub Agent Skills và các nghiên cứu về kiểm thử tự động đầu cuối.

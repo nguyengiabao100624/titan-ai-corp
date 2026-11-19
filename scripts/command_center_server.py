@@ -77,10 +77,28 @@ class ThreadingCommandServer(socketserver.ThreadingMixIn, http.server.HTTPServer
         self.started_at = time.time()
         self._stop_watcher = threading.Event()
         self._last_broadcast_event_id = self._get_max_event_id()
+        self._media_studio_lock = threading.Lock()
+        self._media_studio: Any = None
 
         self.db.register_event_listener(self._broadcast_sse_event)
         self._watcher_thread = threading.Thread(target=self._watch_external_db_events, daemon=True, name="titan-sse-watch")
         self._watcher_thread.start()
+
+    def get_media_studio(self) -> Any | None:
+        """Tải động MediaStudioEngine từ scripts/media_studio.py nếu có, hoàn toàn an toàn nếu chưa tạo."""
+        with self._media_studio_lock:
+            if self._media_studio is not None:
+                return self._media_studio
+            try:
+                import importlib
+                mod = importlib.import_module("media_studio")
+                eng_cls = getattr(mod, "MediaStudioEngine", None)
+                if eng_cls is not None:
+                    self._media_studio = eng_cls(self.db)
+                    return self._media_studio
+            except Exception:
+                return None
+        return None
 
     def get_learning_progress(self) -> dict[str, Any]:
         with self.learning_progress_lock:
@@ -464,6 +482,19 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 )
                 return
 
+            # 05h: Media Studio & Google Flow Video AI Campaigns (v11.0 Div 5)
+            if path == "/api/media/campaigns":
+                pid = qs.get("project_id", [None])[0]
+                plat = qs.get("platform", [None])[0]
+                st_f = qs.get("status", [None])[0]
+                studio = self.app_server.get_media_studio()
+                if studio is not None and hasattr(studio, "list_campaigns"):
+                    campaigns = studio.list_campaigns(project_id=pid, platform=plat, status=st_f)
+                else:
+                    campaigns = db.list_media_campaigns(project_id=pid, platform=plat, status=st_f)
+                self._send_json({"count": len(campaigns), "campaigns": campaigns}, enable_etag=False)
+                return
+
             # 06: Server-Sent Events (SSE) Stream with Last-Event-ID & Keep-Alive
             if path == "/api/events/stream":
                 self._handle_sse_stream(qs)
@@ -489,6 +520,16 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
             # 11: Projects List
             if path == "/api/projects":
                 self._send_json({"projects": db.list_projects()}, enable_etag=True)
+                return
+
+            # 12: Full Single Project Management Detail (v11.0 Dedicated Projects Tab)
+            m_pdet = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)/detail$", path)
+            if m_pdet:
+                det = db.get_project_detail(m_pdet.group(1))
+                if not det:
+                    self._send_json({"error": f"Dự án '{m_pdet.group(1)}' không tồn tại."}, status=404)
+                    return
+                self._send_json(det, enable_etag=False)
                 return
 
             # 13: Project Files Tree & Safe Document Reader
@@ -589,10 +630,16 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(single_m)
                 return
 
-            # 26: Money-Maker Opportunities List
+            # 26: Money-Maker Opportunities List (with v11.0 tier & scale-score filters)
             if path == "/api/opportunities":
                 st = qs.get("status", [None])[0]
-                self._send_json({"opportunities": db.list_opportunities(status=st)}, enable_etag=True)
+                tier = qs.get("tier", [None])[0]
+                min_sc_raw = qs.get("min_scale_score", [None])[0]
+                min_sc = int(min_sc_raw) if (min_sc_raw is not None and str(min_sc_raw).isdigit()) else None
+                self._send_json(
+                    {"opportunities": db.list_opportunities(status=st, tier=tier, min_scale_score=min_sc)},
+                    enable_etag=True,
+                )
                 return
 
             # 27: Direct Antigravity Swarm Bridge Status & Orders Queue
@@ -949,6 +996,17 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(ho, status=201)
                 return
 
+            # 21g: Create Media Studio & Google Flow Video AI Campaign (v11.0)
+            if path == "/api/media/campaigns":
+                studio = self.app_server.get_media_studio()
+                if studio is not None and hasattr(studio, "create_campaign"):
+                    camp = studio.create_campaign(body)
+                else:
+                    camp = db.fallback_create_media_campaign(body)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(camp, status=201)
+                return
+
             # 22: Deep URL Wisdom Ingestion
             if path == "/api/learning/ingest-url":
                 url = str(body.get("url", "")).strip()
@@ -1053,9 +1111,33 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     survival_score=int(body.get("survival_score", 86)),
                     critique_note=str(body.get("critique_note", "")),
                     ux_note=str(body.get("ux_note", "")),
+                    source_url=str(body.get("source_url", "")),
+                    opportunity_tier=str(body.get("opportunity_tier", "STANDARD")),
+                    product_scale_score=int(body.get("product_scale_score", 75)),
+                    big_corp_moat_vi=str(body.get("big_corp_moat_vi", "")),
+                    zero_cost_stack_vi=str(body.get("zero_cost_stack_vi", "")),
                 )
                 save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
                 self._send_json(opp, status=201)
+                return
+
+            # 26b: Launch 9-Division Upgrade Mission for an Existing Project (v11.0)
+            m_pupg = re.match(r"^/api/projects/([a-zA-Z0-9_-]+)/upgrade$", path)
+            if m_pupg:
+                pid = m_pupg.group(1)
+                goal = str(body.get("upgrade_goal") or body.get("goal") or body.get("instructions") or "").strip()
+                if not goal:
+                    self._send_json({"error": "Vui lòng nhập yêu cầu nâng cấp dự án."}, status=400)
+                    return
+                res = db.launch_project_upgrade_mission(
+                    project_id=pid,
+                    upgrade_goal=goal,
+                    auto_approve=bool(body.get("auto_approve", False)),
+                    source_device=str(body.get("source_device") or "web-local"),
+                    product_type=str(body.get("product_type") or "AUTO"),
+                )
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=201)
                 return
 
             if path == "/api/opportunities/scan":
@@ -1170,6 +1252,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     return
                 candidate.parent.mkdir(parents=True, exist_ok=True)
                 candidate.write_text(str(body.get("content", "")), encoding="utf-8")
+                db.invalidate_project_scan_cache(str(proj.get("slug") or ""))
                 self._send_json({"saved": True, "file": rel_file, "size_bytes": candidate.stat().st_size}, status=200)
                 return
 
@@ -1293,6 +1376,18 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(updated_ho, status=200)
                 return
 
+            m_mc_upd = re.match(r"^/api/media/campaigns/([a-zA-Z0-9_-]+)$", path)
+            if m_mc_upd:
+                cid = m_mc_upd.group(1)
+                studio = self.app_server.get_media_studio()
+                if studio is not None and hasattr(studio, "update_campaign"):
+                    updated_mc = studio.update_campaign(cid, body)
+                else:
+                    updated_mc = db.fallback_update_media_campaign(cid, body)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(updated_mc, status=200)
+                return
+
             self._send_json({"error": f"Đường dẫn cập nhật không tồn tại: {path}"}, status=404)
         except KeyError as ke:
             self._send_json({"error": str(ke)}, status=404)
@@ -1325,6 +1420,25 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                 self._send_json(res, status=200)
                 return
 
+            m_dmc = re.match(r"^/api/media/campaigns/([a-zA-Z0-9_-]+)$", path)
+            if m_dmc:
+                cid = m_dmc.group(1)
+                studio = self.app_server.get_media_studio()
+                if studio is not None and hasattr(studio, "delete_campaign"):
+                    res = studio.delete_campaign(cid)
+                else:
+                    res = db.fallback_delete_media_campaign(cid)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
+            if path == "/api/opportunities/prune-low-tier":
+                min_sc = int(qs.get("min_scale_score", ["85"])[0])
+                res = db.prune_low_tier_opportunities(min_scale_score=min_sc)
+                save_snapshot_file(db, DEFAULT_SNAPSHOT_PATH)
+                self._send_json(res, status=200)
+                return
+
             m_dopp = re.match(r"^/api/opportunities/([a-zA-Z0-9_-]+)$", path)
             if m_dopp:
                 res = db.delete_opportunity(m_dopp.group(1))
@@ -1352,6 +1466,7 @@ class CommandCenterHandler(http.server.BaseHTTPRequestHandler):
                     with db.immediate_tx() as wconn:
                         db._record_tombstone(wconn, "doc", doc_eid, {"full_rel_path": rel_root, "content": old_content})
                     candidate.unlink()
+                    db.invalidate_project_scan_cache(str(proj.get("slug") or ""))
                 self._send_json({"deleted": True, "entity_type": "doc", "entity_id": doc_eid, "file": req_file}, status=200)
                 return
 

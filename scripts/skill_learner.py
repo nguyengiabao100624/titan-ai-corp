@@ -1169,8 +1169,8 @@ def run_self_check() -> int:
 
     raw_json = json.loads(raw_catalog_text)
     entries = raw_json.get("skills", []) if isinstance(raw_json, dict) else raw_json
-    if not isinstance(entries, list) or len(entries) < 35:
-        errors.append(f"So luong ky nang trong catalog qua it: {len(entries) if isinstance(entries, list) else 0} (yeu cau toi thieu 35).")
+    if not isinstance(entries, list) or len(entries) < 70:
+        errors.append(f"So luong ky nang trong catalog qua it: {len(entries) if isinstance(entries, list) else 0} (yeu cau v11.0 toi thieu 70).")
 
     expected_divs = {d[0] for d in DIVISIONS_SEED}
     found_divs: set[str] = set()

@@ -1,5 +1,5 @@
 # KHO KỸ NĂNG THỰC CHIẾN CỦA PHÒNG 28: Đạo diễn Âm thanh và Lồng tiếng
-- **Cập nhật lần cuối:** `2026-11-19T13:27:39Z`
+- **Cập nhật lần cuối:** `2026-11-19T17:10:17Z`
 - **Tổng số kỹ năng đã nạp:** `3`
 
 ---

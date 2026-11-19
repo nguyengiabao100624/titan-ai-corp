@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280" width="720" height="1280" role="img" aria-label="Tắt Wi-Fi vẫn ghép 2 mặt CCCD đóng dấu chìm chống lừa đảo trong 5 giây">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09101E"/>
+      <stop offset="100%" stop-color="#10213A"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#FFFFFF" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="720" height="1280" fill="url(#bgGrad)"/>
+  <rect width="720" height="1280" fill="url(#dotGrid)"/>
+  <circle cx="660" cy="110" r="220" fill="#10B981" fill-opacity="0.11"/>
+  <circle cx="80" cy="1140" r="240" fill="#EF4444" fill-opacity="0.09"/>
+  <rect x="44" y="48" width="276" height="46" rx="10" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="1.5"/>
+  <text x="64" y="78" fill="#10B981" font-size="20" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">TIKTOK 9:16</text>
+  <rect x="450" y="48" width="226" height="46" rx="10" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.2"/>
+  <text x="563" y="78" text-anchor="middle" fill="#F8FAFC" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">HỒ SƠ RIÊNG TƯ</text>
+  <text x="52" y="148" fill="#EF4444" font-size="21" font-weight="800" letter-spacing="1.2" font-family="Inter, Segoe UI, Arial, sans-serif">CHUẨN NGHỊ ĐỊNH 13/2023</text>
+  <text x="52" y="216" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">TẮT WI-FI VẪN GHÉP 2</text><text x="52" y="268" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">MẶT CCCD ĐÓNG DẤU</text><text x="52" y="320" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">CHÌM CHỐNG LỪA ĐẢO</text><text x="52" y="372" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">TRONG 5 GIÂY</text>
+  
+        <g>
+          <rect x="72" y="486" width="576" height="268" rx="18" fill="#0B1528" stroke="#10B981" stroke-width="2" stroke-opacity="0.55"/>
+          <rect x="100" y="514" width="250" height="180" rx="12" fill="#13233E" stroke="#2D4A78" stroke-width="1.5"/>
+          <circle cx="225" cy="564" r="24" fill="#10B981" fill-opacity="0.22" stroke="#10B981" stroke-width="2"/>
+          <rect x="120" y="606" width="230" height="10" rx="5" fill="#94A3B8" fill-opacity="0.65"/>
+          <rect x="120" y="628" width="215" height="10" rx="5" fill="#64748B" fill-opacity="0.55"/>
+          <line x1="106" y1="682" x2="342" y2="528" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="8 6" stroke-opacity="0.8"/>
+          <rect x="370" y="514" width="250" height="180" rx="12" fill="#0D2624" stroke="#10B981" stroke-width="2"/>
+          <path d="M 485 544 L 519 558 V 592 C 519 620 485 638 485 638 C 485 638 451 620 451 592 V 558 Z" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="2.5"/>
+          <path d="M 472 591 L 482 601 L 502 579" fill="none" stroke="#10B981" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="360" y="738" text-anchor="middle" fill="#E2E8F0" font-size="20" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">CHẾ ĐỘ MÁY BAY: BẬT | DẤU CHÌM A4: ĐÃ KHÓA</text>
+        </g>
+        
+  <rect x="44" y="818" width="632" height="82" rx="14" fill="#10B981" fill-opacity="0.18" stroke="#10B981" stroke-width="2"/>
+  <text x="360" y="869" text-anchor="middle" fill="#FFFFFF" font-size="28" font-weight="900" font-family="Inter, Segoe UI, Arial, sans-serif">0 BYTE UPLOAD | TẮT WI-FI VẪN CHẠY</text>
+  <rect x="44" y="1102" width="632" height="68" rx="12" fill="#0B1220" fill-opacity="0.82" stroke="#334155" stroke-width="1.5"/>
+  <text x="360" y="1144" text-anchor="middle" fill="#E2E8F0" font-size="20" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">Bấm link Hồ Sơ Riêng Tư ở đầu trang, bật Chế độ...</text>
+  <line x1="44" y1="1198" x2="676" y2="1198" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.2"/>
+  <text x="48" y="1238" fill="#94A3B8" font-size="17" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">TITAN AI CORP | STUDIO KHỐI 5</text>
+  <text x="672" y="1238" text-anchor="end" fill="#10B981" font-size="17" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">GOOGLE FLOW / VEO 3.1</text>
+</svg>

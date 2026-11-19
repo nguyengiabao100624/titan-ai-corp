@@ -1,9 +1,28 @@
-# QUY TRÌNH PHỐI HỢP CHUẨN TOÀN CÔNG TY 9 KHỐI VÀ 54 PHÒNG BAN (TITAN AI CORP v10.1)
+# QUY TRÌNH PHỐI HỢP CHUẨN TOÀN CÔNG TY 9 KHỐI VÀ 54 PHÒNG BAN (TITAN AI CORP v11.0)
 
-Tài liệu này ban hành quy chế phối hợp chính thức cho toàn bộ **Ban Tổng Giám đốc Điều hành (`#00`)** và **9 Khối Chuyên môn (`div1` đến `div9`, tổng cộng 54 Phòng ban `#00` đến `#53`)** theo **Mô hình Kết hợp 2 Tầng**: Tổng Giám đốc `#00` điều phối chuẩn đủ 9 Khối theo loại sản phẩm, kết hợp quyền tự chủ chuyển việc ngang giữa các phòng ban đã nắm rõ Danh bạ 54 phòng và đẩy lên `#00` khi vượt thẩm quyền.
+Tài liệu này ban hành quy chế phối hợp chính thức cho toàn bộ **Ban Tổng Giám đốc Điều hành (`#00`)** và **9 Khối Chuyên môn (`div1` đến `div9`, tổng cộng 54 Phòng ban `#00` đến `#53`)** theo **Mô hình Kết hợp 2 Tầng** và **Hiến pháp Chống Sản phẩm Đồ chơi v11.0**: Tổng Giám đốc `#00` điều phối chuẩn đủ 9 Khối theo tiêu chuẩn phần mềm thương mại quốc tế (Y Combinator, Linear, Stripe, Vercel), kết hợp quyền tự chủ chuyển việc ngang giữa các phòng ban đã nắm rõ Danh bạ 54 phòng và đẩy lên `#00` khi vượt thẩm quyền.
 
 - **Bản đồ nhận thức chung 54 phòng ban:** `corporate_hq/CORPORATE_DIRECTORY_54.md`
 - **Cơ sở dữ liệu danh bạ chuẩn JSON:** `corporate_hq/intel_sources/corporate_directory_54.json`
+
+---
+
+## Điều Khoản Nền Tảng (Cổng 0): Hiến Pháp Chống Sản Phẩm Đồ Chơi và Thang Điểm Quy Mô `>= 85/100` của `#00`
+Trước khi bất kỳ ý tưởng hay dự án nào bước sang thiết kế và lập trình, Tổng Giám đốc `#00` bắt buộc thực thi **Quyền Phủ Quyết Chống Đồ Chơi (`Anti-Toy Veto Protocol`)**:
+1. **Bác bỏ ngay lập tức các sản phẩm đồ chơi:** Cấm sản xuất ứng dụng 1 trang biểu mẫu tĩnh, máy tính 3 ô nhập liệu, công cụ cắt ghép sơ sài làm 2 tiếng xong, giao diện tầm thường kiểu người mới học web hay sản phẩm dùng 1 lần rồi bỏ không có thói quen quay lại hàng ngày/tuần.
+2. **Thang điểm Quy mô và Đẳng cấp 100 điểm (`Product_Scale_Score >= 85/100`, không chiều nào dưới `15/20`):**
+   - **Tầm nhìn Thị trường và Tần suất dùng cao (`/20`):** Quy mô lớn (Việt Nam + Toàn cầu USD), giải quyết luồng công việc lặp lại hàng ngày/tuần.
+   - **Hào Kỹ thuật và Kiến trúc Thương mại (`/20`):** Không gian làm việc đa màn hình, lõi thuật toán/dữ liệu/tích hợp sâu (Edge Workers, WASM/WebGPU, IndexedDB Sync, API/Export chuyên nghiệp), khởi đầu 0 đồng trên tầng miễn phí công nghiệp và chỉ trả phí khi doanh thu lớn.
+   - **Độ Đầy đủ Tính năng Cấp Sản phẩm Bán được Tiền (`/20`):** Đủ quản lý đa dự án/hồ sơ, lịch sử phiên bản, thư viện mẫu sẵn, phím tắt năng suất, Undo/Redo, xử lý hàng loạt, thiết lập tùy biến và hướng dẫn khởi chạy tức thì.
+   - **Đẳng cấp Giao diện Chuẩn Linear, Vercel, Stripe và Figma (`/20`):** Kiến trúc Workspace Studio (Sidebar, Command Palette, Split-pane, Canvas/Workboard, Inspector, biểu đồ sống, vi chuyển động tinh tế, Sáng/Tối OKLCH).
+   - **Cơ chế Thắng Tập đoàn Lớn và Tăng trưởng Bền vững (`/20`):** Nhanh gấp 10 lần, đẹp gấp 10 lần, AI-native hoặc Local-First riêng tư tuyệt đối, miễn phí hào phóng để lan truyền PLG và thu phí Pro/Team minh bạch.
+3. **Cổng Chống Web Tập Sự (`Anti-Amateur Gate`) tại Khối 9:** Trước khi mở Cổng 2 trình Chủ tịch, `#52`, `#51`, `#49` và `#53` bắt buộc đánh giá lại toàn diện sản phẩm chạy thật. Nếu sản phẩm còn nhìn như web tập sự hoặc thiếu bất kỳ tính năng thương mại cốt lõi nào, `#52` và `#53` BẮT BUỘC lập phiếu `bounce-back` chặn xuất xưởng!
+4. **Điều luật CẤM SẢN PHẨM 1-PROMPT / 1-WORKER (`ANTI_ONE_PROMPT_LAW`):** Tuyệt đối cấm giao cả một sản phẩm cho 1 người hay 1 lượt lệnh tạo ra sản phẩm chắp vá! Mọi sản phẩm thương mại ở Giai đoạn 2 BẮT BUỘC chia tối thiểu **5 Cụm Chuyên gia Song song** không chồng chéo tệp:
+   - **Cụm 1:** Kiến trúc Hệ thống và Edge Backend/Data (`#12, #15, #17, #19`).
+   - **Cụm 2:** Giao diện Workspace Studio chuẩn Linear/Vercel (`#06, #07, #08, #09, #13`).
+   - **Cụm 3:** Lõi Thuật toán và Trí tuệ nhân tạo Chuyên sâu (`#04, #16, #13/#14/#18`).
+   - **Cụm 4:** Khối 5 Studio Truyền thông, Video AI Google Flow + YouTube/TikTok + Trang Bán hàng (`#25..#31, #32..#35`).
+   - **Cụm 5:** Bộ Tứ Khối 9 Kiểm định Chống Web Tập Sự (`#53, #51, #52, #49, #48`) kết hợp QA/Pentest Khối 4 (`#20, #23, #24`).
 
 ---
 

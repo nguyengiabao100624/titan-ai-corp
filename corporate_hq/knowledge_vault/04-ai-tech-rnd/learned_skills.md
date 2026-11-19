@@ -1,6 +1,6 @@
 # KHO KỸ NĂNG THỰC CHIẾN CỦA PHÒNG 04: Nghiên cứu Công nghệ mới và Trí tuệ nhân tạo
-- **Cập nhật lần cuối:** `2026-11-19T13:27:39Z`
-- **Tổng số kỹ năng đã nạp:** `4`
+- **Cập nhật lần cuối:** `2026-11-19T17:10:17Z`
+- **Tổng số kỹ năng đã nạp:** `5`
 
 ---
 
@@ -16,13 +16,19 @@
 - **Tài liệu nội bộ:** `corporate_hq/skills_library/anth-mcp-builder/SKILL.md`
 - **Tóm tắt ứng dụng:** Thiết kế và triển khai máy chủ công cụ MCP chuẩn hóa cho mô hình AI kết nối dịch vụ bên ngoài, tối ưu mô tả công cụ, xử lý lỗi rõ ràng và kiểm tra an toàn quyền truy cập.
 
-## 3. Tối ưu Hiện diện Thương hiệu trên Công cụ Trả lời Trí tuệ Nhân tạo
+## 3. Kỷ luật Tra cứu Công cụ, Thư viện và Giải pháp Hàng đầu Trước Khi Lập trình
+- **Mã kỹ năng:** `ecc-search-first` | **Nhóm chuyên môn:** Nghiên cứu Trước Khi Xây
+- **Kho nguồn mở:** `affaan-m/ECC` | **Liên kết gốc:** https://github.com/affaan-m/ECC/tree/main/skills/search-first
+- **Tài liệu nội bộ:** `corporate_hq/skills_library/ecc-search-first/SKILL.md`
+- **Tóm tắt ứng dụng:** Khảo sát nhanh hệ sinh thái mã nguồn mở, thư viện chuẩn công nghiệp và đối thủ thực tế trước khi thiết kế để tận dụng lõi mạnh nhất, tránh tự chế lại bánh xe sơ sài và rút ngắn thời gian ra sản phẩm đỉnh cao.
+
+## 4. Tối ưu Hiện diện Thương hiệu trên Công cụ Trả lời Trí tuệ Nhân tạo
 - **Mã kỹ năng:** `mkt-ai-seo` | **Nhóm chuyên môn:** Tìm kiếm Thế hệ mới
 - **Kho nguồn mở:** `coreyhaines31/marketingskills` | **Liên kết gốc:** https://github.com/coreyhaines31/marketingskills/tree/main/skills/ai-seo
 - **Tài liệu nội bộ:** `corporate_hq/skills_library/mkt-ai-seo/SKILL.md`
 - **Tóm tắt ứng dụng:** Cấu trúc tri thức, dữ liệu xác thực và trang giải đáp câu hỏi chuyên sâu giúp sản phẩm được các hệ thống tìm kiếm AI trích dẫn và đề xuất ưu tiên khi khách hàng tra cứu giải pháp.
 
-## 4. Nghiên cứu Chiều sâu từ Nguồn Gốc Tin cậy Cao và Lưu trữ Tài liệu
+## 5. Nghiên cứu Chiều sâu từ Nguồn Gốc Tin cậy Cao và Lưu trữ Tài liệu
 - **Mã kỹ năng:** `mp-research` | **Nhóm chuyên môn:** Nghiên cứu Nguồn Gốc
 - **Kho nguồn mở:** `mattpocock/skills` | **Liên kết gốc:** https://github.com/mattpocock/skills/tree/main/skills/engineering/research
 - **Tài liệu nội bộ:** `corporate_hq/skills_library/mp-research/SKILL.md`

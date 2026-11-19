@@ -1,0 +1,77 @@
+[
+  {
+    "title": "MotionDeck Studio: Studio Quay Màn Hình Tự Phóng To Điện Ảnh và Tạo Bản Dùng Thử Tương Tác 100% Trên Trình Duyệt",
+    "target_customer": "Nhà sáng lập sản phẩm số, đội tiếp thị tăng trưởng, quản lý sản phẩm, công ty dịch vụ, giảng viên và nhà sáng tạo nội dung Toàn cầu ($12 đến $39/tháng) và Việt Nam (199.000đ đến 599.000đ/tháng)",
+    "pain_point": "Screen Studio thu $29/tháng nhưng khóa cứng độc quyền máy Mac và không cho xuất thử không dính logo; Loom sau khi về tay Atlassian tăng giá $15 đến $24/người/tháng, bóp bản miễn phí xuống 5 phút và thiếu hoàn toàn hiệu ứng phóng to điện ảnh; còn Arcade và Supademo bán $32 đến $500/tháng chỉ làm ảnh bấm tĩnh, không xuất được video 60 khung hình/giây.",
+    "proposed_solution": "Không gian làm việc Studio đa khung chạy ngay trong trình duyệt trên cả Windows và Mac nhờ lõi WebCodecs, Canvas/WebGPU và bộ nhớ cục bộ OPFS: ghi màn hình hoặc kéo thả video thô -> tự động phóng to mượt mà theo điểm bấm chuột bằng thuật toán lò xo, chỉnh sửa dòng thời gian đa lớp có Hoàn tác/Làm lại, chèn phụ đề chuyển động và webcam bo tròn, xuất thẳng video 4K 60fps 0 đồng máy chủ HOẶC xuất liên kết Bản Dùng Thử Tương Tác bấm từng bước có đo lượt xem.",
+    "price_vnd": 299000,
+    "est_margin_pct": 87.1,
+    "breakeven_users": 6,
+    "survival_score": 94,
+    "product_scale_score": 95,
+    "opportunity_tier": "FLAGSHIP_VENTURE",
+    "big_corp_moat_vi": "Đánh thắng Screen Studio, Loom và Arcade theo đúng kiểu Photopea đánh Photoshop và Tally đánh Typeform: chạy 100% trên trình duyệt mọi hệ điều hành (giải phóng hàng trăm triệu máy Windows bị Screen Studio bỏ rơi), gộp cả video tự phóng to điện ảnh 60fps lẫn bản dùng thử bấm từng bước trong 1 Workspace duy nhất, cho xuất miễn phí 1080p hào phóng kèm huy hiệu cuối video để lan truyền PLG không tốn quảng cáo, giá Pro chỉ bằng dưới một nửa đối thủ.",
+    "zero_cost_stack_vi": "Khởi đầu 0 đồng cho 0 đến 30.000 người dùng/tháng: giao diện tĩnh trên Cloudflare Pages (miễn phí không giới hạn băng thông), dựng và xuất video 4K 100% trên GPU/CPU máy khách qua WebCodecs và WASM (0 đồng máy chủ render), lưu dự án trên IndexedDB/OPFS, lưu liên kết dùng thử tương tác trên Cloudflare R2 Free (10GB, 0 đồng phí tải ra) và Workers Free (100.000 lượt/ngày). Chỉ nâng cấp lên Cloudflare Workers Paid ($5/tháng) và R2 mở rộng ($20/tháng) khi đã vượt 500 khách trả phí (doanh thu đạt 120 đến 150 triệu/tháng, hạ tầng chiếm dưới 0,6% doanh thu).",
+    "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là trình duyệt cũ (như Safari phiên bản thấp) hỗ trợ WebCodecs chưa đồng đều bằng Chrome/Edge, và video dài trên 15 phút có thể ngốn bộ nhớ RAM khi dựng trực tiếp trên máy yếu. Cách chặn: tự động phát hiện năng lực trình duyệt khi mở Studio, ưu tiên luồng dựng từng đoạn (chunked streaming muxer) ghi trực tiếp xuống OPFS thay vì ôm toàn bộ video trong RAM, và cảnh báo nhẹ khuyến nghị Chrome/Edge cho chế độ xuất 4K 60fps.",
+    "ux_note": "Phòng #48 Kiểm thử Khách hàng: Không gian Studio chuẩn Linear và Figma với thanh dự án bên trái, khung xem trước trung tâm, dòng thời gian phóng to thông minh bên dưới và thanh thuộc tính bên phải, hỗ trợ phím tắt Ctrl+K. Người mới vào mở dự án mẫu sẵn, bấm quay 15 giây hoặc thả tệp có sẵn là thấy ngay hiệu ứng tự phóng to chuẩn sự kiện Apple trong dưới 30 giây.",
+    "google_flow_hook_vi": "Mở đầu 3 giây chia đôi màn hình đầy tương phản: bên trái là đoạn quay màn hình thô mờ nhạt với con trỏ giật cục trên máy Windows; một cú bấm phím cách biến bên phải thành thước phim giới thiệu sản phẩm chuẩn sự kiện Apple tự phóng to mượt mà theo từng cú bấm chuột, phông nền chiều sâu và phụ đề nhảy nhịp, xuất 4K ngay trong trình duyệt mà không cần mua máy Mac hay trả 29 đô mỗi tháng.",
+    "source_url": "https://supademo.com/blog/screen-studio-alternatives",
+    "scale_breakdown": {
+      "market_frequency": 19,
+      "tech_moat": 20,
+      "commercial_completeness": 19,
+      "studio_ui_craft": 19,
+      "defensible_growth": 18
+    }
+  },
+  {
+    "title": "DuckPulse BI: Studio Phân Tích Dữ Liệu Tốc Độ Ánh Sáng và Bảng Điều Khiển Điều Hành Chạy Lõi DuckDB-WASM Cục Bộ",
+    "target_customer": "Chuyên viên phân tích dữ liệu, quản lý tài chính và vận hành, chủ thương hiệu thương mại điện tử, đội tiếp thị và giám đốc điều hành doanh nghiệp Toàn cầu ($15 đến $49/tháng) và Việt Nam (249.000đ đến 699.000đ/tháng)",
+    "pain_point": "Tableau bán tới $75/người tạo/tháng cộng phí người xem khiến đội 10 người tốn cả nghìn đô mỗi tháng; Power BI ép dùng ứng dụng Windows nặng nề giao diện lỗi thời và gói chia sẻ doanh nghiệp Fabric rất đắt; còn Julius AI ($20 đến $45/tháng) bị người dùng phàn nàn tụt tín dụng quá nhanh, chỉ là khung hỏi đáp rời rạc không dựng được bảng điều khiển dùng lại hàng tuần và bắt tải bảng lương, doanh thu mật lên máy chủ đám mây.",
+    "proposed_solution": "Không gian phân tích dữ liệu đa màn hình chuẩn Stripe và Linear tích hợp thẳng động cơ SQL phân tích DuckDB-WASM ngay trong trình duyệt: kéo thả đồng thời nhiều tệp CSV, Excel, Parquet, JSON nặng hàng trăm MB (hàng triệu dòng) -> truy vấn, gộp bảng, làm sạch trùng lặp bằng giao diện kéo thả hoặc SQL trong dưới 0,5 giây mà dữ liệu tuyệt đối không rời khỏi máy; dựng bảng điều khiển đa biểu đồ có lọc chéo tương tác, mẫu báo cáo sẵn, Hoàn tác/Làm lại và xuất tệp báo cáo tương tác có mật khẩu hoặc đường link chia sẻ cho sếp.",
+    "price_vnd": 379000,
+    "est_margin_pct": 86.0,
+    "breakeven_users": 5,
+    "survival_score": 93,
+    "product_scale_score": 94,
+    "opportunity_tier": "FLAGSHIP_VENTURE",
+    "big_corp_moat_vi": "Đánh thắng Tableau, Power BI và Julius AI bằng kiến trúc Local-First chạy lõi DuckDB-WASM trực tiếp trong trình duyệt: tốc độ xử lý 1 triệu dòng trong nửa giây không cần chờ tải lên máy chủ, bảo mật tuyệt đối dữ liệu kế toán và khách hàng (giải quyết nỗi sợ tuân thủ bảo vệ dữ liệu của doanh nghiệp), không thu phí từng người xem báo cáo và không bóp tín dụng vô lý trên các thao tác lọc, nối bảng, vẽ biểu đồ hàng ngày.",
+    "zero_cost_stack_vi": "Khởi đầu 0 đồng cho 0 đến 50.000 người dùng/tháng: giao diện tĩnh triển khai trên Cloudflare Pages miễn phí, toàn bộ tính toán SQL nặng chạy 100% trên máy người dùng bằng DuckDB-WASM (0 đồng chi phí máy chủ dữ liệu), lưu dự án và mẫu biến đổi trên IndexedDB cục bộ, dùng Cloudflare Workers + D1 Free để lưu cấu hình chia sẻ đường dẫn báo cáo tổng hợp cực nhẹ. Khi đạt 300 khách trả phí (doanh thu đạt 110 đến 150 triệu/tháng), chỉ nâng cấp Cloudflare Workers Paid ($5/tháng) và Supabase/D1 Pro ($25/tháng) chiếm dưới 0,7% doanh thu.",
+    "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là người dùng văn phòng không biết viết câu lệnh SQL sẽ ngợp nếu màn hình mở lên hiện ngay cửa sổ mã lệnh, và tệp Excel trên 500MB có thể vượt giới hạn bộ nhớ trình duyệt trên thiết bị cũ. Cách chặn: mặc định mở ngay chế độ Biến Đổi Trực Quan không cần gõ mã (lọc, gộp, nhóm, chọn biểu đồ bằng nút bấm, có tùy chọn gõ tiếng Việt tự sinh SQL), kèm cơ chế đọc luồng tệp theo phần và thư viện 15 bộ mẫu báo cáo bán hàng, tài chính, quảng cáo dùng ngay sau 1 cú thả tệp.",
+    "ux_note": "Phòng #48 Kiểm thử Khách hàng: Kiến trúc Studio 3 khung chuẩn Stripe gồm cây bảng dữ liệu bên trái, khung lưới dữ liệu chia đôi cùng bảng điều khiển biểu đồ sống ở giữa và thanh chỉnh cột bên phải, hỗ trợ phím tắt Ctrl+K. Chủ shop hoặc kế toán kéo thả tệp Excel bán hàng vào cửa sổ là tự động sinh ngay bảng chỉ số doanh thu, biên lãi và nhóm hàng lỗ trong 10 giây.",
+    "google_flow_hook_vi": "Cảnh mở đầu 3 giây gây sốc cho dân văn phòng và phân tích dữ liệu: bật chế độ máy bay ngắt hoàn toàn mạng Internet, kéo thả tệp Excel bán hàng rối mù nặng 150MB với 1 triệu dòng vào trình duyệt -> đúng 0,4 giây sau màn hình bung ra bảng điều khiển doanh thu, biên lãi và cảnh báo bất thường đẹp ngang phòng điều hành tập đoàn, không tốn 75 đô/tháng cho Tableau và không rò rỉ một con số nào lên mạng.",
+    "source_url": "https://kepakisan.co.nz/blog/posts/duckdb-static-webapp.html",
+    "scale_breakdown": {
+      "market_frequency": 19,
+      "tech_moat": 20,
+      "commercial_completeness": 19,
+      "studio_ui_craft": 18,
+      "defensible_growth": 18
+    }
+  },
+  {
+    "title": "DealCraft Studio: Nền Tảng Phòng Chốt Hợp Đồng Tương Tác, Bảng Giá Tự Chọn Sống, Ký Điện Tử và Thu Cọc 1 Chạm",
+    "target_customer": "Công ty dịch vụ thiết kế, phát triển phần mềm, tiếp thị, kiến trúc, tư vấn B2B và người làm tự do chuyên nghiệp Toàn cầu ($15 đến $39/tháng theo không gian làm việc) và Việt Nam (249.000đ đến 599.000đ/tháng)",
+    "pain_point": "PandaDoc ($19 đến $65/người/tháng), Qwilr ($35 đến $59/người/tháng) và Proposify ($35 đến $65/người/tháng) bị cộng đồng doanh nghiệp nhỏ chê gay gắt vì thu phí theo từng đầu người quá cao (nhóm 5 người tốn $250 đến $325/tháng), khóa tính năng tích hợp sau gói đắt tiền và ép đóng cả năm; còn gửi báo giá PDF tĩnh thì không biết khách đã xem trang nào và phải sửa đi sửa lại mỗi lần khách muốn đổi gói dịch vụ.",
+    "proposed_solution": "Không gian làm việc soạn thảo Phòng Chốt Hợp Đồng đa màn hình chuẩn Notion và Linear: quản lý đường ống thương vụ theo trạng thái, trình soạn thảo khối kéo thả có mẫu ngành sẵn và Hoàn tác/Làm lại, bảng giá tương tác cho phép khách hàng tự tích chọn hạng mục cộng thêm để xem tổng tiền và thuế cập nhật trực tiếp, đo bản đồ nhiệt thời gian khách đọc từng mục, ký tên điện tử có dấu vết kiểm toán thời gian và nút đặt cọc ngay bằng Stripe quốc tế hoặc mã VietQR tự điền số tiền cho thị trường Việt Nam.",
+    "price_vnd": 379000,
+    "est_margin_pct": 87.2,
+    "breakeven_users": 5,
+    "survival_score": 92,
+    "product_scale_score": 92,
+    "opportunity_tier": "PLG_PLATFORM",
+    "big_corp_moat_vi": "Áp dụng chuẩn công thức Tally thắng Typeform ($6M ARR) và Linear thắng Jira: thu phí phẳng theo không gian làm việc thay vì chặt chém từng đầu người (nhóm 5 đến 15 người tiết kiệm 80% chi phí so với Qwilr và PandaDoc), tích hợp sẵn luồng ký xong thu cọc tức thì kép cả Stripe quốc tế lẫn VietQR ngân hàng Việt Nam, và biến mọi bản chào giá gửi miễn phí (kèm dòng nhỏ ở chân trang) thành một kênh giới thiệu B2B tự nhiên tới chính giám đốc của bên mua.",
+    "zero_cost_stack_vi": "Khởi đầu 0 đồng cho 0 đến 25.000 người dùng/tháng: Studio soạn thảo tĩnh chạy trên Cloudflare Pages miễn phí kết hợp lưu nháp tức thì bằng IndexedDB, xuất bản liên kết Phòng Chốt Hợp Đồng, ghi nhận bản đồ nhiệt lượt xem và lưu bằng chứng chữ ký số trên Cloudflare Workers Free (100.000 lượt gọi/ngày) + Cloudflare D1 Free (5GB, 5 triệu lượt đọc/ngày) + Cloudflare R2 Free (10GB tệp đính kèm). Chỉ nâng cấp lên Cloudflare Workers Paid ($5/tháng) và Resend ($20/tháng) khi đạt 200 đội nhóm trả phí (doanh thu đạt 100 đến 150 triệu/tháng, hạ tầng dưới 0,6% doanh thu).",
+    "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là khách hàng doanh nghiệp truyền thống đòi hỏi tính pháp lý của chữ ký điện tử hoặc vẫn cần bản PDF kẹp sổ kế toán, dẫn đến ngại chuyển từ PDF sang đường dẫn web. Cách chặn: định vị rõ chữ ký xác nhận điện tử đi kèm biên bản nhật ký kiểm toán IP, dấu thời gian, mã băm nội dung làm bằng chứng giao dịch dân sự và thương mại điện tử minh bạch, đồng thời tích hợp nút xuất 1 chạm ra bản hợp đồng PDF chuẩn A4 đóng khung sạch đẹp để khách in ký tươi hoặc lưu kế toán bất cứ lúc nào.",
+    "ux_note": "Phòng #48 Kiểm thử Khách hàng: Không gian làm việc chia khung gồm danh sách thương vụ và thư viện khối mẫu bên trái, trang soạn thảo trực quan ở giữa và thanh cấu hình bảng giá, thuế, màu thương hiệu bên phải kèm bảng lệnh nhanh Ctrl+K. Người làm tự do hoặc nhân viên kinh doanh chọn 1 trong 25 mẫu ngành, đổi giá và gửi đường link chốt hợp đồng sang Zalo/Email cho khách trong dưới 60 giây.",
+    "google_flow_hook_vi": "3 giây đầu đặt cạnh hai cảnh đối lập: bên trái là tệp báo giá PDF chết gửi đi im bặt cả tuần không biết khách có mở không; cú vuốt sang phải biến thành Phòng Chốt Hợp Đồng tương tác chuẩn Apple nơi khách tự tích chọn gói cộng thêm thấy giá nhảy trực tiếp, ký tên trên màn hình, quét cọc ngay lập tức và điện thoại người bán báo tin vừa chốt cọc 50 triệu sau khi khách đọc bảng giá 3 phút.",
+    "source_url": "https://nusii.com/blog/best-pandadoc-alternatives/",
+    "scale_breakdown": {
+      "market_frequency": 19,
+      "tech_moat": 18,
+      "commercial_completeness": 19,
+      "studio_ui_craft": 18,
+      "defensible_growth": 18
+    }
+  }
+]

@@ -42,7 +42,9 @@
   2. `# PHÂN TUYẾN ĐẨY TRẢ THEO ĐÚNG KHỐI VÀ PHÒNG BAN CHỊU TRÁCH NHIỆM`
   3. `# NHẬT KÝ SỬA LỖI, TÁI KIỂM ĐỊNH (#51, #52, #49) VÀ SỐ LẦN MỞ LẠI`
   4. `# XÁC NHẬN CHỐT CUỐI 0 LỖI MỞ (0 OPEN) TRƯỚC KHI TRÌNH CỔNG 2`
-- **Điều kiện chặn cổng cứng (`Hard Gate`):** Còn dù chỉ 1 phản hồi chưa phân tuyến hoặc 1 phiếu lỗi chưa đóng `VERIFIED_CLOSED` bởi `#51`, `#52` và `#49` thì chặn chốt tuyệt đối.
+- **Điều kiện chặn cổng cứng (`Hard Gate` và Cổng "Chống Web Tập Sự" `Anti-Amateur Gate` v11.0):**
+  1. Còn dù chỉ 1 phản hồi chưa phân tuyến hoặc 1 phiếu lỗi chưa đóng `VERIFIED_CLOSED` bởi `#51`, `#52` và `#49` thì chặn chốt tuyệt đối.
+  2. **Thực thi Cổng "Chống Web Tập Sự" (`Anti-Amateur Gate`):** Khi `#52`, `#51`, `#49`, `#48` hoặc Chủ tịch phát hiện sản phẩm mang dáng dấp web tập sự, giao diện tầm thường hoặc thiếu tính năng thương mại cốt lõi (`Product_Scale_Score < 85/100`), Phòng `#53` BẮT BUỘC nâng mức nghiêm trọng lên `CRITICAL`, lập ngay phiếu `bounce-back` đẩy thẳng về Khối 2 (`#06`, `#08`) và Khối 3 (`#12`, `#13`, `#15`) nâng cấp lại toàn diện cho đến khi vượt ngưỡng thương mại mới cho chốt!
 
 ## 5. Tầng 5 - Dòng Chảy Tự Học Hàng Ngày và Theo Dõi Thị Trường (`Daily Continual Learning`)
 - **Kênh báo chí, vận hành và mã nguồn mở theo dõi mỗi ngày:** GitHub Agent Skills, Product Hunt, Hacker News Show HN, CISA Security Advisories và các quy trình quản trị chất lượng tập trung.

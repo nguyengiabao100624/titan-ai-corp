@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0",
+  "studio_division": "div5-media-youtube-studio",
+  "departments": [
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+    "31"
+  ],
+  "project_id": "proj-so-thu-chi-thue-hkd",
+  "project_slug": "so-thu-chi-thue-hkd",
+  "project_title_vi": "Két Thuế Shop - Sổ thu chi & Cảnh báo ngưỡng thuế HKD/TMĐT",
+  "generated_at": "2026-11-19T17:10:18Z",
+  "google_flow_studio_url": "https://labs.google/fx/tools/flow",
+  "recommended_veo_model": "veo-3.1-generate-preview",
+  "visual_consistency_bible": {
+    "character_lock_en": "A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0.",
+    "lighting_palette_en": "High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+    "anti_ai_slop_ratio": "40% real product UI demo + 40% locked-consistency Google Flow clips + 20% crisp data graphics"
+  },
+  "campaigns_count": 3,
+  "campaigns": [
+    {
+      "campaign_id": "camp-kts-tiktok-bayphisan",
+      "title": "Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
+      "platform": "TIKTOK",
+      "platform_label_vi": "TikTok 9:16",
+      "aspect_ratio": "9:16",
+      "status": "FLOW_READY",
+      "angle_vi": "Chạm thẳng điểm mù chết người của chủ shop Shopee/TikTok Shop theo Nghị định 117/2025 và Nghị định 70/2025: nhìn biến động số dư ngân hàng mới về 800,7 triệu nên chủ quan, nhưng doanh thu tính thuế (GMV chưa trừ 20% phí sàn) đã cán mốc 1,02 tỷ, kích hoạt hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền để tránh phạt 5 đến 10 triệu.",
+      "hook_3s_vi": "Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!\n[04s - 16s | Căn cứ luật rõ ràng] Theo Nghị định 117/2025, doanh thu tính thuế là tổng giá trị đơn hàng khách thanh toán, tuyệt đối không được trừ 18% đến 25% phí sàn, phí thanh toán hay voucher. Nghĩa là ví bạn nhận 800,7 triệu, nhưng doanh thu gốc sàn báo đã vượt 1,02 tỷ.\n[17s - 31s | Demo Két Thuế Shop] Xem trên Máy tính 10 giây của Két Thuế Shop: gõ 1,02 tỷ và phí sàn 20%. Tiền về ví đúng 800,7 triệu nhưng thanh Radar bật đỏ lập tức: đã vượt mốc 1 tỷ, cần đăng ký hóa đơn điện tử khởi tạo từ máy tính tiền trong 30 ngày theo Nghị định 70.\n[32s - 40s | CTA] Đừng đoán mò bằng số dư tài khoản nữa. Bấm link máy tính miễn phí 10 giây ở đầu trang để kiểm tra shop mình ngay tối nay nhé!",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Close-Up Warehouse Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic close-up. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Looking sharply into the camera while holding a smartphone displaying a banking alert in a busy Vietnamese e-commerce packing room with neatly stacked parcel boxes behind. Punchy quick zoom-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.",
+          "voiceover_vi": "Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!",
+          "sfx_music_vi": "Tiếng cảnh báo trầm 0.4s + nhịp trống nhanh tạo sự chú ý",
+          "on_screen_text_vi": "Ví về 800tr nhưng thuế đã 1,02 tỷ!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 8,
+          "shot_type": "Editorial Split Graphic - GMV vs Bank Net",
+          "visual_prompt_flow": "9:16 vertical clean editorial motion visual over a dark charcoal desk. A stacked glowing bar splits cleanly into three layered segments: red top slice for 20 percent marketplace fees, amber sliver for withheld tax, and muted bottom block for net bank payout. Crisp architectural depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Nghị định 117/2025 quy định doanh thu tính thuế là tổng đơn khách trả, không trừ 20% phí sàn. Ví về 800,7 triệu thì doanh thu tính thuế đã là 1,02 tỷ rồi.",
+          "sfx_music_vi": "Tiếng tách lớp dữ liệu sắc nét, giữ nhịp tension đều",
+          "on_screen_text_vi": "GMV tính thuế KHÔNG trừ 20% phí sàn"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 10,
+          "shot_type": "Macro Tablet Radar 1B Demo",
+          "visual_prompt_flow": "9:16 vertical over-the-shoulder macro shot of hands operating a sleek dark-mode tax dashboard on a tablet. A semicircular red progress radar sweeps past the 100 percent threshold marker with a crisp 30-day e-invoice alert banner appearing below. Razor-sharp UI focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Nhìn trên Két Thuế Shop nè: nhập 1,02 tỷ, phí sàn 20%, Radar lập tức báo đỏ quá mốc 1 tỷ và đếm ngược hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền.",
+          "sfx_music_vi": "Tiếng còi radar nhẹ tinh tế + tiếng kéo thanh trượt",
+          "on_screen_text_vi": "Radar 1 tỷ báo hạn 30 ngày HĐĐT"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Desk Privacy & Compliance Reassurance",
+          "visual_prompt_flow": "9:16 vertical medium close-up of the shop owner reviewing clean printed summary sheets beside a laptop showing a green Local-First lock icon, calm relieved posture under warm practical lighting. Smooth slow slide, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.",
+          "voiceover_vi": "Toàn bộ số liệu kiểm tra lưu riêng tư ngay trên máy bạn, tính đúng nộp đủ để buôn bán an tâm quanh năm.",
+          "sfx_music_vi": "Nhịp nhạc dịu lại sang tông tin cậy và chuyên nghiệp",
+          "on_screen_text_vi": "Lưu cục bộ trên máy | Tính đúng nộp đủ"
+        },
+        {
+          "scene_no": 5,
+          "duration_sec": 6,
+          "shot_type": "Medium Shot Direct CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Pointing clearly toward the lower bio link space with a focused reassuring expression, neatly organized e-commerce studio softly lit behind. High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập để kiểm tra khoảng cách tới vạch đỏ 1 tỷ ngay tối nay!",
+          "sfx_music_vi": "Nhịp kết sắc gọn với âm báo nhấn nút CTA",
+          "on_screen_text_vi": "Kiểm tra miễn phí 10 giây ở đầu trang"
+        }
+      ],
+      "thumbnail_prompt_flow": "9:16 vertical high-urgency cover frame. Vietnamese e-commerce shop owner holding smartphone showing a glowing red semicircular 1.02B tax radar gauge over a dimly lit parcel warehouse backdrop, crisp crimson and amber accent lighting, clean upper zone reserved for bold Vietnamese headline.",
+      "thumbnail_svg_path": "corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-tiktok-bayphisan.svg",
+      "thumbnail_web_url": "./projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-tiktok-bayphisan.svg",
+      "seo_title_vi": "Bẫy phí sàn 20% Shopee TikTok: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ (NĐ 117 & NĐ 70)",
+      "seo_description_vi": "Giải thích bẫy phí sàn 20% khiến chủ shop Shopee/TikTok Shop tưởng chưa chạm mốc 1 tỷ nhưng GMV tính thuế đã vượt 1,02 tỷ theo Nghị định 117/2025 và dính hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền theo Nghị định 70/2025. Kiểm tra nhanh miễn phí bằng Máy tính 10 giây trên Két Thuế Shop (lưu cục bộ trên máy).",
+      "hashtags": "#KetThueShop #ThueShopee #ThueTikTokShop #HoKinhDoanh2026 #HoaDonDienTu #TitanAICorp",
+      "cta_vi": "Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập!",
+      "publish_schedule_vi": "11:30 và 19:30 Thứ 3, Thứ 5, Chủ Nhật (TikTok + Ghim bình luận link Máy tính 10s)",
+      "publish_url": ""
+    },
+    {
+      "campaign_id": "camp-kts-shorts-hoanthue",
+      "title": "Doanh thu dưới 1 tỷ năm 2026: Cách đối soát đòi hoàn 9 đến 14 triệu thuế sàn trừ thừa",
+      "platform": "YOUTUBE_SHORTS",
+      "platform_label_vi": "YouTube Shorts 9:16",
+      "aspect_ratio": "9:16",
+      "status": "FLOW_READY",
+      "angle_vi": "Bảo vệ quyền lợi hợp pháp của chủ shop vừa và nhỏ dưới mốc 1 tỷ/năm theo Nghị định 141/2026/NĐ-CP: sàn TMĐT vẫn khấu trừ 1,5% ngay trên từng đơn thành công; hướng dẫn thả tệp CSV vào Két Thuế Shop để tự loại đơn hủy/bom hàng và gom bảng đối soát minh bạch làm hồ sơ đòi hoàn thuế nộp thừa cuối năm.",
+      "hook_3s_vi": "Bán hàng cả năm dưới 1 tỷ nhưng Shopee, TikTok vẫn trừ đều 1,5% thuế từng đơn? Bạn đang bỏ quên 9 đến 14 triệu tiền hoàn thuế hợp pháp đó!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Bán hàng cả năm dưới 1 tỷ nhưng Shopee, TikTok vẫn trừ đều 1,5% thuế từng đơn? Bạn đang bỏ quên 9 đến 14 triệu tiền hoàn thuế hợp pháp đó!\n[04s - 15s | Quyền lợi hợp pháp NĐ 141/2026] Từ 2026, Nghị định 141 nâng ngưỡng miễn thuế GTGT và TNCN lên 1 tỷ đồng một năm. Nhưng sàn đâu biết cả năm bạn bán tổng bao nhiêu nên cứ có đơn là sàn tự trích 1,5% tại nguồn. Cuối năm khoản đó trở thành thuế nộp thừa và bạn hoàn toàn có quyền đối soát đề nghị hoàn lại.\n[16s - 30s | Demo thả CSV Két Thuế Shop] Ví dụ shop bán 600 triệu trên sàn cộng 250 triệu ngoài Facebook, tổng 850 triệu dưới mốc 1 tỷ. Thả tệp CSV Shopee/TikTok vào Két Thuế Shop: app tự gạt sạch đơn bom hàng và tính đúng 9 triệu tiền sàn đang giữ hộ, xuất bảng đối soát rõ từng đồng.\n[31s - 38s | CTA] Kiểm tra xem sàn đang tạm giữ bao nhiêu triệu của shop bạn ngay ở link Máy tính 10 giây miễn phí dưới phần mô tả!",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Medium Close-Up Positive Financial Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Holding a tablet glowing softly with an emerald green recoverable-tax vault card inside a bright tidy boutique retail desk, warm reassuring expression. Smooth slow dolly-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.",
+          "voiceover_vi": "Bán hàng cả năm dưới 1 tỷ nhưng Shopee, TikTok vẫn trừ đều 1,5% thuế từng đơn? Bạn đang bỏ quên 9 đến 14 triệu tiền hoàn thuế hợp pháp đó!",
+          "sfx_music_vi": "Âm báo tiền về êm tai + nhịp acoustic hiện đại tích cực 112 BPM",
+          "on_screen_text_vi": "Dưới 1 tỷ: Đừng bỏ quên 9 - 14tr hoàn thuế!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 9,
+          "shot_type": "Clean Visual Explainer - 1.5% Withholding",
+          "visual_prompt_flow": "9:16 vertical tabletop editorial animation feel (photorealistic studio lighting). Crisp translucent order cards flowing across a dark green-slate desk, small 1.5 percent emerald coins neatly accumulating into a transparent glass savings vault labeled cleanly with geometric balance lines. No garbled text.",
+          "voiceover_vi": "Theo Nghị định 141/2026, doanh thu năm từ 1 tỷ trở xuống được miễn thuế, nhưng sàn vẫn tự trừ 1,5% từng đơn. Cuối năm khoản thuế nộp thừa này được quyền lập hồ sơ đòi hoàn hợp pháp.",
+          "sfx_music_vi": "Tiếng xu rơi nhẹ đều đặn + nhạc nền trong trẻo",
+          "on_screen_text_vi": "NĐ 141/2026: Thuế sàn trừ thừa được hoàn"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 12,
+          "shot_type": "Over-the-Shoulder CSV Filter Demo",
+          "visual_prompt_flow": "9:16 vertical over-the-shoulder close-up of hands dragging a CSV spreadsheet file into the clean Két Thuế Shop web app on a laptop. Cancelled return orders smoothly fade out while an emerald summary card highlights 9.0M VND recoverable tax. Sharp screen contrast, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Chỉ cần thả tệp CSV Shopee hoặc TikTok vào Két Thuế Shop: app tự lọc sạch đơn bom hàng và tổng hợp bảng đối soát từng đồng để bạn đối chiếu trên eTax Mobile.",
+          "sfx_music_vi": "Tiếng kéo thả mượt + âm xác nhận lọc sạch đơn bom",
+          "on_screen_text_vi": "Thả file CSV -> Lọc đơn bom -> Ra bảng đối soát"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Medium Shot Empowering CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Smiling warmly with laptop open showing green safe dashboard, gesturing cleanly toward the pinned description link. Balanced studio lighting, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Thử ngay trên Máy tính 10 giây miễn phí ở link dưới mô tả để biết chính xác sàn đang giữ hộ bao nhiêu triệu của shop bạn nhé!",
+          "sfx_music_vi": "Hợp âm kết sáng ấm, gọn gàng",
+          "on_screen_text_vi": "Thử Máy tính 10 giây miễn phí bên dưới"
+        }
+      ],
+      "thumbnail_prompt_flow": "9:16 vertical clean financial-editorial cover shot. Confident Vietnamese shop owner beside an emerald-glowing glass vault graphic and crisp CSV spreadsheet cards on deep forest-slate background, warm rim lighting, generous top safe-zone for Vietnamese CTR headline.",
+      "thumbnail_svg_path": "corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-shorts-hoanthue.svg",
+      "thumbnail_web_url": "./projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-shorts-hoanthue.svg",
+      "seo_title_vi": "Cách đối soát đòi hoàn 9 đến 14 triệu thuế sàn Shopee TikTok trừ thừa dưới mốc 1 tỷ (NĐ 141/2026)",
+      "seo_description_vi": "Hướng dẫn chủ shop và hộ kinh doanh có tổng doanh thu năm dưới 1 tỷ đồng theo Nghị định 141/2026/NĐ-CP cách lọc đơn hủy/bom hàng từ tệp CSV Shopee, TikTok Shop và lập bảng đối soát tiền thuế sàn khấu trừ thừa bằng Két Thuế Shop. Minh bạch, lưu cục bộ trên máy, kèm miễn trừ pháp lý đầy đủ.",
+      "hashtags": "#HoanThue2026 #NghiDinh141 #KetThueShop #ChuShopShopee #HoKinhDoanh #YouTubeShorts",
+      "cta_vi": "Bấm link Máy tính 10 giây miễn phí dưới mô tả để kiểm tra số tiền thuế sàn đang giữ hộ!",
+      "publish_schedule_vi": "12:00 và 20:00 Thứ 2, Thứ 4, Thứ 6 (YouTube Shorts + Cross-post TikTok)",
+      "publish_url": ""
+    },
+    {
+      "campaign_id": "camp-kts-reels-trunham10pct",
+      "title": "Còi báo sàn trừ nhầm 10% thuế thay vì 1,5%: Soi file CSV Shopee/TikTok trong 10 giây",
+      "platform": "FACEBOOK_REELS",
+      "platform_label_vi": "Facebook Reels 9:16",
+      "aspect_ratio": "9:16",
+      "status": "FLOW_READY",
+      "angle_vi": "Phát hiện lỗi cài sai danh mục ngành hàng khiến sàn TMĐT khấu trừ mức trần 10% thay vì 1,5% phân phối hàng hóa (bán 500 triệu bị trích 50 triệu thay vì 7,5 triệu, lệch 42,5 triệu tiền tươi), kết hợp demo 3 chạm chốt sổ 11h đêm và công khai minh bạch bảng giá CFO Standard 249.000đ/tháng (150 lượt AI đọc hóa đơn) và Pro 399.000đ/tháng (300 lượt AI).",
+      "hook_3s_vi": "Cài sai đúng 1 dòng danh mục trên sàn là Shopee, TikTok trừ thẳng 10% thuế thay vì 1,5%, bán 500 triệu bị giữ oan tới 42,5 triệu tiền mặt!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Cài sai đúng 1 dòng danh mục trên sàn là Shopee, TikTok trừ thẳng 10% thuế thay vì 1,5%, bán 500 triệu bị giữ oan tới 42,5 triệu tiền mặt!\n[04s - 15s | Chạm nỗi đau thực tế] Theo Nghị định 117/2025, bán lẻ hàng hóa chỉ chịu tổng 1,5%. Nhưng nếu gian hàng bị xếp nhóm không xác định được hàng hóa hay dịch vụ, hệ thống có thể khấu trừ mức trần 10%. Ngồi soi bằng Excel mấy nghìn dòng lúc 11 giờ đêm rất dễ bỏ sót.\n[16s - 31s | Demo Còi đỏ CSV + 3 chạm chốt sổ] Thả file CSV tháng vừa rồi vào Két Thuế Shop: hễ đơn nào sàn trừ vượt quá 105% mức chuẩn ngành là app bật còi đỏ chỉ rõ từng mã đơn ngay trong 10 giây. Đơn ngoài sàn Facebook thì ghi nhanh đúng 3 chạm, nhìn thẳng 3 con số: Tiền thực về, Két cất thuế và Tiền được phép xài.\n[32s - 40s | Minh bạch giá & CTA] Dùng thử ngay với 15 đơn mẫu thật miễn phí, gói Standard chỉ 249 nghìn/tháng kèm 150 lượt AI đọc hóa đơn giấy. Bấm link dưới bình luận kiểm tra file tháng này của shop bạn ngay!",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Late-Night Desk Tension Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic shot at a shop owner's desk at 11 PM. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Illuminated by warm desk lamp and laptop screen showing dense spreadsheet rows, raising one hand with sharp focus toward camera to warn fellow sellers. Tight 35mm framing, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic.",
+          "voiceover_vi": "Cài sai đúng 1 dòng danh mục trên sàn là Shopee, TikTok trừ thẳng 10% thuế thay vì 1,5%, bán 500 triệu bị giữ oan tới 42,5 triệu tiền mặt!",
+          "sfx_music_vi": "Tiếng còi cảnh báo gọn + nhịp điện tử kịch tính 118 BPM",
+          "on_screen_text_vi": "Trừ nhầm 10% vs 1,5% -> Lệch 42,5 triệu!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 10,
+          "shot_type": "Macro CSV Red-Flag Scanner Demo",
+          "visual_prompt_flow": "9:16 vertical macro screen shot on laptop running Két Thuế Shop. A clean dark-slate CSV preview table highlights two anomalous order rows in crisp red alert pills while normal rows remain calm slate, instantly computing the exact over-withheld gap. Crisp editorial focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Thả file CSV Shopee hoặc TikTok vào Két Thuế Shop: bất kỳ đơn nào sàn trừ vượt mức chuẩn ngành đều bật còi đỏ chỉ đích danh từng mã đơn trong 10 giây.",
+          "sfx_music_vi": "Âm thanh quét radar 2 tiếng bíp ngắn rõ ràng",
+          "on_screen_text_vi": "Còi đỏ bắt đúng từng mã đơn trừ nhầm"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 12,
+          "shot_type": "One-Hand Mobile 3-Tap Ledger Demo",
+          "visual_prompt_flow": "9:16 vertical close-up of a shop owner's thumb effortlessly tapping a clean mobile web app showing three large bold financial metric cards (Net Received, Tax Vault, Safe-to-Spend) in high-contrast dark mode. Effortless 3-tap interaction, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.",
+          "voiceover_vi": "Tối muộn đóng đơn xong chỉ cần 3 chạm ghi doanh thu ngoài sàn là thấy ngay 3 con số lớn: Tiền thực về, Két cất thuế và Tiền được phép xài. Dữ liệu nằm gọn trên máy bạn.",
+          "sfx_music_vi": "3 tiếng chạm nhẹ mượt mà + nền nhạc dịu tạo cảm giác nhẹ nhõm",
+          "on_screen_text_vi": "3 chạm chốt sổ | 3 con số rõ như ban ngày"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Medium Shot Transparent Offer CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Relaxed confident expression closing the workday cleanly beside neatly taped parcels, gesturing smoothly toward the comment link zone. Warm professional studio depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Bấm link dưới bình luận để thử ngay với 15 đơn mẫu thật, rồi thả file tháng gần nhất của shop bạn lên soi miễn phí nhé!",
+          "sfx_music_vi": "Nhạc nền kết sắc nét, dứt khoát",
+          "on_screen_text_vi": "Thử 15 đơn mẫu miễn phí | Link bình luận"
+        }
+      ],
+      "thumbnail_prompt_flow": "9:16 vertical high-contrast Facebook Reels cover image. Late-night Vietnamese e-commerce founder examining a glowing dark-mode CSV audit table where red alert highlights '10% vs 1.5%' discrepancy, deep midnight indigo backdrop with amber-crimson accent lighting, clear upper headline zone.",
+      "thumbnail_svg_path": "corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-reels-trunham10pct.svg",
+      "thumbnail_web_url": "./projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-reels-trunham10pct.svg",
+      "seo_title_vi": "Cảnh báo sàn Shopee TikTok trừ nhầm 10% thuế: Cách soi file CSV trong 10 giây bằng Két Thuế Shop",
+      "seo_description_vi": "Hướng dẫn chủ shop Shopee và TikTok Shop phát hiện nhanh các đơn hàng bị sàn khấu trừ nhầm mức trần 10% thay vì 1,5% bán lẻ hàng hóa bằng công cụ lọc CSV tự động trên Két Thuế Shop. Kèm tính năng ghi nhanh 3 chạm, lưu riêng tư trên máy, gói Standard 249.000đ/tháng (150 lượt AI đọc hóa đơn) và Pro 399.000đ/tháng (300 lượt AI). Tuyệt đối không tư vấn lách thuế.",
+      "hashtags": "#KetThueShop #SoiFileCSV #ShopeeSellerVN #TikTokShopVN #ThuChiHoKinhDoanh #FacebookReels",
+      "cta_vi": "Bấm link dưới bình luận thử ngay 15 đơn mẫu thật và soi file CSV tháng vừa rồi của shop bạn!",
+      "publish_schedule_vi": "11:45 và 20:30 Thứ 3, Thứ 5, Thứ 7 (Facebook Reels + Chia sẻ 15 Nhóm Chủ shop)",
+      "publish_url": ""
+    }
+  ]
+}

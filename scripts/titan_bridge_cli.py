@@ -296,6 +296,10 @@ def cmd_add_opportunity(db: TitanDatabase, args: argparse.Namespace) -> dict:
         critique_note=args.critique,
         ux_note=args.ux,
         source_url=args.url or "",
+        opportunity_tier=args.tier or "STANDARD",
+        product_scale_score=int(args.scale_score),
+        big_corp_moat_vi=args.moat or "",
+        zero_cost_stack_vi=args.stack or "",
     )
     _sync_snapshot(db)
     return {"ok": True, "opportunity": opp}
@@ -464,6 +468,10 @@ def main() -> int:
     p_ao.add_argument("--critique", required=True)
     p_ao.add_argument("--ux", required=True)
     p_ao.add_argument("--url", default="")
+    p_ao.add_argument("--tier", default="STANDARD", choices=["FLAGSHIP_VENTURE", "PLG_PLATFORM", "AI_WORKFLOW", "STANDARD"])
+    p_ao.add_argument("--scale-score", type=int, default=75)
+    p_ao.add_argument("--moat", default="")
+    p_ao.add_argument("--stack", default="")
 
     p_chat = sub.add_parser("post-chat")
     p_chat.add_argument("--mission", required=True)

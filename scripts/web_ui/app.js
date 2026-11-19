@@ -1,12 +1,13 @@
 /* ==========================================================================
-   TRUNG TAM DIEU HANH TITAN v10.0 (XIAS v3.1.1 ATLAS CONSOLE)
-   100% Tieng Viet, 0 emoji, 0 <select> goc, 1 luong truc tuyen duy nhat
+   TRUNG TAM DIEU HANH TITAN v11.0 (XIAS v3.1.1 ATLAS CONSOLE)
+   100% Tieng Viet, 0 emoji, 0 <select> goc, 7 muc dieu hanh, 1 luong truc tuyen
    ========================================================================== */
 (() => {
   "use strict";
 
   const VIEW_TITLES = {
     command: "Giao việc",
+    projects: "Quản lý Dự án",
     missions: "Tiến độ Toàn tập đoàn",
     tasks: "Bảng việc",
     staff: "Nhân sự",
@@ -32,10 +33,33 @@
 
   const PROJECT_STATUS_LABELS = {
     PLANNING: "Lập kế hoạch",
-    ACTIVE: "Đang triển khai",
+    ACTIVE: "Đang phát triển",
     PAUSED: "Tạm dừng",
-    SHIPPED: "Đã ra mắt",
+    SHIPPED: "Đã ra mắt trực tuyến",
     ARCHIVED: "Lưu trữ"
+  };
+
+  const OPP_TIER_META = {
+    FLAGSHIP_VENTURE: { label: "Cơ hội Chiến lược", cls: "badge-done", icon: "shield-check" },
+    PLG_PLATFORM: { label: "Cơ hội Chiến lược", cls: "badge-sync", icon: "layers" },
+    AI_WORKFLOW: { label: "Luồng Tự động AI", cls: "badge-run", icon: "cpu" },
+    STANDARD: { label: "Cơ hội Tiêu chuẩn", cls: "badge-idle", icon: "compass" }
+  };
+
+  const MEDIA_PLATFORM_LABELS = {
+    TIKTOK: "TikTok dọc 9:16",
+    YOUTUBE_SHORTS: "YouTube Shorts 9:16",
+    YOUTUBE_LONG: "YouTube Dài 16:9",
+    FACEBOOK_REELS: "Facebook Reels 9:16",
+    CROSS_PLATFORM: "Đa nền tảng"
+  };
+
+  const MEDIA_STATUS_LABELS = {
+    DRAFT: "Bản nháp",
+    SCRIPTED: "Đã có kịch bản",
+    FLOW_READY: "Sẵn sàng Google Flow",
+    RENDERED: "Đã dựng Video AI",
+    PUBLISHED: "Đã đăng YouTube và TikTok"
   };
 
   const LEDGER_TYPE_LABELS = {
@@ -334,6 +358,7 @@
     projectLedger: [],
     reworkTickets: [],
     reworkSummary: {},
+    mediaCampaigns: [],
     deptHandoffs: [],
     corporateDirectorySummary: null,
     corporateDirectory: null,
@@ -359,6 +384,13 @@
     newsStarFilter: "all",
     financeViewProjectId: "",
     projectSubTab: "finance",
+    selectedProjectId: "",
+    projectDetail: null,
+    projectDetailSubTab: "overview",
+    projectDocFilter: "all",
+    projectStatusFilter: "",
+    projectSearchQuery: "",
+    oppTierFilter: "all",
     selectedTaskIds: new Set(),
     expandedNewsIds: new Set(),
     currentDocFile: "",
@@ -913,6 +945,8 @@
       { value: "MEDIUM", label: "Trung bình" }
     ], false);
     setListboxValue("inp-rework-sev", "HIGH", true);
+    setListboxOptions("inp-media-platform", Object.entries(MEDIA_PLATFORM_LABELS).map(([value, label]) => ({ value, label })), false);
+    setListboxValue("inp-media-platform", "TIKTOK", true);
 
     document.addEventListener("click", () => closeAllListboxes());
   }
@@ -1152,6 +1186,7 @@
             state.projectLedger = snap.project_ledger || [];
             state.reworkTickets = snap.rework_tickets || [];
             state.reworkSummary = snap.rework_summary || {};
+            state.mediaCampaigns = snap.media_campaigns || [];
             state.deptHandoffs = snap.dept_handoffs || [];
             state.corporateDirectorySummary = snap.corporate_directory_summary || null;
             state.financeSummary = snap.finance_summary || null;
@@ -1280,10 +1315,14 @@
           project_ledger: state.projectLedger,
           rework_tickets: state.reworkTickets,
           rework_summary: state.reworkSummary,
+          media_campaigns: state.mediaCampaigns,
           dept_handoffs: state.deptHandoffs,
           corporate_directory_summary: state.corporateDirectorySummary,
           finance_summary: computeCorporateFinanceFallback()
         };
+      }
+      if (path.startsWith("/api/media/campaigns")) {
+        return { campaigns: state.mediaCampaigns };
       }
       if (path.startsWith("/api/rework")) {
         return { rework_tickets: state.reworkTickets, rework_summary: state.reworkSummary };
@@ -1302,6 +1341,22 @@
       }
       if (path.startsWith("/api/finance/summary")) {
         return computeCorporateFinanceFallback();
+      }
+      const pmDet = path.match(/^\/api\/projects\/([^/]+)\/detail$/);
+      if (pmDet) {
+        const pid = decodeURIComponent(pmDet[1]);
+        const fin = computeProjectFinanceFallback(pid);
+        if (!fin) return {};
+        return {
+          project: fin.project,
+          files: [],
+          tasks: fin.tasks || [],
+          missions: fin.missions || [],
+          rework_tickets: (state.reworkTickets || []).filter((rw) => rw.project_id === pid),
+          media_campaigns: (state.mediaCampaigns || []).filter((mc) => mc.project_id === pid),
+          finance_summary: fin.summary || {},
+          ledger: fin.ledger || []
+        };
       }
       const pmFin = path.match(/^\/api\/projects\/([^/]+)\/finance$/);
       if (pmFin) {
@@ -1744,11 +1799,12 @@
         : { entity_type: undoPayload.entity_type, entity_id: undoPayload.entity_id };
       await api("/api/trash/restore", "POST", body);
       await Promise.all([loadEverything(), loadNews(document.getElementById("news-search-input").value || "")]);
-      if (undoPayload.entity_type === "doc" && state.financeViewProjectId) {
-        await loadProjectDocs(state.financeViewProjectId);
+      if (undoPayload.entity_type === "doc" && (state.selectedProjectId || state.financeViewProjectId)) {
+        await loadProjectDocs(state.selectedProjectId || state.financeViewProjectId);
       }
-      if (undoPayload.entity_type === "ledger" && state.financeViewProjectId) {
-        await loadActiveProjectFinance(state.financeViewProjectId);
+      if (undoPayload.entity_type === "ledger") {
+        if (state.financeViewProjectId) await loadActiveProjectFinance(state.financeViewProjectId);
+        if (state.selectedProjectId) await loadProjectDetail(state.selectedProjectId);
       }
       toast("Đã khôi phục nguyên trạng mục vừa xóa.");
     } catch (e) {
@@ -1855,8 +1911,10 @@
     }
     const footerBrand = document.getElementById("footer-brand-summary");
     if (footerBrand) {
-      footerBrand.textContent = `Trung tâm Điều hành Titan v10.0: Vận hành trực tuyến tự động ${staffTotal} phòng chuyên gia.`;
+      footerBrand.textContent = `Trung tâm Điều hành Titan v11.0: Vận hành trực tuyến tự động ${staffTotal} phòng chuyên gia.`;
     }
+    const navProj = document.getElementById("nav-cnt-projects");
+    if (navProj) navProj.textContent = state.projects.length;
     const staffSearchEl = document.getElementById("staff-search");
     if (staffSearchEl) {
       const maxCode = String(Math.max(53, staffTotal - 1)).padStart(2, "0");
@@ -2069,11 +2127,28 @@
     }
 
     const oppGrid = document.getElementById("opportunities-grid");
-    const visibleOpps = state.opportunities.filter((o) => o.status !== "DISMISSED");
+    const allVisibleOpps = state.opportunities.filter((o) => o.status !== "DISMISSED");
+    const visibleOpps = state.oppTierFilter === "strategic"
+      ? allVisibleOpps.filter((o) => {
+          const score = Number(o.product_scale_score || o.survival_score || 0);
+          const tier = String(o.opportunity_tier || "STANDARD").toUpperCase();
+          return score >= 85 || tier === "FLAGSHIP_VENTURE" || tier === "PLG_PLATFORM";
+        })
+      : allVisibleOpps;
+
+    document.querySelectorAll("#opp-tier-filter .seg-btn").forEach((b) => {
+      const on = b.getAttribute("data-opp-filter") === state.oppTierFilter;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+
     if (!visibleOpps.length) {
       oppGrid.innerHTML = `
         <div class="empty-state opp-card-lead">
-          <p>Chưa có đề xuất cơ hội nào. Nhấn <strong>Săn cơ hội mới</strong> để Phòng #50 tìm kiếm và phân tích cho bạn.</p>
+          <p>${state.oppTierFilter === "strategic"
+            ? "Chưa có cơ hội hạng Chiến lược từ 85 điểm trở lên. Chuyển sang <strong>Tất cả cơ hội</strong> hoặc nhấn <strong>Săn cơ hội mới</strong>."
+            : "Chưa có đề xuất cơ hội nào. Nhấn <strong>Săn cơ hội mới</strong> để Phòng #50 tìm kiếm và phân tích cho bạn."
+          }</p>
         </div>
       `;
       return;
@@ -2083,11 +2158,22 @@
       const isAccepted = o.status === "ACCEPTED";
       const isLead = idx === 0 && visibleOpps.length >= 2;
       const descText = sanitizeUiVietnamese(o.pain_point || o.critique_note || "");
+      const tierKey = String(o.opportunity_tier || "STANDARD").toUpperCase();
+      const tierMeta = OPP_TIER_META[tierKey] || OPP_TIER_META.STANDARD;
+      const scaleScore = Number(o.product_scale_score || o.survival_score || 75);
+      const isStrategic = scaleScore >= 85 || tierKey === "FLAGSHIP_VENTURE" || tierKey === "PLG_PLATFORM";
+      const moatText = sanitizeUiVietnamese(o.big_corp_moat_vi || "");
+      const stackText = sanitizeUiVietnamese(o.zero_cost_stack_vi || "");
+
       return `
         <article class="opp-card ${isLead ? "opp-card-lead" : ""}">
           <div class="opp-head">
-            <div>
-              ${isLead ? `<p class="eyebrow">Cơ hội nổi bật nhất</p>` : ""}
+            <div class="stack-xs">
+              <div class="action-group">
+                ${isLead ? `<span class="eyebrow">Cơ hội nổi bật nhất</span>` : ""}
+                <span class="badge ${tierMeta.cls}">${ico(tierMeta.icon)}<span>${esc(tierMeta.label)}</span></span>
+                <span class="badge ${isStrategic ? "badge-done" : "badge-idle"}">Điểm quy mô: ${scaleScore}/100</span>
+              </div>
               <h3 class="opp-title">${esc(sanitizeUiVietnamese(o.title))}</h3>
             </div>
             ${isAccepted
@@ -2099,12 +2185,20 @@
           <p class="row-meta">Khách trả tiền: <strong>${esc(sanitizeUiVietnamese(o.target_customer))}</strong></p>
 
           <div class="opp-metrics mono">
+            <span>Điểm quy mô: <strong class="${isStrategic ? "opp-metric-ok" : ""}">${scaleScore}/100</strong></span>
             <span>Biên lãi gộp: <strong class="opp-metric-ok">${Number(o.est_margin_pct || 75).toFixed(0)}%</strong></span>
             <span>Hòa vốn: <strong>${o.breakeven_users || 5} khách</strong></span>
             <span>Điểm phản biện: <strong>${o.survival_score || 86}/100</strong></span>
           </div>
 
           <p class="opp-critique">${esc(descText)}</p>
+
+          ${(moatText || stackText) ? `
+            <div class="opp-strategic-meta">
+              ${moatText ? `<div class="opp-meta-line"><strong>Lợi thế thắng tập đoàn lớn:</strong> ${esc(moatText)}</div>` : ""}
+              ${stackText ? `<div class="opp-meta-line"><strong>Hạ tầng 0đ -> Nâng cấp:</strong> ${esc(stackText)}</div>` : ""}
+            </div>
+          ` : ""}
 
           <div class="opp-actions">
             <div class="action-group">
@@ -4322,6 +4416,947 @@
     toast("Đã xuất tệp bảng tính CSV sổ thu chi dự án.");
   }
 
+  // -------------------------------------------------------------------------
+  // 11A. TAB 2: QUAN LY DU AN (2 TANG: DANH MUC -> CHI TIET 5 PHAN MUC)
+  // -------------------------------------------------------------------------
+  function resolveProjectPreviewHref(rawUrl) {
+    let clean = String(rawUrl || "").trim().replace(/\\/g, "/");
+    if (!clean) return "";
+    if (/^https?:\/\//i.test(clean)) return clean;
+    if (clean.startsWith("corporate_hq/projects/")) {
+      clean = `./projects/${clean.slice("corporate_hq/projects/".length)}`;
+    }
+    if (clean.startsWith("./")) {
+      return state.staticMode ? clean : `${API_BASE}${clean.slice(1)}`;
+    }
+    if (clean.startsWith("/")) {
+      return state.staticMode ? `.${clean}` : `${API_BASE}${clean}`;
+    }
+    return clean;
+  }
+
+  function extractProjectPreviews(p, detailSummary = null) {
+    const raw = (p && p.preview_urls) || (detailSummary && detailSummary.preview_urls) || null;
+    let appUrl = "";
+    let landingUrl = "";
+    const links = [];
+
+    if (raw && !Array.isArray(raw) && typeof raw === "object") {
+      appUrl = String(raw.app_url || "").trim();
+      landingUrl = String(raw.landing_url || "").trim();
+      if (Array.isArray(raw.links)) {
+        raw.links.forEach((lk) => {
+          if (!lk) return;
+          const u = String(lk.url || lk.href || "").trim();
+          if (!u) return;
+          links.push({
+            label_vi: sanitizeUiVietnamese(lk.label_vi || lk.label || "Mở sản phẩm trực tiếp"),
+            url: u,
+            kind: String(lk.kind || "other")
+          });
+        });
+      }
+    } else if (Array.isArray(raw)) {
+      raw.forEach((pv) => {
+        const u = typeof pv === "string" ? pv : String((pv && (pv.url || pv.href)) || "");
+        if (!u) return;
+        const low = u.toLowerCase();
+        const isLanding = low.includes("landing");
+        const isApp = low.includes("/app/") || (!isLanding && low.endsWith(".html"));
+        if (isApp && !appUrl) appUrl = u;
+        if (isLanding && !landingUrl) landingUrl = u;
+        links.push({
+          label_vi: typeof pv === "string"
+            ? (isLanding ? "Mở Trang giới thiệu bán hàng" : "Mở Ứng dụng dùng thử trực tiếp")
+            : sanitizeUiVietnamese(pv.label_vi || pv.label || "Mở sản phẩm trực tiếp"),
+          url: u,
+          kind: isLanding ? "landing" : (isApp ? "app" : "other")
+        });
+      });
+    }
+
+    if (appUrl && !links.some((x) => x.url === appUrl)) {
+      links.unshift({ label_vi: "Mở Ứng dụng Live trực tiếp", url: appUrl, kind: "app" });
+    }
+    if (landingUrl && !links.some((x) => x.url === landingUrl)) {
+      links.push({ label_vi: "Mở Trang bán hàng giới thiệu", url: landingUrl, kind: "landing" });
+    }
+    return { appUrl, landingUrl, links };
+  }
+
+  function deriveProjectMetrics(p) {
+    const tasksSummary = p.tasks_summary || (() => {
+      const pTasks = state.tasks.filter((t) => t.project_id === p.project_id);
+      const done = pTasks.filter((t) => t.kanban_column === "DONE").length;
+      const inProg = pTasks.filter((t) => ["IN_PROGRESS", "QA_SECURITY_REVIEW"].includes(t.kanban_column)).length;
+      const wait = pTasks.filter((t) => t.kanban_column === "WAITING_APPROVAL").length;
+      return {
+        total: pTasks.length,
+        done,
+        in_progress: inProg,
+        waiting: wait,
+        progress_pct: pTasks.length ? Math.round((done / pTasks.length) * 100) : 0
+      };
+    })();
+
+    const reworkSummary = p.rework_summary || (() => {
+      const mIds = new Set(state.missions.filter((m) => m.project_id === p.project_id).map((m) => m.mission_id));
+      const pRw = (state.reworkTickets || []).filter((rw) => rw.project_id === p.project_id || mIds.has(rw.mission_id));
+      return {
+        open_count: pRw.filter((rw) => rw.status === "OPEN" || rw.status === "IN_FIX").length,
+        recheck_count: pRw.filter((rw) => rw.status === "FIXED_PENDING_RECHECK").length,
+        closed_count: pRw.filter((rw) => rw.status === "VERIFIED_CLOSED").length
+      };
+    })();
+
+    const quality = p.quality_metrics || (() => {
+      const linked = state.missions.find((m) => m.project_id === p.project_id);
+      return {
+        survival_score: linked ? Number(linked.survival_score || 0) : 0,
+        ux_score: linked ? Number(linked.ux_score || 0) : 0,
+        expected_margin_pct: linked ? Number(linked.expected_margin_pct || 0) : 0,
+        product_scale_score: linked ? Number(linked.product_scale_score || 0) : 0,
+        all_9_divisions_covered: Boolean(linked && linked.division_roster_plan && linked.division_roster_plan.all_9_divisions_covered),
+        mission_id: linked ? linked.mission_id : "",
+        mission_status: linked ? linked.status : ""
+      };
+    })();
+
+    const filesSummary = p.files_summary || { total_files: 0, app_files: 0, doc_files: 0, total_size_kb: 0 };
+    const financeBrief = p.finance_brief || (() => {
+      const fb = computeProjectFinanceFallback(p.project_id);
+      const s = (fb && fb.summary) || {};
+      return {
+        actual_revenue_vnd: Number(s.actual_revenue_vnd || 0),
+        actual_expense_vnd: Number(s.actual_expense_vnd || 0),
+        actual_net_profit_vnd: Number(s.actual_net_profit_vnd || 0),
+        plan_revenue_vnd: Number(s.plan_revenue_vnd || 0),
+        plan_net_profit_vnd: Number(s.plan_net_profit_vnd || 0)
+      };
+    })();
+
+    return { tasksSummary, reworkSummary, quality, filesSummary, financeBrief };
+  }
+
+  function projectStatusBadgeCls(status) {
+    const st = String(status || "ACTIVE").toUpperCase();
+    if (st === "SHIPPED") return "badge-done";
+    if (st === "ACTIVE") return "badge-run";
+    if (st === "PAUSED") return "badge-wait";
+    return "badge-idle";
+  }
+
+  async function loadProjectDetail(pid) {
+    if (!pid) {
+      state.projectDetail = null;
+      return null;
+    }
+    try {
+      const det = await api(`/api/projects/${encodeURIComponent(pid)}/detail`);
+      if (det && det.project) {
+        state.projectDetail = det;
+        if (state.tab === "projects" && state.selectedProjectId === pid) {
+          renderProjectsTab();
+        }
+        return det;
+      }
+    } catch (_e) {}
+
+    // Safe fallback for older server or offline mode
+    const fin = computeProjectFinanceFallback(pid);
+    const p = state.projects.find((x) => x.project_id === pid) || (fin && fin.project);
+    if (!p) {
+      state.projectDetail = null;
+      return null;
+    }
+    const mIds = new Set(state.missions.filter((m) => m.project_id === pid).map((m) => m.mission_id));
+    state.projectDetail = {
+      project: p,
+      files: [],
+      tasks: (fin && fin.tasks) || state.tasks.filter((t) => t.project_id === pid),
+      missions: (fin && fin.missions) || state.missions.filter((m) => m.project_id === pid),
+      rework_tickets: (state.reworkTickets || []).filter((rw) => rw.project_id === pid || mIds.has(rw.mission_id)),
+      finance_summary: (fin && fin.summary) || {},
+      ledger: (fin && fin.ledger) || state.projectLedger.filter((l) => l.project_id === pid)
+    };
+    if (state.tab === "projects" && state.selectedProjectId === pid) {
+      renderProjectsTab();
+    }
+    return state.projectDetail;
+  }
+
+  async function openProjectWorkspace(projectId, subTab = "overview") {
+    closeDrawer();
+    closeModals();
+    if (!projectId) {
+      state.selectedProjectId = "";
+      state.projectDetail = null;
+      switchTab("projects");
+      return;
+    }
+    state.selectedProjectId = projectId;
+    state.projectDetailSubTab = subTab || "overview";
+    state.currentDocFile = "";
+    state.docEditMode = false;
+    switchTab("projects");
+    await loadProjectDetail(projectId);
+  }
+
+  function openProjectUpgradeModal(pid) {
+    const p = state.projects.find((x) => x.project_id === pid) || (state.projectDetail && state.projectDetail.project);
+    if (!p) return;
+    document.getElementById("form-project-upgrade").reset();
+    document.getElementById("upgrade-project-id").value = p.project_id;
+    const ctx = document.getElementById("upgrade-project-context");
+    if (ctx) {
+      ctx.innerHTML = `
+        <strong>Dự án mục tiêu: ${esc(sanitizeUiVietnamese(p.title))}</strong>
+        <span class="row-meta">Hệ thống sẽ tự lập đội hình đủ 9/9 Khối chuyên môn và Bộ Tứ chốt cuối Khối 9 (#53, #51, #52, #49) để triển khai nâng cấp trực tiếp dự án này.</span>
+      `;
+    }
+    openModal("modal-project-upgrade");
+  }
+
+  function openMediaCampaignModal(pid) {
+    const p = state.projects.find((x) => x.project_id === pid) || (state.projectDetail && state.projectDetail.project);
+    if (!p) return;
+    document.getElementById("form-media-campaign").reset();
+    document.getElementById("media-project-id").value = p.project_id;
+    document.getElementById("inp-media-schedule").value = "Thứ 3 và Thứ 6 lúc 20:00";
+    setListboxValue("inp-media-platform", "TIKTOK", true);
+    const ctx = document.getElementById("media-project-context");
+    if (ctx) {
+      ctx.innerHTML = `
+        <strong>Studio Khối 5 (#25 đến #31): ${esc(sanitizeUiVietnamese(p.title))}</strong>
+        <span class="row-meta">Tự động sinh kịch bản Hook 3 giây, phân cảnh câu lệnh Google Flow và Veo 3.1, ảnh bìa SVG và bộ tiêu đề SEO YouTube/TikTok.</span>
+      `;
+    }
+    openModal("modal-media-campaign");
+  }
+
+  function renderProjectMediaPanel(p, campaigns) {
+    const list = Array.isArray(campaigns) ? campaigns : [];
+    return `
+      <div class="section-block">
+        <div class="sec-head">
+          <div>
+            <h3 class="sec-title">Studio Truyền thông và Video AI Google Flow (${list.length} chiến dịch)</h3>
+            <p class="row-meta">Sản xuất bởi Khối 5 (#25 Chiến lược Kênh, #26 Biên kịch mở đầu 3 giây, #27 Đạo diễn Google Flow và Veo 3.1, #29 Ảnh bìa, #30 SEO).</p>
+          </div>
+          <button type="button" class="btn btn-xs btn-primary" id="btn-proj-add-media">
+            ${ico("video")}<span>Tạo chiến dịch Video AI (Google Flow / YTB / TikTok)</span>
+          </button>
+        </div>
+        ${list.length ? `
+          <div class="media-campaign-list">
+            ${list.map((c) => {
+              let scenes = [];
+              if (Array.isArray(c.google_flow_scenes)) {
+                scenes = c.google_flow_scenes;
+              } else if (c.google_flow_scenes_json) {
+                try { scenes = JSON.parse(c.google_flow_scenes_json) || []; } catch (_e) { scenes = []; }
+              }
+              const platKey = String(c.platform || "TIKTOK").toUpperCase();
+              const platLbl = MEDIA_PLATFORM_LABELS[platKey] || platKey;
+              const stKey = String(c.status || "FLOW_READY").toUpperCase();
+              const stLbl = MEDIA_STATUS_LABELS[stKey] || stKey;
+              const stLbId = `media-st-${c.campaign_id}`;
+              const rawThumb = c.thumbnail_web_url || c.thumbnail_svg_path || "";
+              const thumbHref = rawThumb ? resolveProjectPreviewHref(rawThumb) : "";
+              const allPromptsText = scenes.map((sc, idx) =>
+                `Scene ${sc.scene_no || (idx + 1)} (${sc.duration_sec || 5}s, ${sc.shot_type || "Medium"}): ${sc.visual_prompt_flow || ""}`
+              ).join("\n\n");
+              const seoCopyText = [
+                c.seo_title_vi || c.title || "",
+                c.seo_description_vi || "",
+                c.hashtags || "",
+                c.cta_vi ? `CTA: ${c.cta_vi}` : ""
+              ].filter(Boolean).join("\n");
+
+              return `
+                <article class="media-campaign-card" data-campaign-card="${esc(c.campaign_id)}">
+                  <div class="media-campaign-top ${thumbHref ? "has-thumb" : ""}">
+                    ${thumbHref ? `
+                      <div class="media-thumb-wrap">
+                        <img class="media-thumb-img" src="${esc(thumbHref)}" alt="Ảnh bìa chiến dịch ${esc(sanitizeUiVietnamese(c.title))}" loading="lazy" />
+                      </div>
+                    ` : ""}
+                    <div class="stack-sm">
+                      <div class="project-card-head">
+                        <div class="stack-xs">
+                          <div class="action-group">
+                            <span class="badge badge-sync">${ico("video")}<span>${esc(platLbl)}</span></span>
+                            ${c.publish_schedule_vi ? `<span class="badge badge-idle">${ico("clock")}<span>${esc(sanitizeUiVietnamese(c.publish_schedule_vi))}</span></span>` : ""}
+                          </div>
+                          <h4 class="project-card-title">${esc(sanitizeUiVietnamese(c.title))}</h4>
+                        </div>
+                        <div class="action-group">
+                          <div class="listbox-field listbox-inline listbox-compact" data-media-status-lb="${esc(stLbId)}" data-campaign-id="${esc(c.campaign_id)}">
+                            <input type="hidden" value="${esc(stKey)}" />
+                            <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-${esc(stLbId)}" aria-label="Đổi trạng thái chiến dịch Video AI">
+                              <span class="listbox-value">${esc(stLbl)}</span>
+                              ${ico("chevron-down", "ico-xs listbox-chevron")}
+                            </button>
+                            <ul class="listbox-menu" id="lb-${esc(stLbId)}" role="listbox" tabindex="-1" hidden></ul>
+                          </div>
+                          <button type="button" class="btn btn-xs btn-destructive" data-del-media="${esc(c.campaign_id)}">${ico("trash")}<span>Xóa</span></button>
+                        </div>
+                      </div>
+
+                      ${c.angle_vi ? `<p class="row-meta">Góc đánh truyền thông: <strong>${esc(sanitizeUiVietnamese(c.angle_vi))}</strong></p>` : ""}
+
+                      ${c.hook_3s_vi ? `
+                        <div class="media-hook-box">
+                          <span class="eyebrow">Câu mở đầu thu hút 3 giây đầu (Hook)</span>
+                          <strong>${esc(sanitizeUiVietnamese(c.hook_3s_vi))}</strong>
+                        </div>
+                      ` : ""}
+
+                      ${c.publish_url ? `
+                        <div class="action-group">
+                          <a class="btn btn-xs btn-primary" href="${esc(c.publish_url)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở liên kết đã đăng</span></a>
+                        </div>
+                      ` : ""}
+                    </div>
+                  </div>
+
+                  ${scenes.length ? `
+                    <div class="stack-sm">
+                      <div class="sec-head">
+                        <strong class="row-title">Kịch bản phân cảnh Google Flow và Veo 3.1 (${scenes.length} cảnh)</strong>
+                        <button type="button" class="btn btn-xs btn-primary" data-copy-text="${esc(allPromptsText)}" data-copy-label="Đã sao chép toàn bộ câu lệnh Google Flow">
+                          ${ico("copy")}<span>Sao chép câu lệnh Google Flow</span>
+                        </button>
+                      </div>
+                      <div class="media-scene-list">
+                        ${scenes.map((sc, idx) => `
+                          <div class="media-scene-row">
+                            <div class="sec-head">
+                              <span class="badge badge-idle">Cảnh ${sc.scene_no || (idx + 1)} (${sc.duration_sec || 5}s, ${esc(sanitizeUiVietnamese(sc.shot_type || "Cận cảnh"))})</span>
+                              <button type="button" class="btn btn-xs" data-copy-text="${esc(sc.visual_prompt_flow || "")}" data-copy-label="Đã sao chép câu lệnh Cảnh ${sc.scene_no || (idx + 1)}">
+                                ${ico("copy")}<span>Sao chép cảnh này</span>
+                              </button>
+                            </div>
+                            ${sc.visual_prompt_flow ? `<div class="media-prompt-box">${esc(sc.visual_prompt_flow)}</div>` : ""}
+                            ${sc.voiceover_vi ? `<p class="row-meta"><strong>Lời thoại:</strong> ${esc(sanitizeUiVietnamese(sc.voiceover_vi))}</p>` : ""}
+                            ${sc.on_screen_text_vi ? `<p class="row-meta"><strong>Chữ trên màn hình:</strong> ${esc(sanitizeUiVietnamese(sc.on_screen_text_vi))}</p>` : ""}
+                            ${sc.sfx_music_vi ? `<p class="row-meta"><strong>Âm thanh và Nhạc nền:</strong> ${esc(sanitizeUiVietnamese(sc.sfx_music_vi))}</p>` : ""}
+                          </div>
+                        `).join("")}
+                      </div>
+                    </div>
+                  ` : ""}
+
+                  <div class="media-seo-box">
+                    <div class="sec-head">
+                      <strong class="row-title">Tiêu đề SEO, Hashtags và Lời kêu gọi</strong>
+                      <button type="button" class="btn btn-xs" data-copy-text="${esc(seoCopyText)}" data-copy-label="Đã sao chép bộ Tiêu đề SEO và Hashtags">
+                        ${ico("copy")}<span>Sao chép SEO và Hashtags</span>
+                      </button>
+                    </div>
+                    ${c.seo_title_vi ? `<p class="row-meta"><strong>Tiêu đề đăng:</strong> ${esc(sanitizeUiVietnamese(c.seo_title_vi))}</p>` : ""}
+                    ${c.seo_description_vi ? `<p class="row-meta">${esc(sanitizeUiVietnamese(c.seo_description_vi))}</p>` : ""}
+                    ${c.hashtags ? `<p class="mono row-meta">${esc(c.hashtags)}</p>` : ""}
+                    ${c.cta_vi ? `<p class="row-meta"><strong>Kêu gọi hành động:</strong> ${esc(sanitizeUiVietnamese(c.cta_vi))}</p>` : ""}
+                  </div>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        ` : `
+          <div class="empty-state">
+            <p>Dự án này chưa có chiến dịch Video AI nào. Nhấn <strong>Tạo chiến dịch Video AI (Google Flow / YTB / TikTok)</strong> để Khối 5 sinh ngay kịch bản, câu lệnh Google Flow và ảnh bìa SVG.</p>
+          </div>
+        `}
+      </div>
+    `;
+  }
+
+  function openNewProjectModal() {
+    document.getElementById("proj-modal-title").textContent = "Tạo dự án mới";
+    document.getElementById("edit-proj-id").value = "";
+    document.getElementById("wrap-proj-slug").classList.remove("is-hidden");
+    document.getElementById("form-proj").reset();
+    document.getElementById("inp-proj-price").value = "399.000";
+    setListboxValue("inp-proj-status", "ACTIVE", true);
+    openModal("modal-proj");
+  }
+
+  function renderProjectsTab() {
+    const root = document.getElementById("projects-workspace-root");
+    if (!root) return;
+
+    if (state.selectedProjectId) {
+      renderProjectDetailWorkspace(root);
+      return;
+    }
+
+    const totalProjects = state.projects.length;
+    const shippedCount = state.projects.filter((p) => String(p.status || "").toUpperCase() === "SHIPPED").length;
+    const activeCount = state.projects.filter((p) => String(p.status || "").toUpperCase() === "ACTIVE").length;
+
+    const uxScores = state.projects
+      .map((p) => Number((deriveProjectMetrics(p).quality || {}).ux_score || 0))
+      .filter((v) => v > 0);
+    const avgUx = uxScores.length ? Math.round(uxScores.reduce((a, b) => a + b, 0) / uxScores.length) : 0;
+
+    const totalOpenReworks = state.projects.reduce((acc, p) => {
+      const rw = deriveProjectMetrics(p).reworkSummary;
+      return acc + Number(rw.open_count || 0) + Number(rw.recheck_count || 0);
+    }, 0);
+
+    const q = (state.projectSearchQuery || "").trim().toLowerCase();
+    const stF = state.projectStatusFilter || "";
+    const filtered = state.projects.filter((p) => {
+      if (stF && String(p.status || "").toUpperCase() !== stF) return false;
+      if (!q) return true;
+      const hay = `${p.title || ""} ${p.slug || ""} ${p.objective || ""} ${p.target_market || ""}`.toLowerCase();
+      return hay.includes(q);
+    });
+
+    const stTabs = [
+      { v: "", lbl: `Tất cả (${totalProjects})` },
+      { v: "SHIPPED", lbl: `Đã ra mắt (${shippedCount})` },
+      { v: "ACTIVE", lbl: `Đang phát triển (${activeCount})` },
+      { v: "PLANNING", lbl: "Lập kế hoạch" },
+      { v: "PAUSED", lbl: "Tạm dừng" }
+    ];
+
+    root.innerHTML = `
+      <div class="hero-band">
+        <div class="card card-lift hero-lead">
+          <div class="hero-metrics-top">
+            <div class="hero-figure-wrap">
+              <p class="eyebrow">Danh mục sản phẩm và dự án</p>
+              <p class="hero-figure">${totalProjects}</p>
+              <p class="hero-caption">${shippedCount} đã ra mắt trực tuyến, ${activeCount} đang phát triển tích cực cùng 9 Khối chuyên môn.</p>
+            </div>
+            <div class="action-group">
+              <button type="button" class="btn btn-primary" id="btn-new-proj-tab2">
+                ${ico("plus")}<span>Tạo dự án mới</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-aside-stack">
+          <div class="card">
+            <p class="eyebrow">Chất lượng trải nghiệm trung bình</p>
+            <p class="stat-value-md ${avgUx >= 85 ? "text-ok" : ""}">${avgUx > 0 ? `${avgUx}/100` : "Đang đo"}</p>
+            <p class="row-meta">${uxScores.length > 0 ? `Tổng hợp từ ${uxScores.length} dự án đã qua kiểm định Khối 9.` : "Điểm kiểm định sẽ tự cập nhật sau Bước 7 Khối 9."}</p>
+          </div>
+          <div class="card hero-aside-card-grow">
+            <p class="eyebrow">Tổng phiếu lỗi đang mở</p>
+            <p class="stat-value-md ${totalOpenReworks > 0 ? "text-err" : "text-ok"}">${totalOpenReworks}</p>
+            <p class="row-meta">${totalOpenReworks > 0 ? "Còn phiếu lỗi cần phòng ban sửa trước khi chốt 0 lỗi." : "Đạt chuẩn 0 lỗi mở trên toàn bộ danh mục dự án."}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar-row">
+        <div class="toolbar-group url-input-grow">
+          <label class="sr-only" for="projects-search-input">Tìm dự án theo tên, thị trường hoặc mã</label>
+          <input type="search" class="input staff-search-input" id="projects-search-input" value="${esc(state.projectSearchQuery || "")}" placeholder="Tìm theo tên dự án, thị trường, mã định danh..." />
+        </div>
+        <div class="segmented" id="projects-status-filter" role="tablist" aria-label="Lọc dự án theo trạng thái">
+          ${stTabs.map((t) => `
+            <button type="button" class="seg-btn ${stF === t.v ? "active" : ""}" role="tab" aria-selected="${stF === t.v ? "true" : "false"}" data-pstatus="${esc(t.v)}">${esc(t.lbl)}</button>
+          `).join("")}
+        </div>
+      </div>
+
+      ${filtered.length ? `
+        <div class="project-portfolio-grid">
+          ${filtered.map((p) => {
+            const m = deriveProjectMetrics(p);
+            const pv = extractProjectPreviews(p);
+            const stKey = String(p.status || "ACTIVE").toUpperCase();
+            const stLabel = PROJECT_STATUS_LABELS[stKey] || "Đang phát triển";
+            const stCls = projectStatusBadgeCls(stKey);
+            const scoreLabel = m.quality.ux_score > 0
+              ? `Trải nghiệm ${m.quality.ux_score}/100`
+              : (m.quality.product_scale_score > 0 ? `Quy mô ${m.quality.product_scale_score}/100` : "Đang kiểm định");
+            const filesLabel = `${m.filesSummary.total_files || 0} tệp`;
+            const finLabel = `Thu ${shortVnd(m.financeBrief.actual_revenue_vnd)} / Dự toán ${shortVnd(m.financeBrief.plan_revenue_vnd)}`;
+            const openRw = Number(m.reworkSummary.open_count || 0) + Number(m.reworkSummary.recheck_count || 0);
+            const mediaCnt = Number(
+              p.media_campaigns_count !== undefined && p.media_campaigns_count !== null
+                ? p.media_campaigns_count
+                : (state.mediaCampaigns || []).filter((mc) => mc.project_id === p.project_id).length
+            );
+
+            return `
+              <article class="project-card" data-project-card="${esc(p.project_id)}">
+                <div class="stack-sm">
+                  <div class="project-card-head">
+                    <div class="stack-xs">
+                      <h2 class="project-card-title">${esc(sanitizeUiVietnamese(p.title))}</h2>
+                      <p class="row-meta">${esc(sanitizeUiVietnamese(p.target_market || p.objective || "Sản phẩm thuộc hệ sinh thái Titan AI Corp."))}</p>
+                    </div>
+                    <div class="action-group">
+                      <span class="badge ${stCls}">${esc(stLabel)}</span>
+                      <span class="badge badge-sync">${ico("video")}<span>${mediaCnt} chiến dịch Video AI</span></span>
+                      ${openRw > 0 ? `<span class="badge badge-fail">${openRw} lỗi mở</span>` : ""}
+                    </div>
+                  </div>
+
+                  <div class="project-kpi-strip">
+                    <div class="project-kpi-cell">
+                      <span class="project-kpi-label">Chất lượng Khối 9</span>
+                      <span class="project-kpi-val ${m.quality.ux_score >= 85 ? "text-ok" : ""}">${esc(scoreLabel)}</span>
+                    </div>
+                    <div class="project-kpi-cell">
+                      <span class="project-kpi-label">Tiến độ công việc</span>
+                      <span class="project-kpi-val">${m.tasksSummary.done}/${m.tasksSummary.total} việc (${m.tasksSummary.progress_pct}%)</span>
+                    </div>
+                    <div class="project-kpi-cell">
+                      <span class="project-kpi-label">Mã nguồn và Tài liệu</span>
+                      <span class="project-kpi-val">${esc(filesLabel)}</span>
+                    </div>
+                    <div class="project-kpi-cell">
+                      <span class="project-kpi-label">Tài chính dự án</span>
+                      <span class="project-kpi-val">${esc(finLabel)}</span>
+                    </div>
+                  </div>
+
+                  <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${m.tasksSummary.progress_pct}">
+                    <div class="progress-fill" style="inline-size:${Math.max(4, m.tasksSummary.progress_pct)}%;"></div>
+                  </div>
+                </div>
+
+                <div class="project-card-actions">
+                  <div class="action-group">
+                    ${pv.appUrl ? `<a class="btn btn-xs" href="${esc(resolveProjectPreviewHref(pv.appUrl))}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở Ứng dụng Live</span></a>` : ""}
+                    ${pv.landingUrl ? `<a class="btn btn-xs" href="${esc(resolveProjectPreviewHref(pv.landingUrl))}" target="_blank" rel="noopener noreferrer">${ico("book-open")}<span>Trang bán hàng</span></a>` : ""}
+                  </div>
+                  <div class="action-group">
+                    <button type="button" class="btn btn-xs" data-open-proj-upgrade="${esc(p.project_id)}">${ico("zap")}<span>Nâng cấp dự án</span></button>
+                    <button type="button" class="btn btn-xs btn-primary" data-open-proj="${esc(p.project_id)}">${ico("folder")}<span>Quản lý dự án</span></button>
+                  </div>
+                </div>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      ` : `
+        <div class="empty-state">
+          <p>Không tìm thấy dự án nào khớp điều kiện lọc hiện tại. Thử đổi trạng thái hoặc nhấn <strong>Tạo dự án mới</strong>.</p>
+        </div>
+      `}
+    `;
+
+    const newProjBtn = document.getElementById("btn-new-proj-tab2");
+    if (newProjBtn) newProjBtn.onclick = openNewProjectModal;
+
+    const searchInp = document.getElementById("projects-search-input");
+    if (searchInp) {
+      searchInp.oninput = (e) => {
+        state.projectSearchQuery = e.target.value;
+        const pos = e.target.selectionStart;
+        renderProjectsTab();
+        const reInp = document.getElementById("projects-search-input");
+        if (reInp) { reInp.focus(); try { reInp.setSelectionRange(pos, pos); } catch (_e) {} }
+      };
+    }
+
+    root.querySelectorAll("#projects-status-filter [data-pstatus]").forEach((b) => {
+      b.onclick = () => {
+        state.projectStatusFilter = b.getAttribute("data-pstatus") || "";
+        renderProjectsTab();
+      };
+    });
+
+    bindQuickActions(root);
+  }
+
+  function renderProjectDetailWorkspace(root) {
+    const pid = state.selectedProjectId;
+    const det = (state.projectDetail && state.projectDetail.project && state.projectDetail.project.project_id === pid)
+      ? state.projectDetail
+      : null;
+    const p = (det && det.project) || state.projects.find((x) => x.project_id === pid);
+    if (!p) {
+      state.selectedProjectId = "";
+      state.projectDetail = null;
+      renderProjectsTab();
+      return;
+    }
+
+    const m = deriveProjectMetrics(p);
+    const finSummary = (det && det.finance_summary) || (computeProjectFinanceFallback(pid)?.summary) || {};
+    const pv = extractProjectPreviews(p, finSummary);
+    const pTasks = (det && Array.isArray(det.tasks)) ? det.tasks : state.tasks.filter((t) => t.project_id === pid);
+    const pMissions = (det && Array.isArray(det.missions)) ? det.missions : state.missions.filter((ms) => ms.project_id === pid);
+    const mIds = new Set(pMissions.map((ms) => ms.mission_id));
+    const pReworks = (det && Array.isArray(det.rework_tickets))
+      ? det.rework_tickets
+      : (state.reworkTickets || []).filter((rw) => rw.project_id === pid || mIds.has(rw.mission_id));
+    const pFiles = (det && Array.isArray(det.files)) ? det.files : [];
+    const pMedia = (det && Array.isArray(det.media_campaigns))
+      ? det.media_campaigns
+      : (state.mediaCampaigns || []).filter((mc) => mc.project_id === pid);
+    const openRwCnt = pReworks.filter((tk) => tk.status !== "VERIFIED_CLOSED").length;
+    const statusLbId = `proj-detail-status-${p.project_id}`;
+    const subTab = state.projectDetailSubTab || "overview";
+
+    let subHtml = "";
+    if (subTab === "overview") {
+      const surv = Number(m.quality.survival_score || 0);
+      const ux = Number(m.quality.ux_score || 0);
+      const margin = Number(m.quality.expected_margin_pct || finSummary.gross_margin_pct || 0);
+      subHtml = `
+        <div class="stack-md">
+          <div class="quality-score-grid">
+            <div class="quality-score-tile">
+              <span class="eyebrow">Điểm sống sót</span>
+              <span class="quality-score-num ${surv >= 85 ? "text-ok" : ""}">${surv > 0 ? `${surv}/100` : "Đang đo"}</span>
+              <span class="row-meta">Thẩm định bởi Khối 9 #46</span>
+            </div>
+            <div class="quality-score-tile">
+              <span class="eyebrow">Trải nghiệm khách thật</span>
+              <span class="quality-score-num ${ux >= 85 ? "text-ok" : ""}">${ux > 0 ? `${ux}/100` : "Đang đo"}</span>
+              <span class="row-meta">Kiểm thử đóng vai #48 và #49</span>
+            </div>
+            <div class="quality-score-tile">
+              <span class="eyebrow">Biên lãi gộp</span>
+              <span class="quality-score-num ${margin >= 65 ? "text-ok" : ""}">${margin > 0 ? `${margin.toFixed(1)}%` : "Chưa chốt"}</span>
+              <span class="row-meta">Kiểm toán tài chính Khối 7</span>
+            </div>
+            <div class="quality-score-tile">
+              <span class="eyebrow">Phiếu lỗi đang mở</span>
+              <span class="quality-score-num ${openRwCnt > 0 ? "text-err" : "text-ok"}">${openRwCnt}</span>
+              <span class="row-meta">${openRwCnt > 0 ? "Đang chặn chốt 0 lỗi" : "Đạt chuẩn chốt cuối 0 lỗi"}</span>
+            </div>
+          </div>
+
+          ${pv.links.length ? `
+            <div class="preview-cards-grid">
+              ${pv.links.map((lk) => `
+                <div class="preview-card">
+                  <div class="row-main">
+                    <div class="row-title">${esc(lk.label_vi)}</div>
+                    <div class="mono row-meta">${esc(lk.url)}</div>
+                  </div>
+                  <a class="btn btn-xs btn-primary" href="${esc(resolveProjectPreviewHref(lk.url))}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở trực tiếp</span></a>
+                </div>
+              `).join("")}
+            </div>
+          ` : ""}
+
+          <div class="split-2">
+            <div class="card stack-sm">
+              <h3 class="sec-title">Mục tiêu sản phẩm và Thị trường</h3>
+              <p class="step-summary">${esc(sanitizeUiVietnamese(p.objective || "Chưa cập nhật mục tiêu chi tiết cho dự án này."))}</p>
+              ${(p.target_market || finSummary.target_market) ? `<p class="row-meta">Thị trường mục tiêu: <strong>${esc(sanitizeUiVietnamese(p.target_market || finSummary.target_market))}</strong></p>` : ""}
+              <p class="row-meta">Giá bán mục tiêu: <strong class="mono">${esc(vnd(p.expected_price_vnd || finSummary.expected_price_vnd || 0))} / tháng</strong></p>
+              <p class="row-meta">Thư mục mã nguồn: <span class="mono">${esc(p.workspace_path || `corporate_hq/projects/${p.slug}`)}</span></p>
+            </div>
+
+            <div class="card stack-sm">
+              <h3 class="sec-title">Nhiệm vụ 8 bước liên kết (${pMissions.length})</h3>
+              ${pMissions.length ? `
+                <div class="hairline-list">
+                  ${pMissions.map((ms) => `
+                    <div class="list-row">
+                      <div class="row-main">
+                        <div class="row-title">${esc(sanitizeUiVietnamese(ms.title))}</div>
+                        <div class="row-meta">Tiến độ: ${ms.progress_pct || 0}%, Giai đoạn: ${ms.phase === "DELIVERED" ? "Đã bàn giao" : ms.phase === "PRODUCTION" ? "Sản xuất sản phẩm" : "Nghiên cứu chốt kèo"}</div>
+                      </div>
+                      <button type="button" class="btn btn-xs" data-open-mission="${esc(ms.mission_id)}">Mở tiến độ</button>
+                    </div>
+                  `).join("")}
+                </div>
+              ` : `<p class="row-meta">Chưa có nhiệm vụ 8 bước gắn với dự án này. Bấm Giao 9 Khối nâng cấp để khởi chạy ngay.</p>`}
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (subTab === "tasks") {
+      subHtml = `
+        <div class="section-block">
+          <div class="sec-head">
+            <h3 class="sec-title">Công việc dự án (${pTasks.length})</h3>
+            <button type="button" class="btn btn-xs btn-primary" id="btn-proj-add-task">${ico("plus")}<span>Giao việc AI cho dự án này</span></button>
+          </div>
+          ${pTasks.length ? `
+            <div class="hairline-list">
+              ${pTasks.map((t) => `
+                <div class="task-row-clean" data-open-task-drawer="${esc(t.task_id)}">
+                  <div class="row-main">
+                    <div class="row-title ${t.kanban_column === "DONE" ? "is-done" : ""}">${esc(sanitizeUiVietnamese(t.title))}</div>
+                    <div class="row-meta">Phòng #${esc(t.assigned_dept_id)} (${esc(deptTitle(t.assigned_dept_id))}), Ưu tiên ${esc(PRIO_LABELS[t.priority] || "Cao")}</div>
+                  </div>
+                  <span class="badge badge-idle">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
+                  <button type="button" class="btn btn-xs" data-open-task-drawer="${esc(t.task_id)}">Chi tiết</button>
+                </div>
+              `).join("")}
+            </div>
+          ` : `<div class="empty-state"><p>Dự án này chưa có công việc nào. Nhấn Giao việc AI cho dự án này để giao trực tiếp cho đội ngũ chuyên gia.</p></div>`}
+        </div>
+      `;
+    } else if (subTab === "docs") {
+      const df = state.projectDocFilter || "all";
+      subHtml = `
+        <div class="card stack-md">
+          <div class="sec-head">
+            <div class="action-group">
+              <h3 class="sec-title">Tài liệu và Mã nguồn (${pFiles.length || m.filesSummary.total_files || 0} tệp)</h3>
+              <div class="segmented" id="proj-doc-filter" role="tablist" aria-label="Lọc loại tệp dự án">
+                <button type="button" class="seg-btn ${df === "all" ? "active" : ""}" role="tab" aria-selected="${df === "all" ? "true" : "false"}" data-doc-filter="all">Tất cả</button>
+                <button type="button" class="seg-btn ${df === "doc" ? "active" : ""}" role="tab" aria-selected="${df === "doc" ? "true" : "false"}" data-doc-filter="doc">Tài liệu</button>
+                <button type="button" class="seg-btn ${df === "code" ? "active" : ""}" role="tab" aria-selected="${df === "code" ? "true" : "false"}" data-doc-filter="code">Mã nguồn</button>
+              </div>
+            </div>
+            <button type="button" class="btn btn-xs btn-primary" id="btn-new-doc">${ico("file-text")}<span>Tạo tài liệu mới</span></button>
+          </div>
+          <div class="split-2">
+            <div class="hairline-list doc-tree-scroll" id="project-docs-list"></div>
+            <div class="stack-sm">
+              <div class="sec-head">
+                <span class="doc-name-label" id="doc-current-name">Chưa chọn tệp</span>
+                <div class="action-group" id="doc-editor-actions" hidden>
+                  <button type="button" class="btn btn-xs" id="btn-toggle-doc-edit">Sửa nội dung</button>
+                  <button type="button" class="btn btn-xs btn-primary is-hidden" id="btn-save-doc">Lưu tài liệu</button>
+                  <button type="button" class="btn btn-xs btn-destructive" id="btn-delete-doc">${ico("trash")}<span>Xóa tệp</span></button>
+                </div>
+              </div>
+              <div id="doc-pretty-view" class="doc-viewer rendered-md">Chọn một tệp tài liệu hoặc mã nguồn bên trái để xem hoặc chỉnh sửa.</div>
+              <textarea id="doc-raw-editor" class="textarea mono doc-editor is-hidden" aria-label="Trình soạn thảo tài liệu và mã nguồn"></textarea>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (subTab === "rework") {
+      const isBlocked = openRwCnt > 0;
+      subHtml = `
+        <div class="rework-panel">
+          <div class="rework-gate-banner ${isBlocked ? "is-blocked" : "is-pass"}">
+            <div class="stack-xs">
+              <div class="rework-gate-title">
+                ${ico(isBlocked ? "alert-circle" : "shield-check")}
+                <span>${isBlocked ? `Đang chặn chốt: còn ${openRwCnt} phiếu lỗi cần sửa` : "Đạt chốt 0 lỗi cho dự án này"}</span>
+              </div>
+              <p class="row-meta">Bộ Tứ chốt cuối Khối 9 (#53, #51, #52, #49) giám sát toàn bộ vòng đẩy trả sửa lỗi cho dự án này.</p>
+            </div>
+            <button type="button" class="btn btn-xs btn-destructive" id="btn-proj-add-rework">
+              ${ico("rotate-ccw")}<span>Đẩy trả lỗi cho dự án này</span>
+            </button>
+          </div>
+          ${pReworks.length
+            ? pReworks.map(renderReworkTicketCardHtml).join("")
+            : `<div class="empty-state"><p>Hiện dự án này không có phiếu sửa lỗi nào. Nếu phát hiện lỗi chức năng hoặc trải nghiệm, nhấn Đẩy trả lỗi cho dự án này.</p></div>`
+          }
+        </div>
+      `;
+    } else if (subTab === "media") {
+      subHtml = renderProjectMediaPanel(p, pMedia);
+    } else {
+      // Subtab 5: Tài chính dự án (tóm tắt + nhảy sang Tab Tài chính đầy đủ)
+      const actRev = Number(finSummary.actual_revenue_vnd ?? m.financeBrief.actual_revenue_vnd ?? 0);
+      const actExp = Number(finSummary.actual_expense_vnd ?? m.financeBrief.actual_expense_vnd ?? 0);
+      const actTax = Number(finSummary.actual_tax_vnd || 0);
+      const actNet = Number(finSummary.actual_net_profit_vnd ?? m.financeBrief.actual_net_profit_vnd ?? (actRev - actExp - actTax));
+      const planRev = Number(finSummary.plan_revenue_vnd ?? m.financeBrief.plan_revenue_vnd ?? 0);
+      const planNet = Number(finSummary.plan_net_profit_vnd ?? m.financeBrief.plan_net_profit_vnd ?? 0);
+      subHtml = `
+        <div class="stack-md">
+          <div class="hero-band">
+            <div class="card card-lift hero-lead">
+              <div class="hero-figure-wrap">
+                <p class="eyebrow">Lãi ròng thực tế dự án</p>
+                <p class="hero-figure ${actNet >= 0 ? "text-ok" : "text-err"}">${esc(vnd(actNet))}</p>
+                <p class="hero-caption">Tính từ các bút toán Thu, Chi, Thuế thực tế đã ghi nhận trong Sổ Thu Chi.</p>
+              </div>
+              <div class="sub-metrics-row">
+                <div>
+                  <p class="eyebrow">Thu thực tế</p>
+                  <p class="stat-value-md text-ok">${esc(vnd(actRev))}</p>
+                </div>
+                <div>
+                  <p class="eyebrow">Chi thực tế</p>
+                  <p class="stat-value-md">${esc(vnd(actExp))}</p>
+                </div>
+                <div>
+                  <p class="eyebrow">Dự phòng thuế</p>
+                  <p class="stat-value-md">${esc(vnd(actTax))}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="estimate-card hero-aside-card-grow">
+              <div class="stack-sm">
+                <span class="badge badge-idle">Kế hoạch dự toán</span>
+                <div class="list-row-pair"><span>Doanh thu dự toán</span><strong class="mono">${esc(vnd(planRev))}</strong></div>
+                <div class="list-row-pair"><span>Lãi ròng dự toán</span><strong class="mono text-ok">${esc(vnd(planNet))}</strong></div>
+                <div class="list-row-pair"><span>Điểm hòa vốn</span><strong class="mono">${finSummary.breakeven_customers || 0} khách</strong></div>
+                <div class="list-row-pair"><span>Biên lãi gộp</span><strong class="mono">${Number(finSummary.gross_margin_pct || 0).toFixed(1)}%</strong></div>
+              </div>
+              <div class="rule"></div>
+              <div class="action-group">
+                <button type="button" class="btn btn-xs btn-primary" id="btn-proj-add-ledger">${ico("plus")}<span>Ghi nhận Thu hoặc Chi</span></button>
+                <button type="button" class="btn btn-xs" data-open-proj-finance="${esc(p.project_id)}">${ico("bar-chart")}<span>Mở báo cáo tài chính đầy đủ</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    root.innerHTML = `
+      <div class="project-detail-backbar">
+        <button type="button" class="btn btn-xs" id="btn-proj-back">
+          ${ico("arrow-left")}<span>Danh sách dự án</span>
+        </button>
+        <span class="mono row-meta">Mã dự án: ${esc(p.project_id)}</span>
+      </div>
+
+      <div class="card stack-md">
+        <div class="toolbar-row">
+          <div class="row-main">
+            <h2 class="mission-title">${esc(sanitizeUiVietnamese(p.title))}</h2>
+            <p class="row-meta">Tiến độ công việc: <strong>${m.tasksSummary.done}/${m.tasksSummary.total} việc (${m.tasksSummary.progress_pct}%)</strong>, Tổng tệp: <strong>${pFiles.length || m.filesSummary.total_files || 0} tệp</strong></p>
+          </div>
+          <div class="action-group">
+            <div class="listbox-field listbox-inline listbox-compact" data-dynamic-listbox="${esc(statusLbId)}">
+              <input type="hidden" value="${esc(p.status || "ACTIVE")}" />
+              <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-${esc(statusLbId)}" aria-label="Đổi trạng thái dự án">
+                <span class="listbox-value">${esc(PROJECT_STATUS_LABELS[p.status] || "Đang phát triển")}</span>
+                ${ico("chevron-down", "ico-xs listbox-chevron")}
+              </button>
+              <ul class="listbox-menu" id="lb-${esc(statusLbId)}" role="listbox" tabindex="-1" hidden></ul>
+            </div>
+            ${pv.appUrl ? `<a class="btn btn-xs" href="${esc(resolveProjectPreviewHref(pv.appUrl))}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở Ứng dụng Live</span></a>` : ""}
+            ${pv.landingUrl ? `<a class="btn btn-xs" href="${esc(resolveProjectPreviewHref(pv.landingUrl))}" target="_blank" rel="noopener noreferrer">${ico("book-open")}<span>Trang bán hàng</span></a>` : ""}
+            <button type="button" class="btn btn-xs btn-primary" data-open-proj-upgrade="${esc(p.project_id)}">${ico("zap")}<span>Giao 9 Khối nâng cấp</span></button>
+            <button type="button" class="btn btn-xs" data-edit-proj="${esc(p.project_id)}">${ico("pencil")}<span>Sửa dự án</span></button>
+            <button type="button" class="btn btn-xs btn-destructive" data-del-proj="${esc(p.project_id)}">${ico("trash")}<span>Xóa dự án</span></button>
+          </div>
+        </div>
+
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${m.tasksSummary.progress_pct}">
+          <div class="progress-fill" style="inline-size:${Math.max(4, m.tasksSummary.progress_pct)}%;"></div>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="6 phân mục quản trị chi tiết dự án">
+          <button type="button" class="seg-btn ${subTab === "overview" ? "active" : ""}" role="tab" aria-selected="${subTab === "overview" ? "true" : "false"}" data-pdet-tab="overview">Tổng quan và Sản phẩm</button>
+          <button type="button" class="seg-btn ${subTab === "tasks" ? "active" : ""}" role="tab" aria-selected="${subTab === "tasks" ? "true" : "false"}" data-pdet-tab="tasks">Công việc dự án (${pTasks.length})</button>
+          <button type="button" class="seg-btn ${subTab === "docs" ? "active" : ""}" role="tab" aria-selected="${subTab === "docs" ? "true" : "false"}" data-pdet-tab="docs">Tài liệu và Mã nguồn (${pFiles.length || m.filesSummary.total_files || 0})</button>
+          <button type="button" class="seg-btn ${subTab === "rework" ? "active" : ""}" role="tab" aria-selected="${subTab === "rework" ? "true" : "false"}" data-pdet-tab="rework">Lỗi và Kiểm định Khối 9 (${pReworks.length})</button>
+          <button type="button" class="seg-btn ${subTab === "finance" ? "active" : ""}" role="tab" aria-selected="${subTab === "finance" ? "true" : "false"}" data-pdet-tab="finance">Tài chính dự án</button>
+          <button type="button" class="seg-btn ${subTab === "media" ? "active" : ""}" role="tab" aria-selected="${subTab === "media" ? "true" : "false"}" data-pdet-tab="media">Truyền thông và Video AI (${pMedia.length})</button>
+        </div>
+      </div>
+
+      ${subHtml}
+    `;
+
+    const backBtn = document.getElementById("btn-proj-back");
+    if (backBtn) {
+      backBtn.onclick = () => {
+        state.selectedProjectId = "";
+        state.projectDetail = null;
+        renderProjectsTab();
+      };
+    }
+
+    const stWrap = root.querySelector(`[data-dynamic-listbox="${statusLbId}"]`);
+    if (stWrap) {
+      const ctrl = setupListboxElement(stWrap, statusLbId, async (newStatus) => {
+        await api(`/api/projects/${encodeURIComponent(p.project_id)}`, "PATCH", { status: newStatus });
+        await loadEverything();
+        await loadProjectDetail(p.project_id);
+        toast(`Đã chuyển trạng thái dự án sang ${PROJECT_STATUS_LABELS[newStatus] || newStatus}.`);
+      });
+      if (ctrl) {
+        ctrl.setOptions(Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ value, label })), false);
+        ctrl.setValue(p.status || "ACTIVE", true);
+      }
+    }
+
+    root.querySelectorAll("[data-pdet-tab]").forEach((btn) => {
+      btn.onclick = () => {
+        state.projectDetailSubTab = btn.getAttribute("data-pdet-tab") || "overview";
+        renderProjectsTab();
+      };
+    });
+
+    if (subTab === "tasks") {
+      const addTaskBtn = document.getElementById("btn-proj-add-task");
+      if (addTaskBtn) addTaskBtn.onclick = () => openNewTaskModal("BACKLOG", p.project_id);
+    } else if (subTab === "docs") {
+      root.querySelectorAll("#proj-doc-filter [data-doc-filter]").forEach((b) => {
+        b.onclick = () => {
+          state.projectDocFilter = b.getAttribute("data-doc-filter") || "all";
+          renderProjectsTab();
+        };
+      });
+      bindDocEditorEvents(p.project_id);
+      loadProjectDocs(p.project_id, true, pFiles.length ? pFiles : null);
+    } else if (subTab === "rework") {
+      const addRwBtn = document.getElementById("btn-proj-add-rework");
+      if (addRwBtn) addRwBtn.onclick = () => openReworkModal({ projectId: p.project_id, missionId: (pMissions[0] && pMissions[0].mission_id) || "" });
+    } else if (subTab === "media") {
+      const addMediaBtn = document.getElementById("btn-proj-add-media");
+      if (addMediaBtn) addMediaBtn.onclick = () => openMediaCampaignModal(p.project_id);
+
+      root.querySelectorAll("[data-media-status-lb]").forEach((lbWrap) => {
+        const lbId = lbWrap.getAttribute("data-media-status-lb");
+        const campId = lbWrap.getAttribute("data-campaign-id");
+        const curVal = lbWrap.querySelector("input[type='hidden']")?.value || "FLOW_READY";
+        const ctrl = setupListboxElement(lbWrap, lbId, async (newStatus) => {
+          await api(`/api/media/campaigns/${encodeURIComponent(campId)}`, "PATCH", { status: newStatus });
+          await loadEverything();
+          await loadProjectDetail(p.project_id);
+          toast(`Đã cập nhật trạng thái chiến dịch sang ${MEDIA_STATUS_LABELS[newStatus] || newStatus}.`);
+        });
+        if (ctrl) {
+          ctrl.setOptions(Object.entries(MEDIA_STATUS_LABELS).map(([value, label]) => ({ value, label })), false);
+          ctrl.setValue(curVal, true);
+        }
+      });
+
+      root.querySelectorAll("[data-copy-text]").forEach((cb) => {
+        cb.onclick = async () => {
+          const txt = cb.getAttribute("data-copy-text") || "";
+          const msg = cb.getAttribute("data-copy-label") || "Đã sao chép vào bộ nhớ tạm.";
+          try {
+            await navigator.clipboard.writeText(txt);
+            toast(msg);
+          } catch (_e) {
+            toast("Trình duyệt chặn sao chép tự động, vui lòng bôi đen văn bản để sao chép.");
+          }
+        };
+      });
+
+      root.querySelectorAll(".media-thumb-img").forEach((img) => {
+        img.onerror = () => {
+          const wrap = img.closest(".media-thumb-wrap");
+          const top = img.closest(".media-campaign-top");
+          if (wrap) wrap.classList.add("is-hidden");
+          if (top) top.classList.remove("has-thumb");
+        };
+      });
+
+      root.querySelectorAll("[data-del-media]").forEach((db) => {
+        db.onclick = () => withLock(db, async () => {
+          const cid = db.getAttribute("data-del-media");
+          await api(`/api/media/campaigns/${encodeURIComponent(cid)}`, "DELETE");
+          await loadEverything();
+          await loadProjectDetail(p.project_id);
+          toast("Đã xóa chiến dịch Video AI.");
+        });
+      });
+    } else if (subTab === "finance") {
+      const addLdgBtn = document.getElementById("btn-proj-add-ledger");
+      if (addLdgBtn) addLdgBtn.onclick = () => openLedgerModal(p.project_id, null);
+    }
+
+    bindQuickActions(root);
+  }
+
+  // -------------------------------------------------------------------------
+  // 11. TAB 7: TAI CHINH TOAN TAP DOAN VA TUNG DU AN (TAP TRUNG 100% TAI CHINH)
+  // -------------------------------------------------------------------------
   async function loadActiveProjectFinance(pid) {
     if (!pid) {
       state.activeProjectFinance = null;
@@ -4441,7 +5476,12 @@
                   <td class="num">${esc(vnd(p.actual_expense_vnd || 0))}</td>
                   <td class="num ${Number(p.actual_net_profit_vnd || 0) >= 0 ? "text-ok" : "text-err"}"><strong>${esc(vnd(p.actual_net_profit_vnd || 0))}</strong></td>
                   <td class="num">${p.breakeven_customers || 0} khách</td>
-                  <td><button type="button" class="btn btn-xs btn-primary" data-manage-proj="${esc(p.project_id)}">Quản lý dự án</button></td>
+                  <td>
+                    <div class="action-group">
+                      <button type="button" class="btn btn-xs" data-fin-inspect="${esc(p.project_id)}">Báo cáo tài chính</button>
+                      <button type="button" class="btn btn-xs btn-primary" data-open-proj="${esc(p.project_id)}">Quản lý dự án</button>
+                    </div>
+                  </td>
                 </tr>
               `).join("") : `<tr><td colspan="8" class="row-meta">Chưa có dự án nào. Bấm Tạo dự án mới ở góc trên bên phải.</td></tr>`}
             </tbody>
@@ -4449,19 +5489,19 @@
         </div>
       `;
 
-      body.querySelectorAll("[data-manage-proj]").forEach((btn) => {
+      body.querySelectorAll("[data-fin-inspect]").forEach((btn) => {
         btn.onclick = async () => {
-          const pid = btn.getAttribute("data-manage-proj");
+          const pid = btn.getAttribute("data-fin-inspect");
           state.financeViewProjectId = pid;
-          state.projectSubTab = "finance";
           renderFinanceTab();
           await loadActiveProjectFinance(pid);
         };
       });
+      bindQuickActions(body);
       return;
     }
 
-    // Specific Project Workspace (4 Sub-Tabs)
+    // Specific Project Financial Workspace (100% focused on P&L, Ledger, Charts, Simulator)
     const data = state.activeProjectFinance || computeProjectFinanceFallback(state.financeViewProjectId);
     if (!data || !data.project) {
       state.financeViewProjectId = "";
@@ -4472,381 +5512,219 @@
     const p = data.project;
     const s = data.summary || {};
     const ledger = data.ledger || [];
-    const pTasks = data.tasks || state.tasks.filter((t) => t.project_id === p.project_id);
-    const pMissions = data.missions || state.missions.filter((m) => m.project_id === p.project_id);
-    const previews = Array.isArray(s.preview_urls) ? s.preview_urls : [];
-    const statusLbId = `proj-status-live-${p.project_id}`;
-
-    let subBodyHtml = "";
-    if (state.projectSubTab === "finance") {
-      const actNet = Number(s.actual_net_profit_vnd || 0);
-      subBodyHtml = `
-        <div class="hero-band">
-          <div class="card card-lift hero-lead">
-            <div class="hero-figure-wrap">
-              <p class="eyebrow">Lãi ròng thực tế dự án</p>
-              <p class="hero-figure ${actNet >= 0 ? "text-ok" : "text-err"}">${esc(vnd(actNet))}</p>
-              <p class="hero-caption">Tính từ toàn bộ bút toán Thực tế trong Sổ Thu Chi của dự án này.</p>
-            </div>
-            <div class="sub-metrics-row">
-              <div>
-                <p class="eyebrow">Tổng thu thực tế</p>
-                <p class="stat-value-md text-ok">${esc(vnd(s.actual_revenue_vnd || 0))}</p>
-              </div>
-              <div>
-                <p class="eyebrow">Tổng chi thực tế</p>
-                <p class="stat-value-md">${esc(vnd(s.actual_expense_vnd || 0))}</p>
-              </div>
-              <div>
-                <p class="eyebrow">Dự phòng thuế thực tế</p>
-                <p class="stat-value-md">${esc(vnd(s.actual_tax_vnd || 0))}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="estimate-card hero-aside-card-grow">
-            <div class="stack-sm">
-              <span class="badge badge-idle">Kế hoạch dự toán (tách biệt thực tế)</span>
-              <div class="list-row-pair"><span>Doanh thu dự toán</span><strong class="mono">${esc(vnd(s.plan_revenue_vnd || 0))}</strong></div>
-              <div class="list-row-pair"><span>Chi phí dự toán</span><strong class="mono">${esc(vnd(s.plan_expense_vnd || 0))}</strong></div>
-              <div class="list-row-pair"><span>Dự phòng thuế dự toán</span><strong class="mono">${esc(vnd(s.plan_tax_vnd || 0))}</strong></div>
-              <div class="list-row-pair"><span>Lãi ròng dự toán</span><strong class="mono text-ok">${esc(vnd(s.plan_net_profit_vnd || 0))}</strong></div>
-            </div>
-            <div class="rule"></div>
-            <div class="row-meta">Điểm hòa vốn: <strong>${s.breakeven_customers || 0} khách</strong>, Biên lãi gộp: <strong>${Number(s.gross_margin_pct || 0).toFixed(1)}%</strong></div>
-          </div>
-        </div>
-
-        <div class="split-2">
-          <div class="card">
-            <div class="sec-head"><h3 class="sec-title">Thu, Chi và Dự phòng thuế theo tháng</h3></div>
-            ${buildMonthlyGroupedBarSvg(s.monthly_series)}
-          </div>
-          <div class="card">
-            <div class="sec-head"><h3 class="sec-title">Cơ cấu hạng mục chi phí và biên lãi</h3></div>
-            ${buildCategoryBreakdownHtml(s.by_category, s.gross_margin_pct)}
-          </div>
-        </div>
-
-        <div class="section-block">
-          <div class="sec-head">
-            <div>
-              <h3 class="sec-title">Sổ Thu Chi Dự án (${ledger.length} bút toán)</h3>
-              <p class="row-meta">Ghi nhận minh bạch từng khoản Thu, Chi, Thuế thực tế hoặc dự toán.</p>
-            </div>
-            <div class="action-group">
-              <button type="button" class="btn btn-xs btn-primary" id="btn-add-ledger">${ico("plus")}<span>Ghi nhận Thu hoặc Chi</span></button>
-              <button type="button" class="btn btn-xs" id="btn-export-ledger-csv">${ico("download")}<span>Xuất CSV</span></button>
-              <button type="button" class="btn btn-xs" id="btn-print-report">${ico("printer")}<span>In báo cáo</span></button>
-            </div>
-          </div>
-
-          <div class="table-scroll">
-            <table class="data-table">
-              <caption class="sr-only">Chi tiết sổ thu chi của dự án</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Ngày</th>
-                  <th scope="col">Loại</th>
-                  <th scope="col">Hạng mục</th>
-                  <th scope="col">Nội dung</th>
-                  <th scope="col" class="num">Số tiền</th>
-                  <th scope="col">Tính chất</th>
-                  <th scope="col">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${ledger.length ? ledger.map((e) => {
-                  const meta = LEDGER_TYPE_LABELS[e.entry_type] || LEDGER_TYPE_LABELS.EXPENSE;
-                  return `
-                    <tr>
-                      <td class="mono">${esc(shortDate(e.entry_date))}</td>
-                      <td><span class="badge ${meta.badge}">${meta.label}</span></td>
-                      <td>${esc(sanitizeUiVietnamese(e.category))}</td>
-                      <td>
-                        <div><strong>${esc(sanitizeUiVietnamese(e.title))}</strong></div>
-                        ${e.note ? `<div class="row-meta">${esc(sanitizeUiVietnamese(e.note))}</div>` : ""}
-                      </td>
-                      <td class="num ${e.entry_type === "REVENUE" ? "text-ok" : ""}"><strong>${meta.sign}${esc(vnd(e.amount_vnd))}</strong></td>
-                      <td><span class="badge ${e.is_estimate ? "badge-idle" : "badge-run"}">${e.is_estimate ? "Dự toán" : "Thực tế"}</span></td>
-                      <td>
-                        <div class="action-group">
-                          <button type="button" class="btn btn-xs" data-edit-ledger="${esc(e.entry_id)}">Sửa</button>
-                          <button type="button" class="btn btn-xs btn-destructive" data-del-ledger="${esc(e.entry_id)}">Xóa</button>
-                        </div>
-                      </td>
-                    </tr>
-                  `;
-                }).join("") : `<tr><td colspan="7" class="row-meta">Chưa có bút toán nào trong sổ thu chi dự án này. Nhấn Ghi nhận Thu hoặc Chi để thêm.</td></tr>`}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <details class="details-box">
-          <summary>Mô phỏng định giá và điểm hòa vốn cho dự án này</summary>
-          <div class="details-body">
-            <div class="form-grid-4">
-              <div class="form-field">
-                <label for="sim-price">Giá bán dự kiến (VNĐ/tháng)</label>
-                <input type="number" class="input mono" id="sim-price" min="0" step="10000" value="${Number(s.expected_price_vnd || 249000)}" />
-              </div>
-              <div class="form-field">
-                <label for="sim-unit">Chi phí biến đổi mỗi khách (VNĐ)</label>
-                <input type="number" class="input mono" id="sim-unit" min="0" step="5000" value="${Number(s.unit_cost_vnd || 55000)}" />
-              </div>
-              <div class="form-field">
-                <label for="sim-fixed">Chi phí cố định hàng tháng (VNĐ)</label>
-                <input type="number" class="input mono" id="sim-fixed" min="0" step="100000" value="${Number(s.fixed_cost_monthly_vnd || 1500000)}" />
-              </div>
-              <div class="form-field">
-                <label for="sim-tax">Tỷ lệ dự phòng thuế (%)</label>
-                <input type="number" class="input mono" id="sim-tax" min="0" max="50" step="0.5" value="7" />
-              </div>
-            </div>
-            <div class="sim-summary-strip mono" id="sim-live-output"></div>
-            <div class="action-group">
-              <button type="button" class="btn btn-primary" id="btn-save-proj-pricing">${ico("check")}<span>Lưu định giá vào dự án</span></button>
-            </div>
-          </div>
-        </details>
-      `;
-    } else if (state.projectSubTab === "overview") {
-      subBodyHtml = `
-        <div class="split-2">
-          <div class="card stack-sm">
-            <h3 class="sec-title">Mục tiêu và Thị trường mục tiêu</h3>
-            <p class="step-summary">${esc(sanitizeUiVietnamese(p.objective || "Chưa cập nhật mục tiêu chi tiết cho dự án này."))}</p>
-            ${s.target_market ? `<p class="row-meta">Thị trường mục tiêu: <strong>${esc(sanitizeUiVietnamese(s.target_market))}</strong></p>` : ""}
-            <p class="row-meta">Giá bán mục tiêu: <strong class="mono">${esc(vnd(s.expected_price_vnd || p.expected_price_vnd || 0))} / tháng</strong></p>
-          </div>
-          <div class="card stack-sm">
-            <h3 class="sec-title">Nhiệm vụ 8 bước liên kết (${pMissions.length})</h3>
-            ${pMissions.length ? `
-              <div class="hairline-list">
-                ${pMissions.map((m) => `
-                  <div class="list-row">
-                    <div class="row-main">
-                      <div class="row-title">${esc(sanitizeUiVietnamese(m.title))}</div>
-                      <div class="row-meta">Tiến độ: ${m.progress_pct || 0}%, Giai đoạn: ${m.phase === "DELIVERED" ? "Đã bàn giao" : m.phase === "PRODUCTION" ? "Sản xuất sản phẩm" : "Nghiên cứu chốt kèo"}</div>
-                    </div>
-                    <button type="button" class="btn btn-xs" data-open-mission="${esc(m.mission_id)}">Mở phòng họp</button>
-                  </div>
-                `).join("")}
-              </div>
-            ` : `<p class="row-meta">Chưa có nhiệm vụ 8 bước gắn với dự án này.</p>`}
-          </div>
-        </div>
-      `;
-    } else if (state.projectSubTab === "tasks") {
-      subBodyHtml = `
-        <div class="section-block">
-          <div class="sec-head">
-            <h3 class="sec-title">Công việc thuộc dự án (${pTasks.length})</h3>
-            <button type="button" class="btn btn-xs btn-primary" id="btn-add-task-for-proj">${ico("plus")}<span>Giao việc cho dự án này</span></button>
-          </div>
-          ${pTasks.length ? `
-            <div class="hairline-list">
-              ${pTasks.map((t) => `
-                <div class="task-row-clean" data-open-task-drawer="${esc(t.task_id)}">
-                  <div class="row-main">
-                    <div class="row-title ${t.kanban_column === "DONE" ? "is-done" : ""}">${esc(sanitizeUiVietnamese(t.title))}</div>
-                    <div class="row-meta">Phòng #${esc(t.assigned_dept_id)} (${esc(deptTitle(t.assigned_dept_id))}), Ưu tiên ${esc(PRIO_LABELS[t.priority] || "Cao")}</div>
-                  </div>
-                  <span class="badge badge-idle">${esc(COL_LABELS[t.kanban_column] || t.kanban_column)}</span>
-                  <button type="button" class="btn btn-xs" data-open-task-drawer="${esc(t.task_id)}">Chi tiết</button>
-                </div>
-              `).join("")}
-            </div>
-          ` : `<div class="empty-state"><p>Dự án này chưa có công việc nào. Nhấn Giao việc cho dự án này để bắt đầu.</p></div>`}
-        </div>
-      `;
-    } else {
-      // Sub-tab 4: Tài liệu và Sản phẩm
-      subBodyHtml = `
-        <div class="stack-md">
-          ${previews.length ? `
-            <div class="preview-cards-grid">
-              ${previews.map((pv) => {
-                const href = typeof pv === "string" ? pv : (pv.url || pv.href || "");
-                const label = typeof pv === "string"
-                  ? (pv.includes("landing") ? "Mở Trang giới thiệu bán hàng" : "Mở Ứng dụng dùng thử trực tiếp")
-                  : sanitizeUiVietnamese(pv.label || "Mở sản phẩm trực tiếp");
-                const safeHref = href.startsWith("./") || href.startsWith("/") ? (state.staticMode ? href : `${API_BASE}${href.replace(/^\./, "")}`) : href;
-                return `
-                  <div class="preview-card">
-                    <div class="row-main">
-                      <div class="row-title">${esc(label)}</div>
-                      <div class="mono row-meta">${esc(href)}</div>
-                    </div>
-                    <a class="btn btn-xs btn-primary" href="${esc(safeHref)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở dùng thử</span></a>
-                  </div>
-                `;
-              }).join("")}
-            </div>
-          ` : ""}
-
-          <div class="card stack-md">
-            <div class="sec-head">
-              <h3 class="sec-title">Cây tệp tài liệu dự án</h3>
-              <button type="button" class="btn btn-xs btn-primary" id="btn-new-doc">${ico("file-text")}<span>Tạo tài liệu mới</span></button>
-            </div>
-            <div class="split-2">
-              <div class="hairline-list" id="project-docs-list"></div>
-              <div class="stack-sm">
-                <div class="sec-head">
-                  <span class="doc-name-label" id="doc-current-name">Chưa chọn tài liệu</span>
-                  <div class="action-group" id="doc-editor-actions" hidden>
-                    <button type="button" class="btn btn-xs" id="btn-toggle-doc-edit">Sửa nội dung</button>
-                    <button type="button" class="btn btn-xs btn-primary is-hidden" id="btn-save-doc">Lưu tài liệu</button>
-                    <button type="button" class="btn btn-xs btn-destructive" id="btn-delete-doc">${ico("trash")}<span>Xóa tệp</span></button>
-                  </div>
-                </div>
-                <div id="doc-pretty-view" class="doc-viewer rendered-md">Chọn một tệp tài liệu bên trái để đọc hoặc chỉnh sửa.</div>
-                <textarea id="doc-raw-editor" class="textarea mono doc-editor is-hidden" aria-label="Trình soạn thảo tài liệu"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
+    const actNet = Number(s.actual_net_profit_vnd || 0);
 
     body.innerHTML = `
       <div class="card stack-md">
         <div class="toolbar-row">
           <div class="row-main">
             <h2 class="mission-title">${esc(sanitizeUiVietnamese(p.title))}</h2>
-            <p class="row-meta">Tiến độ công việc: <strong>${s.tasks_done || 0}/${s.tasks_total || 0} việc (${s.progress_pct || 0}%)</strong></p>
+            <p class="row-meta">Trạng thái: <strong>${esc(PROJECT_STATUS_LABELS[p.status] || "Đang phát triển")}</strong>, Tiến độ công việc: <strong>${s.tasks_done || 0}/${s.tasks_total || 0} việc (${s.progress_pct || 0}%)</strong></p>
           </div>
           <div class="action-group">
-            <div class="listbox-field listbox-inline listbox-compact" data-dynamic-listbox="${esc(statusLbId)}">
-              <input type="hidden" value="${esc(p.status || "ACTIVE")}" />
-              <button type="button" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lb-${esc(statusLbId)}" aria-label="Đổi trạng thái dự án">
-                <span class="listbox-value">${esc(PROJECT_STATUS_LABELS[p.status] || "Đang triển khai")}</span>
-                ${ico("chevron-down", "ico-xs listbox-chevron")}
-              </button>
-              <ul class="listbox-menu" id="lb-${esc(statusLbId)}" role="listbox" tabindex="-1" hidden></ul>
-            </div>
-            ${previews.slice(0, 1).map((pv) => {
-              const href = typeof pv === "string" ? pv : (pv.url || pv.href || "");
-              const safeHref = href.startsWith("./") || href.startsWith("/") ? (state.staticMode ? href : `${API_BASE}${href.replace(/^\./, "")}`) : href;
-              return `<a class="btn btn-xs btn-primary" href="${esc(safeHref)}" target="_blank" rel="noopener noreferrer">${ico("external-link")}<span>Mở sản phẩm</span></a>`;
-            }).join("")}
+            <button type="button" class="btn btn-xs btn-primary" data-open-proj="${esc(p.project_id)}">${ico("folder")}<span>Mở quản lý dự án</span></button>
             <button type="button" class="btn btn-xs" data-edit-proj="${esc(p.project_id)}">${ico("pencil")}<span>Sửa dự án</span></button>
             <button type="button" class="btn btn-xs btn-destructive" data-del-proj="${esc(p.project_id)}">${ico("trash")}<span>Xóa dự án</span></button>
           </div>
         </div>
+      </div>
 
-        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${s.progress_pct || 0}">
-          <div class="progress-fill" style="inline-size:${Math.max(2, s.progress_pct || 0)}%;"></div>
+      <div class="hero-band">
+        <div class="card card-lift hero-lead">
+          <div class="hero-figure-wrap">
+            <p class="eyebrow">Lãi ròng thực tế dự án</p>
+            <p class="hero-figure ${actNet >= 0 ? "text-ok" : "text-err"}">${esc(vnd(actNet))}</p>
+            <p class="hero-caption">Tính từ toàn bộ bút toán Thực tế trong Sổ Thu Chi của dự án này.</p>
+          </div>
+          <div class="sub-metrics-row">
+            <div>
+              <p class="eyebrow">Tổng thu thực tế</p>
+              <p class="stat-value-md text-ok">${esc(vnd(s.actual_revenue_vnd || 0))}</p>
+            </div>
+            <div>
+              <p class="eyebrow">Tổng chi thực tế</p>
+              <p class="stat-value-md">${esc(vnd(s.actual_expense_vnd || 0))}</p>
+            </div>
+            <div>
+              <p class="eyebrow">Dự phòng thuế thực tế</p>
+              <p class="stat-value-md">${esc(vnd(s.actual_tax_vnd || 0))}</p>
+            </div>
+          </div>
         </div>
 
-        <div class="segmented" role="tablist" aria-label="Phân mục quản trị dự án">
-          <button type="button" class="seg-btn ${state.projectSubTab === "finance" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "finance" ? "true" : "false"}" data-proj-subtab="finance">Báo cáo Tài chính</button>
-          <button type="button" class="seg-btn ${state.projectSubTab === "overview" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "overview" ? "true" : "false"}" data-proj-subtab="overview">Tổng quan và Cột mốc</button>
-          <button type="button" class="seg-btn ${state.projectSubTab === "tasks" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "tasks" ? "true" : "false"}" data-proj-subtab="tasks">Công việc dự án (${pTasks.length})</button>
-          <button type="button" class="seg-btn ${state.projectSubTab === "docs" ? "active" : ""}" role="tab" aria-selected="${state.projectSubTab === "docs" ? "true" : "false"}" data-proj-subtab="docs">Tài liệu và Sản phẩm</button>
+        <div class="estimate-card hero-aside-card-grow">
+          <div class="stack-sm">
+            <span class="badge badge-idle">Kế hoạch dự toán (tách biệt thực tế)</span>
+            <div class="list-row-pair"><span>Doanh thu dự toán</span><strong class="mono">${esc(vnd(s.plan_revenue_vnd || 0))}</strong></div>
+            <div class="list-row-pair"><span>Chi phí dự toán</span><strong class="mono">${esc(vnd(s.plan_expense_vnd || 0))}</strong></div>
+            <div class="list-row-pair"><span>Dự phòng thuế dự toán</span><strong class="mono">${esc(vnd(s.plan_tax_vnd || 0))}</strong></div>
+            <div class="list-row-pair"><span>Lãi ròng dự toán</span><strong class="mono text-ok">${esc(vnd(s.plan_net_profit_vnd || 0))}</strong></div>
+          </div>
+          <div class="rule"></div>
+          <div class="row-meta">Điểm hòa vốn: <strong>${s.breakeven_customers || 0} khách</strong>, Biên lãi gộp: <strong>${Number(s.gross_margin_pct || 0).toFixed(1)}%</strong></div>
         </div>
       </div>
 
-      ${subBodyHtml}
+      <div class="split-2">
+        <div class="card">
+          <div class="sec-head"><h3 class="sec-title">Thu, Chi và Dự phòng thuế theo tháng</h3></div>
+          ${buildMonthlyGroupedBarSvg(s.monthly_series)}
+        </div>
+        <div class="card">
+          <div class="sec-head"><h3 class="sec-title">Cơ cấu hạng mục chi phí và biên lãi</h3></div>
+          ${buildCategoryBreakdownHtml(s.by_category, s.gross_margin_pct)}
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="sec-head">
+          <div>
+            <h3 class="sec-title">Sổ Thu Chi Dự án (${ledger.length} bút toán)</h3>
+            <p class="row-meta">Ghi nhận minh bạch từng khoản Thu, Chi, Thuế thực tế hoặc dự toán.</p>
+          </div>
+          <div class="action-group">
+            <button type="button" class="btn btn-xs btn-primary" id="btn-add-ledger">${ico("plus")}<span>Ghi nhận Thu hoặc Chi</span></button>
+            <button type="button" class="btn btn-xs" id="btn-export-ledger-csv">${ico("download")}<span>Xuất CSV</span></button>
+            <button type="button" class="btn btn-xs" id="btn-print-report">${ico("printer")}<span>In báo cáo</span></button>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption class="sr-only">Chi tiết sổ thu chi của dự án</caption>
+            <thead>
+              <tr>
+                <th scope="col">Ngày</th>
+                <th scope="col">Loại</th>
+                <th scope="col">Hạng mục</th>
+                <th scope="col">Nội dung</th>
+                <th scope="col" class="num">Số tiền</th>
+                <th scope="col">Tính chất</th>
+                <th scope="col">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${ledger.length ? ledger.map((e) => {
+                const meta = LEDGER_TYPE_LABELS[e.entry_type] || LEDGER_TYPE_LABELS.EXPENSE;
+                return `
+                  <tr>
+                    <td class="mono">${esc(shortDate(e.entry_date))}</td>
+                    <td><span class="badge ${meta.badge}">${meta.label}</span></td>
+                    <td>${esc(sanitizeUiVietnamese(e.category))}</td>
+                    <td>
+                      <div><strong>${esc(sanitizeUiVietnamese(e.title))}</strong></div>
+                      ${e.note ? `<div class="row-meta">${esc(sanitizeUiVietnamese(e.note))}</div>` : ""}
+                    </td>
+                    <td class="num ${e.entry_type === "REVENUE" ? "text-ok" : ""}"><strong>${meta.sign}${esc(vnd(e.amount_vnd))}</strong></td>
+                    <td><span class="badge ${e.is_estimate ? "badge-idle" : "badge-run"}">${e.is_estimate ? "Dự toán" : "Thực tế"}</span></td>
+                    <td>
+                      <div class="action-group">
+                        <button type="button" class="btn btn-xs" data-edit-ledger="${esc(e.entry_id)}">Sửa</button>
+                        <button type="button" class="btn btn-xs btn-destructive" data-del-ledger="${esc(e.entry_id)}">Xóa</button>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+              }).join("") : `<tr><td colspan="7" class="row-meta">Chưa có bút toán nào trong sổ thu chi dự án này. Nhấn Ghi nhận Thu hoặc Chi để thêm.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <details class="details-box">
+        <summary>Mô phỏng định giá và điểm hòa vốn cho dự án này</summary>
+        <div class="details-body">
+          <div class="form-grid-4">
+            <div class="form-field">
+              <label for="sim-price">Giá bán dự kiến (VNĐ/tháng)</label>
+              <input type="number" class="input mono" id="sim-price" min="0" step="10000" value="${Number(s.expected_price_vnd || 249000)}" />
+            </div>
+            <div class="form-field">
+              <label for="sim-unit">Chi phí biến đổi mỗi khách (VNĐ)</label>
+              <input type="number" class="input mono" id="sim-unit" min="0" step="5000" value="${Number(s.unit_cost_vnd || 55000)}" />
+            </div>
+            <div class="form-field">
+              <label for="sim-fixed">Chi phí cố định hàng tháng (VNĐ)</label>
+              <input type="number" class="input mono" id="sim-fixed" min="0" step="100000" value="${Number(s.fixed_cost_monthly_vnd || 1500000)}" />
+            </div>
+            <div class="form-field">
+              <label for="sim-tax">Tỷ lệ dự phòng thuế (%)</label>
+              <input type="number" class="input mono" id="sim-tax" min="0" max="50" step="0.5" value="7" />
+            </div>
+          </div>
+          <div class="sim-summary-strip mono" id="sim-live-output"></div>
+          <div class="action-group">
+            <button type="button" class="btn btn-primary" id="btn-save-proj-pricing">${ico("check")}<span>Lưu định giá vào dự án</span></button>
+          </div>
+        </div>
+      </details>
     `;
 
-    // Bind project status listbox
-    const stWrap = body.querySelector(`[data-dynamic-listbox="${statusLbId}"]`);
-    if (stWrap) {
-      const ctrl = setupListboxElement(stWrap, statusLbId, async (newStatus) => {
-        await api(`/api/projects/${encodeURIComponent(p.project_id)}`, "PATCH", { status: newStatus });
-        await loadEverything();
-        await loadActiveProjectFinance(p.project_id);
-        toast(`Đã chuyển trạng thái dự án sang ${PROJECT_STATUS_LABELS[newStatus] || newStatus}.`);
-      });
-      if (ctrl) {
-        ctrl.setOptions(Object.entries(PROJECT_STATUS_LABELS).map(([value, label]) => ({ value, label })), false);
-        ctrl.setValue(p.status || "ACTIVE", true);
-      }
-    }
+    const addLdgBtn = document.getElementById("btn-add-ledger");
+    if (addLdgBtn) addLdgBtn.onclick = () => openLedgerModal(p.project_id, null);
 
-    body.querySelectorAll("[data-proj-subtab]").forEach((btn) => {
+    const csvBtn = document.getElementById("btn-export-ledger-csv");
+    if (csvBtn) csvBtn.onclick = () => exportLedgerCsv(p.title, ledger);
+
+    const printBtn = document.getElementById("btn-print-report");
+    if (printBtn) printBtn.onclick = () => window.print();
+
+    body.querySelectorAll("[data-edit-ledger]").forEach((btn) => {
       btn.onclick = () => {
-        state.projectSubTab = btn.getAttribute("data-proj-subtab");
-        renderFinanceTabBody();
+        const entry = ledger.find((x) => x.entry_id === btn.getAttribute("data-edit-ledger"));
+        if (entry) openLedgerModal(p.project_id, entry);
       };
     });
 
-    if (state.projectSubTab === "finance") {
-      const addLdgBtn = document.getElementById("btn-add-ledger");
-      if (addLdgBtn) addLdgBtn.onclick = () => openLedgerModal(p.project_id, null);
-
-      const csvBtn = document.getElementById("btn-export-ledger-csv");
-      if (csvBtn) csvBtn.onclick = () => exportLedgerCsv(p.title, ledger);
-
-      const printBtn = document.getElementById("btn-print-report");
-      if (printBtn) printBtn.onclick = () => window.print();
-
-      body.querySelectorAll("[data-edit-ledger]").forEach((btn) => {
-        btn.onclick = () => {
-          const entry = ledger.find((x) => x.entry_id === btn.getAttribute("data-edit-ledger"));
-          if (entry) openLedgerModal(p.project_id, entry);
-        };
+    body.querySelectorAll("[data-del-ledger]").forEach((btn) => {
+      btn.onclick = () => withLock(btn, async () => {
+        const eid = btn.getAttribute("data-del-ledger");
+        const backup = ledger.find((x) => x.entry_id === eid);
+        await api(`/api/finance/ledger/${encodeURIComponent(eid)}`, "DELETE");
+        await loadEverything();
+        await loadActiveProjectFinance(p.project_id);
+        toast("Đã xóa bút toán tài chính.", { entity_type: "ledger", entity_id: eid, backup });
       });
+    });
 
-      body.querySelectorAll("[data-del-ledger]").forEach((btn) => {
-        btn.onclick = () => withLock(btn, async () => {
-          const eid = btn.getAttribute("data-del-ledger");
-          const backup = ledger.find((x) => x.entry_id === eid);
-          await api(`/api/finance/ledger/${encodeURIComponent(eid)}`, "DELETE");
-          await loadEverything();
-          await loadActiveProjectFinance(p.project_id);
-          toast("Đã xóa bút toán tài chính.", { entity_type: "ledger", entity_id: eid, backup });
-        });
-      });
-
-      const recalcSim = () => {
-        const price = Math.max(0, Number(document.getElementById("sim-price").value || 0));
-        const unit = Math.max(0, Number(document.getElementById("sim-unit").value || 0));
-        const fixed = Math.max(0, Number(document.getElementById("sim-fixed").value || 0));
-        const taxPct = Math.max(0, Number(document.getElementById("sim-tax").value || 7));
-        const grossPct = price > 0 ? ((price - unit) / price) * 100 : 0;
-        const netUnit = price - unit - (price * taxPct) / 100;
-        const be = netUnit > 0 ? Math.ceil(fixed / netUnit) : 0;
-        const p50 = Math.round(netUnit * 50 - fixed);
-        const p200 = Math.round(netUnit * 200 - fixed);
-        const out = document.getElementById("sim-live-output");
-        if (out) {
-          out.innerHTML = `
-            <span>Biên lãi gộp: <strong class="${grossPct >= 65 ? "text-ok" : "text-err"}">${grossPct.toFixed(1)}%</strong></span>
-            <span>Hòa vốn: <strong>${be > 0 ? `${be} khách` : "Đang lỗ"}</strong></span>
-            <span>Mốc 50 khách: <strong class="${p50 >= 0 ? "text-ok" : "text-err"}">${vnd(p50)}/tháng</strong></span>
-            <span>Mốc 200 khách: <strong class="${p200 >= 0 ? "text-ok" : "text-err"}">${vnd(p200)}/tháng</strong></span>
-          `;
-        }
-      };
-      ["sim-price", "sim-unit", "sim-fixed", "sim-tax"].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.oninput = recalcSim;
-      });
-      recalcSim();
-
-      const savePricingBtn = document.getElementById("btn-save-proj-pricing");
-      if (savePricingBtn) {
-        savePricingBtn.onclick = () => withLock(savePricingBtn, async () => {
-          await api(`/api/projects/${encodeURIComponent(p.project_id)}`, "PATCH", {
-            expected_price_vnd: Number(document.getElementById("sim-price").value || 0),
-            unit_cost_vnd: Number(document.getElementById("sim-unit").value || 0),
-            fixed_cost_monthly_vnd: Number(document.getElementById("sim-fixed").value || 0)
-          });
-          await loadEverything();
-          await loadActiveProjectFinance(p.project_id);
-          toast("Đã lưu cấu hình định giá vào dự án.");
-        });
+    const recalcSim = () => {
+      const price = Math.max(0, Number(document.getElementById("sim-price").value || 0));
+      const unit = Math.max(0, Number(document.getElementById("sim-unit").value || 0));
+      const fixed = Math.max(0, Number(document.getElementById("sim-fixed").value || 0));
+      const taxPct = Math.max(0, Number(document.getElementById("sim-tax").value || 7));
+      const grossPct = price > 0 ? ((price - unit) / price) * 100 : 0;
+      const netUnit = price - unit - (price * taxPct) / 100;
+      const be = netUnit > 0 ? Math.ceil(fixed / netUnit) : 0;
+      const p50 = Math.round(netUnit * 50 - fixed);
+      const p200 = Math.round(netUnit * 200 - fixed);
+      const out = document.getElementById("sim-live-output");
+      if (out) {
+        out.innerHTML = `
+          <span>Biên lãi gộp: <strong class="${grossPct >= 65 ? "text-ok" : "text-err"}">${grossPct.toFixed(1)}%</strong></span>
+          <span>Hòa vốn: <strong>${be > 0 ? `${be} khách` : "Đang lỗ"}</strong></span>
+          <span>Mốc 50 khách: <strong class="${p50 >= 0 ? "text-ok" : "text-err"}">${vnd(p50)}/tháng</strong></span>
+          <span>Mốc 200 khách: <strong class="${p200 >= 0 ? "text-ok" : "text-err"}">${vnd(p200)}/tháng</strong></span>
+        `;
       }
-    } else if (state.projectSubTab === "tasks") {
-      const addTaskProjBtn = document.getElementById("btn-add-task-for-proj");
-      if (addTaskProjBtn) addTaskProjBtn.onclick = () => openNewTaskModal("BACKLOG", p.project_id);
-    } else if (state.projectSubTab === "docs") {
-      bindDocEditorEvents(p.project_id);
-      loadProjectDocs(p.project_id, true);
+    };
+    ["sim-price", "sim-unit", "sim-fixed", "sim-tax"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.oninput = recalcSim;
+    });
+    recalcSim();
+
+    const savePricingBtn = document.getElementById("btn-save-proj-pricing");
+    if (savePricingBtn) {
+      savePricingBtn.onclick = () => withLock(savePricingBtn, async () => {
+        await api(`/api/projects/${encodeURIComponent(p.project_id)}`, "PATCH", {
+          expected_price_vnd: Number(document.getElementById("sim-price").value || 0),
+          unit_cost_vnd: Number(document.getElementById("sim-unit").value || 0),
+          fixed_cost_monthly_vnd: Number(document.getElementById("sim-fixed").value || 0)
+        });
+        await loadEverything();
+        await loadActiveProjectFinance(p.project_id);
+        toast("Đã lưu cấu hình định giá vào dự án.");
+      });
     }
 
     bindQuickActions(body);
@@ -4920,18 +5798,28 @@
     if (edEl) edEl.classList.add("is-hidden");
   }
 
-  async function loadProjectDocs(pid, keepCurrentFile = true) {
+  async function loadProjectDocs(pid, keepCurrentFile = true, preloadedFiles = null) {
     const dBox = document.getElementById("project-docs-list");
     if (!dBox) return;
-    if (!pid || state.staticMode) {
-      dBox.innerHTML = `<div class="list-row"><span class="row-meta">Tài liệu dự án sẽ tải tự động khi kênh trực tuyến đang mở.</span></div>`;
+    if (!pid || (state.staticMode && !preloadedFiles)) {
+      dBox.innerHTML = `<div class="list-row"><span class="row-meta">Tài liệu và mã nguồn sẽ tải tự động khi kênh trực tuyến đang mở.</span></div>`;
       return;
     }
     try {
-      const res = await api(`/api/projects/${encodeURIComponent(pid)}/files`);
-      const files = res.files || [];
+      let allFiles = Array.isArray(preloadedFiles) ? preloadedFiles : [];
+      if (!allFiles.length && !state.staticMode) {
+        const res = await api(`/api/projects/${encodeURIComponent(pid)}/files`);
+        allFiles = res.files || [];
+      }
+      const docExts = new Set([".md", ".txt", ".pdf", ".csv", ".doc", ".docx", ".rtf"]);
+      const df = state.projectDocFilter || "all";
+      const files = allFiles.filter((f) => {
+        if (df === "all") return true;
+        const cat = f.category || (docExts.has(String(f.ext || "").toLowerCase()) ? "doc" : "code");
+        return cat === df;
+      });
       if (!files.length) {
-        dBox.innerHTML = `<div class="list-row"><span class="row-meta">Chưa có tệp tài liệu nào. Nhấn Tạo tài liệu mới.</span></div>`;
+        dBox.innerHTML = `<div class="list-row"><span class="row-meta">Không có tệp nào trong nhóm lọc này. Thử chuyển sang Tất cả hoặc nhấn Tạo tài liệu mới.</span></div>`;
         resetDocViewer();
         return;
       }
@@ -4965,9 +5853,18 @@
       if (nameEl) nameEl.textContent = filePath;
       if (actEl) actEl.hidden = false;
       if (rawEl) { rawEl.value = doc.content || ""; rawEl.classList.add("is-hidden"); }
-      if (pvEl) { pvEl.innerHTML = renderCleanMarkdown(doc.content || ""); pvEl.classList.remove("is-hidden"); }
+      if (pvEl) {
+        const isMd = /\.(md|markdown|txt)$/i.test(filePath);
+        pvEl.innerHTML = isMd
+          ? renderCleanMarkdown(doc.content || "")
+          : `<pre class="mono">${esc(doc.content || "")}</pre>`;
+        pvEl.classList.remove("is-hidden");
+      }
       if (saveEl) saveEl.classList.add("is-hidden");
       if (togEl) togEl.textContent = "Sửa nội dung";
+      document.querySelectorAll("#project-docs-list [data-open-doc]").forEach((row) => {
+        row.classList.toggle("is-selected", row.getAttribute("data-open-doc") === filePath);
+      });
     } catch (_e) {}
   }
 
@@ -5258,7 +6155,21 @@
     root.querySelectorAll("[data-open-proj]").forEach((b) => {
       b.onclick = (e) => {
         e.stopPropagation();
-        openProjectInFinance(b.getAttribute("data-open-proj"));
+        openProjectWorkspace(b.getAttribute("data-open-proj"), "overview");
+      };
+    });
+
+    root.querySelectorAll("[data-open-proj-upgrade]").forEach((b) => {
+      b.onclick = (e) => {
+        e.stopPropagation();
+        openProjectUpgradeModal(b.getAttribute("data-open-proj-upgrade"));
+      };
+    });
+
+    root.querySelectorAll("[data-open-proj-finance]").forEach((b) => {
+      b.onclick = (e) => {
+        e.stopPropagation();
+        openProjectInFinance(b.getAttribute("data-open-proj-finance"));
       };
     });
 
@@ -5463,6 +6374,10 @@
         const backup = state.projects.find((x) => x.project_id === pid);
         await api(`/api/projects/${encodeURIComponent(pid)}`, "DELETE");
         if (state.financeViewProjectId === pid) state.financeViewProjectId = "";
+        if (state.selectedProjectId === pid) {
+          state.selectedProjectId = "";
+          state.projectDetail = null;
+        }
         await loadEverything();
         toast("Đã xóa dự án.", { entity_type: "project", entity_id: pid, backup });
       });
@@ -5975,6 +6890,7 @@
   function renderAllViews() {
     renderCountsAndHeader();
     if (state.tab === "command") renderCommandTab();
+    if (state.tab === "projects") renderProjectsTab();
     if (state.tab === "missions") renderProgressTab();
     if (state.tab === "tasks") renderTasksTab();
     if (state.tab === "staff") renderStaffTab();
@@ -6011,6 +6927,7 @@
     if (ov && Array.isArray(ov.project_ledger)) state.projectLedger = ov.project_ledger;
     if (ov && Array.isArray(ov.rework_tickets)) state.reworkTickets = ov.rework_tickets;
     if (ov && ov.rework_summary) state.reworkSummary = ov.rework_summary;
+    if (ov && Array.isArray(ov.media_campaigns)) state.mediaCampaigns = ov.media_campaigns;
     if (ov && Array.isArray(ov.dept_handoffs)) state.deptHandoffs = ov.dept_handoffs;
     if (ov && ov.corporate_directory_summary) state.corporateDirectorySummary = ov.corporate_directory_summary;
     if (ov && ov.finance_summary) state.financeSummary = ov.finance_summary;
@@ -6049,6 +6966,9 @@
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         loadEverything().catch(() => {});
+        if (state.tab === "projects" && state.selectedProjectId) {
+          loadProjectDetail(state.selectedProjectId).catch(() => {});
+        }
         if (state.tab === "finance" && state.financeViewProjectId) {
           loadActiveProjectFinance(state.financeViewProjectId).catch(() => {});
         }
@@ -6239,7 +7159,7 @@
     } else if (item.kind === "task") {
       openTaskInBoard(item.id);
     } else if (item.kind === "proj") {
-      openProjectInFinance(item.id);
+      openProjectWorkspace(item.id, "overview");
     } else if (item.kind === "news") {
       state.newsSubView = "articles";
       switchTab("news");
@@ -6335,6 +7255,13 @@
       document.getElementById("inp-opp-price").value = "399.000";
       openModal("modal-opp");
     };
+
+    document.querySelectorAll("#opp-tier-filter .seg-btn").forEach((b) => {
+      b.onclick = () => {
+        state.oppTierFilter = b.getAttribute("data-opp-filter") || "all";
+        renderCommandTab();
+      };
+    });
 
     document.getElementById("form-opp").onsubmit = (e) => {
       e.preventDefault();
@@ -6665,16 +7592,8 @@
       });
     };
 
-    // Tab 6: Projects, Ledger Modal, Doc Modal & Cloud Backup
-    document.getElementById("btn-new-proj").onclick = () => {
-      document.getElementById("proj-modal-title").textContent = "Tạo dự án mới";
-      document.getElementById("edit-proj-id").value = "";
-      document.getElementById("wrap-proj-slug").classList.remove("is-hidden");
-      document.getElementById("form-proj").reset();
-      document.getElementById("inp-proj-price").value = "399.000";
-      setListboxValue("inp-proj-status", "ACTIVE", true);
-      openModal("modal-proj");
-    };
+    // Tab 6/7: Projects, Ledger Modal, Doc Modal & Cloud Backup
+    document.getElementById("btn-new-proj").onclick = openNewProjectModal;
 
     document.getElementById("form-proj").onsubmit = (e) => {
       e.preventDefault();
@@ -6692,14 +7611,18 @@
           await api(`/api/projects/${encodeURIComponent(pid)}`, "PATCH", payload);
           await loadEverything();
           if (state.financeViewProjectId === pid) await loadActiveProjectFinance(pid);
+          if (state.selectedProjectId === pid) await loadProjectDetail(pid);
         } else {
           const created = await api("/api/projects", "POST", payload);
           await loadEverything();
           if (created && created.project_id) {
-            state.financeViewProjectId = created.project_id;
-            state.projectSubTab = "finance";
-            renderFinanceTab();
-            await loadActiveProjectFinance(created.project_id);
+            if (state.tab === "projects") {
+              await openProjectWorkspace(created.project_id, "overview");
+            } else {
+              state.financeViewProjectId = created.project_id;
+              renderFinanceTab();
+              await loadActiveProjectFinance(created.project_id);
+            }
           }
         }
         closeModals();
@@ -6712,7 +7635,7 @@
       const btn = e.target.querySelector("button[type='submit']");
       withLock(btn, async () => {
         const eid = document.getElementById("edit-ledger-id").value;
-        const pid = document.getElementById("edit-ledger-pid").value || state.financeViewProjectId;
+        const pid = document.getElementById("edit-ledger-pid").value || state.selectedProjectId || state.financeViewProjectId;
         const amt = Number(document.getElementById("inp-ledger-amount").value);
         if (Number.isNaN(amt) || amt < 0) {
           throw new Error("Số tiền phải là số không âm hợp lệ.");
@@ -6733,7 +7656,8 @@
         }
         closeModals();
         await loadEverything();
-        if (pid) await loadActiveProjectFinance(pid);
+        if (pid && state.financeViewProjectId === pid) await loadActiveProjectFinance(pid);
+        if (pid && state.selectedProjectId === pid) await loadProjectDetail(pid);
         toast(eid ? "Đã cập nhật bút toán tài chính." : "Đã ghi nhận bút toán vào sổ thu chi dự án.");
       });
     };
@@ -6773,6 +7697,9 @@
           state.openMissions.add(missionId);
         }
         await loadEverything();
+        if (projectId && state.selectedProjectId === projectId) {
+          await loadProjectDetail(projectId);
+        }
         if (document.getElementById("inspector-drawer")?.classList.contains("open") && state.activeStaffDrawerDeptId) {
           openStaffDrawer(state.activeStaffDrawerDeptId);
         }
@@ -6858,6 +7785,65 @@
       };
     }
 
+    // Modal 14: Giao 9 Khối nâng cấp dự án
+    const formProjUpgrade = document.getElementById("form-project-upgrade");
+    if (formProjUpgrade) {
+      formProjUpgrade.onsubmit = (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("btn-submit-upgrade");
+        withLock(btn, async () => {
+          const pid = document.getElementById("upgrade-project-id").value;
+          const goal = document.getElementById("inp-upgrade-goal").value.trim();
+          const autoApp = Boolean(document.getElementById("chk-upgrade-auto")?.checked);
+          if (!pid) throw new Error("Không xác định được dự án cần nâng cấp.");
+          if (!goal) throw new Error("Vui lòng nhập yêu cầu nâng cấp cụ thể cho 9 Khối.");
+          const res = await api(`/api/projects/${encodeURIComponent(pid)}/upgrade`, "POST", {
+            upgrade_goal: goal,
+            auto_approve: autoApp
+          });
+          closeModals();
+          await loadEverything();
+          if (state.selectedProjectId === pid) await loadProjectDetail(pid);
+          const createdMid = res && res.mission && res.mission.mission_id;
+          if (createdMid) {
+            openMissionInProgress(createdMid);
+          }
+          toast("Đã giao 9 Khối khởi chạy nhiệm vụ nâng cấp dự án.");
+        });
+      };
+    }
+
+    // Modal 15: Tạo chiến dịch Video AI (Google Flow / YouTube / TikTok)
+    const formMediaCamp = document.getElementById("form-media-campaign");
+    if (formMediaCamp) {
+      formMediaCamp.onsubmit = (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("btn-submit-media-campaign");
+        withLock(btn, async () => {
+          const pid = document.getElementById("media-project-id").value || state.selectedProjectId || "";
+          const title = document.getElementById("inp-media-title").value.trim();
+          const platform = getListboxValue("inp-media-platform") || "TIKTOK";
+          const angle = document.getElementById("inp-media-angle").value.trim();
+          const schedule = document.getElementById("inp-media-schedule").value.trim();
+          if (!title) throw new Error("Vui lòng nhập tiêu đề chiến dịch Video AI.");
+          await api("/api/media/campaigns", "POST", {
+            project_id: pid || null,
+            title,
+            platform,
+            angle_vi: angle,
+            publish_schedule_vi: schedule
+          });
+          closeModals();
+          await loadEverything();
+          if (pid && state.selectedProjectId === pid) {
+            state.projectDetailSubTab = "media";
+            await loadProjectDetail(pid);
+          }
+          toast("Khối 5 đã sinh xong kịch bản, câu lệnh Google Flow và ảnh bìa chiến dịch Video AI.");
+        });
+      };
+    }
+
     document.getElementById("inp-doc-title").oninput = (e) => {
       document.getElementById("inp-doc-filename").value = `${slugifyVi(e.target.value)}.md`;
     };
@@ -6866,7 +7852,7 @@
       e.preventDefault();
       const btn = e.target.querySelector("button[type='submit']");
       withLock(btn, async () => {
-        const pid = state.financeViewProjectId;
+        const pid = state.selectedProjectId || state.financeViewProjectId;
         if (!pid) throw new Error("Hãy chọn một dự án trước khi tạo tài liệu.");
         const docTitle = document.getElementById("inp-doc-title").value.trim();
         let fname = document.getElementById("inp-doc-filename").value.trim();
@@ -6878,6 +7864,7 @@
         closeModals();
         state.currentDocFile = fname;
         await loadProjectDocs(pid, true);
+        if (state.selectedProjectId === pid) await loadProjectDetail(pid);
         toast("Đã tạo tài liệu mới.");
       });
     };
@@ -6980,8 +7967,8 @@
       const tag = (e.target && e.target.tagName) || "";
       if (["INPUT", "TEXTAREA"].includes(tag) || e.ctrlKey || e.metaKey || e.altKey) return;
 
-      const order = ["command", "missions", "tasks", "staff", "news", "finance"];
-      if (e.key >= "1" && e.key <= "6") {
+      const order = ["command", "projects", "missions", "tasks", "staff", "news", "finance"];
+      if (e.key >= "1" && e.key <= "7") {
         e.preventDefault();
         switchTab(order[Number(e.key) - 1]);
       } else if (e.key.toLowerCase() === "n") {

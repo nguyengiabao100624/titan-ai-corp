@@ -27,6 +27,9 @@ Trước khi bất kỳ sản phẩm hay bản nâng cấp nào được chốt 
 3. **Phòng `#52` (Kiểm tra Hoàn thiện và Lỗi Chức năng):** Đối chiếu 100% yêu cầu đề bài với thực tế để chắc chắn không thiếu chức năng nào và mọi nút bấm, luồng dữ liệu, liên kết chéo đều chạy đúng 0 lỗi.
 4. **Phòng `#49` (Thanh tra Tối giản Thao tác và Diệt Rối mắt):** Bảo đảm khi đã đủ chức năng và 0 lỗi thì giao diện vẫn tối giản, rõ ràng, không rối mắt, tối đa 3 chạm cho tác vụ chính và không có thuật ngữ khó hiểu.
 
+### Cổng Kiểm Định "Chống Web Tập Sự" (`Anti-Amateur Gate` v11.0)
+Bất kỳ sản phẩm nào trình lên Cổng 2 mà giao diện nhìn tầm thường kiểu người mới học làm web, bố cục 1 cột form sơ sài, thiếu tính năng thương mại cốt lõi (quản lý dự án/hồ sơ, mẫu sẵn, phím tắt, Undo/Redo, xử lý hàng loạt) hoặc `Product_Scale_Score < 85/100` sẽ bị `#52`, `#51`, `#49` và `#53` **chặn xuất xưởng ngay lập tức** và phát phiếu `bounce-back` mức `CRITICAL` trả về Khối 2 và Khối 3 nâng cấp đạt chuẩn Workspace Studio!
+
 ## Cơ chế 2 Tổ Chất lượng Nội bộ và Vòng lặp Đẩy trả Sửa lỗi Khép kín
 Bản thân Khối 9 cũng áp dụng kỷ luật tự kiểm chéo và kết nối chặt qua Trạm Tổng hợp Lỗi `#53` với 2 tổ nội bộ của cả 9 Khối:
 1. **Tổ Kiểm thử Đóng vai Người dùng Nội bộ của Khối:** Đóng vai trực tiếp Chủ tịch và 5 nhóm khách hàng thật dùng thử sản phẩm sau tổng hợp để chắc chắn báo cáo nghiệm thu phản ánh đúng trải nghiệm thực tế, không chỉ dựa trên lý thuyết.

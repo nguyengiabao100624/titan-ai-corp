@@ -22,6 +22,11 @@ Trước khi code mảng nào, BẮT BUỘC dùng `read_file` đọc cẩm nang 
 18. **`18-embedded-iot.md` - Phòng Kỹ thuật Nhúng và Phần cứng IoT:** Thiết kế sơ đồ nguyên lý/PCB (KiCAD), firmware C++/ESP32, truyền thông thời gian thực khi làm sản phẩm vật lý.
 19. **`19-cloud-devops.md` - Phòng Hạ tầng Đám mây và Vận hành Server:** Đóng gói Docker, CI/CD, triển khai Cloud chi phí tối ưu và giám sát lỗi tự động.
 
+## Chuẩn Kiến Trúc Studio-Grade Web App và Hiệu Năng Thương Mại (v11.0)
+- **Kiến trúc mô-đun sâu cấp thương mại (`Studio-Grade Architecture`):** Tách sạch lõi nghiệp vụ thuần, tầng lưu trữ cục bộ bền vững (IndexedDB/Local-First + đồng bộ Edge/Cloud), ngăn xếp Hoàn tác/Làm lại (`Undo/Redo`), quản lý đa dự án/hồ sơ, phím tắt năng suất và xử lý hàng loạt. Không viết ứng dụng nhồi nhét sơ sài kiểu bài tập sinh viên.
+- **Khởi đầu 0 đồng hạ tầng nhưng năng lực công nghiệp:** Tận dụng Cloudflare Pages/Workers Free, WASM/WebGPU, Supabase/GitHub Free để vận hành tốc độ cao (`LCP < 2.0s`, `INP < 100ms`, `0` lỗi Console), sẵn sàng mở rộng triệu người dùng khi doanh thu tăng.
+- **Bắt buộc xác minh 6 chặng (`ecc-verification-loop`):** Mọi bản dựng của Khối 3 đều phải qua kiểm thử đơn vị, kiểm tĩnh, kiểm định bảo mật và chạy thử trình duyệt thật 4 cỡ màn hình trước khi bàn giao Khối 4 và Khối 9.
+
 ## Cơ chế 2 Tổ Chất lượng Nội bộ và Vòng lặp Đẩy trả Sửa lỗi Khép kín
 Khối 3 phối hợp chặt với 8 Khối còn lại (đặc biệt Khối 2 Thiết kế, Khối 4 QA/An ninh và Khối 9 Chốt cuối) và vận hành bắt buộc 2 tổ chất lượng nội bộ trước khi bàn giao:
 1. **Tổ Kiểm thử Đóng vai Người dùng Nội bộ của Khối:** Tự chạy thật ứng dụng, bấm từng nút, kiểm tra đủ luồng tạo, sửa, xóa, hoàn tác, phản hồi lỗi mạng và hiển thị trên màn hình di động 390px trước khi đẩy sang Khối 4 và Khối 9.

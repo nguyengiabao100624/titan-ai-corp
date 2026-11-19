@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" role="img" aria-label="Hướng dẫn 6 công cụ xử lý hồ sơ online 100% ngoại tuyến: CCCD, nén dưới 2MB, ký PDF">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1120"/>
+      <stop offset="100%" stop-color="#16243E"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#FFFFFF" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bgGrad)"/>
+  <rect width="1280" height="720" fill="url(#dotGrid)"/>
+  <circle cx="1140" cy="110" r="240" fill="#14B8A6" fill-opacity="0.11"/>
+  <circle cx="140" cy="640" r="210" fill="#6366F1" fill-opacity="0.09"/>
+  <rect x="56" y="48" width="236" height="44" rx="10" fill="#14B8A6" fill-opacity="0.18" stroke="#14B8A6" stroke-width="1.5"/>
+  <text x="74" y="77" fill="#14B8A6" font-size="19" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">YOUTUBE 16:9</text>
+  <rect x="308" y="48" width="256" height="44" rx="10" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.2"/>
+  <text x="436" y="77" text-anchor="middle" fill="#F8FAFC" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">HỒ SƠ RIÊNG TƯ</text>
+  <text x="56" y="148" fill="#6366F1" font-size="20" font-weight="800" letter-spacing="1.1" font-family="Inter, Segoe UI, Arial, sans-serif">CCCD | NÉN &lt;= 2MB | ẢNH 3X4 | KÝ PDF</text>
+  <text x="56" y="216" fill="#FFFFFF" font-size="48" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">HƯỚNG DẪN 6 CÔNG CỤ XỬ</text><text x="56" y="274" fill="#FFFFFF" font-size="48" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">LÝ HỒ SƠ ONLINE 100%</text><text x="56" y="332" fill="#FFFFFF" font-size="48" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">NGOẠI TUYẾN: CCCD, NÉN</text>
+  <rect x="56" y="424" width="584" height="72" rx="14" fill="#14B8A6" fill-opacity="0.18" stroke="#14B8A6" stroke-width="2"/>
+  <text x="348" y="469" text-anchor="middle" fill="#FFFFFF" font-size="26" font-weight="900" font-family="Inter, Segoe UI, Arial, sans-serif">6 CÔNG CỤ HỒ SƠ | MIỄN PHÍ 0Đ</text>
+  <rect x="56" y="516" width="584" height="58" rx="12" fill="#0B1220" fill-opacity="0.82" stroke="#334155" stroke-width="1.4"/>
+  <text x="348" y="552" text-anchor="middle" fill="#E2E8F0" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">Mở link dùng thử miễn phí ở phần mô tả và kiểm...</text>
+  <g><rect x="708" y="158" width="153" height="172" rx="12" fill="#0D192E" stroke="#10B981" stroke-width="2" stroke-opacity="0.8"/><text x="724" y="192" fill="#10B981" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">01</text><text x="724" y="308" fill="#F8FAFC" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">GHÉP CCCD A4</text><rect x="875" y="158" width="153" height="172" rx="12" fill="#0D192E" stroke="#38BDF8" stroke-width="2" stroke-opacity="0.8"/><text x="891" y="192" fill="#38BDF8" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">02</text><text x="891" y="308" fill="#F8FAFC" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">NÉN &lt;= 2MB</text><rect x="1042" y="158" width="153" height="172" rx="12" fill="#0D192E" stroke="#F59E0B" stroke-width="2" stroke-opacity="0.8"/><text x="1058" y="192" fill="#F59E0B" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">03</text><text x="1058" y="308" fill="#F8FAFC" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">ẢNH THẺ 3X4</text><rect x="708" y="344" width="153" height="172" rx="12" fill="#0D192E" stroke="#A78BFA" stroke-width="2" stroke-opacity="0.8"/><text x="724" y="378" fill="#A78BFA" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">04</text><text x="724" y="494" fill="#F8FAFC" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">KÝ TÊN PDF</text><rect x="875" y="344" width="153" height="172" rx="12" fill="#0D192E" stroke="#2DD4BF" stroke-width="2" stroke-opacity="0.8"/><text x="891" y="378" fill="#2DD4BF" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">05</text><text x="891" y="494" fill="#F8FAFC" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">GỘP PDF A4</text><rect x="1042" y="344" width="153" height="172" rx="12" fill="#0D192E" stroke="#F43F5E" stroke-width="2" stroke-opacity="0.8"/><text x="1058" y="378" fill="#F43F5E" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">06</text><text x="1058" y="494" fill="#F8FAFC" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">XÓA GPS ẨN</text></g>
+  <line x1="56" y1="636" x2="1224" y2="636" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.2"/>
+  <text x="56" y="676" fill="#94A3B8" font-size="17" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">TITAN AI CORP | STUDIO TRUYỀN THÔNG KHỐI 5 (#25 - #31)</text>
+  <text x="1224" y="676" text-anchor="end" fill="#14B8A6" font-size="17" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">GOOGLE FLOW / VEO 3.1 READY</text>
+</svg>

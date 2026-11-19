@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280" width="720" height="1280" role="img" aria-label="Còi báo sàn trừ nhầm 10% thuế thay vì 1,5%: Soi file CSV Shopee/TikTok trong 10 giây">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D1021"/>
+      <stop offset="100%" stop-color="#1B1E3B"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#FFFFFF" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="720" height="1280" fill="url(#bgGrad)"/>
+  <rect width="720" height="1280" fill="url(#dotGrid)"/>
+  <circle cx="660" cy="110" r="220" fill="#FB923C" fill-opacity="0.11"/>
+  <circle cx="80" cy="1140" r="240" fill="#EF4444" fill-opacity="0.09"/>
+  <rect x="44" y="48" width="276" height="46" rx="10" fill="#FB923C" fill-opacity="0.18" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="64" y="78" fill="#FB923C" font-size="20" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">FACEBOOK REELS 9:16</text>
+  <rect x="450" y="48" width="226" height="46" rx="10" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.2"/>
+  <text x="563" y="78" text-anchor="middle" fill="#F8FAFC" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">KÉT THUẾ SHOP</text>
+  <text x="52" y="148" fill="#EF4444" font-size="21" font-weight="800" letter-spacing="1.2" font-family="Inter, Segoe UI, Arial, sans-serif">SOI FILE CSV SÀN TRONG 10 GIÂY</text>
+  <text x="52" y="216" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">CÒI BÁO SÀN TRỪ NHẦM</text><text x="52" y="268" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">10% THUẾ THAY VÌ</text><text x="52" y="320" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">1,5%: SOI FILE CSV</text><text x="52" y="372" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">SHOPEE/TIKTOK TRONG</text>
+  
+        <g>
+          <rect x="74" y="486" width="572" height="268" rx="16" fill="#0F1329" stroke="#FB923C" stroke-width="2"/>
+          <rect x="96" y="512" width="528" height="44" rx="8" fill="#1E2548"/>
+          <text x="114" y="540" fill="#CBD5E1" font-size="17" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">MÃ ĐƠN CSV | DOANH THU | THUẾ SÀN TRỪ</text>
+          <rect x="96" y="568" width="528" height="52" rx="8" fill="#3B1222" stroke="#EF4444" stroke-width="2"/>
+          <text x="114" y="600" fill="#FCA5A5" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">SP260419006 | TRỪ NHẦM 10% (CHUẨN 1,5%)</text>
+          <rect x="96" y="632" width="528" height="48" rx="8" fill="#122B27" stroke="#10B981" stroke-width="1.5"/>
+          <text x="114" y="662" fill="#6EE7B7" font-size="18" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">TỰ LỌC ĐƠN BOM | LƯU CỤC BỘ TRÊN MÁY</text>
+        </g>
+        
+  <rect x="44" y="818" width="632" height="82" rx="14" fill="#FB923C" fill-opacity="0.18" stroke="#FB923C" stroke-width="2"/>
+  <text x="360" y="869" text-anchor="middle" fill="#FFFFFF" font-size="28" font-weight="900" font-family="Inter, Segoe UI, Arial, sans-serif">LỆCH 42,5 TRIỆU / 500TR</text>
+  <rect x="44" y="1102" width="632" height="68" rx="12" fill="#0B1220" fill-opacity="0.82" stroke="#334155" stroke-width="1.5"/>
+  <text x="360" y="1144" text-anchor="middle" fill="#E2E8F0" font-size="20" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">Bấm link dưới bình luận thử ngay 15 đơn mẫu thật...</text>
+  <line x1="44" y1="1198" x2="676" y2="1198" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.2"/>
+  <text x="48" y="1238" fill="#94A3B8" font-size="17" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">TITAN AI CORP | STUDIO KHỐI 5</text>
+  <text x="672" y="1238" text-anchor="end" fill="#FB923C" font-size="17" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">GOOGLE FLOW / VEO 3.1</text>
+</svg>

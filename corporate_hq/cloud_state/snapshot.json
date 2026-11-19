@@ -1,6 +1,6 @@
 {
-  "schema_version": "10.0",
-  "exported_at": "2026-11-19T15:00:19Z",
+  "schema_version": "11.0",
+  "exported_at": "2026-11-19T17:10:18Z",
   "bridge": {
     "online": true,
     "mode": "ANTIGRAVITY_SWARM",
@@ -8,7 +8,7 @@
     "swarm_title": "",
     "active_workers": [],
     "note": "Hệ thống điều phối đang trực chiến, sẵn sàng nhận việc tức thì từ máy tính và điện thoại",
-    "last_heartbeat_at": "2026-11-19T15:00:17Z",
+    "last_heartbeat_at": "2026-11-19T17:10:16Z",
     "pending_orders_count": 0,
     "active_orders_count": 0
   },
@@ -241,7 +241,7 @@
       "division_name_vi": "Ban Tổng Giám đốc Điều hành",
       "c_level_title": "Tổng Giám đốc",
       "current_task_title": null,
-      "skills_count": 5,
+      "skills_count": 15,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -288,7 +288,7 @@
       "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
       "c_level_title": "Giám đốc Chiến lược",
       "current_task_title": null,
-      "skills_count": 3,
+      "skills_count": 4,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -429,7 +429,7 @@
       "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
       "c_level_title": "Giám đốc Chiến lược",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 5,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -476,7 +476,7 @@
       "division_name_vi": "Khối 1: Chiến lược, Tình báo Thị trường và Nghiên cứu Công nghệ",
       "c_level_title": "Giám đốc Chiến lược",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 6,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -523,7 +523,7 @@
       "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
       "c_level_title": "Giám đốc Sản phẩm",
       "current_task_title": null,
-      "skills_count": 6,
+      "skills_count": 13,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -570,7 +570,7 @@
       "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
       "c_level_title": "Giám đốc Sản phẩm",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 5,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -600,11 +600,11 @@
       "handbook_version": "4.0",
       "canonical_books": [
         "Mã định danh biên chế:",
-        "Phòng `08` (`@ui-design-system`) — Trực thuộc Khối `div2-product-design`.\n-",
+        "Phòng `08` (`@ui-design-system`), trực thuộc Khối `div2-product-design`.\n-",
         "Tuyến báo cáo trực tiếp:",
-        "@ceo (00) & Khối trưởng CPO.\n-",
+        "`@ceo` (`00`) và Khối trưởng CPO.\n-",
         "Tuyến bàn giao kế tiếp:",
-        "09-motion-designer, 13-frontend-web, 14-mobile-app.\n-"
+        "Sứ mệnh cốt lõi (v11.0):"
       ],
       "token_budget_monthly": 500000,
       "tokens_used": 0,
@@ -617,7 +617,7 @@
       "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
       "c_level_title": "Giám đốc Sản phẩm",
       "current_task_title": null,
-      "skills_count": 9,
+      "skills_count": 20,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -664,7 +664,7 @@
       "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
       "c_level_title": "Giám đốc Sản phẩm",
       "current_task_title": null,
-      "skills_count": 3,
+      "skills_count": 7,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -711,7 +711,7 @@
       "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
       "c_level_title": "Giám đốc Sản phẩm",
       "current_task_title": null,
-      "skills_count": 3,
+      "skills_count": 6,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -758,7 +758,7 @@
       "division_name_vi": "Khối 2: Quản trị Sản phẩm và Thiết kế Thương hiệu",
       "c_level_title": "Giám đốc Sản phẩm",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 5,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -788,11 +788,11 @@
       "handbook_version": "4.0",
       "canonical_books": [
         "Mã định danh biên chế:",
-        "Phòng `12` (`@system-architect`) — Trực thuộc Khối `div3-engineering-ai`.\n-",
+        "Phòng `12` (`@system-architect`), trực thuộc Khối `div3-engineering-ai`.\n-",
         "Tuyến báo cáo trực tiếp:",
-        "@ceo (00) & Khối trưởng CTO.\n-",
+        "`@ceo` (`00`) và Khối trưởng CTO.\n-",
         "Tuyến bàn giao kế tiếp:",
-        "Sứ mệnh cốt lõi:"
+        "Sứ mệnh cốt lõi (v11.0):"
       ],
       "token_budget_monthly": 500000,
       "tokens_used": 0,
@@ -805,7 +805,7 @@
       "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
       "c_level_title": "Giám đốc Công nghệ",
       "current_task_title": null,
-      "skills_count": 7,
+      "skills_count": 19,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -835,11 +835,11 @@
       "handbook_version": "4.0",
       "canonical_books": [
         "Mã định danh biên chế:",
-        "Phòng `13` (`@frontend-web`) — Trực thuộc Khối `div3-engineering-ai`.\n-",
+        "Phòng `13` (`@frontend-web`), trực thuộc Khối `div3-engineering-ai`.\n-",
         "Tuyến báo cáo trực tiếp:",
-        "@ceo (00) & Khối trưởng CTO.\n-",
+        "`@ceo` (`00`) và Khối trưởng CTO.\n-",
         "Tuyến bàn giao kế tiếp:",
-        "20-qa-functional-tester, 21-performance-tester.\n-"
+        "Sứ mệnh cốt lõi (v11.0):"
       ],
       "token_budget_monthly": 500000,
       "tokens_used": 0,
@@ -852,7 +852,7 @@
       "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
       "c_level_title": "Giám đốc Công nghệ",
       "current_task_title": null,
-      "skills_count": 9,
+      "skills_count": 22,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -899,7 +899,7 @@
       "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
       "c_level_title": "Giám đốc Công nghệ",
       "current_task_title": null,
-      "skills_count": 5,
+      "skills_count": 6,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -946,7 +946,7 @@
       "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
       "c_level_title": "Giám đốc Công nghệ",
       "current_task_title": null,
-      "skills_count": 6,
+      "skills_count": 13,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -993,7 +993,7 @@
       "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
       "c_level_title": "Giám đốc Công nghệ",
       "current_task_title": null,
-      "skills_count": 3,
+      "skills_count": 7,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -1040,7 +1040,7 @@
       "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
       "c_level_title": "Giám đốc Công nghệ",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 7,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -1134,7 +1134,7 @@
       "division_name_vi": "Khối 3: Kỹ thuật Phần mềm, Trí tuệ nhân tạo và Phần cứng",
       "c_level_title": "Giám đốc Công nghệ",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 8,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -1181,7 +1181,7 @@
       "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
       "c_level_title": "Giám đốc Chất lượng và Bảo mật",
       "current_task_title": null,
-      "skills_count": 6,
+      "skills_count": 10,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -1228,7 +1228,7 @@
       "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
       "c_level_title": "Giám đốc Chất lượng và Bảo mật",
       "current_task_title": null,
-      "skills_count": 3,
+      "skills_count": 6,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -1322,7 +1322,7 @@
       "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
       "c_level_title": "Giám đốc Chất lượng và Bảo mật",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 6,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -1369,7 +1369,7 @@
       "division_name_vi": "Khối 4: Kiểm định Chất lượng và An ninh mạng",
       "c_level_title": "Giám đốc Chất lượng và Bảo mật",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 7,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -1494,9 +1494,9 @@
       "canonical_books": [
         "Mã định danh biên chế:",
         "Tuyến báo cáo trực tiếp:",
-        "@ceo (00) & Khối trưởng CMO.\n-",
+        "`@ceo` (`#00`) và Khối trưởng Giám đốc Truyền thông (CMO).\n-",
+        "Tuyến phối hợp đầu vào:",
         "Tuyến bàn giao kế tiếp:",
-        "28-ai-audio-producer, 41-ip-policy-guardian.\n-",
         "Sứ mệnh cốt lõi:"
       ],
       "token_budget_monthly": 500000,
@@ -1698,7 +1698,7 @@
       "division_name_vi": "Khối 5: Truyền thông Video, Kênh nội dung và Tăng trưởng",
       "c_level_title": "Giám đốc Truyền thông",
       "current_task_title": null,
-      "skills_count": 7,
+      "skills_count": 8,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -2403,7 +2403,7 @@
       "division_name_vi": "Khối 9: Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
       "c_level_title": "Giám đốc Chất lượng, Phản biện và Trải nghiệm",
       "current_task_title": null,
-      "skills_count": 4,
+      "skills_count": 5,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -2544,7 +2544,7 @@
       "division_name_vi": "Khối 9: Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
       "c_level_title": "Giám đốc Chất lượng, Phản biện và Trải nghiệm",
       "current_task_title": null,
-      "skills_count": 6,
+      "skills_count": 12,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -2574,11 +2574,11 @@
       "handbook_version": "4.0",
       "canonical_books": [
         "Mã định danh biên chế:",
-        "Phòng `50` (`@opportunity-hunter`) — Trực thuộc Khối `div9-critique-ux-lab`.\n-",
+        "Phòng `50` (`@opportunity-hunter`), trực thuộc Khối `div9-critique-ux-lab`.\n-",
         "Tuyến báo cáo trực tiếp:",
-        "Trực tiếp Chủ tịch HĐQT & @ceo.\n-",
+        "Trực tiếp Chủ tịch HĐQT và Tổng Giám đốc `@ceo` (`#00`).\n-",
         "Tuyến bàn giao kế tiếp:",
-        "01-market-intel, 38-pricing-fpa, 46-devils-advocate-biz.\n-"
+        "Sứ mệnh cốt lõi (v11.0):"
       ],
       "token_budget_monthly": 500000,
       "tokens_used": 0,
@@ -2591,7 +2591,7 @@
       "division_name_vi": "Khối 9: Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
       "c_level_title": "Giám đốc Chất lượng, Phản biện và Trải nghiệm",
       "current_task_title": null,
-      "skills_count": 6,
+      "skills_count": 9,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -2638,7 +2638,7 @@
       "division_name_vi": "Khối 9: Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
       "c_level_title": "Giám đốc Chất lượng, Phản biện và Trải nghiệm",
       "current_task_title": null,
-      "skills_count": 9,
+      "skills_count": 18,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -2685,7 +2685,7 @@
       "division_name_vi": "Khối 9: Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
       "c_level_title": "Giám đốc Chất lượng, Phản biện và Trải nghiệm",
       "current_task_title": null,
-      "skills_count": 9,
+      "skills_count": 17,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -2732,7 +2732,7 @@
       "division_name_vi": "Khối 9: Tổng hợp Lỗi, QA/QC, Chức năng và Phản biện",
       "c_level_title": "Giám đốc Chất lượng, Phản biện và Trải nghiệm",
       "current_task_title": null,
-      "skills_count": 9,
+      "skills_count": 13,
       "current_work_title": "",
       "current_work_type": "",
       "current_mission_id": null,
@@ -2753,23 +2753,6 @@
   ],
   "projects": [
     {
-      "project_id": "proj-so-thu-chi-thue-hkd",
-      "slug": "so-thu-chi-thue-hkd",
-      "title": "Két Thuế Shop — Sổ thu chi & Cảnh báo ngưỡng thuế HKD/TMĐT",
-      "objective": "Web App PWA 3 chạm giúp chủ shop Shopee/TikTok & HKD tách Tiền về - Két thuế - Tiền xài được, nhập CSV lọc đơn bom và cảnh báo ngưỡng 1 tỷ / 3 tỷ.",
-      "target_market": "Vietnam & Global",
-      "current_gate": 1,
-      "current_stage": 1,
-      "status": "SHIPPED",
-      "expected_price_vnd": 249000.0,
-      "unit_cost_vnd": 56235.0,
-      "fixed_cost_monthly_vnd": 1500000.0,
-      "workspace_path": "corporate_hq/projects/so-thu-chi-thue-hkd",
-      "version": 3,
-      "created_at": "2026-11-19T07:36:24Z",
-      "updated_at": "2026-11-19T12:00:14Z"
-    },
-    {
       "project_id": "proj-tram-ho-so-rieng-tu",
       "slug": "tram-ho-so-rieng-tu",
       "title": "Hồ Sơ Riêng Tư - Trạm Giấy Tờ và PDF 100% Trên Máy (0đ Hạ tầng)",
@@ -2784,7 +2767,148 @@
       "workspace_path": "corporate_hq/projects/tram-ho-so-rieng-tu",
       "version": 2,
       "created_at": "2026-11-19T14:23:39Z",
-      "updated_at": "2026-11-19T14:58:27Z"
+      "updated_at": "2026-11-19T14:58:27Z",
+      "preview_urls": {
+        "app_url": "./projects/tram-ho-so-rieng-tu/app/index.html",
+        "landing_url": "./projects/tram-ho-so-rieng-tu/go-to-market/landing/index.html",
+        "links": [
+          {
+            "label_vi": "Mở Ứng dụng Live",
+            "label": "Mở Ứng dụng Live",
+            "url": "./projects/tram-ho-so-rieng-tu/app/index.html",
+            "kind": "app"
+          },
+          {
+            "label_vi": "Mở Trang bán hàng",
+            "label": "Mở Trang bán hàng",
+            "url": "./projects/tram-ho-so-rieng-tu/go-to-market/landing/index.html",
+            "kind": "landing"
+          }
+        ]
+      },
+      "files_summary": {
+        "total_files": 25,
+        "app_files": 18,
+        "doc_files": 7,
+        "total_size_kb": 511.37
+      },
+      "total_tasks": 8,
+      "done_tasks": 8,
+      "waiting_tasks": 0,
+      "tasks_summary": {
+        "total": 8,
+        "done": 8,
+        "in_progress": 0,
+        "waiting": 0,
+        "progress_pct": 100
+      },
+      "rework_summary": {
+        "open_count": 0,
+        "recheck_count": 0,
+        "closed_count": 0,
+        "unresolved_count": 0,
+        "total_count": 0
+      },
+      "quality_metrics": {
+        "survival_score": 96,
+        "ux_score": 97,
+        "expected_margin_pct": 93.0,
+        "product_scale_score": 96,
+        "all_9_divisions_covered": true,
+        "mission_id": "msn-bd5ce243",
+        "mission_status": "COMPLETED",
+        "missions_count": 1
+      },
+      "finance_brief": {
+        "actual_revenue_vnd": 0.0,
+        "actual_expense_vnd": 0.0,
+        "actual_tax_vnd": 0.0,
+        "actual_net_profit_vnd": 0.0,
+        "plan_revenue_vnd": 2260000.0,
+        "plan_expense_vnd": 0.0,
+        "plan_tax_vnd": 158200.0,
+        "plan_net_profit_vnd": 2101800.0
+      },
+      "media_campaigns_count": 3
+    },
+    {
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "slug": "so-thu-chi-thue-hkd",
+      "title": "Két Thuế Shop — Sổ thu chi & Cảnh báo ngưỡng thuế HKD/TMĐT",
+      "objective": "Web App PWA 3 chạm giúp chủ shop Shopee/TikTok & HKD tách Tiền về - Két thuế - Tiền xài được, nhập CSV lọc đơn bom và cảnh báo ngưỡng 1 tỷ / 3 tỷ.",
+      "target_market": "Vietnam & Global",
+      "current_gate": 1,
+      "current_stage": 1,
+      "status": "SHIPPED",
+      "expected_price_vnd": 249000.0,
+      "unit_cost_vnd": 56235.0,
+      "fixed_cost_monthly_vnd": 1500000.0,
+      "workspace_path": "corporate_hq/projects/so-thu-chi-thue-hkd",
+      "version": 3,
+      "created_at": "2026-11-19T07:36:24Z",
+      "updated_at": "2026-11-19T12:00:14Z",
+      "preview_urls": {
+        "app_url": "./projects/so-thu-chi-thue-hkd/app/index.html",
+        "landing_url": "./projects/so-thu-chi-thue-hkd/go-to-market/landing/index.html",
+        "links": [
+          {
+            "label_vi": "Mở Ứng dụng Live",
+            "label": "Mở Ứng dụng Live",
+            "url": "./projects/so-thu-chi-thue-hkd/app/index.html",
+            "kind": "app"
+          },
+          {
+            "label_vi": "Mở Trang bán hàng",
+            "label": "Mở Trang bán hàng",
+            "url": "./projects/so-thu-chi-thue-hkd/go-to-market/landing/index.html",
+            "kind": "landing"
+          }
+        ]
+      },
+      "files_summary": {
+        "total_files": 21,
+        "app_files": 13,
+        "doc_files": 8,
+        "total_size_kb": 579.09
+      },
+      "total_tasks": 8,
+      "done_tasks": 8,
+      "waiting_tasks": 0,
+      "tasks_summary": {
+        "total": 8,
+        "done": 8,
+        "in_progress": 0,
+        "waiting": 0,
+        "progress_pct": 100
+      },
+      "rework_summary": {
+        "open_count": 0,
+        "recheck_count": 0,
+        "closed_count": 0,
+        "unresolved_count": 0,
+        "total_count": 0
+      },
+      "quality_metrics": {
+        "survival_score": 88,
+        "ux_score": 95,
+        "expected_margin_pct": 77.4,
+        "product_scale_score": 75,
+        "all_9_divisions_covered": true,
+        "mission_id": "msn-47b19760",
+        "mission_status": "COMPLETED",
+        "missions_count": 1
+      },
+      "finance_brief": {
+        "actual_revenue_vnd": 0.0,
+        "actual_expense_vnd": 0.0,
+        "actual_tax_vnd": 0.0,
+        "actual_net_profit_vnd": 0.0,
+        "plan_revenue_vnd": 12450000.0,
+        "plan_expense_vnd": 3000000.0,
+        "plan_tax_vnd": 871500.0,
+        "plan_net_profit_vnd": 8578500.0
+      },
+      "media_campaigns_count": 3
     }
   ],
   "tasks": [
@@ -5317,6 +5441,78 @@
   ],
   "opportunities": [
     {
+      "opp_id": "opp-afcabbb3",
+      "title": "MotionDeck Studio: Studio Quay Màn Hình Tự Phóng To Điện Ảnh và Tạo Bản Dùng Thử Tương Tác 100% Trên Trình Duyệt",
+      "target_customer": "Nhà sáng lập sản phẩm số, đội tiếp thị tăng trưởng, quản lý sản phẩm, công ty dịch vụ, giảng viên và nhà sáng tạo nội dung Toàn cầu ($12 đến $39/tháng) và Việt Nam (199.000đ đến 599.000đ/tháng)",
+      "pain_point": "Screen Studio thu $29/tháng nhưng khóa cứng độc quyền máy Mac và không cho xuất thử không dính logo; Loom sau khi về tay Atlassian tăng giá $15 đến $24/người/tháng, bóp bản miễn phí xuống 5 phút và thiếu hoàn toàn hiệu ứng phóng to điện ảnh; còn Arcade và Supademo bán $32 đến $500/tháng chỉ làm ảnh bấm tĩnh, không xuất được video 60 khung hình/giây.",
+      "proposed_solution": "Không gian làm việc Studio đa khung chạy ngay trong trình duyệt trên cả Windows và Mac nhờ lõi WebCodecs, Canvas/WebGPU và bộ nhớ cục bộ OPFS: ghi màn hình hoặc kéo thả video thô -> tự động phóng to mượt mà theo điểm bấm chuột bằng thuật toán lò xo, chỉnh sửa dòng thời gian đa lớp có Hoàn tác/Làm lại, chèn phụ đề chuyển động và webcam bo tròn, xuất thẳng video 4K 60fps 0 đồng máy chủ HOẶC xuất liên kết Bản Dùng Thử Tương Tác bấm từng bước có đo lượt xem.",
+      "price_vnd": 299000.0,
+      "est_margin_pct": 87.1,
+      "breakeven_users": 6,
+      "survival_score": 94,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là trình duyệt cũ (như Safari phiên bản thấp) hỗ trợ WebCodecs chưa đồng đều bằng Chrome/Edge, và video dài trên 15 phút có thể ngốn bộ nhớ RAM khi dựng trực tiếp trên máy yếu. Cách chặn: tự động phát hiện năng lực trình duyệt khi mở Studio, ưu tiên luồng dựng từng đoạn (chunked streaming muxer) ghi trực tiếp xuống OPFS thay vì ôm toàn bộ video trong RAM, và cảnh báo nhẹ khuyến nghị Chrome/Edge cho chế độ xuất 4K 60fps.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Không gian Studio chuẩn Linear và Figma với thanh dự án bên trái, khung xem trước trung tâm, dòng thời gian phóng to thông minh bên dưới và thanh thuộc tính bên phải, hỗ trợ phím tắt Ctrl+K. Người mới vào mở dự án mẫu sẵn, bấm quay 15 giây hoặc thả tệp có sẵn là thấy ngay hiệu ứng tự phóng to chuẩn sự kiện Apple trong dưới 30 giây.",
+      "source_url": "https://supademo.com/blog/screen-studio-alternatives",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T17:08:08Z",
+      "updated_at": "2026-11-19T17:08:08Z",
+      "opportunity_tier": "FLAGSHIP_VENTURE",
+      "product_scale_score": 95,
+      "big_corp_moat_vi": "Đánh thắng Screen Studio, Loom và Arcade theo đúng kiểu Photopea đánh Photoshop và Tally đánh Typeform: chạy 100% trên trình duyệt mọi hệ điều hành (giải phóng hàng trăm triệu máy Windows bị Screen Studio bỏ rơi), gộp cả video tự phóng to điện ảnh 60fps lẫn bản dùng thử bấm từng bước trong 1 Workspace duy nhất, cho xuất miễn phí 1080p hào phóng kèm huy hiệu cuối video để lan truyền PLG không tốn quảng cáo, giá Pro chỉ bằng dưới một nửa đối thủ.",
+      "zero_cost_stack_vi": "Khởi đầu 0 đồng cho 0 đến 30.000 người dùng/tháng: giao diện tĩnh trên Cloudflare Pages (miễn phí không giới hạn băng thông), dựng và xuất video 4K 100% trên GPU/CPU máy khách qua WebCodecs và WASM (0 đồng máy chủ render), lưu dự án trên IndexedDB/OPFS, lưu liên kết dùng thử tương tác trên Cloudflare R2 Free (10GB, 0 đồng phí tải ra) và Workers Free (100.000 lượt/ngày). Chỉ nâng cấp lên Cloudflare Workers Paid ($5/tháng) và R2 mở rộng ($20/tháng) khi đã vượt 500 khách trả phí (doanh thu đạt 120 đến 150 triệu/tháng, hạ tầng chiếm dưới 0,6% doanh thu).",
+      "opportunity_tier_vi": "Cơ hội Chiến lược"
+    },
+    {
+      "opp_id": "opp-54e31074",
+      "title": "DuckPulse BI: Studio Phân Tích Dữ Liệu Tốc Độ Ánh Sáng và Bảng Điều Khiển Điều Hành Chạy Lõi DuckDB-WASM Cục Bộ",
+      "target_customer": "Chuyên viên phân tích dữ liệu, quản lý tài chính và vận hành, chủ thương hiệu thương mại điện tử, đội tiếp thị và giám đốc điều hành doanh nghiệp Toàn cầu ($15 đến $49/tháng) và Việt Nam (249.000đ đến 699.000đ/tháng)",
+      "pain_point": "Tableau bán tới $75/người tạo/tháng cộng phí người xem khiến đội 10 người tốn cả nghìn đô mỗi tháng; Power BI ép dùng ứng dụng Windows nặng nề giao diện lỗi thời và gói chia sẻ doanh nghiệp Fabric rất đắt; còn Julius AI ($20 đến $45/tháng) bị người dùng phàn nàn tụt tín dụng quá nhanh, chỉ là khung hỏi đáp rời rạc không dựng được bảng điều khiển dùng lại hàng tuần và bắt tải bảng lương, doanh thu mật lên máy chủ đám mây.",
+      "proposed_solution": "Không gian phân tích dữ liệu đa màn hình chuẩn Stripe và Linear tích hợp thẳng động cơ SQL phân tích DuckDB-WASM ngay trong trình duyệt: kéo thả đồng thời nhiều tệp CSV, Excel, Parquet, JSON nặng hàng trăm MB (hàng triệu dòng) -> truy vấn, gộp bảng, làm sạch trùng lặp bằng giao diện kéo thả hoặc SQL trong dưới 0,5 giây mà dữ liệu tuyệt đối không rời khỏi máy; dựng bảng điều khiển đa biểu đồ có lọc chéo tương tác, mẫu báo cáo sẵn, Hoàn tác/Làm lại và xuất tệp báo cáo tương tác có mật khẩu hoặc đường link chia sẻ cho sếp.",
+      "price_vnd": 379000.0,
+      "est_margin_pct": 86.0,
+      "breakeven_users": 5,
+      "survival_score": 93,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là người dùng văn phòng không biết viết câu lệnh SQL sẽ ngợp nếu màn hình mở lên hiện ngay cửa sổ mã lệnh, và tệp Excel trên 500MB có thể vượt giới hạn bộ nhớ trình duyệt trên thiết bị cũ. Cách chặn: mặc định mở ngay chế độ Biến Đổi Trực Quan không cần gõ mã (lọc, gộp, nhóm, chọn biểu đồ bằng nút bấm, có tùy chọn gõ tiếng Việt tự sinh SQL), kèm cơ chế đọc luồng tệp theo phần và thư viện 15 bộ mẫu báo cáo bán hàng, tài chính, quảng cáo dùng ngay sau 1 cú thả tệp.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Kiến trúc Studio 3 khung chuẩn Stripe gồm cây bảng dữ liệu bên trái, khung lưới dữ liệu chia đôi cùng bảng điều khiển biểu đồ sống ở giữa và thanh chỉnh cột bên phải, hỗ trợ phím tắt Ctrl+K. Chủ shop hoặc kế toán kéo thả tệp Excel bán hàng vào cửa sổ là tự động sinh ngay bảng chỉ số doanh thu, biên lãi và nhóm hàng lỗ trong 10 giây.",
+      "source_url": "https://kepakisan.co.nz/blog/posts/duckdb-static-webapp.html",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T17:08:08Z",
+      "updated_at": "2026-11-19T17:08:08Z",
+      "opportunity_tier": "FLAGSHIP_VENTURE",
+      "product_scale_score": 94,
+      "big_corp_moat_vi": "Đánh thắng Tableau, Power BI và Julius AI bằng kiến trúc Local-First chạy lõi DuckDB-WASM trực tiếp trong trình duyệt: tốc độ xử lý 1 triệu dòng trong nửa giây không cần chờ tải lên máy chủ, bảo mật tuyệt đối dữ liệu kế toán và khách hàng (giải quyết nỗi sợ tuân thủ bảo vệ dữ liệu của doanh nghiệp), không thu phí từng người xem báo cáo và không bóp tín dụng vô lý trên các thao tác lọc, nối bảng, vẽ biểu đồ hàng ngày.",
+      "zero_cost_stack_vi": "Khởi đầu 0 đồng cho 0 đến 50.000 người dùng/tháng: giao diện tĩnh triển khai trên Cloudflare Pages miễn phí, toàn bộ tính toán SQL nặng chạy 100% trên máy người dùng bằng DuckDB-WASM (0 đồng chi phí máy chủ dữ liệu), lưu dự án và mẫu biến đổi trên IndexedDB cục bộ, dùng Cloudflare Workers + D1 Free để lưu cấu hình chia sẻ đường dẫn báo cáo tổng hợp cực nhẹ. Khi đạt 300 khách trả phí (doanh thu đạt 110 đến 150 triệu/tháng), chỉ nâng cấp Cloudflare Workers Paid ($5/tháng) và Supabase/D1 Pro ($25/tháng) chiếm dưới 0,7% doanh thu.",
+      "opportunity_tier_vi": "Cơ hội Chiến lược"
+    },
+    {
+      "opp_id": "opp-d733fc78",
+      "title": "DealCraft Studio: Nền Tảng Phòng Chốt Hợp Đồng Tương Tác, Bảng Giá Tự Chọn Sống, Ký Điện Tử và Thu Cọc 1 Chạm",
+      "target_customer": "Công ty dịch vụ thiết kế, phát triển phần mềm, tiếp thị, kiến trúc, tư vấn B2B và người làm tự do chuyên nghiệp Toàn cầu ($15 đến $39/tháng theo không gian làm việc) và Việt Nam (249.000đ đến 599.000đ/tháng)",
+      "pain_point": "PandaDoc ($19 đến $65/người/tháng), Qwilr ($35 đến $59/người/tháng) và Proposify ($35 đến $65/người/tháng) bị cộng đồng doanh nghiệp nhỏ chê gay gắt vì thu phí theo từng đầu người quá cao (nhóm 5 người tốn $250 đến $325/tháng), khóa tính năng tích hợp sau gói đắt tiền và ép đóng cả năm; còn gửi báo giá PDF tĩnh thì không biết khách đã xem trang nào và phải sửa đi sửa lại mỗi lần khách muốn đổi gói dịch vụ.",
+      "proposed_solution": "Không gian làm việc soạn thảo Phòng Chốt Hợp Đồng đa màn hình chuẩn Notion và Linear: quản lý đường ống thương vụ theo trạng thái, trình soạn thảo khối kéo thả có mẫu ngành sẵn và Hoàn tác/Làm lại, bảng giá tương tác cho phép khách hàng tự tích chọn hạng mục cộng thêm để xem tổng tiền và thuế cập nhật trực tiếp, đo bản đồ nhiệt thời gian khách đọc từng mục, ký tên điện tử có dấu vết kiểm toán thời gian và nút đặt cọc ngay bằng Stripe quốc tế hoặc mã VietQR tự điền số tiền cho thị trường Việt Nam.",
+      "price_vnd": 379000.0,
+      "est_margin_pct": 87.2,
+      "breakeven_users": 5,
+      "survival_score": 92,
+      "critique_note": "Phòng #46 Phản biện: Rủi ro lớn nhất là khách hàng doanh nghiệp truyền thống đòi hỏi tính pháp lý của chữ ký điện tử hoặc vẫn cần bản PDF kẹp sổ kế toán, dẫn đến ngại chuyển từ PDF sang đường dẫn web. Cách chặn: định vị rõ chữ ký xác nhận điện tử đi kèm biên bản nhật ký kiểm toán IP, dấu thời gian, mã băm nội dung làm bằng chứng giao dịch dân sự và thương mại điện tử minh bạch, đồng thời tích hợp nút xuất 1 chạm ra bản hợp đồng PDF chuẩn A4 đóng khung sạch đẹp để khách in ký tươi hoặc lưu kế toán bất cứ lúc nào.",
+      "ux_note": "Phòng #48 Kiểm thử Khách hàng: Không gian làm việc chia khung gồm danh sách thương vụ và thư viện khối mẫu bên trái, trang soạn thảo trực quan ở giữa và thanh cấu hình bảng giá, thuế, màu thương hiệu bên phải kèm bảng lệnh nhanh Ctrl+K. Người làm tự do hoặc nhân viên kinh doanh chọn 1 trong 25 mẫu ngành, đổi giá và gửi đường link chốt hợp đồng sang Zalo/Email cho khách trong dưới 60 giây.",
+      "source_url": "https://nusii.com/blog/best-pandadoc-alternatives/",
+      "status": "NEW",
+      "mission_id": null,
+      "version": 1,
+      "created_at": "2026-11-19T17:08:08Z",
+      "updated_at": "2026-11-19T17:08:08Z",
+      "opportunity_tier": "PLG_PLATFORM",
+      "product_scale_score": 92,
+      "big_corp_moat_vi": "Áp dụng chuẩn công thức Tally thắng Typeform ($6M ARR) và Linear thắng Jira: thu phí phẳng theo không gian làm việc thay vì chặt chém từng đầu người (nhóm 5 đến 15 người tiết kiệm 80% chi phí so với Qwilr và PandaDoc), tích hợp sẵn luồng ký xong thu cọc tức thì kép cả Stripe quốc tế lẫn VietQR ngân hàng Việt Nam, và biến mọi bản chào giá gửi miễn phí (kèm dòng nhỏ ở chân trang) thành một kênh giới thiệu B2B tự nhiên tới chính giám đốc của bên mua.",
+      "zero_cost_stack_vi": "Khởi đầu 0 đồng cho 0 đến 25.000 người dùng/tháng: Studio soạn thảo tĩnh chạy trên Cloudflare Pages miễn phí kết hợp lưu nháp tức thì bằng IndexedDB, xuất bản liên kết Phòng Chốt Hợp Đồng, ghi nhận bản đồ nhiệt lượt xem và lưu bằng chứng chữ ký số trên Cloudflare Workers Free (100.000 lượt gọi/ngày) + Cloudflare D1 Free (5GB, 5 triệu lượt đọc/ngày) + Cloudflare R2 Free (10GB tệp đính kèm). Chỉ nâng cấp lên Cloudflare Workers Paid ($5/tháng) và Resend ($20/tháng) khi đạt 200 đội nhóm trả phí (doanh thu đạt 100 đến 150 triệu/tháng, hạ tầng dưới 0,6% doanh thu).",
+      "opportunity_tier_vi": "Nền tảng Tự lan truyền"
+    },
+    {
       "opp_id": "opp-d73e1179",
       "title": "Ứng dụng Cắt Tấm Alu, Mica 2D, Sắt Hộp 6m và Báo Giá Biển Quảng Cáo 15 Giây (Hạ tầng 0đ)",
       "target_customer": "Chủ xưởng làm biển hiệu quảng cáo, chữ nổi Mica gắn đèn LED, hộp đèn quy mô 2 đến 15 thợ",
@@ -5333,7 +5529,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T12:20:03Z",
-      "updated_at": "2026-11-19T12:20:03Z"
+      "updated_at": "2026-11-19T12:20:03Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-f708286d",
@@ -5352,7 +5553,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T13:01:13Z",
-      "updated_at": "2026-11-19T13:01:13Z"
+      "updated_at": "2026-11-19T13:01:13Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-ba81c04c",
@@ -5371,7 +5577,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T13:01:13Z",
-      "updated_at": "2026-11-19T13:01:13Z"
+      "updated_at": "2026-11-19T13:01:13Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-792cb8f4",
@@ -5390,7 +5601,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T12:20:03Z",
-      "updated_at": "2026-11-19T12:20:03Z"
+      "updated_at": "2026-11-19T12:20:03Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-865ef2e9",
@@ -5409,7 +5625,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T11:29:24Z",
-      "updated_at": "2026-11-19T11:29:24Z"
+      "updated_at": "2026-11-19T11:29:24Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-d0bf991f",
@@ -5428,7 +5649,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T08:46:23Z",
-      "updated_at": "2026-11-19T08:46:23Z"
+      "updated_at": "2026-11-19T08:46:23Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-06b7fa48",
@@ -5447,7 +5673,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T12:20:03Z",
-      "updated_at": "2026-11-19T12:20:03Z"
+      "updated_at": "2026-11-19T12:20:03Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-816d0b3a",
@@ -5466,7 +5697,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T08:46:23Z",
-      "updated_at": "2026-11-19T08:46:23Z"
+      "updated_at": "2026-11-19T08:46:23Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-8a01b35c",
@@ -5485,7 +5721,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T13:01:13Z",
-      "updated_at": "2026-11-19T13:01:13Z"
+      "updated_at": "2026-11-19T13:01:13Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-3d5cb555",
@@ -5504,7 +5745,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T11:29:24Z",
-      "updated_at": "2026-11-19T11:29:24Z"
+      "updated_at": "2026-11-19T11:29:24Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-90dda7a4",
@@ -5523,7 +5769,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-18T21:19:44Z",
-      "updated_at": "2026-11-18T21:19:44Z"
+      "updated_at": "2026-11-18T21:19:44Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-45514bad",
@@ -5542,7 +5793,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T08:46:23Z",
-      "updated_at": "2026-11-19T08:46:23Z"
+      "updated_at": "2026-11-19T08:46:23Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-eef0721f",
@@ -5561,7 +5817,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-18T20:55:24Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:55:24Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-5bb11270",
@@ -5580,7 +5841,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-19T11:29:24Z",
-      "updated_at": "2026-11-19T11:29:24Z"
+      "updated_at": "2026-11-19T11:29:24Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-rem-cua-3cham",
@@ -5599,7 +5865,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-18T20:55:24Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:55:24Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-5ac6006b",
@@ -5618,7 +5889,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-18T20:55:24Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:55:24Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-anh-menu-quan-an",
@@ -5637,7 +5913,12 @@
       "mission_id": null,
       "version": 1,
       "created_at": "2026-11-18T20:55:24Z",
-      "updated_at": "2026-11-18T20:55:24Z"
+      "updated_at": "2026-11-18T20:55:24Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     },
     {
       "opp_id": "opp-tro-ly-thue-hkd",
@@ -5656,7 +5937,12 @@
       "mission_id": "msn-47b19760",
       "version": 2,
       "created_at": "2026-11-18T20:55:24Z",
-      "updated_at": "2026-11-19T07:06:41Z"
+      "updated_at": "2026-11-19T07:06:41Z",
+      "opportunity_tier": "STANDARD",
+      "product_scale_score": 75,
+      "big_corp_moat_vi": "",
+      "zero_cost_stack_vi": "",
+      "opportunity_tier_vi": "Tiêu chuẩn"
     }
   ],
   "orders": [
@@ -12990,6 +13276,105 @@
   ],
   "activity_stream": [
     {
+      "event_id": 352,
+      "event_uid": "51925ce6-9aec-4b3d-a5e5-73c59faaf3d7",
+      "timestamp": "2026-11-19T17:08:08Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội (Nền tảng Tự lan truyền · 92/100): DealCraft Studio: Nền Tảng Phòng Chốt Hợp Đồng Tương Tác, Bảng Giá Tự Chọn Sống, Ký Điện Tử và Thu Cọc 1 Chạm",
+      "detail_json": "{\"opp_id\": \"opp-d733fc78\", \"opportunity_tier\": \"PLG_PLATFORM\", \"product_scale_score\": 92}"
+    },
+    {
+      "event_id": 351,
+      "event_uid": "da8564df-f58c-45fe-bf02-0b7fb7b31e08",
+      "timestamp": "2026-11-19T17:08:08Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội (Cơ hội Chiến lược · 94/100): DuckPulse BI: Studio Phân Tích Dữ Liệu Tốc Độ Ánh Sáng và Bảng Điều Khiển Điều Hành Chạy Lõi DuckDB-WASM Cục Bộ",
+      "detail_json": "{\"opp_id\": \"opp-54e31074\", \"opportunity_tier\": \"FLAGSHIP_VENTURE\", \"product_scale_score\": 94}"
+    },
+    {
+      "event_id": 350,
+      "event_uid": "3a047e91-29c9-4665-8d3a-70c0d9110ecf",
+      "timestamp": "2026-11-19T17:08:08Z",
+      "actor_dept_id": "50",
+      "event_type": "OPPORTUNITY_CREATED",
+      "project_id": null,
+      "task_id": null,
+      "headline_vi": "Phòng #50 đề xuất cơ hội (Cơ hội Chiến lược · 95/100): MotionDeck Studio: Studio Quay Màn Hình Tự Phóng To Điện Ảnh và Tạo Bản Dùng Thử Tương Tác 100% Trên Trình Duyệt",
+      "detail_json": "{\"opp_id\": \"opp-afcabbb3\", \"opportunity_tier\": \"FLAGSHIP_VENTURE\", \"product_scale_score\": 95}"
+    },
+    {
+      "event_id": 349,
+      "event_uid": "0c381434-7091-40cf-a2ce-b30ef197d943",
+      "timestamp": "2026-11-19T17:04:26Z",
+      "actor_dept_id": "27",
+      "event_type": "MEDIA_CAMPAIGN_CREATED",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "task_id": null,
+      "headline_vi": "Khối 5 Studio tạo chiến dịch Video AI (FACEBOOK_REELS): Còi báo sàn trừ nhầm 10% thuế thay vì 1,5%: Soi file CSV Shopee/TikTok trong 10 giây",
+      "detail_json": "{\"campaign_id\": \"camp-kts-reels-trunham10pct\", \"platform\": \"FACEBOOK_REELS\", \"scenes\": 4}"
+    },
+    {
+      "event_id": 348,
+      "event_uid": "b615ea69-c52a-41c1-b64d-62e4d0825585",
+      "timestamp": "2026-11-19T17:04:26Z",
+      "actor_dept_id": "27",
+      "event_type": "MEDIA_CAMPAIGN_CREATED",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "task_id": null,
+      "headline_vi": "Khối 5 Studio tạo chiến dịch Video AI (YOUTUBE_SHORTS): Doanh thu dưới 1 tỷ năm 2026: Cách đối soát đòi hoàn 9 đến 14 triệu thuế sàn trừ thừa",
+      "detail_json": "{\"campaign_id\": \"camp-kts-shorts-hoanthue\", \"platform\": \"YOUTUBE_SHORTS\", \"scenes\": 4}"
+    },
+    {
+      "event_id": 347,
+      "event_uid": "3600dd35-6633-4fc4-bcce-901602f4bc86",
+      "timestamp": "2026-11-19T17:04:26Z",
+      "actor_dept_id": "27",
+      "event_type": "MEDIA_CAMPAIGN_CREATED",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "task_id": null,
+      "headline_vi": "Khối 5 Studio tạo chiến dịch Video AI (TIKTOK): Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
+      "detail_json": "{\"campaign_id\": \"camp-kts-tiktok-bayphisan\", \"platform\": \"TIKTOK\", \"scenes\": 5}"
+    },
+    {
+      "event_id": 346,
+      "event_uid": "055bd2ef-b951-4ed9-aa08-4dca08ccc39d",
+      "timestamp": "2026-11-19T17:04:26Z",
+      "actor_dept_id": "27",
+      "event_type": "MEDIA_CAMPAIGN_CREATED",
+      "project_id": "proj-tram-ho-so-rieng-tu",
+      "task_id": null,
+      "headline_vi": "Khối 5 Studio tạo chiến dịch Video AI (YOUTUBE_LONG): Hướng dẫn 6 công cụ xử lý hồ sơ online 100% ngoại tuyến: CCCD, nén dưới 2MB, ký PDF",
+      "detail_json": "{\"campaign_id\": \"camp-hsrt-ytlong-6congcu\", \"platform\": \"YOUTUBE_LONG\", \"scenes\": 6}"
+    },
+    {
+      "event_id": 345,
+      "event_uid": "fdfb05df-5c19-4106-8e66-2b18d02e668a",
+      "timestamp": "2026-11-19T17:04:26Z",
+      "actor_dept_id": "27",
+      "event_type": "MEDIA_CAMPAIGN_CREATED",
+      "project_id": "proj-tram-ho-so-rieng-tu",
+      "task_id": null,
+      "headline_vi": "Khối 5 Studio tạo chiến dịch Video AI (YOUTUBE_SHORTS): Tự làm 8 ảnh thẻ 3x4 chuẩn in 10x15cm hết 3.000đ, không dính logo bẩn",
+      "detail_json": "{\"campaign_id\": \"camp-hsrt-shorts-anhthe\", \"platform\": \"YOUTUBE_SHORTS\", \"scenes\": 4}"
+    },
+    {
+      "event_id": 344,
+      "event_uid": "9ff115c2-548a-4b82-9c2b-469e108da671",
+      "timestamp": "2026-11-19T17:04:26Z",
+      "actor_dept_id": "27",
+      "event_type": "MEDIA_CAMPAIGN_CREATED",
+      "project_id": "proj-tram-ho-so-rieng-tu",
+      "task_id": null,
+      "headline_vi": "Khối 5 Studio tạo chiến dịch Video AI (TIKTOK): Tắt Wi-Fi vẫn ghép 2 mặt CCCD đóng dấu chìm chống lừa đảo trong 5 giây",
+      "detail_json": "{\"campaign_id\": \"camp-hsrt-tiktok-cccd\", \"platform\": \"TIKTOK\", \"scenes\": 4}"
+    },
+    {
       "event_id": 343,
       "event_uid": "7e4dd7ca-6237-4257-a26f-ad23bf155429",
       "timestamp": "2026-11-19T14:58:27Z",
@@ -15338,7 +15723,7 @@
       "category_vi": "Thương hiệu và Nhận diện",
       "summary_vi": "Áp dụng hệ thống màu thương hiệu, phân cấp kiểu chữ và tỷ lệ không gian nhất quán trên toàn bộ tài liệu giới thiệu, trang sản phẩm, hình ảnh truyền thông và bài thuyết trình.",
       "local_path": "corporate_hq/skills_library/anth-brand-guidelines/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "10",
         "08",
@@ -15358,7 +15743,7 @@
       "category_vi": "Kỹ thuật AI Thực chiến",
       "summary_vi": "Áp dụng các mẫu gọi giao diện lập trình mô hình ngôn ngữ lớn tin cậy: xuất dữ liệu có cấu trúc, gọi công cụ, tối ưu bộ nhớ đệm ngữ cảnh, kiểm soát chi phí token và xử lý lỗi mạng.",
       "local_path": "corporate_hq/skills_library/anth-claude-api/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "16",
         "04",
@@ -15377,7 +15762,7 @@
       "category_vi": "Thẩm định và An toàn AI",
       "summary_vi": "Rèn luyện năng lực kiểm tra chéo giả định, nhận diện thiên kiến xác nhận, phát hiện suy luận thiếu căn cứ của AI và yêu cầu bằng chứng đối chứng trước khi chốt quyết định quan trọng.",
       "local_path": "corporate_hq/skills_library/anth-discernment-nudge/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "22",
         "23",
@@ -15400,7 +15785,7 @@
       "category_vi": "Soạn thảo Tài liệu Chuẩn",
       "summary_vi": "Tổ chức quy trình đồng soạn thảo tài liệu đặc tả, chính sách bảo mật và điều khoản thương mại qua ba chặng: gom bối cảnh, tinh chỉnh từng mục và kiểm định dưới góc nhìn người đọc.",
       "local_path": "corporate_hq/skills_library/anth-doc-coauthoring/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "40",
         "41",
@@ -15421,7 +15806,7 @@
       "category_vi": "Truyền thông Nội bộ",
       "summary_vi": "Định dạng báo cáo tiến độ tuần, biên bản tổng kết sự cố và thông báo điều hành súc tích, đi thẳng vào quyết định và số liệu kiểm chứng giúp lãnh đạo nắm bắt nhanh trong 60 giây.",
       "local_path": "corporate_hq/skills_library/anth-internal-comms/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "44",
         "45",
@@ -15441,7 +15826,7 @@
       "category_vi": "Tích hợp Trí tuệ Nhân tạo",
       "summary_vi": "Thiết kế và triển khai máy chủ công cụ MCP chuẩn hóa cho mô hình AI kết nối dịch vụ bên ngoài, tối ưu mô tả công cụ, xử lý lỗi rõ ràng và kiểm tra an toàn quyền truy cập.",
       "local_path": "corporate_hq/skills_library/anth-mcp-builder/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "16",
         "15",
@@ -15461,7 +15846,7 @@
       "category_vi": "Hồ sơ và Chứng từ",
       "summary_vi": "Trích xuất chính xác bảng số liệu, đối chiếu văn bản quy phạm, điền biểu mẫu và xuất hồ sơ PDF sạch đẹp phục vụ kê khai thuế, hợp đồng thương mại và lưu trữ chứng từ.",
       "local_path": "corporate_hq/skills_library/anth-pdf/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "39",
         "40",
@@ -15481,7 +15866,7 @@
       "category_vi": "Kiểm thử Ứng dụng Web",
       "summary_vi": "Quy trình chạy kiểm thử đầu cuối trên trình duyệt thực bằng Playwright để xác minh luồng thao tác, bắt lỗi bảng điều khiển, chụp ảnh giao diện đa kích thước màn hình và đo ổn định.",
       "local_path": "corporate_hq/skills_library/anth-webapp-testing/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "20",
         "21",
@@ -15502,12 +15887,335 @@
       "category_vi": "Tài chính và Bảng tính",
       "summary_vi": "Xây dựng và kiểm tra mô hình bảng tính chuyên nghiệp với công thức động minh bạch, kiểm soát lỗi tham chiếu, định dạng tiền tệ rõ ràng cho báo cáo lãi lỗ, dòng tiền và nghĩa vụ thuế.",
       "local_path": "corporate_hq/skills_library/anth-xlsx/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "37",
         "38",
         "39",
         "42"
+      ]
+    },
+    {
+      "skill_id": "skl-craft-design-an-interface",
+      "skill_slug": "craft-design-an-interface",
+      "title_vi": "Phương pháp Thiết kế Giao diện Mô-đun Hai Lần để Chọn Phương án Vượt trội",
+      "repo_name": "mattpocock/skills",
+      "source_url": "https://github.com/mattpocock/skills",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"12\", \"15\", \"16\", \"06\", \"00\"]",
+      "category_vi": "Thiết kế Kiến trúc Hai Lần",
+      "summary_vi": "Luôn phác thảo và đối chiếu ít nhất hai phương án kiến trúc khác biệt căn bản về hình dáng mô-đun và hợp đồng gọi trước khi viết mã, bảo đảm giải pháp cuối cùng gọn sạch và dễ mở rộng nhất.",
+      "local_path": "corporate_hq/skills_library/craft-design-an-interface/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "12",
+        "15",
+        "16",
+        "06",
+        "00"
+      ]
+    },
+    {
+      "skill_id": "skl-craft-diagnosing-bugs",
+      "skill_slug": "craft-diagnosing-bugs",
+      "title_vi": "Vòng lặp Chẩn đoán Lỗi Khó và Suy giảm Hiệu năng theo Giả thuyết Thực nghiệm",
+      "repo_name": "mattpocock/skills",
+      "source_url": "https://github.com/mattpocock/skills",
+      "division_code": "div4-qa-cybersecurity",
+      "dept_ids_json": "[\"20\", \"21\", \"12\", \"13\", \"15\", \"51\", \"52\", \"53\"]",
+      "category_vi": "Chẩn đoán Lỗi Chuyên sâu",
+      "summary_vi": "Xử lý triệt để các lỗi phức tạp, lỗi bộ nhớ và suy giảm tốc độ bằng chu trình tái hiện tối thiểu, khoanh vùng bằng số đo thật và kiểm chứng gốc rễ thay vì vá chắp bề mặt.",
+      "local_path": "corporate_hq/skills_library/craft-diagnosing-bugs/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "20",
+        "21",
+        "12",
+        "13",
+        "15",
+        "51",
+        "52",
+        "53"
+      ]
+    },
+    {
+      "skill_id": "skl-craft-gpt-taste",
+      "skill_slug": "craft-gpt-taste",
+      "title_vi": "Tiêu chuẩn Bố cục Biên tập Sắc nét, Lưới Bento và Tương tác Chiều sâu",
+      "repo_name": "titan-curated/gpt-taste",
+      "source_url": "https://github.com/plugin87/ux-ui-agent-skills",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"08\", \"09\", \"13\", \"31\", \"49\"]",
+      "category_vi": "Gu Thẩm mỹ và Bố cục Chuyển đổi",
+      "summary_vi": "Tổ chức trang sản phẩm và trang giới thiệu theo nhịp dẫn dắt mạch lạc, kiểu chữ rộng thoáng không vỡ dòng, lưới thông tin khít nhịp và tương tác mượt mà thuyết phục người dùng ngay từ cái nhìn đầu tiên.",
+      "local_path": "corporate_hq/skills_library/craft-gpt-taste/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "08",
+        "09",
+        "13",
+        "31",
+        "49"
+      ]
+    },
+    {
+      "skill_id": "skl-craft-high-end-visual-design",
+      "skill_slug": "craft-high-end-visual-design",
+      "title_vi": "Thiết kế Giao diện Đẳng cấp Agency Cao cấp Chống Mùi Web Rẻ tiền",
+      "repo_name": "titan-curated/high-end-visual-design",
+      "source_url": "https://github.com/plugin87/ux-ui-agent-skills",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"08\", \"09\", \"10\", \"13\", \"49\", \"00\"]",
+      "category_vi": "Thẩm mỹ Cao cấp Chuẩn Studio",
+      "summary_vi": "Định chuẩn phông chữ, nhịp khoảng trống, lớp bóng đổ tinh tế, cấu trúc thẻ dữ liệu và vi chuyển động giúp giao diện toát lên chất lượng thương mại cao cấp và loại bỏ hoàn toàn kiểu thiết kế AI rập khuôn.",
+      "local_path": "corporate_hq/skills_library/craft-high-end-visual-design/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "08",
+        "09",
+        "10",
+        "13",
+        "49",
+        "00"
+      ]
+    },
+    {
+      "skill_id": "skl-craft-stitch-design-taste",
+      "skill_slug": "craft-stitch-design-taste",
+      "title_vi": "Kiến trúc Hệ thống Thiết kế Ngữ nghĩa, Bố cục Bất đối xứng và Hiệu năng Phần cứng",
+      "repo_name": "titan-curated/stitch-design-taste",
+      "source_url": "https://github.com/plugin87/ux-ui-agent-skills",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"08\", \"06\", \"10\", \"13\", \"49\"]",
+      "category_vi": "Hệ thống Thiết kế Ngữ nghĩa",
+      "summary_vi": "Chuẩn hóa tệp ngôn ngữ thiết kế dùng chung cho toàn dự án với màu sắc hiệu chỉnh tinh tế, bố cục bất đối xứng có tiêu điểm rõ và chuyển động tối ưu phần cứng không giật lag.",
+      "local_path": "corporate_hq/skills_library/craft-stitch-design-taste/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "08",
+        "06",
+        "10",
+        "13",
+        "49"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-api-design",
+      "skill_slug": "ecc-api-design",
+      "title_vi": "Chuẩn Thiết kế REST API Thương mại: Phân trang, Lọc, Mã lỗi và Phiên bản",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/api-design",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"15\", \"12\", \"16\", \"20\", \"52\"]",
+      "category_vi": "Thiết kế Giao diện Lập trình",
+      "summary_vi": "Chuẩn hóa hợp đồng API rõ ràng, nhất quán giữa máy chủ và giao diện, hỗ trợ khóa chống trùng giao dịch, giới hạn tốc độ và phản hồi lỗi minh bạch cho ứng dụng quy mô lớn.",
+      "local_path": "corporate_hq/skills_library/ecc-api-design/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "15",
+        "12",
+        "16",
+        "20",
+        "52"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-backend-patterns",
+      "skill_slug": "ecc-backend-patterns",
+      "title_vi": "Mẫu Kiến trúc Máy chủ Hiệu năng Cao, Bộ nhớ đệm và Tối ưu Truy vấn",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/backend-patterns",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"15\", \"12\", \"17\", \"19\"]",
+      "category_vi": "Kiến trúc Máy chủ",
+      "summary_vi": "Áp dụng kiến trúc tách lớp dịch vụ rõ ràng, xử lý hàng đợi bất đồng bộ, bộ nhớ đệm thông minh và tối ưu tài nguyên để chịu tải lớn ngay cả trên hạ tầng đám mây chi phí tối thiểu.",
+      "local_path": "corporate_hq/skills_library/ecc-backend-patterns/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "15",
+        "12",
+        "17",
+        "19"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-database-migrations",
+      "skill_slug": "ecc-database-migrations",
+      "title_vi": "Kỹ thuật Di trú Lược đồ Dữ liệu Không Gián đoạn và Có thể Khôi phục",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/database-migrations",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"17\", \"19\", \"15\", \"51\"]",
+      "category_vi": "Nâng cấp Cơ sở Dữ liệu An toàn",
+      "summary_vi": "Thực hiện nâng cấp cấu trúc cơ sở dữ liệu theo mô hình mở rộng rồi thu gọn an toàn, bảo vệ 100% dữ liệu người dùng hiện có và ngăn sập dịch vụ khi cập nhật phiên bản mới.",
+      "local_path": "corporate_hq/skills_library/ecc-database-migrations/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "17",
+        "19",
+        "15",
+        "51"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-postgres-patterns",
+      "skill_slug": "ecc-postgres-patterns",
+      "title_vi": "Tối ưu Cơ sở Dữ liệu PostgreSQL, Chỉ mục và Cô lập Dữ liệu Đa Khách hàng",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/postgres-patterns",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"17\", \"15\", \"12\", \"24\"]",
+      "category_vi": "Cơ sở Dữ liệu Nâng cao",
+      "summary_vi": "Thiết kế bảng chuẩn hóa, đánh chỉ mục truy vấn nhanh dưới 10 mili giây, bảo vệ phân quyền từng dòng dữ liệu và tối ưu vận hành trên nền tảng tầng miễn phí như Supabase hoặc Neon.",
+      "local_path": "corporate_hq/skills_library/ecc-postgres-patterns/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "17",
+        "15",
+        "12",
+        "24"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-product-capability",
+      "skill_slug": "ecc-product-capability",
+      "title_vi": "Chuyển hóa Tầm nhìn Sản phẩm thành Bản đồ Năng lực Đầy đủ Tính năng",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/product-capability",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"06\", \"00\", \"12\", \"52\", \"11\"]",
+      "category_vi": "Hoạch định Năng lực Sản phẩm",
+      "summary_vi": "Biến ý tưởng chiến lược thành ma trận năng lực hoàn chỉnh cấp sản phẩm thương mại (quản lý hồ sơ, lịch sử phiên bản, xử lý hàng loạt, cài đặt, xuất dữ liệu) để không bao giờ ra sản phẩm cụt tính năng.",
+      "local_path": "corporate_hq/skills_library/ecc-product-capability/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "06",
+        "00",
+        "12",
+        "52",
+        "11"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-product-lens",
+      "skill_slug": "ecc-product-lens",
+      "title_vi": "Chẩn đoán Sản phẩm Chuẩn Y Combinator Trước Khi Xây Dựng",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/product-lens",
+      "division_code": "exec-board",
+      "dept_ids_json": "[\"00\", \"05\", \"06\", \"50\", \"46\"]",
+      "category_vi": "Chiến lược Sản phẩm Cấp Venture",
+      "summary_vi": "Thẩm định dứt khoát 4 câu hỏi sinh tử trước khi duyệt đầu tư: nỗi đau có lặp lại đủ lớn không, tại sao giải pháp cũ thất bại, hào kỹ thuật giữ chân là gì và con đường doanh thu thực tế ra sao.",
+      "local_path": "corporate_hq/skills_library/ecc-product-lens/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "00",
+        "05",
+        "06",
+        "50",
+        "46"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-production-audit",
+      "skill_slug": "ecc-production-audit",
+      "title_vi": "Kiểm toán Sẵn sàng Thương mại bằng Bằng chứng Thực tế Trước Xuất xưởng",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/production-audit",
+      "division_code": "div9-critique-ux-lab",
+      "dept_ids_json": "[\"51\", \"52\", \"53\", \"19\", \"20\", \"00\"]",
+      "category_vi": "Kiểm toán Sẵn sàng Phát hành",
+      "summary_vi": "Đánh giá khắt khe toàn diện từ trải nghiệm đầu cuối, độ hoàn thiện chức năng, nhật ký lỗi, cấu hình bảo mật đến khả năng khôi phục sự cố trước khi mở cổng bàn giao cho khách hàng thật.",
+      "local_path": "corporate_hq/skills_library/ecc-production-audit/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "51",
+        "52",
+        "53",
+        "19",
+        "20",
+        "00"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-search-first",
+      "skill_slug": "ecc-search-first",
+      "title_vi": "Kỷ luật Tra cứu Công cụ, Thư viện và Giải pháp Hàng đầu Trước Khi Lập trình",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/search-first",
+      "division_code": "div1-strategy-intel",
+      "dept_ids_json": "[\"04\", \"01\", \"12\", \"16\", \"50\", \"00\"]",
+      "category_vi": "Nghiên cứu Trước Khi Xây",
+      "summary_vi": "Khảo sát nhanh hệ sinh thái mã nguồn mở, thư viện chuẩn công nghiệp và đối thủ thực tế trước khi thiết kế để tận dụng lõi mạnh nhất, tránh tự chế lại bánh xe sơ sài và rút ngắn thời gian ra sản phẩm đỉnh cao.",
+      "local_path": "corporate_hq/skills_library/ecc-search-first/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "04",
+        "01",
+        "12",
+        "16",
+        "50",
+        "00"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-security-review",
+      "skill_slug": "ecc-security-review",
+      "title_vi": "Quy trình Kiểm duyệt Bảo mật Xác thực, Dữ liệu Đầu vào, Bí mật và Thanh toán",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/security-review",
+      "division_code": "div4-qa-cybersecurity",
+      "dept_ids_json": "[\"23\", \"24\", \"15\", \"51\", \"53\"]",
+      "category_vi": "Kiểm duyệt Bảo mật Thực chiến",
+      "summary_vi": "Rà soát chuyên sâu mọi điểm chạm rủi ro cao gồm phiên đăng nhập, phân quyền khách hàng, khóa bí mật, chống chèn mã độc và xác thực chữ ký cổng thanh toán trước khi vận hành thật.",
+      "local_path": "corporate_hq/skills_library/ecc-security-review/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "23",
+        "24",
+        "15",
+        "51",
+        "53"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-verification-loop",
+      "skill_slug": "ecc-verification-loop",
+      "title_vi": "Vòng lặp Xác minh Kỹ thuật 6 Chặng: Biên dịch, Kiểu, Kiểm tĩnh, Kiểm thử và Bảo mật",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/verification-loop",
+      "division_code": "div4-qa-cybersecurity",
+      "dept_ids_json": "[\"20\", \"51\", \"52\", \"53\", \"12\", \"13\"]",
+      "category_vi": "Vòng lặp Xác minh 6 Chặng",
+      "summary_vi": "Khóa chất lượng sản phẩm qua 6 lớp kiểm chứng tuần tự bắt buộc sau mọi thay đổi lớn, ngăn chặn triệt để mã nguồn gãy, tính năng thiếu hoặc lỗi hồi quy lọt ra bản phát hành.",
+      "local_path": "corporate_hq/skills_library/ecc-verification-loop/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "20",
+        "51",
+        "52",
+        "53",
+        "12",
+        "13"
+      ]
+    },
+    {
+      "skill_id": "skl-ecc-web-perimeter-owasp-2025",
+      "skill_slug": "ecc-web-perimeter-owasp-2025",
+      "title_vi": "Kiểm toán Vành đai Bảo mật Web Chuẩn OWASP Top 10 Phiên bản 2025",
+      "repo_name": "affaan-m/ECC",
+      "source_url": "https://github.com/affaan-m/ECC/tree/main/skills/web-perimeter-owasp-2025-audit",
+      "division_code": "div4-qa-cybersecurity",
+      "dept_ids_json": "[\"23\", \"19\", \"24\", \"51\"]",
+      "category_vi": "An ninh Web OWASP 2025",
+      "summary_vi": "Kiểm tra thụ động an toàn các lớp bảo vệ tiêu đề HTTP, chính sách nội dung CSP, rò rỉ dữ liệu bộ nhớ đệm CDN và cấu hình tên miền giúp ứng dụng web vững vàng trước tấn công mạng.",
+      "local_path": "corporate_hq/skills_library/ecc-web-perimeter-owasp-2025/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "23",
+        "19",
+        "24",
+        "51"
       ]
     },
     {
@@ -15521,7 +16229,7 @@
       "category_vi": "Quảng cáo và Sáng tạo",
       "summary_vi": "Phát triển đa dạng câu mở đầu, hình ảnh chủ đạo và góc tiếp cận giải quyết vấn đề cho chiến dịch quảng cáo; thiết lập tiêu chí giữ lại hoặc tắt mẫu yếu dựa trên dữ liệu chuyển đổi thật.",
       "local_path": "corporate_hq/skills_library/mkt-ad-creative/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "29",
         "27",
@@ -15540,7 +16248,7 @@
       "category_vi": "Tìm kiếm Thế hệ mới",
       "summary_vi": "Cấu trúc tri thức, dữ liệu xác thực và trang giải đáp câu hỏi chuyên sâu giúp sản phẩm được các hệ thống tìm kiếm AI trích dẫn và đề xuất ưu tiên khi khách hàng tra cứu giải pháp.",
       "local_path": "corporate_hq/skills_library/mkt-ai-seo/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "30",
         "04",
@@ -15558,7 +16266,7 @@
       "category_vi": "Phân tích Dữ liệu",
       "summary_vi": "Xây dựng hệ thống sự kiện đo lường chính xác từ lượt truy cập, kích hoạt, trả phí tới giữ chân; kiểm tra công thức tính toán doanh thu định kỳ để tránh quyết định sai do số liệu lệch.",
       "local_path": "corporate_hq/skills_library/mkt-analytics/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "42",
         "31",
@@ -15577,7 +16285,7 @@
       "category_vi": "Giữ chân Khách hàng",
       "summary_vi": "Nhận diện sớm dấu hiệu giảm tần suất sử dụng, xây dựng luồng tạm dừng hoặc hạ gói hợp lý thay vì hủy hẳn, đồng thời đo lường nguyên nhân rời bỏ để cải tiến sản phẩm đúng gốc.",
       "local_path": "corporate_hq/skills_library/mkt-churn-prevention/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "36",
         "35",
@@ -15596,7 +16304,7 @@
       "category_vi": "Kinh doanh và Tiếp cận",
       "summary_vi": "Viết chuỗi thư tiếp cận ngắn gọn, cá nhân hóa theo đúng bối cảnh doanh nghiệp mục tiêu, tránh ngôn ngữ quảng cáo lộ liễu và mở ra cuộc trò chuyện tư vấn thực chất.",
       "local_path": "corporate_hq/skills_library/mkt-cold-email/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "32",
         "33",
@@ -15614,7 +16322,7 @@
       "category_vi": "Phân tích Đối thủ",
       "summary_vi": "Thiết kế trang so sánh minh bạch giữa sản phẩm của mình với đối thủ lớn theo từng tiêu chí giá bán, tốc độ triển khai và độ phù hợp thực tế để đón lượng tìm kiếm có ý định mua cao.",
       "local_path": "corporate_hq/skills_library/mkt-competitor-alternatives/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "03",
         "30",
@@ -15628,16 +16336,19 @@
       "repo_name": "coreyhaines31/marketingskills",
       "source_url": "https://github.com/coreyhaines31/marketingskills/tree/main/skills/competitor-profiling",
       "division_code": "div1-strategy-intel",
-      "dept_ids_json": "[\"03\", \"01\", \"50\", \"46\"]",
+      "dept_ids_json": "[\"03\", \"01\", \"50\", \"46\", \"00\", \"05\", \"06\"]",
       "category_vi": "Phân tích Đối thủ",
       "summary_vi": "Xây dựng hồ sơ theo dõi đối thủ có mốc thời gian rõ ràng về bảng giá, tính năng cốt lõi, thông điệp định vị, điểm yếu bị khách hàng phàn nàn và khoảng trống thị trường có thể chiếm lĩnh.",
       "local_path": "corporate_hq/skills_library/mkt-competitor-profiling/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "03",
         "01",
         "50",
-        "46"
+        "46",
+        "00",
+        "05",
+        "06"
       ]
     },
     {
@@ -15651,7 +16362,7 @@
       "category_vi": "Chiến lược Nội dung",
       "summary_vi": "Xác định cụm chủ đề mũi nhọn gắn chặt với nhu cầu mua hàng, sắp xếp ưu tiên sản xuất nội dung theo mức độ tác động tới doanh thu và xây dựng hệ thống phân phối lại trên nhiều nền tảng.",
       "local_path": "corporate_hq/skills_library/mkt-content-strategy/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "25",
         "26",
@@ -15670,7 +16381,7 @@
       "category_vi": "Nội dung và Chuyển đổi",
       "summary_vi": "Soạn thảo nội dung trang chủ, trang đích và trang bảng giá sắc bén, tập trung lợi ích cụ thể của người mua, loại bỏ câu chữ sáo rỗng và dẫn dắt rõ ràng tới hành động đăng ký.",
       "local_path": "corporate_hq/skills_library/mkt-copywriting/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "26",
         "25",
@@ -15690,7 +16401,7 @@
       "category_vi": "Nghiên cứu Thị trường",
       "summary_vi": "Thu thập và phân tích phỏng vấn, đánh giá thực tế và phản hồi của khách hàng mục tiêu nhằm rút ra nỗi đau thật, ngôn ngữ khách hàng tự dùng và động cơ ra quyết định chi tiền.",
       "local_path": "corporate_hq/skills_library/mkt-customer-research/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "01",
         "02",
@@ -15710,7 +16421,7 @@
       "category_vi": "Chiến lược Ra mắt",
       "summary_vi": "Điều phối chiến dịch ra mắt theo từng chặng từ giai đoạn tích lũy danh sách chờ, thử nghiệm kín với nhóm khách đầu tiên cho đến ngày công bố rộng rãi để tạo đà tăng trưởng liên tục.",
       "local_path": "corporate_hq/skills_library/mkt-launch-strategy/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "06",
         "11",
@@ -15729,7 +16440,7 @@
       "category_vi": "Tâm lý Học Khách hàng",
       "summary_vi": "Áp dụng các mô hình tâm lý học hành vi như neo giá, bằng chứng xã hội, giảm ma sát nhận thức và ác cảm mất mát để thiết kế thông điệp, trang bán hàng và cơ chế thuyết phục khách hàng trung thực.",
       "local_path": "corporate_hq/skills_library/mkt-marketing-psychology/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "02",
         "05",
@@ -15748,7 +16459,7 @@
       "category_vi": "Mô hình Kinh doanh",
       "summary_vi": "Cấu trúc lại lời chào hàng xoay quanh kết quả đo được, cơ chế cam kết giảm rủi ro, quà tặng đi kèm thực dụng và lý do hành động minh bạch giúp tăng mạnh tỷ lệ khách hàng đồng ý trả tiền.",
       "local_path": "corporate_hq/skills_library/mkt-offers/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "05",
         "33",
@@ -15768,7 +16479,7 @@
       "category_vi": "Bàn giao Khách hàng",
       "summary_vi": "Thiết kế trải nghiệm phiên sử dụng đầu tiên dẫn khách hàng tới kết quả thành công đầu tiên thật nhanh, cắt bỏ bước thiết lập rườm rà và cung cấp dữ liệu mẫu sẵn để dùng ngay.",
       "local_path": "corporate_hq/skills_library/mkt-onboarding-cro/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "35",
         "07",
@@ -15787,7 +16498,7 @@
       "category_vi": "Tối ưu Chuyển đổi",
       "summary_vi": "Kiểm tra điểm rơi khách hàng trên trang bán hàng, tinh giản số trường nhập liệu, làm nổi bật bằng chứng tin cậy và sắp xếp thứ tự thay đổi mang lại tỷ lệ chuyển đổi cao nhất.",
       "local_path": "corporate_hq/skills_library/mkt-page-cro/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "31",
         "08",
@@ -15802,16 +16513,18 @@
       "repo_name": "coreyhaines31/marketingskills",
       "source_url": "https://github.com/coreyhaines31/marketingskills/tree/main/skills/pricing",
       "division_code": "div7-finance-tax-legal",
-      "dept_ids_json": "[\"38\", \"05\", \"37\", \"46\"]",
+      "dept_ids_json": "[\"38\", \"05\", \"37\", \"46\", \"00\", \"50\"]",
       "category_vi": "Định giá và Tài chính",
       "summary_vi": "Thiết kế thang gói cước theo giá trị mang lại cho khách hàng, chọn đơn vị tính phí phù hợp, kiểm tra ngưỡng sẵn sàng chi trả và lên kế hoạch điều chỉnh giá mà không làm khách hàng rời bỏ.",
       "local_path": "corporate_hq/skills_library/mkt-pricing-strategy/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "38",
         "05",
         "37",
-        "46"
+        "46",
+        "00",
+        "50"
       ]
     },
     {
@@ -15825,7 +16538,7 @@
       "category_vi": "Tăng trưởng Đối tác",
       "summary_vi": "Xây dựng cơ chế thưởng hai chiều, chính sách hoa hồng đối tác liên kết bền vững biên lợi nhuận và quy trình chia sẻ đơn giản để biến khách hàng hài lòng thành kênh bán hàng tự nhiên.",
       "local_path": "corporate_hq/skills_library/mkt-referrals/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "34",
         "31",
@@ -15843,7 +16556,7 @@
       "category_vi": "Vận hành Doanh thu",
       "summary_vi": "Chuẩn hóa tiêu chí chấm điểm khách hàng tiềm năng, quy tắc chuyển giao liền mạch giữa bộ phận tiếp thị và đội bán hàng, kèm tự động hóa nhắc chăm sóc để không thất thoát cơ hội.",
       "local_path": "corporate_hq/skills_library/mkt-revops/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "32",
         "33",
@@ -15862,7 +16575,7 @@
       "category_vi": "Chốt đơn và Tư vấn",
       "summary_vi": "Chuẩn bị tài liệu giới thiệu 1 trang, bảng so sánh giá trị đầu tư, kịch bản giải đáp băn khoăn phổ biến và câu chuyện khách hàng thực tế để rút ngắn chu kỳ chốt hợp đồng.",
       "local_path": "corporate_hq/skills_library/mkt-sales-enablement/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "33",
         "32",
@@ -15880,7 +16593,7 @@
       "category_vi": "Tìm kiếm Tự nhiên",
       "summary_vi": "Chẩn đoán toàn diện kỹ thuật thu thập dữ liệu, tốc độ tải trang, cấu trúc thẻ tiêu đề, liên kết nội bộ và chất lượng nội dung nhằm kéo thứ hạng tìm kiếm tự nhiên tăng trưởng ổn định.",
       "local_path": "corporate_hq/skills_library/mkt-seo-audit/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "30",
         "13",
@@ -15898,7 +16611,7 @@
       "category_vi": "Sản xuất Video và Âm thanh",
       "summary_vi": "Lựa chọn định dạng quay màn hình, đồ họa chuyển động hay video giới thiệu sản phẩm phù hợp từng mục tiêu; chuẩn hóa kịch bản phân cảnh, nhịp dựng hình và chất lượng giọng đọc rõ ràng.",
       "local_path": "corporate_hq/skills_library/mkt-video/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "27",
         "28",
@@ -15913,17 +16626,23 @@
       "repo_name": "mattpocock/skills",
       "source_url": "https://github.com/mattpocock/skills/tree/main/skills/engineering/codebase-design",
       "division_code": "div3-engineering-ai",
-      "dept_ids_json": "[\"12\", \"15\", \"17\", \"18\", \"14\"]",
+      "dept_ids_json": "[\"12\", \"15\", \"17\", \"18\", \"14\", \"00\", \"06\", \"13\", \"16\", \"51\", \"52\"]",
       "category_vi": "Kiến trúc Phần mềm",
       "summary_vi": "Áp dụng nguyên lý mô-đun sâu với giao diện gọi đơn giản nhưng bao bọc độ phức tạp bên trong, giảm phụ thuộc chéo và giúp hệ thống dễ kiểm thử tự động cũng như mở rộng lâu dài.",
       "local_path": "corporate_hq/skills_library/mp-codebase-design/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "12",
         "15",
         "17",
         "18",
-        "14"
+        "14",
+        "00",
+        "06",
+        "13",
+        "16",
+        "51",
+        "52"
       ]
     },
     {
@@ -15937,7 +16656,7 @@
       "category_vi": "Mô hình hóa Dữ liệu",
       "summary_vi": "Thiết lập ngôn ngữ chung nhất quán giữa nghiệp vụ, cơ sở dữ liệu và mã nguồn; ghi lại quyết định kiến trúc cùng từ điển thực thể để loại bỏ hiểu nhầm khi nhiều phòng ban phối hợp.",
       "local_path": "corporate_hq/skills_library/mp-domain-modeling/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "17",
         "12",
@@ -15956,7 +16675,7 @@
       "category_vi": "Bảo mật Vận hành",
       "summary_vi": "Xây dựng cơ chế chặn sớm các thao tác phá hủy dữ liệu hoặc ghi đè lịch sử mã nguồn, bảo vệ ranh giới khóa bí mật và lưu dấu kiểm toán chặt chẽ trong quy trình phát triển.",
       "local_path": "corporate_hq/skills_library/mp-git-guardrails/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "23",
         "24",
@@ -15975,7 +16694,7 @@
       "category_vi": "Phản biện Chuyên sâu",
       "summary_vi": "Chất vấn từng nhánh quyết định của kế hoạch kinh doanh và thiết kế sản phẩm tới tận cùng giả định, ép lộ rõ rủi ro ẩn và yêu cầu phương án dự phòng cụ thể trước khi duyệt triển khai.",
       "local_path": "corporate_hq/skills_library/mp-grilling/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "46",
         "47",
@@ -15996,7 +16715,7 @@
       "category_vi": "Tái cấu trúc Hệ thống",
       "summary_vi": "Phân tích kho mã nguồn hiện có để phát hiện các lớp trung gian mỏng, điểm nghẽn phụ thuộc và lập kế hoạch tái cấu trúc từng bước an toàn mà không làm gãy tính năng đang chạy.",
       "local_path": "corporate_hq/skills_library/mp-improve-codebase-architecture/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "12",
         "13",
@@ -16015,7 +16734,7 @@
       "category_vi": "Nghiên cứu Nguồn Gốc",
       "summary_vi": "Điều tra câu hỏi kỹ thuật và thị trường trực tiếp từ tài liệu gốc chính thức, đối chiếu nguồn sơ cấp và đóng gói thành tài liệu tra cứu chuẩn hóa trong kho tri thức nội bộ.",
       "local_path": "corporate_hq/skills_library/mp-research/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "01",
         "04",
@@ -16030,16 +16749,18 @@
       "repo_name": "obra/superpowers",
       "source_url": "https://github.com/obra/superpowers/tree/main/skills/brainstorming",
       "division_code": "exec-board",
-      "dept_ids_json": "[\"00\", \"05\", \"06\", \"50\"]",
+      "dept_ids_json": "[\"00\", \"05\", \"06\", \"50\", \"08\", \"12\"]",
       "category_vi": "Điều hành và Thiết kế",
       "summary_vi": "Quy trình làm rõ mục tiêu, đặt câu hỏi cốt lõi, so sánh nhiều phương án giải pháp và thống nhất kiến trúc ngắn gọn trước khi bắt tay viết mã hay phát triển tính năng mới.",
       "local_path": "corporate_hq/skills_library/sp-brainstorming/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "00",
         "05",
         "06",
-        "50"
+        "50",
+        "08",
+        "12"
       ]
     },
     {
@@ -16053,7 +16774,7 @@
       "category_vi": "Điều phối Đa Tác tử",
       "summary_vi": "Phân tách bài toán lớn thành nhiều mảng độc lập không xung đột tệp tin, giao rõ phạm vi sở hữu cho từng chuyên gia thực thi đồng thời rồi tổng hợp và kiểm định tích hợp chặt chẽ.",
       "local_path": "corporate_hq/skills_library/sp-dispatching-parallel-agents/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "00",
         "11",
@@ -16073,7 +16794,7 @@
       "category_vi": "Kiểm duyệt Mã nguồn",
       "summary_vi": "Đối chiếu mã nguồn thay đổi với yêu cầu nghiệp vụ, kiểm tra lỗ hổng bảo mật, điều kiện biên, rò rỉ tài nguyên và chất lượng kiến trúc trước khi gộp vào nhánh chính.",
       "local_path": "corporate_hq/skills_library/sp-requesting-code-review/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "20",
         "23",
@@ -16094,7 +16815,7 @@
       "category_vi": "Gỡ lỗi và Chẩn đoán",
       "summary_vi": "Cấm đoán mò và vá tạm; buộc tái hiện lỗi ổn định, thu thập nhật ký thực tế, kiểm chứng giả thuyết từng bước để tìm đúng căn nguyên sâu nhất rồi khóa bằng bài kiểm thử tự động.",
       "local_path": "corporate_hq/skills_library/sp-systematic-debugging/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "12",
         "15",
@@ -16117,7 +16838,7 @@
       "category_vi": "Kỹ thuật Phần mềm",
       "summary_vi": "Kỷ luật viết bài kiểm thử thất bại trước khi viết mã thực thi, chỉ viết lượng mã tối giản đủ để vượt qua bài kiểm thử rồi mới tối ưu cấu trúc nhằm ngăn ngừa lỗi hồi quy.",
       "local_path": "corporate_hq/skills_library/sp-test-driven-development/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "15",
         "16",
@@ -16140,7 +16861,7 @@
       "category_vi": "Kiểm định Bằng chứng",
       "summary_vi": "Tuyệt đối không tuyên bố hoàn thành khi chưa chạy lại lệnh kiểm chứng ngay sau chỉnh sửa cuối cùng và đọc tận mắt kết quả đầu ra xác nhận toàn bộ kiểm thử đều đạt.",
       "local_path": "corporate_hq/skills_library/sp-verification-before-completion/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "20",
         "21",
@@ -16164,7 +16885,7 @@
       "category_vi": "Lập Kế hoạch Thực thi",
       "summary_vi": "Chia nhỏ yêu cầu phức tạp thành danh sách tác vụ nguyên tử kèm đường dẫn tệp cần sửa, lệnh chạy kiểm thử và tiêu chí hoàn thành cụ thể để mọi thành viên triển khai không sai lệch.",
       "local_path": "corporate_hq/skills_library/sp-writing-plans/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "00",
         "11",
@@ -16183,11 +16904,164 @@
       "category_vi": "Đào tạo Nhân sự AI",
       "summary_vi": "Hướng dẫn biên soạn cẩm nang kỹ năng súc tích, có ví dụ thực tế, kiểm thử khả năng tuân thủ trên tình huống khó để nhân sự AI áp dụng nhất quán trong mọi tác vụ.",
       "local_path": "corporate_hq/skills_library/sp-writing-skills/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "45",
         "44",
         "00"
+      ]
+    },
+    {
+      "skill_id": "skl-uimax-design-system",
+      "skill_slug": "uimax-design-system",
+      "title_vi": "Xây dựng Hệ thống Thiết kế 3 Tầng Token và Đặc tả Thành phần Thương mại",
+      "repo_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "source_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"08\", \"10\", \"13\", \"09\"]",
+      "category_vi": "Hệ thống Thiết kế",
+      "summary_vi": "Tổ chức chặt chẽ biến nguyên thủy, biến ngữ nghĩa và biến thành phần kèm quy chuẩn khoảng cách, trạng thái tương tác và tài liệu chuẩn hóa dùng chung giữa đội thiết kế và kỹ thuật.",
+      "local_path": "corporate_hq/skills_library/uimax-design-system/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "08",
+        "10",
+        "13",
+        "09"
+      ]
+    },
+    {
+      "skill_id": "skl-uimax-ui-styling",
+      "skill_slug": "uimax-ui-styling",
+      "title_vi": "Kỹ thuật Dựng Giao diện Cao cấp Truy cập Chuẩn phong cách Linear và Stripe",
+      "repo_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "source_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"13\", \"08\", \"49\"]",
+      "category_vi": "Kỹ thuật Tạo kiểu Giao diện",
+      "summary_vi": "Kết hợp mẫu thành phần hộp thoại, bảng lệnh nhanh, thanh bên và bảng dữ liệu mật độ hợp lý giúp người dùng làm việc nhiều giờ mà vẫn nhẹ mắt và đạt năng suất cao.",
+      "local_path": "corporate_hq/skills_library/uimax-ui-styling/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "13",
+        "08",
+        "49"
+      ]
+    },
+    {
+      "skill_id": "skl-uimax-ui-ux-pro-max",
+      "skill_slug": "uimax-ui-ux-pro-max",
+      "title_vi": "Trí tuệ Thiết kế UI/UX Cấp Studio Đa nền tảng Chống Giao diện Tập sự",
+      "repo_name": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "source_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"08\", \"07\", \"06\", \"13\", \"49\", \"00\"]",
+      "category_vi": "Thiết kế Giao diện Studio",
+      "summary_vi": "Hệ thống tri thức lựa chọn kiến trúc không gian làm việc, bảng màu ngành nghề, cặp phông chữ và phân cấp thị giác sắc sảo, giúp sản phẩm vượt hẳn kiểu giao diện biểu mẫu học bài tầm thường.",
+      "local_path": "corporate_hq/skills_library/uimax-ui-ux-pro-max/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "08",
+        "07",
+        "06",
+        "13",
+        "49",
+        "00"
+      ]
+    },
+    {
+      "skill_id": "skl-vercel-composition-patterns",
+      "skill_slug": "vercel-composition-patterns",
+      "title_vi": "Mẫu Tổ hợp Thành phần Giao diện Quy mô Lớn chuẩn Vercel",
+      "repo_name": "vercel-labs/agent-skills",
+      "source_url": "https://github.com/vercel-labs/agent-skills/tree/main/skills/composition-patterns",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"13\", \"12\", \"08\", \"52\"]",
+      "category_vi": "Kiến trúc Thành phần Web",
+      "summary_vi": "Thiết kế cây thành phần linh hoạt cho không gian làm việc phức tạp kiểu Studio bằng thành phần tổ hợp, tách biệt rõ trạng thái và hành vi, tránh phình thuộc tính rời rạc khi mở rộng sản phẩm.",
+      "local_path": "corporate_hq/skills_library/vercel-composition-patterns/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "13",
+        "12",
+        "08",
+        "52"
+      ]
+    },
+    {
+      "skill_id": "skl-vercel-react-best-practices",
+      "skill_slug": "vercel-react-best-practices",
+      "title_vi": "Chuẩn Tối ưu Hiệu năng React và Next.js từ Đội ngũ Kỹ thuật Vercel",
+      "repo_name": "vercel-labs/agent-skills",
+      "source_url": "https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"13\", \"12\", \"21\", \"08\", \"51\"]",
+      "category_vi": "Hiệu năng Giao diện Hiện đại",
+      "summary_vi": "Bộ nguyên tắc tối ưu hiệu năng giao diện cấp sản xuất thương mại: triệt tiêu chuỗi tải tuần tự, tách gói mã thông minh, tối ưu kết xuất phía máy chủ và giữ độ phản hồi mượt mà trên mọi thiết bị.",
+      "local_path": "corporate_hq/skills_library/vercel-react-best-practices/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "13",
+        "12",
+        "21",
+        "08",
+        "51"
+      ]
+    },
+    {
+      "skill_id": "skl-vercel-react-native-skills",
+      "skill_slug": "vercel-react-native-skills",
+      "title_vi": "Chuẩn Xây dựng Ứng dụng Di động Hiệu năng Cao React Native và Expo",
+      "repo_name": "vercel-labs/agent-skills",
+      "source_url": "https://github.com/vercel-labs/agent-skills/tree/main/skills/react-native-skills",
+      "division_code": "div3-engineering-ai",
+      "dept_ids_json": "[\"14\", \"12\", \"21\"]",
+      "category_vi": "Kỹ thuật Di động Cao cấp",
+      "summary_vi": "Tối ưu danh sách cuộn lớn, bộ nhớ hình ảnh, điều hướng mượt mà và trải nghiệm cảm ứng chuẩn thiết bị gốc trên cả Android và iOS cho các sản phẩm di động thương mại.",
+      "local_path": "corporate_hq/skills_library/vercel-react-native-skills/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "14",
+        "12",
+        "21"
+      ]
+    },
+    {
+      "skill_id": "skl-vercel-react-view-transitions",
+      "skill_slug": "vercel-react-view-transitions",
+      "title_vi": "Kỹ thuật Chuyển cảnh Mượt mà Chuẩn Ứng dụng Gốc bằng View Transition",
+      "repo_name": "vercel-labs/agent-skills",
+      "source_url": "https://github.com/vercel-labs/agent-skills/tree/main/skills/react-view-transitions",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"09\", \"08\", \"13\"]",
+      "category_vi": "Chuyển động và Vi tương tác",
+      "summary_vi": "Áp dụng chuyển cảnh tự nhiên giữa các màn hình, thanh ngăn kéo và trạng thái dữ liệu ở tốc độ 60 khung hình mỗi giây mà không làm nặng trình duyệt hay gây khó chịu cho người dùng.",
+      "local_path": "corporate_hq/skills_library/vercel-react-view-transitions/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "09",
+        "08",
+        "13"
+      ]
+    },
+    {
+      "skill_id": "skl-vercel-web-design-guidelines",
+      "skill_slug": "vercel-web-design-guidelines",
+      "title_vi": "Bộ Quy chuẩn Thẩm định Giao diện Web Chuyên nghiệp chuẩn Vercel",
+      "repo_name": "vercel-labs/agent-skills",
+      "source_url": "https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines",
+      "division_code": "div2-product-design",
+      "dept_ids_json": "[\"08\", \"13\", \"49\", \"51\", \"52\"]",
+      "category_vi": "Chuẩn mực Giao diện Quốc tế",
+      "summary_vi": "Danh mục kiểm định chi tiết từng pixel, kiểu chữ, phím tắt, tiêu điểm bàn phím, biểu mẫu, trạng thái chờ và tương tác di động giúp ứng dụng đạt cảm giác tinh xảo như phần mềm thương mại quốc tế.",
+      "local_path": "corporate_hq/skills_library/vercel-web-design-guidelines/SKILL.md",
+      "installed_at": "2026-11-19T17:10:17Z",
+      "dept_ids": [
+        "08",
+        "13",
+        "49",
+        "51",
+        "52"
       ]
     },
     {
@@ -16201,7 +17075,7 @@
       "category_vi": "Kiểm định Chất lượng Giao diện",
       "summary_vi": "Đánh giá toàn diện giao diện theo tiêu chuẩn WCAG 2.2 mức AA và AAA, kiểm tra tỷ lệ tương phản chữ nền, điều hướng bằng bàn phím, thuộc tính ARIA và trả về danh sách điểm cần khắc phục theo mức độ ưu tiên.",
       "local_path": "corporate_hq/skills_library/xias-a11y-audit/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "20",
         "08",
@@ -16222,7 +17096,7 @@
       "category_vi": "Thương hiệu và Nhận diện",
       "summary_vi": "Tạo nền tảng hệ thống thiết kế thương hiệu hoàn chỉnh từ bản tóm tắt sản phẩm, bao gồm bảng màu, kiểu chữ, biến thiết kế sáng tối và tệp chủ đề đã kiểm chứng tỷ lệ tương phản rõ ràng.",
       "local_path": "corporate_hq/skills_library/xias-brandkit/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "10",
         "08",
@@ -16241,7 +17115,7 @@
       "category_vi": "Phản biện Trải nghiệm",
       "summary_vi": "Đóng vai hội đồng thẩm định độc lập soi chiếu sản phẩm đã hiển thị thực tế để phát hiện điểm rối mắt, bố cục thừa thãi, thao tác rườm rà và lập luận rõ lý do cần chỉnh sửa trước khi phát hành.",
       "local_path": "corporate_hq/skills_library/xias-critique/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "49",
         "48",
@@ -16263,7 +17137,7 @@
       "category_vi": "Trực quan hóa Dữ liệu",
       "summary_vi": "Xây dựng màn hình phân tích nhiều chỉ số tài chính và vận hành với biểu đồ vẽ trực tiếp từ biến màu chuẩn, bảo đảm độ rõ nét nhãn số liệu, chống lệch bố cục và tương phản đạt chuẩn ở cả chế độ sáng và tối.",
       "local_path": "corporate_hq/skills_library/xias-data-dashboard/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "42",
         "08",
@@ -16282,7 +17156,7 @@
       "category_vi": "Kỹ thuật Giao diện",
       "summary_vi": "Triển khai mã nguồn giao diện sẵn sàng vận hành thực tế theo biến thiết kế chuẩn trên Web, di động và nhiều nền tảng mà không ghi cứng mã màu hay kích thước, bảo đảm tương thích bàn phím và trình đọc màn hình.",
       "local_path": "corporate_hq/skills_library/xias-design-code/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "13",
         "14",
@@ -16300,7 +17174,7 @@
       "category_vi": "Hệ thống Thiết kế Giao diện",
       "summary_vi": "Xây dựng bản thiết kế chuẩn cho từng thành phần giao diện như nút bấm, ô nhập liệu, thẻ chuyển mục, hộp thoại và danh sách chọn; định nghĩa rõ cấu trúc giải phẫu, kích thước, 8 trạng thái tương tác và khả năng truy cập bàn phím.",
       "local_path": "corporate_hq/skills_library/xias-design-component/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "08",
         "09",
@@ -16319,7 +17193,7 @@
       "category_vi": "Hệ thống Thiết kế Giao diện",
       "summary_vi": "Quy chuẩn nền tảng cho mọi màn hình và thành phần giao diện: xác minh bằng cổng kiểm tra tự động, tuyệt đối không dùng biểu tượng cảm xúc, dùng biến thiết kế theo ngữ nghĩa, đảm bảo đủ 8 trạng thái tương tác và giữ một tiêu điểm thị giác rõ ràng.",
       "local_path": "corporate_hq/skills_library/xias-design-doctrine/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "08",
         "06",
@@ -16338,7 +17212,7 @@
       "category_vi": "Hệ thống Thiết kế Giao diện",
       "summary_vi": "Thiết kế và kiểm định hệ thống biến chuẩn DTCG gồm 3 tầng nguyên thủy, ngữ nghĩa và thành phần; hỗ trợ giao diện sáng tối chuẩn không gian màu OKLCH, tỷ lệ chữ, khoảng cách, bóng đổ và độ bo góc đồng nhất.",
       "local_path": "corporate_hq/skills_library/xias-design-tokens/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "08",
         "10",
@@ -16356,7 +17230,7 @@
       "category_vi": "Hiệu năng và Tốc độ",
       "summary_vi": "Tối ưu tốc độ hiển thị nội dung chính, độ mượt phản hồi tương tác và chống xô lệch bố cục cho ứng dụng web trên thiết bị cấu hình thấp, kết hợp chiến lược tách mã và quy chuẩn chuyển động mượt mà.",
       "local_path": "corporate_hq/skills_library/xias-performance/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "21",
         "13",
@@ -16377,7 +17251,7 @@
       "category_vi": "Trải nghiệm Người dùng",
       "summary_vi": "Xây dựng lời dẫn giao diện ngắn gọn, rõ ràng và dễ hiểu cho nút bấm, nhãn biểu mẫu, trạng thái chưa có dữ liệu và thông báo lỗi theo công thức chuyện gì đã xảy ra, nguyên nhân và cách xử lý ngay.",
       "local_path": "corporate_hq/skills_library/xias-ux-writing/SKILL.md",
-      "installed_at": "2026-11-19T13:27:39Z",
+      "installed_at": "2026-11-19T17:10:17Z",
       "dept_ids": [
         "07",
         "35",
@@ -16785,5 +17659,388 @@
       "ceo_escalation_count": 0,
       "ceo_assign_count": 0
     }
-  }
+  },
+  "media_campaigns": [
+    {
+      "campaign_id": "camp-hsrt-tiktok-cccd",
+      "project_id": "proj-tram-ho-so-rieng-tu",
+      "title": "Tắt Wi-Fi vẫn ghép 2 mặt CCCD đóng dấu chìm chống lừa đảo trong 5 giây",
+      "platform": "TIKTOK",
+      "angle_vi": "Đánh thẳng nỗi sợ lộ ảnh 2 mặt CCCD trơn qua Zalo hoặc web nước ngoài bị kẻ gian lấy vay nợ đen. Chứng minh bằng mắt thật: bật Chế độ Máy bay ngay trên điện thoại mà Hồ Sơ Riêng Tư vẫn ghép 2 mặt CCCD lên trang A4 và đóng dấu chìm nghiêng chống lạm dụng, 0 byte tải lên mạng theo Nghị định 13/2023/NĐ-CP.",
+      "hook_3s_vi": "Dừng ngay việc gửi ảnh 2 mặt CCCD trơn qua Zalo hay tải lên web nước ngoài kẻo bị kẻ gian lợi dụng vay nợ đen!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Dừng ngay việc gửi ảnh 2 mặt CCCD trơn qua Zalo hay tải lên web nước ngoài kẻo bị kẻ gian lợi dụng vay nợ đen!\n[04s - 10s | Chứng minh ngoại tuyến] Nhìn thanh trạng thái điện thoại này: mình vừa bật Chế độ Máy bay, tắt sạch Wi-Fi lẫn 4G nhưng trang Hồ Sơ Riêng Tư vẫn chạy bình thường 100%.\n[11s - 22s | Demo 3 chạm #cccd] Chọn ảnh mặt trước và mặt sau CCCD mẫu, chạm 1 nút đóng dòng dấu chìm nghiêng: Chỉ dùng thuê nhà ngày hôm nay, không có giá trị vay vốn. Bấm xuất ngay 1 trang PDF A4 chuẩn in, xong trong 5 giây và bấm nút Đỏ xóa sạch RAM tức thì.\n[23s - 28s | CTA] Hoàn toàn miễn phí 0đ, không chèn logo, 0 byte gửi ra ngoài. Lưu video này và gửi ngay vào nhóm Zalo gia đình cho bố mẹ cùng biết nhé!",
+      "google_flow_scenes_json": "[{\"scene_no\": 1, \"duration_sec\": 5, \"shot_type\": \"Extreme Close-Up Hook\", \"visual_prompt_flow\": \"9:16 vertical cinematic close-up. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Holding up a modern smartphone toward the lens showing a blurred sample ID card graphic with a crisp red warning ring, urgent yet trustworthy expression. Quick smooth push-in camera move, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 photorealistic 4K, no garbled text.\", \"voiceover_vi\": \"Dừng ngay việc gửi ảnh 2 mặt CCCD trơn qua Zalo hay tải lên web nước ngoài kẻo bị kẻ gian lợi dụng vay nợ đen!\", \"sfx_music_vi\": \"Tiếng bass nhấn cảnh báo 0.3s, nhịp điện tử sạch 116 BPM mở vào\", \"on_screen_text_vi\": \"Đừng gửi ảnh CCCD trơn lên web lạ!\"}, {\"scene_no\": 2, \"duration_sec\": 6, \"shot_type\": \"Macro Status Bar Airplane Mode Proof\", \"visual_prompt_flow\": \"9:16 vertical macro top-down shot of a thumb swiping down a smartphone quick-settings panel and tapping Airplane Mode ON, Wi-Fi and cellular icons turning off cleanly, then switching back to a dark-slate browser workspace that stays active. Razor-sharp focus, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic.\", \"voiceover_vi\": \"Mở Hồ Sơ Riêng Tư xong, bạn cứ bật hẳn Chế độ Máy bay tắt sạch Wi-Fi mà trang vẫn chạy 100% trên máy.\", \"sfx_music_vi\": \"Tiếng công tắc gạt click rõ ràng + hiệu ứng không khí yên tĩnh\", \"on_screen_text_vi\": \"Bật Chế độ Máy bay -> Vẫn chạy 100%\"}, {\"scene_no\": 3, \"duration_sec\": 10, \"shot_type\": \"Over-the-Shoulder Live Tool Demo\", \"visual_prompt_flow\": \"9:16 vertical over-the-shoulder shot of hands on smartphone tapping two placeholder ID cards into a clean A4 layout grid, subtle diagonal protective watermark appearing across the card layout, followed by an emerald green PDF download confirmation badge. Smooth micro-pan, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.\", \"voiceover_vi\": \"Chọn 2 mặt CCCD, chạm 1 nút đóng dấu chìm ghi rõ mục đích và ngày gửi, xuất ngay trang A4 rõ nét rồi bấm Xóa sạch bộ nhớ.\", \"sfx_music_vi\": \"3 tiếng chạm giao diện nhịp nhàng + âm báo hoàn tất xanh dịu\", \"on_screen_text_vi\": \"Đóng dấu chìm + Xuất A4 trong 5 giây\"}, {\"scene_no\": 4, \"duration_sec\": 7, \"shot_type\": \"Medium Shot Trust CTA\", \"visual_prompt_flow\": \"9:16 vertical medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Calm confident smile, holding the phone casually at chest height with an emerald security shield glow subtly reflected on the desk surface, gesturing cleanly toward the bio link area. Smooth slow pull-back, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 4K clean finish.\", \"voiceover_vi\": \"Miễn phí 0đ, 0 byte tải lên mạng. Lưu video và gửi ngay vào nhóm Zalo gia đình cho cả nhà cùng dùng nhé!\", \"sfx_music_vi\": \"Nhạc nền kết gọn dứt khoát với hợp âm sáng\", \"on_screen_text_vi\": \"0đ Miễn phí | Gửi nhóm Zalo gia đình\"}]",
+      "thumbnail_prompt_flow": "9:16 vertical high-contrast YouTube Shorts / TikTok cover photography. Vietnamese tech creator in slate crewneck holding smartphone with Airplane Mode icon visible and a crisp glowing emerald privacy shield, deep obsidian navy studio background, dramatic rim light, space at top for bold Vietnamese CTR headline.",
+      "thumbnail_svg_path": "corporate_hq/projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-tiktok-cccd.svg",
+      "seo_title_vi": "Cách ghép 2 mặt CCCD vào 1 trang A4 và đóng dấu chìm chống lừa đảo (tắt Wi-Fi vẫn chạy)",
+      "seo_description_vi": "Hướng dẫn ghép 2 mặt CCCD lên trang A4 và chèn dấu chìm ghi rõ mục đích chống vay nợ đen ngay trên trình duyệt bằng Hồ Sơ Riêng Tư. Xử lý 100% cục bộ trên máy, bật Chế độ Máy bay vẫn chạy, 0 byte tải lên máy chủ ngoài, miễn phí 0đ không chèn logo, tuân thủ nguyên tắc bảo vệ dữ liệu cá nhân Nghị định 13/2023/NĐ-CP.",
+      "hashtags": "#HoSoRiengTu #GhepCCCD #DongDauChimCCCD #ChongLuaDao #CongCuOffline #TitanAICorp",
+      "cta_vi": "Bấm link Hồ Sơ Riêng Tư ở đầu trang, bật Chế độ Máy bay để tự kiểm chứng miễn phí 0đ!",
+      "publish_schedule_vi": "11:30 và 20:00 Thứ 3, Thứ 5, Chủ Nhật (TikTok + Ghim đầu trang)",
+      "status": "FLOW_READY",
+      "publish_url": "",
+      "created_at": "2026-11-19T17:04:26Z",
+      "updated_at": "2026-11-19T17:04:26Z",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 5,
+          "shot_type": "Extreme Close-Up Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic close-up. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Holding up a modern smartphone toward the lens showing a blurred sample ID card graphic with a crisp red warning ring, urgent yet trustworthy expression. Quick smooth push-in camera move, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 photorealistic 4K, no garbled text.",
+          "voiceover_vi": "Dừng ngay việc gửi ảnh 2 mặt CCCD trơn qua Zalo hay tải lên web nước ngoài kẻo bị kẻ gian lợi dụng vay nợ đen!",
+          "sfx_music_vi": "Tiếng bass nhấn cảnh báo 0.3s, nhịp điện tử sạch 116 BPM mở vào",
+          "on_screen_text_vi": "Đừng gửi ảnh CCCD trơn lên web lạ!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 6,
+          "shot_type": "Macro Status Bar Airplane Mode Proof",
+          "visual_prompt_flow": "9:16 vertical macro top-down shot of a thumb swiping down a smartphone quick-settings panel and tapping Airplane Mode ON, Wi-Fi and cellular icons turning off cleanly, then switching back to a dark-slate browser workspace that stays active. Razor-sharp focus, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic.",
+          "voiceover_vi": "Mở Hồ Sơ Riêng Tư xong, bạn cứ bật hẳn Chế độ Máy bay tắt sạch Wi-Fi mà trang vẫn chạy 100% trên máy.",
+          "sfx_music_vi": "Tiếng công tắc gạt click rõ ràng + hiệu ứng không khí yên tĩnh",
+          "on_screen_text_vi": "Bật Chế độ Máy bay -> Vẫn chạy 100%"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 10,
+          "shot_type": "Over-the-Shoulder Live Tool Demo",
+          "visual_prompt_flow": "9:16 vertical over-the-shoulder shot of hands on smartphone tapping two placeholder ID cards into a clean A4 layout grid, subtle diagonal protective watermark appearing across the card layout, followed by an emerald green PDF download confirmation badge. Smooth micro-pan, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Chọn 2 mặt CCCD, chạm 1 nút đóng dấu chìm ghi rõ mục đích và ngày gửi, xuất ngay trang A4 rõ nét rồi bấm Xóa sạch bộ nhớ.",
+          "sfx_music_vi": "3 tiếng chạm giao diện nhịp nhàng + âm báo hoàn tất xanh dịu",
+          "on_screen_text_vi": "Đóng dấu chìm + Xuất A4 trong 5 giây"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 7,
+          "shot_type": "Medium Shot Trust CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Calm confident smile, holding the phone casually at chest height with an emerald security shield glow subtly reflected on the desk surface, gesturing cleanly toward the bio link area. Smooth slow pull-back, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 4K clean finish.",
+          "voiceover_vi": "Miễn phí 0đ, 0 byte tải lên mạng. Lưu video và gửi ngay vào nhóm Zalo gia đình cho cả nhà cùng dùng nhé!",
+          "sfx_music_vi": "Nhạc nền kết gọn dứt khoát với hợp âm sáng",
+          "on_screen_text_vi": "0đ Miễn phí | Gửi nhóm Zalo gia đình"
+        }
+      ]
+    },
+    {
+      "campaign_id": "camp-hsrt-shorts-anhthe",
+      "project_id": "proj-tram-ho-so-rieng-tu",
+      "title": "Tự làm 8 ảnh thẻ 3x4 chuẩn in 10x15cm hết 3.000đ, không dính logo bẩn",
+      "platform": "YOUTUBE_SHORTS",
+      "angle_vi": "So sánh trực diện nỗi đau chụp ảnh thẻ ngoài tiệm mất 80.000đ hoặc dùng web AI nước ngoài bị dán logo giữa mặt ép trả thẻ quốc tế 200.000đ với Hồ Sơ Riêng Tư: tự chụp trước tường sáng, đổi nền xanh/trắng ngay trên máy và dàn sẵn tờ 8 ảnh 3x4 (hoặc 4 ảnh 4x6) khổ 10x15cm 300 DPI đi rửa hết đúng 3.000đ.",
+      "hook_3s_vi": "Đừng tốn 80 nghìn ra tiệm chụp ảnh thẻ hay mất 200 nghìn gỡ logo web ngoại nữa, tự dàn 8 ảnh 3x4 in hết đúng 3 nghìn đồng!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Đừng tốn 80 nghìn ra tiệm chụp ảnh thẻ hay mất 200 nghìn gỡ logo web ngoại nữa, tự dàn 8 ảnh 3x4 in hết đúng 3 nghìn đồng!\n[04s - 12s | Chạm nỗi đau] Mùa nộp hồ sơ xin việc, thực tập hay hộ chiếu mà lên mấy web ngoại chỉnh xong nó đóng cái logo to đùng giữa mặt bắt nạp tiền rất ức chế.\n[13s - 24s | Demo #idphoto] Bạn cứ đứng trước tường sáng tự chụp bằng điện thoại, mở mục Ảnh thẻ trên Hồ Sơ Riêng Tư, chọn cỡ 3x4 hoặc 4x6, bấm đổi nền xanh dương hoặc trắng ngay trên máy. Xuất 1 ảnh đơn miễn phí 0đ không logo, hoặc xuất tờ dàn sẵn 8 ảnh khổ 10x15cm 300 DPI mang ra tiệm rửa ảnh hết đúng 3.000đ.\n[25s - 30s | CTA] Xử lý hoàn toàn trên điện thoại, ảnh mặt bạn không gửi lên máy chủ nào cả. Bấm link ở phần mô tả lưu dùng cả năm nhé!",
+      "google_flow_scenes_json": "[{\"scene_no\": 1, \"duration_sec\": 6, \"shot_type\": \"Split-Screen Price Shock Hook\", \"visual_prompt_flow\": \"9:16 vertical cinematic shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Holding a crisp glossy 10x15cm photo print sheet showing eight neat blue-background 3x4 passport photos, smiling with energetic curiosity in a bright modern studio desk setting. Crisp 35mm depth of field, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 photorealistic.\", \"voiceover_vi\": \"Đừng tốn 80 nghìn ra tiệm chụp ảnh thẻ hay mất 200 nghìn gỡ logo web ngoại nữa, tự dàn 8 ảnh 3x4 in hết đúng 3 nghìn đồng!\", \"sfx_music_vi\": \"Tiếng máy ảnh chụp tách gọn + nhịp pop nhẹ trẻ trung 120 BPM\", \"on_screen_text_vi\": \"80.000đ -> 3.000đ cho 8 ảnh thẻ 3x4\"}, {\"scene_no\": 2, \"duration_sec\": 7, \"shot_type\": \"Portrait Capture Transformation\", \"visual_prompt_flow\": \"9:16 vertical shot of a 22-year-old Vietnamese university student standing against a bright plain indoor wall taking a neat front-facing portrait with a smartphone. Clean soft window light eliminating harsh shadows, realistic natural skin tone, 50mm lens f/2.0, cinematic clarity.\", \"voiceover_vi\": \"Chỉ cần đứng trước tường sáng tự chụp một tấm chân dung bằng điện thoại, không cần chỉnh sửa phức tạp.\", \"sfx_music_vi\": \"Tiếng bấm màn trập sắc + chuyển cảnh mượt\", \"on_screen_text_vi\": \"Bước 1: Chụp ảnh trước tường sáng\"}, {\"scene_no\": 3, \"duration_sec\": 10, \"shot_type\": \"Macro Canvas UI Transformation\", \"visual_prompt_flow\": \"9:16 vertical close-up on smartphone screen running a minimalist web app. Portrait background cleanly switches to crisp ID-photo cobalt blue, then locks into a 4x2 grid of 8 neat 3x4 photos with thin cut guidelines on a 10x15cm white sheet. Sharp screen focus, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.\", \"voiceover_vi\": \"Vào mục Ảnh thẻ trên Hồ Sơ Riêng Tư, chọn cỡ 3x4, đổi nền xanh dương hoặc trắng hộ chiếu, bấm xuất tờ dàn 8 ảnh 10x15cm chuẩn 300 DPI không dính logo.\", \"sfx_music_vi\": \"Hiệu ứng chuyển nền mềm + tiếng tải tệp hoàn tất\", \"on_screen_text_vi\": \"Bước 2: Đổi nền + Dàn 8 ảnh 10x15cm\"}, {\"scene_no\": 4, \"duration_sec\": 7, \"shot_type\": \"Medium Shot Student Result CTA\", \"visual_prompt_flow\": \"9:16 vertical medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Placing the crisp printed 8-photo sheet next to a job application folder on the oak desk, giving a relaxed thumbs-up gesture toward the camera. Warm daylight rim light, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic 4K.\", \"voiceover_vi\": \"Gửi tiệm in 1 tấm hết 3.000đ. Sinh viên và gia đình lưu ngay link bên dưới để dùng cả năm miễn phí không logo nhé!\", \"sfx_music_vi\": \"Nhạc nền khép lại gọn tươi, nhấn âm thanh lưu video\", \"on_screen_text_vi\": \"Miễn phí 0đ không logo | Link dưới mô tả\"}]",
+      "thumbnail_prompt_flow": "9:16 vertical bright high-contrast cover shot. Clean white 10x15cm photo print sheet displaying 8 sharp cobalt-blue 3x4 ID photos held in foreground over deep cobalt studio background, crisp amber price comparison accent zone, commercial editorial lighting, zero watermark, photorealistic.",
+      "thumbnail_svg_path": "corporate_hq/projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-shorts-anhthe.svg",
+      "seo_title_vi": "Cách tự làm ảnh thẻ 3x4, 4x6 đổi nền xanh và dàn 8 ảnh khổ 10x15cm không logo",
+      "seo_description_vi": "Tự tạo ảnh thẻ 3x4 và 4x6 ngay trên điện thoại với Hồ Sơ Riêng Tư: đổi nền xanh dương/trắng hộ chiếu, dàn sẵn 8 ảnh 3x4 hoặc 4 ảnh 4x6 trên khổ 10x15cm 300 DPI mang đi in hết 3.000đ. Ảnh đơn miễn phí 0đ không logo bản quyền, xử lý 100% cục bộ không gửi ảnh khuôn mặt lên máy chủ ngoài.",
+      "hashtags": "#AnhThe3x4 #DanAnh10x15 #HoSoRiengTu #MeoSinhVien #XinViec2026 #YouTubeShorts",
+      "cta_vi": "Dùng miễn phí 0đ không logo ở link ghim bình luận và chia sẻ vào nhóm lớp sinh viên!",
+      "publish_schedule_vi": "12:00 và 19:30 Thứ 2, Thứ 4, Thứ 6 (YouTube Shorts + Cross-post Reels)",
+      "status": "FLOW_READY",
+      "publish_url": "",
+      "created_at": "2026-11-19T17:04:26Z",
+      "updated_at": "2026-11-19T17:04:26Z",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Split-Screen Price Shock Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Holding a crisp glossy 10x15cm photo print sheet showing eight neat blue-background 3x4 passport photos, smiling with energetic curiosity in a bright modern studio desk setting. Crisp 35mm depth of field, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 photorealistic.",
+          "voiceover_vi": "Đừng tốn 80 nghìn ra tiệm chụp ảnh thẻ hay mất 200 nghìn gỡ logo web ngoại nữa, tự dàn 8 ảnh 3x4 in hết đúng 3 nghìn đồng!",
+          "sfx_music_vi": "Tiếng máy ảnh chụp tách gọn + nhịp pop nhẹ trẻ trung 120 BPM",
+          "on_screen_text_vi": "80.000đ -> 3.000đ cho 8 ảnh thẻ 3x4"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 7,
+          "shot_type": "Portrait Capture Transformation",
+          "visual_prompt_flow": "9:16 vertical shot of a 22-year-old Vietnamese university student standing against a bright plain indoor wall taking a neat front-facing portrait with a smartphone. Clean soft window light eliminating harsh shadows, realistic natural skin tone, 50mm lens f/2.0, cinematic clarity.",
+          "voiceover_vi": "Chỉ cần đứng trước tường sáng tự chụp một tấm chân dung bằng điện thoại, không cần chỉnh sửa phức tạp.",
+          "sfx_music_vi": "Tiếng bấm màn trập sắc + chuyển cảnh mượt",
+          "on_screen_text_vi": "Bước 1: Chụp ảnh trước tường sáng"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 10,
+          "shot_type": "Macro Canvas UI Transformation",
+          "visual_prompt_flow": "9:16 vertical close-up on smartphone screen running a minimalist web app. Portrait background cleanly switches to crisp ID-photo cobalt blue, then locks into a 4x2 grid of 8 neat 3x4 photos with thin cut guidelines on a 10x15cm white sheet. Sharp screen focus, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Vào mục Ảnh thẻ trên Hồ Sơ Riêng Tư, chọn cỡ 3x4, đổi nền xanh dương hoặc trắng hộ chiếu, bấm xuất tờ dàn 8 ảnh 10x15cm chuẩn 300 DPI không dính logo.",
+          "sfx_music_vi": "Hiệu ứng chuyển nền mềm + tiếng tải tệp hoàn tất",
+          "on_screen_text_vi": "Bước 2: Đổi nền + Dàn 8 ảnh 10x15cm"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 7,
+          "shot_type": "Medium Shot Student Result CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Placing the crisp printed 8-photo sheet next to a job application folder on the oak desk, giving a relaxed thumbs-up gesture toward the camera. Warm daylight rim light, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic 4K.",
+          "voiceover_vi": "Gửi tiệm in 1 tấm hết 3.000đ. Sinh viên và gia đình lưu ngay link bên dưới để dùng cả năm miễn phí không logo nhé!",
+          "sfx_music_vi": "Nhạc nền khép lại gọn tươi, nhấn âm thanh lưu video",
+          "on_screen_text_vi": "Miễn phí 0đ không logo | Link dưới mô tả"
+        }
+      ]
+    },
+    {
+      "campaign_id": "camp-hsrt-ytlong-6congcu",
+      "project_id": "proj-tram-ho-so-rieng-tu",
+      "title": "Hướng dẫn 6 công cụ xử lý hồ sơ online 100% ngoại tuyến: CCCD, nén dưới 2MB, ký PDF",
+      "platform": "YOUTUBE_LONG",
+      "angle_vi": "Video hướng dẫn toàn diện chuẩn SEO/GEO cho công dân Việt Nam hay nộp Cổng Dịch vụ công, BHXH, hộ chiếu, xin việc: chứng minh kiến trúc Zero-Upload tắt mạng vẫn chạy đủ 6 công cụ (#cccd, #compress, #idphoto, #sign, #merge, #exif), giải thích trung thực gói 0đ lõi vs gói 15.000đ trả lẻ và 59.000đ/năm VietQR.",
+      "hook_3s_vi": "11 giờ đêm nộp Cổng Dịch vụ công bị báo lỗi vượt quá 2 MB, lại ngại tải ảnh CCCD lên web nước ngoài? Đây là 1 trang web tắt Wi-Fi vẫn giải quyết gọn trọn 6 việc giấy tờ!",
+      "script_vi": "[00:00 - 00:25 | Mở đầu & Tự kiểm chứng tắt Wi-Fi] 11 giờ đêm nộp hồ sơ bị báo lỗi quá 2 MB mà sợ tải giấy tờ lên web lạ? Hôm nay mình sẽ thử ngắt hẳn Wi-Fi trên máy tính để kiểm chứng trọn bộ 6 công cụ của Hồ Sơ Riêng Tư.\n[00:25 - 01:30 | Công cụ 1: Ghép 2 mặt CCCD + Dấu chìm] Ghép chuẩn tỷ lệ ISO/IEC 7810 lên A4, chèn chữ nghiêng ghi rõ mục đích và ngày gửi chống lạm dụng vay vốn.\n[01:30 - 02:35 | Công cụ 2: Nén ảnh/PDF chuẩn 2MB / 5MB] Demo nén tài liệu 8,66 MB xuống đúng 1,90 MB bằng tìm kiếm nhị phân mà số định danh vẫn sắc nét.\n[02:35 - 03:45 | Công cụ 3 & 4: Ảnh thẻ 3x4 dàn 10x15cm & Ký tên tay PDF] Đổi nền xanh/trắng 300 DPI không logo và ký nét mực xanh bút bi trực tiếp lên đơn PDF không cần máy in.\n[03:45 - 04:55 | Công cụ 5 & 6: Gộp nhiều ảnh thành PDF A4 & Gỡ sạch GPS EXIF] Xoay trang, xóa trang có hoàn tác 5 giây và rửa sạch tọa độ nhà riêng ẩn trong ảnh trước khi gửi.\n[04:55 - 06:00 | Bảng giá trung thực & Pháp lý NĐ 13/2023] 6 công cụ lõi miễn phí 0đ mãi mãi không logo; gói gia đình 59.000đ/năm chuyển khoản VietQR 1 lần, không tự gia hạn ngầm. Link trải nghiệm ở ngay mô tả.",
+      "google_flow_scenes_json": "[{\"scene_no\": 1, \"duration_sec\": 8, \"shot_type\": \"Widescreen Studio Cold Open\", \"visual_prompt_flow\": \"16:9 widescreen cinematic tech review intro. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Seated at a sleek dark oak desk at night with warm desk lamp accent, looking at a laptop displaying a red 'File > 2MB' upload alert, then confidently flipping the Wi-Fi switch OFF to introduce the offline web toolkit. Smooth slider move, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 4K photorealistic.\", \"voiceover_vi\": \"11 giờ đêm nộp Cổng Dịch vụ công bị báo lỗi vượt quá 2 MB, lại sợ tải ảnh CCCD lên web nước ngoài? Đây là 1 trang web tắt Wi-Fi vẫn chạy trọn 6 việc giấy tờ!\", \"sfx_music_vi\": \"Nhạc nền công nghệ editorial nhẹ nhàng 100 BPM, tiếng click công tắc tắt mạng\", \"on_screen_text_vi\": \"6 Công cụ Hồ sơ: Tắt Wi-Fi vẫn chạy\"}, {\"scene_no\": 2, \"duration_sec\": 8, \"shot_type\": \"Macro UI Feature 1 - CCCD Watermark\", \"visual_prompt_flow\": \"16:9 widescreen clean over-the-shoulder capture of a laptop browser showing a refined dark-slate workspace placing front and back sample ID cards onto an A4 sheet with a subtle diagonal protective watermark. Crisp screen legibility, shallow depth of field, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.\", \"voiceover_vi\": \"Công cụ 1: Ghép 2 mặt CCCD lên chung 1 trang A4 đúng chuẩn tỷ lệ, kèm dòng dấu chìm ghi rõ mục đích và ngày gửi.\", \"sfx_music_vi\": \"Hiệu ứng quét tài liệu sạch + tiếng xuất PDF\", \"on_screen_text_vi\": \"1. Ghép 2 mặt CCCD A4 + Dấu chìm\"}, {\"scene_no\": 3, \"duration_sec\": 8, \"shot_type\": \"Before/After Data Compression Graphic\", \"visual_prompt_flow\": \"16:9 widescreen editorial motion showcase on a dark architectural desk surface. Left glass card shows a heavy 8.66MB scan pulsing amber, smoothly compressing into a crisp emerald right card at 1.90MB while keeping document details razor sharp. Slow dolly right, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Zero garbled text.\", \"voiceover_vi\": \"Công cụ 2: Nén ảnh và PDF theo đúng mốc 500 KB, 2 MB hoặc 5 MB của Cổng Dịch vụ công. Tệp 8,66 MB tự ép xuống 1,90 MB trong 3 giây mà chữ vẫn đọc rõ từng số.\", \"sfx_music_vi\": \"Âm thanh nén khí điện tử tinh gọn + tiếng ting xác nhận xanh\", \"on_screen_text_vi\": \"2. Nén 8,66 MB -> 1,90 MB chuẩn Dịch vụ công\"}, {\"scene_no\": 4, \"duration_sec\": 8, \"shot_type\": \"Split-Screen ID Photo & Pen Signature\", \"visual_prompt_flow\": \"16:9 widescreen split-screen studio demo. Left side displays a 10x15cm sheet of eight crisp blue 3x4 ID photos; right side shows a stylus smoothly drawing a blue ballpoint signature onto a clean A4 PDF form on a tablet. Crisp macro lighting, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic 4K.\", \"voiceover_vi\": \"Công cụ 3 và 4: Tự tạo ảnh thẻ 3x4, 4x6 dàn tờ in 10x15cm không logo, và ký tên tay mực xanh bút bi trực tiếp lên đơn PDF mà không cần máy in.\", \"sfx_music_vi\": \"Tiếng bút ký mượt mà trên mặt kính + nhịp nền ổn định\", \"on_screen_text_vi\": \"3. Ảnh thẻ 3x4 không logo | 4. Ký tay lên PDF\"}, {\"scene_no\": 5, \"duration_sec\": 8, \"shot_type\": \"Privacy Shield EXIF & Multi-Page PDF\", \"visual_prompt_flow\": \"16:9 widescreen studio macro shot of a smartphone photo gallery card showing hidden GPS pin coordinates dissolving cleanly into an emerald zero-metadata verified badge, beside a neat stack of 3 merged A4 PDF pages. Smooth orbital camera drift, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.\", \"voiceover_vi\": \"Công cụ 5 và 6: Gộp nhiều ảnh chụp thành 1 tệp PDF A4 có hoàn tác 5 giây, và xóa sạch tọa độ GPS nhà riêng ẩn trong ảnh trước khi gửi cho người lạ.\", \"sfx_music_vi\": \"Hiệu ứng quét sạch dữ liệu nhẹ nhàng, tạo cảm giác an toàn\", \"on_screen_text_vi\": \"5. Gộp PDF A4 | 6. Xóa sạch tọa độ GPS\"}, {\"scene_no\": 6, \"duration_sec\": 8, \"shot_type\": \"Widescreen Presenter Summary & CTA\", \"visual_prompt_flow\": \"16:9 widescreen medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Calmly closing the laptop slightly while gesturing toward clean space for end-screen cards, warm studio bokeh in background, trustworthy tech-review authority. Slow pull-back, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 cinema quality.\", \"voiceover_vi\": \"Cả 6 công cụ lõi đều miễn phí 0đ và không chèn logo. Gói gia đình 59.000đ/năm chỉ khi bạn cần in 300 DPI và xử lý hàng loạt 20 tệp. Link mở dùng thử ở ngay dưới mô tả!\", \"sfx_music_vi\": \"Nhạc nền hạ xuống mượt mà với hợp âm kết tin cậy\", \"on_screen_text_vi\": \"0đ Lõi | 59.000đ/năm Gia đình | Link bên dưới\"}]",
+      "thumbnail_prompt_flow": "16:9 widescreen high-CTR YouTube cover photo. Confident Vietnamese tech reviewer on left in clean slate crewneck holding smartphone with Airplane Mode ON, right side displaying a crisp dark-mode bento grid of 6 glowing utility badges (ID card, 2MB compressor, 3x4 photo, signature, PDF merge, GPS shield), studio teal and indigo lighting, sharp commercial clarity.",
+      "thumbnail_svg_path": "corporate_hq/projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-ytlong-6congcu.svg",
+      "seo_title_vi": "Hồ Sơ Riêng Tư: 6 công cụ xử lý CCCD, nén PDF 2MB, ảnh thẻ 3x4 ngoại tuyến 100%",
+      "seo_description_vi": "Hướng dẫn chi tiết 6 công cụ xử lý hồ sơ trực tuyến chạy 100% trên trình duyệt, tắt Wi-Fi vẫn hoạt động của Hồ Sơ Riêng Tư: (1) Ghép 2 mặt CCCD lên A4 đóng dấu chìm; (2) Nén ảnh và PDF dưới 2MB/5MB nộp Cổng Dịch vụ công; (3) Tạo ảnh thẻ 3x4/4x6 dàn 10x15cm 300 DPI không logo; (4) Ký tên tay lên PDF; (5) Gộp ảnh thành PDF A4; (6) Xóa tọa độ GPS EXIF. Miễn phí 0đ bản lõi, tuân thủ Nghị định 13/2023/NĐ-CP.",
+      "hashtags": "#HoSoRiengTu #DichVuCong #NenPDF2MB #GhepCCCD #KyTenPDF #XoaGPS #TitanAICorp",
+      "cta_vi": "Mở link dùng thử miễn phí ở phần mô tả và kiểm chứng ngay bằng Chế độ Máy bay!",
+      "publish_schedule_vi": "20:00 Thứ 6 hàng tuần (YouTube Dài 16:9 + Cắt 3 clip Shorts)",
+      "status": "FLOW_READY",
+      "publish_url": "",
+      "created_at": "2026-11-19T17:04:26Z",
+      "updated_at": "2026-11-19T17:04:26Z",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 8,
+          "shot_type": "Widescreen Studio Cold Open",
+          "visual_prompt_flow": "16:9 widescreen cinematic tech review intro. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Seated at a sleek dark oak desk at night with warm desk lamp accent, looking at a laptop displaying a red 'File > 2MB' upload alert, then confidently flipping the Wi-Fi switch OFF to introduce the offline web toolkit. Smooth slider move, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 4K photorealistic.",
+          "voiceover_vi": "11 giờ đêm nộp Cổng Dịch vụ công bị báo lỗi vượt quá 2 MB, lại sợ tải ảnh CCCD lên web nước ngoài? Đây là 1 trang web tắt Wi-Fi vẫn chạy trọn 6 việc giấy tờ!",
+          "sfx_music_vi": "Nhạc nền công nghệ editorial nhẹ nhàng 100 BPM, tiếng click công tắc tắt mạng",
+          "on_screen_text_vi": "6 Công cụ Hồ sơ: Tắt Wi-Fi vẫn chạy"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 8,
+          "shot_type": "Macro UI Feature 1 - CCCD Watermark",
+          "visual_prompt_flow": "16:9 widescreen clean over-the-shoulder capture of a laptop browser showing a refined dark-slate workspace placing front and back sample ID cards onto an A4 sheet with a subtle diagonal protective watermark. Crisp screen legibility, shallow depth of field, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Công cụ 1: Ghép 2 mặt CCCD lên chung 1 trang A4 đúng chuẩn tỷ lệ, kèm dòng dấu chìm ghi rõ mục đích và ngày gửi.",
+          "sfx_music_vi": "Hiệu ứng quét tài liệu sạch + tiếng xuất PDF",
+          "on_screen_text_vi": "1. Ghép 2 mặt CCCD A4 + Dấu chìm"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 8,
+          "shot_type": "Before/After Data Compression Graphic",
+          "visual_prompt_flow": "16:9 widescreen editorial motion showcase on a dark architectural desk surface. Left glass card shows a heavy 8.66MB scan pulsing amber, smoothly compressing into a crisp emerald right card at 1.90MB while keeping document details razor sharp. Slow dolly right, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Zero garbled text.",
+          "voiceover_vi": "Công cụ 2: Nén ảnh và PDF theo đúng mốc 500 KB, 2 MB hoặc 5 MB của Cổng Dịch vụ công. Tệp 8,66 MB tự ép xuống 1,90 MB trong 3 giây mà chữ vẫn đọc rõ từng số.",
+          "sfx_music_vi": "Âm thanh nén khí điện tử tinh gọn + tiếng ting xác nhận xanh",
+          "on_screen_text_vi": "2. Nén 8,66 MB -> 1,90 MB chuẩn Dịch vụ công"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Split-Screen ID Photo & Pen Signature",
+          "visual_prompt_flow": "16:9 widescreen split-screen studio demo. Left side displays a 10x15cm sheet of eight crisp blue 3x4 ID photos; right side shows a stylus smoothly drawing a blue ballpoint signature onto a clean A4 PDF form on a tablet. Crisp macro lighting, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic 4K.",
+          "voiceover_vi": "Công cụ 3 và 4: Tự tạo ảnh thẻ 3x4, 4x6 dàn tờ in 10x15cm không logo, và ký tên tay mực xanh bút bi trực tiếp lên đơn PDF mà không cần máy in.",
+          "sfx_music_vi": "Tiếng bút ký mượt mà trên mặt kính + nhịp nền ổn định",
+          "on_screen_text_vi": "3. Ảnh thẻ 3x4 không logo | 4. Ký tay lên PDF"
+        },
+        {
+          "scene_no": 5,
+          "duration_sec": 8,
+          "shot_type": "Privacy Shield EXIF & Multi-Page PDF",
+          "visual_prompt_flow": "16:9 widescreen studio macro shot of a smartphone photo gallery card showing hidden GPS pin coordinates dissolving cleanly into an emerald zero-metadata verified badge, beside a neat stack of 3 merged A4 PDF pages. Smooth orbital camera drift, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Công cụ 5 và 6: Gộp nhiều ảnh chụp thành 1 tệp PDF A4 có hoàn tác 5 giây, và xóa sạch tọa độ GPS nhà riêng ẩn trong ảnh trước khi gửi cho người lạ.",
+          "sfx_music_vi": "Hiệu ứng quét sạch dữ liệu nhẹ nhàng, tạo cảm giác an toàn",
+          "on_screen_text_vi": "5. Gộp PDF A4 | 6. Xóa sạch tọa độ GPS"
+        },
+        {
+          "scene_no": 6,
+          "duration_sec": 8,
+          "shot_type": "Widescreen Presenter Summary & CTA",
+          "visual_prompt_flow": "16:9 widescreen medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Calmly closing the laptop slightly while gesturing toward clean space for end-screen cards, warm studio bokeh in background, trustworthy tech-review authority. Slow pull-back, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 cinema quality.",
+          "voiceover_vi": "Cả 6 công cụ lõi đều miễn phí 0đ và không chèn logo. Gói gia đình 59.000đ/năm chỉ khi bạn cần in 300 DPI và xử lý hàng loạt 20 tệp. Link mở dùng thử ở ngay dưới mô tả!",
+          "sfx_music_vi": "Nhạc nền hạ xuống mượt mà với hợp âm kết tin cậy",
+          "on_screen_text_vi": "0đ Lõi | 59.000đ/năm Gia đình | Link bên dưới"
+        }
+      ]
+    },
+    {
+      "campaign_id": "camp-kts-tiktok-bayphisan",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "title": "Bẫy phí sàn 20%: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ dính hạn 30 ngày HĐĐT",
+      "platform": "TIKTOK",
+      "angle_vi": "Chạm thẳng điểm mù chết người của chủ shop Shopee/TikTok Shop theo Nghị định 117/2025 và Nghị định 70/2025: nhìn biến động số dư ngân hàng mới về 800,7 triệu nên chủ quan, nhưng doanh thu tính thuế (GMV chưa trừ 20% phí sàn) đã cán mốc 1,02 tỷ, kích hoạt hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền để tránh phạt 5 đến 10 triệu.",
+      "hook_3s_vi": "Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!\n[04s - 16s | Căn cứ luật rõ ràng] Theo Nghị định 117/2025, doanh thu tính thuế là tổng giá trị đơn hàng khách thanh toán, tuyệt đối không được trừ 18% đến 25% phí sàn, phí thanh toán hay voucher. Nghĩa là ví bạn nhận 800,7 triệu, nhưng doanh thu gốc sàn báo đã vượt 1,02 tỷ.\n[17s - 31s | Demo Két Thuế Shop] Xem trên Máy tính 10 giây của Két Thuế Shop: gõ 1,02 tỷ và phí sàn 20%. Tiền về ví đúng 800,7 triệu nhưng thanh Radar bật đỏ lập tức: đã vượt mốc 1 tỷ, cần đăng ký hóa đơn điện tử khởi tạo từ máy tính tiền trong 30 ngày theo Nghị định 70.\n[32s - 40s | CTA] Đừng đoán mò bằng số dư tài khoản nữa. Bấm link máy tính miễn phí 10 giây ở đầu trang để kiểm tra shop mình ngay tối nay nhé!",
+      "google_flow_scenes_json": "[{\"scene_no\": 1, \"duration_sec\": 6, \"shot_type\": \"Close-Up Warehouse Hook\", \"visual_prompt_flow\": \"9:16 vertical cinematic close-up. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Looking sharply into the camera while holding a smartphone displaying a banking alert in a busy Vietnamese e-commerce packing room with neatly stacked parcel boxes behind. Punchy quick zoom-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.\", \"voiceover_vi\": \"Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!\", \"sfx_music_vi\": \"Tiếng cảnh báo trầm 0.4s + nhịp trống nhanh tạo sự chú ý\", \"on_screen_text_vi\": \"Ví về 800tr nhưng thuế đã 1,02 tỷ!\"}, {\"scene_no\": 2, \"duration_sec\": 8, \"shot_type\": \"Editorial Split Graphic - GMV vs Bank Net\", \"visual_prompt_flow\": \"9:16 vertical clean editorial motion visual over a dark charcoal desk. A stacked glowing bar splits cleanly into three layered segments: red top slice for 20 percent marketplace fees, amber sliver for withheld tax, and muted bottom block for net bank payout. Crisp architectural depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\", \"voiceover_vi\": \"Nghị định 117/2025 quy định doanh thu tính thuế là tổng đơn khách trả, không trừ 20% phí sàn. Ví về 800,7 triệu thì doanh thu tính thuế đã là 1,02 tỷ rồi.\", \"sfx_music_vi\": \"Tiếng tách lớp dữ liệu sắc nét, giữ nhịp tension đều\", \"on_screen_text_vi\": \"GMV tính thuế KHÔNG trừ 20% phí sàn\"}, {\"scene_no\": 3, \"duration_sec\": 10, \"shot_type\": \"Macro Tablet Radar 1B Demo\", \"visual_prompt_flow\": \"9:16 vertical over-the-shoulder macro shot of hands operating a sleek dark-mode tax dashboard on a tablet. A semicircular red progress radar sweeps past the 100 percent threshold marker with a crisp 30-day e-invoice alert banner appearing below. Razor-sharp UI focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\", \"voiceover_vi\": \"Nhìn trên Két Thuế Shop nè: nhập 1,02 tỷ, phí sàn 20%, Radar lập tức báo đỏ quá mốc 1 tỷ và đếm ngược hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền.\", \"sfx_music_vi\": \"Tiếng còi radar nhẹ tinh tế + tiếng kéo thanh trượt\", \"on_screen_text_vi\": \"Radar 1 tỷ báo hạn 30 ngày HĐĐT\"}, {\"scene_no\": 4, \"duration_sec\": 8, \"shot_type\": \"Desk Privacy & Compliance Reassurance\", \"visual_prompt_flow\": \"9:16 vertical medium close-up of the shop owner reviewing clean printed summary sheets beside a laptop showing a green Local-First lock icon, calm relieved posture under warm practical lighting. Smooth slow slide, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.\", \"voiceover_vi\": \"Toàn bộ số liệu kiểm tra lưu riêng tư ngay trên máy bạn, tính đúng nộp đủ để buôn bán an tâm quanh năm.\", \"sfx_music_vi\": \"Nhịp nhạc dịu lại sang tông tin cậy và chuyên nghiệp\", \"on_screen_text_vi\": \"Lưu cục bộ trên máy | Tính đúng nộp đủ\"}, {\"scene_no\": 5, \"duration_sec\": 6, \"shot_type\": \"Medium Shot Direct CTA\", \"visual_prompt_flow\": \"9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Pointing clearly toward the lower bio link space with a focused reassuring expression, neatly organized e-commerce studio softly lit behind. High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\", \"voiceover_vi\": \"Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập để kiểm tra khoảng cách tới vạch đỏ 1 tỷ ngay tối nay!\", \"sfx_music_vi\": \"Nhịp kết sắc gọn với âm báo nhấn nút CTA\", \"on_screen_text_vi\": \"Kiểm tra miễn phí 10 giây ở đầu trang\"}]",
+      "thumbnail_prompt_flow": "9:16 vertical high-urgency cover frame. Vietnamese e-commerce shop owner holding smartphone showing a glowing red semicircular 1.02B tax radar gauge over a dimly lit parcel warehouse backdrop, crisp crimson and amber accent lighting, clean upper zone reserved for bold Vietnamese headline.",
+      "thumbnail_svg_path": "corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-tiktok-bayphisan.svg",
+      "seo_title_vi": "Bẫy phí sàn 20% Shopee TikTok: Ví về 800 triệu nhưng thuế đã vượt 1,02 tỷ (NĐ 117 & NĐ 70)",
+      "seo_description_vi": "Giải thích bẫy phí sàn 20% khiến chủ shop Shopee/TikTok Shop tưởng chưa chạm mốc 1 tỷ nhưng GMV tính thuế đã vượt 1,02 tỷ theo Nghị định 117/2025 và dính hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền theo Nghị định 70/2025. Kiểm tra nhanh miễn phí bằng Máy tính 10 giây trên Két Thuế Shop (lưu cục bộ trên máy).",
+      "hashtags": "#KetThueShop #ThueShopee #ThueTikTokShop #HoKinhDoanh2026 #HoaDonDienTu #TitanAICorp",
+      "cta_vi": "Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập!",
+      "publish_schedule_vi": "11:30 và 19:30 Thứ 3, Thứ 5, Chủ Nhật (TikTok + Ghim bình luận link Máy tính 10s)",
+      "status": "FLOW_READY",
+      "publish_url": "",
+      "created_at": "2026-11-19T17:04:26Z",
+      "updated_at": "2026-11-19T17:04:26Z",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Close-Up Warehouse Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic close-up. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Looking sharply into the camera while holding a smartphone displaying a banking alert in a busy Vietnamese e-commerce packing room with neatly stacked parcel boxes behind. Punchy quick zoom-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.",
+          "voiceover_vi": "Chủ shop Shopee, TikTok nào thấy tiền về ngân hàng cả năm mới 800 triệu mà nghĩ chưa tới mốc 1 tỷ là sắp mất oan 5 đến 10 triệu tiền phạt rồi đó!",
+          "sfx_music_vi": "Tiếng cảnh báo trầm 0.4s + nhịp trống nhanh tạo sự chú ý",
+          "on_screen_text_vi": "Ví về 800tr nhưng thuế đã 1,02 tỷ!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 8,
+          "shot_type": "Editorial Split Graphic - GMV vs Bank Net",
+          "visual_prompt_flow": "9:16 vertical clean editorial motion visual over a dark charcoal desk. A stacked glowing bar splits cleanly into three layered segments: red top slice for 20 percent marketplace fees, amber sliver for withheld tax, and muted bottom block for net bank payout. Crisp architectural depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Nghị định 117/2025 quy định doanh thu tính thuế là tổng đơn khách trả, không trừ 20% phí sàn. Ví về 800,7 triệu thì doanh thu tính thuế đã là 1,02 tỷ rồi.",
+          "sfx_music_vi": "Tiếng tách lớp dữ liệu sắc nét, giữ nhịp tension đều",
+          "on_screen_text_vi": "GMV tính thuế KHÔNG trừ 20% phí sàn"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 10,
+          "shot_type": "Macro Tablet Radar 1B Demo",
+          "visual_prompt_flow": "9:16 vertical over-the-shoulder macro shot of hands operating a sleek dark-mode tax dashboard on a tablet. A semicircular red progress radar sweeps past the 100 percent threshold marker with a crisp 30-day e-invoice alert banner appearing below. Razor-sharp UI focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Nhìn trên Két Thuế Shop nè: nhập 1,02 tỷ, phí sàn 20%, Radar lập tức báo đỏ quá mốc 1 tỷ và đếm ngược hạn 30 ngày đăng ký hóa đơn điện tử máy tính tiền.",
+          "sfx_music_vi": "Tiếng còi radar nhẹ tinh tế + tiếng kéo thanh trượt",
+          "on_screen_text_vi": "Radar 1 tỷ báo hạn 30 ngày HĐĐT"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Desk Privacy & Compliance Reassurance",
+          "visual_prompt_flow": "9:16 vertical medium close-up of the shop owner reviewing clean printed summary sheets beside a laptop showing a green Local-First lock icon, calm relieved posture under warm practical lighting. Smooth slow slide, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.",
+          "voiceover_vi": "Toàn bộ số liệu kiểm tra lưu riêng tư ngay trên máy bạn, tính đúng nộp đủ để buôn bán an tâm quanh năm.",
+          "sfx_music_vi": "Nhịp nhạc dịu lại sang tông tin cậy và chuyên nghiệp",
+          "on_screen_text_vi": "Lưu cục bộ trên máy | Tính đúng nộp đủ"
+        },
+        {
+          "scene_no": 5,
+          "duration_sec": 6,
+          "shot_type": "Medium Shot Direct CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Pointing clearly toward the lower bio link space with a focused reassuring expression, neatly organized e-commerce studio softly lit behind. High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Bấm link Máy tính thuế 10 giây miễn phí ở đầu trang, không cần đăng nhập để kiểm tra khoảng cách tới vạch đỏ 1 tỷ ngay tối nay!",
+          "sfx_music_vi": "Nhịp kết sắc gọn với âm báo nhấn nút CTA",
+          "on_screen_text_vi": "Kiểm tra miễn phí 10 giây ở đầu trang"
+        }
+      ]
+    },
+    {
+      "campaign_id": "camp-kts-shorts-hoanthue",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "title": "Doanh thu dưới 1 tỷ năm 2026: Cách đối soát đòi hoàn 9 đến 14 triệu thuế sàn trừ thừa",
+      "platform": "YOUTUBE_SHORTS",
+      "angle_vi": "Bảo vệ quyền lợi hợp pháp của chủ shop vừa và nhỏ dưới mốc 1 tỷ/năm theo Nghị định 141/2026/NĐ-CP: sàn TMĐT vẫn khấu trừ 1,5% ngay trên từng đơn thành công; hướng dẫn thả tệp CSV vào Két Thuế Shop để tự loại đơn hủy/bom hàng và gom bảng đối soát minh bạch làm hồ sơ đòi hoàn thuế nộp thừa cuối năm.",
+      "hook_3s_vi": "Bán hàng cả năm dưới 1 tỷ nhưng Shopee, TikTok vẫn trừ đều 1,5% thuế từng đơn? Bạn đang bỏ quên 9 đến 14 triệu tiền hoàn thuế hợp pháp đó!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Bán hàng cả năm dưới 1 tỷ nhưng Shopee, TikTok vẫn trừ đều 1,5% thuế từng đơn? Bạn đang bỏ quên 9 đến 14 triệu tiền hoàn thuế hợp pháp đó!\n[04s - 15s | Quyền lợi hợp pháp NĐ 141/2026] Từ 2026, Nghị định 141 nâng ngưỡng miễn thuế GTGT và TNCN lên 1 tỷ đồng một năm. Nhưng sàn đâu biết cả năm bạn bán tổng bao nhiêu nên cứ có đơn là sàn tự trích 1,5% tại nguồn. Cuối năm khoản đó trở thành thuế nộp thừa và bạn hoàn toàn có quyền đối soát đề nghị hoàn lại.\n[16s - 30s | Demo thả CSV Két Thuế Shop] Ví dụ shop bán 600 triệu trên sàn cộng 250 triệu ngoài Facebook, tổng 850 triệu dưới mốc 1 tỷ. Thả tệp CSV Shopee/TikTok vào Két Thuế Shop: app tự gạt sạch đơn bom hàng và tính đúng 9 triệu tiền sàn đang giữ hộ, xuất bảng đối soát rõ từng đồng.\n[31s - 38s | CTA] Kiểm tra xem sàn đang tạm giữ bao nhiêu triệu của shop bạn ngay ở link Máy tính 10 giây miễn phí dưới phần mô tả!",
+      "google_flow_scenes_json": "[{\"scene_no\": 1, \"duration_sec\": 6, \"shot_type\": \"Medium Close-Up Positive Financial Hook\", \"visual_prompt_flow\": \"9:16 vertical cinematic shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Holding a tablet glowing softly with an emerald green recoverable-tax vault card inside a bright tidy boutique retail desk, warm reassuring expression. Smooth slow dolly-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.\", \"voiceover_vi\": \"Bán hàng cả năm dưới 1 tỷ nhưng Shopee, TikTok vẫn trừ đều 1,5% thuế từng đơn? Bạn đang bỏ quên 9 đến 14 triệu tiền hoàn thuế hợp pháp đó!\", \"sfx_music_vi\": \"Âm báo tiền về êm tai + nhịp acoustic hiện đại tích cực 112 BPM\", \"on_screen_text_vi\": \"Dưới 1 tỷ: Đừng bỏ quên 9 - 14tr hoàn thuế!\"}, {\"scene_no\": 2, \"duration_sec\": 9, \"shot_type\": \"Clean Visual Explainer - 1.5% Withholding\", \"visual_prompt_flow\": \"9:16 vertical tabletop editorial animation feel (photorealistic studio lighting). Crisp translucent order cards flowing across a dark green-slate desk, small 1.5 percent emerald coins neatly accumulating into a transparent glass savings vault labeled cleanly with geometric balance lines. No garbled text.\", \"voiceover_vi\": \"Theo Nghị định 141/2026, doanh thu năm từ 1 tỷ trở xuống được miễn thuế, nhưng sàn vẫn tự trừ 1,5% từng đơn. Cuối năm khoản thuế nộp thừa này được quyền lập hồ sơ đòi hoàn hợp pháp.\", \"sfx_music_vi\": \"Tiếng xu rơi nhẹ đều đặn + nhạc nền trong trẻo\", \"on_screen_text_vi\": \"NĐ 141/2026: Thuế sàn trừ thừa được hoàn\"}, {\"scene_no\": 3, \"duration_sec\": 12, \"shot_type\": \"Over-the-Shoulder CSV Filter Demo\", \"visual_prompt_flow\": \"9:16 vertical over-the-shoulder close-up of hands dragging a CSV spreadsheet file into the clean Két Thuế Shop web app on a laptop. Cancelled return orders smoothly fade out while an emerald summary card highlights 9.0M VND recoverable tax. Sharp screen contrast, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\", \"voiceover_vi\": \"Chỉ cần thả tệp CSV Shopee hoặc TikTok vào Két Thuế Shop: app tự lọc sạch đơn bom hàng và tổng hợp bảng đối soát từng đồng để bạn đối chiếu trên eTax Mobile.\", \"sfx_music_vi\": \"Tiếng kéo thả mượt + âm xác nhận lọc sạch đơn bom\", \"on_screen_text_vi\": \"Thả file CSV -> Lọc đơn bom -> Ra bảng đối soát\"}, {\"scene_no\": 4, \"duration_sec\": 8, \"shot_type\": \"Medium Shot Empowering CTA\", \"visual_prompt_flow\": \"9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Smiling warmly with laptop open showing green safe dashboard, gesturing cleanly toward the pinned description link. Balanced studio lighting, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\", \"voiceover_vi\": \"Thử ngay trên Máy tính 10 giây miễn phí ở link dưới mô tả để biết chính xác sàn đang giữ hộ bao nhiêu triệu của shop bạn nhé!\", \"sfx_music_vi\": \"Hợp âm kết sáng ấm, gọn gàng\", \"on_screen_text_vi\": \"Thử Máy tính 10 giây miễn phí bên dưới\"}]",
+      "thumbnail_prompt_flow": "9:16 vertical clean financial-editorial cover shot. Confident Vietnamese shop owner beside an emerald-glowing glass vault graphic and crisp CSV spreadsheet cards on deep forest-slate background, warm rim lighting, generous top safe-zone for Vietnamese CTR headline.",
+      "thumbnail_svg_path": "corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-shorts-hoanthue.svg",
+      "seo_title_vi": "Cách đối soát đòi hoàn 9 đến 14 triệu thuế sàn Shopee TikTok trừ thừa dưới mốc 1 tỷ (NĐ 141/2026)",
+      "seo_description_vi": "Hướng dẫn chủ shop và hộ kinh doanh có tổng doanh thu năm dưới 1 tỷ đồng theo Nghị định 141/2026/NĐ-CP cách lọc đơn hủy/bom hàng từ tệp CSV Shopee, TikTok Shop và lập bảng đối soát tiền thuế sàn khấu trừ thừa bằng Két Thuế Shop. Minh bạch, lưu cục bộ trên máy, kèm miễn trừ pháp lý đầy đủ.",
+      "hashtags": "#HoanThue2026 #NghiDinh141 #KetThueShop #ChuShopShopee #HoKinhDoanh #YouTubeShorts",
+      "cta_vi": "Bấm link Máy tính 10 giây miễn phí dưới mô tả để kiểm tra số tiền thuế sàn đang giữ hộ!",
+      "publish_schedule_vi": "12:00 và 20:00 Thứ 2, Thứ 4, Thứ 6 (YouTube Shorts + Cross-post TikTok)",
+      "status": "FLOW_READY",
+      "publish_url": "",
+      "created_at": "2026-11-19T17:04:26Z",
+      "updated_at": "2026-11-19T17:04:26Z",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Medium Close-Up Positive Financial Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Holding a tablet glowing softly with an emerald green recoverable-tax vault card inside a bright tidy boutique retail desk, warm reassuring expression. Smooth slow dolly-in, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic 4K.",
+          "voiceover_vi": "Bán hàng cả năm dưới 1 tỷ nhưng Shopee, TikTok vẫn trừ đều 1,5% thuế từng đơn? Bạn đang bỏ quên 9 đến 14 triệu tiền hoàn thuế hợp pháp đó!",
+          "sfx_music_vi": "Âm báo tiền về êm tai + nhịp acoustic hiện đại tích cực 112 BPM",
+          "on_screen_text_vi": "Dưới 1 tỷ: Đừng bỏ quên 9 - 14tr hoàn thuế!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 9,
+          "shot_type": "Clean Visual Explainer - 1.5% Withholding",
+          "visual_prompt_flow": "9:16 vertical tabletop editorial animation feel (photorealistic studio lighting). Crisp translucent order cards flowing across a dark green-slate desk, small 1.5 percent emerald coins neatly accumulating into a transparent glass savings vault labeled cleanly with geometric balance lines. No garbled text.",
+          "voiceover_vi": "Theo Nghị định 141/2026, doanh thu năm từ 1 tỷ trở xuống được miễn thuế, nhưng sàn vẫn tự trừ 1,5% từng đơn. Cuối năm khoản thuế nộp thừa này được quyền lập hồ sơ đòi hoàn hợp pháp.",
+          "sfx_music_vi": "Tiếng xu rơi nhẹ đều đặn + nhạc nền trong trẻo",
+          "on_screen_text_vi": "NĐ 141/2026: Thuế sàn trừ thừa được hoàn"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 12,
+          "shot_type": "Over-the-Shoulder CSV Filter Demo",
+          "visual_prompt_flow": "9:16 vertical over-the-shoulder close-up of hands dragging a CSV spreadsheet file into the clean Két Thuế Shop web app on a laptop. Cancelled return orders smoothly fade out while an emerald summary card highlights 9.0M VND recoverable tax. Sharp screen contrast, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Chỉ cần thả tệp CSV Shopee hoặc TikTok vào Két Thuế Shop: app tự lọc sạch đơn bom hàng và tổng hợp bảng đối soát từng đồng để bạn đối chiếu trên eTax Mobile.",
+          "sfx_music_vi": "Tiếng kéo thả mượt + âm xác nhận lọc sạch đơn bom",
+          "on_screen_text_vi": "Thả file CSV -> Lọc đơn bom -> Ra bảng đối soát"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Medium Shot Empowering CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Smiling warmly with laptop open showing green safe dashboard, gesturing cleanly toward the pinned description link. Balanced studio lighting, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Thử ngay trên Máy tính 10 giây miễn phí ở link dưới mô tả để biết chính xác sàn đang giữ hộ bao nhiêu triệu của shop bạn nhé!",
+          "sfx_music_vi": "Hợp âm kết sáng ấm, gọn gàng",
+          "on_screen_text_vi": "Thử Máy tính 10 giây miễn phí bên dưới"
+        }
+      ]
+    },
+    {
+      "campaign_id": "camp-kts-reels-trunham10pct",
+      "project_id": "proj-so-thu-chi-thue-hkd",
+      "title": "Còi báo sàn trừ nhầm 10% thuế thay vì 1,5%: Soi file CSV Shopee/TikTok trong 10 giây",
+      "platform": "FACEBOOK_REELS",
+      "angle_vi": "Phát hiện lỗi cài sai danh mục ngành hàng khiến sàn TMĐT khấu trừ mức trần 10% thay vì 1,5% phân phối hàng hóa (bán 500 triệu bị trích 50 triệu thay vì 7,5 triệu, lệch 42,5 triệu tiền tươi), kết hợp demo 3 chạm chốt sổ 11h đêm và công khai minh bạch bảng giá CFO Standard 249.000đ/tháng (150 lượt AI đọc hóa đơn) và Pro 399.000đ/tháng (300 lượt AI).",
+      "hook_3s_vi": "Cài sai đúng 1 dòng danh mục trên sàn là Shopee, TikTok trừ thẳng 10% thuế thay vì 1,5%, bán 500 triệu bị giữ oan tới 42,5 triệu tiền mặt!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Cài sai đúng 1 dòng danh mục trên sàn là Shopee, TikTok trừ thẳng 10% thuế thay vì 1,5%, bán 500 triệu bị giữ oan tới 42,5 triệu tiền mặt!\n[04s - 15s | Chạm nỗi đau thực tế] Theo Nghị định 117/2025, bán lẻ hàng hóa chỉ chịu tổng 1,5%. Nhưng nếu gian hàng bị xếp nhóm không xác định được hàng hóa hay dịch vụ, hệ thống có thể khấu trừ mức trần 10%. Ngồi soi bằng Excel mấy nghìn dòng lúc 11 giờ đêm rất dễ bỏ sót.\n[16s - 31s | Demo Còi đỏ CSV + 3 chạm chốt sổ] Thả file CSV tháng vừa rồi vào Két Thuế Shop: hễ đơn nào sàn trừ vượt quá 105% mức chuẩn ngành là app bật còi đỏ chỉ rõ từng mã đơn ngay trong 10 giây. Đơn ngoài sàn Facebook thì ghi nhanh đúng 3 chạm, nhìn thẳng 3 con số: Tiền thực về, Két cất thuế và Tiền được phép xài.\n[32s - 40s | Minh bạch giá & CTA] Dùng thử ngay với 15 đơn mẫu thật miễn phí, gói Standard chỉ 249 nghìn/tháng kèm 150 lượt AI đọc hóa đơn giấy. Bấm link dưới bình luận kiểm tra file tháng này của shop bạn ngay!",
+      "google_flow_scenes_json": "[{\"scene_no\": 1, \"duration_sec\": 6, \"shot_type\": \"Late-Night Desk Tension Hook\", \"visual_prompt_flow\": \"9:16 vertical cinematic shot at a shop owner's desk at 11 PM. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Illuminated by warm desk lamp and laptop screen showing dense spreadsheet rows, raising one hand with sharp focus toward camera to warn fellow sellers. Tight 35mm framing, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic.\", \"voiceover_vi\": \"Cài sai đúng 1 dòng danh mục trên sàn là Shopee, TikTok trừ thẳng 10% thuế thay vì 1,5%, bán 500 triệu bị giữ oan tới 42,5 triệu tiền mặt!\", \"sfx_music_vi\": \"Tiếng còi cảnh báo gọn + nhịp điện tử kịch tính 118 BPM\", \"on_screen_text_vi\": \"Trừ nhầm 10% vs 1,5% -> Lệch 42,5 triệu!\"}, {\"scene_no\": 2, \"duration_sec\": 10, \"shot_type\": \"Macro CSV Red-Flag Scanner Demo\", \"visual_prompt_flow\": \"9:16 vertical macro screen shot on laptop running Két Thuế Shop. A clean dark-slate CSV preview table highlights two anomalous order rows in crisp red alert pills while normal rows remain calm slate, instantly computing the exact over-withheld gap. Crisp editorial focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\", \"voiceover_vi\": \"Thả file CSV Shopee hoặc TikTok vào Két Thuế Shop: bất kỳ đơn nào sàn trừ vượt mức chuẩn ngành đều bật còi đỏ chỉ đích danh từng mã đơn trong 10 giây.\", \"sfx_music_vi\": \"Âm thanh quét radar 2 tiếng bíp ngắn rõ ràng\", \"on_screen_text_vi\": \"Còi đỏ bắt đúng từng mã đơn trừ nhầm\"}, {\"scene_no\": 3, \"duration_sec\": 12, \"shot_type\": \"One-Hand Mobile 3-Tap Ledger Demo\", \"visual_prompt_flow\": \"9:16 vertical close-up of a shop owner's thumb effortlessly tapping a clean mobile web app showing three large bold financial metric cards (Net Received, Tax Vault, Safe-to-Spend) in high-contrast dark mode. Effortless 3-tap interaction, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.\", \"voiceover_vi\": \"Tối muộn đóng đơn xong chỉ cần 3 chạm ghi doanh thu ngoài sàn là thấy ngay 3 con số lớn: Tiền thực về, Két cất thuế và Tiền được phép xài. Dữ liệu nằm gọn trên máy bạn.\", \"sfx_music_vi\": \"3 tiếng chạm nhẹ mượt mà + nền nhạc dịu tạo cảm giác nhẹ nhõm\", \"on_screen_text_vi\": \"3 chạm chốt sổ | 3 con số rõ như ban ngày\"}, {\"scene_no\": 4, \"duration_sec\": 8, \"shot_type\": \"Medium Shot Transparent Offer CTA\", \"visual_prompt_flow\": \"9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Relaxed confident expression closing the workday cleanly beside neatly taped parcels, gesturing smoothly toward the comment link zone. Warm professional studio depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.\", \"voiceover_vi\": \"Bấm link dưới bình luận để thử ngay với 15 đơn mẫu thật, rồi thả file tháng gần nhất của shop bạn lên soi miễn phí nhé!\", \"sfx_music_vi\": \"Nhạc nền kết sắc nét, dứt khoát\", \"on_screen_text_vi\": \"Thử 15 đơn mẫu miễn phí | Link bình luận\"}]",
+      "thumbnail_prompt_flow": "9:16 vertical high-contrast Facebook Reels cover image. Late-night Vietnamese e-commerce founder examining a glowing dark-mode CSV audit table where red alert highlights '10% vs 1.5%' discrepancy, deep midnight indigo backdrop with amber-crimson accent lighting, clear upper headline zone.",
+      "thumbnail_svg_path": "corporate_hq/projects/so-thu-chi-thue-hkd/media_studio/thumbnails/camp-kts-reels-trunham10pct.svg",
+      "seo_title_vi": "Cảnh báo sàn Shopee TikTok trừ nhầm 10% thuế: Cách soi file CSV trong 10 giây bằng Két Thuế Shop",
+      "seo_description_vi": "Hướng dẫn chủ shop Shopee và TikTok Shop phát hiện nhanh các đơn hàng bị sàn khấu trừ nhầm mức trần 10% thay vì 1,5% bán lẻ hàng hóa bằng công cụ lọc CSV tự động trên Két Thuế Shop. Kèm tính năng ghi nhanh 3 chạm, lưu riêng tư trên máy, gói Standard 249.000đ/tháng (150 lượt AI đọc hóa đơn) và Pro 399.000đ/tháng (300 lượt AI). Tuyệt đối không tư vấn lách thuế.",
+      "hashtags": "#KetThueShop #SoiFileCSV #ShopeeSellerVN #TikTokShopVN #ThuChiHoKinhDoanh #FacebookReels",
+      "cta_vi": "Bấm link dưới bình luận thử ngay 15 đơn mẫu thật và soi file CSV tháng vừa rồi của shop bạn!",
+      "publish_schedule_vi": "11:45 và 20:30 Thứ 3, Thứ 5, Thứ 7 (Facebook Reels + Chia sẻ 15 Nhóm Chủ shop)",
+      "status": "FLOW_READY",
+      "publish_url": "",
+      "created_at": "2026-11-19T17:04:26Z",
+      "updated_at": "2026-11-19T17:04:26Z",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Late-Night Desk Tension Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic shot at a shop owner's desk at 11 PM. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Illuminated by warm desk lamp and laptop screen showing dense spreadsheet rows, raising one hand with sharp focus toward camera to warn fellow sellers. Tight 35mm framing, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Veo 3.1 photorealistic.",
+          "voiceover_vi": "Cài sai đúng 1 dòng danh mục trên sàn là Shopee, TikTok trừ thẳng 10% thuế thay vì 1,5%, bán 500 triệu bị giữ oan tới 42,5 triệu tiền mặt!",
+          "sfx_music_vi": "Tiếng còi cảnh báo gọn + nhịp điện tử kịch tính 118 BPM",
+          "on_screen_text_vi": "Trừ nhầm 10% vs 1,5% -> Lệch 42,5 triệu!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 10,
+          "shot_type": "Macro CSV Red-Flag Scanner Demo",
+          "visual_prompt_flow": "9:16 vertical macro screen shot on laptop running Két Thuế Shop. A clean dark-slate CSV preview table highlights two anomalous order rows in crisp red alert pills while normal rows remain calm slate, instantly computing the exact over-withheld gap. Crisp editorial focus, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Thả file CSV Shopee hoặc TikTok vào Két Thuế Shop: bất kỳ đơn nào sàn trừ vượt mức chuẩn ngành đều bật còi đỏ chỉ đích danh từng mã đơn trong 10 giây.",
+          "sfx_music_vi": "Âm thanh quét radar 2 tiếng bíp ngắn rõ ràng",
+          "on_screen_text_vi": "Còi đỏ bắt đúng từng mã đơn trừ nhầm"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 12,
+          "shot_type": "One-Hand Mobile 3-Tap Ledger Demo",
+          "visual_prompt_flow": "9:16 vertical close-up of a shop owner's thumb effortlessly tapping a clean mobile web app showing three large bold financial metric cards (Net Received, Tax Vault, Safe-to-Spend) in high-contrast dark mode. Effortless 3-tap interaction, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts. Photorealistic 4K.",
+          "voiceover_vi": "Tối muộn đóng đơn xong chỉ cần 3 chạm ghi doanh thu ngoài sàn là thấy ngay 3 con số lớn: Tiền thực về, Két cất thuế và Tiền được phép xài. Dữ liệu nằm gọn trên máy bạn.",
+          "sfx_music_vi": "3 tiếng chạm nhẹ mượt mà + nền nhạc dịu tạo cảm giác nhẹ nhõm",
+          "on_screen_text_vi": "3 chạm chốt sổ | 3 con số rõ như ban ngày"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Medium Shot Transparent Offer CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A grounded 32-year-old Vietnamese e-commerce shop owner and business advisor in a clean charcoal polo shirt, authentic studio-warehouse hybrid backdrop with neatly stacked parcel boxes softly blurred behind, warm tungsten practical lamp plus crisp 5000K softbox key light, shot on 35mm cinema lens f/2.0. Relaxed confident expression closing the workday cleanly beside neatly taped parcels, gesturing smoothly toward the comment link zone. Warm professional studio depth, High-contrast editorial documentary lighting, warm practical depth in background, razor-sharp focus on tablet and smartphone tax dashboard UI, emerald safe states and crimson radar alerts.",
+          "voiceover_vi": "Bấm link dưới bình luận để thử ngay với 15 đơn mẫu thật, rồi thả file tháng gần nhất của shop bạn lên soi miễn phí nhé!",
+          "sfx_music_vi": "Nhạc nền kết sắc nét, dứt khoát",
+          "on_screen_text_vi": "Thử 15 đơn mẫu miễn phí | Link bình luận"
+        }
+      ]
+    }
+  ]
 }

@@ -275,7 +275,7 @@ class TestTitanSystemV8(unittest.TestCase):
 
         # Cloud snapshot round-trip preserves installed_skills & project_ledger
         snap = export_snapshot(self.db)
-        self.assertEqual(snap["schema_version"], "10.0")
+        self.assertEqual(snap["schema_version"], "11.0")
         self.assertEqual(len(snap["installed_skills"]), 2)
 
         other_db = TitanDatabase(db_path=self.tmp_path / "sync_target.db")
@@ -998,6 +998,297 @@ class TestTitanSystemV8(unittest.TestCase):
         self.assertTrue(cli_res["ok"])
         self.assertEqual(cli_res["handoff"]["from_dept_id"], "20")
         self.assertEqual(cli_res["handoff"]["to_dept_id"], "23")
+
+    def test_13_v11_project_detail_summaries_and_upgrade_mission(self) -> None:
+        # Insert real workspace project row in sandbox DB (no disk pollution)
+        pid = "proj-so-thu-chi-thue-hkd"
+        with self.db.immediate_tx() as conn:
+            conn.execute(
+                """
+                INSERT INTO projects(
+                    project_id, slug, title, objective, target_market,
+                    status, expected_price_vnd, unit_cost_vnd, fixed_cost_monthly_vnd,
+                    workspace_path, version, created_at, updated_at
+                ) VALUES (
+                    ?, 'so-thu-chi-thue-hkd', 'Két Thuế Shop',
+                    'Quản lý sổ thu chi và dự phòng thuế hộ kinh doanh', 'Việt Nam',
+                    'SHIPPED', 249000, 56235, 1500000, 'corporate_hq/projects/so-thu-chi-thue-hkd',
+                    1, '2026-11-19T00:00:00Z', '2026-11-19T00:00:00Z'
+                )
+                """,
+                (pid,),
+            )
+        # Add task, ledger, linked mission & rework ticket
+        self.db.create_task("Kiểm tra xuất báo cáo quý", assigned_dept_id="39", project_id=pid, kanban_column="DONE")
+        self.db.create_task("Tối ưu biểu đồ dòng tiền", assigned_dept_id="13", project_id=pid, kanban_column="IN_PROGRESS")
+        self.db.add_project_ledger_entry(pid, "REVENUE", "Thuê bao", "10 khách đầu tiên", 2490000, is_estimate=False)
+        self.db.add_project_ledger_entry(pid, "EXPENSE", "Hạ tầng", "Tên miền", 250000, is_estimate=False)
+        linked_m = self.db.create_mission(
+            title="Sản xuất Két Thuế Shop v1",
+            goal_prompt="Ứng dụng Web SaaS quản lý sổ thu chi hộ kinh doanh",
+            project_id=pid,
+            enqueue_order=False,
+        )
+        self.db.update_mission(linked_m["mission_id"], survival_score=91, ux_score=95, expected_margin_pct=82.5)
+        rw = self.db.bounce_back_defect(
+            target_dept_id="13",
+            title="Bổ sung lọc theo quý trong bảng thu chi",
+            mission_id=linked_m["mission_id"],
+            project_id=pid,
+        )
+
+        # GET /api/projects/<pid>/detail returns full v11.0 bundle
+        st_det, _, raw_det = self._req(f"/api/projects/{pid}/detail")
+        self.assertEqual(st_det, 200)
+        det = json.loads(raw_det.decode("utf-8"))
+        for key in ("project", "files", "tasks", "missions", "rework_tickets", "finance_summary", "ledger"):
+            self.assertIn(key, det)
+
+        proj = det["project"]
+        self.assertEqual(proj["preview_urls"]["app_url"], "./projects/so-thu-chi-thue-hkd/app/index.html")
+        self.assertEqual(proj["preview_urls"]["landing_url"], "./projects/so-thu-chi-thue-hkd/go-to-market/landing/index.html")
+        self.assertGreaterEqual(len(proj["preview_urls"]["links"]), 2)
+        for lk in proj["preview_urls"]["links"]:
+            self.assertNotIn("localhost", lk["url"])
+            self.assertNotIn("127.0.0.1", lk["url"])
+        self.assertGreater(proj["files_summary"]["total_files"], 0)
+        self.assertGreater(proj["files_summary"]["app_files"], 0)
+        self.assertGreaterEqual(proj["tasks_summary"]["total"], 2)
+        self.assertGreaterEqual(proj["tasks_summary"]["done"], 1)
+        self.assertEqual(proj["rework_summary"]["open_count"], 1)
+        self.assertEqual(proj["quality_metrics"]["survival_score"], 91)
+        self.assertEqual(proj["quality_metrics"]["ux_score"], 95)
+        self.assertTrue(proj["quality_metrics"]["all_9_divisions_covered"])
+        self.assertEqual(proj["quality_metrics"]["mission_id"], linked_m["mission_id"])
+        self.assertAlmostEqual(proj["finance_brief"]["actual_revenue_vnd"], 2490000.0)
+        self.assertAlmostEqual(proj["finance_brief"]["actual_net_profit_vnd"], 2240000.0)
+        self.assertGreaterEqual(len(det["rework_tickets"]), 1)
+        self.assertEqual(det["rework_tickets"][0]["ticket_id"], rw["ticket_id"])
+
+        # POST /api/projects/<pid>/upgrade launches 9-division upgrade mission & queues bridge order
+        st_upg, _, raw_upg = self._req(
+            f"/api/projects/{pid}/upgrade",
+            method="POST",
+            body={
+                "upgrade_goal": "Bổ sung quản lý đa chi nhánh và xuất báo cáo thuế tự động cho doanh nghiệp",
+                "auto_approve": False,
+            },
+        )
+        self.assertEqual(st_upg, 201)
+        upg = json.loads(raw_upg.decode("utf-8"))
+        self.assertTrue(upg["ok"])
+        self.assertEqual(upg["project_id"], pid)
+        self.assertTrue(upg["order_id"])
+        upg_m = upg["mission"]
+        self.assertEqual(upg_m["project_id"], pid)
+        self.assertEqual(upg_m["category"], "PRODUCT_UPGRADE")
+        self.assertTrue(upg_m["division_roster_plan"]["all_9_divisions_covered"])
+        self.assertEqual(upg_m["division_roster_plan"]["active_divisions_count"], 9)
+
+        # Verify bridge order exists & overview projects include rich fields
+        orders = self.db.list_orders(limit=20)
+        self.assertTrue(any(o["order_id"] == upg["order_id"] and o["mission_id"] == upg_m["mission_id"] for o in orders))
+        st_ov, _, raw_ov = self._req("/api/overview")
+        self.assertEqual(st_ov, 200)
+        ov = json.loads(raw_ov.decode("utf-8"))
+        ov_proj = next(p for p in ov["projects"] if p["project_id"] == pid)
+        self.assertIn("preview_urls", ov_proj)
+        self.assertIn("files_summary", ov_proj)
+        self.assertIn("quality_metrics", ov_proj)
+
+    def test_14_v11_commercial_opportunities_tier_scale_score_cli_and_prune(self) -> None:
+        import subprocess
+        # 1. Create strategic Flagship Venture via POST /api/opportunities
+        st_hi, _, raw_hi = self._req(
+            "/api/opportunities",
+            method="POST",
+            body={
+                "title": "Nền tảng Điều hành Xưởng In và Báo giá Tự động Đa Chi nhánh",
+                "target_customer": "Chủ xưởng in ấn, quảng cáo và bao bì (15-80 nhân sự)",
+                "pain_point": "Báo giá thủ công bằng Excel sai giá vật tư, thất thoát đơn sản xuất và công nợ",
+                "proposed_solution": "Workspace đa màn hình tính giá tự động theo khổ giấy, theo dõi xưởng và VietQR công nợ",
+                "price_vnd": 790000,
+                "est_margin_pct": 88.5,
+                "breakeven_users": 3,
+                "survival_score": 92,
+                "opportunity_tier": "FLAGSHIP_VENTURE",
+                "product_scale_score": 93,
+                "big_corp_moat_vi": "ERP lớn giá trăm triệu cồng kềnh; giải pháp sâu nghiệp vụ in ấn dùng được sau 5 phút kiểu Linear",
+                "zero_cost_stack_vi": "Cloudflare Pages + Workers + D1 miễn phí tới 100 xưởng đầu; nâng cấp 500k/tháng khi doanh thu > 40tr",
+            },
+        )
+        self.assertEqual(st_hi, 201)
+        hi = json.loads(raw_hi.decode("utf-8"))
+        self.assertEqual(hi["opportunity_tier"], "FLAGSHIP_VENTURE")
+        self.assertEqual(hi["opportunity_tier_vi"], "Cơ hội Chiến lược")
+        self.assertEqual(hi["product_scale_score"], 93)
+        self.assertIn("Linear", hi["big_corp_moat_vi"])
+        self.assertIn("Cloudflare", hi["zero_cost_stack_vi"])
+
+        # 2. Create low-tier toy opportunity
+        st_lo, _, raw_lo = self._req(
+            "/api/opportunities",
+            method="POST",
+            body={
+                "title": "Công cụ đếm số chữ đơn giản 1 trang",
+                "target_customer": "Sinh viên",
+                "opportunity_tier": "STANDARD",
+                "product_scale_score": 45,
+            },
+        )
+        self.assertEqual(st_lo, 201)
+        lo_id = json.loads(raw_lo.decode("utf-8"))["opp_id"]
+
+        # 3. Create PLG Platform opportunity via titan_bridge_cli.py add-opportunity
+        cli = [sys.executable, str(SCRIPTS_DIR / "titan_bridge_cli.py"), "--db", str(self.db_path)]
+        cli_proc = subprocess.run(
+            cli
+            + [
+                "add-opportunity",
+                "--title", "Không gian Biểu mẫu và Cổng Hồ sơ Khách hàng Tự động hóa PLG",
+                "--customer", "Agency thiết kế, kế toán dịch vụ và tư vấn toàn cầu",
+                "--pain", "Thu hồ sơ khách rời rạc qua Zalo/Email tốn 6 giờ/tuần nhắc việc",
+                "--solution", "Cổng khách hàng gắn thương hiệu riêng, ký duyệt và thanh toán tự động kiểu Tally",
+                "--price", "490000",
+                "--margin", "91.0",
+                "--breakeven", "2",
+                "--survival", "94",
+                "--critique", "Điểm quy mô 91/100 vượt chuẩn Hiến pháp Chống Đồ chơi",
+                "--ux", "Không gian làm việc 3 cột tốc độ phản hồi dưới 50ms",
+                "--tier", "PLG_PLATFORM",
+                "--scale-score", "91",
+                "--moat", "Nhúng chữ ký số và tự lan truyền qua link cổng khách hàng giống Tally/Calendly",
+                "--stack", "0đ Cloudflare Pages + R2 Free tới 10GB; nâng cấp 400k/tháng khi MRR đạt 30tr",
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            check=True,
+        )
+        cli_res = json.loads(cli_proc.stdout)
+        self.assertTrue(cli_res["ok"])
+        cli_opp = cli_res["opportunity"]
+        self.assertEqual(cli_opp["opportunity_tier"], "PLG_PLATFORM")
+        self.assertEqual(cli_opp["product_scale_score"], 91)
+        self.assertIn("Tally", cli_opp["big_corp_moat_vi"])
+        self.assertIn("Cloudflare", cli_opp["zero_cost_stack_vi"])
+
+        # 4. Strategic filter GET /api/opportunities?tier=STRATEGIC&min_scale_score=85
+        st_flt, _, raw_flt = self._req("/api/opportunities?tier=STRATEGIC&min_scale_score=85")
+        self.assertEqual(st_flt, 200)
+        flt_ids = {o["opp_id"] for o in json.loads(raw_flt.decode("utf-8"))["opportunities"]}
+        self.assertIn(hi["opp_id"], flt_ids)
+        self.assertIn(cli_opp["opp_id"], flt_ids)
+        self.assertNotIn(lo_id, flt_ids)
+
+        # 5. Snapshot round-trip preserves v11.0 opportunity fields
+        snap = export_snapshot(self.db)
+        self.assertEqual(snap["schema_version"], "11.0")
+        other_db = TitanDatabase(db_path=self.tmp_path / "sync_v11_opps.db")
+        try:
+            merge_snapshot_into_db(other_db, snap)
+            synced = {o["opp_id"]: o for o in other_db.list_opportunities()}
+            self.assertEqual(synced[hi["opp_id"]]["opportunity_tier"], "FLAGSHIP_VENTURE")
+            self.assertEqual(synced[hi["opp_id"]]["product_scale_score"], 93)
+            self.assertEqual(synced[cli_opp["opp_id"]]["opportunity_tier"], "PLG_PLATFORM")
+        finally:
+            other_db.close_thread_conn()
+
+        # 6. DELETE /api/opportunities/prune-low-tier removes low-score STANDARD only
+        st_pr, _, raw_pr = self._req("/api/opportunities/prune-low-tier?min_scale_score=85", method="DELETE")
+        self.assertEqual(st_pr, 200)
+        pr_res = json.loads(raw_pr.decode("utf-8"))
+        self.assertIn(lo_id, pr_res["deleted_ids"])
+        remaining_ids = {o["opp_id"] for o in self.db.list_opportunities()}
+        self.assertIn(hi["opp_id"], remaining_ids)
+        self.assertIn(cli_opp["opp_id"], remaining_ids)
+        self.assertNotIn(lo_id, remaining_ids)
+
+    def test_15_v11_media_campaigns_api_overview_project_detail_and_sync(self) -> None:
+        # Insert project row to bind campaign
+        pid = "proj-media-demo"
+        with self.db.immediate_tx() as conn:
+            conn.execute(
+                """
+                INSERT INTO projects(
+                    project_id, slug, title, objective, target_market,
+                    status, expected_price_vnd, unit_cost_vnd, fixed_cost_monthly_vnd,
+                    workspace_path, version, created_at, updated_at
+                ) VALUES (
+                    ?, 'so-thu-chi-thue-hkd', 'Két Thuế Shop',
+                    'Quản lý sổ thu chi hộ kinh doanh', 'Việt Nam',
+                    'SHIPPED', 249000, 56235, 1500000, 'corporate_hq/projects/so-thu-chi-thue-hkd',
+                    1, '2026-11-19T00:00:00Z', '2026-11-19T00:00:00Z'
+                )
+                """,
+                (pid,),
+            )
+
+        # 1. POST /api/media/campaigns -> 201
+        st_c, _, raw_c = self._req(
+            "/api/media/campaigns",
+            method="POST",
+            body={
+                "project_id": pid,
+                "title": "Cảnh báo mất 30% lợi nhuận vì quên trích quỹ thuế",
+                "platform": "TIKTOK",
+                "angle_vi": "Đánh thẳng nỗi đau chủ shop bán hàng online cuối quý bị hụt tiền nộp thuế",
+            },
+        )
+        self.assertEqual(st_c, 201)
+        camp = json.loads(raw_c.decode("utf-8"))
+        cid = camp["campaign_id"]
+        self.assertEqual(camp["project_id"], pid)
+        self.assertEqual(camp["platform"], "TIKTOK")
+        self.assertIsInstance(camp["google_flow_scenes"], list)
+        self.assertGreaterEqual(len(camp["google_flow_scenes"]), 1)
+
+        # 2. GET /api/media/campaigns?project_id=... & /api/overview & /api/projects/<pid>/detail
+        st_l, _, raw_l = self._req(f"/api/media/campaigns?project_id={pid}&platform=TIKTOK")
+        self.assertEqual(st_l, 200)
+        self.assertEqual(len(json.loads(raw_l.decode("utf-8"))["campaigns"]), 1)
+
+        st_ov, _, raw_ov = self._req("/api/overview")
+        self.assertEqual(st_ov, 200)
+        ov = json.loads(raw_ov.decode("utf-8"))
+        self.assertIn("media_campaigns", ov)
+        self.assertTrue(any(c["campaign_id"] == cid for c in ov["media_campaigns"]))
+        ov_p = next(p for p in ov["projects"] if p["project_id"] == pid)
+        self.assertEqual(ov_p["media_campaigns_count"], 1)
+
+        st_det, _, raw_det = self._req(f"/api/projects/{pid}/detail")
+        self.assertEqual(st_det, 200)
+        det = json.loads(raw_det.decode("utf-8"))
+        self.assertIn("media_campaigns", det)
+        self.assertEqual(len(det["media_campaigns"]), 1)
+
+        # 3. PATCH /api/media/campaigns/<id> -> PUBLISHED with publish_url
+        st_p, _, raw_p = self._req(
+            f"/api/media/campaigns/{cid}",
+            method="PATCH",
+            body={"status": "PUBLISHED", "publish_url": "https://www.tiktok.com/@titanaicorp/video/123456"},
+        )
+        self.assertEqual(st_p, 200)
+        patched = json.loads(raw_p.decode("utf-8"))
+        self.assertEqual(patched["status"], "PUBLISHED")
+        self.assertIn("tiktok.com", patched["publish_url"])
+
+        # 4. Snapshot export & merge preserves media_campaigns
+        snap = export_snapshot(self.db)
+        self.assertIn("media_campaigns", snap)
+        self.assertTrue(any(c["campaign_id"] == cid for c in snap["media_campaigns"]))
+        other_db = TitanDatabase(db_path=self.tmp_path / "sync_media.db")
+        try:
+            merge_snapshot_into_db(other_db, snap)
+            self.assertEqual(len(other_db.list_media_campaigns(project_id=pid)), 1)
+        finally:
+            other_db.close_thread_conn()
+
+        # 5. DELETE /api/media/campaigns/<id> -> 200
+        st_d, _, raw_d = self._req(f"/api/media/campaigns/{cid}", method="DELETE")
+        self.assertEqual(st_d, 200)
+        self.assertTrue(json.loads(raw_d.decode("utf-8"))["deleted"])
+        self.assertEqual(len(self.db.list_media_campaigns(project_id=pid)), 0)
 
 
 if __name__ == "__main__":

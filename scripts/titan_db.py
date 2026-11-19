@@ -9,6 +9,7 @@ import math
 import re
 import sqlite3
 import threading
+import time
 import uuid
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -95,6 +96,14 @@ HANDOFF_STATUS_LABELS_VI: dict[str, str] = {
     "COMPLETED": "Đã xử lý xong",
     "REROUTED_BY_CEO": "Tổng Giám đốc #00 đã chuyển tuyến",
 }
+
+OPPORTUNITY_TIER_LABELS_VI: dict[str, str] = {
+    "FLAGSHIP_VENTURE": "Cơ hội Chiến lược",
+    "PLG_PLATFORM": "Nền tảng Tự lan truyền",
+    "AI_WORKFLOW": "Tự động hóa AI Chuyên sâu",
+    "STANDARD": "Tiêu chuẩn",
+}
+VALID_OPPORTUNITY_TIERS: tuple[str, ...] = ("FLAGSHIP_VENTURE", "PLG_PLATFORM", "AI_WORKFLOW", "STANDARD")
 
 CORPORATE_SOP_RULES_VI: list[dict[str, str]] = [
     {
@@ -684,6 +693,10 @@ CREATE TABLE IF NOT EXISTS opportunities (
     critique_note TEXT NOT NULL DEFAULT '',
     ux_note TEXT NOT NULL DEFAULT '',
     source_url TEXT NOT NULL DEFAULT '',
+    opportunity_tier TEXT NOT NULL DEFAULT 'STANDARD',
+    product_scale_score INTEGER NOT NULL DEFAULT 75,
+    big_corp_moat_vi TEXT NOT NULL DEFAULT '',
+    zero_cost_stack_vi TEXT NOT NULL DEFAULT '',
     status TEXT NOT NULL DEFAULT 'NEW'
         CHECK(status IN ('NEW','ACCEPTED','DISMISSED')),
     mission_id TEXT,
@@ -836,6 +849,7 @@ class TitanDatabase:
         self._event_listeners: list[Any] = []
         self._dir_cache_sig: tuple[int, int] | None = None
         self._dir_cache_data: dict[str, Any] | None = None
+        self._proj_scan_cache: dict[str, tuple[float, dict[str, Any]]] = {}
         self.initialize()
 
     def _get_conn(self) -> sqlite3.Connection:
@@ -904,6 +918,10 @@ class TitanDatabase:
                 "ALTER TABLE missions ADD COLUMN roster_plan_json TEXT NOT NULL DEFAULT '';",
                 "ALTER TABLE mission_steps ADD COLUMN worker_name TEXT NOT NULL DEFAULT '';",
                 "ALTER TABLE mission_steps ADD COLUMN artifact_path TEXT NOT NULL DEFAULT '';",
+                "ALTER TABLE opportunities ADD COLUMN opportunity_tier TEXT NOT NULL DEFAULT 'STANDARD';",
+                "ALTER TABLE opportunities ADD COLUMN product_scale_score INTEGER NOT NULL DEFAULT 75;",
+                "ALTER TABLE opportunities ADD COLUMN big_corp_moat_vi TEXT NOT NULL DEFAULT '';",
+                "ALTER TABLE opportunities ADD COLUMN zero_cost_stack_vi TEXT NOT NULL DEFAULT '';",
             ]
             for stmt in migrations:
                 try:
@@ -1377,24 +1395,452 @@ class TitanDatabase:
 
         return self.get_project(project_id) or {"project_id": project_id, "event": evt_to_emit}
 
-    def get_project(self, project_id: str) -> dict[str, Any] | None:
+    def invalidate_project_scan_cache(self, slug: str | None = None) -> None:
+        if slug:
+            self._proj_scan_cache.pop(slug, None)
+        else:
+            self._proj_scan_cache.clear()
+
+    @staticmethod
+    def _resolve_project_dir(slug: str, workspace_path: str = "") -> Path:
+        base_dir = ROOT_DIR / "corporate_hq" / "projects" / slug
+        if not base_dir.is_dir() and workspace_path:
+            alt = ROOT_DIR / workspace_path
+            if alt.is_dir():
+                return alt
+        return base_dir
+
+    def _scan_project_workspace_meta(self, slug: str, workspace_path: str = "", fresh: bool = False) -> dict[str, Any]:
+        now_mono = time.monotonic()
+        cached = self._proj_scan_cache.get(slug)
+        if not fresh and cached is not None and (now_mono - cached[0]) < 1.5:
+            return cached[1]
+
+        base_dir = self._resolve_project_dir(slug, workspace_path)
+        app_url = ""
+        landing_url = ""
+        links: list[dict[str, str]] = []
+        total_files = 0
+        app_files = 0
+        doc_files = 0
+        total_bytes = 0
+        doc_exts = {".md", ".txt", ".pdf", ".csv", ".doc", ".docx", ".rtf"}
+        code_exts = {".html", ".htm", ".css", ".js", ".mjs", ".ts", ".tsx", ".jsx", ".py", ".json", ".svg", ".webmanifest"}
+
+        if base_dir.is_dir():
+            if (base_dir / "app" / "index.html").is_file():
+                app_url = f"./projects/{slug}/app/index.html"
+                links.append({"label_vi": "Mở Ứng dụng Live", "label": "Mở Ứng dụng Live", "url": app_url, "kind": "app"})
+            elif (base_dir / "index.html").is_file():
+                app_url = f"./projects/{slug}/index.html"
+                links.append({"label_vi": "Mở Sản phẩm Live", "label": "Mở Sản phẩm Live", "url": app_url, "kind": "app"})
+
+            if (base_dir / "go-to-market" / "landing" / "index.html").is_file():
+                landing_url = f"./projects/{slug}/go-to-market/landing/index.html"
+                links.append({"label_vi": "Mở Trang bán hàng", "label": "Mở Trang bán hàng", "url": landing_url, "kind": "landing"})
+            elif (base_dir / "landing" / "index.html").is_file():
+                landing_url = f"./projects/{slug}/landing/index.html"
+                links.append({"label_vi": "Mở Trang bán hàng", "label": "Mở Trang bán hàng", "url": landing_url, "kind": "landing"})
+
+            for p in base_dir.rglob("*"):
+                if not p.is_file() or p.name == ".gitkeep" or "__pycache__" in p.parts:
+                    continue
+                total_files += 1
+                try:
+                    total_bytes += p.stat().st_size
+                except OSError:
+                    pass
+                ext = p.suffix.lower()
+                rel = str(p.relative_to(base_dir)).replace("\\", "/")
+                if ext in doc_exts:
+                    doc_files += 1
+                elif rel.startswith(("app/", "go-to-market/", "landing/", "src/")) or ext in code_exts:
+                    app_files += 1
+
+        res = {
+            "preview_urls": {
+                "app_url": app_url,
+                "landing_url": landing_url,
+                "links": links,
+            },
+            "files_summary": {
+                "total_files": total_files,
+                "app_files": app_files,
+                "doc_files": doc_files,
+                "total_size_kb": round(total_bytes / 1024.0, 2),
+            },
+        }
+        self._proj_scan_cache[slug] = (now_mono, res)
+        return res
+
+    def _enrich_project_rows(self, rows: list[dict[str, Any]], fresh_scan: bool = False) -> list[dict[str, Any]]:
+        if not rows:
+            return []
+        conn = self._get_conn()
+        pids = [str(r["project_id"]) for r in rows]
+        placeholders = ",".join("?" for _ in pids)
+
+        # 1. Batched tasks summary
+        task_map: dict[str, dict[str, int]] = {}
+        for tr in conn.execute(
+            f"""
+            SELECT project_id,
+                   COUNT(*) AS total,
+                   SUM(CASE WHEN kanban_column = 'DONE' THEN 1 ELSE 0 END) AS done,
+                   SUM(CASE WHEN kanban_column IN ('IN_PROGRESS','QA_SECURITY_REVIEW') THEN 1 ELSE 0 END) AS in_progress,
+                   SUM(CASE WHEN kanban_column = 'WAITING_APPROVAL' THEN 1 ELSE 0 END) AS waiting
+            FROM tasks
+            WHERE project_id IN ({placeholders})
+            GROUP BY project_id
+            """,
+            pids,
+        ).fetchall():
+            t_tot = int(tr["total"] or 0)
+            t_done = int(tr["done"] or 0)
+            task_map[tr["project_id"]] = {
+                "total": t_tot,
+                "done": t_done,
+                "in_progress": int(tr["in_progress"] or 0),
+                "waiting": int(tr["waiting"] or 0),
+                "progress_pct": int(round(t_done / t_tot * 100)) if t_tot > 0 else 0,
+            }
+
+        # 2. Batched missions & opportunity scale scores
+        msn_by_proj: dict[str, list[dict[str, Any]]] = {}
+        mission_to_proj: dict[str, str] = {}
+        for mr in conn.execute(
+            f"""
+            SELECT mission_id, project_id, status, progress_pct, survival_score, ux_score,
+                   expected_margin_pct, roster_plan_json, updated_at
+            FROM missions
+            WHERE project_id IN ({placeholders})
+            ORDER BY updated_at DESC
+            """,
+            pids,
+        ).fetchall():
+            md = dict(mr)
+            msn_by_proj.setdefault(md["project_id"], []).append(md)
+            mission_to_proj[md["mission_id"]] = md["project_id"]
+
+        opp_scale_by_msn: dict[str, int] = {}
+        if mission_to_proj:
+            mids = list(mission_to_proj.keys())
+            m_ph = ",".join("?" for _ in mids)
+            for orow in conn.execute(
+                f"SELECT mission_id, product_scale_score FROM opportunities WHERE mission_id IN ({m_ph})",
+                mids,
+            ).fetchall():
+                if orow["mission_id"]:
+                    opp_scale_by_msn[orow["mission_id"]] = int(orow["product_scale_score"] or 0)
+
+        # 3. Batched rework summary (by project_id or linked mission_id)
+        rw_map: dict[str, dict[str, int]] = {}
+        for rw in conn.execute("SELECT project_id, mission_id, status FROM rework_tickets").fetchall():
+            r_pid = str(rw["project_id"] or "").strip() or mission_to_proj.get(str(rw["mission_id"] or ""), "")
+            if r_pid not in pids:
+                continue
+            bucket = rw_map.setdefault(
+                r_pid,
+                {"open_count": 0, "recheck_count": 0, "closed_count": 0, "unresolved_count": 0, "total_count": 0},
+            )
+            st_up = str(rw["status"] or "OPEN").upper()
+            bucket["total_count"] += 1
+            if st_up in ("OPEN", "IN_FIX"):
+                bucket["open_count"] += 1
+                bucket["unresolved_count"] += 1
+            elif st_up == "FIXED_PENDING_RECHECK":
+                bucket["recheck_count"] += 1
+                bucket["unresolved_count"] += 1
+            elif st_up == "VERIFIED_CLOSED":
+                bucket["closed_count"] += 1
+
+        # 4. Batched ledger finance_brief
+        fin_map: dict[str, dict[str, float]] = {}
+        for lr in conn.execute(
+            f"""
+            SELECT project_id, entry_type, is_estimate, SUM(amount_vnd) AS total_amt
+            FROM project_ledger
+            WHERE project_id IN ({placeholders})
+            GROUP BY project_id, entry_type, is_estimate
+            """,
+            pids,
+        ).fetchall():
+            fb = fin_map.setdefault(
+                lr["project_id"],
+                {
+                    "actual_revenue_vnd": 0.0,
+                    "actual_expense_vnd": 0.0,
+                    "actual_tax_vnd": 0.0,
+                    "actual_net_profit_vnd": 0.0,
+                    "plan_revenue_vnd": 0.0,
+                    "plan_expense_vnd": 0.0,
+                    "plan_tax_vnd": 0.0,
+                    "plan_net_profit_vnd": 0.0,
+                },
+            )
+            amt = float(lr["total_amt"] or 0.0)
+            et = str(lr["entry_type"] or "EXPENSE").upper()
+            if int(lr["is_estimate"] or 0):
+                if et == "REVENUE":
+                    fb["plan_revenue_vnd"] += amt
+                elif et == "EXPENSE":
+                    fb["plan_expense_vnd"] += amt
+                elif et == "TAX_RESERVE":
+                    fb["plan_tax_vnd"] += amt
+            else:
+                if et == "REVENUE":
+                    fb["actual_revenue_vnd"] += amt
+                elif et == "EXPENSE":
+                    fb["actual_expense_vnd"] += amt
+                elif et == "TAX_RESERVE":
+                    fb["actual_tax_vnd"] += amt
+
+        enriched: list[dict[str, Any]] = []
+        for raw_p in rows:
+            item = dict(raw_p)
+            pid = str(item["project_id"])
+            slug = str(item.get("slug") or "")
+            ws_meta = self._scan_project_workspace_meta(slug, str(item.get("workspace_path") or ""), fresh=fresh_scan)
+            item["preview_urls"] = {
+                "app_url": ws_meta["preview_urls"]["app_url"],
+                "landing_url": ws_meta["preview_urls"]["landing_url"],
+                "links": [dict(lk) for lk in ws_meta["preview_urls"]["links"]],
+            }
+            item["files_summary"] = dict(ws_meta["files_summary"])
+
+            t_sum = dict(
+                task_map.get(
+                    pid,
+                    {
+                        "total": int(item.get("total_tasks") or 0),
+                        "done": int(item.get("done_tasks") or 0),
+                        "in_progress": 0,
+                        "waiting": int(item.get("waiting_tasks") or 0),
+                        "progress_pct": 0,
+                    },
+                )
+            )
+            p_msns = msn_by_proj.get(pid, [])
+            if t_sum["total"] == 0 and p_msns:
+                t_sum["progress_pct"] = int(round(sum(int(m.get("progress_pct") or 0) for m in p_msns) / len(p_msns)))
+            elif str(item.get("status") or "").upper() == "SHIPPED" and t_sum["progress_pct"] == 0:
+                t_sum["progress_pct"] = 100
+            item["total_tasks"] = t_sum["total"]
+            item["done_tasks"] = t_sum["done"]
+            item["waiting_tasks"] = t_sum["waiting"]
+            item["tasks_summary"] = t_sum
+
+            item["rework_summary"] = dict(
+                rw_map.get(
+                    pid,
+                    {"open_count": 0, "recheck_count": 0, "closed_count": 0, "unresolved_count": 0, "total_count": 0},
+                )
+            )
+
+            latest_m = p_msns[0] if p_msns else None
+            price_v = float(item.get("expected_price_vnd") or 0.0)
+            unit_v = float(item.get("unit_cost_vnd") or 0.0)
+            fallback_margin = round(((price_v - unit_v) / price_v * 100.0), 1) if price_v > 0 else 0.0
+            if latest_m:
+                surv = int(latest_m.get("survival_score") or 0)
+                uxs = int(latest_m.get("ux_score") or 0)
+                emarg = float(latest_m.get("expected_margin_pct") or fallback_margin)
+                all_9 = True
+                raw_rp = str(latest_m.get("roster_plan_json") or "").strip()
+                if raw_rp:
+                    try:
+                        all_9 = bool(json.loads(raw_rp).get("all_9_divisions_covered", True))
+                    except Exception:
+                        all_9 = True
+                scale_sc = opp_scale_by_msn.get(latest_m["mission_id"]) or int(round((surv + uxs) / 2.0))
+                item["quality_metrics"] = {
+                    "survival_score": surv,
+                    "ux_score": uxs,
+                    "expected_margin_pct": round(emarg, 1),
+                    "product_scale_score": scale_sc,
+                    "all_9_divisions_covered": all_9,
+                    "mission_id": latest_m["mission_id"],
+                    "mission_status": latest_m["status"],
+                    "missions_count": len(p_msns),
+                }
+            else:
+                item["quality_metrics"] = {
+                    "survival_score": 0,
+                    "ux_score": 0,
+                    "expected_margin_pct": fallback_margin,
+                    "product_scale_score": 0,
+                    "all_9_divisions_covered": False,
+                    "mission_id": "",
+                    "mission_status": "",
+                    "missions_count": 0,
+                }
+
+            fb = dict(
+                fin_map.get(
+                    pid,
+                    {
+                        "actual_revenue_vnd": 0.0,
+                        "actual_expense_vnd": 0.0,
+                        "actual_tax_vnd": 0.0,
+                        "actual_net_profit_vnd": 0.0,
+                        "plan_revenue_vnd": 0.0,
+                        "plan_expense_vnd": 0.0,
+                        "plan_tax_vnd": 0.0,
+                        "plan_net_profit_vnd": 0.0,
+                    },
+                )
+            )
+            fb["actual_revenue_vnd"] = round(fb["actual_revenue_vnd"], 2)
+            fb["actual_expense_vnd"] = round(fb["actual_expense_vnd"], 2)
+            fb["actual_tax_vnd"] = round(fb["actual_tax_vnd"], 2)
+            fb["actual_net_profit_vnd"] = round(fb["actual_revenue_vnd"] - fb["actual_expense_vnd"] - fb["actual_tax_vnd"], 2)
+            fb["plan_revenue_vnd"] = round(fb["plan_revenue_vnd"], 2)
+            fb["plan_expense_vnd"] = round(fb["plan_expense_vnd"], 2)
+            fb["plan_tax_vnd"] = round(fb["plan_tax_vnd"], 2)
+            fb["plan_net_profit_vnd"] = round(fb["plan_revenue_vnd"] - fb["plan_expense_vnd"] - fb["plan_tax_vnd"], 2)
+            item["finance_brief"] = fb
+            item["media_campaigns_count"] = 0
+            enriched.append(item)
+
+        if self._has_table("media_campaigns"):
+            mc_counts = {
+                str(r["project_id"]): int(r["cnt"] or 0)
+                for r in conn.execute(
+                    f"SELECT project_id, COUNT(*) AS cnt FROM media_campaigns WHERE project_id IN ({placeholders}) GROUP BY project_id",
+                    pids,
+                ).fetchall()
+                if r["project_id"]
+            }
+            for item in enriched:
+                item["media_campaigns_count"] = mc_counts.get(str(item["project_id"]), 0)
+        return enriched
+
+    def get_project(self, project_id: str, fresh_scan: bool = False) -> dict[str, Any] | None:
         conn = self._get_conn()
         row = conn.execute("SELECT * FROM projects WHERE project_id = ?", (project_id,)).fetchone()
-        return dict(row) if row else None
+        if not row:
+            return None
+        return self._enrich_project_rows([dict(row)], fresh_scan=fresh_scan)[0]
 
-    def list_projects(self) -> list[dict[str, Any]]:
+    def list_projects(self, fresh_scan: bool = False) -> list[dict[str, Any]]:
         conn = self._get_conn()
         rows = conn.execute(
             """
-            SELECT p.*,
-                (SELECT COUNT(*) FROM tasks t WHERE t.project_id = p.project_id) AS total_tasks,
-                (SELECT COUNT(*) FROM tasks t WHERE t.project_id = p.project_id AND t.kanban_column = 'DONE') AS done_tasks,
-                (SELECT COUNT(*) FROM tasks t WHERE t.project_id = p.project_id AND t.kanban_column = 'WAITING_APPROVAL') AS waiting_tasks
+            SELECT p.*
             FROM projects p
             ORDER BY p.updated_at DESC
             """
         ).fetchall()
-        return [dict(r) for r in rows]
+        return self._enrich_project_rows([dict(r) for r in rows], fresh_scan=fresh_scan)
+
+    def list_project_files(self, project_id: str) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        row = conn.execute("SELECT slug, workspace_path FROM projects WHERE project_id = ?", (project_id,)).fetchone()
+        if not row:
+            raise KeyError(f"Dự án '{project_id}' không tồn tại.")
+        proj_root = self._resolve_project_dir(str(row["slug"]), str(row["workspace_path"] or ""))
+        doc_exts = {".md", ".txt", ".pdf", ".csv", ".doc", ".docx", ".rtf"}
+        files_list: list[dict[str, Any]] = []
+        if proj_root.is_dir():
+            for p in sorted(proj_root.rglob("*")):
+                if p.is_file() and p.name != ".gitkeep" and "__pycache__" not in p.parts:
+                    rel = str(p.relative_to(proj_root)).replace("\\", "/")
+                    ext = p.suffix.lower()
+                    files_list.append(
+                        {
+                            "path": rel,
+                            "name": p.name,
+                            "size_bytes": p.stat().st_size,
+                            "ext": ext,
+                            "category": "doc" if ext in doc_exts else "code",
+                        }
+                    )
+        return files_list
+
+    def get_project_detail(self, project_id: str) -> dict[str, Any] | None:
+        """Trả trọn gói dữ liệu cho Tab Quản lý Dự án v11.0 trong 1 lần gọi."""
+        proj = self.get_project(project_id, fresh_scan=True)
+        if not proj:
+            return None
+        files = self.list_project_files(project_id)
+        tasks = self.list_tasks(project_id=project_id)
+        missions = [m for m in self.list_missions() if m.get("project_id") == project_id]
+        mission_ids = {m["mission_id"] for m in missions}
+        all_rw = self.list_rework_tickets()
+        rework_tickets = [
+            rw
+            for rw in all_rw
+            if rw.get("project_id") == project_id or (rw.get("mission_id") in mission_ids)
+        ]
+        finance_summary = self.get_project_finance_summary(project_id)
+        ledger = self.list_project_ledger(project_id=project_id)
+        media_campaigns = self.list_media_campaigns(project_id=project_id)
+        return {
+            "project": proj,
+            "files": files,
+            "tasks": tasks,
+            "missions": missions,
+            "rework_tickets": rework_tickets,
+            "finance_summary": finance_summary,
+            "ledger": ledger,
+            "media_campaigns": media_campaigns,
+        }
+
+    def launch_project_upgrade_mission(
+        self,
+        project_id: str,
+        upgrade_goal: str,
+        auto_approve: bool = False,
+        source_device: str = "web-local",
+        product_type: str = "AUTO",
+    ) -> dict[str, Any]:
+        """Giao 9 Khối nâng cấp trực tiếp một dự án hiện có và xếp lệnh vào cầu nối Antigravity."""
+        clean_goal = str(upgrade_goal or "").strip()
+        if not clean_goal:
+            raise ValueError("Vui lòng nhập yêu cầu nâng cấp dự án.")
+        proj = self.get_project(project_id)
+        if not proj:
+            raise KeyError(f"Dự án '{project_id}' không tồn tại.")
+
+        msn_title = f"Nâng cấp {proj['title']}: {clean_goal[:96]}"
+        full_prompt = (
+            f"Dự án cần nâng cấp: {proj['title']} (mã {project_id}, thư mục {proj.get('workspace_path', '')}). "
+            f"Mục tiêu hiện tại: {proj.get('objective', '')}. "
+            f"Yêu cầu nâng cấp từ Chủ tịch: {clean_goal}"
+        )
+        msn = self.create_mission(
+            title=msn_title,
+            goal_prompt=full_prompt,
+            category="PRODUCT_UPGRADE",
+            auto_approve=bool(auto_approve),
+            enqueue_order=True,
+            source_device=source_device,
+            product_type=product_type,
+            project_id=project_id,
+        )
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            conn.execute(
+                "UPDATE projects SET status = CASE WHEN status = 'ARCHIVED' THEN 'ACTIVE' ELSE status END, version = version + 1, updated_at = ? WHERE project_id = ?",
+                (now, project_id),
+            )
+            self.log_event(
+                actor_dept_id="00",
+                event_type="PROJECT_UPGRADE_QUEUED",
+                headline_vi=f"Đã giao 9 Khối nâng cấp dự án '{proj['title']}': {clean_goal[:100]}",
+                project_id=project_id,
+                detail={"mission_id": msn["mission_id"], "order_id": msn.get("order_id", "")},
+                conn=conn,
+            )
+        self.reconcile_live_system_state()
+        return {
+            "ok": True,
+            "project_id": project_id,
+            "project": self.get_project(project_id, fresh_scan=True),
+            "mission": self.get_mission(msn["mission_id"]),
+            "order_id": msn.get("order_id", ""),
+            "bridge_online": self.get_bridge_status().get("online", False),
+        }
 
     # =========================================================================
     # TASKS, PAPERCLIP ATOMIC CHECKOUT & CHAIRMAN GATE APPROVALS
@@ -2305,6 +2751,7 @@ class TitanDatabase:
         dept_handoffs = self.list_dept_handoffs()
         handoff_summary = self.get_handoff_summary()
         corporate_directory_summary = self.get_corporate_directory_summary()
+        media_campaigns = self.list_media_campaigns()
         latest_stamp_row = conn.execute(
             """
             SELECT MAX(ts) AS max_ts FROM (
@@ -2327,6 +2774,10 @@ class TitanDatabase:
             """
         ).fetchone()
         state_stamp = (latest_stamp_row["max_ts"] if latest_stamp_row and latest_stamp_row["max_ts"] else "2026-01-01T00:00:00Z")
+        if media_campaigns:
+            mc_max = max((str(c.get("updated_at") or "") for c in media_campaigns), default="")
+            if mc_max > state_stamp:
+                state_stamp = mc_max
 
         return {
             "generated_at": state_stamp,
@@ -2381,6 +2832,7 @@ class TitanDatabase:
             "dept_handoffs": dept_handoffs,
             "handoff_summary": handoff_summary,
             "corporate_directory_summary": corporate_directory_summary,
+            "media_campaigns": media_campaigns,
         }
 
     def get_events_since(self, last_event_id: int) -> list[dict[str, Any]]:
@@ -2573,16 +3025,51 @@ class TitanDatabase:
                     (*item, now, now),
                 )
 
-    def list_opportunities(self, status: str | None = None) -> list[dict[str, Any]]:
+    @staticmethod
+    def _enrich_opportunity_row(row: dict[str, Any]) -> dict[str, Any]:
+        item = dict(row)
+        tier = str(item.get("opportunity_tier") or "STANDARD").upper().strip()
+        if tier not in VALID_OPPORTUNITY_TIERS:
+            tier = "STANDARD"
+        item["opportunity_tier"] = tier
+        item["opportunity_tier_vi"] = OPPORTUNITY_TIER_LABELS_VI.get(tier, "Tiêu chuẩn")
+        item["product_scale_score"] = int(item.get("product_scale_score") if item.get("product_scale_score") is not None else 75)
+        item["big_corp_moat_vi"] = str(item.get("big_corp_moat_vi") or "")
+        item["zero_cost_stack_vi"] = str(item.get("zero_cost_stack_vi") or "")
+        return item
+
+    def list_opportunities(
+        self,
+        status: str | None = None,
+        tier: str | None = None,
+        min_scale_score: int | None = None,
+    ) -> list[dict[str, Any]]:
         conn = self._get_conn()
+        clauses = ["1=1"]
+        params: list[Any] = []
         if status:
-            rows = conn.execute(
-                "SELECT * FROM opportunities WHERE status = ? ORDER BY survival_score DESC, updated_at DESC",
-                (status.upper(),),
-            ).fetchall()
-        else:
-            rows = conn.execute("SELECT * FROM opportunities ORDER BY CASE status WHEN 'NEW' THEN 0 WHEN 'ACCEPTED' THEN 1 ELSE 2 END, survival_score DESC, updated_at DESC").fetchall()
-        return [dict(r) for r in rows]
+            clauses.append("status = ?")
+            params.append(status.upper().strip())
+        if tier:
+            t_up = tier.upper().strip()
+            if t_up == "STRATEGIC":
+                clauses.append("(opportunity_tier IN ('FLAGSHIP_VENTURE','PLG_PLATFORM','AI_WORKFLOW') OR product_scale_score >= 85)")
+            else:
+                clauses.append("opportunity_tier = ?")
+                params.append(t_up)
+        if min_scale_score is not None:
+            clauses.append("product_scale_score >= ?")
+            params.append(int(min_scale_score))
+        rows = conn.execute(
+            f"""
+            SELECT * FROM opportunities
+            WHERE {' AND '.join(clauses)}
+            ORDER BY CASE status WHEN 'NEW' THEN 0 WHEN 'ACCEPTED' THEN 1 ELSE 2 END,
+                     product_scale_score DESC, survival_score DESC, updated_at DESC
+            """,
+            params,
+        ).fetchall()
+        return [self._enrich_opportunity_row(dict(r)) for r in rows]
 
     def create_opportunity(
         self,
@@ -2598,9 +3085,19 @@ class TitanDatabase:
         ux_note: str = "",
         source_url: str = "",
         opp_id: str | None = None,
+        opportunity_tier: str = "STANDARD",
+        product_scale_score: int = 75,
+        big_corp_moat_vi: str = "",
+        zero_cost_stack_vi: str = "",
     ) -> dict[str, Any]:
         now = utc_now_iso()
         oid = opp_id or f"opp-{uuid.uuid4().hex[:8]}"
+        tier = str(opportunity_tier or "STANDARD").upper().strip()
+        if tier not in VALID_OPPORTUNITY_TIERS:
+            tier = "STANDARD"
+        scale_score = max(0, min(100, int(product_scale_score if product_scale_score is not None else 75)))
+        moat_clean = str(big_corp_moat_vi or "").strip()
+        stack_clean = str(zero_cost_stack_vi or "").strip()
         with self.immediate_tx() as conn:
             self._clear_tombstone(conn, "opportunity", oid)
             conn.execute(
@@ -2608,28 +3105,47 @@ class TitanDatabase:
                 INSERT INTO opportunities(
                     opp_id, title, target_customer, pain_point, proposed_solution,
                     price_vnd, est_margin_pct, breakeven_users, survival_score,
-                    critique_note, ux_note, source_url, status, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NEW', ?, ?)
+                    critique_note, ux_note, source_url,
+                    opportunity_tier, product_scale_score, big_corp_moat_vi, zero_cost_stack_vi,
+                    status, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NEW', ?, ?)
                 """,
                 (
                     oid, title, target_customer, pain_point, proposed_solution,
                     float(price_vnd), float(est_margin_pct), int(breakeven_users), int(survival_score),
                     critique_note or "Phòng #46 đã rà soát sơ bộ tính khả thi thương mại.",
                     ux_note or "Phòng #48 yêu cầu thiết kế tối đa 3 chạm trên điện thoại.",
-                    source_url, now, now,
+                    source_url, tier, scale_score, moat_clean, stack_clean, now, now,
                 ),
             )
-            self.log_event("50", "OPPORTUNITY_CREATED", f"Phòng #50 đề xuất cơ hội kiếm tiền mới: {title}", conn=conn)
+            self.log_event(
+                "50",
+                "OPPORTUNITY_CREATED",
+                f"Phòng #50 đề xuất cơ hội ({OPPORTUNITY_TIER_LABELS_VI.get(tier, 'Tiêu chuẩn')} · {scale_score}/100): {title}",
+                detail={"opp_id": oid, "opportunity_tier": tier, "product_scale_score": scale_score},
+                conn=conn,
+            )
         row = self._get_conn().execute("SELECT * FROM opportunities WHERE opp_id = ?", (oid,)).fetchone()
-        return dict(row)
+        return self._enrich_opportunity_row(dict(row))
 
     def update_opportunity(self, opp_id: str, **fields: Any) -> dict[str, Any]:
         allowed = {
             "title", "target_customer", "pain_point", "proposed_solution",
             "price_vnd", "est_margin_pct", "breakeven_users", "survival_score",
             "critique_note", "ux_note", "source_url", "status",
+            "opportunity_tier", "product_scale_score", "big_corp_moat_vi", "zero_cost_stack_vi",
         }
-        updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+        updates: dict[str, Any] = {}
+        for k, v in fields.items():
+            if k not in allowed or v is None:
+                continue
+            if k == "opportunity_tier":
+                tv = str(v).upper().strip()
+                updates[k] = tv if tv in VALID_OPPORTUNITY_TIERS else "STANDARD"
+            elif k == "product_scale_score":
+                updates[k] = max(0, min(100, int(v)))
+            else:
+                updates[k] = v
         now = utc_now_iso()
         with self.immediate_tx() as conn:
             cur = conn.execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone()
@@ -2641,7 +3157,36 @@ class TitanDatabase:
                     f"UPDATE opportunities SET {cols}, version = version + 1, updated_at = ? WHERE opp_id = ?",
                     [*updates.values(), now, opp_id],
                 )
-        return dict(self._get_conn().execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone())
+        row = self._get_conn().execute("SELECT * FROM opportunities WHERE opp_id = ?", (opp_id,)).fetchone()
+        return self._enrich_opportunity_row(dict(row))
+
+    def prune_low_tier_opportunities(self, min_scale_score: int = 85) -> dict[str, Any]:
+        """Dọn các cơ hội NEW có điểm quy mô thấp hơn ngưỡng thương mại (giữ nguyên mọi cơ hội đã ACCEPTED)."""
+        threshold = max(0, min(100, int(min_scale_score)))
+        deleted_ids: list[str] = []
+        with self.immediate_tx() as conn:
+            rows = conn.execute(
+                """
+                SELECT * FROM opportunities
+                WHERE status = 'NEW' AND product_scale_score < ? AND opportunity_tier = 'STANDARD'
+                """,
+                (threshold,),
+            ).fetchall()
+            for r in rows:
+                payload = dict(r)
+                oid = payload["opp_id"]
+                self._record_tombstone(conn, "opportunity", oid, payload)
+                conn.execute("DELETE FROM opportunities WHERE opp_id = ?", (oid,))
+                deleted_ids.append(oid)
+            if deleted_ids:
+                self.log_event(
+                    "00",
+                    "OPPORTUNITIES_PRUNED",
+                    f"Tổng Giám đốc #00 đã lọc bỏ {len(deleted_ids)} cơ hội nhỏ dưới ngưỡng quy mô {threshold}/100.",
+                    detail={"deleted_ids": deleted_ids, "min_scale_score": threshold},
+                    conn=conn,
+                )
+        return {"pruned_count": len(deleted_ids), "deleted_ids": deleted_ids, "min_scale_score": threshold}
 
     def delete_opportunity(self, opp_id: str) -> dict[str, Any]:
         with self.immediate_tx() as conn:
@@ -2742,11 +3287,13 @@ class TitanDatabase:
         enqueue_order: bool = True,
         source_device: str = "web-local",
         product_type: str = "AUTO",
+        project_id: str = "",
     ) -> dict[str, Any]:
         now = utc_now_iso()
         mid = mission_id or f"msn-{uuid.uuid4().hex[:8]}"
         order_id: str | None = None
         effective_prompt = goal_prompt or title
+        clean_proj_id = str(project_id or "").strip()
         roster_plan = self.plan_9_division_roster(goal_prompt=effective_prompt, product_type=product_type)
         step_overrides = roster_plan.get("step_lead_overrides", {})
         roster_plan_json = json.dumps(roster_plan, ensure_ascii=False)
@@ -2759,7 +3306,7 @@ class TitanDatabase:
                     current_step_order, total_steps, progress_pct, dispatch_state,
                     swarm_title, swarm_workers_json, phase, project_id,
                     product_type, roster_plan_json, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, 'QUEUED_FOR_ANTIGRAVITY', '', '[]', 'PROPOSAL', '', ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, 'RUNNING', ?, 1, ?, 0, 'QUEUED_FOR_ANTIGRAVITY', '', '[]', 'PROPOSAL', ?, ?, ?, ?, ?)
                 """,
                 (
                     mid,
@@ -2768,6 +3315,7 @@ class TitanDatabase:
                     category,
                     1 if auto_approve else 0,
                     len(self.DEFAULT_8_STEPS_TEMPLATE),
+                    clean_proj_id,
                     roster_plan["product_type"],
                     roster_plan_json,
                     now,
@@ -6363,3 +6911,199 @@ class TitanDatabase:
         self.reconcile_live_system_state()
         row = self._get_conn().execute("SELECT * FROM dept_handoffs WHERE handoff_id = ?", (handoff_id,)).fetchone()
         return self._enrich_handoff_rows([dict(row)])[0]
+
+    # =========================================================================
+    # V11.0: MEDIA STUDIO & GOOGLE FLOW VIDEO AI CAMPAIGNS (DIV 5 #25..#31)
+    # =========================================================================
+    def _has_table(self, table_name: str, conn: sqlite3.Connection | None = None) -> bool:
+        c = conn if conn is not None else self._get_conn()
+        row = c.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name = ? LIMIT 1",
+            (table_name,),
+        ).fetchone()
+        return row is not None
+
+    def ensure_media_campaigns_table(self, conn: sqlite3.Connection | None = None) -> None:
+        create_tbl = """
+        CREATE TABLE IF NOT EXISTS media_campaigns (
+            campaign_id TEXT PRIMARY KEY,
+            project_id TEXT,
+            title TEXT NOT NULL,
+            platform TEXT NOT NULL DEFAULT 'TIKTOK',
+            angle_vi TEXT NOT NULL DEFAULT '',
+            hook_3s_vi TEXT NOT NULL DEFAULT '',
+            script_vi TEXT NOT NULL DEFAULT '',
+            google_flow_scenes_json TEXT NOT NULL DEFAULT '[]',
+            thumbnail_prompt_flow TEXT NOT NULL DEFAULT '',
+            thumbnail_svg_path TEXT NOT NULL DEFAULT '',
+            seo_title_vi TEXT NOT NULL DEFAULT '',
+            seo_description_vi TEXT NOT NULL DEFAULT '',
+            hashtags TEXT NOT NULL DEFAULT '',
+            cta_vi TEXT NOT NULL DEFAULT '',
+            publish_schedule_vi TEXT NOT NULL DEFAULT '',
+            status TEXT NOT NULL DEFAULT 'FLOW_READY',
+            publish_url TEXT NOT NULL DEFAULT '',
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        );
+        """
+        create_idx = "CREATE INDEX IF NOT EXISTS idx_media_campaigns_proj ON media_campaigns(project_id, updated_at DESC);"
+        if conn is not None:
+            conn.execute(create_tbl)
+            conn.execute(create_idx)
+        else:
+            with self._write_lock:
+                c = self._get_conn()
+                c.execute(create_tbl)
+                c.execute(create_idx)
+
+    @staticmethod
+    def _enrich_media_campaign_row(row: dict[str, Any]) -> dict[str, Any]:
+        item = dict(row)
+        raw_scenes = item.get("google_flow_scenes_json")
+        if isinstance(raw_scenes, list):
+            item["google_flow_scenes"] = raw_scenes
+        else:
+            try:
+                parsed = json.loads(str(raw_scenes or "[]"))
+                item["google_flow_scenes"] = parsed if isinstance(parsed, list) else []
+            except Exception:
+                item["google_flow_scenes"] = []
+        return item
+
+    def list_media_campaigns(
+        self,
+        project_id: str | None = None,
+        platform: str | None = None,
+        status: str | None = None,
+    ) -> list[dict[str, Any]]:
+        conn = self._get_conn()
+        if not self._has_table("media_campaigns", conn=conn):
+            return []
+        clauses = ["1=1"]
+        params: list[Any] = []
+        if project_id:
+            clauses.append("project_id = ?")
+            params.append(project_id)
+        if platform:
+            clauses.append("UPPER(platform) = ?")
+            params.append(str(platform).upper().strip())
+        if status:
+            clauses.append("UPPER(status) = ?")
+            params.append(str(status).upper().strip())
+        rows = conn.execute(
+            f"SELECT * FROM media_campaigns WHERE {' AND '.join(clauses)} ORDER BY updated_at DESC, created_at DESC",
+            params,
+        ).fetchall()
+        return [self._enrich_media_campaign_row(dict(r)) for r in rows]
+
+    def fallback_create_media_campaign(self, data: dict[str, Any]) -> dict[str, Any]:
+        title = str(data.get("title") or "").strip()
+        if not title:
+            raise ValueError("Tiêu đề chiến dịch Video AI không được để trống.")
+        self.ensure_media_campaigns_table()
+        now = utc_now_iso()
+        cid = str(data.get("campaign_id") or "").strip() or f"camp-{uuid.uuid4().hex[:8]}"
+        platform = str(data.get("platform") or "TIKTOK").upper().strip()
+        if platform not in ("TIKTOK", "YOUTUBE_SHORTS", "YOUTUBE_LONG", "FACEBOOK_REELS", "CROSS_PLATFORM"):
+            platform = "TIKTOK"
+        status = str(data.get("status") or "FLOW_READY").upper().strip()
+        if status not in ("DRAFT", "SCRIPTED", "FLOW_READY", "RENDERED", "PUBLISHED"):
+            status = "FLOW_READY"
+        angle = str(data.get("angle_vi") or "").strip()
+        hook = str(data.get("hook_3s_vi") or "").strip() or f"3 giây mở đầu đánh thẳng nỗi đau: {title}"
+        scenes = data.get("google_flow_scenes")
+        if not isinstance(scenes, list) or not scenes:
+            scenes = [
+                {
+                    "scene_no": 1,
+                    "duration_sec": 4,
+                    "shot_type": "Close-up Hook",
+                    "visual_prompt_flow": f"Cinematic realistic vertical 9:16 tech demo shot, sharp studio lighting, clean minimalist desk, Vietnamese founder demonstrating {title}, crisp depth of field, Veo 3.1 photorealistic quality.",
+                    "voiceover_vi": hook,
+                    "sfx_music_vi": "Nhịp mở đầu gọn, tiếng nhấn chuyển cảnh sạch",
+                    "on_screen_text_vi": title[:60],
+                }
+            ]
+        scenes_json = json.dumps(scenes, ensure_ascii=False)
+        with self.immediate_tx() as conn:
+            conn.execute(
+                """
+                INSERT INTO media_campaigns(
+                    campaign_id, project_id, title, platform, angle_vi, hook_3s_vi, script_vi,
+                    google_flow_scenes_json, thumbnail_prompt_flow, thumbnail_svg_path,
+                    seo_title_vi, seo_description_vi, hashtags, cta_vi, publish_schedule_vi,
+                    status, publish_url, created_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    cid,
+                    str(data.get("project_id") or "").strip() or None,
+                    title,
+                    platform,
+                    angle,
+                    hook,
+                    str(data.get("script_vi") or f"{hook}\n{angle}").strip(),
+                    scenes_json,
+                    str(data.get("thumbnail_prompt_flow") or f"High-contrast clean SaaS product cover for {title}, modern editorial typography, zero clutter"),
+                    str(data.get("thumbnail_svg_path") or ""),
+                    str(data.get("seo_title_vi") or title),
+                    str(data.get("seo_description_vi") or angle or title),
+                    str(data.get("hashtags") or "#TitanAICorp #CongCuSo #VideoAI"),
+                    str(data.get("cta_vi") or "Trải nghiệm trực tiếp ngay trong trình duyệt, hoàn toàn miễn phí."),
+                    str(data.get("publish_schedule_vi") or "19:30 Thứ 3, Thứ 5 và Chủ Nhật"),
+                    status,
+                    str(data.get("publish_url") or ""),
+                    now,
+                    now,
+                ),
+            )
+            self.log_event(
+                actor_dept_id="27",
+                event_type="MEDIA_CAMPAIGN_CREATED",
+                headline_vi=f"Khối 5 Studio tạo chiến dịch Video AI ({platform}): {title}",
+                project_id=str(data.get("project_id") or "").strip() or None,
+                detail={"campaign_id": cid, "platform": platform},
+                conn=conn,
+            )
+        row = self._get_conn().execute("SELECT * FROM media_campaigns WHERE campaign_id = ?", (cid,)).fetchone()
+        return self._enrich_media_campaign_row(dict(row))
+
+    def fallback_update_media_campaign(self, campaign_id: str, patch: dict[str, Any]) -> dict[str, Any]:
+        if not self._has_table("media_campaigns"):
+            raise KeyError(f"Chiến dịch '{campaign_id}' không tồn tại.")
+        allowed = {
+            "title", "platform", "angle_vi", "hook_3s_vi", "script_vi",
+            "thumbnail_prompt_flow", "thumbnail_svg_path", "seo_title_vi",
+            "seo_description_vi", "hashtags", "cta_vi", "publish_schedule_vi",
+            "status", "publish_url", "project_id",
+        }
+        updates: dict[str, Any] = {}
+        for k, v in patch.items():
+            if k == "google_flow_scenes" and isinstance(v, list):
+                updates["google_flow_scenes_json"] = json.dumps(v, ensure_ascii=False)
+            elif k in allowed and v is not None:
+                updates[k] = str(v).upper().strip() if k in ("platform", "status") else str(v)
+        now = utc_now_iso()
+        with self.immediate_tx() as conn:
+            cur = conn.execute("SELECT * FROM media_campaigns WHERE campaign_id = ?", (campaign_id,)).fetchone()
+            if not cur:
+                raise KeyError(f"Chiến dịch '{campaign_id}' không tồn tại.")
+            if updates:
+                cols = ", ".join(f"{k} = ?" for k in updates)
+                conn.execute(
+                    f"UPDATE media_campaigns SET {cols}, updated_at = ? WHERE campaign_id = ?",
+                    [*updates.values(), now, campaign_id],
+                )
+        row = self._get_conn().execute("SELECT * FROM media_campaigns WHERE campaign_id = ?", (campaign_id,)).fetchone()
+        return self._enrich_media_campaign_row(dict(row))
+
+    def fallback_delete_media_campaign(self, campaign_id: str) -> dict[str, Any]:
+        if not self._has_table("media_campaigns"):
+            raise KeyError(f"Chiến dịch '{campaign_id}' không tồn tại.")
+        with self.immediate_tx() as conn:
+            cur = conn.execute("SELECT * FROM media_campaigns WHERE campaign_id = ?", (campaign_id,)).fetchone()
+            if not cur:
+                raise KeyError(f"Chiến dịch '{campaign_id}' không tồn tại.")
+            conn.execute("DELETE FROM media_campaigns WHERE campaign_id = ?", (campaign_id,))
+        return {"deleted": True, "campaign_id": campaign_id, "title": cur["title"]}

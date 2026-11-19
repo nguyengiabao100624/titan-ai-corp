@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0",
+  "studio_division": "div5-media-youtube-studio",
+  "departments": [
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+    "31"
+  ],
+  "project_id": "proj-tram-ho-so-rieng-tu",
+  "project_slug": "tram-ho-so-rieng-tu",
+  "project_title_vi": "Hồ Sơ Riêng Tư - Trạm Giấy Tờ và PDF 100% Trên Máy (0đ Hạ tầng)",
+  "generated_at": "2026-11-19T17:10:18Z",
+  "google_flow_studio_url": "https://labs.google/fx/tools/flow",
+  "recommended_veo_model": "veo-3.1-generate-preview",
+  "visual_consistency_bible": {
+    "character_lock_en": "A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0.",
+    "lighting_palette_en": "Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+    "anti_ai_slop_ratio": "40% real product UI demo + 40% locked-consistency Google Flow clips + 20% crisp data graphics"
+  },
+  "campaigns_count": 3,
+  "campaigns": [
+    {
+      "campaign_id": "camp-hsrt-tiktok-cccd",
+      "title": "Tắt Wi-Fi vẫn ghép 2 mặt CCCD đóng dấu chìm chống lừa đảo trong 5 giây",
+      "platform": "TIKTOK",
+      "platform_label_vi": "TikTok 9:16",
+      "aspect_ratio": "9:16",
+      "status": "FLOW_READY",
+      "angle_vi": "Đánh thẳng nỗi sợ lộ ảnh 2 mặt CCCD trơn qua Zalo hoặc web nước ngoài bị kẻ gian lấy vay nợ đen. Chứng minh bằng mắt thật: bật Chế độ Máy bay ngay trên điện thoại mà Hồ Sơ Riêng Tư vẫn ghép 2 mặt CCCD lên trang A4 và đóng dấu chìm nghiêng chống lạm dụng, 0 byte tải lên mạng theo Nghị định 13/2023/NĐ-CP.",
+      "hook_3s_vi": "Dừng ngay việc gửi ảnh 2 mặt CCCD trơn qua Zalo hay tải lên web nước ngoài kẻo bị kẻ gian lợi dụng vay nợ đen!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Dừng ngay việc gửi ảnh 2 mặt CCCD trơn qua Zalo hay tải lên web nước ngoài kẻo bị kẻ gian lợi dụng vay nợ đen!\n[04s - 10s | Chứng minh ngoại tuyến] Nhìn thanh trạng thái điện thoại này: mình vừa bật Chế độ Máy bay, tắt sạch Wi-Fi lẫn 4G nhưng trang Hồ Sơ Riêng Tư vẫn chạy bình thường 100%.\n[11s - 22s | Demo 3 chạm #cccd] Chọn ảnh mặt trước và mặt sau CCCD mẫu, chạm 1 nút đóng dòng dấu chìm nghiêng: Chỉ dùng thuê nhà ngày hôm nay, không có giá trị vay vốn. Bấm xuất ngay 1 trang PDF A4 chuẩn in, xong trong 5 giây và bấm nút Đỏ xóa sạch RAM tức thì.\n[23s - 28s | CTA] Hoàn toàn miễn phí 0đ, không chèn logo, 0 byte gửi ra ngoài. Lưu video này và gửi ngay vào nhóm Zalo gia đình cho bố mẹ cùng biết nhé!",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 5,
+          "shot_type": "Extreme Close-Up Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic close-up. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Holding up a modern smartphone toward the lens showing a blurred sample ID card graphic with a crisp red warning ring, urgent yet trustworthy expression. Quick smooth push-in camera move, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 photorealistic 4K, no garbled text.",
+          "voiceover_vi": "Dừng ngay việc gửi ảnh 2 mặt CCCD trơn qua Zalo hay tải lên web nước ngoài kẻo bị kẻ gian lợi dụng vay nợ đen!",
+          "sfx_music_vi": "Tiếng bass nhấn cảnh báo 0.3s, nhịp điện tử sạch 116 BPM mở vào",
+          "on_screen_text_vi": "Đừng gửi ảnh CCCD trơn lên web lạ!"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 6,
+          "shot_type": "Macro Status Bar Airplane Mode Proof",
+          "visual_prompt_flow": "9:16 vertical macro top-down shot of a thumb swiping down a smartphone quick-settings panel and tapping Airplane Mode ON, Wi-Fi and cellular icons turning off cleanly, then switching back to a dark-slate browser workspace that stays active. Razor-sharp focus, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic.",
+          "voiceover_vi": "Mở Hồ Sơ Riêng Tư xong, bạn cứ bật hẳn Chế độ Máy bay tắt sạch Wi-Fi mà trang vẫn chạy 100% trên máy.",
+          "sfx_music_vi": "Tiếng công tắc gạt click rõ ràng + hiệu ứng không khí yên tĩnh",
+          "on_screen_text_vi": "Bật Chế độ Máy bay -> Vẫn chạy 100%"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 10,
+          "shot_type": "Over-the-Shoulder Live Tool Demo",
+          "visual_prompt_flow": "9:16 vertical over-the-shoulder shot of hands on smartphone tapping two placeholder ID cards into a clean A4 layout grid, subtle diagonal protective watermark appearing across the card layout, followed by an emerald green PDF download confirmation badge. Smooth micro-pan, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Chọn 2 mặt CCCD, chạm 1 nút đóng dấu chìm ghi rõ mục đích và ngày gửi, xuất ngay trang A4 rõ nét rồi bấm Xóa sạch bộ nhớ.",
+          "sfx_music_vi": "3 tiếng chạm giao diện nhịp nhàng + âm báo hoàn tất xanh dịu",
+          "on_screen_text_vi": "Đóng dấu chìm + Xuất A4 trong 5 giây"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 7,
+          "shot_type": "Medium Shot Trust CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Calm confident smile, holding the phone casually at chest height with an emerald security shield glow subtly reflected on the desk surface, gesturing cleanly toward the bio link area. Smooth slow pull-back, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 4K clean finish.",
+          "voiceover_vi": "Miễn phí 0đ, 0 byte tải lên mạng. Lưu video và gửi ngay vào nhóm Zalo gia đình cho cả nhà cùng dùng nhé!",
+          "sfx_music_vi": "Nhạc nền kết gọn dứt khoát với hợp âm sáng",
+          "on_screen_text_vi": "0đ Miễn phí | Gửi nhóm Zalo gia đình"
+        }
+      ],
+      "thumbnail_prompt_flow": "9:16 vertical high-contrast YouTube Shorts / TikTok cover photography. Vietnamese tech creator in slate crewneck holding smartphone with Airplane Mode icon visible and a crisp glowing emerald privacy shield, deep obsidian navy studio background, dramatic rim light, space at top for bold Vietnamese CTR headline.",
+      "thumbnail_svg_path": "corporate_hq/projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-tiktok-cccd.svg",
+      "thumbnail_web_url": "./projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-tiktok-cccd.svg",
+      "seo_title_vi": "Cách ghép 2 mặt CCCD vào 1 trang A4 và đóng dấu chìm chống lừa đảo (tắt Wi-Fi vẫn chạy)",
+      "seo_description_vi": "Hướng dẫn ghép 2 mặt CCCD lên trang A4 và chèn dấu chìm ghi rõ mục đích chống vay nợ đen ngay trên trình duyệt bằng Hồ Sơ Riêng Tư. Xử lý 100% cục bộ trên máy, bật Chế độ Máy bay vẫn chạy, 0 byte tải lên máy chủ ngoài, miễn phí 0đ không chèn logo, tuân thủ nguyên tắc bảo vệ dữ liệu cá nhân Nghị định 13/2023/NĐ-CP.",
+      "hashtags": "#HoSoRiengTu #GhepCCCD #DongDauChimCCCD #ChongLuaDao #CongCuOffline #TitanAICorp",
+      "cta_vi": "Bấm link Hồ Sơ Riêng Tư ở đầu trang, bật Chế độ Máy bay để tự kiểm chứng miễn phí 0đ!",
+      "publish_schedule_vi": "11:30 và 20:00 Thứ 3, Thứ 5, Chủ Nhật (TikTok + Ghim đầu trang)",
+      "publish_url": ""
+    },
+    {
+      "campaign_id": "camp-hsrt-shorts-anhthe",
+      "title": "Tự làm 8 ảnh thẻ 3x4 chuẩn in 10x15cm hết 3.000đ, không dính logo bẩn",
+      "platform": "YOUTUBE_SHORTS",
+      "platform_label_vi": "YouTube Shorts 9:16",
+      "aspect_ratio": "9:16",
+      "status": "FLOW_READY",
+      "angle_vi": "So sánh trực diện nỗi đau chụp ảnh thẻ ngoài tiệm mất 80.000đ hoặc dùng web AI nước ngoài bị dán logo giữa mặt ép trả thẻ quốc tế 200.000đ với Hồ Sơ Riêng Tư: tự chụp trước tường sáng, đổi nền xanh/trắng ngay trên máy và dàn sẵn tờ 8 ảnh 3x4 (hoặc 4 ảnh 4x6) khổ 10x15cm 300 DPI đi rửa hết đúng 3.000đ.",
+      "hook_3s_vi": "Đừng tốn 80 nghìn ra tiệm chụp ảnh thẻ hay mất 200 nghìn gỡ logo web ngoại nữa, tự dàn 8 ảnh 3x4 in hết đúng 3 nghìn đồng!",
+      "script_vi": "[00s - 03s | Hook 3 giây] Đừng tốn 80 nghìn ra tiệm chụp ảnh thẻ hay mất 200 nghìn gỡ logo web ngoại nữa, tự dàn 8 ảnh 3x4 in hết đúng 3 nghìn đồng!\n[04s - 12s | Chạm nỗi đau] Mùa nộp hồ sơ xin việc, thực tập hay hộ chiếu mà lên mấy web ngoại chỉnh xong nó đóng cái logo to đùng giữa mặt bắt nạp tiền rất ức chế.\n[13s - 24s | Demo #idphoto] Bạn cứ đứng trước tường sáng tự chụp bằng điện thoại, mở mục Ảnh thẻ trên Hồ Sơ Riêng Tư, chọn cỡ 3x4 hoặc 4x6, bấm đổi nền xanh dương hoặc trắng ngay trên máy. Xuất 1 ảnh đơn miễn phí 0đ không logo, hoặc xuất tờ dàn sẵn 8 ảnh khổ 10x15cm 300 DPI mang ra tiệm rửa ảnh hết đúng 3.000đ.\n[25s - 30s | CTA] Xử lý hoàn toàn trên điện thoại, ảnh mặt bạn không gửi lên máy chủ nào cả. Bấm link ở phần mô tả lưu dùng cả năm nhé!",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 6,
+          "shot_type": "Split-Screen Price Shock Hook",
+          "visual_prompt_flow": "9:16 vertical cinematic shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Holding a crisp glossy 10x15cm photo print sheet showing eight neat blue-background 3x4 passport photos, smiling with energetic curiosity in a bright modern studio desk setting. Crisp 35mm depth of field, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 photorealistic.",
+          "voiceover_vi": "Đừng tốn 80 nghìn ra tiệm chụp ảnh thẻ hay mất 200 nghìn gỡ logo web ngoại nữa, tự dàn 8 ảnh 3x4 in hết đúng 3 nghìn đồng!",
+          "sfx_music_vi": "Tiếng máy ảnh chụp tách gọn + nhịp pop nhẹ trẻ trung 120 BPM",
+          "on_screen_text_vi": "80.000đ -> 3.000đ cho 8 ảnh thẻ 3x4"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 7,
+          "shot_type": "Portrait Capture Transformation",
+          "visual_prompt_flow": "9:16 vertical shot of a 22-year-old Vietnamese university student standing against a bright plain indoor wall taking a neat front-facing portrait with a smartphone. Clean soft window light eliminating harsh shadows, realistic natural skin tone, 50mm lens f/2.0, cinematic clarity.",
+          "voiceover_vi": "Chỉ cần đứng trước tường sáng tự chụp một tấm chân dung bằng điện thoại, không cần chỉnh sửa phức tạp.",
+          "sfx_music_vi": "Tiếng bấm màn trập sắc + chuyển cảnh mượt",
+          "on_screen_text_vi": "Bước 1: Chụp ảnh trước tường sáng"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 10,
+          "shot_type": "Macro Canvas UI Transformation",
+          "visual_prompt_flow": "9:16 vertical close-up on smartphone screen running a minimalist web app. Portrait background cleanly switches to crisp ID-photo cobalt blue, then locks into a 4x2 grid of 8 neat 3x4 photos with thin cut guidelines on a 10x15cm white sheet. Sharp screen focus, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Vào mục Ảnh thẻ trên Hồ Sơ Riêng Tư, chọn cỡ 3x4, đổi nền xanh dương hoặc trắng hộ chiếu, bấm xuất tờ dàn 8 ảnh 10x15cm chuẩn 300 DPI không dính logo.",
+          "sfx_music_vi": "Hiệu ứng chuyển nền mềm + tiếng tải tệp hoàn tất",
+          "on_screen_text_vi": "Bước 2: Đổi nền + Dàn 8 ảnh 10x15cm"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 7,
+          "shot_type": "Medium Shot Student Result CTA",
+          "visual_prompt_flow": "9:16 vertical medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Placing the crisp printed 8-photo sheet next to a job application folder on the oak desk, giving a relaxed thumbs-up gesture toward the camera. Warm daylight rim light, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic 4K.",
+          "voiceover_vi": "Gửi tiệm in 1 tấm hết 3.000đ. Sinh viên và gia đình lưu ngay link bên dưới để dùng cả năm miễn phí không logo nhé!",
+          "sfx_music_vi": "Nhạc nền khép lại gọn tươi, nhấn âm thanh lưu video",
+          "on_screen_text_vi": "Miễn phí 0đ không logo | Link dưới mô tả"
+        }
+      ],
+      "thumbnail_prompt_flow": "9:16 vertical bright high-contrast cover shot. Clean white 10x15cm photo print sheet displaying 8 sharp cobalt-blue 3x4 ID photos held in foreground over deep cobalt studio background, crisp amber price comparison accent zone, commercial editorial lighting, zero watermark, photorealistic.",
+      "thumbnail_svg_path": "corporate_hq/projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-shorts-anhthe.svg",
+      "thumbnail_web_url": "./projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-shorts-anhthe.svg",
+      "seo_title_vi": "Cách tự làm ảnh thẻ 3x4, 4x6 đổi nền xanh và dàn 8 ảnh khổ 10x15cm không logo",
+      "seo_description_vi": "Tự tạo ảnh thẻ 3x4 và 4x6 ngay trên điện thoại với Hồ Sơ Riêng Tư: đổi nền xanh dương/trắng hộ chiếu, dàn sẵn 8 ảnh 3x4 hoặc 4 ảnh 4x6 trên khổ 10x15cm 300 DPI mang đi in hết 3.000đ. Ảnh đơn miễn phí 0đ không logo bản quyền, xử lý 100% cục bộ không gửi ảnh khuôn mặt lên máy chủ ngoài.",
+      "hashtags": "#AnhThe3x4 #DanAnh10x15 #HoSoRiengTu #MeoSinhVien #XinViec2026 #YouTubeShorts",
+      "cta_vi": "Dùng miễn phí 0đ không logo ở link ghim bình luận và chia sẻ vào nhóm lớp sinh viên!",
+      "publish_schedule_vi": "12:00 và 19:30 Thứ 2, Thứ 4, Thứ 6 (YouTube Shorts + Cross-post Reels)",
+      "publish_url": ""
+    },
+    {
+      "campaign_id": "camp-hsrt-ytlong-6congcu",
+      "title": "Hướng dẫn 6 công cụ xử lý hồ sơ online 100% ngoại tuyến: CCCD, nén dưới 2MB, ký PDF",
+      "platform": "YOUTUBE_LONG",
+      "platform_label_vi": "YouTube Dài 16:9",
+      "aspect_ratio": "16:9",
+      "status": "FLOW_READY",
+      "angle_vi": "Video hướng dẫn toàn diện chuẩn SEO/GEO cho công dân Việt Nam hay nộp Cổng Dịch vụ công, BHXH, hộ chiếu, xin việc: chứng minh kiến trúc Zero-Upload tắt mạng vẫn chạy đủ 6 công cụ (#cccd, #compress, #idphoto, #sign, #merge, #exif), giải thích trung thực gói 0đ lõi vs gói 15.000đ trả lẻ và 59.000đ/năm VietQR.",
+      "hook_3s_vi": "11 giờ đêm nộp Cổng Dịch vụ công bị báo lỗi vượt quá 2 MB, lại ngại tải ảnh CCCD lên web nước ngoài? Đây là 1 trang web tắt Wi-Fi vẫn giải quyết gọn trọn 6 việc giấy tờ!",
+      "script_vi": "[00:00 - 00:25 | Mở đầu & Tự kiểm chứng tắt Wi-Fi] 11 giờ đêm nộp hồ sơ bị báo lỗi quá 2 MB mà sợ tải giấy tờ lên web lạ? Hôm nay mình sẽ thử ngắt hẳn Wi-Fi trên máy tính để kiểm chứng trọn bộ 6 công cụ của Hồ Sơ Riêng Tư.\n[00:25 - 01:30 | Công cụ 1: Ghép 2 mặt CCCD + Dấu chìm] Ghép chuẩn tỷ lệ ISO/IEC 7810 lên A4, chèn chữ nghiêng ghi rõ mục đích và ngày gửi chống lạm dụng vay vốn.\n[01:30 - 02:35 | Công cụ 2: Nén ảnh/PDF chuẩn 2MB / 5MB] Demo nén tài liệu 8,66 MB xuống đúng 1,90 MB bằng tìm kiếm nhị phân mà số định danh vẫn sắc nét.\n[02:35 - 03:45 | Công cụ 3 & 4: Ảnh thẻ 3x4 dàn 10x15cm & Ký tên tay PDF] Đổi nền xanh/trắng 300 DPI không logo và ký nét mực xanh bút bi trực tiếp lên đơn PDF không cần máy in.\n[03:45 - 04:55 | Công cụ 5 & 6: Gộp nhiều ảnh thành PDF A4 & Gỡ sạch GPS EXIF] Xoay trang, xóa trang có hoàn tác 5 giây và rửa sạch tọa độ nhà riêng ẩn trong ảnh trước khi gửi.\n[04:55 - 06:00 | Bảng giá trung thực & Pháp lý NĐ 13/2023] 6 công cụ lõi miễn phí 0đ mãi mãi không logo; gói gia đình 59.000đ/năm chuyển khoản VietQR 1 lần, không tự gia hạn ngầm. Link trải nghiệm ở ngay mô tả.",
+      "google_flow_scenes": [
+        {
+          "scene_no": 1,
+          "duration_sec": 8,
+          "shot_type": "Widescreen Studio Cold Open",
+          "visual_prompt_flow": "16:9 widescreen cinematic tech review intro. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Seated at a sleek dark oak desk at night with warm desk lamp accent, looking at a laptop displaying a red 'File > 2MB' upload alert, then confidently flipping the Wi-Fi switch OFF to introduce the offline web toolkit. Smooth slider move, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 4K photorealistic.",
+          "voiceover_vi": "11 giờ đêm nộp Cổng Dịch vụ công bị báo lỗi vượt quá 2 MB, lại sợ tải ảnh CCCD lên web nước ngoài? Đây là 1 trang web tắt Wi-Fi vẫn chạy trọn 6 việc giấy tờ!",
+          "sfx_music_vi": "Nhạc nền công nghệ editorial nhẹ nhàng 100 BPM, tiếng click công tắc tắt mạng",
+          "on_screen_text_vi": "6 Công cụ Hồ sơ: Tắt Wi-Fi vẫn chạy"
+        },
+        {
+          "scene_no": 2,
+          "duration_sec": 8,
+          "shot_type": "Macro UI Feature 1 - CCCD Watermark",
+          "visual_prompt_flow": "16:9 widescreen clean over-the-shoulder capture of a laptop browser showing a refined dark-slate workspace placing front and back sample ID cards onto an A4 sheet with a subtle diagonal protective watermark. Crisp screen legibility, shallow depth of field, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Công cụ 1: Ghép 2 mặt CCCD lên chung 1 trang A4 đúng chuẩn tỷ lệ, kèm dòng dấu chìm ghi rõ mục đích và ngày gửi.",
+          "sfx_music_vi": "Hiệu ứng quét tài liệu sạch + tiếng xuất PDF",
+          "on_screen_text_vi": "1. Ghép 2 mặt CCCD A4 + Dấu chìm"
+        },
+        {
+          "scene_no": 3,
+          "duration_sec": 8,
+          "shot_type": "Before/After Data Compression Graphic",
+          "visual_prompt_flow": "16:9 widescreen editorial motion showcase on a dark architectural desk surface. Left glass card shows a heavy 8.66MB scan pulsing amber, smoothly compressing into a crisp emerald right card at 1.90MB while keeping document details razor sharp. Slow dolly right, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Zero garbled text.",
+          "voiceover_vi": "Công cụ 2: Nén ảnh và PDF theo đúng mốc 500 KB, 2 MB hoặc 5 MB của Cổng Dịch vụ công. Tệp 8,66 MB tự ép xuống 1,90 MB trong 3 giây mà chữ vẫn đọc rõ từng số.",
+          "sfx_music_vi": "Âm thanh nén khí điện tử tinh gọn + tiếng ting xác nhận xanh",
+          "on_screen_text_vi": "2. Nén 8,66 MB -> 1,90 MB chuẩn Dịch vụ công"
+        },
+        {
+          "scene_no": 4,
+          "duration_sec": 8,
+          "shot_type": "Split-Screen ID Photo & Pen Signature",
+          "visual_prompt_flow": "16:9 widescreen split-screen studio demo. Left side displays a 10x15cm sheet of eight crisp blue 3x4 ID photos; right side shows a stylus smoothly drawing a blue ballpoint signature onto a clean A4 PDF form on a tablet. Crisp macro lighting, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Photorealistic 4K.",
+          "voiceover_vi": "Công cụ 3 và 4: Tự tạo ảnh thẻ 3x4, 4x6 dàn tờ in 10x15cm không logo, và ký tên tay mực xanh bút bi trực tiếp lên đơn PDF mà không cần máy in.",
+          "sfx_music_vi": "Tiếng bút ký mượt mà trên mặt kính + nhịp nền ổn định",
+          "on_screen_text_vi": "3. Ảnh thẻ 3x4 không logo | 4. Ký tay lên PDF"
+        },
+        {
+          "scene_no": 5,
+          "duration_sec": 8,
+          "shot_type": "Privacy Shield EXIF & Multi-Page PDF",
+          "visual_prompt_flow": "16:9 widescreen studio macro shot of a smartphone photo gallery card showing hidden GPS pin coordinates dissolving cleanly into an emerald zero-metadata verified badge, beside a neat stack of 3 merged A4 PDF pages. Smooth orbital camera drift, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter.",
+          "voiceover_vi": "Công cụ 5 và 6: Gộp nhiều ảnh chụp thành 1 tệp PDF A4 có hoàn tác 5 giây, và xóa sạch tọa độ GPS nhà riêng ẩn trong ảnh trước khi gửi cho người lạ.",
+          "sfx_music_vi": "Hiệu ứng quét sạch dữ liệu nhẹ nhàng, tạo cảm giác an toàn",
+          "on_screen_text_vi": "5. Gộp PDF A4 | 6. Xóa sạch tọa độ GPS"
+        },
+        {
+          "scene_no": 6,
+          "duration_sec": 8,
+          "shot_type": "Widescreen Presenter Summary & CTA",
+          "visual_prompt_flow": "16:9 widescreen medium shot. A relatable 27-year-old Vietnamese tech educator wearing a crisp slate-navy crewneck shirt, natural warm skin tone, neat dark hair, seated at a clean minimalist oak desk with soft key light from a window on the left and subtle teal rim light, shot on 35mm cinema lens f/2.0. Calmly closing the laptop slightly while gesturing toward clean space for end-screen cards, warm studio bokeh in background, trustworthy tech-review authority. Slow pull-back, Clean modern tech editorial lighting, balanced 5200K daylight key light, deep slate navy shadows, emerald privacy verification accents, crisp focus on smartphone and laptop screens, zero visual clutter. Veo 3.1 cinema quality.",
+          "voiceover_vi": "Cả 6 công cụ lõi đều miễn phí 0đ và không chèn logo. Gói gia đình 59.000đ/năm chỉ khi bạn cần in 300 DPI và xử lý hàng loạt 20 tệp. Link mở dùng thử ở ngay dưới mô tả!",
+          "sfx_music_vi": "Nhạc nền hạ xuống mượt mà với hợp âm kết tin cậy",
+          "on_screen_text_vi": "0đ Lõi | 59.000đ/năm Gia đình | Link bên dưới"
+        }
+      ],
+      "thumbnail_prompt_flow": "16:9 widescreen high-CTR YouTube cover photo. Confident Vietnamese tech reviewer on left in clean slate crewneck holding smartphone with Airplane Mode ON, right side displaying a crisp dark-mode bento grid of 6 glowing utility badges (ID card, 2MB compressor, 3x4 photo, signature, PDF merge, GPS shield), studio teal and indigo lighting, sharp commercial clarity.",
+      "thumbnail_svg_path": "corporate_hq/projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-ytlong-6congcu.svg",
+      "thumbnail_web_url": "./projects/tram-ho-so-rieng-tu/media_studio/thumbnails/camp-hsrt-ytlong-6congcu.svg",
+      "seo_title_vi": "Hồ Sơ Riêng Tư: 6 công cụ xử lý CCCD, nén PDF 2MB, ảnh thẻ 3x4 ngoại tuyến 100%",
+      "seo_description_vi": "Hướng dẫn chi tiết 6 công cụ xử lý hồ sơ trực tuyến chạy 100% trên trình duyệt, tắt Wi-Fi vẫn hoạt động của Hồ Sơ Riêng Tư: (1) Ghép 2 mặt CCCD lên A4 đóng dấu chìm; (2) Nén ảnh và PDF dưới 2MB/5MB nộp Cổng Dịch vụ công; (3) Tạo ảnh thẻ 3x4/4x6 dàn 10x15cm 300 DPI không logo; (4) Ký tên tay lên PDF; (5) Gộp ảnh thành PDF A4; (6) Xóa tọa độ GPS EXIF. Miễn phí 0đ bản lõi, tuân thủ Nghị định 13/2023/NĐ-CP.",
+      "hashtags": "#HoSoRiengTu #DichVuCong #NenPDF2MB #GhepCCCD #KyTenPDF #XoaGPS #TitanAICorp",
+      "cta_vi": "Mở link dùng thử miễn phí ở phần mô tả và kiểm chứng ngay bằng Chế độ Máy bay!",
+      "publish_schedule_vi": "20:00 Thứ 6 hàng tuần (YouTube Dài 16:9 + Cắt 3 clip Shorts)",
+      "publish_url": ""
+    }
+  ]
+}

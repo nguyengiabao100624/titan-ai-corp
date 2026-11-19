@@ -1,6 +1,6 @@
 # KHO KỸ NĂNG THỰC CHIẾN CỦA PHÒNG 14: Phát triển Ứng dụng Di động
-- **Cập nhật lần cuối:** `2026-11-19T13:27:39Z`
-- **Tổng số kỹ năng đã nạp:** `5`
+- **Cập nhật lần cuối:** `2026-11-19T17:10:17Z`
+- **Tổng số kỹ năng đã nạp:** `6`
 
 ---
 
@@ -22,13 +22,19 @@
 - **Tài liệu nội bộ:** `corporate_hq/skills_library/sp-test-driven-development/SKILL.md`
 - **Tóm tắt ứng dụng:** Kỷ luật viết bài kiểm thử thất bại trước khi viết mã thực thi, chỉ viết lượng mã tối giản đủ để vượt qua bài kiểm thử rồi mới tối ưu cấu trúc nhằm ngăn ngừa lỗi hồi quy.
 
-## 4. Chuyển đổi Thiết kế sang Mã nguồn Giao diện Chuẩn Truy cập
+## 4. Chuẩn Xây dựng Ứng dụng Di động Hiệu năng Cao React Native và Expo
+- **Mã kỹ năng:** `vercel-react-native-skills` | **Nhóm chuyên môn:** Kỹ thuật Di động Cao cấp
+- **Kho nguồn mở:** `vercel-labs/agent-skills` | **Liên kết gốc:** https://github.com/vercel-labs/agent-skills/tree/main/skills/react-native-skills
+- **Tài liệu nội bộ:** `corporate_hq/skills_library/vercel-react-native-skills/SKILL.md`
+- **Tóm tắt ứng dụng:** Tối ưu danh sách cuộn lớn, bộ nhớ hình ảnh, điều hướng mượt mà và trải nghiệm cảm ứng chuẩn thiết bị gốc trên cả Android và iOS cho các sản phẩm di động thương mại.
+
+## 5. Chuyển đổi Thiết kế sang Mã nguồn Giao diện Chuẩn Truy cập
 - **Mã kỹ năng:** `xias-design-code` | **Nhóm chuyên môn:** Kỹ thuật Giao diện
 - **Kho nguồn mở:** `plugin87/ux-ui-agent-skills` | **Liên kết gốc:** https://github.com/plugin87/ux-ui-agent-skills/tree/main/skills/xias-design-code
 - **Tài liệu nội bộ:** `corporate_hq/skills_library/xias-design-code/SKILL.md`
 - **Tóm tắt ứng dụng:** Triển khai mã nguồn giao diện sẵn sàng vận hành thực tế theo biến thiết kế chuẩn trên Web, di động và nhiều nền tảng mà không ghi cứng mã màu hay kích thước, bảo đảm tương thích bàn phím và trình đọc màn hình.
 
-## 5. Tối ưu Hiệu năng Giao diện và Chỉ số Tốc độ Web Vitals
+## 6. Tối ưu Hiệu năng Giao diện và Chỉ số Tốc độ Web Vitals
 - **Mã kỹ năng:** `xias-performance` | **Nhóm chuyên môn:** Hiệu năng và Tốc độ
 - **Kho nguồn mở:** `plugin87/ux-ui-agent-skills` | **Liên kết gốc:** https://github.com/plugin87/ux-ui-agent-skills/tree/main/skills/xias-performance
 - **Tài liệu nội bộ:** `corporate_hq/skills_library/xias-performance/SKILL.md`

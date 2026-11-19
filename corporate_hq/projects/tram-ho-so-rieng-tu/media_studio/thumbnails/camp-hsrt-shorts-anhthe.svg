@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280" width="720" height="1280" role="img" aria-label="Tự làm 8 ảnh thẻ 3x4 chuẩn in 10x15cm hết 3.000đ, không dính logo bẩn">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1429"/>
+      <stop offset="100%" stop-color="#13294E"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#FFFFFF" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="720" height="1280" fill="url(#bgGrad)"/>
+  <rect width="720" height="1280" fill="url(#dotGrid)"/>
+  <circle cx="660" cy="110" r="220" fill="#38BDF8" fill-opacity="0.11"/>
+  <circle cx="80" cy="1140" r="240" fill="#F59E0B" fill-opacity="0.09"/>
+  <rect x="44" y="48" width="276" height="46" rx="10" fill="#38BDF8" fill-opacity="0.18" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="64" y="78" fill="#38BDF8" font-size="20" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">YOUTUBE SHORTS 9:16</text>
+  <rect x="450" y="48" width="226" height="46" rx="10" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.2"/>
+  <text x="563" y="78" text-anchor="middle" fill="#F8FAFC" font-size="18" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">HỒ SƠ RIÊNG TƯ</text>
+  <text x="52" y="148" fill="#F59E0B" font-size="21" font-weight="800" letter-spacing="1.2" font-family="Inter, Segoe UI, Arial, sans-serif">KHÔNG LOGO BẨN | 300 DPI</text>
+  <text x="52" y="216" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">TỰ LÀM 8 ẢNH THẺ 3X4</text><text x="52" y="268" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">CHUẨN IN 10X15CM HẾT</text><text x="52" y="320" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">3.000Đ, KHÔNG DÍNH</text><text x="52" y="372" fill="#FFFFFF" font-size="42" font-weight="900" font-family="Inter, Plus Jakarta Sans, Segoe UI, Arial, sans-serif">LOGO BẨN</text>
+  
+        <g>
+          <rect x="88" y="496" width="544" height="222" rx="14" fill="#F8FAFC" fill-opacity="0.96" stroke="#38BDF8" stroke-width="2.5"/>
+          <rect x="100" y="508" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="160" cy="541" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 114 595 C 118 565 203 565 207 595 Z" fill="#0F172A" fill-opacity="0.82"/><rect x="233" y="508" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="293" cy="541" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 247 595 C 251 565 336 565 340 595 Z" fill="#0F172A" fill-opacity="0.82"/><rect x="366" y="508" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="426" cy="541" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 380 595 C 384 565 469 565 473 595 Z" fill="#0F172A" fill-opacity="0.82"/><rect x="499" y="508" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="559" cy="541" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 513 595 C 517 565 602 565 606 595 Z" fill="#0F172A" fill-opacity="0.82"/><rect x="100" y="613" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="160" cy="646" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 114 700 C 118 670 203 670 207 700 Z" fill="#0F172A" fill-opacity="0.82"/><rect x="233" y="613" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="293" cy="646" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 247 700 C 251 670 336 670 340 700 Z" fill="#0F172A" fill-opacity="0.82"/><rect x="366" y="613" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="426" cy="646" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 380 700 C 384 670 469 670 473 700 Z" fill="#0F172A" fill-opacity="0.82"/><rect x="499" y="613" width="121" height="93" rx="6" fill="#0284C7" stroke="#BAE6FD" stroke-width="1.5"/><circle cx="559" cy="646" r="24" fill="#F8FAFC" fill-opacity="0.92"/><path d="M 513 700 C 517 670 602 670 606 700 Z" fill="#0F172A" fill-opacity="0.82"/>
+          <text x="360" y="758" text-anchor="middle" fill="#F59E0B" font-size="21" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">KHỔ IN 10X15CM (300 DPI) | 8 ẢNH 3X4 KHÔNG LOGO</text>
+        </g>
+        
+  <rect x="44" y="818" width="632" height="82" rx="14" fill="#38BDF8" fill-opacity="0.18" stroke="#38BDF8" stroke-width="2"/>
+  <text x="360" y="869" text-anchor="middle" fill="#FFFFFF" font-size="28" font-weight="900" font-family="Inter, Segoe UI, Arial, sans-serif">80.000Đ -&gt; 3.000Đ / 8 ẢNH</text>
+  <rect x="44" y="1102" width="632" height="68" rx="12" fill="#0B1220" fill-opacity="0.82" stroke="#334155" stroke-width="1.5"/>
+  <text x="360" y="1144" text-anchor="middle" fill="#E2E8F0" font-size="20" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">Dùng miễn phí 0đ không logo ở link ghim bình luận...</text>
+  <line x1="44" y1="1198" x2="676" y2="1198" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.2"/>
+  <text x="48" y="1238" fill="#94A3B8" font-size="17" font-weight="700" font-family="Inter, Segoe UI, Arial, sans-serif">TITAN AI CORP | STUDIO KHỐI 5</text>
+  <text x="672" y="1238" text-anchor="end" fill="#38BDF8" font-size="17" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">GOOGLE FLOW / VEO 3.1</text>
+</svg>
