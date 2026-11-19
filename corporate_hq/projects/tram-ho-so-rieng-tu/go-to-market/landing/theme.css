@@ -1,0 +1,235 @@
+/* ==========================================================================
+   HO SO RIENG TU - DESIGN TOKENS (XIAS v3.1.1 3-Tier OKLCH Theme)
+   Single Source of Truth for Light & Dark Modes (WCAG 2.2 AA+ Verified)
+   ========================================================================== */
+
+:root {
+  /* Tier 1: Primitives (Perceptually Uniform OKLCH, off-white & warm slate ink) */
+  --p-paper-50: oklch(0.984 0.005 92);
+  --p-paper-100: oklch(0.958 0.008 90);
+  --p-paper-200: oklch(0.918 0.012 88);
+  --p-paper-card: oklch(0.995 0.002 92);
+
+  --p-ink-950: oklch(0.172 0.016 244);
+  --p-ink-900: oklch(0.212 0.019 242);
+  --p-ink-800: oklch(0.278 0.023 242);
+  --p-ink-700: oklch(0.368 0.026 242);
+  --p-ink-600: oklch(0.448 0.024 242);
+  --p-ink-400: oklch(0.742 0.018 242);
+  --p-ink-300: oklch(0.848 0.013 242);
+  --p-ink-100: oklch(0.964 0.005 242);
+
+  /* Civic Teal-Pine Primary (Calm Privacy Authority) */
+  --p-teal-950: oklch(0.215 0.048 178);
+  --p-teal-900: oklch(0.352 0.072 178);
+  --p-teal-800: oklch(0.412 0.084 178);
+  --p-teal-700: oklch(0.478 0.096 177);
+  --p-teal-600: oklch(0.555 0.112 176);
+  --p-teal-400: oklch(0.778 0.125 174);
+  --p-teal-300: oklch(0.848 0.102 174);
+  --p-teal-100: oklch(0.946 0.032 176);
+  --p-teal-50: oklch(0.976 0.015 176);
+
+  /* Semantic Status Primitives */
+  --p-amber-950: oklch(0.248 0.052 68);
+  --p-amber-800: oklch(0.460 0.115 62);
+  --p-amber-700: oklch(0.542 0.132 58);
+  --p-amber-400: oklch(0.835 0.145 82);
+  --p-amber-200: oklch(0.916 0.072 88);
+  --p-amber-50: oklch(0.982 0.022 90);
+
+  --p-red-950: oklch(0.222 0.054 20);
+  --p-red-800: oklch(0.440 0.165 25);
+  --p-red-700: oklch(0.502 0.185 26);
+  --p-red-400: oklch(0.720 0.160 22);
+  --p-red-300: oklch(0.818 0.110 20);
+  --p-red-200: oklch(0.896 0.052 20);
+  --p-red-50: oklch(0.975 0.015 20);
+
+  /* Typography */
+  --font-sans: "Be Vietnam Pro", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-hero: clamp(2.5rem, 4.8vw, 3.35rem);
+  --text-section: clamp(1.75rem, 3.6vw, 2.375rem);
+  --text-stat: clamp(2rem, 4.2vw, 2.75rem);
+
+  /* Spacing Scale (4px rhythm) */
+  --sp-0: 0;
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+
+  /* Sizing & Layout */
+  --header-h: 4.25rem;
+  --container-max: 76rem;
+  --gutter: var(--sp-4);
+  --touch-min: 2.75rem;
+  --icon-sm: 1rem;
+  --icon-md: 1.25rem;
+  --icon-lg: 1.5rem;
+  --brand-mark-sz: 2.25rem;
+  --skip-hide: -6.25rem;
+  --measure-body: 64ch;
+  --measure-lead: 56ch;
+  --measure-hero: 22ch;
+  --modal-max-w: 34rem;
+
+  /* Borders & Radii */
+  --bw-thin: 1px;
+  --bw-strong: 0.125rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-pill: 9999px;
+
+  /* Motion */
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-reduced: 0.01ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Z-index layers */
+  --z-header: 100;
+  --z-skip: 200;
+  --z-modal: 300;
+
+  /* Tier 2: Semantic Tokens (Light Mode Default) */
+  --surface-page: var(--p-paper-50);
+  --surface-subtle: var(--p-paper-100);
+  --surface-card: var(--p-paper-card);
+  --surface-card-alt: oklch(0.972 0.006 90);
+  --surface-inverted: var(--p-ink-900);
+  --surface-inverted-card: var(--p-ink-800);
+  --surface-scrim: oklch(0.172 0.016 244 / 0.62);
+
+  --text-primary: var(--p-ink-900);
+  --text-secondary: var(--p-ink-700);
+  --text-muted: var(--p-ink-600);
+  --text-on-primary: var(--p-paper-card);
+  --text-on-inverted: var(--p-ink-100);
+  --text-on-inverted-muted: var(--p-ink-300);
+
+  --border-subtle: oklch(0.875 0.011 88);
+  --border-strong: oklch(0.745 0.016 86);
+  --border-inverted: oklch(0.355 0.024 242);
+
+  --action-primary-bg: var(--p-teal-700);
+  --action-primary-hover: var(--p-teal-800);
+  --action-primary-active: var(--p-teal-900);
+  --action-primary-text: var(--p-paper-card);
+
+  --action-secondary-bg: var(--p-paper-card);
+  --action-secondary-hover: var(--p-paper-100);
+  --action-secondary-active: var(--p-paper-200);
+  --action-secondary-text: var(--p-ink-900);
+  --action-secondary-border: var(--border-strong);
+
+  --action-danger-bg: var(--p-red-700);
+  --action-danger-hover: var(--p-red-800);
+  --action-danger-text: var(--p-paper-card);
+
+  --status-safe-bg: var(--p-teal-50);
+  --status-safe-text: var(--p-teal-800);
+  --status-safe-border: oklch(0.870 0.062 176);
+
+  --status-warn-bg: var(--p-amber-50);
+  --status-warn-text: var(--p-amber-800);
+  --status-warn-border: var(--p-amber-200);
+
+  --status-danger-bg: var(--p-red-50);
+  --status-danger-text: var(--p-red-800);
+  --status-danger-border: var(--p-red-200);
+
+  --selected-bg: var(--p-teal-50);
+  --selected-border: var(--p-teal-700);
+  --selected-text: var(--p-teal-900);
+
+  /* Inverted Band Semantic Tokens */
+  --inv-safe-bg: oklch(0.310 0.058 176 / 0.48);
+  --inv-safe-text: var(--p-teal-300);
+  --inv-safe-border: oklch(0.700 0.110 175 / 0.45);
+
+  --inv-warn-bg: oklch(0.325 0.062 80 / 0.48);
+  --inv-warn-text: var(--p-amber-400);
+  --inv-warn-border: oklch(0.760 0.125 82 / 0.45);
+
+  --inv-input-bg: oklch(0.225 0.019 242);
+  --inv-input-border: oklch(0.435 0.025 242);
+  --inv-cta-bg: var(--p-teal-400);
+  --inv-cta-hover: var(--p-teal-300);
+  --inv-cta-text: var(--p-teal-950);
+
+  /* Shadows & Focus */
+  --shadow-sm: 0 1px 2px oklch(0.212 0.019 242 / 0.06);
+  --shadow-md: 0 10px 26px -8px oklch(0.212 0.019 242 / 0.10), 0 2px 6px oklch(0.212 0.019 242 / 0.04);
+  --shadow-lg: 0 20px 44px -14px oklch(0.212 0.019 242 / 0.14), 0 4px 12px oklch(0.212 0.019 242 / 0.05);
+  --focus-ring: 0 0 0 3px oklch(0.478 0.096 177 / 0.38);
+  --focus-ring-inv: 0 0 0 3px oklch(0.778 0.125 174 / 0.48);
+}
+
+[data-theme="dark"] {
+  --surface-page: var(--p-ink-950);
+  --surface-subtle: oklch(0.198 0.017 244);
+  --surface-card: oklch(0.232 0.020 244);
+  --surface-card-alt: oklch(0.264 0.022 244);
+  --surface-inverted: oklch(0.196 0.017 244);
+  --surface-inverted-card: oklch(0.246 0.021 244);
+
+  --text-primary: var(--p-ink-100);
+  --text-secondary: var(--p-ink-300);
+  --text-muted: var(--p-ink-400);
+  --text-on-primary: var(--p-teal-950);
+  --text-on-inverted: var(--p-ink-100);
+  --text-on-inverted-muted: var(--p-ink-300);
+
+  --border-subtle: oklch(0.332 0.022 244);
+  --border-strong: oklch(0.440 0.026 244);
+  --border-inverted: oklch(0.332 0.022 244);
+
+  --action-primary-bg: var(--p-teal-400);
+  --action-primary-hover: var(--p-teal-300);
+  --action-primary-active: var(--p-teal-100);
+  --action-primary-text: var(--p-teal-950);
+
+  --action-secondary-bg: oklch(0.264 0.022 244);
+  --action-secondary-hover: oklch(0.318 0.025 244);
+  --action-secondary-active: oklch(0.358 0.026 244);
+  --action-secondary-text: var(--p-ink-100);
+  --action-secondary-border: var(--border-strong);
+
+  --status-safe-bg: oklch(0.242 0.044 178);
+  --status-safe-text: var(--p-teal-300);
+  --status-safe-border: oklch(0.382 0.068 178);
+
+  --status-warn-bg: var(--p-amber-950);
+  --status-warn-text: var(--p-amber-400);
+  --status-warn-border: oklch(0.422 0.084 68);
+
+  --status-danger-bg: var(--p-red-950);
+  --status-danger-text: var(--p-red-300);
+  --status-danger-border: oklch(0.392 0.108 20);
+
+  --selected-bg: oklch(0.262 0.052 178);
+  --selected-border: var(--p-teal-400);
+  --selected-text: var(--p-teal-100);
+
+  --shadow-sm: 0 1px 2px oklch(0.100 0.010 244 / 0.36);
+  --shadow-md: 0 10px 28px -8px oklch(0.100 0.010 244 / 0.48);
+  --shadow-lg: 0 20px 44px -12px oklch(0.100 0.010 244 / 0.58);
+  --focus-ring: 0 0 0 3px oklch(0.778 0.125 174 / 0.46);
+}

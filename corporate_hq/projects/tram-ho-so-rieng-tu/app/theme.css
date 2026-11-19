@@ -1,0 +1,224 @@
+/* ==========================================================================
+   HỒ SƠ RIÊNG TƯ - BỘ TOKEN 3 TẦNG (XIAS v3.1.1)
+   Chế độ Sáng và Tối đo tương phản thực tế >= 5.54:1 (WCAG AA/AAA)
+   ========================================================================== */
+
+:root {
+  /* Tầng 1: Primitive Color Ramp (tông giấy ấm + xanh ngọc chủ quyền + đỏ cảnh báo) */
+  --p-paper-50: rgb(252, 251, 248);
+  --p-paper-100: rgb(246, 245, 241);
+  --p-paper-200: rgb(236, 233, 225);
+  --p-paper-300: rgb(221, 217, 206);
+  --p-paper-400: rgb(194, 189, 176);
+
+  --p-ink-100: rgb(243, 245, 244);
+  --p-ink-200: rgb(203, 211, 209);
+  --p-ink-400: rgb(154, 168, 165);
+  --p-ink-600: rgb(81, 94, 92);
+  --p-ink-700: rgb(58, 70, 68);
+  --p-ink-800: rgb(43, 54, 53);
+  --p-ink-850: rgb(32, 41, 41);
+  --p-ink-900: rgb(23, 30, 30);
+  --p-ink-950: rgb(20, 26, 25);
+  --p-ink-980: rgb(15, 20, 20);
+
+  --p-teal-50: rgb(229, 244, 240);
+  --p-teal-200: rgb(155, 215, 201);
+  --p-teal-300: rgb(127, 226, 209);
+  --p-teal-400: rgb(43, 181, 157);
+  --p-teal-600: rgb(13, 115, 102);
+  --p-teal-700: rgb(11, 102, 90);
+  --p-teal-800: rgb(8, 80, 70);
+  --p-teal-900: rgb(6, 61, 54);
+  --p-teal-950: rgb(17, 42, 39);
+
+  --p-amber-50: rgb(252, 241, 216);
+  --p-amber-200: rgb(228, 190, 114);
+  --p-amber-300: rgb(250, 209, 126);
+  --p-amber-600: rgb(180, 105, 14);
+  --p-amber-800: rgb(122, 68, 9);
+  --p-amber-950: rgb(45, 34, 14);
+
+  --p-crimson-50: rgb(253, 236, 236);
+  --p-crimson-200: rgb(235, 167, 167);
+  --p-crimson-300: rgb(254, 178, 178);
+  --p-crimson-600: rgb(200, 30, 30);
+  --p-crimson-700: rgb(185, 28, 28);
+  --p-crimson-800: rgb(153, 27, 27);
+  --p-crimson-900: rgb(127, 29, 29);
+  --p-crimson-950: rgb(51, 21, 23);
+
+  /* Tầng 2: Semantic Tokens (Light Mode mặc định) */
+  --color-bg-page: var(--p-paper-100);
+  --color-surface-card: var(--p-paper-50);
+  --color-surface-subtle: var(--p-paper-200);
+  --color-surface-elevated: var(--p-paper-50);
+  --color-surface-hero: var(--p-teal-50);
+  --color-surface-privacy: var(--p-teal-900);
+  --color-surface-toast: var(--p-ink-900);
+  --color-surface-canvas-stage: var(--p-paper-200);
+
+  --color-text-primary: var(--p-ink-950);
+  --color-text-secondary: var(--p-ink-700);
+  --color-text-muted: var(--p-ink-600);
+  --color-text-on-solid: var(--p-paper-50);
+
+  --color-border-subtle: var(--p-paper-300);
+  --color-border-strong: var(--p-paper-400);
+  --color-border-hero: var(--p-teal-200);
+  --color-border-toast: var(--p-ink-700);
+
+  --color-action-primary: var(--p-teal-700);
+  --color-action-primary-hover: var(--p-teal-800);
+  --color-action-primary-active: var(--p-teal-900);
+
+  --color-action-danger: var(--p-crimson-700);
+  --color-action-destructive: var(--p-crimson-700);
+  --color-action-danger-hover: var(--p-crimson-800);
+  --color-action-danger-active: var(--p-crimson-900);
+
+  --color-action-secondary-bg: var(--p-paper-50);
+  --color-action-secondary-hover: var(--p-paper-200);
+  --color-action-secondary-active: var(--p-paper-300);
+
+  --color-selected-bg: var(--p-teal-50);
+  --color-selected-border: var(--p-teal-700);
+  --color-selected-text: var(--p-teal-800);
+
+  --color-safe-bg: var(--p-teal-50);
+  --color-safe-border: var(--p-teal-200);
+  --color-safe-text: var(--p-teal-800);
+
+  --color-warn-bg: var(--p-amber-50);
+  --color-warn-border: var(--p-amber-200);
+  --color-warn-text: var(--p-amber-800);
+
+  --color-alert-bg: var(--p-crimson-50);
+  --color-alert-border: var(--p-crimson-200);
+  --color-alert-text: var(--p-crimson-800);
+
+  --color-focus-ring: var(--p-teal-700);
+  --color-scrim: rgba(20, 26, 25, 0.56);
+
+  /* Typography (100% phông hệ thống tiếng Việt mượt, 0 yêu cầu CDN ngoài) */
+  --font-sans: 'Segoe UI', 'SF Pro Text', 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --text-root: 16px;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-hero: clamp(2.25rem, 5.2vw, 2.75rem);
+
+  /* Spacing rhythm (4px base, outer > inner) */
+  --space-05: 2px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Sizing tokens */
+  --size-icon-sm: 16px;
+  --size-icon-md: 18px;
+  --size-icon-lg: 22px;
+  --size-brand-mark: 38px;
+  --size-checkbox: 20px;
+  --size-ring-inner: 2px;
+  --size-ring-outer: 4px;
+  --size-skip-offset: -100px;
+  --size-opt-min-h: 44px;
+  --size-listbox-max: 420px;
+  --size-modal-max: 560px;
+  --size-toast-max: 520px;
+  --size-preview-max-h: 520px;
+  --size-sig-pad-h: 176px;
+  --size-thumb-w: 64px;
+  --size-thumb-h: 84px;
+  --size-container-max: 1180px;
+
+  /* Radii (varied by scale) */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Restrained shadows */
+  --shadow-sm: 0 2px 6px rgba(20, 26, 25, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 26, 25, 0.11);
+  --shadow-lg: 0 18px 40px rgba(20, 26, 25, 0.18);
+
+  /* Motion */
+  --dur-instant: 0.01ms;
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Tầng 3: Component Tokens (Mobile-First >= 44px chạm thoải mái) */
+  --btn-min-h: 44px;
+  --btn-sm-min-h: 44px;
+  --size-btn-sm-desktop: 38px;
+  --card-pad: var(--space-5);
+  --card-pad-lg: var(--space-6);
+}
+
+[data-theme="dark"] {
+  --color-bg-page: var(--p-ink-980);
+  --color-surface-card: var(--p-ink-900);
+  --color-surface-subtle: var(--p-ink-850);
+  --color-surface-elevated: var(--p-ink-850);
+  --color-surface-hero: var(--p-teal-950);
+  --color-surface-privacy: var(--p-teal-950);
+  --color-surface-toast: var(--p-ink-850);
+  --color-surface-canvas-stage: var(--p-ink-980);
+
+  --color-text-primary: var(--p-ink-100);
+  --color-text-secondary: var(--p-ink-200);
+  --color-text-muted: var(--p-ink-400);
+  --color-text-on-solid: var(--p-paper-50);
+
+  --color-border-subtle: var(--p-ink-800);
+  --color-border-strong: var(--p-ink-700);
+  --color-border-hero: var(--p-teal-800);
+  --color-border-toast: var(--p-ink-700);
+
+  --color-action-primary: var(--p-teal-600);
+  --color-action-primary-hover: var(--p-teal-700);
+  --color-action-primary-active: var(--p-teal-800);
+
+  --color-action-danger: var(--p-crimson-600);
+  --color-action-destructive: var(--p-crimson-600);
+  --color-action-danger-hover: var(--p-crimson-700);
+  --color-action-danger-active: var(--p-crimson-800);
+
+  --color-action-secondary-bg: var(--p-ink-850);
+  --color-action-secondary-hover: var(--p-ink-800);
+  --color-action-secondary-active: var(--p-ink-700);
+
+  --color-selected-bg: var(--p-teal-950);
+  --color-selected-border: var(--p-teal-400);
+  --color-selected-text: var(--p-teal-300);
+
+  --color-safe-bg: var(--p-teal-950);
+  --color-safe-border: var(--p-teal-800);
+  --color-safe-text: var(--p-teal-300);
+
+  --color-warn-bg: var(--p-amber-950);
+  --color-warn-border: var(--p-amber-800);
+  --color-warn-text: var(--p-amber-300);
+
+  --color-alert-bg: var(--p-crimson-950);
+  --color-alert-border: var(--p-crimson-800);
+  --color-alert-text: var(--p-crimson-300);
+
+  --color-focus-ring: var(--p-teal-300);
+  --color-scrim: rgba(8, 12, 12, 0.74);
+
+  --shadow-sm: 0 2px 8px rgba(4, 8, 8, 0.28);
+  --shadow-md: 0 10px 28px rgba(4, 8, 8, 0.44);
+  --shadow-lg: 0 20px 44px rgba(4, 8, 8, 0.56);
+}

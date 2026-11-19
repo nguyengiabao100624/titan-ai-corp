@@ -1,0 +1,11 @@
+{
+  "name": "Hồ Sơ Riêng Tư - Trạm Giấy Tờ và PDF 100% Trên Máy",
+  "short_name": "Hồ Sơ Riêng Tư",
+  "description": "6 công cụ xử lý CCCD, ảnh thẻ 3x4/4x6, nén dưới 2MB/5MB nộp Dịch vụ công, ký tên tay, gộp PDF và xóa GPS chạy 100% cục bộ không gửi tệp lên mạng.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F6F5F1",
+  "theme_color": "#0B665A",
+  "lang": "vi",
+  "orientation": "portrait-primary"
+}

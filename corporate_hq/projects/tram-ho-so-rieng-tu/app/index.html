@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self';">
+  <meta name="theme-color" content="#0B665A"><!-- ds-allow-hardcode -->
+  <meta name="description" content="Hồ Sơ Riêng Tư: 6 công cụ ghép CCCD đóng dấu chìm, nén 2MB/5MB nộp Dịch vụ công, tạo ảnh thẻ 3x4/4x6 dàn trang 10x15cm, ký tên tay, gộp PDF và xóa GPS chạy 100% cục bộ trên máy bạn.">
+  <title>Hồ Sơ Riêng Tư - Trạm Giấy Tờ và PDF 100% Trên Máy</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B665A'/%3E%3Cpath d='M16 5l9 3.5v7.5c0 5.5-3.8 9.4-9 11-5.2-1.6-9-5.5-9-11V8.5L16 5z' fill='none' stroke='%23FCFBF8' stroke-width='2.2'/%3E%3Cpath d='M12.5 16.5l2.5 2.5 4.8-5' fill='none' stroke='%23FCFBF8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Chuyển tới khu vực công cụ</a>
+
+  <!-- Biểu tượng vector SVG nội tuyến (Lucide style, currentColor, 0 emoji) -->
+  <svg xmlns="http://www.w3.org/2000/svg" hidden aria-hidden="true">
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      <polyline points="9 12 11 14 15 10"></polyline>
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+      <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+    </symbol>
+    <symbol id="i-wifi-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="2" y1="2" x2="22" y2="22"></line>
+      <path d="M8.5 16.5a5 5 0 0 1 7 0"></path>
+      <path d="M2 8.82a15 15 0 0 1 4.17-2.65"></path>
+      <path d="M10.66 5c4.01-.36 8.14.9 11.34 3.76"></path>
+      <path d="M16.85 11.25a10 10 0 0 1 2.22 1.68"></path>
+      <path d="M5 13a10 10 0 0 1 5.24-2.76"></path>
+      <line x1="12" y1="20" x2="12.01" y2="20"></line>
+    </symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+      <circle cx="8" cy="12" r="2"></circle>
+      <line x1="13" y1="10" x2="19" y2="10"></line>
+      <line x1="13" y1="14" x2="18" y2="14"></line>
+    </symbol>
+    <symbol id="i-compress" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="4 14 10 14 10 20"></polyline>
+      <polyline points="20 10 14 10 14 4"></polyline>
+      <line x1="14" y1="10" x2="21" y2="3"></line>
+      <line x1="3" y1="21" x2="10" y2="14"></line>
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+      <circle cx="12" cy="10" r="3"></circle>
+      <path d="M7.5 18a4.5 4.5 0 0 1 9 0"></path>
+    </symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 20h9"></path>
+      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+    </symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+      <polyline points="2 12 12 17 22 12"></polyline>
+      <polyline points="2 17 12 22 22 17"></polyline>
+    </symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path>
+      <line x1="1" y1="1" x2="23" y2="23"></line>
+    </symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="17 8 12 3 7 8"></polyline>
+      <line x1="12" y1="3" x2="12" y2="15"></line>
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="7 10 12 15 17 10"></polyline>
+      <line x1="12" y1="15" x2="12" y2="3"></line>
+    </symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"></polyline>
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+      <path d="M10 11v6M14 11v6"></path>
+      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <polyline points="19 12 12 19 5 12"></polyline>
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </symbol>
+  </svg>
+
+  <!-- Thanh Chứng Nhận Riêng Tư Sống -->
+  <div class="privacy-bar" role="region" aria-label="Chứng nhận riêng tư cục bộ">
+    <div class="privacy-bar-inner">
+      <div class="privacy-metrics">
+        <span class="privacy-pill">
+          <svg class="icon-sm" aria-hidden="true"><use href="#i-lock"></use></svg>
+          <span>0 byte tải lên mạng</span>
+        </span>
+        <span class="privacy-pill" id="live-network-status">
+          <svg class="icon-sm" aria-hidden="true"><use href="#i-wifi-off"></use></svg>
+          <span id="live-network-text">Trình duyệt cục bộ: 0 yêu cầu gửi tệp ra ngoài</span>
+        </span>
+        <span class="privacy-pill tabular">
+          <span id="live-processed-count">Đã xử lý trên máy: 0 tệp</span>
+        </span>
+      </div>
+      <div class="privacy-actions">
+        <button type="button" id="btn-open-privacy-proof" class="privacy-link">Kiểm chứng tắt mạng</button>
+        <a href="../go-to-market/landing/index.html" class="privacy-link">Trang giới thiệu</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thanh đầu trang chính -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <span class="brand-mark" aria-hidden="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+        </span>
+        <div class="brand-text">
+          <span class="brand-name">Hồ Sơ Riêng Tư</span>
+          <span class="brand-sub">Trạm giấy tờ và PDF 100% trên máy</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button type="button" id="btn-open-wipe-all" class="btn btn-danger btn-sm">
+          <svg class="icon-sm" aria-hidden="true"><use href="#i-trash"></use></svg>
+          <span>Xóa sạch ảnh đang mở</span>
+        </button>
+        <button type="button" id="btn-theme-toggle" class="btn btn-secondary btn-sm" aria-pressed="false" aria-label="Chuyển giao diện Sáng hoặc Tối">
+          <svg id="theme-icon-svg" class="icon-sm" aria-hidden="true"><use href="#i-moon"></use></svg>
+          <span id="theme-toggle-label">Giao diện tối</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="app-main">
+    <!-- Khối mở đầu bất đối xứng 7/5 (One Thing Leads) -->
+    <section class="intro-band" aria-label="Giới thiệu trạm xử lý cục bộ">
+      <div class="intro-lead">
+        <h1 class="hero-title">Xử lý giấy tờ và PDF ngay trên máy bạn</h1>
+        <p class="hero-desc">
+          Chọn đúng 1 trong 6 công cụ bên dưới để ghép 2 mặt CCCD đóng dấu chìm chống lừa đảo, nén hồ sơ dưới 2MB nộp Dịch vụ công, tạo ảnh thẻ dàn trang in 10x15cm, ký tên tay, gộp PDF hoặc gỡ vị trí GPS. Tắt Wi-Fi vẫn chạy bình thường.
+        </p>
+      </div>
+      <aside class="intro-side" aria-label="Cam kết kỹ thuật">
+        <ul class="proof-list">
+          <li class="proof-item">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+            <span>0 byte ảnh CCCD gửi lên máy chủ bên ngoài</span>
+          </li>
+          <li class="proof-item">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+            <span>Không cần đăng ký tài khoản, không chèn logo che chữ</span>
+          </li>
+          <li class="proof-item">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+            <span>Có sẵn dữ liệu mẫu thử 1 chạm cho cả 6 công cụ</span>
+          </li>
+        </ul>
+        <div class="row-wrap">
+          <button type="button" id="btn-open-support-modal" class="btn btn-secondary btn-sm">
+            <span>Gói miễn phí &amp; Hỗ trợ in 300 DPI (VietQR)</span>
+          </button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Thanh chọn 6 Công cụ (khớp hash #cccd, #compress, #idphoto, #sign, #merge, #exif) -->
+    <nav aria-label="Danh sách 6 công cụ xử lý giấy tờ">
+      <div class="tool-nav" role="tablist">
+        <button type="button" role="tab" id="tab-cccd" class="tool-tab" aria-selected="true" aria-controls="panel-cccd" data-tool="cccd">
+          <span class="tool-tab-head">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-card"></use></svg>
+            <span>1. Ghép CCCD A4</span>
+          </span>
+          <span class="tool-tab-sub">2 mặt + dấu chìm</span>
+        </button>
+
+        <button type="button" role="tab" id="tab-compress" class="tool-tab" aria-selected="false" aria-controls="panel-compress" data-tool="compress">
+          <span class="tool-tab-head">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-compress"></use></svg>
+            <span>2. Nén 2MB / 5MB</span>
+          </span>
+          <span class="tool-tab-sub">Chuẩn Dịch vụ công</span>
+        </button>
+
+        <button type="button" role="tab" id="tab-idphoto" class="tool-tab" aria-selected="false" aria-controls="panel-idphoto" data-tool="idphoto">
+          <span class="tool-tab-head">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-user"></use></svg>
+            <span>3. Ảnh thẻ 3x4 / 4x6</span>
+          </span>
+          <span class="tool-tab-sub">Dàn trang 10x15cm</span>
+        </button>
+
+        <button type="button" role="tab" id="tab-sign" class="tool-tab" aria-selected="false" aria-controls="panel-sign" data-tool="sign">
+          <span class="tool-tab-head">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-pen"></use></svg>
+            <span>4. Ký tên lên đơn</span>
+          </span>
+          <span class="tool-tab-sub">Vẽ tay + xuất PDF</span>
+        </button>
+
+        <button type="button" role="tab" id="tab-merge" class="tool-tab" aria-selected="false" aria-controls="panel-merge" data-tool="merge">
+          <span class="tool-tab-head">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-layers"></use></svg>
+            <span>5. Gộp ảnh ra PDF</span>
+          </span>
+          <span class="tool-tab-sub">Đổi thứ tự &amp; xoay</span>
+        </button>
+
+        <button type="button" role="tab" id="tab-exif" class="tool-tab" aria-selected="false" aria-controls="panel-exif" data-tool="exif">
+          <span class="tool-tab-head">
+            <svg class="icon-sm" aria-hidden="true"><use href="#i-eye-off"></use></svg>
+            <span>6. Xóa GPS &amp; Đổi đuôi</span>
+          </span>
+          <span class="tool-tab-sub">Gỡ EXIF hàng loạt</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ================================================================
+         CÔNG CỤ 1: GHÉP 2 MẶT CCCD LÊN 1 TRANG A4 + ĐÓNG DẤU CHÌM
+         ================================================================ -->
+    <section id="panel-cccd" class="tool-panel" role="tabpanel" aria-labelledby="tab-cccd">
+      <div class="workspace-grid">
+        <div class="card">
+          <div>
+            <h2 class="section-heading">1. Ghép 2 mặt CCCD lên 1 trang A4 + Dấu chìm</h2>
+            <p class="section-caption">
+              Tự căn đúng tỷ lệ thẻ chuẩn 85,6 x 53,98 mm trên khổ giấy A4 và chèn chữ dấu chìm chéo nhiều lớp giúp ngăn chặn việc lấy ảnh CCCD đi vay nợ trái phép.
+            </p>
+          </div>
+
+          <div class="upload-box">
+            <div class="row-wrap">
+              <label for="cccd-front-input" class="btn btn-primary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-upload"></use></svg>
+                <span>Chọn ảnh Mặt trước</span>
+              </label>
+              <input type="file" id="cccd-front-input" accept="image/*" class="sr-only">
+
+              <label for="cccd-back-input" class="btn btn-primary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-upload"></use></svg>
+                <span>Chọn ảnh Mặt sau</span>
+              </label>
+              <input type="file" id="cccd-back-input" accept="image/*" class="sr-only">
+            </div>
+
+            <div class="row-wrap">
+              <button type="button" id="btn-cccd-sample" class="btn btn-secondary btn-sm">
+                <span>Dùng ảnh CCCD mẫu minh họa</span>
+              </button>
+              <button type="button" id="btn-cccd-rot-front" class="btn btn-secondary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-rotate"></use></svg>
+                <span>Xoay mặt trước</span>
+              </button>
+              <button type="button" id="btn-cccd-rot-back" class="btn btn-secondary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-rotate"></use></svg>
+                <span>Xoay mặt sau</span>
+              </button>
+            </div>
+            <p id="cccd-status-text" class="field-hint">Chưa nạp ảnh. Bấm nút Dùng ảnh CCCD mẫu minh họa để thử ngay trong 2 giây.</p>
+          </div>
+
+          <div class="field">
+            <label for="cccd-wm-text" class="field-label">Nội dung chữ dấu chìm chống lừa đảo</label>
+            <input type="text" id="cccd-wm-text" class="input" value="CHỈ DÙNG ĐỂ ĐĂNG KÝ THUÊ NHÀ - NGÀY 19/11/2026 - KHÔNG CÓ GIÁ TRỊ VAY TIỀN" maxlength="120">
+            <div class="row-wrap">
+              <button type="button" class="chip-btn" data-wm-preset="CHỈ DÙNG ĐỂ ĐĂNG KÝ THUÊ NHÀ - NGÀY 19/11/2026 - KHÔNG CÓ GIÁ TRỊ VAY TIỀN">Thuê nhà</button>
+              <button type="button" class="chip-btn" data-wm-preset="CHỈ DÙNG NỘP HỒ SƠ XIN VIỆC - KHÔNG CÓ GIÁ TRỊ VAY VỐN">Xin việc</button>
+              <button type="button" class="chip-btn" data-wm-preset="CHỈ DÙNG NỘP THỦ TỤC DỊCH VỤ CÔNG - KHÔNG DÙNG MỤC ĐÍCH KHÁC">Dịch vụ công</button>
+              <button type="button" class="chip-btn" data-wm-preset="">Không đóng dấu chìm</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Độ đậm dấu chìm</span>
+            <div class="row-wrap" role="group" aria-label="Độ đậm dấu chìm">
+              <button type="button" class="chip-btn" data-wm-opacity="0.16" aria-pressed="false">Nhẹ (16%)</button>
+              <button type="button" class="chip-btn" data-wm-opacity="0.25" aria-pressed="true">Vừa dễ đọc (25%)</button>
+              <button type="button" class="chip-btn" data-wm-opacity="0.38" aria-pressed="false">Rõ nét (38%)</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span id="cccd-color-label" class="field-label">Màu chữ dấu chìm</span>
+            <div class="listbox-wrap" data-listbox="cccd-color">
+              <button type="button" id="cccd-color-trigger" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="cccd-color-label cccd-color-trigger">
+                <span id="cccd-color-value">Đỏ cảnh báo (dễ nhận biết khi photo)</span>
+                <svg class="icon listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+              </button>
+              <ul id="cccd-color-list" class="listbox-menu" role="listbox" aria-labelledby="cccd-color-label" hidden></ul>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Độ phân giải xuất trang A4</span>
+            <div class="row-wrap" role="group" aria-label="Độ phân giải A4">
+              <button type="button" class="chip-btn" data-cccd-dpi="200" aria-pressed="true">200 DPI (Nộp mạng nhanh)</button>
+              <button type="button" class="chip-btn" data-cccd-dpi="300" aria-pressed="false">300 DPI (In nét cao)</button>
+            </div>
+          </div>
+
+          <div class="row-wrap">
+            <button type="button" id="btn-cccd-dl-png" class="btn btn-primary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải ảnh A4 (PNG)</span>
+            </button>
+            <button type="button" id="btn-cccd-dl-jpg" class="btn btn-secondary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải ảnh A4 (JPG)</span>
+            </button>
+            <button type="button" id="btn-cccd-dl-pdf" class="btn btn-secondary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải tệp PDF A4</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row-between">
+            <h3 class="section-heading">Xem trước trang A4 trực tiếp</h3>
+            <span id="cccd-dim-badge" class="badge badge-safe tabular">1654 x 2339 px</span>
+          </div>
+          <div class="preview-stage">
+            <canvas id="cccd-preview-canvas" class="preview-canvas" width="827" height="1169" aria-label="Bản xem trước ghép 2 mặt CCCD trên trang A4"></canvas>
+          </div>
+          <p class="field-hint">Không chèn bất kỳ logo quảng cáo nào lên giấy tờ của bạn.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CÔNG CỤ 2: NÉN ẢNH & XUẤT PDF ĐÚNG MỨC DỊCH VỤ CÔNG (2MB / 5MB)
+         ================================================================ -->
+    <section id="panel-compress" class="tool-panel" role="tabpanel" aria-labelledby="tab-compress" hidden>
+      <div class="workspace-grid">
+        <div class="card">
+          <div>
+            <h2 class="section-heading">2. Nén ảnh và PDF đúng mức nộp Dịch vụ công</h2>
+            <p class="section-caption">
+              Chạy thuật toán tìm kiếm nhị phân ngay trên máy để hạ dung lượng xuống dưới 500 KB, 1 MB, 2 MB hoặc 5 MB mà vẫn giữ độ nét chữ cao nhất.
+            </p>
+          </div>
+
+          <div class="upload-box">
+            <div class="row-wrap">
+              <label for="compress-file-input" class="btn btn-primary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-upload"></use></svg>
+                <span>Chọn 1 hoặc nhiều ảnh hồ sơ</span>
+              </label>
+              <input type="file" id="compress-file-input" accept="image/*" multiple class="sr-only">
+              <button type="button" id="btn-compress-sample" class="btn btn-secondary btn-sm">
+                <span>Dùng ảnh tài liệu mẫu (tệp lớn &gt; 3 MB)</span>
+              </button>
+            </div>
+            <p id="compress-queue-caption" class="field-hint">Chưa có tệp trong danh sách nén.</p>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Chọn giới hạn dung lượng mục tiêu</span>
+            <div class="row-wrap" role="group" aria-label="Mốc giới hạn dung lượng">
+              <button type="button" class="chip-btn" data-target-kb="500" aria-pressed="false">&lt;= 500 KB</button>
+              <button type="button" class="chip-btn" data-target-kb="1024" aria-pressed="false">&lt;= 1 MB</button>
+              <button type="button" class="chip-btn" data-target-kb="2048" aria-pressed="true">&lt;= 2 MB (Dịch vụ công)</button>
+              <button type="button" class="chip-btn" data-target-kb="5120" aria-pressed="false">&lt;= 5 MB (Hồ sơ lớn)</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="compress-custom-kb" class="field-label">Hoặc nhập giới hạn tùy chọn (KB)</label>
+            <input type="text" id="compress-custom-kb" class="input tabular" inputmode="numeric" value="2048">
+            <span id="compress-custom-error" class="field-error" hidden></span>
+          </div>
+
+          <div class="row-wrap">
+            <button type="button" id="btn-run-compress" class="btn btn-primary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-compress"></use></svg>
+              <span>Nén đúng mức ngay</span>
+            </button>
+            <button type="button" id="btn-compress-dl-pdf" class="btn btn-secondary" disabled>
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải tệp PDF đã nén</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row-between">
+            <h3 class="section-heading">Bảng so sánh Trước và Sau khi nén</h3>
+            <span id="compress-summary-badge" class="badge">Chưa nén</span>
+          </div>
+          <div id="compress-result-notice" class="notice-box" hidden></div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tên tệp</th>
+                  <th>Gốc</th>
+                  <th>Sau nén</th>
+                  <th>Giảm</th>
+                  <th>Trạng thái</th>
+                  <th>Tải xuống</th>
+                </tr>
+              </thead>
+              <tbody id="compress-result-tbody">
+                <tr>
+                  <td colspan="6">Hãy chọn ảnh hoặc bấm Dùng ảnh tài liệu mẫu (tệp lớn &gt; 3 MB) rồi bấm Nén đúng mức ngay.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CÔNG CỤ 3: TẠO ẢNH THẺ 3x4 / 4x6 / HỘ CHIẾU + DÀN TRANG 10x15cm
+         ================================================================ -->
+    <section id="panel-idphoto" class="tool-panel" role="tabpanel" aria-labelledby="tab-idphoto" hidden>
+      <div class="workspace-grid">
+        <div class="card">
+          <div>
+            <h2 class="section-heading">3. Tạo ảnh thẻ 3x4 / 4x6 và dàn trang in 10x15cm</h2>
+            <p class="section-caption">
+              Cắt đúng kích thước 300 DPI, hỗ trợ đổi nền xanh hoặc trắng cục bộ và tự động xếp 8 ảnh 3x4 hoặc 4 ảnh 4x6 trên tờ giấy ảnh 10x15cm để mang ra tiệm in tiết kiệm.
+            </p>
+          </div>
+
+          <div class="upload-box">
+            <div class="row-wrap">
+              <label for="idphoto-file-input" class="btn btn-primary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-upload"></use></svg>
+                <span>Chọn ảnh chân dung</span>
+              </label>
+              <input type="file" id="idphoto-file-input" accept="image/*" class="sr-only">
+              <button type="button" id="btn-idphoto-sample" class="btn btn-secondary btn-sm">
+                <span>Dùng ảnh chân dung mẫu</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span id="idphoto-size-label" class="field-label">Cỡ ảnh thẻ chuẩn (300 DPI)</span>
+            <div class="listbox-wrap" data-listbox="idphoto-size">
+              <button type="button" id="idphoto-size-trigger" class="listbox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="idphoto-size-label idphoto-size-trigger">
+                <span id="idphoto-size-value">Ảnh 3x4 cm (Dàn 8 ảnh / tờ 10x15cm)</span>
+                <svg class="icon listbox-chevron" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+              </button>
+              <ul id="idphoto-size-list" class="listbox-menu" role="listbox" aria-labelledby="idphoto-size-label" hidden></ul>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Màu nền ảnh thẻ</span>
+            <div class="row-wrap" role="group" aria-label="Chọn màu nền ảnh thẻ">
+              <button type="button" class="chip-btn" data-idphoto-bg="keep" aria-pressed="false">Giữ nguyên nền</button>
+              <button type="button" class="chip-btn" data-idphoto-bg="blue" aria-pressed="true">Xanh dương ảnh thẻ</button>
+              <button type="button" class="chip-btn" data-idphoto-bg="white" aria-pressed="false">Trắng hộ chiếu</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Tinh chỉnh phóng to và căn khung khuôn mặt</span>
+            <div class="row-wrap">
+              <button type="button" id="btn-idphoto-zoom-out" class="btn btn-secondary btn-sm">Thu nhỏ -10%</button>
+              <span id="idphoto-zoom-readout" class="badge tabular">100%</span>
+              <button type="button" id="btn-idphoto-zoom-in" class="btn btn-secondary btn-sm">Phóng to +10%</button>
+              <button type="button" id="btn-idphoto-reset-pos" class="btn btn-ghost btn-sm">Căn giữa</button>
+            </div>
+            <div class="row-wrap">
+              <button type="button" class="btn btn-secondary btn-sm" data-idphoto-pan="left">Sang trái</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-idphoto-pan="right">Sang phải</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-idphoto-pan="up">Lên trên</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-idphoto-pan="down">Xuống dưới</button>
+            </div>
+          </div>
+
+          <div class="row-wrap">
+            <button type="button" id="btn-idphoto-dl-single" class="btn btn-secondary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải 1 ảnh đơn (JPG)</span>
+            </button>
+            <button type="button" id="btn-idphoto-dl-sheet" class="btn btn-primary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải tờ dàn 10x15cm (JPG 300 DPI)</span>
+            </button>
+            <button type="button" id="btn-idphoto-dl-pdf" class="btn btn-secondary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải tờ dàn (PDF A6)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row-between">
+            <h3 class="section-heading">Xem trước ảnh thẻ</h3>
+            <div class="row-wrap" role="group" aria-label="Chế độ xem trước ảnh thẻ">
+              <button type="button" class="chip-btn" data-idphoto-view="single" aria-pressed="false">1 ảnh đơn</button>
+              <button type="button" class="chip-btn" data-idphoto-view="sheet" aria-pressed="true">Tờ in 10x15cm</button>
+            </div>
+          </div>
+          <div class="preview-stage">
+            <canvas id="idphoto-preview-canvas" class="preview-canvas" width="886" height="590" aria-label="Bản xem trước ảnh thẻ và tờ dàn in 10x15cm"></canvas>
+          </div>
+          <p id="idphoto-sheet-caption" class="field-hint">Tờ in 10x15cm chuẩn 300 DPI gồm 8 ảnh 3x4 có đường cắt mảnh.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CÔNG CỤ 4: KÝ TÊN TAY LÊN ĐƠN / HỒ SƠ ẢNH & XUẤT PDF
+         ================================================================ -->
+    <section id="panel-sign" class="tool-panel" role="tabpanel" aria-labelledby="tab-sign" hidden>
+      <div class="workspace-grid">
+        <div class="card">
+          <div>
+            <h2 class="section-heading">4. Ký tên tay lên đơn từ và xuất PDF A4</h2>
+            <p class="section-caption">
+              Vẽ chữ ký trực tiếp bằng chuột hoặc ngón tay, sau đó chạm vào đúng chỗ cần ký trên trang đơn bên phải để đặt chữ ký và tải bản PDF sắc nét.
+            </p>
+          </div>
+
+          <div class="upload-box">
+            <div class="row-wrap">
+              <label for="sign-doc-input" class="btn btn-primary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-upload"></use></svg>
+                <span>Chọn ảnh trang đơn cần ký</span>
+              </label>
+              <input type="file" id="sign-doc-input" accept="image/*" class="sr-only">
+              <button type="button" id="btn-sign-sample-doc" class="btn btn-secondary btn-sm">
+                <span>Dùng mẫu Đơn xin xác nhận</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="row-between">
+              <span class="field-label">Khung vẽ chữ ký tay</span>
+              <div class="row-wrap">
+                <button type="button" id="btn-sign-demo-stroke" class="btn btn-secondary btn-sm">Chữ ký mẫu thử</button>
+                <button type="button" id="btn-sign-clear" class="btn btn-danger btn-sm">Ký lại</button>
+              </div>
+            </div>
+            <div class="sig-pad-wrap">
+              <canvas id="sign-pad-canvas" class="sig-pad-canvas" width="480" height="176" aria-label="Bảng vẽ chữ ký tay"></canvas>
+            </div>
+          </div>
+
+          <div class="row-wrap">
+            <div class="field">
+              <span class="field-label">Màu mực ký</span>
+              <div class="row-wrap" role="group" aria-label="Chọn màu mực chữ ký">
+                <button type="button" class="chip-btn" data-ink-color="blue" aria-pressed="true">Xanh bút bi</button>
+                <button type="button" class="chip-btn" data-ink-color="black" aria-pressed="false">Đen mực</button>
+                <button type="button" class="chip-btn" data-ink-color="red" aria-pressed="false">Đỏ dấu</button>
+              </div>
+            </div>
+            <div class="field">
+              <span class="field-label">Độ dày nét</span>
+              <div class="row-wrap" role="group" aria-label="Chọn độ dày nét chữ ký">
+                <button type="button" class="chip-btn" data-ink-width="2" aria-pressed="false">Mảnh</button>
+                <button type="button" class="chip-btn" data-ink-width="3.5" aria-pressed="true">Vừa</button>
+                <button type="button" class="chip-btn" data-ink-width="5.5" aria-pressed="false">Đậm</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="sign-fullname" class="field-label">Họ tên ghi dưới chữ ký (không bắt buộc)</label>
+            <input type="text" id="sign-fullname" class="input" value="Nguyễn Văn Mẫu" maxlength="60">
+            <label class="checkbox-row">
+              <input type="checkbox" id="sign-include-date" checked>
+              <span>Tự động ghi thêm ngày ký hôm nay bên dưới chữ ký</span>
+            </label>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Cỡ chữ ký trên trang đơn</span>
+            <div class="row-wrap" role="group" aria-label="Chọn cỡ chữ ký">
+              <button type="button" class="chip-btn" data-sig-scale="0.18" aria-pressed="false">Nhỏ</button>
+              <button type="button" class="chip-btn" data-sig-scale="0.26" aria-pressed="true">Vừa chuẩn</button>
+              <button type="button" class="chip-btn" data-sig-scale="0.34" aria-pressed="false">Lớn</button>
+            </div>
+          </div>
+
+          <div class="row-wrap">
+            <button type="button" id="btn-sign-dl-png" class="btn btn-secondary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải bản đã ký (PNG)</span>
+            </button>
+            <button type="button" id="btn-sign-dl-pdf" class="btn btn-primary">
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Tải bản đã ký (PDF A4)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row-between">
+            <h3 class="section-heading">Chạm vào trang đơn để đặt chữ ký</h3>
+            <span id="sign-pos-badge" class="badge tabular">Vị trí: 74%, 76%</span>
+          </div>
+          <div class="preview-stage">
+            <canvas id="sign-preview-canvas" class="preview-canvas preview-canvas-clickable" width="620" height="877" aria-label="Bản xem trước đơn đã ký, nhấp để di chuyển chữ ký"></canvas>
+          </div>
+          <p class="field-hint">Nhấp hoặc chạm vào bất kỳ chỗ nào trên tờ đơn phía trên để dịch chuyển vị trí chữ ký ngay lập tức.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CÔNG CỤ 5: GỘP NHIỀU ẢNH HỒ SƠ THÀNH 1 TỆP PDF CHUẨN A4
+         ================================================================ -->
+    <section id="panel-merge" class="tool-panel" role="tabpanel" aria-labelledby="tab-merge" hidden>
+      <div class="workspace-grid">
+        <div class="card">
+          <div>
+            <h2 class="section-heading">5. Gộp nhiều ảnh hồ sơ thành 1 tệp PDF A4</h2>
+            <p class="section-caption">
+              Thêm nhiều ảnh chụp giấy tờ, sắp xếp thứ tự trang lên xuống, xoay 90 độ những trang chụp ngược và gộp ngay thành 1 tệp PDF chuẩn A4 không cần mạng.
+            </p>
+          </div>
+
+          <div class="upload-box">
+            <div class="row-wrap">
+              <label for="merge-file-input" class="btn btn-primary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-upload"></use></svg>
+                <span>Chọn nhiều ảnh hồ sơ</span>
+              </label>
+              <input type="file" id="merge-file-input" accept="image/*" multiple class="sr-only">
+              <button type="button" id="btn-merge-sample" class="btn btn-secondary btn-sm">
+                <span>Nạp 3 trang hồ sơ mẫu</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Lề trang giấy A4</span>
+            <div class="row-wrap" role="group" aria-label="Chọn lề trang PDF A4">
+              <button type="button" class="chip-btn" data-merge-margin="0" aria-pressed="false">Tràn lề (0 mm)</button>
+              <button type="button" class="chip-btn" data-merge-margin="22" aria-pressed="true">Lề gọn (8 mm)</button>
+              <button type="button" class="chip-btn" data-merge-margin="42" aria-pressed="false">Lề chuẩn (15 mm)</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="merge-filename" class="field-label">Tên tệp PDF xuất ra</label>
+            <input type="text" id="merge-filename" class="input" value="ho_so_gop_a4" maxlength="60">
+          </div>
+
+          <div class="row-wrap">
+            <button type="button" id="btn-merge-export" class="btn btn-primary" disabled>
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-download"></use></svg>
+              <span>Gộp và tải 1 tệp PDF A4</span>
+            </button>
+          </div>
+          <div id="merge-result-notice" class="notice-box notice-safe" hidden></div>
+        </div>
+
+        <div class="card">
+          <div class="row-between">
+            <h3 class="section-heading">Danh sách trang sẽ gộp</h3>
+            <span id="merge-count-badge" class="badge tabular">0 trang</span>
+          </div>
+          <div id="merge-page-list" class="page-list">
+            <div class="notice-box">Chưa có trang nào. Chọn ảnh từ máy hoặc bấm Nạp 3 trang hồ sơ mẫu để thử gộp PDF ngay.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CÔNG CỤ 6: XÓA VỊ TRÍ GPS / SIÊU DỮ LIỆU & ĐỔI ĐỊNH DẠNG HÀNG LOẠT
+         ================================================================ -->
+    <section id="panel-exif" class="tool-panel" role="tabpanel" aria-labelledby="tab-exif" hidden>
+      <div class="workspace-grid">
+        <div class="card">
+          <div>
+            <h2 class="section-heading">6. Xóa vị trí GPS / EXIF và đổi định dạng ảnh</h2>
+            <p class="section-caption">
+              Ảnh chụp bằng điện thoại thường ẩn tọa độ nhà riêng (GPS) và tên máy trong siêu dữ liệu EXIF. Công cụ quét phát hiện và vẽ lại sạch 100% trước khi bạn gửi lên mạng hoặc nhóm chat.
+            </p>
+          </div>
+
+          <div class="upload-box">
+            <div class="row-wrap">
+              <label for="exif-file-input" class="btn btn-primary btn-sm">
+                <svg class="icon-sm" aria-hidden="true"><use href="#i-upload"></use></svg>
+                <span>Chọn 1 hoặc nhiều ảnh cần làm sạch</span>
+              </label>
+              <input type="file" id="exif-file-input" accept="image/*" multiple class="sr-only">
+              <button type="button" id="btn-exif-sample" class="btn btn-secondary btn-sm">
+                <span>Dùng ảnh mẫu có gắn thử EXIF/GPS</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Định dạng ảnh sạch xuất ra</span>
+            <div class="row-wrap" role="group" aria-label="Chọn định dạng ảnh xuất ra">
+              <button type="button" class="chip-btn" data-exif-format="image/jpeg" aria-pressed="true">JPG (Phổ thông nhất)</button>
+              <button type="button" class="chip-btn" data-exif-format="image/png" aria-pressed="false">PNG (Không nén mất nét)</button>
+              <button type="button" class="chip-btn" data-exif-format="image/webp" aria-pressed="false">WebP (Siêu nhẹ)</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Mức chất lượng ảnh (áp dụng cho JPG / WebP)</span>
+            <div class="row-wrap" role="group" aria-label="Chọn chất lượng ảnh">
+              <button type="button" class="chip-btn" data-exif-quality="0.92" aria-pressed="true">Cao (92%)</button>
+              <button type="button" class="chip-btn" data-exif-quality="0.82" aria-pressed="false">Cân bằng (82%)</button>
+              <button type="button" class="chip-btn" data-exif-quality="0.68" aria-pressed="false">Nhẹ (68%)</button>
+            </div>
+          </div>
+
+          <div class="row-wrap">
+            <button type="button" id="btn-run-exif-clean" class="btn btn-primary" disabled>
+              <svg class="icon-sm" aria-hidden="true"><use href="#i-eye-off"></use></svg>
+              <span>Gỡ sạch EXIF/GPS và Chuyển đổi</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row-between">
+            <h3 class="section-heading">Kết quả soi và gỡ siêu dữ liệu</h3>
+            <span id="exif-summary-badge" class="badge tabular">0 ảnh</span>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tên tệp</th>
+                  <th>Phát hiện ban đầu</th>
+                  <th>Sau khi làm sạch</th>
+                  <th>Dung lượng mới</th>
+                  <th>Tải xuống</th>
+                </tr>
+              </thead>
+              <tbody id="exif-result-tbody">
+                <tr>
+                  <td colspan="5">Chọn ảnh từ điện thoại hoặc bấm Dùng ảnh mẫu có gắn thử EXIF/GPS để kiểm tra ngay.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Khối minh bạch Gói Miễn Phí vs Gói Hỗ Trợ In 300 DPI (đúng chuẩn CFO Bước 2 & 3) -->
+    <section class="support-band" aria-label="Gói miễn phí trọn đời và gói hỗ trợ in 300 DPI">
+      <div class="plan-card">
+        <div class="row-between">
+          <h2 class="section-heading">Bản Miễn Phí Mãi Mãi</h2>
+          <span class="badge badge-safe">0 đ / Trọn đời</span>
+        </div>
+        <p class="section-caption">
+          Đầy đủ cả 6 công cụ lõi: ghép 2 mặt CCCD + đóng dấu chìm chống lừa đảo, nén ảnh/PDF chuẩn Dịch vụ công, tạo ảnh thẻ 3x4/4x6, ký tên tay, gộp PDF và xóa GPS. Không bắt đăng nhập, không chèn logo bẩn.
+        </p>
+      </div>
+      <div class="plan-card plan-card-accent">
+        <div class="row-between">
+          <h2 class="section-heading">Gói Hỗ Trợ In Nét 300 DPI &amp; Gia Đình</h2>
+          <span class="badge">15.000 đ / lần hoặc 59.000 đ / năm</span>
+        </div>
+        <p class="section-caption">
+          Ủng hộ duy trì trạm miễn phí và mở tiện ích lưu bộ mẫu dấu chìm cá nhân, xử lý hàng loạt 20 tệp và tắt quảng cáo cả năm qua mã VietQR minh bạch (không tự động gia hạn).
+        </p>
+        <div class="row-wrap">
+          <button type="button" id="btn-open-support-modal-2" class="btn btn-primary btn-sm">
+            <span>Xem hướng dẫn gói hỗ trợ VietQR</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Chân trang Miễn trừ & Cam kết Nghị định 13/2023/NĐ-CP -->
+  <footer class="app-footer">
+    <p class="footer-title">Cam kết riêng tư theo Nghị định 13/2023/NĐ-CP và Miễn trừ pháp lý</p>
+    <p>
+      Hồ Sơ Riêng Tư vận hành 100% cục bộ trong bộ nhớ trình duyệt thiết bị của bạn. Chúng tôi không thu thập, không truyền tải và không lưu trữ bất kỳ ảnh CCCD, ảnh chân dung, chữ ký hay tệp PDF nào lên máy chủ. Mọi dữ liệu tự động xóa sạch khi bạn đóng thẻ trình duyệt hoặc bấm nút Xóa sạch ảnh đang mở.
+    </p>
+    <p>
+      Ứng dụng là công cụ định dạng và bảo vệ hồ sơ cá nhân, không phải Cổng Dịch vụ công hay cơ quan nhà nước. Nghiêm cấm sử dụng cho mục đích chỉnh sửa sai lệch hoặc làm giả giấy tờ tùy thân.
+    </p>
+    <div class="footer-links">
+      <a href="../go-to-market/landing/index.html" class="footer-link">Về trang giới thiệu</a>
+      <button type="button" id="btn-footer-privacy" class="btn btn-ghost btn-sm">Cách tự kiểm chứng 0 byte gửi lên mạng</button>
+    </div>
+  </footer>
+
+  <!-- ================================================================
+       MODAL 1: XÁC NHẬN XÓA SẠCH ẢNH ĐANG MỞ (Màu đỏ danger)
+       ================================================================ -->
+  <div id="wipe-modal-backdrop" class="modal-backdrop" hidden>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="wipe-modal-title">
+      <div class="modal-header">
+        <h2 id="wipe-modal-title" class="modal-title">Xóa sạch toàn bộ ảnh và giấy tờ đang mở?</h2>
+        <button type="button" id="btn-close-wipe" class="btn btn-ghost btn-sm" aria-label="Đóng hộp thoại">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Thao tác này giải phóng ngay toàn bộ ảnh CCCD, ảnh chân dung, chữ ký tay và danh sách tệp đang nạp trong bộ nhớ trình duyệt. Không có bản sao nào bị lưu lại.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-cancel-wipe" class="btn btn-secondary">Giữ lại để làm tiếp</button>
+        <button type="button" id="btn-confirm-wipe" class="btn btn-danger">
+          <svg class="icon-sm" aria-hidden="true"><use href="#i-trash"></use></svg>
+          <span>Xác nhận xóa sạch ngay</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL 2: KIỂM CHỨNG QUYỀN RIÊNG TƯ (TẮT WI-FI VẪN CHẠY)
+       ================================================================ -->
+  <div id="privacy-modal-backdrop" class="modal-backdrop" hidden>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
+      <div class="modal-header">
+        <h2 id="privacy-modal-title" class="modal-title">Cách tự kiểm chứng 0 byte tải lên mạng trong 10 giây</h2>
+        <button type="button" id="btn-close-privacy" class="btn btn-ghost btn-sm" aria-label="Đóng hộp thoại">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Bước 1:</strong> Giữ nguyên trang web này đang mở trên điện thoại hoặc máy tính.</p>
+        <p><strong>Bước 2:</strong> Tắt hẳn Wi-Fi và dữ liệu di động 4G (hoặc bật Chế độ Máy bay). Thanh trạng thái trên đỉnh trang sẽ tự chuyển sang báo Đang ngoại tuyến.</p>
+        <p><strong>Bước 3:</strong> Chọn ảnh CCCD, ảnh thẻ hoặc tệp hồ sơ của bạn rồi bấm ghép, nén 2MB, ký tên và tải PDF bình thường. Vì mọi thuật toán chạy ngay trong trình duyệt nên không 1 byte ảnh nào rời khỏi thiết bị của bạn.</p>
+        <p><strong>Bảo vệ bổ sung:</strong> Chính sách bảo mật trình duyệt trên trang này khóa cứng mọi kết nối ra tên miền lạ, giúp tuân thủ triệt để tinh thần bảo vệ dữ liệu cá nhân nhạy cảm theo Nghị định 13/2023/NĐ-CP.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-ok-privacy" class="btn btn-primary">Đã hiểu, tiếp tục dùng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODAL 3: HƯỚNG DẪN GÓI HỖ TRỢ VIETQR (TRUNG THỰC, KHÔNG CỔNG GIẢ)
+       ================================================================ -->
+  <div id="support-modal-backdrop" class="modal-backdrop" hidden>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+      <div class="modal-header">
+        <h2 id="support-modal-title" class="modal-title">Gói hỗ trợ duy trì trạm miễn phí (VietQR)</h2>
+        <button type="button" id="btn-close-support" class="btn btn-ghost btn-sm" aria-label="Đóng hộp thoại">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Bản hiện tại mở sẵn miễn phí toàn bộ 6 công cụ để bạn trải nghiệm ngay không cần đăng nhập và không chèn logo che giấy tờ.</p>
+        <p><strong>Gói Lẻ Theo Nhu Cầu (15.000 đ / lần):</strong> Phù hợp khi cần xử lý hồ sơ nhanh, in ảnh thẻ 300 DPI không viền, gộp 20 ảnh một lượt.</p>
+        <p><strong>Gói Gia Đình Cả Năm (59.000 đ / năm):</strong> Mở khóa đầy đủ 365 ngày cho cả nhà, tắt hoàn toàn quảng cáo, không tự động gia hạn thẻ.</p>
+        <p><strong>Lưu ý minh bạch:</strong> Trang này đang chạy ở chế độ dùng thử hoàn chỉnh 100% trên máy khách (không thu tiền tự động, chưa gắn cổng thanh toán trực tiếp). Khi xuất bản chính thức sẽ hiển thị mã VietQR xác nhận mở gói rõ ràng.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-ok-support" class="btn btn-primary">Đóng hướng dẫn</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thanh Thông Báo & Hoàn Tác 5 giây -->
+  <div id="app-toast" class="toast" role="status" aria-live="polite" hidden>
+    <span id="toast-text" class="toast-msg"></span>
+    <button type="button" id="btn-toast-undo" class="toast-undo" hidden>Hoàn tác (5s)</button>
+  </div>
+
+  <script src="pdf_engine.js"></script>
+  <script src="image_engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

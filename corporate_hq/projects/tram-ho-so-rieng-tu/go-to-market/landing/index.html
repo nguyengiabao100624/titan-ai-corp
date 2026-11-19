@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hồ Sơ Riêng Tư: Xử lý CCCD, Ảnh Thẻ và PDF 100% Trên Máy Bạn</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d6e66'/%3E%3Cpath d='M16 5l9 3.5v7.5c0 5.5-3.8 9.7-9 11.5-5.2-1.8-9-6-9-11.5V8.5L16 5z' fill='none' stroke='%23fcfbf8' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M12.5 16l2.5 2.5 5-5' fill='none' stroke='%23fcfbf8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <meta name="description" content="Trạm 6 công cụ xử lý CCCD đóng dấu chìm chống lừa đảo, nén ảnh và PDF dưới 2MB nộp Dịch vụ công, tạo ảnh thẻ 3x4 dàn trang in, ký tên tay và xóa GPS 100% cục bộ trên trình duyệt. Tắt mạng vẫn chạy.">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Inline Lucide-style SVG icon sprite (0 emoji) -->
+  <svg aria-hidden="true" focusable="false" class="sr-only">
+    <defs>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        <path d="M9 12l2 2 4-4"></path>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24">
+        <path d="M5 12h14"></path>
+        <path d="M12 5l7 7-7 7"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2"></path>
+        <path d="M12 20v2"></path>
+        <path d="M4.93 4.93l1.41 1.41"></path>
+        <path d="M17.66 17.66l1.41 1.41"></path>
+        <path d="M2 12h2"></path>
+        <path d="M20 12h2"></path>
+        <path d="M6.34 17.66l-1.41 1.41"></path>
+        <path d="M19.07 4.93l-1.41 1.41"></path>
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </symbol>
+      <symbol id="i-wifi-off" viewBox="0 0 24 24">
+        <line x1="2" y1="2" x2="22" y2="22"></line>
+        <path d="M8.5 16.5a5 5 0 0 1 7 0"></path>
+        <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+        <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </symbol>
+      <symbol id="i-user-x" viewBox="0 0 24 24">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="8.5" cy="7" r="4"></circle>
+        <line x1="18" y1="8" x2="23" y2="13"></line>
+        <line x1="23" y1="8" x2="18" y2="13"></line>
+      </symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24">
+        <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"></path>
+        <path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16z"></path>
+      </symbol>
+      <symbol id="i-scale" viewBox="0 0 24 24">
+        <path d="M12 3v18"></path>
+        <path d="M5 7h14"></path>
+        <path d="M5 7l-2 7h6l-2-7z"></path>
+        <path d="M19 7l-2 7h6l-2-7z"></path>
+        <path d="M8 21h8"></path>
+      </symbol>
+      <symbol id="i-id-card" viewBox="0 0 24 24">
+        <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+        <circle cx="8" cy="11" r="2"></circle>
+        <path d="M5.5 16a3 3 0 0 1 5 0"></path>
+        <line x1="14" y1="10" x2="19" y2="10"></line>
+        <line x1="14" y1="14" x2="18" y2="14"></line>
+      </symbol>
+      <symbol id="i-minimize" viewBox="0 0 24 24">
+        <polyline points="4 14 10 14 10 20"></polyline>
+        <polyline points="20 10 14 10 14 4"></polyline>
+        <line x1="14" y1="10" x2="21" y2="3"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </symbol>
+      <symbol id="i-pen" viewBox="0 0 24 24">
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+      </symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+      </symbol>
+      <symbol id="i-eye-off" viewBox="0 0 24 24">
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+        <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path>
+        <line x1="1" y1="1" x2="23" y2="23"></line>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </symbol>
+      <symbol id="i-calculator" viewBox="0 0 24 24">
+        <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+        <line x1="8" y1="6" x2="16" y2="6"></line>
+        <line x1="8" y1="11" x2="8.01" y2="11"></line>
+        <line x1="12" y1="11" x2="12.01" y2="11"></line>
+        <line x1="16" y1="11" x2="16.01" y2="11"></line>
+        <line x1="8" y1="16" x2="12" y2="16"></line>
+        <line x1="16" y1="16" x2="16.01" y2="16"></line>
+      </symbol>
+      <symbol id="i-qr" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+        <path d="M14 14h3v3h-3z"></path>
+        <path d="M18 18h3v3h-3z"></path>
+        <path d="M18 14h3"></path>
+        <path d="M14 21h2"></path>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main-content">Chuyển thẳng tới nội dung chính</a>
+
+  <!-- Sticky Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-link" href="#top" aria-label="Hồ Sơ Riêng Tư trang chủ">
+        <span class="brand-mark" aria-hidden="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+        </span>
+        <span>Hồ Sơ Riêng Tư</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Điều hướng chính">
+        <a class="nav-link" href="#cong-cu">6 Công cụ</a>
+        <a class="nav-link" href="#tiet-kiem">Tính tiết kiệm</a>
+        <a class="nav-link" href="#so-sanh">So sánh</a>
+        <a class="nav-link" href="#bang-gia">Bảng giá</a>
+        <a class="nav-link" href="#hoi-dap">Hỏi đáp</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" aria-label="Đổi giao diện Sáng hoặc Tối">
+          <svg class="icon icon-sm" id="theme-icon" aria-hidden="true"><use href="#i-moon"></use></svg>
+          <span class="theme-label" id="theme-text">Giao diện tối</span>
+        </button>
+        <a class="btn btn-primary btn-sm header-cta" href="../../app/index.html">
+          <span>Mở 6 Công Cụ</span>
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Section 1: Asymmetric 8/4 Hero + Visual Privacy Proof Board -->
+    <section class="hero-section" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow-badge">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-wifi-off"></use></svg>
+            <span>Trạm giấy tờ và PDF 100% cục bộ trên máy bạn</span>
+          </span>
+
+          <h1 class="hero-title">
+            Xử lý CCCD, Ảnh Thẻ và PDF: <span class="hero-title-accent">Tắt Mạng Vẫn Chạy</span>
+          </h1>
+
+          <p class="hero-lead">
+            Xử lý ngay trên điện thoại và máy tính của bạn mà không tải bất kỳ tấm ảnh nào lên máy chủ nước ngoài. Ghép 2 mặt CCCD đóng dấu chìm chống lừa đảo vay tiền, nén hồ sơ dưới 2 MB nộp Cổng Dịch vụ công, tạo ảnh thẻ dàn trang in 10x15 cm và ký tên PDF chỉ trong 5 giây.
+          </p>
+
+          <div class="hero-cta-group">
+            <a class="btn btn-primary btn-lg" id="hero-primary-cta" href="../../app/index.html">
+              <span>Mở 6 Công Cụ Dùng Ngay (Miễn Phí)</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-secondary btn-lg" href="#tiet-kiem">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-calculator"></use></svg>
+              <span>Tính tiền tiết kiệm</span>
+            </a>
+          </div>
+
+          <p class="hero-note">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+            <span>Mở trình duyệt dùng ngay, không cần cài ứng dụng, có sẵn ảnh mẫu để bấm thử trong 3 giây.</span>
+          </p>
+        </div>
+
+        <!-- Right 4-Col Visual Privacy Proof Board -->
+        <aside class="privacy-board" aria-labelledby="privacy-board-heading">
+          <div class="privacy-board-head">
+            <h2 class="privacy-board-title" id="privacy-board-heading">Bảng chứng minh quyền riêng tư</h2>
+            <span class="live-net-pill" id="live-net-status" aria-live="polite">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-lock"></use></svg>
+              <span id="live-net-text">0 byte gửi ra ngoài</span>
+            </span>
+          </div>
+
+          <ul class="privacy-proof-grid">
+            <li class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg class="icon" aria-hidden="true"><use href="#i-wifi-off"></use></svg>
+              </span>
+              <div class="proof-body">
+                <span class="proof-metric tabular">0 byte tải lên mạng</span>
+                <span class="proof-desc">Toàn bộ ảnh CCCD, chân dung và PDF được xử lý trong bộ nhớ máy bạn rồi xóa sạch khi đóng trang.</span>
+              </div>
+            </li>
+
+            <li class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg class="icon" aria-hidden="true"><use href="#i-user-x"></use></svg>
+              </span>
+              <div class="proof-body">
+                <span class="proof-metric tabular">0 đăng ký tài khoản</span>
+                <span class="proof-desc">Không hỏi số điện thoại, không cần nhập thư điện tử hay tạo mật khẩu rườm rà.</span>
+              </div>
+            </li>
+
+            <li class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg class="icon" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+              </span>
+              <div class="proof-body">
+                <span class="proof-metric tabular">0 logo chèn bẩn</span>
+                <span class="proof-desc">Không dán dấu quảng cáo đè lên ảnh thẻ hay giấy tờ công dân rồi ép trả 200.000 đ mới cho tải.</span>
+              </div>
+            </li>
+
+            <li class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg class="icon" aria-hidden="true"><use href="#i-scale"></use></svg>
+              </span>
+              <div class="proof-body">
+                <span class="proof-metric">Tuân thủ Nghị định 13/2023/NĐ-CP</span>
+                <span class="proof-desc">Không thu thập, không lưu bản sao dữ liệu cá nhân nhạy cảm trên bất kỳ máy chủ nào.</span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="privacy-tip">
+            Mẹo tự kiểm chứng: Sau khi bấm mở 6 công cụ, bạn hãy bật Chế độ Máy bay hoặc tắt Wi-Fi rồi ghép ảnh CCCD thử. Công cụ vẫn xuất ảnh và PDF bình thường 100%.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Section 2: 6 Essential Civic Tools Bento Grid -->
+    <section class="tools-section" id="cong-cu">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">6 tiện ích dân sinh ai cũng cần quanh năm</span>
+          <h2 class="section-title">Chọn đúng việc cần làm, xong gọn trong 5 giây</h2>
+          <p class="section-desc">
+            Bấm trực tiếp vào bất kỳ thẻ nào bên dưới để mở thẳng đúng công cụ và dùng ngay, không phải tìm qua nhiều tầng trang rối mắt.
+          </p>
+        </div>
+
+        <div class="tools-bento">
+          <!-- Tool 1 (Lead Featured) -->
+          <a class="tool-card tool-card-lead" href="../../app/index.html#cccd">
+            <div class="tool-card-top">
+              <div class="tool-meta-row">
+                <span class="tool-icon-box" aria-hidden="true">
+                  <svg class="icon" aria-hidden="true"><use href="#i-id-card"></use></svg>
+                </span>
+                <span class="tool-tag">Dùng nhiều nhất</span>
+              </div>
+              <h3 class="tool-title">1. Ghép 2 mặt CCCD lên trang A4 và đóng dấu chìm chống lừa đảo</h3>
+              <p class="tool-desc">
+                Cân đúng kích thước thẻ thật trên khổ giấy A4, xoay 90 độ từng mặt, tự động đóng dòng chữ nghiêng nhiều lớp ghi rõ mục đích và ngày gửi để chống bị kẻ gian lấy vay tiền trực tuyến. Xuất ảnh hoặc PDF chuẩn in ngay.
+              </p>
+            </div>
+            <span class="tool-link-row">
+              <span>Mở công cụ ghép CCCD ngay</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </span>
+          </a>
+
+          <!-- Tool 2 (Lead Featured) -->
+          <a class="tool-card tool-card-lead" href="../../app/index.html#compress">
+            <div class="tool-card-top">
+              <div class="tool-meta-row">
+                <span class="tool-icon-box" aria-hidden="true">
+                  <svg class="icon" aria-hidden="true"><use href="#i-minimize"></use></svg>
+                </span>
+                <span class="tool-tag">Chuẩn Dịch vụ công</span>
+              </div>
+              <h3 class="tool-title">2. Nén ảnh và PDF đúng mức dưới 2 MB hoặc 5 MB nộp Dịch vụ công</h3>
+              <p class="tool-desc">
+                Chọn 1 chạm mốc 500 KB, 1 MB, 2 MB hoặc 5 MB đúng yêu cầu Cổng Dịch vụ công Quốc gia, bảo hiểm xã hội và nộp thuế. Tự động nén sát ngưỡng nhưng vẫn giữ nét chữ và mã quét rõ ràng, không bị mờ nhòe.
+              </p>
+            </div>
+            <span class="tool-link-row">
+              <span>Mở công cụ nén hồ sơ ngay</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </span>
+          </a>
+
+          <!-- Tool 3 -->
+          <a class="tool-card" href="../../app/index.html#idphoto">
+            <div class="tool-card-top">
+              <div class="tool-meta-row">
+                <span class="tool-icon-box" aria-hidden="true">
+                  <svg class="icon" aria-hidden="true"><use href="#i-camera"></use></svg>
+                </span>
+                <span class="tool-tag">Không chèn logo</span>
+              </div>
+              <h3 class="tool-title">3. Tạo ảnh thẻ 3x4, 4x6 và dàn trang in 10x15 cm</h3>
+              <p class="tool-desc">
+                Đổi nền xanh dương hoặc trắng hộ chiếu, căn khung bằng nút bấm sạch sẽ, xuất ảnh đơn hoặc tờ 8 ảnh 3x4 có đường cắt mang ra tiệm in chỉ 3.000 đ.
+              </p>
+            </div>
+            <span class="tool-link-row">
+              <span>Tạo ảnh thẻ ngay</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </span>
+          </a>
+
+          <!-- Tool 4 -->
+          <a class="tool-card" href="../../app/index.html#sign">
+            <div class="tool-card-top">
+              <div class="tool-meta-row">
+                <span class="tool-icon-box" aria-hidden="true">
+                  <svg class="icon" aria-hidden="true"><use href="#i-pen"></use></svg>
+                </span>
+                <span class="tool-tag">Ký bằng ngón tay</span>
+              </div>
+              <h3 class="tool-title">4. Ký tên tay trực tiếp lên đơn từ và xuất PDF</h3>
+              <p class="tool-desc">
+                Vẽ chữ ký mượt bằng ngón tay hoặc chuột với mực xanh bút bi, đen hoặc đỏ, chạm đặt đúng vị trí kèm ngày ký mà không cần in giấy rồi quét lại.
+              </p>
+            </div>
+            <span class="tool-link-row">
+              <span>Ký tên lên hồ sơ</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </span>
+          </a>
+
+          <!-- Tool 5 -->
+          <a class="tool-card" href="../../app/index.html#merge">
+            <div class="tool-card-top">
+              <div class="tool-meta-row">
+                <span class="tool-icon-box" aria-hidden="true">
+                  <svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg>
+                </span>
+                <span class="tool-tag">Đa trang chuẩn A4</span>
+              </div>
+              <h3 class="tool-title">5. Gộp nhiều ảnh hồ sơ thành 1 tệp PDF chuẩn A4</h3>
+              <p class="tool-desc">
+                Chọn nhiều trang bằng cấp, giấy khai sinh, sổ hộ khẩu, đổi thứ tự lên xuống, xoay trang bị ngược rồi gộp thành 1 tệp PDF gọn đẹp trong 3 giây.
+              </p>
+            </div>
+            <span class="tool-link-row">
+              <span>Gộp thành tệp PDF</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </span>
+          </a>
+
+          <!-- Tool 6 -->
+          <a class="tool-card" href="../../app/index.html#exif">
+            <div class="tool-card-top">
+              <div class="tool-meta-row">
+                <span class="tool-icon-box" aria-hidden="true">
+                  <svg class="icon" aria-hidden="true"><use href="#i-eye-off"></use></svg>
+                </span>
+                <span class="tool-tag">Sạch dấu vết</span>
+              </div>
+              <h3 class="tool-title">6. Xóa vị trí GPS trong ảnh và đổi định dạng hàng loạt</h3>
+              <p class="tool-desc">
+                Gỡ sạch tọa độ nhà riêng, tên máy ảnh và thời gian chụp ẩn trong ảnh trước khi gửi cho người lạ, đồng thời đổi sang định dạng JPG, PNG hoặc WebP.
+              </p>
+            </div>
+            <span class="tool-link-row">
+              <span>Xóa GPS và đổi ảnh</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Inverted Band - Interactive Cost & Time Savings Calculator (0 range slider!) -->
+    <section class="savings-section" id="tiet-kiem">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Tính thử số tiền và thời gian giữ lại mỗi năm</span>
+          <h2 class="section-title">Tiết kiệm bao nhiêu so với ra tiệm và web ngoại?</h2>
+          <p class="section-desc">
+            Chọn nhanh số lần bạn hoặc gia đình đi chụp ảnh thẻ, in và nộp hồ sơ trực tuyến mỗi năm. Kết quả tự tính tức thì theo giá thực tế tại tiệm ảnh (80.000 đ/lần) và tiệm in ấn (15.000 đ/bộ).
+          </p>
+        </div>
+
+        <div class="savings-grid">
+          <!-- Controls (Chips + Steppers + Numeric Inputs; ZERO range slider, ZERO native select) -->
+          <div class="savings-controls">
+            <div class="calc-field">
+              <div class="calc-label-row">
+                <label class="calc-label" for="input-photo-trips">1. Số lần chụp ảnh thẻ ngoài tiệm mỗi năm</label>
+                <span class="calc-hint tabular">Tiệm ảnh 80.000 đ/lần so với tự dàn in 3.000 đ</span>
+              </div>
+              <div class="chip-group" role="group" aria-label="Chọn nhanh số lần chụp ảnh thẻ mỗi năm">
+                <button type="button" class="chip-btn tabular" data-target="photoTrips" data-val="1" aria-pressed="false">1 lần</button>
+                <button type="button" class="chip-btn tabular" data-target="photoTrips" data-val="3" aria-pressed="true">3 lần</button>
+                <button type="button" class="chip-btn tabular" data-target="photoTrips" data-val="5" aria-pressed="false">5 lần</button>
+                <button type="button" class="chip-btn tabular" data-target="photoTrips" data-val="8" aria-pressed="false">8 lần</button>
+              </div>
+              <div class="stepper-row">
+                <button type="button" class="step-btn" data-step-target="photoTrips" data-delta="-1" aria-label="Giảm số lần chụp ảnh thẻ">
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-minus"></use></svg>
+                </button>
+                <input type="text" inputmode="numeric" class="num-input tabular" id="input-photo-trips" value="3" aria-describedby="err-photo-trips" autocomplete="off">
+                <button type="button" class="step-btn" data-step-target="photoTrips" data-delta="1" aria-label="Tăng số lần chụp ảnh thẻ">+</button>
+              </div>
+              <p class="calc-error" id="err-photo-trips" role="alert" hidden></p>
+            </div>
+
+            <div class="calc-field">
+              <div class="calc-label-row">
+                <label class="calc-label" for="input-doc-sets">2. Số bộ hồ sơ CCCD, Dịch vụ công, xin việc mỗi năm</label>
+                <span class="calc-hint tabular">Tiết kiệm 15.000 đ tiền quét in và 12 phút chờ đợi mỗi bộ</span>
+              </div>
+              <div class="chip-group" role="group" aria-label="Chọn nhanh số bộ hồ sơ mỗi năm">
+                <button type="button" class="chip-btn tabular" data-target="docSets" data-val="4" aria-pressed="false">4 bộ</button>
+                <button type="button" class="chip-btn tabular" data-target="docSets" data-val="8" aria-pressed="true">8 bộ</button>
+                <button type="button" class="chip-btn tabular" data-target="docSets" data-val="15" aria-pressed="false">15 bộ</button>
+                <button type="button" class="chip-btn tabular" data-target="docSets" data-val="30" aria-pressed="false">30 bộ</button>
+              </div>
+              <div class="stepper-row">
+                <button type="button" class="step-btn" data-step-target="docSets" data-delta="-1" aria-label="Giảm số bộ hồ sơ">
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-minus"></use></svg>
+                </button>
+                <input type="text" inputmode="numeric" class="num-input tabular" id="input-doc-sets" value="8" aria-describedby="err-doc-sets" autocomplete="off">
+                <button type="button" class="step-btn" data-step-target="docSets" data-delta="1" aria-label="Tăng số bộ hồ sơ">+</button>
+              </div>
+              <p class="calc-error" id="err-doc-sets" role="alert" hidden></p>
+            </div>
+
+            <div class="calc-field">
+              <div class="calc-label-row">
+                <span class="calc-label" id="family-size-label">3. Quy mô người dùng cùng thiết bị / gia đình</span>
+                <span class="calc-hint">Dùng chung cho cả nhà, con đi học, bố mẹ nộp giấy tờ</span>
+              </div>
+              <div class="chip-group" role="group" aria-labelledby="family-size-label">
+                <button type="button" class="chip-btn tabular" data-target="members" data-val="1" aria-pressed="false">1 cá nhân</button>
+                <button type="button" class="chip-btn tabular" data-target="members" data-val="2" aria-pressed="true">2 người</button>
+                <button type="button" class="chip-btn tabular" data-target="members" data-val="4" aria-pressed="false">Gia đình 4 người</button>
+                <button type="button" class="chip-btn tabular" data-target="members" data-val="6" aria-pressed="false">Nhóm 6 người</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Savings Readout -->
+          <div class="savings-output" aria-live="polite" aria-atomic="false">
+            <div class="savings-lead-box">
+              <span class="savings-lead-label">Tổng chi phí tiết kiệm được mỗi năm</span>
+              <span class="savings-lead-value tabular" id="res-money-saved">702.000 đ</span>
+              <span class="savings-lead-sub" id="res-money-sub">
+                Gồm 462.000 đ tiết kiệm từ ảnh thẻ (6 lượt x 77.000 đ) và 240.000 đ từ ghép, nén và ký 16 bộ hồ sơ tại nhà.
+              </span>
+            </div>
+
+            <div class="savings-sub-grid">
+              <div class="savings-sub-card">
+                <span class="savings-sub-label">Thời gian không phải ra tiệm hay chờ tải web ngoại</span>
+                <span class="savings-sub-val tabular" id="res-time-saved">6 giờ 12 phút / năm</span>
+                <span class="savings-sub-note" id="res-time-sub">Tiết kiệm trung bình 30 phút mỗi lần đi chụp ảnh thẻ và 12 phút mỗi bộ hồ sơ nộp trực tuyến.</span>
+              </div>
+
+              <div class="savings-sub-card">
+                <span class="savings-sub-label">So với Gói Gia Đình Cả Năm (59.000 đ)</span>
+                <span class="savings-sub-val tabular" id="res-roi-ratio">Tiết kiệm gấp 11,9 lần</span>
+                <span class="savings-sub-note" id="res-roi-sub">Còn nếu chỉ dùng 6 công cụ lõi cơ bản, chi phí của bạn luôn là 0 đ trọn đời.</span>
+              </div>
+            </div>
+
+            <div class="savings-breakdown" id="res-privacy-verdict">
+              <strong>Giá trị lớn nhất không đo bằng tiền:</strong> Toàn bộ 16 bộ ảnh CCCD và hồ sơ của 2 thành viên được xử lý sạch trên máy, 0 lần gửi ảnh giấy tờ tùy thân lên máy chủ nước ngoài.
+            </div>
+
+            <a class="btn btn-primary btn-lg btn-full" href="../../app/index.html">
+              <span>Mở 6 Công Cụ Dùng Ngay (Miễn Phí)</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Honest Comparison Table -->
+    <section class="compare-section" id="so-sanh">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">So sánh sòng phẳng trước khi dùng</span>
+          <h2 class="section-title">Khác gì web nước ngoài và tiệm chụp ảnh?</h2>
+          <p class="section-desc">
+            Mỗi cách làm đều có ưu nhược điểm riêng. Bảng dưới đây đối chiếu thẳng 5 điểm người dân quan tâm nhất khi xử lý giấy tờ cá nhân.
+          </p>
+        </div>
+
+        <table class="compare-table">
+          <caption class="sr-only">Bảng so sánh Hồ Sơ Riêng Tư với Web PDF nước ngoài và Tiệm chụp ảnh, in ấn</caption>
+          <thead>
+            <tr>
+              <th scope="col">Tiêu chí thực tế</th>
+              <th scope="col" class="col-ours-head">Hồ Sơ Riêng Tư (Cục bộ 100%)</th>
+              <th scope="col">Web PDF nước ngoài (iLovePDF / Smallpdf)</th>
+              <th scope="col">Ra tiệm in / chụp ảnh thẻ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Quyền riêng tư ảnh CCCD và giấy tờ cá nhân</th>
+              <td class="col-ours" data-label="Hồ Sơ Riêng Tư">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-ok" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>0 byte gửi lên mạng, tắt Wi-Fi vẫn chạy ngay trong máy bạn</span>
+                </span>
+              </td>
+              <td data-label="Web nước ngoài">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-no" aria-hidden="true"><use href="#i-x"></use></svg>
+                  <span>Bắt tải ảnh CCCD lên máy chủ ở nước ngoài mới xử lý được</span>
+                </span>
+              </td>
+              <td data-label="Ra tiệm in / chụp">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-warn" aria-hidden="true"><use href="#i-minus"></use></svg>
+                  <span>Dễ sót bản lưu ảnh CCCD trên máy tính dùng chung ngoài tiệm</span>
+                </span>
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row">Tốc độ xử lý và khả năng dùng khi mất mạng</th>
+              <td class="col-ours" data-label="Hồ Sơ Riêng Tư">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-ok" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Xong trong 3 đến 5 giây, không chờ tải đi tải về, chạy ngoại tuyến</span>
+                </span>
+              </td>
+              <td data-label="Web nước ngoài">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-no" aria-hidden="true"><use href="#i-x"></use></svg>
+                  <span>Mạng yếu chờ tải tệp 15 MB rất lâu, mất mạng là ngừng hẳn</span>
+                </span>
+              </td>
+              <td data-label="Ra tiệm in / chụp">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-no" aria-hidden="true"><use href="#i-x"></use></svg>
+                  <span>Tốn 30 đến 60 phút đi lại, chờ đợi, buổi tối đóng cửa</span>
+                </span>
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row">Chuẩn thủ tục Việt Nam (Dịch vụ công 2 MB, dấu chìm CCCD)</th>
+              <td class="col-ours" data-label="Hồ Sơ Riêng Tư">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-ok" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Có sẵn nút nén 2 MB / 5 MB, mẫu dấu chìm chống vay nợ đen, cỡ ảnh 3x4</span>
+                </span>
+              </td>
+              <td data-label="Web nước ngoài">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-no" aria-hidden="true"><use href="#i-x"></use></svg>
+                  <span>Tiếng Anh, không có chuẩn 2 MB Dịch vụ công hay ghép 2 mặt CCCD A4</span>
+                </span>
+              </td>
+              <td data-label="Ra tiệm in / chụp">
+                <span class="compare-cell-val">
+                  <svg class="icon icon-sm cell-warn" aria-hidden="true"><use href="#i-minus"></use></svg>
+                  <span>Chỉ in bản giấy, ít hỗ trợ nén PDF hay đóng dấu chìm chống lừa đảo</span>
+                </span>
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row">Chi phí sử dụng và mức độ minh bạch</th>
+              <td class="col-ours" data-label="Hồ Sơ Riêng Tư">
+                <span class="compare-cell-val tabular">
+                  <svg class="icon icon-sm cell-ok" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>0 đ cho 6 công cụ lõi, 0 logo bẩn; gói nâng cao chỉ 15.000 đ hoặc 59.000 đ/năm</span>
+                </span>
+              </td>
+              <td data-label="Web nước ngoài">
+                <span class="compare-cell-val tabular">
+                  <svg class="icon icon-sm cell-no" aria-hidden="true"><use href="#i-x"></use></svg>
+                  <span>Giới hạn vài lượt/ngày, nhiều trang chèn logo ép đóng 150.000 đến 300.000 đ/tháng</span>
+                </span>
+              </td>
+              <td data-label="Ra tiệm in / chụp">
+                <span class="compare-cell-val tabular">
+                  <svg class="icon icon-sm cell-warn" aria-hidden="true"><use href="#i-minus"></use></svg>
+                  <span>Chụp ảnh thẻ 60.000 đến 100.000 đ/lần; in quét hồ sơ 15.000 đến 30.000 đ/bộ</span>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 5: Fair 3-Tier Pricing (0d / 15k / 59k - CFO Verified) -->
+    <section class="pricing-section" id="bang-gia">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Bảng giá công bằng cho mọi gia đình Việt</span>
+          <h2 class="section-title">Miễn phí đủ 6 công cụ lõi, trả nhẹ khi cần thêm</h2>
+          <p class="section-desc">
+            Không bắt người dân đóng 249.000 đ/tháng, không tự động trừ thẻ ngân hàng. Bạn dùng miễn phí trọn đời 6 công cụ cơ bản và chỉ ủng hộ gói tiện lợi qua VietQR khi cần xử lý hàng loạt hoặc in siêu nét 300 DPI.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Tier 1: Free Forever 0d -->
+          <article class="plan-card">
+            <div class="plan-body">
+              <div class="plan-head">
+                <h3 class="plan-name">Miễn phí trọn đời</h3>
+                <span class="plan-badge">Dùng ngay 0 đ</span>
+              </div>
+              <p class="plan-desc">Đủ dùng trọn vẹn cho mọi nhu cầu nộp hồ sơ, bảo vệ CCCD và làm ảnh thẻ hàng ngày.</p>
+
+              <div class="plan-price-wrap">
+                <div class="plan-price-row tabular">
+                  <span class="plan-price">0 đ</span>
+                  <span class="plan-unit">/ mãi mãi</span>
+                </div>
+                <span class="plan-sub">Không bắt đăng ký tài khoản, không chèn logo bẩn</span>
+              </div>
+
+              <ul class="plan-list">
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Dùng đủ cả 6 công cụ xử lý cục bộ 100% trên máy</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Ghép 2 mặt CCCD chuẩn A4 và đóng dấu chìm chống lừa đảo</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Nén ảnh và PDF đúng mốc 2 MB, 5 MB nộp Cổng Dịch vụ công</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Xem và tải ảnh thẻ chuẩn, ký tên tay, xóa GPS không giới hạn lượt</span>
+                </li>
+              </ul>
+            </div>
+
+            <a class="btn btn-secondary btn-full" href="../../app/index.html">
+              <span>Mở 6 Công Cụ Dùng Ngay</span>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+          </article>
+
+          <!-- Tier 2: Pay-per-use 15.000d -->
+          <article class="plan-card">
+            <div class="plan-body">
+              <div class="plan-head">
+                <h3 class="plan-name">Gói Lẻ Theo Nhu Cầu</h3>
+                <span class="plan-badge">Trả gọn VietQR</span>
+              </div>
+              <p class="plan-desc">Hợp khi cần làm 1 bộ hồ sơ lớn hoặc dàn trang ảnh thẻ đi in ngay trong ngày.</p>
+
+              <div class="plan-price-wrap">
+                <div class="plan-price-row tabular">
+                  <span class="plan-price">15.000 đ</span>
+                  <span class="plan-unit">/ lần mở khóa</span>
+                </div>
+                <span class="plan-sub">Rẻ hơn 1 ly trà sữa, không tự gia hạn</span>
+              </div>
+
+              <ul class="plan-list">
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Dàn trang in ảnh thẻ 10x15 cm chuẩn 300 DPI không viền, có đường cắt</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Xử lý nén và đổi định dạng hàng loạt tới 20 tệp cùng lúc</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Ký tên tay và đóng dấu ngày hàng loạt lên PDF nhiều trang</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Xuất bản A4 siêu nét 300 DPI phục vụ in ấn trực tiếp</span>
+                </li>
+              </ul>
+            </div>
+
+            <button type="button" class="btn btn-secondary btn-full" data-open-plan="single15">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-qr"></use></svg>
+              <span>Hướng dẫn gói 15.000 đ</span>
+            </button>
+          </article>
+
+          <!-- Tier 3 (Featured): Family Annual 59.000d -->
+          <article class="plan-card plan-card-featured">
+            <div class="plan-body">
+              <div class="plan-head">
+                <h3 class="plan-name">Gói Gia Đình Cả Năm</h3>
+                <span class="plan-badge">Tiết kiệm nhất</span>
+              </div>
+              <p class="plan-desc">Dùng thoải mái cả năm cho cá nhân và gia đình, rẻ hơn 1 lần chụp ảnh thẻ ngoài tiệm.</p>
+
+              <div class="plan-price-wrap">
+                <div class="plan-price-row tabular">
+                  <span class="plan-price">59.000 đ</span>
+                  <span class="plan-unit">/ năm (365 ngày)</span>
+                </div>
+                <span class="plan-sub tabular">Chỉ khoảng 4.900 đ/tháng, trả 1 lần qua VietQR</span>
+              </div>
+
+              <ul class="plan-list">
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Mở khóa trọn bộ tính năng nâng cao của cả 6 công cụ suốt 365 ngày</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Tắt hoàn toàn quảng cáo trên toàn trang cho trải nghiệm sạch tuyệt đối</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Lưu sẵn bộ mẫu dấu chìm CCCD riêng của gia đình ngay trên máy</span>
+                </li>
+                <li>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                  <span>Không lưu thông tin thẻ, hết năm tự dừng, không trừ tiền tự động</span>
+                </li>
+              </ul>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-full" data-open-plan="family59">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-qr"></use></svg>
+              <span>Xem hướng dẫn gói 59.000 đ/năm</span>
+            </button>
+          </article>
+        </div>
+
+        <div class="pricing-honesty-note">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-shield"></use></svg>
+          <div>
+            <strong>Cam kết minh bạch thanh toán:</strong> Trang này không gắn cổng thanh toán giả hay tự trừ tiền thẻ. Bấm nút xem hướng dẫn ở gói 15.000 đ hoặc 59.000 đ để xem rõ quy trình kích hoạt VietQR minh bạch khi bạn muốn nâng cấp sau này. Ngay lúc này bạn có thể vào dùng miễn phí đủ 6 công cụ luôn.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Smooth 0fr -> 1fr FAQ Accordion -->
+    <section class="faq-section" id="hoi-dap">
+      <div class="container faq-layout">
+        <div class="section-header section-header-tight">
+          <span class="section-kicker">Câu hỏi ai cũng thắc mắc trước khi chọn ảnh</span>
+          <h2 class="section-title">Giải đáp thẳng từng nỗi lo về CCCD và ảnh thẻ</h2>
+          <p class="section-desc">
+            Mọi câu trả lời đều có thể tự kiểm chứng trực tiếp trên điện thoại của bạn chỉ trong vài giây.
+          </p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item" data-open="true">
+            <button type="button" class="faq-trigger" aria-expanded="true" aria-controls="faq-p1" id="faq-b1">
+              <span>Tắt Wi-Fi và 4G thì trang web có chạy thật không?</span>
+              <svg class="icon icon-sm faq-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+            </button>
+            <div class="faq-panel-wrap" id="faq-p1" role="region" aria-labelledby="faq-b1">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-body">
+                  Chạy thật 100%. Toàn bộ bộ máy xử lý ảnh và tạo tệp PDF được tải gọn 1 lần về trình duyệt của bạn ngay khi mở trang (và được lưu đệm ngoại tuyến). Bạn có thể mở trang 6 công cụ xong, bật Chế độ Máy bay rồi ghép CCCD, đóng dấu chìm, nén 2 MB hoặc tạo ảnh thẻ bình thường. Đây là cách chứng minh chắc chắn nhất rằng ảnh của bạn không hề bị gửi đi đâu.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-p2" id="faq-b2">
+              <span>Ảnh CCCD và chữ ký của tôi có bị lưu lại ở máy chủ nào không?</span>
+              <svg class="icon icon-sm faq-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+            </button>
+            <div class="faq-panel-wrap" id="faq-p2" role="region" aria-labelledby="faq-b2">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-body">
+                  Hoàn toàn không. Ảnh bạn chọn chỉ nằm tạm trong bộ nhớ trình duyệt ngay trên điện thoại hoặc máy tính của bạn trong lúc thao tác. Khi bạn bấm nút Xóa sạch ảnh hoặc đóng thẻ trình duyệt, toàn bộ dữ liệu ảnh biến mất lập tức. Chúng tôi không có máy chủ lưu ảnh công dân nên không bao giờ giữ bản sao giấy tờ của bạn.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-p3" id="faq-b3">
+              <span>Mang tờ dàn 8 ảnh khổ 10x15 cm ra tiệm in có vừa đúng cỡ 3x4 cm không?</span>
+              <svg class="icon icon-sm faq-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+            </button>
+            <div class="faq-panel-wrap" id="faq-p3" role="region" aria-labelledby="faq-b3">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-body">
+                  Vừa chuẩn từng milimét. Khổ giấy in ảnh phổ thông tại mọi tiệm rửa ảnh ở Việt Nam là 10x15 cm (cỡ CP1/A6). Công cụ tự dàn đúng 8 ảnh 3x4 cm (hoặc 4 ảnh 4x6 cm) theo độ phân giải chuẩn in 300 DPI kèm đường cắt mảnh gọn gàng. Bạn chỉ cần gửi ảnh đó cho tiệm và dặn in đúng khổ 10x15 cm không phóng to là lấy ngay 8 tấm với giá khoảng 3.000 đ đến 5.000 đ.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-p4" id="faq-b4">
+              <span>Vì sao nên đóng dấu chìm lên ảnh CCCD trước khi gửi qua Zalo?</span>
+              <svg class="icon icon-sm faq-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+            </button>
+            <div class="faq-panel-wrap" id="faq-p4" role="region" aria-labelledby="faq-b4">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-body">
+                  Khi gửi ảnh 2 mặt CCCD trơn để thuê phòng, xin việc hay đăng ký dịch vụ, nếu ảnh bị lọt ra ngoài thì kẻ gian dễ lợi dụng mở tài khoản hoặc đăng ký vay tiền trực tuyến. Đóng dòng chữ nghiêng mờ ghi rõ mục đích và ngày tháng (ví dụ: Chỉ dùng đăng ký thuê nhà, không có giá trị vay vốn) giúp cơ quan tiếp nhận vẫn đọc rõ số định danh nhưng ngăn kẻ xấu tái sử dụng ảnh vào việc khác.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-p5" id="faq-b5">
+              <span>Nếu tôi chọn Gói Gia Đình 59.000 đ/năm thì sang năm sau có bị tự trừ tiền không?</span>
+              <svg class="icon icon-sm faq-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+            </button>
+            <div class="faq-panel-wrap" id="faq-p5" role="region" aria-labelledby="faq-b5">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-body">
+                  Không bao giờ. Gói 15.000 đ và 59.000 đ đều thanh toán 1 lần bằng chuyển khoản ngân hàng VietQR, không thu thập số thẻ tín dụng nên hệ thống không thể tự động gia hạn hay trừ tiền khi bạn không đồng ý. Hết 365 ngày, 6 công cụ miễn phí lõi vẫn hoạt động bình thường.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Final CTA Banner -->
+    <section class="final-cta-section">
+      <div class="container">
+        <div class="cta-banner">
+          <h2 class="cta-banner-title">Mở 6 công cụ và tự thử tắt mạng ngay bây giờ</h2>
+          <p class="cta-banner-desc">
+            Có sẵn ảnh CCCD mẫu minh họa, tài liệu mẫu 3,5 MB và chân dung mẫu để bạn bấm kiểm chứng trong 3 giây trước khi chọn giấy tờ thật của mình.
+          </p>
+          <a class="btn btn-primary btn-lg" href="../../app/index.html">
+            <span>Mở 6 Công Cụ Dùng Ngay (Miễn Phí)</span>
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Legal Disclaimer & Decree 13/2023 Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="legal-card" role="note" aria-labelledby="legal-heading">
+        <div class="legal-head" id="legal-heading">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-scale"></use></svg>
+          <span>Cam kết quyền riêng tư theo Nghị định 13/2023/NĐ-CP và Miễn trừ pháp lý</span>
+        </div>
+        <p class="legal-text">
+          Hồ Sơ Riêng Tư là bộ công cụ tiện ích dân sinh xử lý hình ảnh và tệp PDF 100% cục bộ trên trình duyệt của người dùng. Hệ thống không thu thập, không truyền tải và không lưu trữ bất kỳ bản sao Căn cước công dân, ảnh chân dung, chữ ký hay tài liệu cá nhân nào lên máy chủ bên ngoài, giúp bảo vệ dữ liệu cá nhân nhạy cảm phù hợp tinh thần Nghị định 13/2023/NĐ-CP của Chính phủ. Trang này không phải Cổng Dịch vụ công Quốc gia hay đơn vị thuộc cơ quan nhà nước; người dùng tự kiểm tra quy cách nộp hồ sơ cụ thể của từng cơ quan tiếp nhận. Nghiêm cấm sử dụng công cụ vào mục đích chỉnh sửa sai lệch nội dung hoặc làm giả giấy tờ tùy thân.
+        </p>
+      </div>
+
+      <div class="footer-bottom">
+        <span>Hồ Sơ Riêng Tư (Tập đoàn Công nghệ Titan). Vận hành xử lý cục bộ 100% trên trình duyệt.</span>
+        <div class="footer-links">
+          <a href="#cong-cu">6 Công cụ</a>
+          <a href="#bang-gia">Bảng giá</a>
+          <a href="../../app/index.html">Mở Trạm Công Cụ Miễn Phí</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Honest VietQR Activation Guide Modal (No fake payment gateway) -->
+  <div class="modal-backdrop" id="vietqr-modal" hidden>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+      <div class="modal-head">
+        <h2 class="modal-title" id="modal-title">Hướng dẫn kích hoạt gói tiện lợi qua VietQR</h2>
+        <button type="button" class="modal-close" id="modal-close-btn" aria-label="Đóng hộp thoại">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+
+      <div class="modal-notice" id="modal-desc">
+        Lưu ý trung thực: Đây là bản mô phỏng quy trình kích hoạt VietQR minh bạch (chưa thu tiền tự động). Bạn hoàn toàn có thể mở ngay 6 công cụ lõi để dùng miễn phí 100% ngay lúc này.
+      </div>
+
+      <div class="modal-summary tabular">
+        <div class="modal-summary-row">
+          <span>Gói bạn đang xem:</span>
+          <strong id="modal-plan-name">Gói Gia Đình Cả Năm</strong>
+        </div>
+        <div class="modal-summary-row">
+          <span>Mức phí 1 lần (không tự gia hạn):</span>
+          <strong id="modal-plan-price">59.000 đ / 365 ngày</strong>
+        </div>
+        <div class="modal-summary-row">
+          <span>Quyền lợi mở thêm:</span>
+          <span id="modal-plan-perk">Dàn ảnh 300 DPI, nén 20 tệp hàng loạt, ký đa trang, tắt quảng cáo</span>
+        </div>
+      </div>
+
+      <ol class="modal-steps">
+        <li>Mở trực tiếp 6 công cụ và dùng thử miễn phí toàn bộ chức năng lõi trước để chắc chắn đúng nhu cầu.</li>
+        <li>Khi cổng VietQR chính thức mở hoạt động trên tên miền phát hành, mã VietQR tự điền đúng số tiền (15.000 đ hoặc 59.000 đ) sẽ hiện ngay trong góc nâng cấp của công cụ.</li>
+        <li>Quét mã bằng ứng dụng ngân hàng bất kỳ tại Việt Nam, hệ thống tự cấp mã kích hoạt lưu cục bộ trên máy bạn trong 3 giây mà không cần nhập thông tin thẻ.</li>
+      </ol>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="modal-dismiss-btn">Đóng hướng dẫn</button>
+        <a class="btn btn-primary" href="../../app/index.html">
+          <span>Vào dùng miễn phí 6 công cụ ngay</span>
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
