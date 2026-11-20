@@ -1,105 +1,105 @@
 # SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY - PHÒNG 01: Tình báo Thị trường Toàn cầu
-- **Cập nhật lần cuối:** `2026-11-20T05:32:14Z`
-- **Tổng số tài liệu/bài báo đã nạp:** `111`
+- **Cập nhật lần cuối:** `2026-11-20T14:30:05Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `136`
 
 ---
 
-### 1. [4 ngân hàng có lãi suất cho vay bình quân vượt 11%/năm](https://dantri.com.vn/kinh-doanh/4-ngan-hang-co-lai-suat-cho-vay-binh-quan-vuot-11nam-20261120110325612.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:06Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Trong tháng 10, có 4 ngân hàng công bố lãi suất cho vay bình quân trên 11%/năm, tăng 3 đơn vị so với tháng trước.
+### 1. [Bitcoin rơi xuống đáy 5 tháng: Nguy cơ phá vỡ quy luật lịch sử](https://dantri.com.vn/kinh-doanh/bitcoin-roi-xuong-day-5-thang-nguy-co-pha-vo-quy-luat-lich-su-20261120202804291.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Đợt bán tháo kéo dài đẩy giá bitcoin về sát mốc 61.000 USD, đứng trước nguy cơ lần đầu tiên trong lịch sử ghi nhận 2 năm liên tiếp giảm điểm.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 2. [Đề xuất hộ nghèo, cận nghèo được vay vốn không cần tài sản bảo đảm](https://dantri.com.vn/kinh-doanh/de-xuat-ho-ngheo-can-ngheo-duoc-vay-von-khong-can-tai-san-bao-dam-20261120111238306.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:06Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Bộ Tài chính đề xuất hộ nghèo, hộ cận nghèo và một số nhóm chính sách được vay vốn không cần có tài sản bảo đảm, chứng minh khả năng tài chính trả nợ hay phương án sản xuất, kinh doanh khả thi.
+### 2. [Nợ cần chú ý tại nhiều ngân hàng tăng mạnh, vượt 255.500 tỷ đồng](https://dantri.com.vn/kinh-doanh/no-can-chu-y-tai-nhieu-ngan-hang-tang-manh-vuot-255500-ty-dong-20261120193918748.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Tính đến cuối quý III, tổng nợ cần chú ý của các ngân hàng niêm yết tăng thêm 88.000 tỷ đồng so với đầu năm, lên hơn 255.500 tỷ đồng, tạo áp lực lớn lên trích lập dự phòng và lợi nhuận.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 3. [Vì sao phải hợp nhất, chuyển toàn bộ cổ phiếu từ HNX sang HoSE?](https://dantri.com.vn/kinh-doanh/vi-sao-phai-hop-nhat-chuyen-toan-bo-co-phieu-tu-hnx-sang-hose-20261119160817808.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:06Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Việc hợp nhất hai sàn chứng khoán HoSE và HNX là nền tảng quan trọng để xây dựng các bộ chỉ số đầu tư và quỹ ETF, hướng tới mục tiêu nâng hạng lên thị trường mới nổi theo MSCI đến năm 2030.
+### 3. [Giá vàng, bạc đồng loạt lao dốc mạnh](https://dantri.com.vn/kinh-doanh/gia-vang-bac-dong-loat-lao-doc-manh-20261120183246145.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Giá vàng miếng SJC giảm tới 5 triệu đồng/lượng ở chiều mua vào, trong khi bạc thỏi mất gần 3 triệu đồng/kg.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 4. [5 bước triển khai ESG hiệu quả cho doanh nghiệp SME](https://dantri.com.vn/kinh-doanh/5-buoc-trien-khai-esg-hieu-qua-cho-doanh-nghiep-sme-20261119143022553.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:06Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Triển khai tiêu chuẩn ESG giúp doanh nghiệp nhỏ và vừa quản lý có hệ thống các vấn đề môi trường, xã hội và quản trị, thay vì chỉ tập trung vào doanh thu, lợi nhuận.
+### 4. [VN-Index lao dốc, nhà đầu tư dùng AI phân tích cổ phiếu sao để bớt thua lỗ?](https://dantri.com.vn/kinh-doanh/vn-index-lao-doc-nha-dau-tu-dung-ai-phan-tich-co-phieu-sao-de-bot-thua-lo-20261120184430517.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - AI có khả năng xử lý, phân tích số liệu báo cáo của cả ngàn cổ phiếu giúp nhà đầu tư có thông tin nhanh chóng, nhưng chuyên gia cảnh báo không dùng AI quyết định đầu tư thay để tránh thua lỗ.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 5. [Làn sóng điện khí hóa: Bài toán chuyển dịch tỷ USD tại Đông Nam Á](https://dantri.com.vn/kinh-doanh/lan-song-dien-khi-hoa-bai-toan-chuyen-dich-ty-usd-tai-dong-nam-a-20261120111506119.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:06Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Mục tiêu đưa tỷ trọng điện năng lên 35% đang hâm nóng Hội nghị COP31. Tại Đông Nam Á, làn sóng điện khí hóa vừa mở ra cơ hội kinh tế lớn, vừa đối mặt bài toán nguồn điện.
+### 5. [Bốc hơi 1.000 tỷ USD sau 6 giờ, giá vàng thế giới rơi về đâu?](https://dantri.com.vn/kinh-doanh/boc-hoi-1000-ty-usd-sau-6-gio-gia-vang-the-gioi-roi-ve-dau-20261120163722939.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Cú bán tháo ồ ạt khiến 1.000 tỷ USD bốc hơi khỏi thị trường vàng và bạc chỉ sau 6 giờ. Giá vàng xuyên thủng hàng loạt mốc hỗ trợ kỹ thuật và lùi sâu dưới ngưỡng 3.600 USD/ounce.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 6. [Công ty giấy nói gì về vụ cháy kho nguyên liệu rộng 20.000m² tại Cần Thơ?](https://cafef.vn/cong-ty-giay-noi-gi-ve-vu-chay-kho-nguyen-lieu-rong-20000m-tai-can-tho-188261120115559816.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Công ty TNHH Giấy Lee & Man Việt Nam (xã Châu Thành, TP. Cần Thơ) cho biết, chưa ghi nhận thiệt hại về người trong vụ cháy tại kho nguyên liệu rộng khoảng 20.000m² tại xã Châu Thành, TP. Cần Thơ).
+### 6. [Xe buýt TP.HCM vượt mốc 50 triệu lượt đi sau 4 tháng miễn phí](https://thanhnien.vn/xe-buyt-tphcm-vuot-moc-50-trieu-luot-di-sau-4-thang-mien-phi-185261120172208702.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:02Z`
+- **Tóm tắt cốt lõi:** Tính từ 1.7 đến hết 19.11, 134 tuyến xe buýt miễn phí đã phục vụ hơn 50,9 triệu lượt hành khách, tăng 46% so với cùng kỳ năm 2025.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 7. [Món nợ gần 1.000 tỷ đồng dưới thời cựu Chủ tịch Ocean Bank Hà Văn Thắm đang được rao bán](https://cafef.vn/mon-no-gan-1000-ty-dong-duoi-thoi-cuu-chu-tich-ocean-bank-ha-van-tham-dang-duoc-rao-ban-188261120120208027.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Ngân hàng TNHH MTV Việt Nam Hiện Đại (MBV) mới thông báo bán đấu giá khoản nợ của Công ty CP Sản xuất Nhật Minh. Khoản nợ phát sinh từ hợp đồng tín dụng ký với Ngân hàng TMCP Đại Dương (Ocean Bank) vào tháng 9/2010, dưới thời cựu Chủ tịch Hà Văn Thắm.
+### 7. [Sẽ xây thêm cầu Nhơn Trạch 2 nối TP.HCM - Đồng Nai](https://thanhnien.vn/se-xay-them-cau-nhon-trach-2-noi-tphcm-dong-nai-185261120170629875.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:02Z`
+- **Tóm tắt cốt lõi:** Bộ Xây dựng vừa ban hành quyết định phê duyệt điều chỉnh Dự án thành phần 1A của Dự án đầu tư xây dựng đoạn Tân Vạn - Nhơn Trạch giai đoạn 1 thuộc đường Vành đai 3 TP.HCM. Trong đó, cầu Nhơn Trạch được đầu tư bổ sung đơn nguyên thứ 2 bên cạnh cầu Nhơn Trạch hiện hữu.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 8. [Biến động nhân sự cấp cao tại PNJ: 4 giám đốc cao cấp cùng từ nhiệm trong tháng 11](https://cafef.vn/bien-dong-nhan-su-cap-cao-tai-pnj-4-giam-doc-cao-cap-cung-tu-nhiem-trong-thang-11-188261120120107325.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Chỉ trong tháng 11/2026, Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận (HoSE: PNJ) ghi nhận 4 giám đốc cao cấp xin từ nhiệm, phụ trách các mảng tài chính, chiến lược, nhân sự và khách hàng - bán lẻ. Động thái diễn ra giữa lúc doanh nghiệp đối mặt với nhiều sức ép sau sự cố kim cương.
+### 8. [Cà Mau có 33 dự án được gỡ khó](https://thanhnien.vn/ca-mau-co-33-du-an-duoc-go-kho-185261120160424275.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:02Z`
+- **Tóm tắt cốt lõi:** Trong 77 dự án của Cà Mau có 33 dự án đã hết vướng mắc, đủ điều kiện đưa ra khỏi hệ thống 751. Sở Tài chính cũng đề xuất chuyển nhóm 4 dự án có vướng mắc về đất đai vượt thẩm quyền của địa phương.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 9. [Tổng giám đốc Cholimex Food tiết lộ cách tiết kiệm 1.200 giờ làm việc nhờ công nghệ Viettel](https://cafef.vn/tong-giam-doc-cholimex-food-tiet-lo-cach-tiet-kiem-1200-gio-lam-viec-nho-cong-nghe-viettel-188261120112922495.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Sau khi ứng dụng công nghệ Viettel, Cholimex Food tiết kiệm hàng nghìn giờ làm việc và thay đổi cách quản lý hơn 600 nhân viên bán hàng. Hiệu quả đến mức khi được hỏi có muốn quay lại làm thủ công, nhân viên thốt lên: “Tụi em chết, làm không nổi”.
+### 9. [Bánh gạo nướng An: Tự hào hạt ngọc Việt vươn tầm thế giới](https://thanhnien.vn/banh-gao-nuong-an-tu-hao-hat-ngoc-viet-vuon-tam-the-gioi-185261119101114767.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:02Z`
+- **Tóm tắt cốt lõi:** Có những giá trị đi cùng người Việt qua nhiều thế hệ, bình dị đến mức đôi khi ta quên mất sự đặc biệt của chúng. Hạt gạo là một trong số đó. Từ cánh đồng lúa đến mâm cơm gia đình, hạt gạo không chỉ nuôi dưỡng cuộc sống mà còn lưu giữ ký ức, văn hóa và tình cảm của người Việt. Bằng sự thấu hiểu khẩu vị bản địa, tinh thần sáng tạo và công nghệ chế biến hiện đại, Orion đã viết tiếp câu chuyện về hạt gạo thông qua bánh gạo nướng An, mang hạt ngọc quê
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 10. [Khi thương hiệu bước qua biên giới: AI, bản địa hóa và bài học từ thị trường Trung Quốc](https://cafef.vn/khi-thuong-hieu-buoc-qua-bien-gioi-ai-ban-dia-hoa-va-bai-hoc-tu-thi-truong-trung-quoc-188261120104636097.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** AI, dữ liệu và các nền tảng số đang định hình lại hành vi tiêu dùng, đồng thời thay đổi cách doanh nghiệp phát hiện nhu cầu, xây dựng thương hiệu và phân bổ ngân sách truyền thông.
+### 10. [Báo Thanh Niên tổ chức tọa đàm 'Văn hóa doanh nghiệp: Từ giá trị đến sức cạnh tranh'](https://thanhnien.vn/bao-thanh-nien-to-chuc-toa-dam-van-hoa-doanh-nghiep-tu-gia-tri-den-suc-canh-tranh-185261120164329165.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:02Z`
+- **Tóm tắt cốt lõi:** Nhân Ngày Văn hóa Việt Nam 24.11, Báo Thanh Niên tổ chức tọa đàm 'Văn hóa doanh nghiệp: Từ giá trị đến sức cạnh tranh', với sự phối hợp thực hiện của Tập đoàn GELEX. Chương trình tập trung trao đổi cách đưa các giá trị văn hóa vào quản trị, tạo dựng niềm tin và nâng cao sức cạnh tranh của doanh nghiệp.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 11. [Nắng nóng gay gắt, TP.HCM và Nam bộ đã vào mùa khô chưa?](https://thanhnien.vn/nang-nong-gay-gat-tphcm-va-nam-bo-da-vao-mua-kho-chua-185261120113405183.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Thời tiết TP.HCM những ngày qua rất oi bức và nắng nóng gay gắt khiến nhiều người tự hỏi Nam bộ đã vào mùa khô chưa, mưa sẽ còn xuất hiện?
+### 11. [Thu thuế 0,2% với đất bỏ hoang từ 1/7/2027](https://vnexpress.net/thu-thue-0-2-voi-dat-bo-hoang-tu-1-7-2027-5147154.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Đất bỏ hoang sẽ bị thu thuế 0,2% và không áp dụng hạn mức với đất bỏ hoang, chậm đưa vào sử dụng, gấp gần 7 lần đất ở trong hạn mức.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 12. [Chính phủ đề xuất xóa nợ lệ phí môn bài cho doanh nghiệp chờ giải thể](https://vnexpress.net/chinh-phu-de-xuat-xoa-no-le-phi-mon-bai-cho-doanh-nghiep-cho-giai-the-5147100.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Chính phủ đề xuất xóa nợ lệ phí môn bài đến hết 2025 và tiền chậm nộp phát sinh đến 21/11, nhằm tháo gỡ cho doanh nghiệp hoàn tất thủ tục giải thể.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 12. [Chênh lệch giá mua và bán vàng miếng SJC tăng lên 5,5 triệu đồng/lượng](https://thanhnien.vn/chenh-lech-gia-mua-va-ban-vang-mieng-sjc-tang-len-55-trieu-dong-luong-18526112011171067.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Các công ty kinh doanh vàng giảm mạnh giá mua vàng miếng SJC khiến mức chênh lệch giữa giá mua và bán tăng lên 5 - 5,5 triệu đồng/lượng thay vì 3 triệu đồng/lượng thời gian dài trước đó. Đây là mức cao nhất trong nhiều tháng qua.
+### 13. [Chứng khoán giảm 4 phiên liên tiếp](https://vnexpress.net/chung-khoan-giam-4-phien-lien-tiep-5147106.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Đóng cửa phiên hôm nay ở 1.689 điểm, chứng khoán đã có 4 phiên điều chỉnh liên tiếp, đưa chỉ số VN-Index về vùng thấp nhất từ cuối tháng 7.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 13. [Đề xuất có thêm một loại hình xổ số mới, biết kết quả ngay](https://thanhnien.vn/de-xuat-co-them-mot-loai-hinh-xo-so-moi-biet-ket-qua-ngay-185261120090806057.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Dự thảo Thông tư điều chỉnh hoạt động xổ số tự chọn số điện toán có bổ sung loại hình xổ số biết kết quả ngay.
+### 14. [Tăng kết nối đường sắt, cửa khẩu, cảng biển với các tỉnh Tây Nam Trung Quốc](https://vnexpress.net/tang-ket-noi-duong-sat-cua-khau-cang-bien-voi-cac-tinh-tay-nam-trung-quoc-5147074.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Việt Nam và khu vực Tây Nam Trung Quốc có thể kết nối đường sắt, cửa khẩu với cảng biển Việt Nam để mở rộng giao thương, theo Tổng Bí thư, Chủ tịch nước Tô Lâm.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 14. [Giá vàng 'thủng' mốc 130 triệu/lượng, thấp nhất từ đầu năm](https://thanhnien.vn/gia-vang-thung-moc-130-trieu-luong-thap-nhat-tu-dau-nam-18526112010412363.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Sau khi giảm mạnh đầu giờ sáng nay 20.11, giá vàng miếng SJC có thêm nhịp điều chỉnh đáng chú ý, giữ nguyên giá bán ra, song giảm mạnh giá mua vào thêm 2 triệu đồng/lượng, đẩy chênh lệch giá mua - bán lên 5 triệu đồng/lượng.
+### 15. [COP31 có thể bỏ mục tiêu cam kết hạn chế than, dầu, khí đốt](https://vnexpress.net/cop31-co-the-bo-muc-tieu-cam-ket-han-che-than-dau-khi-dot-5146901.html)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Dự thảo thỏa thuận của gần 200 nước đã bỏ điều khoản liên quan nhiên liệu hóa thạch, giữa bất đồng từ các bên đàm phán.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 15. [Lão nông miền Tây sở hữu 1.000 gốc sầu riêng, thu lãi 6 tỉ đồng mỗi năm](https://thanhnien.vn/lao-nong-mien-tay-so-huu-1000-goc-sau-rieng-thu-lai-6-ti-dong-moi-nam-18526112010215618.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
-- **Tóm tắt cốt lõi:** Ở tuổi 82, lão nông Lê Văn Sáu (còn gọi là ông Sáu Bờ, ngụ xã Tân Bình, TP.Cần Thơ) vẫn miệt mài chăm sóc vườn sầu riêng khoảng 1.000 gốc. Bí quyết của ông không chỉ là kinh nghiệm mà còn ở tinh thần học hỏi, mạnh dạn ứng dụng khoa học kỹ thuật vào sản xuất.
+### 16. [THACO hút thành công 3.000 tỷ đồng trái phiếu, đem cổ phần Đại Quang Minh và “đất vàng” Thủ Thiêm bảo đảm](https://cafef.vn/thaco-hut-thanh-cong-3000-ty-dong-trai-phieu-dem-co-phan-dai-quang-minh-va-dat-vang-thu-thiem-bao-dam-188261120201445978.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** THACO vừa hoàn tất phát hành lô trái phiếu trị giá 3.000 tỷ đồng, kỳ hạn 3 năm, với lãi suất cố định tối đa 12,5%/năm trong 4 kỳ tính lãi đầu tiên. Nguồn vốn dự kiến được rót vào THACO AGRI để triển khai dự án trồng cây ăn trái kết hợp chăn nuôi bò tại Campuchia.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 16. [Mỗi lượng vàng miếng giảm tới 4 triệu đồng](https://vnexpress.net/moi-luong-vang-mieng-giam-toi-4-trieu-dong-5146938.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:04Z`
-- **Tóm tắt cốt lõi:** SJC sáng nay hạ mạnh giá vàng miếng 4 triệu đồng chiều mua vào từ người dân trong khi bán ra giảm 2 triệu, xuống 134 triệu mỗi lượng.
+### 17. [HAGL thành lập công ty con mới, 'rót' thêm vốn để trồng cà phê](https://cafef.vn/hagl-thanh-lap-cong-ty-con-moi-rot-them-von-de-trong-ca-phe-188261120180202955.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** HAGL vừa thông qua việc thành lập công ty con vốn điều lệ 60 tỷ đồng, đồng thời dự kiến chi 3.050 tỷ đồng để trồng mới 5.000 ha cà phê trong năm 2027.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 17. [APEC mở cơ hội để Việt Nam đón vốn chất lượng cao](https://vnexpress.net/apec-mo-co-hoi-de-viet-nam-don-von-chat-luong-cao-5146785.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:04Z`
-- **Tóm tắt cốt lõi:** APEC 2026 tại Thâm Quyến có thể tạo cơ hội cho Việt Nam thu hút thêm vốn công nghệ cao, đồng thời giúp doanh nghiệp nội tái định vị, tiến sâu hơn vào chuỗi cung ứng toàn cầu.
+### 18. [Cạnh tranh ngày càng gắt, MG chơi lớn dịp cuối năm: MG ZS ưu đãi sâu còn 363 triệu đồng](https://cafef.vn/canh-tranh-ngay-cang-gat-mg-choi-lon-dip-cuoi-nam-mg-zs-uu-dai-sau-con-363-trieu-dong-188261120180032652.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Thị trường ô tô Việt Nam bước vào mùa cao điểm cuối năm với cuộc đua ưu đãi ngày càng quyết liệt.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 18. [Nâng ngưỡng doanh thu xác định doanh nghiệp nhỏ và vừa lên 400 tỷ đồng](https://vnexpress.net/nang-nguong-doanh-thu-xac-dinh-doanh-nghiep-nho-va-vua-len-400-ty-dong-5146872.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:04Z`
-- **Tóm tắt cốt lõi:** Từ đầu năm 2027, ngưỡng doanh thu để xác định doanh nghiệp nhỏ và vừa được nâng lên 400 tỷ đồng, tăng 100 tỷ so với hiện nay.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+### 19. [Bùng nổ AI search: Thương hiệu cần làm gì để được AI đề xuất và người tiêu dùng tin chọn?](https://cafef.vn/bung-no-ai-search-thuong-hieu-can-lam-gi-de-duoc-ai-de-xuat-va-nguoi-tieu-dung-tin-chon-188261120170156094.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Khi trí tuệ nhân tạo (AI) tham gia ngày càng sâu vào hành trình tìm kiếm, vị thế trên thị trường không bảo chứng cho việc thương hiệu được AI gợi ý. Tại sự kiện VSMCamp & CSMO Summit 2026, các chuyên gia đã cùng bàn luận giải pháp giúp doanh nghiệp được AI ưu tiên đề xuất cũng như thuyết phục người tiêu dùng tin chọn.
+- **Ứng dụng thực chiến:** Áp dụng vào quy trình đóng gói Tiêu đề/Thumbnail, kịch bản Hook 3 giây và cấu trúc GEO/SEO của Khối 5.
 
-### 19. [Giá vàng thế giới mất mốc 3.600 USD](https://vnexpress.net/gia-vang-the-gioi-mat-moc-3-600-usd-5146847.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:04Z`
-- **Tóm tắt cốt lõi:** Kim loại quý lao dốc phiên thứ ba liên tiếp vì sức ép từ lãi suất và đồng đôla Mỹ, có lúc về 3.589 USD.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 20. [Loạt giám đốc cấp cao PNJ từ nhiệm](https://vnexpress.net/loat-giam-doc-cap-cao-pnj-tu-nhiem-5146804.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:04Z`
-- **Tóm tắt cốt lõi:** PNJ thông qua đơn từ nhiệm của 3 giám đốc cấp cao phụ trách chiến lược, nhân sự và khách hàng - bán lẻ, hiệu lực từ cuối tháng này.
+### 20. [AEON Hạ Long thu hút khách hàng, góp phần thúc đẩy thương mại và dịch vụ địa phương](https://cafef.vn/aeon-ha-long-thu-hut-khach-hang-gop-phan-thuc-day-thuong-mai-va-dich-vu-dia-phuong-188261120165917518.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:01Z`
+- **Tóm tắt cốt lõi:** Trong bối cảnh Quảng Ninh đẩy mạnh phát triển thương mại, dịch vụ gắn với du lịch, sự hiện diện của AEON Hạ Long góp phần bổ sung điểm đến mua sắm hiện đại, đáp ứng nhu cầu ngày càng đa dạng của người dân và du khách.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
