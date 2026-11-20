@@ -1,105 +1,105 @@
 # SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY - PHÒNG 03: Phân tích Đối thủ Cạnh tranh
-- **Cập nhật lần cuối:** `2026-11-19T23:58:14Z`
-- **Tổng số tài liệu/bài báo đã nạp:** `64`
+- **Cập nhật lần cuối:** `2026-11-20T05:32:14Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `75`
 
 ---
 
-### 1. [Tăng tốc lắp điện mặt trời mái nhà](https://thanhnien.vn/tang-toc-lap-dien-mat-troi-mai-nha-185261119210457582.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
-- **Tóm tắt cốt lõi:** Làn sóng đầu tư điện mặt trời mái nhà (ĐMTMN) đang lan rộng tại các đô thị và khu công nghiệp miền Bắc. Không chỉ là giải pháp tự chủ nguồn điện, mà nhờ nguồn điện sạch này, hóa đơn tiền điện nhiều hộ gia đình, doanh nghiệp không còn 'tăng sốc'.
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 2. [Vingroup khởi công dự án nhà ở xã hội lớn nhất Việt Nam](https://thanhnien.vn/vingroup-khoi-cong-du-an-nha-o-xa-hoi-lon-nhat-viet-nam-185261119215821481.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
-- **Tóm tắt cốt lõi:** Ngày 19.11, Tập đoàn Vingroup khởi công dự án đầu tư xây dựng Khu nhà ở xã hội xã Bà Điểm với quy mô gần 192 ha, thuộc nhóm dự án nhà ở xã hội lớn nhất cả nước.
+### 1. [OfinTech Desk](https://www.producthunt.com/products/ofintech-desk)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:06Z`
+- **Tóm tắt cốt lõi:** Finance AI where every figure traces to its source Discussion | Link
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 3. [Vì sao không nợ thuế vẫn bị hoãn xuất cảnh?](https://thanhnien.vn/vi-sao-khong-no-thue-van-bi-hoan-xuat-canh-185261119221202228.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
-- **Tóm tắt cốt lõi:** Sau phản ánh của nhiều người về việc không nợ thuế vẫn bị hoãn xuất cảnh, Hội Tư vấn Thuế Việt Nam đã kiến nghị làm rõ các trường hợp này.
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 4. [Đề xuất bỏ Quỹ bình ổn giá xăng dầu](https://thanhnien.vn/de-xuat-bo-quy-binh-on-gia-xang-dau-185261119220736849.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
-- **Tóm tắt cốt lõi:** Bộ Công thương đề xuất chấm dứt việc trích lập, chi sử dụng Quỹ bình ổn giá xăng dầu (Quỹ BOG) ngay khi nghị định mới về kinh doanh xăng dầu có hiệu lực.
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 5. [Quỹ bảo trì: Nguồn cơn xung đột ở chung cư](https://thanhnien.vn/quy-bao-tri-nguon-con-xung-dot-o-chung-cu-185261119213547675.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
-- **Tóm tắt cốt lõi:** Được lập ra để bảo trì, sửa chữa khi chung cư xuống cấp nhưng quỹ bảo trì lên tới hàng trăm tỉ đồng lại là nguồn cơn của rất nhiều tranh chấp, khiếu kiện, đấu đá nội bộ trong ban quản trị, giữa cư dân với ban quản trị. Đáng lo ngại hơn, một số vụ việc đã chuyển từ tranh chấp dân sự sang án hình sự.
+### 2. [Công ty giấy nói gì về vụ cháy kho nguyên liệu rộng 20.000m² tại Cần Thơ?](https://cafef.vn/cong-ty-giay-noi-gi-ve-vu-chay-kho-nguyen-lieu-rong-20000m-tai-can-tho-188261120115559816.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Công ty TNHH Giấy Lee & Man Việt Nam (xã Châu Thành, TP. Cần Thơ) cho biết, chưa ghi nhận thiệt hại về người trong vụ cháy tại kho nguyên liệu rộng khoảng 20.000m² tại xã Châu Thành, TP. Cần Thơ).
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 6. [Cleared](https://www.producthunt.com/products/cleared-quit-nicotine)
-- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
-- **Tóm tắt cốt lõi:** Your personal plan to give up vapes, pouches and cigarettes Discussion | Link
+### 3. [Món nợ gần 1.000 tỷ đồng dưới thời cựu Chủ tịch Ocean Bank Hà Văn Thắm đang được rao bán](https://cafef.vn/mon-no-gan-1000-ty-dong-duoi-thoi-cuu-chu-tich-ocean-bank-ha-van-tham-dang-duoc-rao-ban-188261120120208027.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Ngân hàng TNHH MTV Việt Nam Hiện Đại (MBV) mới thông báo bán đấu giá khoản nợ của Công ty CP Sản xuất Nhật Minh. Khoản nợ phát sinh từ hợp đồng tín dụng ký với Ngân hàng TMCP Đại Dương (Ocean Bank) vào tháng 9/2010, dưới thời cựu Chủ tịch Hà Văn Thắm.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 7. [Teaflask](https://www.producthunt.com/products/teaflask)
-- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
-- **Tóm tắt cốt lõi:** Self-improving AI copilot for your app. No backend changes. Discussion | Link
+### 4. [Biến động nhân sự cấp cao tại PNJ: 4 giám đốc cao cấp cùng từ nhiệm trong tháng 11](https://cafef.vn/bien-dong-nhan-su-cap-cao-tai-pnj-4-giam-doc-cao-cap-cung-tu-nhiem-trong-thang-11-188261120120107325.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Chỉ trong tháng 11/2026, Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận (HoSE: PNJ) ghi nhận 4 giám đốc cao cấp xin từ nhiệm, phụ trách các mảng tài chính, chiến lược, nhân sự và khách hàng - bán lẻ. Động thái diễn ra giữa lúc doanh nghiệp đối mặt với nhiều sức ép sau sự cố kim cương.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 8. [ToolJet](https://www.producthunt.com/products/tooljet)
+### 5. [Tổng giám đốc Cholimex Food tiết lộ cách tiết kiệm 1.200 giờ làm việc nhờ công nghệ Viettel](https://cafef.vn/tong-giam-doc-cholimex-food-tiet-lo-cach-tiet-kiem-1200-gio-lam-viec-nho-cong-nghe-viettel-188261120112922495.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Sau khi ứng dụng công nghệ Viettel, Cholimex Food tiết kiệm hàng nghìn giờ làm việc và thay đổi cách quản lý hơn 600 nhân viên bán hàng. Hiệu quả đến mức khi được hỏi có muốn quay lại làm thủ công, nhân viên thốt lên: “Tụi em chết, làm không nổi”.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 6. [Khi thương hiệu bước qua biên giới: AI, bản địa hóa và bài học từ thị trường Trung Quốc](https://cafef.vn/khi-thuong-hieu-buoc-qua-bien-gioi-ai-ban-dia-hoa-va-bai-hoc-tu-thi-truong-trung-quoc-188261120104636097.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** AI, dữ liệu và các nền tảng số đang định hình lại hành vi tiêu dùng, đồng thời thay đổi cách doanh nghiệp phát hiện nhu cầu, xây dựng thương hiệu và phân bổ ngân sách truyền thông.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 7. [Nắng nóng gay gắt, TP.HCM và Nam bộ đã vào mùa khô chưa?](https://thanhnien.vn/nang-nong-gay-gat-tphcm-va-nam-bo-da-vao-mua-kho-chua-185261120113405183.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Thời tiết TP.HCM những ngày qua rất oi bức và nắng nóng gay gắt khiến nhiều người tự hỏi Nam bộ đã vào mùa khô chưa, mưa sẽ còn xuất hiện?
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 8. [Chênh lệch giá mua và bán vàng miếng SJC tăng lên 5,5 triệu đồng/lượng](https://thanhnien.vn/chenh-lech-gia-mua-va-ban-vang-mieng-sjc-tang-len-55-trieu-dong-luong-18526112011171067.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Các công ty kinh doanh vàng giảm mạnh giá mua vàng miếng SJC khiến mức chênh lệch giữa giá mua và bán tăng lên 5 - 5,5 triệu đồng/lượng thay vì 3 triệu đồng/lượng thời gian dài trước đó. Đây là mức cao nhất trong nhiều tháng qua.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 9. [Đề xuất có thêm một loại hình xổ số mới, biết kết quả ngay](https://thanhnien.vn/de-xuat-co-them-mot-loai-hinh-xo-so-moi-biet-ket-qua-ngay-185261120090806057.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Dự thảo Thông tư điều chỉnh hoạt động xổ số tự chọn số điện toán có bổ sung loại hình xổ số biết kết quả ngay.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 10. [Giá vàng 'thủng' mốc 130 triệu/lượng, thấp nhất từ đầu năm](https://thanhnien.vn/gia-vang-thung-moc-130-trieu-luong-thap-nhat-tu-dau-nam-18526112010412363.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Sau khi giảm mạnh đầu giờ sáng nay 20.11, giá vàng miếng SJC có thêm nhịp điều chỉnh đáng chú ý, giữ nguyên giá bán ra, song giảm mạnh giá mua vào thêm 2 triệu đồng/lượng, đẩy chênh lệch giá mua - bán lên 5 triệu đồng/lượng.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 11. [Lão nông miền Tây sở hữu 1.000 gốc sầu riêng, thu lãi 6 tỉ đồng mỗi năm](https://thanhnien.vn/lao-nong-mien-tay-so-huu-1000-goc-sau-rieng-thu-lai-6-ti-dong-moi-nam-18526112010215618.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T05:32:05Z`
+- **Tóm tắt cốt lõi:** Ở tuổi 82, lão nông Lê Văn Sáu (còn gọi là ông Sáu Bờ, ngụ xã Tân Bình, TP.Cần Thơ) vẫn miệt mài chăm sóc vườn sầu riêng khoảng 1.000 gốc. Bí quyết của ông không chỉ là kinh nghiệm mà còn ở tinh thần học hỏi, mạnh dạn ứng dụng khoa học kỹ thuật vào sản xuất.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 12. [ToolJet](https://www.producthunt.com/products/tooljet)
 - **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
 - **Tóm tắt cốt lõi:** Vibe-coded business apps that pass the security review Discussion | Link
 - **Ứng dụng thực chiến:** Bổ sung mẫu kiểm thử phòng thủ vào Cổng 3 (QA & An ninh mạng) để bảo vệ sản phẩm và dữ liệu khách hàng.
 
-### 9. [CodeDesign v3](https://www.producthunt.com/products/codedesign)
-- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:31Z`
-- **Tóm tắt cốt lõi:** Run your website and business apps from ChatGPT or Claude Discussion | Link
+### 13. [Teaflask](https://www.producthunt.com/products/teaflask)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
+- **Tóm tắt cốt lõi:** Self-improving AI copilot for your app. No backend changes. Discussion | Link
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 10. [Bật mí dàn hoa hậu tham gia bảo vệ san hô và đại dương tại Côn Đảo](https://thanhnien.vn/bat-mi-dan-hoa-hau-tham-gia-bao-ve-san-ho-va-dai-duong-tai-con-dao-185261119194625576.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:31Z`
-- **Tóm tắt cốt lõi:** Ba hoa hậu là H'Hen Niê, Nguyễn Phương Khánh, Nguyễn Thanh Thảo và nhiều ca sĩ, người mẫu sẽ cùng tham gia hoạt động bảo vệ san hô và đại dương tại đặc khu Côn Đảo.
+### 14. [Cleared](https://www.producthunt.com/products/cleared-quit-nicotine)
+- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
+- **Tóm tắt cốt lõi:** Your personal plan to give up vapes, pouches and cigarettes Discussion | Link
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 11. [Phú Quốc cần hơn 14.000 nhân sự năm 2027 cho sự kiện lớn bậc nhất hành tinh](https://thanhnien.vn/phu-quoc-can-hon-14000-nhan-su-nam-2027-cho-su-kien-lon-bac-nhat-hanh-tinh-1852611192030044.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:31Z`
-- **Tóm tắt cốt lõi:** Chiều 19.11, tỉnh An Giang và Sun Group đã ký kết hợp tác phát triển nguồn nhân lực, không chỉ đáp ứng yêu cầu phục vụ APEC 2027 mà còn hướng tới sự phát triển bền vững của Phú Quốc sau sự kiện.
+### 15. [Quỹ bảo trì: Nguồn cơn xung đột ở chung cư](https://thanhnien.vn/quy-bao-tri-nguon-con-xung-dot-o-chung-cu-185261119213547675.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
+- **Tóm tắt cốt lõi:** Được lập ra để bảo trì, sửa chữa khi chung cư xuống cấp nhưng quỹ bảo trì lên tới hàng trăm tỉ đồng lại là nguồn cơn của rất nhiều tranh chấp, khiếu kiện, đấu đá nội bộ trong ban quản trị, giữa cư dân với ban quản trị. Đáng lo ngại hơn, một số vụ việc đã chuyển từ tranh chấp dân sự sang án hình sự.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 12. [UNIQLO Việt Nam có tân Tổng giám đốc, từng điều hành tại Mỹ và Úc](https://thanhnien.vn/uniqlo-viet-nam-co-tan-tong-giam-doc-tung-dieu-hanh-tai-my-va-uc-185261119205018756.htm)
+### 16. [Đề xuất bỏ Quỹ bình ổn giá xăng dầu](https://thanhnien.vn/de-xuat-bo-quy-binh-on-gia-xang-dau-185261119220736849.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
+- **Tóm tắt cốt lõi:** Bộ Công thương đề xuất chấm dứt việc trích lập, chi sử dụng Quỹ bình ổn giá xăng dầu (Quỹ BOG) ngay khi nghị định mới về kinh doanh xăng dầu có hiệu lực.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 17. [Vì sao không nợ thuế vẫn bị hoãn xuất cảnh?](https://thanhnien.vn/vi-sao-khong-no-thue-van-bi-hoan-xuat-canh-185261119221202228.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
+- **Tóm tắt cốt lõi:** Sau phản ánh của nhiều người về việc không nợ thuế vẫn bị hoãn xuất cảnh, Hội Tư vấn Thuế Việt Nam đã kiến nghị làm rõ các trường hợp này.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 18. [Vingroup khởi công dự án nhà ở xã hội lớn nhất Việt Nam](https://thanhnien.vn/vingroup-khoi-cong-du-an-nha-o-xa-hoi-lon-nhat-viet-nam-185261119215821481.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
+- **Tóm tắt cốt lõi:** Ngày 19.11, Tập đoàn Vingroup khởi công dự án đầu tư xây dựng Khu nhà ở xã hội xã Bà Điểm với quy mô gần 192 ha, thuộc nhóm dự án nhà ở xã hội lớn nhất cả nước.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 19. [Tăng tốc lắp điện mặt trời mái nhà](https://thanhnien.vn/tang-toc-lap-dien-mat-troi-mai-nha-185261119210457582.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T23:58:14Z`
+- **Tóm tắt cốt lõi:** Làn sóng đầu tư điện mặt trời mái nhà (ĐMTMN) đang lan rộng tại các đô thị và khu công nghiệp miền Bắc. Không chỉ là giải pháp tự chủ nguồn điện, mà nhờ nguồn điện sạch này, hóa đơn tiền điện nhiều hộ gia đình, doanh nghiệp không còn 'tăng sốc'.
+- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
+
+### 20. [UNIQLO Việt Nam có tân Tổng giám đốc, từng điều hành tại Mỹ và Úc](https://thanhnien.vn/uniqlo-viet-nam-co-tan-tong-giam-doc-tung-dieu-hanh-tai-my-va-uc-185261119205018756.htm)
 - **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:31Z`
 - **Tóm tắt cốt lõi:** Tân Tổng giám đốc UNIQLO Việt Nam Nakanishi Taketo tiết lộ từng bất ngờ khi chứng kiến người Việt xếp hàng mua sắm trong ngày khai trương cửa hàng đầu tiên. Sau gần 7 năm, thương hiệu Nhật Bản đã mở rộng lên 34 cửa hàng trên cả nước.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 13. [Khói đen cuồn cuộn bao trùm nhà kho công ty nhựa ở Tây Ninh](https://cafef.vn/khoi-den-cuon-cuon-bao-trum-nha-kho-cong-ty-nhua-o-tay-ninh-188261119213654427.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:30Z`
-- **Tóm tắt cốt lõi:** Hỏa hoạn bùng phát dữ dội tại nhà kho công ty sản xuất đồ nhựa ở Tây Ninh, kèm nhiều tiếng nổ lớn. Cảnh sát PCCC khẩn trương đến hiện trường dập lửa.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 14. [4 máy bay khổng lồ của Nga cất cánh rời Đà Nẵng: Có chiếc cao gần bằng tòa nhà 5 tầng, sải cánh hơn 50 m, động cơ 60.000 mã lực](https://cafef.vn/4-may-bay-khong-lo-cua-nga-cat-canh-roi-da-nang-co-chiec-cao-gan-bang-toa-nha-5-tang-sai-canh-hon-50-m-dong-co-60000-ma-luc-188261119214101295.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:30Z`
-- **Tóm tắt cốt lõi:** Giữa thời điểm Hội nghị cấp cao APEC 2026 diễn ra tại Trung Quốc, nhóm máy bay khổng lồ của Nga đã rời Đà Nẵng sau chuyến ghé thăm thu hút sự chú ý của cộng đồng yêu hàng không.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 15. [FPT tăng giá 9% với 55 khách hàng Nhật Bản khiến doanh thu ký mới chậm lại, thêm 100 khách hàng vào năm sau](https://cafef.vn/fpt-tang-gia-9-voi-55-khach-hang-nhat-ban-khien-doanh-thu-ky-moi-cham-lai-them-100-khach-hang-vao-nam-sau-188261119232751757.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:30Z`
-- **Tóm tắt cốt lõi:** Trong năm 2026, FPT đã tăng giá dịch vụ trung bình khoảng 9% đối với 55 khách hàng tại Nhật Bản và lên kế hoạch điều chỉnh giá với 100 khách hàng khác vào năm 2027. Động thái diễn ra trong bối cảnh tập đoàn chuyển đổi mô hình kinh doanh để thích ứng với sự phát triển của trí tuệ nhân tạo (AI).
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 16. [Lợi nhuận nhà máy lớn nhất của Samsung tại Việt Nam không bằng Vingroup trong 9 tháng đầu năm 2026](https://cafef.vn/loi-nhuan-nha-may-lon-nhat-cua-samsung-tai-viet-nam-khong-bang-vingroup-trong-9-thang-dau-nam-2026-188261119232955223.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:30Z`
-- **Tóm tắt cốt lõi:** Samsung Electronics Vietnam Thai Nguyen (SEVT), hiện là đơn vị lớn nhất của Samsung tại Việt Nam, ghi nhận lợi nhuận trong thời gian này khoảng 41,8 nghìn tỷ đồng, kém hơn mức 43,7 nghìn tỷ đồng của Vingroup trong thời gian này.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 17. [Tàu biển khổng lồ trọng tải gần 12.000 tấn đến Việt Nam: Dài gần 3 sân bóng đá, có 11 boong, 3 hồ bơi và nhà hát sức chứa 1.000 người](https://cafef.vn/tau-bien-khong-lo-trong-tai-gan-12000-tan-den-viet-nam-dai-gan-3-san-bong-da-co-11-boong-3-ho-boi-va-nha-hat-suc-chua-1000-nguoi-188261120001113778.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T17:19:30Z`
-- **Tóm tắt cốt lõi:** Tàu du lịch quốc tế Celebrity Millennium vừa cập cảng Việt Nam, mang theo khoảng 2.300 du khách và thuyền viên, gây chú ý bởi quy mô đồ sộ cùng hàng loạt tiện ích giải trí cao cấp.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 18. [Fieldwork Code](https://www.producthunt.com/products/fieldwork-code)
-- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T11:55:30Z`
-- **Tóm tắt cốt lõi:** AI coding on your laptop or in the cloud, from your phone Discussion | Link
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 19. [TestSprite 4.0](https://www.producthunt.com/products/testsprite)
-- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T11:52:22Z`
-- **Tóm tắt cốt lõi:** Fix one thing, break another? This agent checks it all Discussion | Link
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 20. [Spellar for Chrome](https://www.producthunt.com/products/spellar)
-- **Nguồn:** `product_pulse` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-19T11:52:22Z`
-- **Tóm tắt cốt lõi:** Free, no-bot meeting notes with memory, now in your browser Discussion | Link
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
