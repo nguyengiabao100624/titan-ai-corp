@@ -1,105 +1,105 @@
 # SỔ TRI THỨC CẬP NHẬT HÀNG NGÀY - PHÒNG 01: Tình báo Thị trường Toàn cầu
-- **Cập nhật lần cuối:** `2026-11-20T23:27:08Z`
-- **Tổng số tài liệu/bài báo đã nạp:** `146`
+- **Cập nhật lần cuối:** `2026-11-21T04:31:45Z`
+- **Tổng số tài liệu/bài báo đã nạp:** `167`
 
 ---
 
-### 1. [Bộ Công Thương muốn áp giá điện sản xuất cho trung tâm dữ liệu](https://dantri.com.vn/kinh-doanh/bo-cong-thuong-muon-ap-gia-dien-san-xuat-cho-trung-tam-du-lieu-20261120210036837.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:08Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Bộ Công Thương đề xuất áp dụng giá điện sản xuất đối với hoạt động của trung tâm dữ liệu, thay vì phân loại theo mục đích phục vụ như quy định hiện hành.
+### 1. [BOT Bến Thủy 1 và Bến Thủy 2 thu phí trở lại từ ngày 25.11](https://thanhnien.vn/bot-ben-thuy-1-va-ben-thuy-2-thu-phi-tro-lai-tu-ngay-2511-185261121105732032.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** Trạm thu phí BOT Bến Thủy 1 và Bến Thủy 2 sẽ thực hiện thu phí trở lại từ 0 giờ ngày 25.11. Trước đó, 2 trạm này bị tạm dừng thu phí trong 30 ngày do chậm khắc phục sửa chữa hư hỏng.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 2. [Mong chờ metro 'cứu' kẹt xe TP.HCM](https://thanhnien.vn/mong-cho-metro-cuu-ket-xe-tphcm-1852611202204036.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:07Z`
-- **Tóm tắt cốt lõi:** Metro TP.HCM đang bước vào giai đoạn bùng nổ với hàng loạt tuyến đồng loạt tăng tốc triển khai, kéo theo những đại công trường rào chắn bủa vây gây áp lực lớn lên hầu khắp mọi tuyến đường.
+### 2. [The Art of Living Well - Hành trình trải nghiệm thành phố đáng sống One Era](https://thanhnien.vn/the-art-of-living-well-hanh-trinh-trai-nghiem-thanh-pho-dang-song-one-era-185261121102102362.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** Ngày 20.11.2026, tại One Era Galleria, sự kiện The Art of Living Well - Hành trình khám phá thành phố đáng sống One Era đã diễn ra trong không gian giàu cảm hứng, quy tụ các khách mời, đối tác và cộng đồng doanh nhân.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 3. [Giá vàng rơi không phanh, rủi ro gia tăng](https://thanhnien.vn/gia-vang-roi-khong-phanh-rui-ro-gia-tang-185261120214015873.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:07Z`
-- **Tóm tắt cốt lõi:** Vàng lao dốc không phanh nhưng vùng giá thấp vẫn đầy rủi ro khi kim loại quý trong nước đắt hơn thế giới tăng cao 23 triệu đồng/lượng, cùng với chênh lệch giữa giá mua và bán được các công ty đẩy ra xa 5 - 6 triệu đồng/lượng.
+### 3. [Giá USD hôm nay 21.11.2026: Ngân hàng tiếp tục tăng](https://thanhnien.vn/gia-usd-hom-nay-21112026-ngan-hang-tiep-tuc-tang-185261121084917766.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** Giá USD trong ngân hàng ghi nhận mức tăng trong tuần qua, vượt xa mức giá mua vào của Ngân hàng Nhà nước.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 4. [Có nên giao cho chủ đầu tư quản lý?](https://thanhnien.vn/co-nen-giao-cho-chu-dau-tu-quan-ly-185261120200654986.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:07Z`
-- **Tóm tắt cốt lõi:** Trước những tranh chấp, bất ổn xảy ra tại các chung cư liên quan đến quỹ bảo trì chung cư 2%, câu hỏi đặt ra là liệu có nên để ban quản trị các chung cư nắm nguồn tiền hàng trăm tỉ đồng hay giao cho chủ đầu tư quản lý dưới sự giám sát chặt chẽ của cư dân và cơ quan chức năng?
+### 4. [Đối tác Ý cung cấp tuabin khí cho Nhà máy điện khí LNG Cà Ná](https://thanhnien.vn/doi-tac-y-cung-cap-tuabin-khi-cho-nha-may-dien-khi-lng-ca-na-18526112017591639.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** Liên danh Trungnam ký hợp đồng cung cấp hai tổ tuabin khí với đối tác Ý, đồng thời hợp tác với doanh nghiệp Trung Quốc cung cấp thiết bị chu trình phát điện hơi cho dự án Nhà máy điện khí LNG Cà Ná.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 5. [Đối mặt với cao điểm siêu El Nino](https://thanhnien.vn/doi-mat-voi-cao-diem-sieu-el-nino-18526112020020175.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:07Z`
-- **Tóm tắt cốt lõi:** Siêu El Nino đang vào giai đoạn đỉnh điểm và có khả năng sẽ trở thành sự kiện mạnh nhất lịch sử. Tại Việt Nam, tác động của hiện tượng này khiến nắng nóng bất thường và tổng lượng mưa giảm dẫn tới nhiều hồ thủy điện thiếu nước nghiêm trọng. Với vựa lúa ĐBSCL, nguy cơ hạn mặn gay gắt tương đương mùa khô lịch sử năm 2015 - 2016.
+### 5. [Giá vàng hôm nay 21.11.2026: Tiếp tục lao dốc, chênh lệch mua bán vàng nhẫn lên kỷ lục](https://thanhnien.vn/gia-vang-hom-nay-21112026-tiep-tuc-lao-doc-chenh-lech-mua-ban-vang-nhan-len-ky-luc-185261121082006743.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** Giá vàng giảm mạnh trong khi chênh lệch mua bán được nới rộng lên mức kỷ lục khiến người mua lỗ nặng.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 6. [Nộp hồ sơ sớm, tiền phạt thuế giảm nhiều](https://thanhnien.vn/nop-ho-so-som-tien-phat-thue-giam-nhieu-185261117224638512.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:07Z`
-- **Tóm tắt cốt lõi:** Dự kiến từ hôm nay 21.11, chính sách đặc thù tháo gỡ khó khăn cho người nộp thuế có hiệu lực. Những doanh nghiệp, hộ kinh doanh nộp hồ sơ sớm thì mức phạt sẽ được giảm nhiều.
+### 6. [Xuất khẩu rau quả vượt 9,2 tỷ USD, sầu riêng xuất sang Trung Quốc mang về 3,3 tỷ USD](https://dantri.com.vn/kinh-doanh/xuat-khau-rau-qua-vuot-92-ty-usd-sau-rieng-xuat-sang-trung-quoc-mang-ve-33-ty-usd-20261121093504710.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Xuất khẩu rau quả 11 tháng ước đạt hơn 9,2 tỷ USD, vượt kỷ lục cả năm 2025. Trong 10 tháng, riêng sầu riêng sang Trung Quốc đã mang về khoảng 3,3 tỷ USD.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 7. [Ngân hàng rao bán khoản nợ của ông Lê Hải Trà](https://dantri.com.vn/kinh-doanh/ngan-hang-rao-ban-khoan-no-cua-ong-le-hai-tra-20261121091923274.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Agribank Chi nhánh Bình Thạnh đang thực hiện thủ tục lựa chọn tổ chức đấu giá hai khoản nợ có liên quan đến ông Lê Hải Trà, cựu lãnh đạo HoSE.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 8. [Quyền trẻ em không phải là câu chuyện bên lề của doanh nghiệp](https://dantri.com.vn/kinh-doanh/quyen-tre-em-khong-phai-la-cau-chuyen-ben-le-cua-doanh-nghiep-20261120161735736.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Hồi chuông mở phiên sáng 20/11 tại HNX phát đi thông điệp rằng bảo vệ thế hệ tương lai không còn là việc thiện nguyện ngoài lề mà đã trở thành bài toán quản trị rủi ro sống còn của doanh nghiệp.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 9. [Nghị quyết 70 thúc giảm năng lượng: Nhà máy chạy đua hạ tiền điện](https://dantri.com.vn/kinh-doanh/nghi-quyet-70-thuc-giam-nang-luong-nha-may-chay-dua-ha-tien-dien-20261120190713047.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Nghị quyết 70 của Bộ Chính trị đặt mục tiêu giảm 8-10% tổng tiêu thụ năng lượng và cắt tới 35% phát thải vào năm 2030, buộc các nhà máy phải siết chặt từng cỗ máy để giữ biên lợi nhuận.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 10. [Ông Trần Bá Dương không còn là Chủ tịch Thaco Agri](https://dantri.com.vn/kinh-doanh/ong-tran-ba-duong-khong-con-la-chu-tich-thaco-agri-20261121081038312.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:45Z`
+- **Tóm tắt cốt lõi:** (Dân trí) - Người thay thế là ông Trần Đăng Khoa - một doanh nhân quen thuộc trong lĩnh vực bất động sản, được biết đến với biệt danh “Khoa khàn”. Ông Khoa đang làm Chủ tịch HĐQT Đại Quang Minh.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 11. [Dàn lãnh đạo rời PNJ: Người tốt nghiệp Oxford, người có MBA tại Mỹ, Anh, Australia, CEO Phan Quốc Công đánh giá “đông quản lý nhưng chưa đủ người có năng lực dẫn dắt chuyển đổi”](https://cafef.vn/dan-lanh-dao-roi-pnj-nguoi-tot-nghiep-oxford-nguoi-co-mba-tai-my-anh-australia-ceo-phan-quoc-cong-danh-gia-dong-quan-ly-nhung-chua-du-nguoi-co-nang-luc-dan-dat-chuyen-doi-188261121101152303.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:44Z`
+- **Tóm tắt cốt lõi:** Trong số 4 giám đốc cao cấp vừa xin từ nhiệm tại PNJ, có 3 người sở hữu bằng thạc sĩ từ các trường đại học tại Mỹ, Anh và Australia. Cựu CEO Lê Trí Thông tốt nghiệp MBA tại Đại học Oxford, làm lãnh đạo tại nhiều tập đoàn lớn trước khi có 8 năm điều hành doanh nghiệp trang sức này.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 12. [AWING: 10 năm kiến tạo hệ sinh thái, cùng đối tác mở ra chương tăng trưởng mới](https://cafef.vn/awing-10-nam-kien-tao-he-sinh-thai-cung-doi-tac-mo-ra-chuong-tang-truong-moi-188261121101455788.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:44Z`
+- **Tóm tắt cốt lõi:** Sau một thập kỷ phát triển, AWING bước vào chương mới với định hướng xây dựng hệ sinh thái công nghệ kết nối thương hiệu, nhà bán lẻ và đối tác hạ tầng. Trên nền tảng được chuẩn hóa và nguồn lực đầu tư bài bản, doanh nghiệp hướng đến chuyển đổi điểm bán vật lý thành điểm chạm thương mại, tạo thêm cơ hội doanh thu cho các bên
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 13. [Thanh tra Chính phủ phát hiện loạt vi phạm tại Tập đoàn TKV và nhóm công ty con](https://cafef.vn/thanh-tra-chinh-phu-phat-hien-loat-vi-pham-tai-tap-doan-tkv-va-nhom-cong-ty-con-188261121093128785.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:44Z`
+- **Tóm tắt cốt lõi:** Qua thanh tra việc chấp hành pháp luật trong quản lý, khai thác than tại 13 điểm mỏ của 6 công ty than thuộc Tập đoàn Than – Khoáng sản Việt Nam trong giai đoạn 2020 – 2024, cơ quan chức năng phát hiện có 4 công ty khai thác vượt công suất theo giấy phép.
 - **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
 
-### 7. [Vàng giảm gần 60 triệu đồng/lượng, có nên 'tham lam' khi người khác 'sợ hãi'?](https://tuoitre.vn/vang-giam-gan-60-trieu-dong-luong-co-nen-tham-lam-khi-nguoi-khac-so-hai-100261120225559702.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Giá vàng miếng SJC đã giảm đến 57,8 triệu đồng/lượng so với đỉnh. Nhiều người cho rằng mức giá hiện nay đã thích hợp để mua vào. Nhưng có nên mạo hiểm?
+### 14. [CEO Phan Quốc Công: Tình hình tài chính hết sức khẩn cấp, PNJ không còn khả năng đáp ứng cam kết mua lại kim cương bằng tiền sau 120 ngày](https://cafef.vn/ceo-phan-quoc-cong-tinh-hinh-tai-chinh-het-suc-khan-cap-pnj-khong-con-kha-nang-dap-ung-cam-ket-mua-lai-kim-cuong-bang-tien-sau-120-ngay-188261121091618292.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:44Z`
+- **Tóm tắt cốt lõi:** CEO PNJ Phan Quốc Công thừa nhận doanh số hiện không đủ bù đắp chi phí vận hành, doanh nghiệp liên tục thua lỗ hàng tháng.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 8. [Cổ phiếu Anthropic lên sàn ấn tượng vẫn không dập tắt nỗi lo đầu tư AI](https://tuoitre.vn/co-phieu-anthropic-len-san-an-tuong-van-khong-dap-tat-noi-lo-dau-tu-ai-100261120221143058.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Cổ phiếu Anthropic tăng mạnh trong ngày đầu giao dịch, nhưng không đủ xua tan nỗi lo về làn sóng đầu tư vào trí tuệ nhân tạo (AI).
+### 15. [Vinhomes dự kiến huy động thêm 3.000 tỷ đồng trái phiếu](https://cafef.vn/vinhomes-du-kien-huy-dong-them-3000-ty-dong-trai-phieu-188261121063148805.chn)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:44Z`
+- **Tóm tắt cốt lõi:** Vinhomes vừa phê duyệt phương án chào bán và phát hành trái phiếu doanh nghiệp theo hình thức riêng lẻ với tổng giá trị theo mệnh giá là 3.000 tỷ đồng.
 - **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
 
-### 9. [Chính thức: Hộ kinh doanh doanh thu đến 10 tỉ đồng/năm được chọn tính thuế theo tỉ lệ](https://tuoitre.vn/chinh-thuc-ho-kinh-doanh-doanh-thu-den-10-ti-dong-nam-duoc-chon-tinh-thue-theo-ti-le-100261120212627122.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Quốc hội chính thức thông qua quy định nâng ngưỡng doanh thu được lựa chọn phương pháp tính thuế từ 3 tỉ lên 10 tỉ đồng/năm.
+### 16. [Luật Kinh doanh bất động sản mới: khống chế tiền đặt cọc, tiền thu trước, siết điều kiện môi giới](https://tuoitre.vn/luat-kinh-doanh-bat-dong-san-moi-khong-che-tien-dat-coc-tien-thu-truoc-siet-dieu-kien-moi-gioi-100261121090833189.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:43Z`
+- **Tóm tắt cốt lõi:** Quốc hội thông qua Luật Kinh doanh bất động sản với nhiều quy định cụ thể: khống chế tiền đặt cọc, giới hạn số tiền chủ đầu tư được thu trước khi cấp sổ, buộc công khai pháp lý dự án và siết điều kiện hoạt động môi giới.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 17. [TP.HCM phủ 1.000 banner, 100 panô đón Festival OCOP Việt Nam 2026](https://tuoitre.vn/tphcm-phu-1000-banner-100-pano-don-festival-ocop-viet-nam-2026-100261120173131589.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:43Z`
+- **Tóm tắt cốt lõi:** Hệ thống banner, panô đã được TP.HCM bố trí treo tại các tuyến đường, khu vực trung tâm và không gian công cộng, cùng các hoạt động truyền thông trên nền tảng số nhằm lan tỏa thông tin về Festival OCOP Việt Nam 2026.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 18. [Di thực 8.000 cây sâm Ngọc Linh, chỉ 8 cây ra hoa: Vì sao được 'chăm như con', cây vẫn còi cọc?](https://tuoitre.vn/di-thuc-8000-cay-sam-ngoc-linh-chi-8-cay-ra-hoa-vi-sao-duoc-cham-nhu-con-cay-van-coi-coc-100261121083952533.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:43Z`
+- **Tóm tắt cốt lõi:** Dù được trồng dưới tán rừng tự nhiên, chăm sóc tỉ mỉ nhưng các mô hình di thực sâm Ngọc Linh ở Đà Nẵng chưa đạt kết quả như kỳ vọng, nguyên nhân có thể do điều kiện sinh thái chưa phù hợp.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 19. [Giá cả đầu ngày: Sau thời gian tăng nóng, giá rau củ bắt đầu hạ nhiệt](https://tuoitre.vn/gia-ca-dau-ngay-sau-thoi-gian-tang-nong-gia-rau-cu-bat-dau-ha-nhiet-100261121092544347.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:43Z`
+- **Tóm tắt cốt lõi:** Giá một số mặt hàng Đà Lạt về chợ cũng mềm hơn, dù một số loại vẫn neo giá cao do nhu cầu tiêu thụ.
+- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
+
+### 20. [Quốc hội 'chốt' thời hạn làm sạch mã số thuế trong quý 1-2028](https://tuoitre.vn/quoc-hoi-chot-thoi-han-lam-sach-ma-so-thue-trong-quy-1-2028-100261121090059301.htm)
+- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-21T04:31:43Z`
+- **Tóm tắt cốt lõi:** Tại nghị quyết được thông qua, Quốc hội yêu cầu chậm nhất là đến quý 1-2028, hoàn thành việc rà soát, chuẩn hóa dữ liệu, làm sạch mã số thuế.
 - **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 10. [Nhà máy LG Innotek 1,9 tỷ USD tại Hải Phòng thu gần 93.000 tỷ sau 9 tháng, bỏ xa các công ty cùng tập đoàn tại Trung Quốc, Mexico và châu Âu](https://cafef.vn/nha-may-lg-innotek-19-ty-usd-tai-hai-phong-thu-gan-93000-ty-sau-9-thang-bo-xa-cac-cong-ty-cung-tap-doan-tai-trung-quoc-mexico-va-chau-au-188261120110429986.chn)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Không chỉ là cứ điểm sản xuất lớn nhất toàn cầu của LG Innotek, cơ sở tại Hải Phòng còn ghi nhận kết quả kinh doanh vượt trội so với hàng loạt công ty con ở nước ngoài.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 11. [PNJ trả tiền mua lại vàng trong một ngày, kim cương vẫn chờ 4 tháng](https://vnexpress.net/pnj-tra-tien-mua-lai-vang-trong-mot-ngay-kim-cuong-van-cho-4-thang-5147256.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Khách bán lại vàng miếng, một số loại trang sức tại PNJ có thể nhận đủ tiền sau tối đa 1 ngày, còn kim cương tiếp tục chờ 120 ngày.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 12. [Ngân hàng rao bán hai khoản nợ hơn 25 tỷ đồng của ông Lê Hải Trà](https://vnexpress.net/ngan-hang-rao-ban-hai-khoan-no-hon-25-ty-dong-cua-ong-le-hai-tra-5147249.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Hai khoản nợ gốc và lãi hơn 25,2 tỷ đồng liên quan cựu lãnh đạo HoSE Lê Hải Trà vừa được Agribank thông báo bán đấu giá để thu hồi vốn.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 13. [Phạt tối đa 400 triệu đồng với doanh nghiệp thải CO2 vượt hạn ngạch](https://vnexpress.net/phat-toi-da-400-trieu-dong-voi-doanh-nghiep-thai-co2-vuot-han-ngach-5147022.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Doanh nghiệp phát thải vượt quá giới hạn cấp phép sẽ bị phạt 10-400 triệu đồng, theo Nghị định mới.
-- **Ứng dụng thực chiến:** Cập nhật ngay vào danh mục kiểm tra tuân thủ thuế & hóa đơn điện tử của Khối 7 trước khi chốt gói cước.
-
-### 14. [Rau quả xuất khẩu 11 tháng vượt kỷ lục cả năm ngoái](https://vnexpress.net/rau-qua-xuat-khau-11-thang-vuot-ky-luc-ca-nam-ngoai-5147092.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Xuất khẩu rau quả ước đạt hơn 9,2 tỷ USD sau 11 tháng, vượt kỷ lục năm ngoái, nhờ đà tăng của nhiều mặt hàng và nhóm chế biến.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 15. [Ông Trần Bá Dương thôi chức chủ tịch công ty nông nghiệp](https://vnexpress.net/ong-tran-ba-duong-thoi-chuc-chu-tich-cong-ty-nong-nghiep-5147247.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Ông Trần Bá Dương, người đứng đầu Tập đoàn Trường Hải (Thaco), vừa thôi kiêm nhiệm chức Chủ tịch HĐQT Công ty Nông nghiệp Trường Hải (Thaco Agri).
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 16. [Đề xuất áp giá điện sản xuất cho trung tâm dữ liệu](https://vnexpress.net/de-xuat-ap-gia-dien-san-xuat-cho-trung-tam-du-lieu-5147225.html)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T23:27:06Z`
-- **Tóm tắt cốt lõi:** Bộ Công Thương đề xuất đưa hoạt động của trung tâm dữ liệu vào nhóm áp dụng giá điện sản xuất để gỡ khó cho doanh nghiệp.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 17. [Bốc hơi 1.000 tỷ USD sau 6 giờ, giá vàng thế giới rơi về đâu?](https://dantri.com.vn/kinh-doanh/boc-hoi-1000-ty-usd-sau-6-gio-gia-vang-the-gioi-roi-ve-dau-20261120163722939.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Cú bán tháo ồ ạt khiến 1.000 tỷ USD bốc hơi khỏi thị trường vàng và bạc chỉ sau 6 giờ. Giá vàng xuyên thủng hàng loạt mốc hỗ trợ kỹ thuật và lùi sâu dưới ngưỡng 3.600 USD/ounce.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 18. [VN-Index lao dốc, nhà đầu tư dùng AI phân tích cổ phiếu sao để bớt thua lỗ?](https://dantri.com.vn/kinh-doanh/vn-index-lao-doc-nha-dau-tu-dung-ai-phan-tich-co-phieu-sao-de-bot-thua-lo-20261120184430517.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - AI có khả năng xử lý, phân tích số liệu báo cáo của cả ngàn cổ phiếu giúp nhà đầu tư có thông tin nhanh chóng, nhưng chuyên gia cảnh báo không dùng AI quyết định đầu tư thay để tránh thua lỗ.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 19. [Giá vàng, bạc đồng loạt lao dốc mạnh](https://dantri.com.vn/kinh-doanh/gia-vang-bac-dong-loat-lao-doc-manh-20261120183246145.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Giá vàng miếng SJC giảm tới 5 triệu đồng/lượng ở chiều mua vào, trong khi bạc thỏi mất gần 3 triệu đồng/kg.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
-
-### 20. [Nợ cần chú ý tại nhiều ngân hàng tăng mạnh, vượt 255.500 tỷ đồng](https://dantri.com.vn/kinh-doanh/no-can-chu-y-tai-nhieu-ngan-hang-tang-manh-vuot-255500-ty-dong-20261120193918748.htm)
-- **Nguồn:** `vn_news` | **Độ quan trọng:** `8/10` | **Thu thập:** `2026-11-20T14:30:03Z`
-- **Tóm tắt cốt lõi:** (Dân trí) - Tính đến cuối quý III, tổng nợ cần chú ý của các ngân hàng niêm yết tăng thêm 88.000 tỷ đồng so với đầu năm, lên hơn 255.500 tỷ đồng, tạo áp lực lớn lên trích lập dự phòng và lợi nhuận.
-- **Ứng dụng thực chiến:** Tín hiệu thị trường thực tế: Đối chiếu nhu cầu khách hàng, định giá sản phẩm và kịch bản tiếp cận bán hàng.
